@@ -98,6 +98,14 @@ test per rule. They are expected to change; change the list first.
 Not in v1, by choice: typo tolerance, initials matching, and usage
 boosts. Body text arrives through FTS5 as a lower tier.
 
+Scale: the SRD is a few thousand entries, and a linear scan of the
+catalogue takes well under a millisecond. A full 5e library plus a
+few homebrew books runs to tens of thousands, so the catalogue gains
+a derived trigram index as a candidate pre-filter (rebuildable, never
+the record) and narrows the previous hit set while a query is being
+extended. The rules above stay the ranking; the index only chooses
+candidates.
+
 ## 4. Architecture
 
 Monorepo: Bun + Turborepo (TS) alongside a Cargo workspace (Rust).
@@ -264,6 +272,24 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   Tauri-only conveniences for web ones: file dialogs become the
   browser's picker, assets are served by hash over HTTP instead of
   the asset protocol.
+
+- **Offline sheet edits (later).** A player may open and edit their
+  own character while the DM is offline: the player page is a
+  service-worker app, the sheet and the compendium slice the player
+  may see (world and party tiers) are cached locally, and edits go to
+  a signed local change log. Sheet fields have an owner: player
+  fields (background, lore, description, level-up choices) and DM
+  fields (rewards, secret alterations). On reconnect the log is
+  applied on the DM's side; a per-player trust setting auto-accepts,
+  otherwise an update control appears only when offline changes
+  exist. Where both sides changed one field the DM sees the two
+  values side by side, theirs and the player's, and picks; never a
+  diff view. The DM's changes to player sheets are never surfaced to
+  the player as a merge, so a secret alteration stays secret. Open:
+  store-and-forward when the two are not online together (accept the
+  wait, Nostr relays as an encrypted mailbox, or a small hosted
+  mailbox), and whether sheet rules run in the browser as the Rust
+  core compiled to WebAssembly or as TypeScript.
 
 ## 7. Book import *(later)*
 
