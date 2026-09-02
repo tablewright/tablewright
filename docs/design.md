@@ -92,6 +92,33 @@ PixiJS (WebGL).
 - **Token bridge:** CSS custom properties are read via
   getComputedStyle, fed to Pixi, re-read on theme change.
 
+### First-person view *(later)*
+
+Players may switch to a first- or third-person camera on their own
+token, rendered by a three.js module in the browser player client
+that loads only when the mode is entered. It is a second view of the
+same scene document, never a second source of truth.
+
+- Walls extrude to a scene-level height; the map image is the floor;
+  scene lights become point lights, with shadow casters capped or the
+  2D visibility polygons reused as light masks.
+- Tokens render as billboards or stand-ups of their 2D art until an
+  optional model asset (glTF, content-addressed like every asset) is
+  attached. The 2D art always remains the fallback.
+- Sheets, inventory, chat: the same DOM panels as top-down, floating
+  over the 3D canvas, pre-mounted, opened by hotkey in the same
+  frame. Name plates and HP bars are world-anchored and projected
+  through the 3D camera, the hybrid-rendering rule above.
+- Two input modes: look mode (pointer lock or drag-orbit, keys to
+  move) and cursor mode (pointer free, panels usable). Opening a
+  panel enters cursor mode; Escape returns.
+- Scene document additions when needed, all optional with defaults:
+  wall height, token facing, token model ref.
+
+Open: movement model in first person (camera-only with grid moves
+made elsewhere, or free movement with wall collision and DM-set
+snapping); DM preview inside Table; timing relative to multiplayer.
+
 ## 6. Networking *(later)*
 
 - **DM-authoritative, split by traffic class.** Small frequent state
