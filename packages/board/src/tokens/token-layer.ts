@@ -18,6 +18,7 @@ import {
   type Cell,
   type SquareGrid,
 } from "../grid/square-grid.js";
+import { facingBetween } from "./facing.js";
 import { TokenSprite, type TokenStyle } from "./token-sprite.js";
 
 /** What the layer needs to show a token; the scene owns everything else. */
@@ -25,9 +26,18 @@ export interface TokenView {
   readonly id: string;
   readonly label: string;
   readonly cell: Cell;
+  /** Degrees clockwise from north. */
+  readonly facing: number;
 }
 
-export type TokenMoveListener = (id: string, cell: Cell) => void;
+/** One committed move: where the token now stands and which way it faces. */
+export interface TokenMove {
+  readonly id: string;
+  readonly cell: Cell;
+  readonly facing: number;
+}
+
+export type TokenMoveListener = (move: TokenMove) => void;
 export type TokenSelectListener = (id: string | undefined) => void;
 
 // Pointer travel before a press becomes a drag rather than a click.
@@ -102,6 +112,7 @@ export class TokenLayer {
         this.add(token);
       } else {
         existing.setLabel(token.label);
+        existing.setFacing(token.facing);
         if (this.drag?.id !== token.id) {
           existing.setPosition(cellCenter(this.grid, token.cell));
         }
@@ -169,6 +180,7 @@ export class TokenLayer {
   private add(token: TokenView): void {
     const sprite = new TokenSprite(token.label, this.grid.cellSize, this.style);
     sprite.setPosition(cellCenter(this.grid, token.cell));
+    sprite.setFacing(token.facing);
     sprite.view.on("pointerover", () => sprite.setHovered(true));
     sprite.view.on("pointerout", () => sprite.setHovered(false));
     sprite.view.on("pointerdown", (event: FederatedPointerEvent) =>
@@ -248,10 +260,8 @@ export class TokenLayer {
     if (sprite !== undefined) {
       if (drag.isActive) {
         const cell = worldToCell(this.grid, sprite.position);
-        sprite.setPosition(cellCenter(this.grid, cell));
-        for (const listener of this.moveListeners) {
-          listener(drag.id, cell);
-        }
+        const from = worldToCell(this.grid, drag.origin);
+        this.commitMove(drag.id, sprite, cell, facingBetween(from, cell));
       } else {
         this.select(drag.id);
       }
@@ -294,9 +304,21 @@ export class TokenLayer {
     }
     const from = worldToCell(this.grid, sprite.position);
     const cell = { col: from.col + dc, row: from.row + dr };
+    this.commitMove(id, sprite, cell, facingBetween(from, cell));
+  }
+
+  // A move faces the token along its travel; a move that went nowhere keeps its facing.
+  private commitMove(
+    id: string,
+    sprite: TokenSprite,
+    cell: Cell,
+    travelFacing: number | undefined
+  ): void {
+    const facing = travelFacing ?? sprite.facing;
     sprite.setPosition(cellCenter(this.grid, cell));
+    sprite.setFacing(facing);
     for (const listener of this.moveListeners) {
-      listener(id, cell);
+      listener({ id, cell, facing });
     }
   }
 

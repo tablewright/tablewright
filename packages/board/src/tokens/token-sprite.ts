@@ -1,14 +1,17 @@
 /**
  * ─ Token sprite ─
  *
- * One token as Pixi display objects: a disc, its label, and a ring for
- * hover or selection. The layer decides state and position; the sprite
- * only knows how a token looks, never what it means.
+ * One token as Pixi display objects: a disc, its label, a facing arrow
+ * that is always visible, and a ring for hover or selection that is
+ * open at the rear so the facing reads at a glance, the way a target
+ * ring does in FF14, instead of rotating the art. The layer decides
+ * state and position; the sprite only knows how a token looks.
  */
 
 import { Circle, Container, Graphics, Text } from "pixi.js";
 import type { Point } from "../geometry.js";
 import type { PackedColor } from "../theme/css-color.js";
+import { facingToRadians, ringArc } from "./facing.js";
 
 export interface TokenStyle {
   readonly fill: PackedColor;
@@ -21,8 +24,14 @@ export interface TokenStyle {
 const DISC_FRACTION = 0.8;
 const RING_WIDTH = 3;
 const LABEL_FRACTION = 0.36;
+// The open rear of the ring, in degrees, wide enough to read as a gap at small sizes.
+const RING_GAP_DEGREES = 80;
+// Arrow proportions relative to the disc radius.
+const ARROW_LENGTH = 0.32;
+const ARROW_HALF_WIDTH = 0.22;
+const IDLE_ARROW_ALPHA = 0.85;
 
-/** A disc with a label; call the setters and it redraws itself. */
+/** A disc with a label and facing; call the setters and it redraws itself. */
 export class TokenSprite {
   readonly view = new Container();
   private readonly disc = new Graphics();
@@ -30,9 +39,9 @@ export class TokenSprite {
   private readonly text: Text;
   private cellSize: number;
   private style: TokenStyle;
+  private currentFacing = 0;
   private isHovered = false;
   private isSelected = false;
-  private isDragging = false;
 
   constructor(label: string, cellSize: number, style: TokenStyle) {
     this.cellSize = cellSize;
@@ -60,6 +69,16 @@ export class TokenSprite {
     this.text.text = label;
   }
 
+  /** Degrees clockwise from north. */
+  get facing(): number {
+    return this.currentFacing;
+  }
+
+  setFacing(facing: number): void {
+    this.currentFacing = facing;
+    this.redrawRing();
+  }
+
   setCellSize(cellSize: number): void {
     this.cellSize = cellSize;
     this.redraw();
@@ -81,7 +100,6 @@ export class TokenSprite {
   }
 
   setDragging(isDragging: boolean): void {
-    this.isDragging = isDragging;
     this.view.alpha = isDragging ? 0.85 : 1;
     this.view.cursor = isDragging ? "grabbing" : "grab";
   }
@@ -107,18 +125,38 @@ export class TokenSprite {
     this.redrawRing();
   }
 
+  // The ring and the arrow share one Graphics because both depend on facing.
   private redrawRing(): void {
-    this.ring.clear();
-    const colour = this.isSelected
+    const g = this.ring.clear();
+    const r = this.radius;
+    const accent = this.isSelected
       ? this.style.selection
       : this.isHovered
         ? this.style.hover
         : undefined;
-    if (colour === undefined) {
-      return;
+    if (accent !== undefined) {
+      const arc = ringArc(this.currentFacing, RING_GAP_DEGREES);
+      g.arc(0, 0, r + RING_WIDTH / 2, arc.start, arc.end).stroke({
+        width: RING_WIDTH,
+        color: accent.rgb,
+        alpha: accent.alpha,
+        cap: "round",
+      });
     }
-    this.ring
-      .circle(0, 0, this.radius + RING_WIDTH / 2)
-      .stroke({ width: RING_WIDTH, color: colour.rgb, alpha: colour.alpha });
+    const arrow = accent ?? this.style.label;
+    const angle = facingToRadians(this.currentFacing);
+    const tip = r * (1 + ARROW_LENGTH) + RING_WIDTH;
+    const base = r + RING_WIDTH;
+    const half = r * ARROW_HALF_WIDTH;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    g.poly([
+      tip * cos,
+      tip * sin,
+      base * cos - half * sin,
+      base * sin + half * cos,
+      base * cos + half * sin,
+      base * sin - half * cos,
+    ]).fill({ color: arrow.rgb, alpha: accent === undefined ? IDLE_ARROW_ALPHA : arrow.alpha });
   }
 }

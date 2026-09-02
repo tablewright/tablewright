@@ -32,9 +32,9 @@ const FIT_PADDING = 24;
 
 // Three tokens inside the dev tavern so dragging can be tried at once.
 const SEED_TOKENS: readonly TokenView[] = [
-  { id: "seed-a", label: "A", cell: { col: 4, row: 5 } },
-  { id: "seed-b", label: "B", cell: { col: 7, row: 6 } },
-  { id: "seed-c", label: "C", cell: { col: 11, row: 9 } },
+  { id: "seed-a", label: "A", cell: { col: 4, row: 5 }, facing: 90 },
+  { id: "seed-b", label: "B", cell: { col: 7, row: 6 }, facing: 0 },
+  { id: "seed-c", label: "C", cell: { col: 11, row: 9 }, facing: 315 },
 ];
 
 function tokenStyle(theme: BoardTheme): TokenStyle {
@@ -75,8 +75,10 @@ export class BoardHost {
 
     this.tokenLayer.set(this.tokens);
     // A drop is the commit point: the scene records the new cell once per gesture.
-    this.tokenLayer.onMove((id, cell) => {
-      this.tokens = this.tokens.map((token) => (token.id === id ? { ...token, cell } : token));
+    this.tokenLayer.onMove(({ id, cell, facing }) => {
+      this.tokens = this.tokens.map((token) =>
+        token.id === id ? { ...token, cell, facing } : token
+      );
     });
 
     // Camera and resize events can arrive several times per frame; the grid
