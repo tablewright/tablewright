@@ -130,6 +130,12 @@ PixiJS (WebGL).
   depends on hover, so every affordance a hover reveals must also be
   reachable by tap or selection. Arrow keys or WASD step the selected
   token one cell, the same scene command as a drop.
+- **Tokens carry a facing** in degrees clockwise from north. A small
+  arrow shows it at all times, and the hover and selection ring is
+  open at the rear in the manner of an FF14 target ring, rather than
+  rotating the token art, which stays upright and legible. A move
+  faces the token along its travel; a move that goes nowhere keeps
+  its facing. Explicit turning without moving is a later control.
 
 ### First-person view *(later)*
 
@@ -152,7 +158,8 @@ same scene document, never a second source of truth.
   move) and cursor mode (pointer free, panels usable). Opening a
   panel enters cursor mode; Escape returns.
 - Scene document additions when needed, all optional with defaults:
-  wall height, token facing, token model ref.
+  wall height and token model ref. Token facing already exists on
+  the board model.
 
 Movement is grid-step by default: one press moves the token one
 cell, the classic dungeon-crawler feel, and each step is the same
