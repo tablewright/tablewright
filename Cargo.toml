@@ -1,7 +1,7 @@
 # Workspace root. Crates join `members` as they are created
-# (apps/table/src-tauri first, crates/core in stage 2; see docs/design.md §4, §8).
+# (see docs/design.md §4, §8).
 [workspace]
-members = ["apps/table/src-tauri"]
+members = ["apps/table/src-tauri", "crates/core"]
 resolver = "2"
 
 [workspace.package]

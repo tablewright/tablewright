@@ -1,0 +1,17 @@
+[package]
+name = "tablewright-core"
+description = "Tablewright core: content model, compendium store, search"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[lib]
+name = "tablewright_core"
+
+[dependencies]
+rusqlite = { version = "0.40", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Defaults are `serde` (serde-aware derive, JSON value support) and `typescript`.
+specta = "1.0"
+thiserror = "2"
