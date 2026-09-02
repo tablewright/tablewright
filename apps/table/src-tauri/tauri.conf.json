@@ -6,8 +6,8 @@
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",
-    "beforeDevCommand": "bun run dev:web",
-    "beforeBuildCommand": "bun run build"
+    "beforeDevCommand": "bun run seed && bun run dev:web",
+    "beforeBuildCommand": "bun run seed && bun run build"
   },
   "app": {
     "windows": [
@@ -39,6 +39,7 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "resources": ["resources/compendium/*.sqlite"]
   }
 }

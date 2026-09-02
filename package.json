@@ -21,7 +21,8 @@
     "tokens:check": "bun run tools/build-tokens.ts --check",
     "typecheck:tools": "tsc -p tools",
     "test": "turbo run test",
-    "import:srd": "bun run tools/import-srd.ts"
+    "import:srd": "bun run tools/import-srd.ts",
+    "seed": "bun run --filter @tablewright/table seed"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

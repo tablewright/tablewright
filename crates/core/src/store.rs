@@ -10,6 +10,7 @@ use rusqlite::{Connection, OptionalExtension, Row, params};
 use thiserror::Error;
 
 use crate::compendium::{Entry, EntryId, EntrySummary, Visibility};
+use crate::module::Manifest;
 
 /// Schema version this build writes and reads; bumped with every migration.
 const SCHEMA_VERSION: i64 = 1;
@@ -80,7 +81,11 @@ impl Store {
                     body TEXT NOT NULL,
                     data TEXT NOT NULL
                 );
-                CREATE INDEX IF NOT EXISTS entries_kind ON entries (kind, name);",
+                CREATE INDEX IF NOT EXISTS entries_kind ON entries (kind, name);
+                CREATE TABLE IF NOT EXISTS modules (
+                    id TEXT PRIMARY KEY,
+                    manifest TEXT NOT NULL
+                );",
             )?;
             connection.pragma_update(None, "user_version", SCHEMA_VERSION)?;
         }
@@ -228,6 +233,36 @@ impl Store {
             });
         }
         Ok(summaries)
+    }
+
+    /// Record the manifest of a module whose entries this store holds.
+    ///
+    /// # Errors
+    ///
+    /// Fails if the write fails.
+    pub fn put_module(&self, manifest: &Manifest) -> Result<(), StoreError> {
+        self.connection.execute(
+            "INSERT OR REPLACE INTO modules (id, manifest) VALUES (?1, ?2)",
+            params![manifest.id, serde_json::to_string(manifest)?],
+        )?;
+        Ok(())
+    }
+
+    /// The manifests of every module in this store, by id.
+    ///
+    /// # Errors
+    ///
+    /// Fails if the read fails or a stored manifest is corrupt.
+    pub fn modules(&self) -> Result<Vec<Manifest>, StoreError> {
+        let mut statement = self
+            .connection
+            .prepare("SELECT manifest FROM modules ORDER BY id")?;
+        let rows = statement.query_map([], |row| row.get::<_, String>(0))?;
+        let mut manifests = Vec::new();
+        for row in rows {
+            manifests.push(serde_json::from_str(&row?)?);
+        }
+        Ok(manifests)
     }
 
     /// How many entries the store holds, regardless of visibility.
@@ -386,6 +421,24 @@ mod tests {
         let store = seeded();
         let missing = store.get(&EntryId::new("m:nothing"), Visibility::Dm);
         assert!(matches!(missing, Err(StoreError::NotFound(_))));
+    }
+
+    #[test]
+    fn a_module_manifest_round_trips() {
+        let store = Store::open_in_memory().expect("memory store");
+        let manifest = Manifest {
+            id: "test-mod".into(),
+            name: "Test".into(),
+            system: "5e".into(),
+            system_version: "2024".into(),
+            version: "1".into(),
+            license: "CC-BY-4.0".into(),
+            attribution: "Notice".into(),
+            upstream: Some(serde_json::json!({ "name": "hand" })),
+        };
+        store.put_module(&manifest).expect("put");
+        store.put_module(&manifest).expect("put again replaces");
+        assert_eq!(store.modules().expect("modules"), vec![manifest]);
     }
 
     #[test]

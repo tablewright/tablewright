@@ -11,7 +11,8 @@
     "check": "bun run typecheck && bun run build",
     "e2e": "playwright test",
     "e2e:perf": "playwright test tests/perf.e2e.ts --project=chromium",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "seed": "cargo run -p tablewright-core --bin seed -- ../../systems/5e/content/2024/srd src-tauri/resources/compendium/5e-2024-srd.sqlite"
   },
   "dependencies": {
     "@tablewright/board": "workspace:*",
