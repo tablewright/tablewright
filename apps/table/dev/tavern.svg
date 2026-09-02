@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750">
+  <rect width="1000" height="750" fill="#4b463d"/>
+  <rect x="100" y="100" width="800" height="550" fill="#7a5a3a"/>
+  <path d="M100 150H900M100 200H900M100 250H900M100 300H900M100 350H900M100 400H900M100 450H900M100 500H900M100 550H900M100 600H900" stroke="#5e4429" stroke-width="2"/>
+  <rect x="100" y="100" width="800" height="550" fill="none" stroke="#2a2420" stroke-width="12"/>
+  <rect x="470" y="640" width="60" height="16" fill="#7a5a3a"/>
+  <rect x="150" y="150" width="350" height="50" fill="#3f2d1d" stroke="#2a2420" stroke-width="3"/>
+  <rect x="845" y="300" width="55" height="150" fill="#5a5049" stroke="#2a2420" stroke-width="3"/>
+  <circle cx="872" cy="375" r="20" fill="#e08a3a"/>
+  <circle cx="872" cy="375" r="9" fill="#f6c46a"/>
+  <g fill="#8a6a45" stroke="#3a2a1c" stroke-width="3">
+    <circle cx="325" cy="425" r="40"/>
+    <circle cx="575" cy="325" r="40"/>
+    <circle cx="625" cy="525" r="40"/>
+  </g>
+  <g fill="#6d5233">
+    <circle cx="275" cy="425" r="9"/><circle cx="375" cy="425" r="9"/><circle cx="325" cy="375" r="9"/><circle cx="325" cy="475" r="9"/>
+    <circle cx="525" cy="325" r="9"/><circle cx="625" cy="325" r="9"/><circle cx="575" cy="275" r="9"/><circle cx="575" cy="375" r="9"/>
+    <circle cx="575" cy="525" r="9"/><circle cx="675" cy="525" r="9"/><circle cx="625" cy="475" r="9"/><circle cx="625" cy="575" r="9"/>
+  </g>
+  <text x="500" y="705" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#c9bfae">dev fixture: tavern, 20 x 15 cells at 50 px</text>
+</svg>

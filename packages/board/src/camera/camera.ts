@@ -9,13 +9,15 @@
  */
 
 import type { Container } from "pixi.js";
-import type { Point } from "../geometry.js";
+import type { Point, WorldRect } from "../geometry.js";
 import {
+  fitToRect,
   pan,
   screenToWorld,
   worldToScreen,
   zoomAbout,
   type CameraState,
+  type ViewSize,
   type ZoomLimits,
 } from "./camera-math.js";
 
@@ -49,6 +51,11 @@ export class Camera {
   /** Scale the view by `factor`, keeping the world point under `anchor` (screen space) fixed. */
   zoomAt(anchor: Point, factor: number): void {
     this.set(zoomAbout(this.state, anchor, factor, this.limits));
+  }
+
+  /** Show all of `rect` centred in a view of `view` size, with `padding` screen pixels clear. */
+  fit(view: ViewSize, rect: WorldRect, padding = 0): void {
+    this.set(fitToRect(view, rect, this.limits, padding));
   }
 
   /** Replace the whole state, for example when a scene loads. */

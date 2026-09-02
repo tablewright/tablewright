@@ -8,7 +8,7 @@
  * Design: docs/design.md §5, one camera for canvas and DOM overlay.
  */
 
-import type { Point } from "../geometry.js";
+import type { Point, WorldRect } from "../geometry.js";
 
 /** Screen position of the world origin, and screen pixels per world pixel. Zoom is positive. */
 export interface CameraState {
@@ -21,6 +21,12 @@ export interface CameraState {
 export interface ZoomLimits {
   readonly min: number;
   readonly max: number;
+}
+
+/** Screen size in CSS pixels. */
+export interface ViewSize {
+  readonly width: number;
+  readonly height: number;
 }
 
 /** Project a world point onto the screen. */
@@ -58,6 +64,29 @@ export function zoomAbout(
   return {
     x: anchor.x - (anchor.x - camera.x) * ratio,
     y: anchor.y - (anchor.y - camera.y) * ratio,
+    zoom,
+  };
+}
+
+/**
+ * The camera that shows all of `rect` centred in `view`, with `padding` screen
+ * pixels kept clear around it. `rect` must have positive size.
+ */
+export function fitToRect(
+  view: ViewSize,
+  rect: WorldRect,
+  limits: ZoomLimits,
+  padding = 0
+): CameraState {
+  const rectWidth = rect.right - rect.left;
+  const rectHeight = rect.bottom - rect.top;
+  const zoom = clampZoom(
+    Math.min((view.width - 2 * padding) / rectWidth, (view.height - 2 * padding) / rectHeight),
+    limits
+  );
+  return {
+    x: (view.width - rectWidth * zoom) / 2 - rect.left * zoom,
+    y: (view.height - rectHeight * zoom) / 2 - rect.top * zoom,
     zoom,
   };
 }

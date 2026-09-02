@@ -1,13 +1,6 @@
+import type { WorldRect } from "../geometry.js";
 import type { CellExtent } from "./grid-lines.js";
 import type { SquareGrid } from "./square-grid.js";
-
-/** An axis-aligned rectangle in world pixels. */
-export interface WorldRect {
-  readonly left: number;
-  readonly top: number;
-  readonly right: number;
-  readonly bottom: number;
-}
 
 /** The cells of `bounds` that touch `view`, or undefined when none do. */
 export function visibleExtent(
@@ -29,4 +22,14 @@ export function visibleExtent(
     return undefined;
   }
   return { colMin, rowMin, cols: colEnd - colMin, rows: rowEnd - rowMin };
+}
+
+/** The cells, from the grid origin, needed to cover `width` x `height` world pixels. */
+export function extentCovering(grid: SquareGrid, width: number, height: number): CellExtent {
+  return {
+    colMin: 0,
+    rowMin: 0,
+    cols: Math.max(0, Math.ceil(width / grid.cellSize)),
+    rows: Math.max(0, Math.ceil(height / grid.cellSize)),
+  };
 }

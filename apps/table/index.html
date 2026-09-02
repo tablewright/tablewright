@@ -20,7 +20,34 @@
       #board[data-camera="panning"] {
         cursor: grabbing;
       }
-      .fatal {
+      .chrome {
+        position: fixed;
+        top: var(--tw-space-md);
+        left: var(--tw-space-md);
+        display: flex;
+        gap: var(--tw-space-sm);
+      }
+      .chrome button {
+        background: var(--tw-comp-button-quiet-background-color);
+        color: var(--tw-comp-button-quiet-text-color);
+        font-family: var(--tw-comp-button-quiet-font-family);
+        font-size: var(--tw-comp-button-quiet-font-size);
+        font-weight: var(--tw-comp-button-quiet-font-weight);
+        line-height: var(--tw-comp-button-quiet-line-height);
+        letter-spacing: var(--tw-typo-label-md-letter-spacing);
+        padding: var(--tw-comp-button-quiet-padding) var(--tw-space-md);
+        border: 1px solid var(--tw-outline);
+        border-radius: var(--tw-comp-button-quiet-rounded);
+        cursor: pointer;
+      }
+      .chrome button:hover {
+        background: var(--tw-surface-container-highest);
+      }
+      .chrome button:focus-visible {
+        outline: 2px solid var(--tw-focus-ring);
+        outline-offset: 2px;
+      }
+      .notice {
         position: fixed;
         inset: auto 0 0 0;
         margin: 0;
@@ -30,10 +57,16 @@
         font-size: var(--tw-comp-notice-error-font-size);
         line-height: var(--tw-comp-notice-error-line-height);
       }
+      .notice[data-level="error"] {
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div id="board"></div>
+    <div class="chrome">
+      <button id="open-map" type="button">Open map</button>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

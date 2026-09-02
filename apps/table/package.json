@@ -14,7 +14,8 @@
   "dependencies": {
     "@tablewright/board": "workspace:*",
     "@tablewright/ui": "workspace:*",
-    "@tauri-apps/api": "^2.11.1"
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-dialog": "^2.7.3"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.11.4",
