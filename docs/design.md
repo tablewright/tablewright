@@ -135,8 +135,12 @@ PixiJS (WebGL).
   the manner of an FF14 target ring, dim at rest and lit by hover or
   selection, rather than rotating the token art, which stays upright
   and legible. A move faces the token along its travel; a move that
-  goes nowhere keeps its facing. Explicit turning without moving is
-  a later control.
+  goes nowhere keeps its facing. Turning in place: press and hold a
+  token, or press the selected token's cell outside its disc, where
+  the corner brackets are, and the facing follows the pointer until
+  release. *(later)*: a rotate
+  button in the selection UI, and targeting another token to face
+  it.
 
 ### First-person view *(later)*
 
