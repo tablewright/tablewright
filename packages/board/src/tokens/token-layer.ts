@@ -1,11 +1,12 @@
 /**
  * ─ Token layer ─
  *
- * Tokens on the board and the pointer gestures on them: hover, select,
- * drag with a live snap preview, drop on a cell centre. A press on a
- * token stops the native event so the camera never pans from it
- * (design §5). Movement is reported once per drop, never per move:
- * the scene commits on gesture end.
+ * Tokens on the board and the gestures on them: hover, select, drag
+ * with a live snap preview, drop on a cell centre, and arrow or WASD
+ * keys stepping the selected token one cell. A press on a token stops
+ * the native event so the camera never pans from it (design §5).
+ * Movement is reported once per drop or key press, never per pointer
+ * move: the scene commits on gesture end.
  */
 
 import { Graphics, type Container, type FederatedPointerEvent } from "pixi.js";
@@ -33,6 +34,30 @@ export type TokenSelectListener = (id: string | undefined) => void;
 const DRAG_THRESHOLD_PX = 4;
 const GHOST_WIDTH = 2;
 const GHOST_ALPHA = 0.7;
+
+// Arrow keys and WASD both step the selected token one cell.
+const STEP_KEYS: Readonly<Record<string, { dc: number; dr: number }>> = {
+  ArrowUp: { dc: 0, dr: -1 },
+  ArrowDown: { dc: 0, dr: 1 },
+  ArrowLeft: { dc: -1, dr: 0 },
+  ArrowRight: { dc: 1, dr: 0 },
+  w: { dc: 0, dr: -1 },
+  s: { dc: 0, dr: 1 },
+  a: { dc: -1, dr: 0 },
+  d: { dc: 1, dr: 0 },
+  W: { dc: 0, dr: -1 },
+  S: { dc: 0, dr: 1 },
+  A: { dc: -1, dr: 0 },
+  D: { dc: 1, dr: 0 },
+};
+
+// Keys typed into a field are text, not token commands.
+function isEditable(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+  return target.isContentEditable || target.matches("input, textarea, select");
+}
 
 interface DragState {
   readonly id: string;
@@ -241,15 +266,39 @@ export class TokenLayer {
   };
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== "Escape") {
+    if (isEditable(event.target)) {
       return;
     }
-    if (this.drag !== undefined) {
-      this.cancelDrag();
-    } else {
-      this.select(undefined);
+    if (event.key === "Escape") {
+      if (this.drag !== undefined) {
+        this.cancelDrag();
+      } else {
+        this.select(undefined);
+      }
+      return;
+    }
+    const step = STEP_KEYS[event.key];
+    if (step !== undefined && this.drag === undefined) {
+      event.preventDefault();
+      this.moveSelectedBy(step.dc, step.dr);
     }
   };
+
+  // One press moves the selected token one cell: the same scene command as a
+  // drop, so the move listeners fire exactly as they do for a drag.
+  private moveSelectedBy(dc: number, dr: number): void {
+    const id = this.selectedId;
+    const sprite = id === undefined ? undefined : this.sprites.get(id);
+    if (id === undefined || sprite === undefined) {
+      return;
+    }
+    const from = worldToCell(this.grid, sprite.position);
+    const cell = { col: from.col + dc, row: from.row + dr };
+    sprite.setPosition(cellCenter(this.grid, cell));
+    for (const listener of this.moveListeners) {
+      listener(id, cell);
+    }
+  }
 
   private cancelDrag(): void {
     const drag = this.drag;
