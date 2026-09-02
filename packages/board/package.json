@@ -1,0 +1,14 @@
+{
+  "name": "@tablewright/board",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p . && tsc -p tests",
+    "test": "bun test",
+    "check": "bun run typecheck && bun run test"
+  }
+}

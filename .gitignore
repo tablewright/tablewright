@@ -5,3 +5,4 @@ coverage/
 .claude/
 .plan/
 .DS_Store
+.turbo/
