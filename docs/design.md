@@ -77,8 +77,9 @@ test per rule. They are expected to change; change the list first.
 
 1. Both query and fields are normalised: lowercase, diacritics
    stripped, whitespace collapsed. The query splits on whitespace into
-   tokens. A token of the form `field:value` (for example
-   `type:spell`) is a filter, not a scoring token.
+   tokens. A token of the form `field:value` whose field is `type`,
+   `tag`, or `source` (for example `type:spell`) is a filter, not a
+   scoring token; any other `a:b` is an ordinary token.
 2. Every scoring token must match at least one field: name, tags,
    type, or source. More tokens narrow the result, never widen it.
 3. A token scores by the best match it finds; lower is better. In
@@ -90,8 +91,9 @@ test per rule. They are expected to change; change the list first.
    its field, and how much longer the name is than the query.
 5. Tokens that match consecutive words of the name in order earn a
    phrase bonus.
-6. Order is total score, then name length, then name alphabetically.
-   The list is flat, capped at fifty rows, each with its type badge.
+6. Order is total score, then name length, then name alphabetically,
+   then id as a last resort. The list is flat, capped at fifty rows,
+   each with its type badge.
 
 Not in v1, by choice: typo tolerance, initials matching, and usage
 boosts. Body text arrives through FTS5 as a lower tier.
