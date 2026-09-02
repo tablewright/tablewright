@@ -23,6 +23,12 @@
       #board > canvas {
         display: block;
       }
+      #board[data-camera="pan-ready"] {
+        cursor: grab;
+      }
+      #board[data-camera="panning"] {
+        cursor: grabbing;
+      }
       .fatal {
         position: fixed;
         inset: auto 0 0 0;

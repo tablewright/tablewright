@@ -37,6 +37,7 @@ export class BoardStage {
   readonly firstFrame: Promise<void>;
   private readonly host: HTMLElement;
   private readonly resizeObserver: ResizeObserver;
+  private readonly resizeListeners = new Set<() => void>();
   private dprQuery: MediaQueryList | undefined;
 
   private constructor(app: Application, host: HTMLElement) {
@@ -86,12 +87,23 @@ export class BoardStage {
     this.app.destroy({ removeView: true }, { children: true });
   }
 
+  /** Subscribe to canvas size changes; returns the unsubscribe function. */
+  onResize(listener: () => void): () => void {
+    this.resizeListeners.add(listener);
+    return () => {
+      this.resizeListeners.delete(listener);
+    };
+  }
+
   private fit(): void {
     this.app.renderer.resize(
       this.host.clientWidth,
       this.host.clientHeight,
       window.devicePixelRatio
     );
+    for (const listener of this.resizeListeners) {
+      listener();
+    }
   }
 
   // A media query matching the current ratio fires once when the window moves

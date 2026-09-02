@@ -2,5 +2,7 @@ export { cellCenter, cellToWorld, snapToCellCenter, worldToCell } from "./square
 export type { Cell, SquareGrid } from "./square-grid.js";
 export { gridLines } from "./grid-lines.js";
 export type { CellExtent, GridLines } from "./grid-lines.js";
+export { visibleExtent } from "./visible-extent.js";
+export type { WorldRect } from "./visible-extent.js";
 export { GridLayer } from "./grid-layer.js";
 export type { GridStyle } from "./grid-layer.js";

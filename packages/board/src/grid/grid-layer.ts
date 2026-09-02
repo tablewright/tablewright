@@ -48,6 +48,12 @@ export class GridLayer {
     g.stroke({ width: 1, color: this.style.color, alpha: this.style.alpha, pixelLine: true });
   }
 
+  /** Remove every line, for when no cell is in view. */
+  clear(): void {
+    this.last = undefined;
+    this.graphics.clear();
+  }
+
   /** Change colour and opacity, redrawing if something has been drawn. */
   setStyle(style: GridStyle): void {
     this.style = style;
