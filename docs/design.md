@@ -79,6 +79,19 @@ crates/net        WebRTC sync + content-addressed assets (later)
 - App chrome stays visually recessive: map art and tokens are the
   star, and the same table hosts any genre. Per-campaign theming
   *(later)*.
+- **Platforms.** Windows is the target now (WebView2, the Chromium
+  engine as a shared runtime; the default browser is irrelevant).
+  Linux comes next and must at least be usable: the engine there is
+  WebKitGTK, with documented NVIDIA/Wayland trouble and WebGL that can
+  silently fall back to software, so it is evaluated on the real
+  machine before commitment. macOS (WKWebView, the Safari engine) is
+  untested for lack of a machine; nothing engine-specific is written
+  and no fixes are promised without one. The frontend stays on
+  engine-neutral features: WebGL2, pointer events, no WebGPU-only
+  paths. Fallback if a system WebView fails: the DM client runs in
+  the user's own browser against the Rust core as a local service.
+  `packages/ui` and `packages/board` being Tauri-agnostic keeps that
+  possible; only the IPC layer would change.
 
 ## 5. Board engine
 
