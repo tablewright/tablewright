@@ -130,12 +130,13 @@ PixiJS (WebGL).
   depends on hover, so every affordance a hover reveals must also be
   reachable by tap or selection. Arrow keys or WASD step the selected
   token one cell, the same scene command as a drop.
-- **Tokens carry a facing** in degrees clockwise from north. A small
-  arrow shows it at all times, and the hover and selection ring is
-  open at the rear in the manner of an FF14 target ring, rather than
-  rotating the token art, which stays upright and legible. A move
-  faces the token along its travel; a move that goes nowhere keeps
-  its facing. Explicit turning without moving is a later control.
+- **Tokens carry a facing** in degrees clockwise from north. Every
+  token wears a ring open at the rear with an arrow at the front, in
+  the manner of an FF14 target ring, dim at rest and lit by hover or
+  selection, rather than rotating the token art, which stays upright
+  and legible. A move faces the token along its travel; a move that
+  goes nowhere keeps its facing. Explicit turning without moving is
+  a later control.
 
 ### First-person view *(later)*
 
