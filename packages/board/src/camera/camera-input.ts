@@ -2,15 +2,19 @@
  * ─ Camera input ─
  *
  * Maps pointer and wheel events on the board element to camera calls
- * the way VTT players expect: the wheel zooms about the cursor (a
- * trackpad pinch arrives as ctrl + wheel and zooms the same way),
- * left-drag or middle-drag on the board pans. Anything in the scene
- * that claims a pointerdown stops the native event before it reaches
- * the board element, so the camera only pans on empty board. The
- * panning state is published as a data attribute; CSS owns the cursor.
+ * the way VTT players expect, for mouse, touch, and pen alike: the
+ * wheel zooms about the cursor (a trackpad pinch arrives as ctrl +
+ * wheel), one pointer dragging empty board pans, two pointers pinch to
+ * zoom and pan together. Anything in the scene that claims a
+ * pointerdown stops the native event before it reaches the board
+ * element, so the camera only ever moves from empty board. The board
+ * element must set `touch-action: none`, or the browser takes touch
+ * gestures for itself and cancels these events.
  */
 
+import type { Point } from "../geometry.js";
 import type { Camera } from "./camera.js";
+import { pinchStep } from "./pinch-math.js";
 import { wheelDeltaToPixels, wheelZoomFactor } from "./wheel-math.js";
 
 const LEFT_BUTTON = 0;
@@ -20,9 +24,7 @@ const MIDDLE_BUTTON = 1;
 export class CameraInput {
   private readonly camera: Camera;
   private readonly target: HTMLElement;
-  private panPointerId: number | undefined;
-  private lastX = 0;
-  private lastY = 0;
+  private readonly pointers = new Map<number, Point>();
 
   constructor(camera: Camera, target: HTMLElement) {
     this.camera = camera;
@@ -40,6 +42,7 @@ export class CameraInput {
     this.target.removeEventListener("pointermove", this.onPointerMove);
     this.target.removeEventListener("pointerup", this.onPointerEnd);
     this.target.removeEventListener("pointercancel", this.onPointerEnd);
+    this.pointers.clear();
     this.target.removeAttribute("data-camera");
   }
 
@@ -52,32 +55,54 @@ export class CameraInput {
   };
 
   private readonly onPointerDown = (event: PointerEvent): void => {
-    if (event.button !== LEFT_BUTTON && event.button !== MIDDLE_BUTTON) {
+    const isPanButton = event.button === LEFT_BUTTON || event.button === MIDDLE_BUTTON;
+    if (event.pointerType === "mouse" && !isPanButton) {
+      return;
+    }
+    // A third finger adds nothing to a pinch and would only confuse it.
+    if (this.pointers.size >= 2) {
       return;
     }
     event.preventDefault();
     this.target.setPointerCapture(event.pointerId);
-    this.panPointerId = event.pointerId;
-    this.lastX = event.clientX;
-    this.lastY = event.clientY;
+    this.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     this.target.setAttribute("data-camera", "panning");
   };
 
   private readonly onPointerMove = (event: PointerEvent): void => {
-    if (event.pointerId !== this.panPointerId) {
+    const previous = this.pointers.get(event.pointerId);
+    if (previous === undefined) {
       return;
     }
-    this.camera.panBy(event.clientX - this.lastX, event.clientY - this.lastY);
-    this.lastX = event.clientX;
-    this.lastY = event.clientY;
+    const current = { x: event.clientX, y: event.clientY };
+    if (this.pointers.size === 1) {
+      this.camera.panBy(current.x - previous.x, current.y - previous.y);
+    } else {
+      this.applyPinch(event.pointerId, previous, current);
+    }
+    this.pointers.set(event.pointerId, current);
   };
 
   private readonly onPointerEnd = (event: PointerEvent): void => {
-    if (event.pointerId !== this.panPointerId) {
+    if (!this.pointers.delete(event.pointerId)) {
       return;
     }
-    this.target.releasePointerCapture(event.pointerId);
-    this.panPointerId = undefined;
-    this.target.removeAttribute("data-camera");
+    if (this.target.hasPointerCapture(event.pointerId)) {
+      this.target.releasePointerCapture(event.pointerId);
+    }
+    if (this.pointers.size === 0) {
+      this.target.removeAttribute("data-camera");
+    }
   };
+
+  private applyPinch(movedId: number, previous: Point, current: Point): void {
+    const other = [...this.pointers].find(([id]) => id !== movedId);
+    if (other === undefined) {
+      return;
+    }
+    const rect = this.target.getBoundingClientRect();
+    const step = pinchStep([previous, other[1]], [current, other[1]]);
+    this.camera.panBy(step.dx, step.dy);
+    this.camera.zoomAt({ x: step.anchor.x - rect.left, y: step.anchor.y - rect.top }, step.factor);
+  }
 }

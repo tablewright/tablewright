@@ -123,6 +123,12 @@ PixiJS (WebGL).
   the scene that claims a pointer stops the native event before it
   reaches the board element, so the camera only ever pans on empty
   board.
+- **Pointer events only,** for mouse, touch, and pen alike; no
+  touch-specific handlers. The board element sets `touch-action:
+  none` so the browser never claims a gesture. One finger pans empty
+  board or drags a token; two fingers pinch to zoom and pan. Nothing
+  depends on hover, so every affordance a hover reveals must also be
+  reachable by tap or selection.
 
 ### First-person view *(later)*
 
