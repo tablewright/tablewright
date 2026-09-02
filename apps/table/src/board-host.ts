@@ -64,7 +64,9 @@ export class BoardHost {
     this.mapLayer = new MapLayer(stage.layers.map);
     const theme = readBoardTheme(target);
     this.tokenLayer = new TokenLayer(stage.layers.tokens, this.grid, tokenStyle(theme));
-    new CameraInput(this.camera, target);
+    const input = new CameraInput(this.camera, target);
+    // Clicking empty board clears the selection, the same as pressing Escape.
+    input.onTap(() => this.tokenLayer.select(undefined));
 
     this.gridLayer.setStyle(theme.grid);
     watchBoardTheme(target, (next) => {

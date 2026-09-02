@@ -13,3 +13,4 @@ export type { PinchStep } from "./pinch-math.js";
 export { Camera } from "./camera.js";
 export type { CameraListener } from "./camera.js";
 export { CameraInput } from "./camera-input.js";
+export type { BoardTapListener } from "./camera-input.js";

@@ -19,12 +19,19 @@ import { wheelDeltaToPixels, wheelZoomFactor } from "./wheel-math.js";
 
 const LEFT_BUTTON = 0;
 const MIDDLE_BUTTON = 1;
+// Pointer travel under this is a tap on the board rather than a pan.
+const TAP_THRESHOLD_PX = 4;
+
+/** Called when a press on empty board ends without travelling: a click on nothing. */
+export type BoardTapListener = () => void;
 
 /** Binds camera gestures to `target` until `dispose` is called. */
 export class CameraInput {
   private readonly camera: Camera;
   private readonly target: HTMLElement;
   private readonly pointers = new Map<number, Point>();
+  private readonly pressOrigins = new Map<number, Point>();
+  private readonly tapListeners = new Set<BoardTapListener>();
 
   constructor(camera: Camera, target: HTMLElement) {
     this.camera = camera;
@@ -46,7 +53,16 @@ export class CameraInput {
     this.target.removeEventListener("pointerup", this.onPointerEnd);
     this.target.removeEventListener("pointercancel", this.onPointerEnd);
     this.pointers.clear();
+    this.pressOrigins.clear();
     this.target.removeAttribute("data-camera");
+  }
+
+  /** Subscribe to taps on empty board; returns the unsubscribe function. */
+  onTap(listener: BoardTapListener): () => void {
+    this.tapListeners.add(listener);
+    return () => {
+      this.tapListeners.delete(listener);
+    };
   }
 
   private readonly onContextMenu = (event: Event): void => {
@@ -72,7 +88,9 @@ export class CameraInput {
     }
     event.preventDefault();
     this.target.setPointerCapture(event.pointerId);
-    this.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const at = { x: event.clientX, y: event.clientY };
+    this.pointers.set(event.pointerId, at);
+    this.pressOrigins.set(event.pointerId, at);
     this.target.setAttribute("data-camera", "panning");
   };
 
@@ -94,11 +112,24 @@ export class CameraInput {
     if (!this.pointers.delete(event.pointerId)) {
       return;
     }
+    const origin = this.pressOrigins.get(event.pointerId);
+    this.pressOrigins.delete(event.pointerId);
     if (this.target.hasPointerCapture(event.pointerId)) {
       this.target.releasePointerCapture(event.pointerId);
     }
     if (this.pointers.size === 0) {
       this.target.removeAttribute("data-camera");
+    }
+    // A single pointer that pressed and released in place is a tap on nothing.
+    const isTap =
+      event.type === "pointerup" &&
+      origin !== undefined &&
+      this.pointers.size === 0 &&
+      Math.hypot(event.clientX - origin.x, event.clientY - origin.y) < TAP_THRESHOLD_PX;
+    if (isTap) {
+      for (const listener of this.tapListeners) {
+        listener();
+      }
     }
   };
 
