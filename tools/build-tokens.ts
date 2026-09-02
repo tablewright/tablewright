@@ -152,3 +152,6 @@ if (process.argv.includes("--check")) {
   await Bun.write(OUT_PATH, output);
   console.log(`build-tokens: wrote ${OUT_PATH}`);
 }
+
+// Top-level await requires a module; the script exports nothing.
+export {};
