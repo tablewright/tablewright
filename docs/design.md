@@ -65,6 +65,7 @@ Monorepo: Bun + Turborepo (TS) alongside a Cargo workspace (Rust).
 ```
 apps/table        VTT — Tauri shell
 apps/vault        worldbuilder — Tauri shell
+apps/player       browser player client — static Vite build, no Tauri (later)
 packages/schema   TS types generated from Rust (tauri-specta); never hand-written
 packages/ui       shared Lit components — recessive, fantasy-neutral chrome
 packages/board    PixiJS spatial engine (camera, grids, drag, hit-testing)
@@ -154,10 +155,25 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   cache permanently; upcoming scenes pre-sync in the background;
   reveal is a "show scene #hash" message. Players swarm asset chunks
   peer-to-peer.
-- **Signaling service** sees no game data. TURN fallback for
+- **Signaling over public Nostr relays**, Trystero-style: the core
+  and the player page each speak Nostr directly, and the payload is
+  encrypted with the invite secret so relays learn only that a
+  session exists. An own relay (a small serverless WebSocket worker)
+  is the fallback if public relays misbehave. TURN fallback for
   connectivity; optional dumb asset relay for slow DM uplinks;
-  headless DM host as the eventual server-hosting story.
-- Player client is a **browser page**.
+  headless DM host as the eventual server-hosting story. The Rust
+  WebRTC crate is chosen at the multiplayer milestone.
+- **Scale target.** A session is one DM plus up to 32 players
+  (typical 3–6, the most seen 10). State flows over a star with the
+  DM as hub. Asset swarming uses a limited-degree partial mesh among
+  players, so no browser holds more than a few peer connections. A
+  per-session cap, default 32, bounds resource use.
+- **Deployment.** The player page is static and lives on GitHub
+  Pages under the DM's own domain; no server is required. Signaling
+  needs no infrastructure with public relays. TURN, when wanted, is
+  a hosted free tier.
+- Player client is a **browser page**, `apps/player`: the same UI and
+  board packages as Table, a static Vite build, no Tauri.
 - **Serve mode.** The same installed binary has a second entry
   point, `table --serve`: it runs the core plus a local HTTP and
   WebSocket server from crates/net without creating a WebView,
