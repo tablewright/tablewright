@@ -30,4 +30,8 @@ Turborepo for the TS side, Cargo workspace for the Rust side.
 bun install
 bun run check       # format + lint + typecheck + tests + build, both languages
 bun run dev:table   # run the Table app (tauri dev)
+bun run tokens      # regenerate packages/ui/src/tokens.css from DESIGN.md
 ```
+
+Visual identity lives in [DESIGN.md](DESIGN.md) (the design.md
+format); its front matter is the single source of the CSS tokens.

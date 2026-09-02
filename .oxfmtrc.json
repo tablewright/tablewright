@@ -9,5 +9,5 @@
   "bracketSpacing": true,
   "arrowParens": "always",
   "endOfLine": "lf",
-  "ignorePatterns": ["**/*.md", "packages/schema/src/**"]
+  "ignorePatterns": ["**/*.md", "packages/schema/src/**", "packages/ui/src/tokens.css"]
 }

@@ -7,12 +7,16 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "check": "bun run format:check && bun run lint && turbo run check && bun run check:rust",
+    "check": "bun run format:check && bun run lint && bun run lint:design && bun run tokens:check && bun run typecheck:tools && turbo run check && bun run check:rust",
     "check:rust": "cargo fmt --all --check && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace",
     "dev:table": "bun run --filter @tablewright/table dev",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "oxlint --no-error-on-unmatched-pattern",
+    "lint:design": "bun x @google/design.md@0.4.0 lint DESIGN.md",
+    "tokens": "bun run tools/build-tokens.ts",
+    "tokens:check": "bun run tools/build-tokens.ts --check",
+    "typecheck:tools": "tsc -p tools",
     "test": "turbo run test"
   },
   "devDependencies": {

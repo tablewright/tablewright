@@ -1,10 +1,13 @@
+import "@tablewright/ui/theme.css";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import {
   BoardStage,
   Camera,
   CameraInput,
   GridLayer,
+  readBoardTheme,
   visibleExtent,
+  watchBoardTheme,
   type CellExtent,
   type SquareGrid,
 } from "@tablewright/board";
@@ -30,6 +33,12 @@ function mountBoard(stage: BoardStage, target: HTMLElement): void {
   const camera = new Camera(stage.world);
   const gridLayer = new GridLayer(stage.layers.grid);
   new CameraInput(camera, target);
+
+  gridLayer.setStyle(readBoardTheme(target).grid);
+  watchBoardTheme(target, (theme) => {
+    stage.setBackground(theme.ground);
+    gridLayer.setStyle(theme.grid);
+  });
 
   // Camera and resize events can arrive several times per frame; the grid
   // is rebuilt at most once, just before the frame renders.
@@ -66,7 +75,7 @@ function mountBoard(stage: BoardStage, target: HTMLElement): void {
 // The window starts hidden (tauri.conf.json) and shows only after the board
 // has rendered its first frame, so the user never sees an empty frame.
 try {
-  const stage = await BoardStage.create(host);
+  const stage = await BoardStage.create(host, { background: readBoardTheme(host).ground });
   mountBoard(stage, host);
   await stage.firstFrame;
 } catch (error) {

@@ -1,0 +1,16 @@
+/* Base theme: the generated tokens plus the document defaults every app shares. */
+@import "./tokens.css";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--tw-background);
+  color: var(--tw-on-background);
+  font-family: var(--tw-typo-body-md-font-family);
+  font-size: var(--tw-typo-body-md-font-size);
+  font-weight: var(--tw-typo-body-md-font-weight);
+  line-height: var(--tw-typo-body-md-line-height);
+}

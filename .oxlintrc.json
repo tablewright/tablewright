@@ -7,7 +7,8 @@
     "es2022": true
   },
   "globals": {
-    "__DEV_BUILD__": "readonly"
+    "__DEV_BUILD__": "readonly",
+    "Bun": "readonly"
   },
   "settings": {},
   "rules": {
@@ -70,6 +71,12 @@
       "rules": {
         "no-console": "off",
         "no-shadow": "off"
+      }
+    },
+    {
+      "files": ["tools/**/*.ts"],
+      "rules": {
+        "no-console": "off"
       }
     }
   ],

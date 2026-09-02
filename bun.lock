@@ -17,6 +17,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@tablewright/board": "workspace:*",
+        "@tablewright/ui": "workspace:*",
         "@tauri-apps/api": "^2.11.1",
       },
       "devDependencies": {
@@ -30,6 +31,10 @@
       "dependencies": {
         "pixi.js": "^8.20.1",
       },
+    },
+    "packages/ui": {
+      "name": "@tablewright/ui",
+      "version": "0.0.0",
     },
   },
   "packages": {
@@ -148,6 +153,8 @@
     "@tablewright/board": ["@tablewright/board@workspace:packages/board"],
 
     "@tablewright/table": ["@tablewright/table@workspace:apps/table"],
+
+    "@tablewright/ui": ["@tablewright/ui@workspace:packages/ui"],
 
     "@tauri-apps/api": ["@tauri-apps/api@2.11.1", "", {}, "sha512-M2FPuYND2m+wh5hfW9ZpSdxMPdEJovPBWwoHJmwUpysTYNHaOkVFN419m/K0LIgjb/7KU2vBgsUepJWugQCvAA=="],
 

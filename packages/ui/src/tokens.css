@@ -1,0 +1,131 @@
+/* Generated from DESIGN.md by tools/build-tokens.ts. Do not edit. */
+
+:root,
+[data-theme="dark"] {
+  --tw-theme-name: dark;
+
+  /* Colors */
+  --tw-primary: #D9A648;
+  --tw-on-primary: #2A1D00;
+  --tw-primary-container: #5C4310;
+  --tw-on-primary-container: #F5DEA6;
+  --tw-secondary: #7FA8C9;
+  --tw-on-secondary: #0B2436;
+  --tw-secondary-container: #274257;
+  --tw-on-secondary-container: #D3E6F5;
+  --tw-error: #E0665E;
+  --tw-on-error: #3A0B08;
+  --tw-error-container: #5A1E1A;
+  --tw-on-error-container: #F7D2CE;
+  --tw-background: #14151A;
+  --tw-on-background: #C9C7C0;
+  --tw-surface: #14151A;
+  --tw-on-surface: #C9C7C0;
+  --tw-surface-variant: #22252C;
+  --tw-on-surface-variant: #9A9A94;
+  --tw-surface-container-lowest: #0F1013;
+  --tw-surface-container-low: #1B1D24;
+  --tw-surface-container: #202329;
+  --tw-surface-container-high: #262A31;
+  --tw-surface-container-highest: #2D323A;
+  --tw-outline: #4A4F5A;
+  --tw-outline-variant: #343841;
+  --tw-focus-ring: #F5DEA6;
+  --tw-board-ground: #1B1D24;
+  --tw-board-grid: #8B8FA359;
+  --tw-board-selection: #D9A648;
+  --tw-board-hover: #F5DEA6;
+
+  /* Spacing */
+  --tw-space-xs: 4px;
+  --tw-space-sm: 8px;
+  --tw-space-md: 12px;
+  --tw-space-lg: 16px;
+  --tw-space-xl: 24px;
+  --tw-space-xxl: 32px;
+  --tw-space-panel-width: 320px;
+
+  /* Rounded */
+  --tw-rounded-none: 0px;
+  --tw-rounded-sm: 4px;
+  --tw-rounded-md: 6px;
+  --tw-rounded-lg: 10px;
+  --tw-rounded-full: 999px;
+
+  /* Typography */
+  --tw-typo-headline-md-font-family: system-ui, "Segoe UI", sans-serif;
+  --tw-typo-headline-md-font-size: 20px;
+  --tw-typo-headline-md-font-weight: 600;
+  --tw-typo-headline-md-line-height: 1.25;
+  --tw-typo-headline-sm-font-family: system-ui, "Segoe UI", sans-serif;
+  --tw-typo-headline-sm-font-size: 16px;
+  --tw-typo-headline-sm-font-weight: 600;
+  --tw-typo-headline-sm-line-height: 1.3;
+  --tw-typo-body-md-font-family: system-ui, "Segoe UI", sans-serif;
+  --tw-typo-body-md-font-size: 14px;
+  --tw-typo-body-md-font-weight: 400;
+  --tw-typo-body-md-line-height: 1.45;
+  --tw-typo-body-sm-font-family: system-ui, "Segoe UI", sans-serif;
+  --tw-typo-body-sm-font-size: 12px;
+  --tw-typo-body-sm-font-weight: 400;
+  --tw-typo-body-sm-line-height: 1.4;
+  --tw-typo-label-md-font-family: system-ui, "Segoe UI", sans-serif;
+  --tw-typo-label-md-font-size: 12px;
+  --tw-typo-label-md-font-weight: 600;
+  --tw-typo-label-md-line-height: 1.2;
+  --tw-typo-label-md-letter-spacing: 0.04em;
+  --tw-typo-numeric-md-font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --tw-typo-numeric-md-font-size: 13px;
+  --tw-typo-numeric-md-font-weight: 500;
+  --tw-typo-numeric-md-line-height: 1.2;
+  --tw-typo-numeric-md-font-feature: tnum;
+
+  /* Components */
+  --tw-comp-panel-background-color: var(--tw-surface-container);
+  --tw-comp-panel-text-color: var(--tw-on-surface);
+  --tw-comp-panel-font-family: var(--tw-typo-body-md-font-family);
+  --tw-comp-panel-font-size: var(--tw-typo-body-md-font-size);
+  --tw-comp-panel-font-weight: var(--tw-typo-body-md-font-weight);
+  --tw-comp-panel-line-height: var(--tw-typo-body-md-line-height);
+  --tw-comp-panel-rounded: var(--tw-rounded-md);
+  --tw-comp-panel-padding: var(--tw-space-lg);
+  --tw-comp-panel-title-text-color: var(--tw-on-surface);
+  --tw-comp-panel-title-font-family: var(--tw-typo-headline-sm-font-family);
+  --tw-comp-panel-title-font-size: var(--tw-typo-headline-sm-font-size);
+  --tw-comp-panel-title-font-weight: var(--tw-typo-headline-sm-font-weight);
+  --tw-comp-panel-title-line-height: var(--tw-typo-headline-sm-line-height);
+  --tw-comp-button-primary-background-color: var(--tw-primary);
+  --tw-comp-button-primary-text-color: var(--tw-on-primary);
+  --tw-comp-button-primary-font-family: var(--tw-typo-label-md-font-family);
+  --tw-comp-button-primary-font-size: var(--tw-typo-label-md-font-size);
+  --tw-comp-button-primary-font-weight: var(--tw-typo-label-md-font-weight);
+  --tw-comp-button-primary-line-height: var(--tw-typo-label-md-line-height);
+  --tw-comp-button-primary-rounded: var(--tw-rounded-sm);
+  --tw-comp-button-primary-padding: var(--tw-space-sm);
+  --tw-comp-button-primary-hover-background-color: var(--tw-on-primary-container);
+  --tw-comp-button-quiet-background-color: var(--tw-surface-container-high);
+  --tw-comp-button-quiet-text-color: var(--tw-on-surface);
+  --tw-comp-button-quiet-font-family: var(--tw-typo-label-md-font-family);
+  --tw-comp-button-quiet-font-size: var(--tw-typo-label-md-font-size);
+  --tw-comp-button-quiet-font-weight: var(--tw-typo-label-md-font-weight);
+  --tw-comp-button-quiet-line-height: var(--tw-typo-label-md-line-height);
+  --tw-comp-button-quiet-rounded: var(--tw-rounded-sm);
+  --tw-comp-button-quiet-padding: var(--tw-space-sm);
+  --tw-comp-input-background-color: var(--tw-surface-container-lowest);
+  --tw-comp-input-text-color: var(--tw-on-surface);
+  --tw-comp-input-font-family: var(--tw-typo-body-md-font-family);
+  --tw-comp-input-font-size: var(--tw-typo-body-md-font-size);
+  --tw-comp-input-font-weight: var(--tw-typo-body-md-font-weight);
+  --tw-comp-input-line-height: var(--tw-typo-body-md-line-height);
+  --tw-comp-input-rounded: var(--tw-rounded-sm);
+  --tw-comp-input-padding: var(--tw-space-sm);
+  --tw-comp-board-background-color: var(--tw-board-ground);
+  --tw-comp-notice-error-background-color: var(--tw-error-container);
+  --tw-comp-notice-error-text-color: var(--tw-on-error-container);
+  --tw-comp-notice-error-font-family: var(--tw-typo-body-sm-font-family);
+  --tw-comp-notice-error-font-size: var(--tw-typo-body-sm-font-size);
+  --tw-comp-notice-error-font-weight: var(--tw-typo-body-sm-font-weight);
+  --tw-comp-notice-error-line-height: var(--tw-typo-body-sm-line-height);
+  --tw-comp-notice-error-padding: var(--tw-space-md);
+
+}

@@ -12,13 +12,14 @@ import { Graphics, type Container } from "pixi.js";
 import { gridLines, type CellExtent } from "./grid-lines.js";
 import type { SquareGrid } from "./square-grid.js";
 
+/** Line colour as 0xRRGGBB plus opacity, the same shape the theme bridge produces. */
 export interface GridStyle {
-  readonly color: number;
+  readonly rgb: number;
   readonly alpha: number;
 }
 
 // Neutral grey until the theme bridge supplies real tokens.
-const DEFAULT_STYLE: GridStyle = { color: 0x8b8fa3, alpha: 0.35 };
+const DEFAULT_STYLE: GridStyle = { rgb: 0x8b8fa3, alpha: 0.35 };
 
 /** The grid as a single stroked Graphics; call `draw` whenever grid or extent changes. */
 export class GridLayer {
@@ -45,7 +46,7 @@ export class GridLayer {
       g.lineTo(lines.right, y);
     }
     // pixelLine keeps the stroke one device pixel wide at any zoom.
-    g.stroke({ width: 1, color: this.style.color, alpha: this.style.alpha, pixelLine: true });
+    g.stroke({ width: 1, color: this.style.rgb, alpha: this.style.alpha, pixelLine: true });
   }
 
   /** Remove every line, for when no cell is in view. */

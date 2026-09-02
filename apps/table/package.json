@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@tablewright/board": "workspace:*",
+    "@tablewright/ui": "workspace:*",
     "@tauri-apps/api": "^2.11.1"
   },
   "devDependencies": {

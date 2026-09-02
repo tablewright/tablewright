@@ -87,6 +87,11 @@ export class BoardStage {
     this.app.destroy({ removeView: true }, { children: true });
   }
 
+  /** Change the canvas clear colour, for example on a theme switch. */
+  setBackground(color: number): void {
+    this.app.renderer.background.color = color;
+  }
+
   /** Subscribe to canvas size changes; returns the unsubscribe function. */
   onResize(listener: () => void): () => void {
     this.resizeListeners.add(listener);
