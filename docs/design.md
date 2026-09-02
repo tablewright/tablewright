@@ -70,6 +70,32 @@ One search spans Vault and Compendium; results are labeled by origin.
   name length. Body text joins later through FTS5 below the name
   matches.
 
+### Search ranking rules (v1)
+
+The rules are the spec; `crates/core` implements them with one unit
+test per rule. They are expected to change; change the list first.
+
+1. Both query and fields are normalised: lowercase, diacritics
+   stripped, whitespace collapsed. The query splits on whitespace into
+   tokens. A token of the form `field:value` (for example
+   `type:spell`) is a filter, not a scoring token.
+2. Every scoring token must match at least one field: name, tags,
+   type, or source. More tokens narrow the result, never widen it.
+3. A token scores by the best match it finds; lower is better. In
+   the name: exact 0, prefix 1, start of a later word 2, substring 3.
+   The same ladder in tags adds 4; in type or source it adds 8. A
+   name hit therefore always beats a tag hit, which always beats a
+   type or source hit.
+4. Two small penalties separate near-ties: the match offset within
+   its field, and how much longer the name is than the query.
+5. Tokens that match consecutive words of the name in order earn a
+   phrase bonus.
+6. Order is total score, then name length, then name alphabetically.
+   The list is flat, capped at fifty rows, each with its type badge.
+
+Not in v1, by choice: typo tolerance, initials matching, and usage
+boosts. Body text arrives through FTS5 as a lower tier.
+
 ## 4. Architecture
 
 Monorepo: Bun + Turborepo (TS) alongside a Cargo workspace (Rust).
