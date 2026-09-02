@@ -1,0 +1,7 @@
+node_modules/
+dist/
+target/
+coverage/
+.claude/
+.plan/
+.DS_Store

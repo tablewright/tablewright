@@ -1,0 +1,14 @@
+{
+  "name": "tablewright",
+  "private": true,
+  "packageManager": "bun@1.3.14",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "build": "turbo run build",
+    "check": "turbo run check",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2"
+  }
+}

@@ -1,0 +1,5 @@
+# Workspace root. Crates join `members` as they are created
+# (crates/core first — see docs/design.md §4).
+[workspace]
+members = []
+resolver = "2"
