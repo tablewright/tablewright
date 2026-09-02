@@ -9,7 +9,7 @@ use std::path::Path;
 use rusqlite::{Connection, OptionalExtension, Row, params};
 use thiserror::Error;
 
-use crate::compendium::{Entry, EntryId, Visibility};
+use crate::compendium::{Entry, EntryId, EntrySummary, Visibility};
 
 /// Schema version this build writes and reads; bumped with every migration.
 const SCHEMA_VERSION: i64 = 1;
@@ -191,6 +191,43 @@ impl Store {
             }
         }
         Ok(entries)
+    }
+
+    /// Every entry's summary whatever its visibility: the raw material of the
+    /// search catalogue, which applies the viewer's tier itself. This list
+    /// never leaves the DM's process.
+    ///
+    /// # Errors
+    ///
+    /// Fails if the read fails or a stored row is corrupt.
+    pub fn summaries(&self) -> Result<Vec<EntrySummary>, StoreError> {
+        let mut statement = self
+            .connection
+            .prepare("SELECT id, kind, name, source, tags, visibility FROM entries ORDER BY id")?;
+        let rows = statement.query_map([], |row| {
+            Ok((
+                row.get::<_, String>(0)?,
+                row.get::<_, String>(1)?,
+                row.get::<_, String>(2)?,
+                row.get::<_, String>(3)?,
+                row.get::<_, String>(4)?,
+                row.get::<_, i64>(5)?,
+            ))
+        })?;
+        let mut summaries = Vec::new();
+        for row in rows {
+            let (id, kind, name, source, tags, visibility) = row?;
+            summaries.push(EntrySummary {
+                id: EntryId::new(id),
+                kind,
+                name,
+                source,
+                tags: serde_json::from_str(&tags)?,
+                visibility: Visibility::from_code(visibility)
+                    .ok_or(StoreError::UnknownVisibility(visibility))?,
+            });
+        }
+        Ok(summaries)
     }
 
     /// How many entries the store holds, regardless of visibility.

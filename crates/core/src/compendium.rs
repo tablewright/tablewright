@@ -100,6 +100,31 @@ impl Entry {
         }
         Some(seen)
     }
+
+    /// The entry without its body and data: what lists and search carry.
+    pub fn summary(&self) -> EntrySummary {
+        EntrySummary {
+            id: self.id.clone(),
+            kind: self.kind.clone(),
+            name: self.name.clone(),
+            source: self.source.clone(),
+            tags: self.tags.clone(),
+            visibility: self.visibility,
+        }
+    }
+}
+
+/// The envelope fields that identify and classify an entry, without the
+/// body or the system data. Search ranks over these.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct EntrySummary {
+    pub id: EntryId,
+    #[serde(rename = "type")]
+    pub kind: String,
+    pub name: String,
+    pub source: String,
+    pub tags: Vec<String>,
+    pub visibility: Visibility,
 }
 
 #[cfg(test)]
