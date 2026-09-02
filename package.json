@@ -11,6 +11,7 @@
     "check:rust": "cargo fmt --all --check && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace",
     "dev:table": "bun run --filter @tablewright/table dev",
     "format": "oxfmt",
+    "icon:table": "bun run tools/app-icon.ts",
     "format:check": "oxfmt --check",
     "lint": "oxlint --no-error-on-unmatched-pattern",
     "lint:design": "bun x @google/design.md@0.4.0 lint DESIGN.md",
