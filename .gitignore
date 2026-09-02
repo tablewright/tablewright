@@ -6,3 +6,4 @@ coverage/
 .plan/
 .DS_Store
 .turbo/
+perf-report.json

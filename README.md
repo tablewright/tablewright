@@ -35,5 +35,11 @@ bun run icon:table  # regenerate the Table icon set from apps/table/assets/icon.
 bun run perf        # board frame-time scenarios in the local Chrome or Edge (add --headless)
 ```
 
+`bun run check` is deterministic and CI-ready; `.github/workflows/check.yml`
+is drafted for the day a remote exists. `bun run perf` needs a real GPU
+for its numbers to mean anything: on hosted runners it runs with `--ci`,
+which records the software renderer, gates only on a collapse, and
+uploads a report.
+
 Visual identity lives in [DESIGN.md](DESIGN.md) (the design.md
 format); its front matter is the single source of the CSS tokens.

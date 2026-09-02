@@ -8,7 +8,13 @@
  * the app and its fixtures, and the probe inside the app does the
  * measuring, so a manual run at the console and this one agree.
  *
- * Usage: bun run perf [--headless]
+ * Usage: bun run perf [--headless] [--ci] [--report=<path>]
+ *
+ * `--ci` is for runners without a GPU: the browser renders in software
+ * there, so absolute frame budgets are meaningless. CI mode is headless,
+ * gates only on catastrophic regressions, records which renderer drew
+ * the frames, writes the report, and skips with success when no browser
+ * is installed. Real numbers come from a machine with a GPU.
  */
 
 import { existsSync } from "node:fs";
@@ -22,6 +28,10 @@ const APP_DIR = "apps/table";
 const SCENARIOS = ["tavern", "world-fit", "world-zoom"] as const;
 // A 60 Hz budget for the 95th percentile, and no frame long enough to see.
 const P95_BUDGET_MS = 16.9;
+// In software rendering only a collapse is a signal: a p95 this slow means
+// something rebuilds far more than it should.
+const CI_P95_BUDGET_MS = 150;
+const CI_MAX_MS = 1000;
 const STARTUP_TIMEOUT_MS = 30_000;
 const PROBE_TIMEOUT_MS = 120_000;
 
@@ -35,7 +45,11 @@ interface PerfResult {
   over33: number;
 }
 
-const isHeadless = process.argv.includes("--headless");
+const isCi = process.argv.includes("--ci");
+const isHeadless = isCi || process.argv.includes("--headless");
+const reportPath = process.argv
+  .find((arg) => arg.startsWith("--report="))
+  ?.slice("--report=".length);
 const isWindows = process.platform === "win32";
 
 function browserCandidates(): string[] {
@@ -126,6 +140,20 @@ class Cdp {
   }
 }
 
+// Which GPU, or software rasterizer, WebGL is actually using in this browser.
+async function readRenderer(cdp: Cdp): Promise<string> {
+  const result = (await cdp.send("Runtime.evaluate", {
+    expression: `(() => {
+      const gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) return "no webgl2";
+      const info = gl.getExtension("WEBGL_debug_renderer_info");
+      return info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+    })()`,
+    returnByValue: true,
+  })) as { result?: { value?: unknown } };
+  return String(result.result?.value ?? "unknown");
+}
+
 async function runScenario(cdp: Cdp, scenario: string): Promise<PerfResult> {
   await cdp.send("Page.navigate", { url: `http://localhost:${VITE_PORT}/?perf=${scenario}` });
   const result = (await cdp.send("Runtime.evaluate", {
@@ -149,7 +177,8 @@ async function runScenario(cdp: Cdp, scenario: string): Promise<PerfResult> {
 const browser = browserCandidates().find((path) => existsSync(path));
 if (browser === undefined) {
   console.error("perf-board: no Chrome or Edge found; set TABLEWRIGHT_BROWSER to a browser path");
-  process.exit(1);
+  // A runner without a browser cannot measure anything; that is not a regression.
+  process.exit(isCi ? 0 : 1);
 }
 
 const vite = Bun.spawn(["bunx", "vite", "--port", String(VITE_PORT), "--strictPort"], {
@@ -167,6 +196,9 @@ const chrome = Bun.spawn(
     "--no-default-browser-check",
     "--window-size=1280,800",
     ...(isHeadless ? ["--headless=new"] : []),
+    // Runners without a GPU only get WebGL through SwiftShader, and Chrome
+    // refuses that fallback unless asked; local runs keep the real GPU.
+    ...(isCi ? ["--enable-unsafe-swiftshader"] : []),
     "about:blank",
   ],
   { stdout: "ignore", stderr: "ignore" }
@@ -188,11 +220,20 @@ try {
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
 
-  console.log(`perf-board: ${browser}${isHeadless ? " (headless)" : ""}`);
+  const renderer = await readRenderer(cdp);
+  const isSoftware = /swiftshader|llvmpipe|software/i.test(renderer);
+  console.log(`perf-board: ${browser}${isHeadless ? " (headless)" : ""}${isCi ? " (ci)" : ""}`);
+  console.log(
+    `renderer: ${renderer}${isSoftware ? "  [software: numbers are not comparable]" : ""}`
+  );
   console.log("scenario      frames   mean    p95    max  >16.9  >33");
+  const results: PerfResult[] = [];
   for (const scenario of SCENARIOS) {
     const r = await runScenario(cdp, scenario);
-    const isPass = r.p95Ms <= P95_BUDGET_MS && r.over33 === 0;
+    results.push(r);
+    const isPass = isCi
+      ? r.p95Ms <= CI_P95_BUDGET_MS && r.maxMs <= CI_MAX_MS
+      : r.p95Ms <= P95_BUDGET_MS && r.over33 === 0;
     exitCode = isPass ? exitCode : 1;
     console.log(
       `${scenario.padEnd(12)} ${String(r.frames).padStart(6)} ${r.meanMs.toFixed(2).padStart(6)} ` +
@@ -201,6 +242,19 @@ try {
     );
   }
   cdp.close();
+  if (reportPath !== undefined) {
+    const report = {
+      when: new Date().toISOString(),
+      platform: process.platform,
+      browser,
+      renderer,
+      isSoftware,
+      mode: isCi ? "ci" : "local",
+      results,
+    };
+    await Bun.write(reportPath, `${JSON.stringify(report, null, 2)}\n`);
+    console.log(`report: ${reportPath}`);
+  }
 } catch (error) {
   console.error(`perf-board: ${error instanceof Error ? error.message : String(error)}`);
   exitCode = 1;
