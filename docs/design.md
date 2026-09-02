@@ -70,6 +70,37 @@ One search spans Vault and Compendium; results are labeled by origin.
   name length. Body text joins later through FTS5 below the name
   matches.
 
+### Systems and modules
+
+- **Three layers.** A *system* is a ruleset with code behind it (5e):
+  the shape of its statblocks and sheets. A *version* is an edition
+  of that ruleset (5e 2014, 5e 2024). A *module* is a compendium of
+  content for one version (the SRD, a homebrew collection). The
+  envelope's `source` names the module; the `data` blob's schema
+  belongs to the system and version.
+- **Campaign creation** picks a system, then a version, then
+  multi-selects the modules to include, with the bundled SRD checked
+  by default. One compendium serves both apps, so Vault lore can
+  reference compendium entries and entries can reference lore.
+- **What ships.** Only content Tablewright may redistribute: the SRD
+  under CC-BY-4.0, and homebrew that is CC-BY-4.0 or licensed to
+  Tablewright. Nothing else of 5e. The bundled SRD is the latest
+  under a usable licence, SRD 5.2 (the 2024 rules), imported from
+  5e-bits' 5e-database at a pinned tag; SRD 5.1 can become a second
+  module later. The licence's attribution notice ships with the
+  module and shows in a credits view; the name is "5e SRD", never
+  the trademark.
+- **Where modules live.** Bundled modules are source-tracked under
+  `systems/<system>/<version>/<module>/` in the house module source
+  format: a `module.json` (id, name, version, licence, attribution)
+  and one JSON file per entry in the envelope shape under
+  `<kind>/<slug>.json`. The compendium SQLite is generated from it
+  at build time and shipped as an app resource, never committed. The
+  layout is a working assumption until the first module lands.
+- **Typing.** For the PoC the `data` blob is untyped JSON. Typed
+  system data (Rust structs, generated TS) comes after; its shape is
+  undecided.
+
 ### Search ranking rules (v1)
 
 The rules are the spec; `crates/core` implements them with one unit
