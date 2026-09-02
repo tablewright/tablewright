@@ -62,9 +62,9 @@ One search spans Vault and Compendium; results are labeled by origin.
 - **The search index is derived data**, rebuildable, never the store
   of record. FTS5 + JSON attribute indexes; swappable later without
   touching stored content.
-- **Search feels like Spotlight.** One box, results as you type, one
-  ranked list across every type with a type label per row, driven by
-  the keyboard. v1 ranking is a heuristic over the envelope fields
+- **Search feels like Spotlight.** Ctrl+Space opens one box, results
+  as you type, one ranked list across every type with a type label
+  per row, driven by the keyboard. v1 ranking is a heuristic over the envelope fields
   (name, type, tags, source): every query token must match, name
   prefix beats word start beats substring, ties break by name length.
   Body text joins later through FTS5 below the name matches.
