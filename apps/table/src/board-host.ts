@@ -99,6 +99,22 @@ export class BoardHost {
     });
   }
 
+  /** Replace the tokens with `count` placeholders spread over the map, for stress runs. */
+  seedTokens(count: number): void {
+    const step = 2;
+    const perRow = Math.max(1, Math.floor((this.bounds.cols - 2) / step));
+    this.tokens = Array.from({ length: count }, (_, index) => ({
+      id: `seed-${index}`,
+      label: String(index + 1),
+      cell: {
+        col: 1 + (index % perRow) * step,
+        row: Math.min(this.bounds.rows - 1, 1 + Math.floor(index / perRow) * step),
+      },
+      facing: (index * 37) % 360,
+    }));
+    this.tokenLayer.set(this.tokens);
+  }
+
   /** Load a map image, size the grid to it, and frame it in the view. */
   async loadMap(url: string): Promise<void> {
     const size = await this.mapLayer.setImage(url);

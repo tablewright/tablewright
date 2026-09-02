@@ -29,7 +29,15 @@ export class MapLayer {
    * Rejects when the image cannot be fetched or decoded; the previous map stays.
    */
   async setImage(url: string): Promise<MapSize> {
-    const texture: Texture = await Assets.load(url);
+    // Name the parser: the loader otherwise guesses from the extension, and
+    // content-addressed asset URLs have none.
+    const texture: Texture | undefined = await Assets.load({
+      src: url,
+      loadParser: "loadTextures",
+    });
+    if (!texture) {
+      throw new Error(`no image could be decoded from ${url}`);
+    }
     this.clear();
     const sprite = new Sprite(texture);
     this.container.addChild(sprite);

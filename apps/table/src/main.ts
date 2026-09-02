@@ -41,6 +41,25 @@ async function openMap(board: BoardHost): Promise<void> {
   }
 }
 
+// A fixture so the board has a map to show without hunting for one. The query
+// string can swap the map and seed tokens for performance runs:
+// ?map=<url>&tokens=<count>. A fixture that fails to load is a notice, not a
+// failure of the board.
+async function loadDevFixture(board: BoardHost): Promise<void> {
+  const params = new URLSearchParams(window.location.search);
+  const url = params.get("map") ?? new URL("../dev/tavern.svg", import.meta.url).href;
+  try {
+    await board.loadMap(url);
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    showNotice(`Could not load the dev map ${url}: ${reason}.`);
+  }
+  const count = Number(params.get("tokens"));
+  if (Number.isInteger(count) && count > 0) {
+    board.seedTokens(count);
+  }
+}
+
 // The window starts hidden (tauri.conf.json) and shows only after the board
 // has rendered its first frame, so the user never sees an empty frame.
 try {
@@ -54,8 +73,7 @@ try {
     }
   });
   if (__DEV_BUILD__) {
-    // A fixture so the board has a map to show without hunting for one.
-    await board.loadMap(new URL("../dev/tavern.svg", import.meta.url).href);
+    await loadDevFixture(board);
   }
   await stage.firstFrame;
 } catch (error) {
