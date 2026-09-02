@@ -1,0 +1,142 @@
+{
+  "id": "5e-2024-srd:spell:mind-spike",
+  "type": "spell",
+  "name": "Mind Spike",
+  "source": "5e-2024-srd",
+  "tags": [
+    "divination",
+    "level-2",
+    "sorcerer",
+    "warlock",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You drive a spike of psionic energy into the mind of one creature you can see within range. The target makes a Wisdom saving throw, taking 3d8 Psychic damage on a failed save or half as much damage on a successful one. On a failed save, you also always know the target's location until the spell ends, but only while the two of you are on the same plane of existence. While you have this knowledge, the target can't become hidden from you, and if it has the Invisible condition, it gains no benefit from that condition against you.\n\n**Using a Higher-Level Spell Slot.** The damage increases by 1d8 for each spell slot level above 2.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": "4d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "5d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "6d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "7d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "8d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "9d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "10d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_warlock",
+        "name": "Warlock"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "3d8",
+    "damage_types": [
+      "psychic"
+    ],
+    "desc": "You drive a spike of psionic energy into the mind of one creature you can see within range. The target makes a Wisdom saving throw, taking 3d8 Psychic damage on a failed save or half as much damage on a successful one. On a failed save, you also always know the target's location until the spell ends, but only while the two of you are on the same plane of existence. While you have this knowledge, the target can't become hidden from you, and if it has the Invisible condition, it gains no benefit from that condition against you.",
+    "duration": "1 hour",
+    "higher_level": "The damage increases by 1d8 for each spell slot level above 2.",
+    "key": "srd-2024_mind-spike",
+    "level": 2,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Mind Spike",
+    "range": 120,
+    "range_text": "120 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "wisdom",
+    "school": {
+      "key": "divination",
+      "name": "Divination"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": false
+  }
+}

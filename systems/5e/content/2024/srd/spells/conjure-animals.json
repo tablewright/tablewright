@@ -1,0 +1,127 @@
+{
+  "id": "5e-2024-srd:spell:conjure-animals",
+  "type": "spell",
+  "name": "Conjure Animals",
+  "source": "5e-2024-srd",
+  "tags": [
+    "conjuration",
+    "level-3",
+    "druid",
+    "ranger",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You conjure nature spirits that appear as a Large pack of spectral, intangible animals in an unoccupied space you can see within range. The pack lasts for the duration, and you choose the spirits' animal form, such as wolves, serpents, or birds. You have Advantage on Strength saving throws while you're within 5 feet of the pack, and when you move on your turn, you can also move the pack up to 30 feet to an unoccupied space you can see. Whenever the pack moves within 10 feet of a creature you can see and whenever a creature you can see enters a space within 10 feet of the pack or ends its turn there, you can force that creature to make a Dexterity saving throw. On a failed save, the creature takes 3d10 Slashing damage. A creature makes this save only once per turn.\n\n**Using a Higher-Level Spell Slot.** The damage increases by 1d10 for each spell slot level above 3.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": "4d10",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "5d10",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "6d10",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "7d10",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "8d10",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "9d10",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "3d10",
+    "damage_types": [
+      "slashing"
+    ],
+    "desc": "You conjure nature spirits that appear as a Large pack of spectral, intangible animals in an unoccupied space you can see within range. The pack lasts for the duration, and you choose the spirits' animal form, such as wolves, serpents, or birds. You have Advantage on Strength saving throws while you're within 5 feet of the pack, and when you move on your turn, you can also move the pack up to 30 feet to an unoccupied space you can see. Whenever the pack moves within 10 feet of a creature you can see and whenever a creature you can see enters a space within 10 feet of the pack or ends its turn there, you can force that creature to make a Dexterity saving throw. On a failed save, the creature takes 3d10 Slashing damage. A creature makes this save only once per turn.",
+    "duration": "10 minutes",
+    "higher_level": "The damage increases by 1d10 for each spell slot level above 3.",
+    "key": "srd-2024_conjure-animals",
+    "level": 3,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Conjure Animals",
+    "range": 60,
+    "range_text": "60 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "strength",
+    "school": {
+      "key": "conjuration",
+      "name": "Conjuration"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

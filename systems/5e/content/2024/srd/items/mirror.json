@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:mirror",
+  "type": "item",
+  "name": "Mirror",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A handheld steel Mirror is useful for personal cosmetics but also for peeking around corners and reflecting light as a signal.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A handheld steel Mirror is useful for personal cosmetics but also for peeking around corners and reflecting light as a signal.",
+    "key": "srd-2024_mirror",
+    "name": "Mirror",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.500",
+    "weight_unit": "lb"
+  }
+}

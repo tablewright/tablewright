@@ -1,0 +1,140 @@
+{
+  "id": "5e-2024-srd:spell:spider-climb",
+  "type": "spell",
+  "name": "Spider Climb",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "level-2",
+    "sorcerer",
+    "warlock",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Until the spell ends, one willing creature you touch gains the ability to move up, down, and across vertical surfaces and along ceilings, while leaving its hands free. The target also gains a Climb Speed equal to its Speed.\n\n**Using a Higher-Level Spell Slot.** You can target one additional creature for each spell slot level above 2.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 2,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 3,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 4,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 5,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 6,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 7,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 8,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_warlock",
+        "name": "Warlock"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Until the spell ends, one willing creature you touch gains the ability to move up, down, and across vertical surfaces and along ceilings, while leaving its hands free. The target also gains a Climb Speed equal to its Speed.",
+    "duration": "1 hour",
+    "higher_level": "You can target one additional creature for each spell slot level above 2.",
+    "key": "srd-2024_spider-climb",
+    "level": 2,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a drop of bitumen and a spider",
+    "name": "Spider Climb",
+    "range": 0,
+    "range_text": "Touch",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "id": "5e-2024-srd:spell:spiritual-weapon",
+  "type": "spell",
+  "name": "Spiritual Weapon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "evocation",
+    "level-2",
+    "cleric",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You create a floating, spectral force that resembles a weapon of your choice and lasts for the duration. The force appears within range in a space of your choice, and you can immediately make one melee spell attack against one creature within 5 feet of the force. On a hit, the target takes Force damage equal to 1d8 plus your spellcasting ability modifier. As a Bonus Action on your later turns, you can move the force up to 20 feet and repeat the attack against a creature within 5 feet of it.\n\n**Using a Higher-Level Spell Slot.** The damage increases by 1d8 for every slot level above 2.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": "2d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "3d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "4d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "5d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "6d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "7d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "8d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "bonus-action",
+    "classes": [
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "1d8",
+    "damage_types": [
+      "force"
+    ],
+    "desc": "You create a floating, spectral force that resembles a weapon of your choice and lasts for the duration. The force appears within range in a space of your choice, and you can immediately make one melee spell attack against one creature within 5 feet of the force. On a hit, the target takes Force damage equal to 1d8 plus your spellcasting ability modifier. As a Bonus Action on your later turns, you can move the force up to 20 feet and repeat the attack against a creature within 5 feet of it.",
+    "duration": "1 minute",
+    "higher_level": "The damage increases by 1d8 for every slot level above 2.",
+    "key": "srd-2024_spiritual-weapon",
+    "level": 2,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Spiritual Weapon",
+    "range": 60,
+    "range_text": "60 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "evocation",
+      "name": "Evocation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

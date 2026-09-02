@@ -1,0 +1,182 @@
+{
+  "id": "5e-2024-srd:monster:harpy",
+  "type": "monster",
+  "name": "Harpy",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "medium",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 13,
+      "constitution": 12,
+      "dexterity": 13,
+      "intelligence": 7,
+      "strength": 12,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 1,
+            "damage_die_count": 2,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 6 (2d4 + 1) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The harpy sings a magical melody, which lasts until the harpy's Concentration ends on it. Wisdom Saving Throw: DC 11, each Humanoid and Giant in a 300-foot Emanation originating from the harpy when the song starts. Failure: The target has the Charmed condition until the song ends and repeats the save at the end of each of its turns. While Charmed, the target has the Incapacitated condition and ignores the Luring Song of other harpies. If the target is more than 5 feet from the harpy, the target moves on its turn toward the harpy by the most direct route, trying to get within 5 feet of the harpy. It doesn't avoid Opportunity Attacks; however, before moving into damaging terrain (such as lava or a pit) and whenever it takes damage from a source other than the harpy, the target repeats the save. Success: The target is immune to this harpy's Luring Song for 24 hours.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Luring Song",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "7d8 + 7",
+    "hit_points": 38,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_harpy",
+    "languages": {
+      "as_string": "Common",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 1,
+      "wisdom": 0
+    },
+    "name": "Harpy",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 1,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 1,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": -2,
+      "athletics": 1,
+      "deception": 1,
+      "history": -2,
+      "insight": 0,
+      "intimidation": 1,
+      "investigation": -2,
+      "medicine": 0,
+      "nature": -2,
+      "perception": 0,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": -2,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 40,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 40,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

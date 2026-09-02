@@ -1,0 +1,268 @@
+{
+  "id": "5e-2024-srd:monster:adult-green-dragon",
+  "type": "monster",
+  "name": "Adult Green Dragon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "huge",
+    "cr-15"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 21,
+      "dexterity": 12,
+      "intelligence": 18,
+      "strength": 23,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon uses Spellcasting to cast Mind Spike (level 3 version).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Mind Invasion",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes three Rend attacks. It can replace one attack with a use of Spellcasting to cast Mind Spike (level 3 version).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 17, each creature in a 20-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point the dragon can see within 90 feet. Failure: 7 (2d6) Poison damage, and the target takes a -2 penalty to AC until the end of its next turn. Failure or Success: The dragon can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Noxious Miasma",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 18, each creature in a 60-foot Cone. Failure: 56 (16d6) Poison damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Poison Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon moves up to half its Speed, and it makes one Rend attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pounce",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 6,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": 0,
+            "extra_damage_die_count": 3,
+            "extra_damage_die_type": "D6",
+            "extra_damage_type": {
+              "key": "poison",
+              "name": "Poison"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 11
+          }
+        ],
+        "desc": "Melee Attack Roll: +11, reach 10 ft. 15 (2d8 + 6) Slashing damage plus 7 (2d6) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17):\n- **At Will:** Detect Magic, Mind Spike\n- **1/Day Each:** Geas",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 19,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 15,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 13000,
+    "hit_dice": "18d12 + 90",
+    "hit_points": 207,
+    "illustration": null,
+    "initiative_bonus": 11,
+    "key": "srd-2024_adult-green-dragon",
+    "languages": {
+      "as_string": "Common, Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 5,
+      "dexterity": 1,
+      "intelligence": 4,
+      "strength": 6,
+      "wisdom": 2
+    },
+    "name": "Adult Green Dragon",
+    "normal_sight_range": 10560,
+    "passive_perception": 22,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 4,
+      "constitution": 5,
+      "dexterity": 6,
+      "intelligence": 4,
+      "strength": 6,
+      "wisdom": 7
+    },
+    "saving_throws_all": {
+      "charisma": 4,
+      "constitution": 5,
+      "dexterity": 6,
+      "intelligence": 4,
+      "strength": 6,
+      "wisdom": 7
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "deception": 9,
+      "perception": 12,
+      "persuasion": 9,
+      "stealth": 6
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 2,
+      "arcana": 4,
+      "athletics": 6,
+      "deception": 9,
+      "history": 4,
+      "insight": 2,
+      "intimidation": 4,
+      "investigation": 4,
+      "medicine": 2,
+      "nature": 4,
+      "perception": 12,
+      "performance": 4,
+      "persuasion": 9,
+      "religion": 4,
+      "sleight_of_hand": 1,
+      "stealth": 6,
+      "survival": 2
+    },
+    "speed": {
+      "fly": 80,
+      "swim": 40,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 80,
+      "hover": false,
+      "swim": 40,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The dragon can breathe air and water.",
+        "name": "Amphibious"
+      },
+      {
+        "desc": "If the dragon fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (3/Day, or 4/Day in Lair)"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

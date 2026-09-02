@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:keelboat",
+  "type": "item",
+  "name": "Keelboat",
+  "source": "5e-2024-srd",
+  "tags": [
+    "waterborne-vehicle"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A small riverboat with a keel.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "waterborne-vehicle",
+      "name": "Waterborne Vehicle"
+    },
+    "cost": "3000.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A small riverboat with a keel.",
+    "key": "srd-2024_keelboat",
+    "name": "Keelboat",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

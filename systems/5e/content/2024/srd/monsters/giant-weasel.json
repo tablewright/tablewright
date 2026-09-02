@@ -1,0 +1,170 @@
+{
+  "id": "5e-2024-srd:monster:giant-weasel",
+  "type": "monster",
+  "name": "Giant Weasel",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-1/8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 10,
+      "dexterity": 17,
+      "intelligence": 4,
+      "strength": 11,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 5 (1d4 + 3) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 25,
+    "hit_dice": "2d8",
+    "hit_points": 9,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_giant-weasel",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -3,
+      "strength": 0,
+      "wisdom": 1
+    },
+    "name": "Giant Weasel",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -3,
+      "strength": 0,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -3,
+      "strength": 0,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "acrobatics": 5,
+      "perception": 3,
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 5,
+      "animal_handling": 1,
+      "arcana": -3,
+      "athletics": 0,
+      "deception": -3,
+      "history": -3,
+      "insight": 1,
+      "intimidation": -3,
+      "investigation": -3,
+      "medicine": 1,
+      "nature": -3,
+      "perception": 3,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -3,
+      "sleight_of_hand": 3,
+      "stealth": 5,
+      "survival": 1
+    },
+    "speed": {
+      "climb": 30,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 30,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

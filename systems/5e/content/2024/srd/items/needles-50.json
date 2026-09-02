@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:needles-50",
+  "type": "item",
+  "name": "Needles (50)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ammunition for weapons that use needles. Comes in a pack of 50. Typically stored in a pouch.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ammunition for weapons that use needles. Comes in a pack of 50. Typically stored in a pouch.",
+    "key": "srd-2024_needles-50",
+    "name": "Needles (50)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

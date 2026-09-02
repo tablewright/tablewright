@@ -1,0 +1,198 @@
+{
+  "id": "5e-2024-srd:monster:cultist-fanatic",
+  "type": "monster",
+  "name": "Cultist Fanatic",
+  "source": "5e-2024-srd",
+  "tags": [
+    "humanoid",
+    "small",
+    "cr-2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 13,
+      "constitution": 12,
+      "dexterity": 14,
+      "intelligence": 10,
+      "strength": 11,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Pact Blade attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 6 (1d8 + 2) Slashing damage plus 7 (2d6) Necrotic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pact Blade",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The cultist casts one of the following spells, using Wisdom as the spellcasting ability (spell save DC 12, +4 to hit with spell attacks):\n\n- **At Will:** Light, Thaumaturgy\n- **1/Day Each:** Hold Person\n- **2/Day Each:** Command",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The cultist casts the Spiritual Weapon spell, using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Spiritual Weapon",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 2,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 450,
+    "hit_dice": "8d8 + 8",
+    "hit_points": 44,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_cultist-fanatic",
+    "languages": {
+      "as_string": "Common",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "name": "Cultist Fanatic",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 4
+    },
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "deception": 3,
+      "persuasion": 3,
+      "religion": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 2,
+      "arcana": 0,
+      "athletics": 0,
+      "deception": 3,
+      "history": 0,
+      "insight": 2,
+      "intimidation": 1,
+      "investigation": 0,
+      "medicine": 2,
+      "nature": 0,
+      "perception": 2,
+      "performance": 1,
+      "persuasion": 3,
+      "religion": 2,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

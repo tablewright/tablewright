@@ -1,0 +1,66 @@
+{
+  "id": "5e-2024-srd:spell:meteor-swarm",
+  "type": "spell",
+  "name": "Meteor Swarm",
+  "source": "5e-2024-srd",
+  "tags": [
+    "evocation",
+    "level-9",
+    "sorcerer",
+    "wizard"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Blazing orbs of fire plummet to the ground at four different points you can see within range. Each creature in a 40-foot-radius Sphere centered on each of those points makes a Dexterity saving throw. A creature takes 20d6 Fire damage and 20d6 Bludgeoning damage on a failed save or half as much damage on a successful one. A creature in the area of more than one fiery Sphere is affected only once. A nonmagical object that isn't being worn or carried also takes the damage if it's in the spell's area, and the object starts burning if it's flammable.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "20d6",
+    "damage_types": [
+      "fire",
+      "bludgeoning"
+    ],
+    "desc": "Blazing orbs of fire plummet to the ground at four different points you can see within range. Each creature in a 40-foot-radius Sphere centered on each of those points makes a Dexterity saving throw. A creature takes 20d6 Fire damage and 20d6 Bludgeoning damage on a failed save or half as much damage on a successful one. A creature in the area of more than one fiery Sphere is affected only once. A nonmagical object that isn't being worn or carried also takes the damage if it's in the spell's area, and the object starts burning if it's flammable.",
+    "duration": "instantaneous",
+    "higher_level": "",
+    "key": "srd-2024_meteor-swarm",
+    "level": 9,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Meteor Swarm",
+    "range": 5280,
+    "range_text": "1 mile",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "dexterity",
+    "school": {
+      "key": "evocation",
+      "name": "Evocation"
+    },
+    "shape_size": 40,
+    "shape_size_unit": "feet",
+    "shape_type": "sphere",
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "id": "5e-2024-srd:monster:marilith",
+  "type": "monster",
+  "name": "Marilith",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "large",
+    "cr-16"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 20,
+      "constitution": 20,
+      "dexterity": 20,
+      "intelligence": 18,
+      "strength": 18,
+      "wisdom": 16
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 17, one Medium or smaller creature the marilith can see within 5 feet. Failure: 15 (2d10 + 4) Bludgeoning damage. The target has the Grappled condition (escape DC 14), and it has the Restrained condition until the grapple ends.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Constrict",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The marilith makes six Pact Blade attacks and uses Constrict.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Pact Blade attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Attack Roll: +10, reach 5 ft. 10 (1d10 + 5) Slashing damage plus 7 (2d6) Necrotic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pact Blade",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The marilith teleports up to 120 feet to an unoccupied space it can see.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Teleport",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE"
+        }
+      },
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "_Trigger:_ The marilith is hit by a melee attack roll while holding a weapon. _Response:_ The marilith adds 5 to its AC against that attack, possibly causing it to miss.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Parry",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 16,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 16,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 15000,
+    "hit_dice": "21d10 + 105",
+    "hit_points": 220,
+    "illustration": null,
+    "initiative_bonus": 10,
+    "key": "srd-2024_marilith",
+    "languages": {
+      "as_string": "Abyssal; telepathy 120 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 5,
+      "constitution": 5,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 4,
+      "wisdom": 3
+    },
+    "name": "Marilith",
+    "normal_sight_range": 10560,
+    "passive_perception": 18,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_resistances_display": "cold, fire, lightning",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 10,
+      "constitution": 10,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 9,
+      "wisdom": 8
+    },
+    "saving_throws_all": {
+      "charisma": 10,
+      "constitution": 10,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 9,
+      "wisdom": 8
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 8
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 5,
+      "animal_handling": 3,
+      "arcana": 4,
+      "athletics": 4,
+      "deception": 5,
+      "history": 4,
+      "insight": 3,
+      "intimidation": 5,
+      "investigation": 4,
+      "medicine": 3,
+      "nature": 4,
+      "perception": 8,
+      "performance": 5,
+      "persuasion": 5,
+      "religion": 4,
+      "sleight_of_hand": 5,
+      "stealth": 5,
+      "survival": 3
+    },
+    "speed": {
+      "climb": 40,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 40,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the marilith dies outside the Abyss, its body dissolves into ichor, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+        "name": "Demonic Restoration"
+      },
+      {
+        "desc": "The marilith has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      },
+      {
+        "desc": "The marilith can take one Reaction on every turn of combat.",
+        "name": "Reactive"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:scale-mail",
+  "type": "item",
+  "name": "Scale Mail",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A scale mail.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 14,
+      "ac_cap_dexmod": 2,
+      "ac_display": "14 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_scale-mail",
+      "name": "Scale Mail",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A scale mail.",
+    "key": "srd-2024_scale-mail",
+    "name": "Scale Mail",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "45.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "5e-2024-srd:magic-item:giant-slayer-quarterstaff",
+  "type": "magic-item",
+  "name": "Giant Slayer (Quarterstaff)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nWhen you hit a Giant with this weapon, the Giant takes an extra 2d6 damage of the weapon's type and must succeed on a DC 15 Strength saving throw or have the Prone condition.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nWhen you hit a Giant with this weapon, the Giant takes an extra 2d6 damage of the weapon's type and must succeed on a DC 15 Strength saving throw or have the Prone condition.",
+    "key": "srd-2024_giant-slayer-quarterstaff",
+    "name": "Giant Slayer (Quarterstaff)",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d6",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd-2024_quarterstaff",
+      "name": "Quarterstaff",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and your Proficiency Bonus). On a failed save, the creature has the Prone condition.",
+            "name": "Topple",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": "1d8",
+          "property": {
+            "desc": "A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.",
+            "name": "Versatile",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

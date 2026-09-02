@@ -1,0 +1,63 @@
+{
+  "id": "5e-2024-srd:item:battleaxe",
+  "type": "item",
+  "name": "Battleaxe",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A battleaxe.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A battleaxe.",
+    "key": "srd-2024_battleaxe",
+    "name": "Battleaxe",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "slashing",
+        "name": "Slashing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_battleaxe",
+      "name": "Battleaxe",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and your Proficiency Bonus). On a failed save, the creature has the Prone condition.",
+            "name": "Topple",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": "1d10",
+          "property": {
+            "desc": "A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.",
+            "name": "Versatile",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

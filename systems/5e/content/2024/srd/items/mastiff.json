@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:mastiff",
+  "type": "item",
+  "name": "Mastiff",
+  "source": "5e-2024-srd",
+  "tags": [
+    "mount"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A large dog trained for combat and carrying small loads.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "mount",
+      "name": "Mount"
+    },
+    "cost": "25.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A large dog trained for combat and carrying small loads.",
+    "key": "srd-2024_mastiff",
+    "name": "Mastiff",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

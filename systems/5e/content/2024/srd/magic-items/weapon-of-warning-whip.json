@@ -1,0 +1,79 @@
+{
+  "id": "5e-2024-srd:magic-item:weapon-of-warning-whip",
+  "type": "magic-item",
+  "name": "Weapon of Warning (Whip)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+    "key": "srd-2024_weapon-of-warning-whip",
+    "name": "Weapon of Warning (Whip)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d4",
+      "damage_type": {
+        "key": "slashing",
+        "name": "Slashing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_whip",
+      "name": "Whip",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "When making an attack with a Finesse weapon, use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.",
+            "name": "Finesse",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "A Reach weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for Opportunity Attacks with it.",
+            "name": "Reach",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon and deal damage to it, you can reduce its Speed by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",
+            "name": "Slow",
+            "type": "Mastery"
+          }
+        }
+      ]
+    },
+    "weight": "3.000",
+    "weight_unit": "lb"
+  }
+}

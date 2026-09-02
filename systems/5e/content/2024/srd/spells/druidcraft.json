@@ -1,0 +1,58 @@
+{
+  "id": "5e-2024-srd:spell:druidcraft",
+  "type": "spell",
+  "name": "Druidcraft",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "cantrip",
+    "druid"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Whispering to the spirits of nature, you create one of the following effects within range.\n\n- ***Weather Sensor.*** You create a Tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hours. The effect might manifest as a golden orb for clear skies, a cloud for rain, falling snowflakes for snow, and so on. This effect persists for 1 round.\n- ***Bloom.*** You instantly make a flower blossom, a seed pod open, or a leaf bud bloom.\n- ***Sensory Effect.*** You create a harmless sensory effect, such as falling leaves, spectral dancing fairies, a gentle breeze, the sound of an animal, or the faint odor of skunk. The effect must fit in a 5-foot Cube.\n- ***Fire Play.*** You light or snuff out a candle, a torch, or a campfire.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Whispering to the spirits of nature, you create one of the following effects within range.\n\n- ***Weather Sensor.*** You create a Tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hours. The effect might manifest as a golden orb for clear skies, a cloud for rain, falling snowflakes for snow, and so on. This effect persists for 1 round.\n- ***Bloom.*** You instantly make a flower blossom, a seed pod open, or a leaf bud bloom.\n- ***Sensory Effect.*** You create a harmless sensory effect, such as falling leaves, spectral dancing fairies, a gentle breeze, the sound of an animal, or the faint odor of skunk. The effect must fit in a 5-foot Cube.\n- ***Fire Play.*** You light or snuff out a candle, a torch, or a campfire.",
+    "duration": "instantaneous",
+    "higher_level": "",
+    "key": "srd-2024_druidcraft",
+    "level": 0,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Druidcraft",
+    "range": 30,
+    "range_text": "30 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

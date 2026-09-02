@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:arrow-catching-shield",
+  "type": "magic-item",
+  "name": "Arrow-Catching Shield",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +2 bonus to Armor Class against ranged attack rolls while you wield this Shield. This bonus is in addition to the Shield's normal bonus to AC. Whenever an attacker makes a ranged attack roll against a target within 5 feet of you, you can take a Reaction to become the target of the attack instead.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +2 bonus to Armor Class against ranged attack rolls while you wield this Shield. This bonus is in addition to the Shield's normal bonus to AC. Whenever an attacker makes a ranged attack roll against a target within 5 feet of you, you can take a Reaction to become the target of the attack instead.",
+    "key": "srd-2024_arrow-catching-shield",
+    "name": "Arrow-Catching Shield",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

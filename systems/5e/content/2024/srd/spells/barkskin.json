@@ -1,0 +1,63 @@
+{
+  "id": "5e-2024-srd:spell:barkskin",
+  "type": "spell",
+  "name": "Barkskin",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "level-2",
+    "druid",
+    "ranger"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You touch a willing creature. Until the spell ends, the target's skin assumes a bark-like appearance, and the target has an Armor Class of 17 if its AC is lower than that.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "bonus-action",
+    "classes": [
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You touch a willing creature. Until the spell ends, the target's skin assumes a bark-like appearance, and the target has an Armor Class of 17 if its AC is lower than that.",
+    "duration": "1 hour",
+    "higher_level": "",
+    "key": "srd-2024_barkskin",
+    "level": 2,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a handful of bark",
+    "name": "Barkskin",
+    "range": 0,
+    "range_text": "Touch",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

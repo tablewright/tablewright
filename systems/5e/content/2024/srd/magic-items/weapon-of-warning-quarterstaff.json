@@ -1,0 +1,71 @@
+{
+  "id": "5e-2024-srd:magic-item:weapon-of-warning-quarterstaff",
+  "type": "magic-item",
+  "name": "Weapon of Warning (Quarterstaff)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+    "key": "srd-2024_weapon-of-warning-quarterstaff",
+    "name": "Weapon of Warning (Quarterstaff)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d6",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd-2024_quarterstaff",
+      "name": "Quarterstaff",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and your Proficiency Bonus). On a failed save, the creature has the Prone condition.",
+            "name": "Topple",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": "1d8",
+          "property": {
+            "desc": "A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.",
+            "name": "Versatile",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

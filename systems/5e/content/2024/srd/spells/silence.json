@@ -1,0 +1,72 @@
+{
+  "id": "5e-2024-srd:spell:silence",
+  "type": "spell",
+  "name": "Silence",
+  "source": "5e-2024-srd",
+  "tags": [
+    "illusion",
+    "level-2",
+    "bard",
+    "cleric",
+    "ranger",
+    "ritual",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "For the duration, no sound can be created within or pass through a 20-foot-radius Sphere centered on a point you choose within range. Any creature or object entirely inside the Sphere has Immunity to Thunder damage, and creatures have the Deafened condition while entirely inside it. Casting a spell that includes a Verbal component is impossible there.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [
+      "thunder"
+    ],
+    "desc": "For the duration, no sound can be created within or pass through a 20-foot-radius Sphere centered on a point you choose within range. Any creature or object entirely inside the Sphere has Immunity to Thunder damage, and creatures have the Deafened condition while entirely inside it. Casting a spell that includes a Verbal component is impossible there.",
+    "duration": "10 minutes",
+    "higher_level": "",
+    "key": "srd-2024_silence",
+    "level": 2,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Silence",
+    "range": 120,
+    "range_text": "120 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": true,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "illusion",
+      "name": "Illusion"
+    },
+    "shape_size": 20,
+    "shape_size_unit": "feet",
+    "shape_type": "sphere",
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

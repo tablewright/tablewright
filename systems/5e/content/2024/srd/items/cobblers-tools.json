@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:cobblers-tools",
+  "type": "item",
+  "name": "Cobbler's Tools (5 GP)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Dexterity. Utilize: Modify footwear to give Advantage on the wearer's next Dexterity (Acrobatics) check (DC 10). Craft: Climber's Kit",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Dexterity. Utilize: Modify footwear to give Advantage on the wearer's next Dexterity (Acrobatics) check (DC 10). Craft: Climber's Kit",
+    "key": "srd-2024_cobblers-tools",
+    "name": "Cobbler's Tools (5 GP)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

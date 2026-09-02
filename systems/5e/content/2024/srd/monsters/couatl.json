@@ -1,0 +1,213 @@
+{
+  "id": "5e-2024-srd:monster:couatl",
+  "type": "monster",
+  "name": "Couatl",
+  "source": "5e-2024-srd",
+  "tags": [
+    "celestial",
+    "medium",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 17,
+      "dexterity": 20,
+      "intelligence": 18,
+      "strength": 16,
+      "wisdom": 20
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 1,
+            "damage_die_type": "D12",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 5 ft. 11 (1d12 + 5) Piercing damage, and the target has the Poisoned condition until the end of the couatl's next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 15, one Medium or smaller creature the couatl can see within 5 feet. Failure: 8 (1d6 + 5) Bludgeoning damage. The target has the Grappled condition (escape DC 13), and it has the Restrained condition until the grapple ends.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Constrict",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The couatl casts one of the following spells, requiring no spell components and using Wisdom as the spellcasting ability (spell save DC 15):\n\n- **At Will:** Detect Evil and Good, Detect Magic, Detect Thoughts, Shapechange\n- **1/Day Each:** Create Food and Water, Dream, Greater Restoration, Scrying, Sleep",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The couatl casts Bless, Lesser Restoration, or Sanctuary, requiring no spell components and using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Divine Aid",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 2,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 19,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "8d8 + 24",
+    "hit_points": 60,
+    "illustration": null,
+    "initiative_bonus": 5,
+    "key": "srd-2024_couatl",
+    "languages": {
+      "as_string": "All; telepathy 120 ft.",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 3,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 3,
+      "wisdom": 5
+    },
+    "name": "Couatl",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        },
+        {
+          "key": "radiant",
+          "name": "Radiant"
+        }
+      ],
+      "damage_immunities_display": "psychic, radiant",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 4,
+      "constitution": 5,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 3,
+      "wisdom": 7
+    },
+    "saving_throws_all": {
+      "charisma": 4,
+      "constitution": 5,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 3,
+      "wisdom": 7
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 5,
+      "animal_handling": 5,
+      "arcana": 4,
+      "athletics": 3,
+      "deception": 4,
+      "history": 4,
+      "insight": 5,
+      "intimidation": 4,
+      "investigation": 4,
+      "medicine": 5,
+      "nature": 4,
+      "perception": 5,
+      "performance": 4,
+      "persuasion": 4,
+      "religion": 4,
+      "sleight_of_hand": 5,
+      "stealth": 5,
+      "survival": 5
+    },
+    "speed": {
+      "fly": 90,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 90,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The couatl's thoughts can't be read by any means, and other creatures can communicate with it telepathically only if it allows them.",
+        "name": "Shielded Mind"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}

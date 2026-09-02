@@ -1,0 +1,109 @@
+{
+  "id": "5e-2024-srd:spell:mass-cure-wounds",
+  "type": "spell",
+  "name": "Mass Cure Wounds",
+  "source": "5e-2024-srd",
+  "tags": [
+    "abjuration",
+    "level-5",
+    "bard",
+    "cleric",
+    "druid"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A wave of healing energy washes out from a point you can see within range. Choose up to six creatures in a 30-foot-radius Sphere centered on that point. Each target regains Hit Points equal to 5d8 plus your spellcasting ability modifier.\n\n**Using a Higher-Level Spell Slot.** The healing increases by 1d8 for each spell slot level above 5.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": "6d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "7d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "8d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "9d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "5d8",
+    "damage_types": [],
+    "desc": "A wave of healing energy washes out from a point you can see within range. Choose up to six creatures in a 30-foot-radius Sphere centered on that point. Each target regains Hit Points equal to 5d8 plus your spellcasting ability modifier.",
+    "duration": "instantaneous",
+    "higher_level": "The healing increases by 1d8 for each spell slot level above 5.",
+    "key": "srd-2024_mass-cure-wounds",
+    "level": 5,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Mass Cure Wounds",
+    "range": 60,
+    "range_text": "60 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "abjuration",
+      "name": "Abjuration"
+    },
+    "shape_size": 30,
+    "shape_size_unit": "feet",
+    "shape_type": "sphere",
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

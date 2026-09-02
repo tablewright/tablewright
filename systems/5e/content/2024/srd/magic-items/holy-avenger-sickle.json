@@ -1,0 +1,72 @@
+{
+  "id": "5e-2024-srd:magic-item:holy-avenger-sickle",
+  "type": "magic-item",
+  "name": "Holy Avenger (Sickle)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "legendary",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +3 bonus to attack rolls and damage rolls made with this magic weapon. When you hit a Fiend or an Undead with it, that creature takes an extra 2d10 Radiant damage.\n\nWhile you hold the drawn weapon, it creates a 10-foot Emanation originating from you. You and all creatures Friendly to you in the Emanation have Advantage on saving throws against spells and other magical effects. If you have 17 or more levels in the Paladin class, the size of the Emanation increases to 30 feet.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +3 bonus to attack rolls and damage rolls made with this magic weapon. When you hit a Fiend or an Undead with it, that creature takes an extra 2d10 Radiant damage.\n\nWhile you hold the drawn weapon, it creates a 10-foot Emanation originating from you. You and all creatures Friendly to you in the Emanation have Advantage on saving throws against spells and other magical effects. If you have 17 or more levels in the Paladin class, the size of the Emanation increases to 30 feet.",
+    "key": "srd-2024_holy-avenger-sickle",
+    "name": "Holy Avenger (Sickle)",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d4",
+      "damage_type": {
+        "key": "slashing",
+        "name": "Slashing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd-2024_sickle",
+      "name": "Sickle",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "When you take the Attack action on your turn and attack with a Light weapon, you can make one extra attack as a Bonus Action later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative.",
+            "name": "Light",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "When you make the extra attack of the Light property, you can make it as part of the Attack action instead of as a Bonus Action. You can make this extra attack only once per turn.",
+            "name": "Nick",
+            "type": "Mastery"
+          }
+        }
+      ]
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

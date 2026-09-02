@@ -1,0 +1,251 @@
+{
+  "id": "5e-2024-srd:monster:nalfeshnee",
+  "type": "monster",
+  "name": "Nalfeshnee",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "large",
+    "cr-13"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 15,
+      "constitution": 22,
+      "dexterity": 10,
+      "intelligence": 19,
+      "strength": 21,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The nalfeshnee makes three Rend attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Attack Roll: +10, reach 10 ft. 16 (2d10 + 5) Slashing damage plus 11 (2d10) Force damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The nalfeshnee teleports up to 120 feet to an unoccupied space it can see.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Teleport",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "Wisdom Saving Throw: DC 15, each creature in a 15-foot Emanation originating from the nalfeshnee. Failure: 28 (8d6) Psychic damage, and the target has the Frightened condition for 1 minute, until it takes damage, or until it ends its turn with the nalfeshnee out of line of sight. Success: The target is immune to this nalfeshnee's Horror Nimbus for 24 hours.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Horror Nimbus",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE"
+        }
+      },
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "_Trigger:_ Another creature the nalfeshnee can see ends its move within 120 feet of the nalfeshnee. _Response:_ The nalfeshnee uses Teleport, but its destination space must be within 10 feet of the triggering creature.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Pursuit",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 18,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 13,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 10000,
+    "hit_dice": "16d10 + 96",
+    "hit_points": 184,
+    "illustration": null,
+    "initiative_bonus": 5,
+    "key": "srd-2024_nalfeshnee",
+    "languages": {
+      "as_string": "Abyssal; telepathy 120 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 6,
+      "dexterity": 0,
+      "intelligence": 4,
+      "strength": 5,
+      "wisdom": 1
+    },
+    "name": "Nalfeshnee",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "frightened, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_resistances_display": "cold, fire, lightning",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 7,
+      "constitution": 11,
+      "dexterity": 0,
+      "intelligence": 9,
+      "strength": 5,
+      "wisdom": 6
+    },
+    "saving_throws_all": {
+      "charisma": 7,
+      "constitution": 11,
+      "dexterity": 0,
+      "intelligence": 9,
+      "strength": 5,
+      "wisdom": 6
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 1,
+      "arcana": 4,
+      "athletics": 5,
+      "deception": 2,
+      "history": 4,
+      "insight": 1,
+      "intimidation": 2,
+      "investigation": 4,
+      "medicine": 1,
+      "nature": 4,
+      "perception": 1,
+      "performance": 2,
+      "persuasion": 2,
+      "religion": 4,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 30,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 30,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the nalfeshnee dies outside the Abyss, its body dissolves into ichor, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+        "name": "Demonic Restoration"
+      },
+      {
+        "desc": "The nalfeshnee has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

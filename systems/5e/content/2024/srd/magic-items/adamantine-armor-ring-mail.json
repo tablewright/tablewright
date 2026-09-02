@@ -1,0 +1,51 @@
+{
+  "id": "5e-2024-srd:magic-item:adamantine-armor-ring-mail",
+  "type": "magic-item",
+  "name": "Adamantine Armor (Ring Mail)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 14,
+      "ac_cap_dexmod": null,
+      "ac_display": "14",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_ring-mail",
+      "name": "Ring Mail",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
+    "key": "srd-2024_adamantine-armor-ring-mail",
+    "name": "Adamantine Armor (Ring Mail)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "40.000",
+    "weight_unit": "lb"
+  }
+}

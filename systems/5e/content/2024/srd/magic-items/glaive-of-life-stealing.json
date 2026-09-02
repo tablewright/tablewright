@@ -1,0 +1,88 @@
+{
+  "id": "5e-2024-srd:magic-item:glaive-of-life-stealing",
+  "type": "magic-item",
+  "name": "Glaive of Life Stealing",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "When you attack a creature with this magic weapon and roll a 20 on the d20 for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you attack a creature with this magic weapon and roll a 20 on the d20 for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
+    "key": "srd-2024_glaive-of-life-stealing",
+    "name": "Glaive of Life Stealing",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d10",
+      "damage_type": {
+        "key": "slashing",
+        "name": "Slashing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_glaive",
+      "name": "Glaive",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",
+            "name": "Graze",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "You have Disadvantage on attack rolls with a Heavy weapon if it's a Melee weapon and your Strength score isn't at least 13 or if it's a Ranged weapon and your Dexterity score isn't at least 13.",
+            "name": "Heavy",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "A Reach weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for Opportunity Attacks with it.",
+            "name": "Reach",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "A Two-Handed weapon requires two hands when you attack with it.",
+            "name": "Two-Handed",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "5e-2024-srd:spell:reincarnate",
+  "type": "spell",
+  "name": "Reincarnate",
+  "source": "5e-2024-srd",
+  "tags": [
+    "necromancy",
+    "level-5",
+    "druid"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You touch a dead Humanoid or a piece of one. If the creature has been dead no longer than 10 days, the spell forms a new body for it and calls the soul to enter that body. Roll 1d10 and consult the table below to determine the body's species, or the GM chooses another playable species.\n\n| 1d10 | Species |\n|---|---|\n| 1 | Roll again. |\n| 2 | Dragonborn |\n| 3 | Dwarf |\n| 4 | Elf |\n| 5 | Gnome |\n| 6 | Goliath |\n| 7 | Halfling |\n| 8 | Human |\n| 9 | Orc |\n| 10 | Tiefling |\n\nThe reincarnated creature makes any choices that a species' description offers, and the creature recalls its former life. It retains the capabilities it had in its original form, except it loses the traits of its previous species and gains the traits of its new one.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "1hour",
+    "classes": [
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "1d10",
+    "damage_types": [],
+    "desc": "You touch a dead Humanoid or a piece of one. If the creature has been dead no longer than 10 days, the spell forms a new body for it and calls the soul to enter that body. Roll 1d10 and consult the table below to determine the body's species, or the GM chooses another playable species.\n\n| 1d10 | Species |\n|---|---|\n| 1 | Roll again. |\n| 2 | Dragonborn |\n| 3 | Dwarf |\n| 4 | Elf |\n| 5 | Gnome |\n| 6 | Goliath |\n| 7 | Halfling |\n| 8 | Human |\n| 9 | Orc |\n| 10 | Tiefling |\n\nThe reincarnated creature makes any choices that a species' description offers, and the creature recalls its former life. It retains the capabilities it had in its original form, except it loses the traits of its previous species and gains the traits of its new one.",
+    "duration": "instantaneous",
+    "higher_level": "",
+    "key": "srd-2024_reincarnate",
+    "level": 5,
+    "material": true,
+    "material_consumed": true,
+    "material_cost": null,
+    "material_specified": "rare oils worth 1,000+ GP, which the spell consumes",
+    "name": "Reincarnate",
+    "range": 0,
+    "range_text": "Touch",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "necromancy",
+      "name": "Necromancy"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

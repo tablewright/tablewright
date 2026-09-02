@@ -1,0 +1,268 @@
+{
+  "id": "5e-2024-srd:monster:storm-giant",
+  "type": "monster",
+  "name": "Storm Giant",
+  "source": "5e-2024-srd",
+  "tags": [
+    "giant",
+    "huge",
+    "cr-13"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 20,
+      "dexterity": 14,
+      "intelligence": 16,
+      "strength": 29,
+      "wisdom": 20
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 18, each creature in a 10-foot-radius, 40-foot-high Cylinder [Area of Effect]|XPHB|Cylinder originating from a point the giant can see within 500 feet. Failure: 55 (10d10) Lightning damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Lightning Storm",
+        "order_in_statblock": 3,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The giant makes two attacks, using Storm Sword or Thunderbolt in any combination.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The giant casts one of the following spells, requiring no Material components and using Wisdom as the spellcasting ability (spell save DC 18):\n\n- **At Will:** Detect Magic, Light\n- **1/Day Each:** Control Weather",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 4,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 9,
+            "damage_die_count": 4,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Storm Sword attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Attack Roll: +14, reach 10 ft. 23 (4d6 + 9) Slashing damage plus 13 (3d8) Lightning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Storm Sword",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 9,
+            "damage_die_count": 2,
+            "damage_die_type": "D12",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "lightning",
+              "name": "Lightning"
+            },
+            "long_range": null,
+            "name": "Thunderbolt attack",
+            "range": 500,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Ranged Attack Roll: +14, range 500 ft. 22 (2d12 + 9) Lightning damage, and the target has the Blinded and Deafened conditions until the start of the giant's next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Thunderbolt",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic good",
+    "armor_class": 16,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 13,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 10000,
+    "hit_dice": "20d12 + 100",
+    "hit_points": 230,
+    "illustration": null,
+    "initiative_bonus": 7,
+    "key": "srd-2024_storm-giant",
+    "languages": {
+      "as_string": "Common, Giant",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include ogres, and giants.",
+          "key": "giant",
+          "name": "Giant"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 5,
+      "dexterity": 2,
+      "intelligence": 3,
+      "strength": 9,
+      "wisdom": 5
+    },
+    "name": "Storm Giant",
+    "normal_sight_range": 10560,
+    "passive_perception": 20,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        },
+        {
+          "key": "thunder",
+          "name": "Thunder"
+        }
+      ],
+      "damage_immunities_display": "lightning, thunder",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_resistances_display": "cold",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 9,
+      "constitution": 10,
+      "dexterity": 2,
+      "intelligence": 3,
+      "strength": 14,
+      "wisdom": 10
+    },
+    "saving_throws_all": {
+      "charisma": 9,
+      "constitution": 10,
+      "dexterity": 2,
+      "intelligence": 3,
+      "strength": 14,
+      "wisdom": 10
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "arcana": 8,
+      "athletics": 14,
+      "history": 8,
+      "perception": 10
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 5,
+      "arcana": 8,
+      "athletics": 14,
+      "deception": 4,
+      "history": 8,
+      "insight": 5,
+      "intimidation": 4,
+      "investigation": 3,
+      "medicine": 5,
+      "nature": 3,
+      "perception": 10,
+      "performance": 4,
+      "persuasion": 4,
+      "religion": 3,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 5
+    },
+    "speed": {
+      "fly": 25,
+      "hover": true,
+      "swim": 50,
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 25,
+      "hover": true,
+      "swim": 50,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The giant can breathe air and water.",
+        "name": "Amphibious"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 30,
+    "type": {
+      "key": "giant",
+      "name": "Giant"
+    }
+  }
+}

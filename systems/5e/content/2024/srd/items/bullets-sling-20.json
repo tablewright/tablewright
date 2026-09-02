@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:bullets-sling-20",
+  "type": "item",
+  "name": "Bullets, Sling (20)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ammunition for weapons that use bullets, sling. Comes in a pack of 20. Typically stored in a pouch.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "0.04",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ammunition for weapons that use bullets, sling. Comes in a pack of 20. Typically stored in a pouch.",
+    "key": "srd-2024_bullets-sling-20",
+    "name": "Bullets, Sling (20)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.500",
+    "weight_unit": "lb"
+  }
+}

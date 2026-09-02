@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:gloves-of-swimming-and-climbing",
+  "type": "magic-item",
+  "name": "Gloves of Swimming and Climbing",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wearing these gloves, you have a Climb Speed and a Swim Speed equal to your Speed, and you gain a +5 bonus to Strength (Athletics) checks made to climb or swim.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing these gloves, you have a Climb Speed and a Swim Speed equal to your Speed, and you gain a +5 bonus to Strength (Athletics) checks made to climb or swim.",
+    "key": "srd-2024_gloves-of-swimming-and-climbing",
+    "name": "Gloves of Swimming and Climbing",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

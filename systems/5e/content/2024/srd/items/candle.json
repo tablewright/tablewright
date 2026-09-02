@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:candle",
+  "type": "item",
+  "name": "Candle",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "For 1 hour, a lit Candle sheds Bright Light in a 5-foot radius and Dim Light for an additional 5 feet.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.01",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "For 1 hour, a lit Candle sheds Bright Light in a 5-foot radius and Dim Light for an additional 5 feet.",
+    "key": "srd-2024_candle",
+    "name": "Candle",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

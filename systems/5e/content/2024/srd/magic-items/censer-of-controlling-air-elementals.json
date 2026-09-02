@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:censer-of-controlling-air-elementals",
+  "type": "magic-item",
+  "name": "Censer of Controlling Air Elementals",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While gently swinging this censer, you can take a Magic action to summon an Air Elemental. The elemental appears in an unoccupied space as close to the censer as possible, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 1 hour, when it dies, or when you dismiss it as a Bonus Action. The censer can't be used this way again until the next dawn.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While gently swinging this censer, you can take a Magic action to summon an Air Elemental. The elemental appears in an unoccupied space as close to the censer as possible, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 1 hour, when it dies, or when you dismiss it as a Bonus Action. The censer can't be used this way again until the next dawn.",
+    "key": "srd-2024_censer-of-controlling-air-elementals",
+    "name": "Censer of Controlling Air Elementals",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

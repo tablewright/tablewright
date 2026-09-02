@@ -1,0 +1,149 @@
+{
+  "id": "5e-2024-srd:monster:awakened-shrub",
+  "type": "monster",
+  "name": "Awakened Shrub",
+  "source": "5e-2024-srd",
+  "tags": [
+    "plant",
+    "small",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 6,
+      "constitution": 11,
+      "dexterity": 8,
+      "intelligence": 10,
+      "strength": 3,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +1, reach 5 ft. 1 Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rake",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 9,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "3d6",
+    "hit_points": 10,
+    "illustration": null,
+    "initiative_bonus": -1,
+    "key": "srd-2024_awakened-shrub",
+    "languages": {
+      "as_string": "Common plus one other language",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 0,
+      "dexterity": -1,
+      "intelligence": 0,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "name": "Awakened Shrub",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 0,
+      "dexterity": -1,
+      "intelligence": 0,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 0,
+      "dexterity": -1,
+      "intelligence": 0,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 0,
+      "arcana": 0,
+      "athletics": -4,
+      "deception": -2,
+      "history": 0,
+      "insight": 0,
+      "intimidation": -2,
+      "investigation": 0,
+      "medicine": 0,
+      "nature": 0,
+      "perception": 0,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": 0,
+      "sleight_of_hand": -1,
+      "stealth": -1,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "plant",
+      "name": "Plant"
+    }
+  }
+}

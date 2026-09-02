@@ -1,0 +1,64 @@
+{
+  "id": "5e-2024-srd:spell:telepathic-bond",
+  "type": "spell",
+  "name": "Telepathic Bond",
+  "source": "5e-2024-srd",
+  "tags": [
+    "divination",
+    "level-5",
+    "bard",
+    "wizard",
+    "ritual"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You forge a telepathic link among up to eight willing creatures of your choice within range, psychically linking each creature to all the others for the duration. Creatures that can't communicate in any languages aren't affected by this spell. Until the spell ends, the targets can communicate telepathically through the bond whether or not they share a language. The communication is possible over any distance, though it can't extend to other planes of existence.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You forge a telepathic link among up to eight willing creatures of your choice within range, psychically linking each creature to all the others for the duration. Creatures that can't communicate in any languages aren't affected by this spell. Until the spell ends, the targets can communicate telepathically through the bond whether or not they share a language. The communication is possible over any distance, though it can't extend to other planes of existence.",
+    "duration": "1 hour",
+    "higher_level": "",
+    "key": "srd-2024_telepathic-bond",
+    "level": 5,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "two eggs",
+    "name": "Telepathic Bond",
+    "range": 30,
+    "range_text": "30 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": true,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "divination",
+      "name": "Divination"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

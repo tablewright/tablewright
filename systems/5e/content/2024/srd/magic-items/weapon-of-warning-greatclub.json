@@ -1,0 +1,71 @@
+{
+  "id": "5e-2024-srd:magic-item:weapon-of-warning-greatclub",
+  "type": "magic-item",
+  "name": "Weapon of Warning (Greatclub)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+    "key": "srd-2024_weapon-of-warning-greatclub",
+    "name": "Weapon of Warning (Greatclub)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd-2024_greatclub",
+      "name": "Greatclub",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.",
+            "name": "Push",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "A Two-Handed weapon requires two hands when you attack with it.",
+            "name": "Two-Handed",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

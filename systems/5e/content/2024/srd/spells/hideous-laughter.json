@@ -1,0 +1,150 @@
+{
+  "id": "5e-2024-srd:spell:hideous-laughter",
+  "type": "spell",
+  "name": "Hideous Laughter",
+  "source": "5e-2024-srd",
+  "tags": [
+    "enchantment",
+    "level-1",
+    "bard",
+    "warlock",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "One creature of your choice that you can see within range makes a Wisdom saving throw. On a failed save, it has the Prone and Incapacitated conditions for the duration. During that time, it laughs uncontrollably if it's capable of laughter, and it can't end the Prone condition on itself. At the end of each of its turns and each time it takes damage, it makes another Wisdom saving throw. The target has Advantage on the save if the save is triggered by damage. On a successful save, the spell ends.\n\n**Using a Higher-Level Spell Slot.** You can target one additional creature for each spell slot level above 1.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 2,
+        "type": "slot_level_2"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 3,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 4,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 5,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 6,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 7,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 8,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 9,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_warlock",
+        "name": "Warlock"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "One creature of your choice that you can see within range makes a Wisdom saving throw. On a failed save, it has the Prone and Incapacitated conditions for the duration. During that time, it laughs uncontrollably if it's capable of laughter, and it can't end the Prone condition on itself. At the end of each of its turns and each time it takes damage, it makes another Wisdom saving throw. The target has Advantage on the save if the save is triggered by damage. On a successful save, the spell ends.",
+    "duration": "1 minute",
+    "higher_level": "You can target one additional creature for each spell slot level above 1.",
+    "key": "srd-2024_hideous-laughter",
+    "level": 1,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a tart and a feather",
+    "name": "Hideous Laughter",
+    "range": 30,
+    "range_text": "30 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "wisdom",
+    "school": {
+      "key": "enchantment",
+      "name": "Enchantment"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

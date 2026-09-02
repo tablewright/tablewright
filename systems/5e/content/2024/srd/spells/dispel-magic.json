@@ -1,0 +1,164 @@
+{
+  "id": "5e-2024-srd:spell:dispel-magic",
+  "type": "spell",
+  "name": "Dispel Magic",
+  "source": "5e-2024-srd",
+  "tags": [
+    "abjuration",
+    "level-3",
+    "bard",
+    "cleric",
+    "druid",
+    "paladin",
+    "ranger",
+    "sorcerer",
+    "warlock",
+    "wizard"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Choose one creature, object, or magical effect within range. Any ongoing spell of level 3 or lower on the target ends. For each ongoing spell of level 4 or higher on the target, make an ability check using your spellcasting ability (DC 10 plus that spell's level). On a successful check, the spell ends.\n\n**Using a Higher-Level Spell Slot.** You automatically end a spell on the target if the spell's level is equal to or less than the level of the spell slot you use.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "automatically dispels spells of 3rd level or lower",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "automatically dispels spells of 4th level or lower",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "automatically dispels spells of 5th level or lower",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "automatically dispels spells of 6th level or lower",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "automatically dispels spells of 7th level or lower",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "automatically dispels spells of 8th level or lower",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "automatically dispels spells of 9th level or lower",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_paladin",
+        "name": "Paladin"
+      },
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      },
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_warlock",
+        "name": "Warlock"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Choose one creature, object, or magical effect within range. Any ongoing spell of level 3 or lower on the target ends. For each ongoing spell of level 4 or higher on the target, make an ability check using your spellcasting ability (DC 10 plus that spell's level). On a successful check, the spell ends.",
+    "duration": "instantaneous",
+    "higher_level": "You automatically end a spell on the target if the spell's level is equal to or less than the level of the spell slot you use.",
+    "key": "srd-2024_dispel-magic",
+    "level": 3,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Dispel Magic",
+    "range": 120,
+    "range_text": "120 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "abjuration",
+      "name": "Abjuration"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:poisoners-kit",
+  "type": "item",
+  "name": "Poisoner's Kit",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Intelligence. Utilize: Detect a poisoned object (DC 10). Craft: Basic Poison",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Intelligence. Utilize: Detect a poisoned object (DC 10). Craft: Basic Poison",
+    "key": "srd-2024_poisoners-kit",
+    "name": "Poisoner's Kit",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

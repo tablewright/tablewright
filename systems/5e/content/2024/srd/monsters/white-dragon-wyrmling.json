@@ -1,0 +1,213 @@
+{
+  "id": "5e-2024-srd:monster:white-dragon-wyrmling",
+  "type": "monster",
+  "name": "White Dragon Wyrmling",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "medium",
+    "cr-2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 11,
+      "constitution": 14,
+      "dexterity": 10,
+      "intelligence": 5,
+      "strength": 14,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 12, each creature in a 15-foot Cone. Failure: 22 (5d8) Cold damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Cold Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes two Rend attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": 0,
+            "extra_damage_die_count": 1,
+            "extra_damage_die_type": "D4",
+            "extra_damage_type": {
+              "key": "cold",
+              "name": "Cold"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 6 (1d8 + 2) Slashing damage plus 2 (1d4) Cold damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 16,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 450,
+    "hit_dice": "5d8 + 10",
+    "hit_points": 32,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_white-dragon-wyrmling",
+    "languages": {
+      "as_string": "Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": -3,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "name": "White Dragon Wyrmling",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_immunities_display": "cold",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": 2,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": 2,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "stealth": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 0,
+      "arcana": -3,
+      "athletics": 2,
+      "deception": 0,
+      "history": -3,
+      "insight": 0,
+      "intimidation": 0,
+      "investigation": -3,
+      "medicine": 0,
+      "nature": -3,
+      "perception": 4,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": -3,
+      "sleight_of_hand": 0,
+      "stealth": 2,
+      "survival": 0
+    },
+    "speed": {
+      "burrow": 15,
+      "fly": 60,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 15,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The dragon can move across and climb icy surfaces without needing to make an ability check. Additionally, Difficult Terrain composed of ice or snow doesn't cost it extra movement.",
+        "name": "Ice Walk"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

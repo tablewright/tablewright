@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:paper",
+  "type": "item",
+  "name": "Paper",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "One sheet of Paper can hold about 250 handwritten words.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.20",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One sheet of Paper can hold about 250 handwritten words.",
+    "key": "srd-2024_paper",
+    "name": "Paper",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

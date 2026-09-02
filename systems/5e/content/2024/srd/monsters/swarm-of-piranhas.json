@@ -1,0 +1,153 @@
+{
+  "id": "5e-2024-srd:monster:swarm-of-piranhas",
+  "type": "monster",
+  "name": "Swarm of Piranhas",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 2,
+      "constitution": 9,
+      "dexterity": 16,
+      "intelligence": 1,
+      "strength": 13,
+      "wisdom": 7
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +5 (with Advantage if the target doesn't have all its Hit Points), reach 5 ft. 8 (2d4 + 3) Piercing damage, or 5 (1d4 + 3) Piercing damage if the swarm is Bloodied.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bites",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "8d8 - 8",
+    "hit_points": 28,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_swarm-of-piranhas",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 3,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -2
+    },
+    "name": "Swarm of Piranhas",
+    "normal_sight_range": 10560,
+    "passive_perception": 8,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 3,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -2
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 3,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": -2,
+      "arcana": -5,
+      "athletics": 1,
+      "deception": -4,
+      "history": -5,
+      "insight": -2,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": -2,
+      "nature": -5,
+      "perception": -2,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": 3,
+      "stealth": 3,
+      "survival": -2
+    },
+    "speed": {
+      "swim": 40,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 0,
+      "hover": false,
+      "swim": 40,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny piranha. The swarm can't regain Hit Points or gain Temporary Hit Points.",
+        "name": "Swarm"
+      },
+      {
+        "desc": "The swarm can breathe only underwater.",
+        "name": "Water Breathing"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "id": "5e-2024-srd:monster:kobold-warrior",
+  "type": "monster",
+  "name": "Kobold Warrior",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "small",
+    "cr-1/8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 8,
+      "constitution": 9,
+      "dexterity": 15,
+      "intelligence": 8,
+      "strength": 7,
+      "wisdom": 7
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 60,
+            "name": "Dagger attack",
+            "range": 20,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +4, reach 5 ft. or range 20/60 ft. 4 (1d4 + 2) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Dagger",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 25,
+    "hit_dice": "3d6 - 3",
+    "hit_points": 7,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_kobold-warrior",
+    "languages": {
+      "as_string": "Common, Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": -1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": -2,
+      "wisdom": -2
+    },
+    "name": "Kobold Warrior",
+    "normal_sight_range": 10560,
+    "passive_perception": 8,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -1,
+      "constitution": -1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": -2,
+      "wisdom": -2
+    },
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": -1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": -2,
+      "wisdom": -2
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": -2,
+      "arcana": -1,
+      "athletics": -2,
+      "deception": -1,
+      "history": -1,
+      "insight": -2,
+      "intimidation": -1,
+      "investigation": -1,
+      "medicine": -2,
+      "nature": -1,
+      "perception": -2,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": -1,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": -2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The kobold has Advantage on an attack roll against a creature if at least one of the kobold's allies is within 5 feet of the creature and the ally doesn't have the Incapacitated condition.",
+        "name": "Pack Tactics"
+      },
+      {
+        "desc": "While in sunlight, the kobold has Disadvantage on ability checks and attack rolls.",
+        "name": "Sunlight Sensitivity"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

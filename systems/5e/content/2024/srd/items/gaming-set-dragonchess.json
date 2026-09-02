@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:gaming-set-dragonchess",
+  "type": "item",
+  "name": "Gaming Set, Dragonchess",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Intelligence. Utilize: Discern an opponent's mood and intentions (DC 15), or win the game (DC 20)",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Intelligence. Utilize: Discern an opponent's mood and intentions (DC 15), or win the game (DC 20)",
+    "key": "srd-2024_gaming-set-dragonchess",
+    "name": "Gaming Set, Dragonchess",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

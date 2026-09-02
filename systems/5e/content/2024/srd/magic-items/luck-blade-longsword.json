@@ -1,0 +1,72 @@
+{
+  "id": "5e-2024-srd:magic-item:luck-blade-longsword",
+  "type": "magic-item",
+  "name": "Luck Blade (Longsword)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "legendary",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon. While the weapon is on your person, you also gain a +1 bonus to saving throws. Luck. If the weapon is on your person, you can call on its luck (no action required) to reroll one failed D20 Test if you don't have the Incapacitated condition. You must use the second roll. Once used, this property can't be used again until the next dawn. Wish. The weapon has 1d3 charges. While holding it, you can expend 1 charge and cast Wish from it. Once used, this property can't be used again until the next dawn. The weapon loses this property if it has no charges.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon. While the weapon is on your person, you also gain a +1 bonus to saving throws. Luck. If the weapon is on your person, you can call on its luck (no action required) to reroll one failed D20 Test if you don't have the Incapacitated condition. You must use the second roll. Once used, this property can't be used again until the next dawn. Wish. The weapon has 1d3 charges. While holding it, you can expend 1 charge and cast Wish from it. Once used, this property can't be used again until the next dawn. The weapon loses this property if it has no charges.",
+    "key": "srd-2024_luck-blade-longsword",
+    "name": "Luck Blade (Longsword)",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "slashing",
+        "name": "Slashing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_longsword",
+      "name": "Longsword",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.",
+            "name": "Sap",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": "1d10",
+          "property": {
+            "desc": "A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.",
+            "name": "Versatile",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

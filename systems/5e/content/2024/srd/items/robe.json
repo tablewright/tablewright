@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:robe",
+  "type": "item",
+  "name": "Robe",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Robe has vocational or ceremonial significance. Some events and locations admit only people wearing a Robe bearing certain colors or symbols.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Robe has vocational or ceremonial significance. Some events and locations admit only people wearing a Robe bearing certain colors or symbols.",
+    "key": "srd-2024_robe",
+    "name": "Robe",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

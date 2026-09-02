@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:helm-of-comprehending-languages",
+  "type": "magic-item",
+  "name": "Helm of Comprehending Languages",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wearing this helm, you can cast Comprehend Languages from it.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this helm, you can cast Comprehend Languages from it.",
+    "key": "srd-2024_helm-of-comprehending-languages",
+    "name": "Helm of Comprehending Languages",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

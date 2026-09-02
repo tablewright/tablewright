@@ -1,0 +1,190 @@
+{
+  "id": "5e-2024-srd:monster:zombie",
+  "type": "monster",
+  "name": "Zombie",
+  "source": "5e-2024-srd",
+  "tags": [
+    "undead",
+    "medium",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 16,
+      "dexterity": 6,
+      "intelligence": 3,
+      "strength": 13,
+      "wisdom": 6
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 1,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Slam attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 5 (1d8 + 1) Bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 8,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "2d8 + 6",
+    "hit_points": 15,
+    "illustration": null,
+    "initiative_bonus": -2,
+    "key": "srd-2024_zombie",
+    "languages": {
+      "as_string": "Understands Common plus one other language but can't speak",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": -2,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": -2
+    },
+    "name": "Zombie",
+    "normal_sight_range": 10560,
+    "passive_perception": 8,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "exhaustion, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": -2,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": -2,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -2,
+      "animal_handling": -2,
+      "arcana": -4,
+      "athletics": 1,
+      "deception": -3,
+      "history": -4,
+      "insight": -2,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": -2,
+      "nature": -4,
+      "perception": -2,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": -2,
+      "stealth": -2,
+      "survival": -2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If damage reduces the zombie to 0 Hit Points, it makes a Constitution saving throw (DC 5 plus the damage taken) unless the damage is Radiant or from a Critical Hit. On a successful save, the zombie drops to 1 Hit Point instead.",
+        "name": "Undead Fortitude"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

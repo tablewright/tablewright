@@ -1,0 +1,150 @@
+{
+  "id": "5e-2024-srd:spell:bane",
+  "type": "spell",
+  "name": "Bane",
+  "source": "5e-2024-srd",
+  "tags": [
+    "enchantment",
+    "level-1",
+    "bard",
+    "cleric",
+    "warlock",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Up to three creatures of your choice that you can see within range must each make a Charisma saving throw. Whenever a target that fails this save makes an attack roll or a saving throw before the spell ends, the target must subtract 1d4 from the attack roll or save.\n\n**Using a Higher-Level Spell Slot.** You can target one additional creature for each spell slot level above 1.",
+  "data": {
+    "attack_roll": true,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 2,
+        "type": "slot_level_2"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 3,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 4,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 5,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 6,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 7,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 8,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": 9,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_warlock",
+        "name": "Warlock"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "1d4",
+    "damage_types": [],
+    "desc": "Up to three creatures of your choice that you can see within range must each make a Charisma saving throw. Whenever a target that fails this save makes an attack roll or a saving throw before the spell ends, the target must subtract 1d4 from the attack roll or save.",
+    "duration": "1 minute",
+    "higher_level": "You can target one additional creature for each spell slot level above 1.",
+    "key": "srd-2024_bane",
+    "level": 1,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a drop of blood",
+    "name": "Bane",
+    "range": 30,
+    "range_text": "30 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "charisma",
+    "school": {
+      "key": "enchantment",
+      "name": "Enchantment"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

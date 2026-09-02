@@ -1,0 +1,151 @@
+{
+  "id": "5e-2024-srd:monster:crab",
+  "type": "monster",
+  "name": "Crab",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 2,
+      "constitution": 12,
+      "dexterity": 11,
+      "intelligence": 1,
+      "strength": 6,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +2, reach 5 ft. 1 Bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": 30,
+    "category": "Animals",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "1d4 + 1",
+    "hit_points": 3,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd-2024_crab",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": -5,
+      "strength": -2,
+      "wisdom": -1
+    },
+    "name": "Crab",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": -5,
+      "strength": -2,
+      "wisdom": -1
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": -5,
+      "strength": -2,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "stealth": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": -1,
+      "arcana": -5,
+      "athletics": -2,
+      "deception": -4,
+      "history": -5,
+      "insight": -1,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": -1,
+      "nature": -5,
+      "perception": -1,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": 0,
+      "stealth": 2,
+      "survival": -1
+    },
+    "speed": {
+      "swim": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The crab can breathe air and water.",
+        "name": "Amphibious"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

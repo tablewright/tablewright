@@ -1,0 +1,140 @@
+{
+  "id": "5e-2024-srd:spell:animal-messenger",
+  "type": "spell",
+  "name": "Animal Messenger",
+  "source": "5e-2024-srd",
+  "tags": [
+    "enchantment",
+    "level-2",
+    "bard",
+    "druid",
+    "ranger",
+    "ritual"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Tiny Beast of your choice that you can see within range must succeed on a Charisma saving throw, or it attempts to deliver a message for you (if the target's Challenge Rating isn't 0, it automatically succeeds). You specify a location you have visited and a recipient who matches a general description, such as \"a person dressed in the uniform of the town guard\" or \"a red-haired dwarf wearing a pointed hat.\" You also communicate a message of up to twenty-five words. The Beast travels for the duration toward the specified location, covering about 25 miles per 24 hours or 50 miles if the Beast can fly. When the Beast arrives, it delivers your message to the creature that you described, mimicking your communication. If the Beast doesn't reach its destination before the spell ends, the message is lost, and the Beast returns to where you cast the spell.\n\n**Using a Higher-Level Spell Slot.** The spell's duration increases by 48 hours for each spell slot level above 2.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "72 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "120 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "168 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "216 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "264 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "312 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "360 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "A Tiny Beast of your choice that you can see within range must succeed on a Charisma saving throw, or it attempts to deliver a message for you (if the target's Challenge Rating isn't 0, it automatically succeeds). You specify a location you have visited and a recipient who matches a general description, such as \"a person dressed in the uniform of the town guard\" or \"a red-haired dwarf wearing a pointed hat.\" You also communicate a message of up to twenty-five words. The Beast travels for the duration toward the specified location, covering about 25 miles per 24 hours or 50 miles if the Beast can fly. When the Beast arrives, it delivers your message to the creature that you described, mimicking your communication. If the Beast doesn't reach its destination before the spell ends, the message is lost, and the Beast returns to where you cast the spell.",
+    "duration": "24 hours",
+    "higher_level": "The spell's duration increases by 48 hours for each spell slot level above 2.",
+    "key": "srd-2024_animal-messenger",
+    "level": 2,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a morsel of food",
+    "name": "Animal Messenger",
+    "range": 30,
+    "range_text": "30 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": true,
+    "saving_throw_ability": "charisma",
+    "school": {
+      "key": "enchantment",
+      "name": "Enchantment"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

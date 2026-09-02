@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:antitoxin",
+  "type": "item",
+  "name": "Antitoxin",
+  "source": "5e-2024-srd",
+  "tags": [
+    "potion"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "As a Bonus Action, you can drink a vial of Antitoxin to gain Advantage on saving throws to avoid or end the Poisoned condition for 1 hour. abo",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "As a Bonus Action, you can drink a vial of Antitoxin to gain Advantage on saving throws to avoid or end the Poisoned condition for 1 hour. abo",
+    "key": "srd-2024_antitoxin",
+    "name": "Antitoxin",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

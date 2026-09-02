@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:priests-pack",
+  "type": "item",
+  "name": "Priest's Pack",
+  "source": "5e-2024-srd",
+  "tags": [
+    "equipment-pack"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Priest's Pack contains the following items: Backpack, Blanket, Holy Water, Lamp, 7 days of Rations, Robe, and Tinderbox.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "equipment-pack",
+      "name": "Equipment Pack"
+    },
+    "cost": "33.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Priest's Pack contains the following items: Backpack, Blanket, Holy Water, Lamp, 7 days of Rations, Robe, and Tinderbox.",
+    "key": "srd-2024_priests-pack",
+    "name": "Priest's Pack",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "29.000",
+    "weight_unit": "lb"
+  }
+}

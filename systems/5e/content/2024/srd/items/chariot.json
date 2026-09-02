@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:chariot",
+  "type": "item",
+  "name": "Chariot",
+  "source": "5e-2024-srd",
+  "tags": [
+    "land-vehicle"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A two-wheeled vehicle pulled by horses, designed for speed and combat.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "land-vehicle",
+      "name": "Land Vehicle"
+    },
+    "cost": "250.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A two-wheeled vehicle pulled by horses, designed for speed and combat.",
+    "key": "srd-2024_chariot",
+    "name": "Chariot",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "100.000",
+    "weight_unit": "lb"
+  }
+}

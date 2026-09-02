@@ -1,0 +1,69 @@
+{
+  "id": "5e-2024-srd:spell:flesh-to-stone",
+  "type": "spell",
+  "name": "Flesh to Stone",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "level-6",
+    "druid",
+    "sorcerer",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You attempt to turn one creature that you can see within range into stone. The target makes a Constitution saving throw. On a failed save, it has the Restrained condition for the duration. On a successful save, its Speed is 0 until the start of your next turn. Constructs automatically succeed on the save. A Restrained target makes another Constitution saving throw at the end of each of its turns. If it successfully saves against this spell three times, the spell ends. If it fails its saves three times, it is turned to stone and has the Petrified condition for the duration. The successes and failures needn't be consecutive; keep track of both until the target collects three of a kind. If you maintain your Concentration on this spell for the entire possible duration, the target is Petrified until the condition is ended by Greater Restoration or similar magic.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You attempt to turn one creature that you can see within range into stone. The target makes a Constitution saving throw. On a failed save, it has the Restrained condition for the duration. On a successful save, its Speed is 0 until the start of your next turn. Constructs automatically succeed on the save. A Restrained target makes another Constitution saving throw at the end of each of its turns. If it successfully saves against this spell three times, the spell ends. If it fails its saves three times, it is turned to stone and has the Petrified condition for the duration. The successes and failures needn't be consecutive; keep track of both until the target collects three of a kind. If you maintain your Concentration on this spell for the entire possible duration, the target is Petrified until the condition is ended by Greater Restoration or similar magic.",
+    "duration": "1 minute",
+    "higher_level": "",
+    "key": "srd-2024_flesh-to-stone",
+    "level": 6,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a cockatrice feather",
+    "name": "Flesh to Stone",
+    "range": 60,
+    "range_text": "60 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "constitution",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:scholars-pack",
+  "type": "item",
+  "name": "Scholar's Pack",
+  "source": "5e-2024-srd",
+  "tags": [
+    "equipment-pack"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Scholar's Pack contains the following items: Backpack, Book, Ink, Ink Pen, Lamp, 10 flasks of Oil, 10 sheets of Parchment, and Tinderbox.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "equipment-pack",
+      "name": "Equipment Pack"
+    },
+    "cost": "40.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Scholar's Pack contains the following items: Backpack, Book, Ink, Ink Pen, Lamp, 10 flasks of Oil, 10 sheets of Parchment, and Tinderbox.",
+    "key": "srd-2024_scholars-pack",
+    "name": "Scholar's Pack",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "22.000",
+    "weight_unit": "lb"
+  }
+}

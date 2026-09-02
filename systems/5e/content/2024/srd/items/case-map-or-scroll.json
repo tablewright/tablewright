@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:case-map-or-scroll",
+  "type": "item",
+  "name": "Case, Map or Scroll",
+  "source": "5e-2024-srd",
+  "tags": [
+    "scroll"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Map or Scroll Case holds up to 10 sheets of paper or 5 sheets of parchment.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "scroll",
+      "name": "Scroll"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Map or Scroll Case holds up to 10 sheets of paper or 5 sheets of parchment.",
+    "key": "srd-2024_case-map-or-scroll",
+    "name": "Case, Map or Scroll",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

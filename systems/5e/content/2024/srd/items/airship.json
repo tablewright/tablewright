@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:airship",
+  "type": "item",
+  "name": "Airship",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A magical flying vessel capable of air travel.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "40000.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A magical flying vessel capable of air travel.",
+    "key": "srd-2024_airship",
+    "name": "Airship",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

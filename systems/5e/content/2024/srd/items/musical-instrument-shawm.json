@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:musical-instrument-shawm",
+  "type": "item",
+  "name": "Musical Instrument, Shawm",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Charisma. Utilize: Identify a musical piece (DC 15)",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Charisma. Utilize: Identify a musical piece (DC 15)",
+    "key": "srd-2024_musical-instrument-shawm",
+    "name": "Musical Instrument, Shawm",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

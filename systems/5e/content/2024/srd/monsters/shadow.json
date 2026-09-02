@@ -1,0 +1,253 @@
+{
+  "id": "5e-2024-srd:monster:shadow",
+  "type": "monster",
+  "name": "Shadow",
+  "source": "5e-2024-srd",
+  "tags": [
+    "undead",
+    "medium",
+    "cr-1/2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 8,
+      "constitution": 13,
+      "dexterity": 14,
+      "intelligence": 6,
+      "strength": 6,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "necrotic",
+              "name": "Necrotic"
+            },
+            "long_range": null,
+            "name": "Draining Swipe attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 5 (1d6 + 2) Necrotic damage, and the target's Strength score decreases by 1d4. The target dies if this reduces that score to 0. If a Humanoid is slain by this attack, a Shadow rises from the corpse 1d4 hours later.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Draining Swipe",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "While in Dim Light or darkness, the shadow takes the Hide action.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Shadow Stealth",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 100,
+    "hit_dice": "5d8 + 5",
+    "hit_points": 27,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_shadow",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -2,
+      "strength": -2,
+      "wisdom": 0
+    },
+    "name": "Shadow",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        },
+        {
+          "key": "unconscious",
+          "name": "Unconscious"
+        }
+      ],
+      "condition_immunities_display": "exhaustion, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained, unconscious",
+      "damage_immunities": [
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "necrotic, poison",
+      "damage_resistances": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        },
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        },
+        {
+          "key": "thunder",
+          "name": "Thunder"
+        }
+      ],
+      "damage_resistances_display": "acid, cold, fire, lightning, thunder",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -2,
+      "strength": -2,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -2,
+      "strength": -2,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "stealth": 6
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": -2,
+      "athletics": -2,
+      "deception": -1,
+      "history": -2,
+      "insight": 0,
+      "intimidation": -1,
+      "investigation": -2,
+      "medicine": 0,
+      "nature": -2,
+      "perception": 0,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": -2,
+      "sleight_of_hand": 2,
+      "stealth": 6,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The shadow can move through a space as narrow as 1 inch without expending extra movement to do so.",
+        "name": "Amorphous"
+      },
+      {
+        "desc": "While in sunlight, the shadow has Disadvantage on D20 Test.",
+        "name": "Sunlight Weakness"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

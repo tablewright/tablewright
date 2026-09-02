@@ -1,0 +1,216 @@
+{
+  "id": "5e-2024-srd:monster:guard-captain",
+  "type": "monster",
+  "name": "Guard Captain",
+  "source": "5e-2024-srd",
+  "tags": [
+    "humanoid",
+    "small",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 13,
+      "constitution": 16,
+      "dexterity": 14,
+      "intelligence": 12,
+      "strength": 18,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 120,
+            "name": "Javelin attack",
+            "range": 30,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +6, reach 5 ft. or range 30/120 ft. 14 (3d6 + 4) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Javelin",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Longsword attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 5 ft. 15 (2d10 + 4) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Longsword",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The guard makes two attacks, using Javelin or Longsword in any combination.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 18,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "10d8 + 30",
+    "hit_points": 75,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_guard-captain",
+    "languages": {
+      "as_string": "Common",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 1,
+      "strength": 4,
+      "wisdom": 2
+    },
+    "name": "Guard Captain",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 1,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 1,
+      "strength": 4,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 1,
+      "strength": 4,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "athletics": 6,
+      "perception": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 2,
+      "arcana": 1,
+      "athletics": 6,
+      "deception": 1,
+      "history": 1,
+      "insight": 2,
+      "intimidation": 1,
+      "investigation": 1,
+      "medicine": 2,
+      "nature": 1,
+      "perception": 4,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": 1,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "id": "5e-2024-srd:monster:remorhaz",
+  "type": "monster",
+  "name": "Remorhaz",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "huge",
+    "cr-11"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 21,
+      "dexterity": 13,
+      "intelligence": 4,
+      "strength": 24,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 7,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 11
+          }
+        ],
+        "desc": "Melee Attack Roll: +11, reach 10 ft. 18 (2d10 + 7) Piercing damage plus 14 (4d6) Fire damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 17), and it has the Restrained condition until the grapple ends.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 19, one Large or smaller creature Grappled by the remorhaz (it can have up to two creatures swallowed at a time). Failure: The target is swallowed by the remorhaz, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions, it has Cover|XPHB|Total Cover against attacks and other effects outside the remorhaz, and it takes 10 (3d6) Acid damage plus 10 (3d6) Fire damage at the start of each of the remorhaz's turns. If the remorhaz takes 30 damage or more on a single turn from a creature inside it, the remorhaz must succeed on a DC 15 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 5 feet of the remorhaz and has the Prone condition. If the remorhaz dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse by using 15 feet of movement, exiting Prone.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Swallow",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 11,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 7200,
+    "hit_dice": "17d12 + 85",
+    "hit_points": 195,
+    "illustration": null,
+    "initiative_bonus": 5,
+    "key": "srd-2024_remorhaz",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 5,
+      "dexterity": 1,
+      "intelligence": -3,
+      "strength": 7,
+      "wisdom": 0
+    },
+    "name": "Remorhaz",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_immunities_display": "cold, fire",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 5,
+      "dexterity": 1,
+      "intelligence": -3,
+      "strength": 7,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 5,
+      "dexterity": 1,
+      "intelligence": -3,
+      "strength": 7,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": -3,
+      "athletics": 7,
+      "deception": -3,
+      "history": -3,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -3,
+      "medicine": 0,
+      "nature": -3,
+      "perception": 0,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -3,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 0
+    },
+    "speed": {
+      "burrow": 30,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 30,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "At the end of each of the remorhaz's turns, each creature in a 5-foot Emanation originating from the remorhaz takes 16 (3d10) Fire damage.",
+        "name": "Heat Aura"
+      }
+    ],
+    "tremorsense_range": 60,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

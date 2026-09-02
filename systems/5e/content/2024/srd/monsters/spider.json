@@ -1,0 +1,155 @@
+{
+  "id": "5e-2024-srd:monster:spider",
+  "type": "monster",
+  "name": "Spider",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 2,
+      "constitution": 8,
+      "dexterity": 14,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 1 Piercing damage plus 2 (1d4) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 30,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "1d4 - 1",
+    "hit_points": 1,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_spider",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "name": "Spider",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": -5,
+      "athletics": -4,
+      "deception": -4,
+      "history": -5,
+      "insight": 0,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": 0,
+      "nature": -5,
+      "perception": 0,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": 2,
+      "stealth": 4,
+      "survival": 0
+    },
+    "speed": {
+      "climb": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The spider can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+        "name": "Spider Climb"
+      },
+      {
+        "desc": "The spider ignores movement restrictions caused by webs, and the spider knows the location of any other creature in contact with the same web.",
+        "name": "Web Walker"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

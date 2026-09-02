@@ -1,0 +1,91 @@
+{
+  "id": "5e-2024-srd:spell:produce-flame",
+  "type": "spell",
+  "name": "Produce Flame",
+  "source": "5e-2024-srd",
+  "tags": [
+    "conjuration",
+    "cantrip",
+    "druid"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A flickering flame appears in your hand and remains there for the duration. While there, the flame emits no heat and ignites nothing, and it sheds Bright Light in a 20-foot radius and Dim Light for an additional 20 feet. The spell ends if you cast it again. Until the spell ends, you can take a Magic action to hurl fire at a creature or an object within 60 feet of you. Make a ranged spell attack. On a hit, the target takes 1d8 Fire damage.\n\n**Cantrip Upgrade.** The damage increases by 1d8 when you reach levels 5 (2d8), 11 (3d8), and 17 (4d8).",
+  "data": {
+    "attack_roll": true,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": "2d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "3d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_11"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "4d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_17"
+      }
+    ],
+    "casting_time": "bonus-action",
+    "classes": [
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "1d8",
+    "damage_types": [
+      "fire"
+    ],
+    "desc": "A flickering flame appears in your hand and remains there for the duration. While there, the flame emits no heat and ignites nothing, and it sheds Bright Light in a 20-foot radius and Dim Light for an additional 20 feet. The spell ends if you cast it again. Until the spell ends, you can take a Magic action to hurl fire at a creature or an object within 60 feet of you. Make a ranged spell attack. On a hit, the target takes 1d8 Fire damage.",
+    "duration": "10 minutes",
+    "higher_level": "The damage increases by 1d8 when you reach levels 5 (2d8), 11 (3d8), and 17 (4d8).",
+    "key": "srd-2024_produce-flame",
+    "level": 0,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Produce Flame",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "conjuration",
+      "name": "Conjuration"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

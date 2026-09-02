@@ -1,0 +1,64 @@
+{
+  "id": "5e-2024-srd:spell:alarm",
+  "type": "spell",
+  "name": "Alarm",
+  "source": "5e-2024-srd",
+  "tags": [
+    "abjuration",
+    "level-1",
+    "ranger",
+    "wizard",
+    "ritual"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You set an alarm against intrusion. Choose a door, a window, or an area within range that is no larger than a 20-foot Cube. Until the spell ends, an alarm alerts you whenever a creature touches or enters the warded area. When you cast the spell, you can designate creatures that won't set off the alarm. You also choose whether the alarm is audible or mental:\n\n**Audible Alarm.** The alarm produces the sound of a handbell for 10 seconds within 60 feet of the warded area.\n\n**Mental Alarm.** You are alerted by a mental ping if you are within 1 mile of the warded area. This ping awakens you if you're asleep.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "1minute",
+    "classes": [
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You set an alarm against intrusion. Choose a door, a window, or an area within range that is no larger than a 20-foot Cube. Until the spell ends, an alarm alerts you whenever a creature touches or enters the warded area. When you cast the spell, you can designate creatures that won't set off the alarm. You also choose whether the alarm is audible or mental:\n\n**Audible Alarm.** The alarm produces the sound of a handbell for 10 seconds within 60 feet of the warded area.\n\n**Mental Alarm.** You are alerted by a mental ping if you are within 1 mile of the warded area. This ping awakens you if you're asleep.",
+    "duration": "8 hours",
+    "higher_level": "",
+    "key": "srd-2024_alarm",
+    "level": 1,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a bell and silver wire",
+    "name": "Alarm",
+    "range": 30,
+    "range_text": "30 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": true,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "abjuration",
+      "name": "Abjuration"
+    },
+    "shape_size": 20,
+    "shape_size_unit": "feet",
+    "shape_type": "cube",
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

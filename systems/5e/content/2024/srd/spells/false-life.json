@@ -1,0 +1,144 @@
+{
+  "id": "5e-2024-srd:spell:false-life",
+  "type": "spell",
+  "name": "False Life",
+  "source": "5e-2024-srd",
+  "tags": [
+    "necromancy",
+    "level-1",
+    "sorcerer",
+    "wizard"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain 2d4 + 4 Temporary Hit Points.\n\n**Using a Higher-Level Spell Slot.** You gain 5 additional Temporary Hit Points for each spell slot level above 1.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "grants 5 additional temporary hit points",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_2"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "grants 10 additional temporary hit points",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "grants 15 additional temporary hit points",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "grants 20 additional temporary hit points",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "grants 25 additional temporary hit points",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "grants 30 additional temporary hit points",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "grants 35 additional temporary hit points",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "grants 40 additional temporary hit points",
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "2d4 + 4",
+    "damage_types": [],
+    "desc": "You gain 2d4 + 4 Temporary Hit Points.",
+    "duration": "instantaneous",
+    "higher_level": "You gain 5 additional Temporary Hit Points for each spell slot level above 1.",
+    "key": "srd-2024_false-life",
+    "level": 1,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a drop of alcohol",
+    "name": "False Life",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "necromancy",
+      "name": "Necromancy"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

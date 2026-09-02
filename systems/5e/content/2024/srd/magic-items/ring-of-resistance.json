@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:ring-of-resistance",
+  "type": "magic-item",
+  "name": "Ring of Resistance",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ring",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You have Resistance to one damage type while wearing this ring. The gemstone in the ring indicates the type, which the GM chooses or determines randomly by rolling on the following table.\n\n| 1d10 | Damage Type | Gemstone   |\n|------|-------------|------------|\n| 1    | Acid        | Pearl      |\n| 2    | Cold        | Tourmaline |\n| 3    | Fire        | Garnet     |\n| 4    | Force       | Sapphire   |\n| 5    | Lightning   | Citrine    |\n| 6    | Necrotic    | Jet        |\n| 7    | Poison      | Amethyst   |\n| 8    | Psychic     | Jade       |\n| 9    | Radiant     | Topaz      |\n| 10   | Thunder     | Spinel     |",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have Resistance to one damage type while wearing this ring. The gemstone in the ring indicates the type, which the GM chooses or determines randomly by rolling on the following table.\n\n| 1d10 | Damage Type | Gemstone   |\n|------|-------------|------------|\n| 1    | Acid        | Pearl      |\n| 2    | Cold        | Tourmaline |\n| 3    | Fire        | Garnet     |\n| 4    | Force       | Sapphire   |\n| 5    | Lightning   | Citrine    |\n| 6    | Necrotic    | Jet        |\n| 7    | Poison      | Amethyst   |\n| 8    | Psychic     | Jade       |\n| 9    | Radiant     | Topaz      |\n| 10   | Thunder     | Spinel     |",
+    "key": "srd-2024_ring-of-resistance",
+    "name": "Ring of Resistance",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

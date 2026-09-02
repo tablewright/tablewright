@@ -1,0 +1,219 @@
+{
+  "id": "5e-2024-srd:monster:gold-dragon-wyrmling",
+  "type": "monster",
+  "name": "Gold Dragon Wyrmling",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "medium",
+    "cr-3"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 16,
+      "constitution": 17,
+      "dexterity": 14,
+      "intelligence": 14,
+      "strength": 19,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 13, each creature in a 15-foot Cone. Failure: 22 (4d10) Fire damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fire Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes two Rend attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 5 ft. 9 (1d10 + 4) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 13, each creature that isn't currently affected by this breath in a 15-foot Cone. Failure: The target has Disadvantage on Strength-based D20 Test and subtracts 2 (1d4) from its damage rolls. It repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Weakening Breath",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Monsters",
+    "challenge_rating": 3,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 700,
+    "hit_dice": "8d8 + 24",
+    "hit_points": 60,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_gold-dragon-wyrmling",
+    "languages": {
+      "as_string": "Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 2,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "name": "Gold Dragon Wyrmling",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_immunities_display": "fire",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 3,
+      "constitution": 3,
+      "dexterity": 4,
+      "intelligence": 2,
+      "strength": 4,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 3,
+      "constitution": 3,
+      "dexterity": 4,
+      "intelligence": 2,
+      "strength": 4,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": 2,
+      "athletics": 4,
+      "deception": 3,
+      "history": 2,
+      "insight": 0,
+      "intimidation": 3,
+      "investigation": 2,
+      "medicine": 0,
+      "nature": 2,
+      "perception": 4,
+      "performance": 3,
+      "persuasion": 3,
+      "religion": 2,
+      "sleight_of_hand": 2,
+      "stealth": 4,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 60,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The dragon can breathe air and water.",
+        "name": "Amphibious"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

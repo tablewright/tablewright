@@ -1,0 +1,239 @@
+{
+  "id": "5e-2024-srd:monster:quasit",
+  "type": "monster",
+  "name": "Quasit",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "small",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 10,
+      "constitution": 10,
+      "dexterity": 17,
+      "intelligence": 7,
+      "strength": 5,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The quasit casts Invisibility on itself, requiring no spell components and using Charisma as the spellcasting ability.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Invisibility",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 5 (1d4 + 3) Slashing damage, and the target has the Poisoned condition until the start of the quasit's next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Wisdom Saving Throw: DC 10, one creature within 20 feet. Failure: The target has the Frightened condition. At the end of each of its turns, the target repeats the save, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Scare",
+        "order_in_statblock": 1,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The quasit shape-shifts to resemble a bat (Speed 10 ft., Fly 40 ft.), a centipede (40 ft., Climb 40 ft.), or a toad (40 ft., Swim 40 ft.), or it returns to its true form. Its game statistics are the same in each form, except for its Speed. Any equipment it is wearing or carrying isn't transformed.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Shape-Shift",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "10d4",
+    "hit_points": 25,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_quasit",
+    "languages": {
+      "as_string": "Abyssal, Common",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        },
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -2,
+      "strength": -3,
+      "wisdom": 0
+    },
+    "name": "Quasit",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_resistances_display": "cold, fire, lightning",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -2,
+      "strength": -3,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -2,
+      "strength": -3,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 0,
+      "arcana": -2,
+      "athletics": -3,
+      "deception": 0,
+      "history": -2,
+      "insight": 0,
+      "intimidation": 0,
+      "investigation": -2,
+      "medicine": 0,
+      "nature": -2,
+      "perception": 0,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": -2,
+      "sleight_of_hand": 3,
+      "stealth": 5,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The quasit has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

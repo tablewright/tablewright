@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:ring-of-animal-influence",
+  "type": "magic-item",
+  "name": "Ring of Animal Influence",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ring",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. While wearing the ring, you can expend 1 charge to cast one of the following spells (save DC 13) from it: - Animal Friendship - Fear (affects Beasts only) - Speak with Animals",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This ring has 3 charges, and it regains 1d3 expended charges daily at dawn. While wearing the ring, you can expend 1 charge to cast one of the following spells (save DC 13) from it: - Animal Friendship - Fear (affects Beasts only) - Speak with Animals",
+    "key": "srd-2024_ring-of-animal-influence",
+    "name": "Ring of Animal Influence",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

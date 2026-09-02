@@ -1,0 +1,51 @@
+{
+  "id": "5e-2024-srd:magic-item:armor-of-resistance-splint",
+  "type": "magic-item",
+  "name": "Armor of Resistance (Splint)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You have Resistance to one type of damage while you wear this armor. The GM chooses the type or determines it randomly by rolling on the following table.\n\n| 1d10 | Damage Type |\n|---|---|\n|1|Acid|\n|2|Cold|\n|3|Fire|\n|4|Force|\n|5|Lightning|\n|6|Necrotic|\n|7| Poison|\n|8|Psychic|\n|9|Radiant|\n|10|Thunder|",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 17,
+      "ac_cap_dexmod": null,
+      "ac_display": "17",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_splint-armor",
+      "name": "Splint Armor",
+      "strength_score_required": 15
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have Resistance to one type of damage while you wear this armor. The GM chooses the type or determines it randomly by rolling on the following table.\n\n| 1d10 | Damage Type |\n|---|---|\n|1|Acid|\n|2|Cold|\n|3|Fire|\n|4|Force|\n|5|Lightning|\n|6|Necrotic|\n|7| Poison|\n|8|Psychic|\n|9|Radiant|\n|10|Thunder|",
+    "key": "srd-2024_armor-of-resistance-splint",
+    "name": "Armor of Resistance (Splint)",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "60.000",
+    "weight_unit": "lb"
+  }
+}

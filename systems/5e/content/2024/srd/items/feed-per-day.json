@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:feed-per-day",
+  "type": "item",
+  "name": "Feed (per day)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Daily feed for a mount.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.05",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Daily feed for a mount.",
+    "key": "srd-2024_feed-per-day",
+    "name": "Feed (per day)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

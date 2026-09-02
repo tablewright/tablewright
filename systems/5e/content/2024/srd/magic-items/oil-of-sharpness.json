@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:oil-of-sharpness",
+  "type": "magic-item",
+  "name": "Oil of Sharpness",
+  "source": "5e-2024-srd",
+  "tags": [
+    "potion",
+    "very-rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "One vial of this oil can coat one Melee weapon or twenty pieces of ammunition, but only ammunition and Melee weapons that are nonmagical and deal Slashing or Piercing damage are affected. Applying the oil takes 1 minute, after which the oil magically seeps into whatever it coats, turning the coated weapon into a +3 Weapon or the coated ammunition into +3 Ammunition. This clear, gelatinous oil sparkles with tiny, ultrathin silver shards.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One vial of this oil can coat one Melee weapon or twenty pieces of ammunition, but only ammunition and Melee weapons that are nonmagical and deal Slashing or Piercing damage are affected. Applying the oil takes 1 minute, after which the oil magically seeps into whatever it coats, turning the coated weapon into a +3 Weapon or the coated ammunition into +3 Ammunition. This clear, gelatinous oil sparkles with tiny, ultrathin silver shards.",
+    "key": "srd-2024_oil-of-sharpness",
+    "name": "Oil of Sharpness",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

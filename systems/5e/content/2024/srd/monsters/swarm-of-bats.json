@@ -1,0 +1,171 @@
+{
+  "id": "5e-2024-srd:monster:swarm-of-bats",
+  "type": "monster",
+  "name": "Swarm of Bats",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 10,
+      "dexterity": 15,
+      "intelligence": 2,
+      "strength": 5,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bites attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 5 (2d4) Piercing damage, or 2 (1d4) Piercing damage if the swarm is Bloodied.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bites",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Animals",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "2d10",
+    "hit_points": 11,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_swarm-of-bats",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": 1
+    },
+    "name": "Swarm of Bats",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": -3,
+      "deception": -3,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 1,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 30,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 30,
+      "hover": false,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny bat. The swarm can't regain Hit Points or gain Temporary Hit Points.",
+        "name": "Swarm"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

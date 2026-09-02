@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:padded-armor",
+  "type": "item",
+  "name": "Padded Armor",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A padded armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 11,
+      "ac_cap_dexmod": null,
+      "ac_display": "11 + Dex modifier",
+      "category": "light",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_padded-armor",
+      "name": "Padded Armor",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A padded armor.",
+    "key": "srd-2024_padded-armor",
+    "name": "Padded Armor",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "8.000",
+    "weight_unit": "lb"
+  }
+}

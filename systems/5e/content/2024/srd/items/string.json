@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:string",
+  "type": "item",
+  "name": "String",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "String is 10 feet long. You can tie a knot in it as a Utilize action.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.10",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "String is 10 feet long. You can tie a knot in it as a Utilize action.",
+    "key": "srd-2024_string",
+    "name": "String",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

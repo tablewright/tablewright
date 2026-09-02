@@ -1,0 +1,253 @@
+{
+  "id": "5e-2024-srd:monster:drider",
+  "type": "monster",
+  "name": "Drider",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "large",
+    "cr-6"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 12,
+      "constitution": 18,
+      "dexterity": 19,
+      "intelligence": 13,
+      "strength": 16,
+      "wisdom": 16
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Foreleg attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 10 ft. 13 (2d8 + 4) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Foreleg",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The drider makes three attacks, using Foreleg or Poison Burst in any combination.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "poison",
+              "name": "Poison"
+            },
+            "long_range": null,
+            "name": "Poison Burst attack",
+            "range": 120,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Ranged Attack Roll: +6, range 120 ft. 13 (3d6 + 3) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Poison Burst",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The drider casts Darkness, Faerie Fire, or Web, requiring no Material components and using Wisdom as the spellcasting ability (spell save DC 14).",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Magic of the Spider Queen",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE"
+        }
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 19,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 6,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 2300,
+    "hit_dice": "13d10 + 52",
+    "hit_points": 123,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_drider",
+    "languages": {
+      "as_string": "Elvish, Undercommon",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are elves.",
+          "key": "elvish",
+          "name": "Elvish"
+        },
+        {
+          "desc": "Typical speakers are underworld traders.",
+          "key": "undercommon",
+          "name": "Undercommon"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 4,
+      "dexterity": 4,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 3
+    },
+    "name": "Drider",
+    "normal_sight_range": 10560,
+    "passive_perception": 16,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 1,
+      "constitution": 4,
+      "dexterity": 4,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 3
+    },
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 4,
+      "dexterity": 4,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 3
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 6,
+      "stealth": 10
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 4,
+      "animal_handling": 3,
+      "arcana": 1,
+      "athletics": 3,
+      "deception": 1,
+      "history": 1,
+      "insight": 3,
+      "intimidation": 1,
+      "investigation": 1,
+      "medicine": 3,
+      "nature": 1,
+      "perception": 6,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": 1,
+      "sleight_of_hand": 4,
+      "stealth": 10,
+      "survival": 3
+    },
+    "speed": {
+      "climb": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 30,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The drider can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+        "name": "Spider Climb"
+      },
+      {
+        "desc": "While in sunlight, the drider has Disadvantage on ability checks and attack rolls.",
+        "name": "Sunlight Sensitivity"
+      },
+      {
+        "desc": "The drider ignores movement restrictions caused by webs, and the drider knows the location of any other creature in contact with the same web.",
+        "name": "Web Walker"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

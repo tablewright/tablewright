@@ -1,0 +1,240 @@
+{
+  "id": "5e-2024-srd:monster:vrock",
+  "type": "monster",
+  "name": "Vrock",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "large",
+    "cr-6"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 8,
+      "constitution": 18,
+      "dexterity": 15,
+      "intelligence": 8,
+      "strength": 17,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The vrock makes two Shred attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Shred attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 5 ft. 10 (2d6 + 3) Piercing damage plus 10 (3d6) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Shred",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 15, each creature in a 20-foot Emanation originating from the vrock. Failure: The target has the Poisoned condition and repeats the save at the end of each of its turns, ending the effect on itself on a success. While Poisoned, the target takes 5 (1d10) Poison damage at the start of each of its turns. Emptying a flask of Holy Water on the target ends the effect early.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Spores",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 6,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 15, each creature in a 20-foot Emanation originating from the vrock (demons succeed automatically). Failure: 10 (3d6) Thunder damage, and the target has the Stunned condition until the end of the vrock's next turn.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Stunning Screech",
+        "order_in_statblock": 3,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 6,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 2300,
+    "hit_dice": "16d10 + 64",
+    "hit_points": 152,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_vrock",
+    "languages": {
+      "as_string": "Abyssal; telepathy 120 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 4,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Vrock",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_resistances_display": "cold, fire, lightning",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 2,
+      "constitution": 4,
+      "dexterity": 5,
+      "intelligence": -1,
+      "strength": 3,
+      "wisdom": 4
+    },
+    "saving_throws_all": {
+      "charisma": 2,
+      "constitution": 4,
+      "dexterity": 5,
+      "intelligence": -1,
+      "strength": 3,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -1,
+      "athletics": 3,
+      "deception": -1,
+      "history": -1,
+      "insight": 1,
+      "intimidation": -1,
+      "investigation": -1,
+      "medicine": 1,
+      "nature": -1,
+      "perception": 1,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": -1,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 60,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the vrock dies outside the Abyss, its body dissolves into ichor, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+        "name": "Demonic Restoration"
+      },
+      {
+        "desc": "The vrock has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

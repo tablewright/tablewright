@@ -1,0 +1,141 @@
+{
+  "id": "5e-2024-srd:spell:divine-smite",
+  "type": "spell",
+  "name": "Divine Smite",
+  "source": "5e-2024-srd",
+  "tags": [
+    "evocation",
+    "level-1",
+    "paladin"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "The target takes an extra 2d8 Radiant damage from the attack. The damage increases by 1d8 if the target is a Fiend or an Undead.\n\n**Using a Higher-Level Spell Slot.** The damage increases by 1d8 for each spell slot level above 1.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": "3d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_2"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "4d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "5d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "6d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "7d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "8d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "9d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "10d8",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "bonus-action",
+    "classes": [
+      {
+        "key": "srd-2024_paladin",
+        "name": "Paladin"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "2d8",
+    "damage_types": [
+      "radiant"
+    ],
+    "desc": "The target takes an extra 2d8 Radiant damage from the attack. The damage increases by 1d8 if the target is a Fiend or an Undead.",
+    "duration": "instantaneous",
+    "higher_level": "The damage increases by 1d8 for each spell slot level above 1.",
+    "key": "srd-2024_divine-smite",
+    "level": 1,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Divine Smite",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "evocation",
+      "name": "Evocation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": false,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

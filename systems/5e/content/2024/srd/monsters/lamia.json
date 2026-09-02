@@ -1,0 +1,220 @@
+{
+  "id": "5e-2024-srd:monster:lamia",
+  "type": "monster",
+  "name": "Lamia",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "large",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 16,
+      "constitution": 15,
+      "dexterity": 13,
+      "intelligence": 14,
+      "strength": 16,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 7 (1d8 + 3) Slashing damage plus 7 (2d6) Psychic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Wisdom Saving Throw: DC 13, one creature the lamia can see within 5 feet. Failure: 13 (3d8) Psychic damage, and the target is cursed for 1 hour. Until the curse ends, the target has the Charmed and Poisoned conditions.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Corrupting Touch",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The lamia makes two Claw attacks. It can replace one attack with a use of Corrupting Touch.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The lamia casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 13):\n\n- **At Will:** Disguise Self, Minor Illusion\n- **1/Day Each:** Geas, Major Image, Scrying",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The lamia jumps up to 30 feet by spending 10 feet of movement.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Leap",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "13d10 + 26",
+    "hit_points": 97,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_lamia",
+    "languages": {
+      "as_string": "Abyssal, Common",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        },
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": 2,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "name": "Lamia",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 3,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": 2,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 3,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": 2,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "deception": 7,
+      "insight": 4,
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 2,
+      "arcana": 2,
+      "athletics": 3,
+      "deception": 7,
+      "history": 2,
+      "insight": 4,
+      "intimidation": 3,
+      "investigation": 2,
+      "medicine": 2,
+      "nature": 2,
+      "perception": 2,
+      "performance": 3,
+      "persuasion": 3,
+      "religion": 2,
+      "sleight_of_hand": 1,
+      "stealth": 5,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

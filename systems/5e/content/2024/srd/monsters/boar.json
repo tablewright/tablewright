@@ -1,0 +1,170 @@
+{
+  "id": "5e-2024-srd:monster:boar",
+  "type": "monster",
+  "name": "Boar",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 14,
+      "dexterity": 11,
+      "intelligence": 2,
+      "strength": 13,
+      "wisdom": 9
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 1,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Gore attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 4 (1d6 + 1) Piercing damage. If the target is a Medium or smaller creature and the boar moved 20+ feet straight toward it immediately before the hit, the target takes an extra 3 (1d6) Piercing damage and has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Gore",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "2d8 + 4",
+    "hit_points": 13,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd-2024_boar",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": -1
+    },
+    "name": "Boar",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": -1
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": -1,
+      "arcana": -4,
+      "athletics": 1,
+      "deception": -3,
+      "history": -4,
+      "insight": -1,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": -1,
+      "nature": -4,
+      "perception": -1,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": -1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "While Bloodied, the boar has Advantage on attack rolls.",
+        "name": "Bloodied Fury"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

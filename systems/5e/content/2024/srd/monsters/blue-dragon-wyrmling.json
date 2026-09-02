@@ -1,0 +1,207 @@
+{
+  "id": "5e-2024-srd:monster:blue-dragon-wyrmling",
+  "type": "monster",
+  "name": "Blue Dragon Wyrmling",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "medium",
+    "cr-3"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 15,
+      "constitution": 15,
+      "dexterity": 10,
+      "intelligence": 12,
+      "strength": 17,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 12, each creature in a 30-foot-long, 5-foot-wide Line. Failure: 21 (6d6) Lightning damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Lightning Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes two Rend attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": 0,
+            "extra_damage_die_count": 1,
+            "extra_damage_die_type": "D6",
+            "extra_damage_type": {
+              "key": "lightning",
+              "name": "Lightning"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 8 (1d10 + 3) Slashing damage plus 3 (1d6) Lightning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Monsters",
+    "challenge_rating": 3,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 700,
+    "hit_dice": "10d8 + 20",
+    "hit_points": 65,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_blue-dragon-wyrmling",
+    "languages": {
+      "as_string": "Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "name": "Blue Dragon Wyrmling",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_immunities_display": "lightning",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "stealth": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 0,
+      "arcana": 1,
+      "athletics": 3,
+      "deception": 2,
+      "history": 1,
+      "insight": 0,
+      "intimidation": 2,
+      "investigation": 1,
+      "medicine": 0,
+      "nature": 1,
+      "perception": 4,
+      "performance": 2,
+      "persuasion": 2,
+      "religion": 1,
+      "sleight_of_hand": 0,
+      "stealth": 2,
+      "survival": 0
+    },
+    "speed": {
+      "burrow": 15,
+      "fly": 60,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 15,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

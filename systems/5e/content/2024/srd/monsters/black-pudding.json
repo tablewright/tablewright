@@ -1,0 +1,231 @@
+{
+  "id": "5e-2024-srd:monster:black-pudding",
+  "type": "monster",
+  "name": "Black Pudding",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ooze",
+    "large",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 16,
+      "dexterity": 5,
+      "intelligence": 1,
+      "strength": 16,
+      "wisdom": 6
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 4,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "acid",
+              "name": "Acid"
+            },
+            "long_range": null,
+            "name": "Dissolving Pseudopod attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 10 ft. 17 (4d6 + 3) Acid damage. Nonmagical armor worn by the target takes a -1 penalty to the AC it offers. The armor is destroyed if the penalty reduces its AC to 10. The penalty can be removed by casting the Mending spell on the armor.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Dissolving Pseudopod",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "_Trigger:_ While the pudding is Large or Medium and has 10+ Hit Points, it becomes Bloodied or is subjected to Lightning or Slashing damage. _Response:_ The pudding splits into two new Black Puddings. Each new pudding is one size smaller than the original pudding and acts on its Initiative. The original pudding’s Hit Points are divided evenly between the new puddings (round down).",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Parry",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 7,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "8d10 + 24",
+    "hit_points": 68,
+    "illustration": null,
+    "initiative_bonus": -3,
+    "key": "srd-2024_black-pudding",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 3,
+      "dexterity": -3,
+      "intelligence": -5,
+      "strength": 3,
+      "wisdom": -2
+    },
+    "name": "Black Pudding",
+    "normal_sight_range": 10560,
+    "passive_perception": 8,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        }
+      ],
+      "condition_immunities_display": "charmed, deafened, exhaustion, frightened, grappled, prone, restrained",
+      "damage_immunities": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        },
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_immunities_display": "acid, cold, lightning",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -5,
+      "constitution": 3,
+      "dexterity": -3,
+      "intelligence": -5,
+      "strength": 3,
+      "wisdom": -2
+    },
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 3,
+      "dexterity": -3,
+      "intelligence": -5,
+      "strength": 3,
+      "wisdom": -2
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -3,
+      "animal_handling": -2,
+      "arcana": -5,
+      "athletics": 3,
+      "deception": -5,
+      "history": -5,
+      "insight": -2,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -2,
+      "nature": -5,
+      "perception": -2,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": -3,
+      "stealth": -3,
+      "survival": -2
+    },
+    "speed": {
+      "climb": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The pudding can move through a space as narrow as 1 inch without expending extra movement to do so.",
+        "name": "Amorphous"
+      },
+      {
+        "desc": "A creature that hits the pudding with a melee attack roll takes 4 (1d8) Acid damage. Nonmagical ammunition is destroyed immediately after hitting the pudding and dealing any damage. Any nonmagical weapon takes a cumulative -1 penalty to attack rolls immediately after dealing damage to the pudding and coming into contact with it. The weapon is destroyed if the penalty reaches -5. The penalty can be removed by casting the Mending spell on the weapon. In 1 minute, the pudding can eat through 2 feet of nonmagical wood or metal.",
+        "name": "Corrosive Form"
+      },
+      {
+        "desc": "The pudding can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+        "name": "Spider Climb"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "ooze",
+      "name": "Ooze"
+    }
+  }
+}

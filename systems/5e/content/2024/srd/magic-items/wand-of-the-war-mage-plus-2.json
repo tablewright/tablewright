@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:wand-of-the-war-mage-plus-2",
+  "type": "magic-item",
+  "name": "Wand of the War Mage +2",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wand",
+    "rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity (Uncommon +1, Rare +2, Very Rare +3). In addition, you ignore Half Cover when making a spell attack roll.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wand",
+      "name": "Wand"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity (Uncommon +1, Rare +2, Very Rare +3). In addition, you ignore Half Cover when making a spell attack roll.",
+    "key": "srd-2024_wand-of-the-war-mage-plus-2",
+    "name": "Wand of the War Mage +2",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

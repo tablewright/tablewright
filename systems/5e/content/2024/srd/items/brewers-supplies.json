@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:brewers-supplies",
+  "type": "item",
+  "name": "Brewer's Supplies (20 GP)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Intelligence. Utilize: Detect poisoned drink (DC 15), or identify alcohol (DC 10). Craft: Antitoxin",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "20.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Intelligence. Utilize: Detect poisoned drink (DC 15), or identify alcohol (DC 10). Craft: Antitoxin",
+    "key": "srd-2024_brewers-supplies",
+    "name": "Brewer's Supplies (20 GP)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "9.000",
+    "weight_unit": "lb"
+  }
+}

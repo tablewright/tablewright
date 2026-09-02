@@ -1,0 +1,79 @@
+{
+  "id": "5e-2024-srd:spell:protection-from-energy",
+  "type": "spell",
+  "name": "Protection from Energy",
+  "source": "5e-2024-srd",
+  "tags": [
+    "abjuration",
+    "level-3",
+    "cleric",
+    "druid",
+    "ranger",
+    "sorcerer",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "For the duration, the willing creature you touch has Resistance to one damage type of your choice: Acid, Cold, Fire, Lightning, or Thunder.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      },
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "For the duration, the willing creature you touch has Resistance to one damage type of your choice: Acid, Cold, Fire, Lightning, or Thunder.",
+    "duration": "1 hour",
+    "higher_level": "",
+    "key": "srd-2024_protection-from-energy",
+    "level": 3,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Protection from Energy",
+    "range": 0,
+    "range_text": "Touch",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "abjuration",
+      "name": "Abjuration"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

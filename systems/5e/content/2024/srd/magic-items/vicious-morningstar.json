@@ -1,0 +1,63 @@
+{
+  "id": "5e-2024-srd:magic-item:vicious-morningstar",
+  "type": "magic-item",
+  "name": "Vicious Morningstar",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "This magic weapon deals an extra 2d6 damage to any creature it hits. This extra damage is of the same type as the weapon's normal damage.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This magic weapon deals an extra 2d6 damage to any creature it hits. This extra damage is of the same type as the weapon's normal damage.",
+    "key": "srd-2024_vicious-morningstar",
+    "name": "Vicious Morningstar",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_morningstar",
+      "name": "Morningstar",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.",
+            "name": "Sap",
+            "type": "Mastery"
+          }
+        }
+      ]
+    },
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

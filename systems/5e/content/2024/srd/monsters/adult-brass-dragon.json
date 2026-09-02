@@ -1,0 +1,269 @@
+{
+  "id": "5e-2024-srd:monster:adult-brass-dragon",
+  "type": "monster",
+  "name": "Adult Brass Dragon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "huge",
+    "cr-13"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 17,
+      "constitution": 21,
+      "dexterity": 10,
+      "intelligence": 14,
+      "strength": 23,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon uses Spellcasting to cast Scorching Ray.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Blazing Light",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 18, each creature in a 60-foot-long, 5-foot-wide Line. Failure: 45 (10d8) Fire damage. Success: Half damage.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Fire Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes three Rend attacks. It can replace one attack with a use of (A) Sleep Breath or (B) Spellcasting to cast Scorching Ray.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon moves up to half its Speed, and it makes one Rend attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pounce",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 6,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": 0,
+            "extra_damage_die_count": 1,
+            "extra_damage_die_type": "D8",
+            "extra_damage_type": {
+              "key": "fire",
+              "name": "Fire"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 11
+          }
+        ],
+        "desc": "Melee Attack Roll: +11, reach 10 ft. 17 (2d10 + 6) Slashing damage plus 4 (1d8) Fire damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 16, one creature the dragon can see within 120 feet. Failure: 27 (6d8) Fire damage, and the target's Speed is halved until the end of its next turn. Failure or Success: The dragon can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Scorching Sands",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 18, each creature in a 60-foot Cone. Failure: The target has the Incapacitated condition until the end of its next turn, at which point it repeats the save. Second Failure The target has the Unconscious condition for 10 minutes. This effect ends for the target if it takes damage or a creature within 5 feet of it takes an action to wake it.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Sleep Breath",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 16):\n\n- **At Will:** Detect Magic, Minor Illusion, Scorching Ray, Shapechange, Speak with Animals\n- **1/Day Each:** Detect Thoughts, Control Weather",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 4,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic good",
+    "armor_class": 18,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 13,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 10000,
+    "hit_dice": "15d12 + 75",
+    "hit_points": 172,
+    "illustration": null,
+    "initiative_bonus": 10,
+    "key": "srd-2024_adult-brass-dragon",
+    "languages": {
+      "as_string": "Common, Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 5,
+      "dexterity": 0,
+      "intelligence": 2,
+      "strength": 6,
+      "wisdom": 1
+    },
+    "name": "Adult Brass Dragon",
+    "normal_sight_range": 10560,
+    "passive_perception": 21,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_immunities_display": "fire",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 3,
+      "constitution": 5,
+      "dexterity": 5,
+      "intelligence": 2,
+      "strength": 6,
+      "wisdom": 6
+    },
+    "saving_throws_all": {
+      "charisma": 3,
+      "constitution": 5,
+      "dexterity": 5,
+      "intelligence": 2,
+      "strength": 6,
+      "wisdom": 6
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "history": 7,
+      "perception": 11,
+      "persuasion": 8,
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 1,
+      "arcana": 2,
+      "athletics": 6,
+      "deception": 3,
+      "history": 7,
+      "insight": 1,
+      "intimidation": 3,
+      "investigation": 2,
+      "medicine": 1,
+      "nature": 2,
+      "perception": 11,
+      "performance": 3,
+      "persuasion": 8,
+      "religion": 2,
+      "sleight_of_hand": 0,
+      "stealth": 5,
+      "survival": 1
+    },
+    "speed": {
+      "burrow": 30,
+      "fly": 80,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 30,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 80,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the dragon fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (3/Day, or 4/Day in Lair)"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

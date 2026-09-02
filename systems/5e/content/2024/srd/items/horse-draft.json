@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:horse-draft",
+  "type": "item",
+  "name": "Horse (Draft)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "mount"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A strong horse bred for pulling heavy loads.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "mount",
+      "name": "Mount"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A strong horse bred for pulling heavy loads.",
+    "key": "srd-2024_horse-draft",
+    "name": "Horse (Draft)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

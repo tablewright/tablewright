@@ -1,0 +1,167 @@
+{
+  "id": "5e-2024-srd:monster:mastiff",
+  "type": "monster",
+  "name": "Mastiff",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-1/8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 12,
+      "dexterity": 14,
+      "intelligence": 3,
+      "strength": 13,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 1,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 4 (1d6 + 1) Piercing damage. If the target is a Medium or smaller creature, it has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 25,
+    "hit_dice": "1d8 + 1",
+    "hit_points": 5,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_mastiff",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 1
+    },
+    "name": "Mastiff",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": 1,
+      "deception": -2,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 5,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -4,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

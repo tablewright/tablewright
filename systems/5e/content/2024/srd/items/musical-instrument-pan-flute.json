@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:musical-instrument-pan-flute",
+  "type": "item",
+  "name": "Musical Instrument, Pan Flute",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Charisma. Utilize: Identify a musical piece (DC 15)",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "12.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Charisma. Utilize: Identify a musical piece (DC 15)",
+    "key": "srd-2024_musical-instrument-pan-flute",
+    "name": "Musical Instrument, Pan Flute",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "id": "5e-2024-srd:monster:deer",
+  "type": "monster",
+  "name": "Deer",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 11,
+      "dexterity": 16,
+      "intelligence": 2,
+      "strength": 11,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Ram attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 2
+          }
+        ],
+        "desc": "Melee Attack Roll: +2, reach 5 ft. 2 (1d4) Bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Ram",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "1d8",
+    "hit_points": 4,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_deer",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "name": "Deer",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 2,
+      "arcana": -4,
+      "athletics": 0,
+      "deception": -3,
+      "history": -4,
+      "insight": 2,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 2,
+      "nature": -4,
+      "perception": 4,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 3,
+      "stealth": 3,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The deer doesn't provoke an Opportunity Attack when it moves out of an enemy's reach.",
+        "name": "Agile"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

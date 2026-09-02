@@ -1,0 +1,239 @@
+{
+  "id": "5e-2024-srd:monster:guardian-naga",
+  "type": "monster",
+  "name": "Guardian Naga",
+  "source": "5e-2024-srd",
+  "tags": [
+    "celestial",
+    "large",
+    "cr-10"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 16,
+      "dexterity": 18,
+      "intelligence": 16,
+      "strength": 19,
+      "wisdom": 19
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D12",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 8
+          }
+        ],
+        "desc": "Melee Attack Roll: +8, reach 10 ft. 17 (2d12 + 4) Piercing damage plus 22 (4d10) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The naga makes two Bite attacks. It can replace any attack with a use of Poisonous Spittle.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 16, one creature the naga can see within 60 feet. Failure: 31 (7d8) Poison damage, and the target has the Blinded condition until the start of the naga's next turn. Success: Half damage only.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Poisonous Spittle",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The naga casts one of the following spells, requiring no Somatic or Material components and using Wisdom as the spellcasting ability (spell save DC 16):\n\n- **At Will:** Thaumaturgy\n- **1/Day Each:** Clairvoyance, Cure Wounds, Flame Strike, Geas, True Seeing",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 18,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 10,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 5900,
+    "hit_dice": "16d10 + 48",
+    "hit_points": 136,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_guardian-naga",
+    "languages": {
+      "as_string": "Celestial, Common",
+      "data": [
+        {
+          "desc": "Typical speakers are celestials",
+          "key": "celestial",
+          "name": "Celestial"
+        },
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 3,
+      "dexterity": 4,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 4
+    },
+    "name": "Guardian Naga",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        }
+      ],
+      "condition_immunities_display": "charmed, paralyzed, poisoned, restrained",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 8,
+      "constitution": 7,
+      "dexterity": 8,
+      "intelligence": 7,
+      "strength": 4,
+      "wisdom": 8
+    },
+    "saving_throws_all": {
+      "charisma": 8,
+      "constitution": 7,
+      "dexterity": 8,
+      "intelligence": 7,
+      "strength": 4,
+      "wisdom": 8
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "arcana": 11,
+      "history": 11,
+      "religion": 11
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 4,
+      "animal_handling": 4,
+      "arcana": 11,
+      "athletics": 4,
+      "deception": 4,
+      "history": 11,
+      "insight": 4,
+      "intimidation": 4,
+      "investigation": 3,
+      "medicine": 4,
+      "nature": 3,
+      "perception": 4,
+      "performance": 4,
+      "persuasion": 4,
+      "religion": 11,
+      "sleight_of_hand": 4,
+      "stealth": 4,
+      "survival": 4
+    },
+    "speed": {
+      "climb": 40,
+      "swim": 40,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 40,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 40,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the naga dies, it returns to life in 1d6 days and regains all its Hit Points unless Dispel Evil and Good is cast on its remains.",
+        "name": "Celestial Restoration"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:potion-of-gaseous-form",
+  "type": "magic-item",
+  "name": "Potion of Gaseous Form",
+  "source": "5e-2024-srd",
+  "tags": [
+    "potion",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "When you drink this potion, you gain the effect of the Gaseous Form spell for 1 hour (no Concentration required) or until you end the effect as a Bonus Action. This potion's container seems to hold fog that moves and pours like water.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you drink this potion, you gain the effect of the Gaseous Form spell for 1 hour (no Concentration required) or until you end the effect as a Bonus Action. This potion's container seems to hold fog that moves and pours like water.",
+    "key": "srd-2024_potion-of-gaseous-form",
+    "name": "Potion of Gaseous Form",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

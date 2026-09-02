@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:ring-of-water-walking",
+  "type": "magic-item",
+  "name": "Ring of Water Walking",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ring",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wearing this ring, you cast Water Walk from it, targeting only yourself.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this ring, you cast Water Walk from it, targeting only yourself.",
+    "key": "srd-2024_ring-of-water-walking",
+    "name": "Ring of Water Walking",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

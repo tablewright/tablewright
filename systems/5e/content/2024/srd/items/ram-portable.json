@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:ram-portable",
+  "type": "item",
+  "name": "Ram, Portable",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You can use a Portable Ram to break down doors. When doing so, you gain a +4 bonus to the Strength check. One other character can help you use the ram, giving you Advantage on this check.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "4.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You can use a Portable Ram to break down doors. When doing so, you gain a +4 bonus to the Strength check. One other character can help you use the ram, giving you Advantage on this check.",
+    "key": "srd-2024_ram-portable",
+    "name": "Ram, Portable",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "35.000",
+    "weight_unit": "lb"
+  }
+}

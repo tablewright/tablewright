@@ -1,0 +1,221 @@
+{
+  "id": "5e-2024-srd:monster:mage",
+  "type": "monster",
+  "name": "Mage",
+  "source": "5e-2024-srd",
+  "tags": [
+    "humanoid",
+    "small",
+    "cr-6"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 11,
+      "constitution": 11,
+      "dexterity": 14,
+      "intelligence": 17,
+      "strength": 9,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 3,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "force",
+              "name": "Force"
+            },
+            "long_range": null,
+            "name": "Arcane Burst attack",
+            "range": 120,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +6, reach 5 ft. or range 120 ft. 16 (3d8 + 3) Force damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Arcane Burst",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The mage makes three Arcane Burst attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The mage casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 14):\n\n- **At Will:** Detect Magic, Light, Mage Armor, Mage Hand, Prestidigitation\n- **2/Day Each:** Fireball, Invisibility\n- **1/Day Each:** Cone of Cold, Fly",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The mage casts Misty Step, using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Misty Step",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 3,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "The mage casts Counterspell or Shield in response to the spell's trigger, using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Protective Magic",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 3,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 6,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 2300,
+    "hit_dice": "18d8",
+    "hit_points": 81,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_mage",
+    "languages": {
+      "as_string": "Common and any three languages",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 3,
+      "strength": -1,
+      "wisdom": 1
+    },
+    "name": "Mage",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 6,
+      "strength": -1,
+      "wisdom": 4
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 6,
+      "strength": -1,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "arcana": 6,
+      "history": 6,
+      "perception": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": 6,
+      "athletics": -1,
+      "deception": 0,
+      "history": 6,
+      "insight": 1,
+      "intimidation": 0,
+      "investigation": 3,
+      "medicine": 1,
+      "nature": 3,
+      "perception": 4,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 3,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

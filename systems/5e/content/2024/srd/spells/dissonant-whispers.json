@@ -1,0 +1,60 @@
+{
+  "id": "5e-2024-srd:spell:dissonant-whispers",
+  "type": "spell",
+  "name": "Dissonant Whispers",
+  "source": "5e-2024-srd",
+  "tags": [
+    "enchantment",
+    "level-1",
+    "bard"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "One creature of your choice that you can see within range hears a discordant melody in its mind. The target makes a Wisdom saving throw. On a failed save, it takes 3d6 Psychic damage and must immediately use its Reaction, if available, to move as far away from you as it can, using the safest route. On a successful save, the target takes half as much damage only.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "3d6",
+    "damage_types": [
+      "psychic"
+    ],
+    "desc": "One creature of your choice that you can see within range hears a discordant melody in its mind. The target makes a Wisdom saving throw. On a failed save, it takes 3d6 Psychic damage and must immediately use its Reaction, if available, to move as far away from you as it can, using the safest route. On a successful save, the target takes half as much damage only.",
+    "duration": "instantaneous",
+    "higher_level": "",
+    "key": "srd-2024_dissonant-whispers",
+    "level": 1,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Dissonant Whispers",
+    "range": 60,
+    "range_text": "60 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "wisdom",
+    "school": {
+      "key": "enchantment",
+      "name": "Enchantment"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": false,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

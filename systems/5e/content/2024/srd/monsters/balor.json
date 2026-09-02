@@ -1,0 +1,274 @@
+{
+  "id": "5e-2024-srd:monster:balor",
+  "type": "monster",
+  "name": "Balor",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "huge",
+    "cr-19"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 22,
+      "constitution": 22,
+      "dexterity": 15,
+      "intelligence": 20,
+      "strength": 26,
+      "wisdom": 16
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 8,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "force",
+              "name": "Force"
+            },
+            "long_range": null,
+            "name": "Flame Whip attack",
+            "range": null,
+            "reach": 30,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Attack Roll: +14, reach 30 ft. 18 (3d6 + 8) Force damage plus 17 (5d6) Fire damage. If the target is a Huge or smaller creature, the balor pulls the target up to 25 feet straight toward itself, and the target has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Flame Whip",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 8,
+            "damage_die_count": 3,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "force",
+              "name": "Force"
+            },
+            "long_range": null,
+            "name": "Lightning Blade attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Attack Roll: +14, reach 10 ft. 21 (3d8 + 8) Force damage plus 22 (4d10) Lightning damage, and the target can't take Reactions until the start of the balor's next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Lightning Blade",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The balor makes one Flame Whip attack and one Lightning Blade attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The balor teleports itself or a willing demon within 10 feet of itself up to 60 feet to an unoccupied space the balor can see.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Teleport",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 19,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 19,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 22000,
+    "hit_dice": "23d12 + 138",
+    "hit_points": 287,
+    "illustration": null,
+    "initiative_bonus": 14,
+    "key": "srd-2024_balor",
+    "languages": {
+      "as_string": "Abyssal; telepathy 120 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 6,
+      "constitution": 6,
+      "dexterity": 2,
+      "intelligence": 5,
+      "strength": 8,
+      "wisdom": 3
+    },
+    "name": "Balor",
+    "normal_sight_range": 10560,
+    "passive_perception": 19,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, frightened, poisoned",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "fire, poison",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_resistances_display": "cold, lightning",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 6,
+      "constitution": 12,
+      "dexterity": 2,
+      "intelligence": 5,
+      "strength": 8,
+      "wisdom": 9
+    },
+    "saving_throws_all": {
+      "charisma": 6,
+      "constitution": 12,
+      "dexterity": 2,
+      "intelligence": 5,
+      "strength": 8,
+      "wisdom": 9
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "perception": 9
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 3,
+      "arcana": 5,
+      "athletics": 8,
+      "deception": 6,
+      "history": 5,
+      "insight": 3,
+      "intimidation": 6,
+      "investigation": 5,
+      "medicine": 3,
+      "nature": 5,
+      "perception": 9,
+      "performance": 6,
+      "persuasion": 6,
+      "religion": 5,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 3
+    },
+    "speed": {
+      "fly": 80,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 80,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The balor explodes when it dies. Dexterity Saving Throw: DC 20, each creature in a 30-foot Emanation originating from the balor. Failure: 31 (9d6) Fire damage plus 31 (9d6) Force damage. Success: Half damage. Failure or Success: If the balor dies outside the Abyss, it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+        "name": "Death Throes"
+      },
+      {
+        "desc": "At the end of each of the balor's turns, each creature in a 5-foot Emanation originating from the balor takes 13 (3d8) Fire damage.",
+        "name": "Fire Aura"
+      },
+      {
+        "desc": "If the balor fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (3/Day)"
+      },
+      {
+        "desc": "The balor has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

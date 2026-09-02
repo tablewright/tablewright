@@ -1,0 +1,251 @@
+{
+  "id": "5e-2024-srd:monster:wraith",
+  "type": "monster",
+  "name": "Wraith",
+  "source": "5e-2024-srd",
+  "tags": [
+    "undead",
+    "small",
+    "cr-5"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 15,
+      "constitution": 16,
+      "dexterity": 16,
+      "intelligence": 12,
+      "strength": 6,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The wraith targets a Humanoid corpse within 10 feet of itself that has been dead for no longer than 1 minute. The target's spirit rises as a Specter in the space of its corpse or in the nearest unoccupied space. The specter is under the wraith's control. The wraith can have no more than seven specters under its control at a time.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Create Specter",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 4,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "necrotic",
+              "name": "Necrotic"
+            },
+            "long_range": null,
+            "name": "Life Drain attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 5 ft. 21 (4d8 + 3) Necrotic damage. If the target is a creature, its Hit Point maximum decreases by an amount equal to the damage taken.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Life Drain",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1800,
+    "hit_dice": "9d8 + 27",
+    "hit_points": 67,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_wraith",
+    "languages": {
+      "as_string": "Common plus two other languages",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": -2,
+      "wisdom": 2
+    },
+    "name": "Wraith",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        },
+        {
+          "key": "unconscious",
+          "name": "Unconscious"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, grappled, paralyzed, petrified, poisoned, prone, restrained, unconscious",
+      "damage_immunities": [
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "necrotic, poison",
+      "damage_resistances": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        },
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_resistances_display": "acid, cold, fire",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": -2,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": -2,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 2,
+      "arcana": 1,
+      "athletics": -2,
+      "deception": 2,
+      "history": 1,
+      "insight": 2,
+      "intimidation": 2,
+      "investigation": 1,
+      "medicine": 2,
+      "nature": 1,
+      "perception": 2,
+      "performance": 2,
+      "persuasion": 2,
+      "religion": 1,
+      "sleight_of_hand": 3,
+      "stealth": 3,
+      "survival": 2
+    },
+    "speed": {
+      "fly": 60,
+      "hover": true,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 60,
+      "hover": true,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The wraith can move through other creatures and objects as if they were Difficult Terrain. It takes 5 (1d10) Force damage if it ends its turn inside an object.",
+        "name": "Incorporeal Movement"
+      },
+      {
+        "desc": "While in sunlight, the wraith has Disadvantage on ability checks and attack rolls.",
+        "name": "Sunlight Sensitivity"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

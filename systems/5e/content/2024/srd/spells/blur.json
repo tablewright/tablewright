@@ -1,0 +1,64 @@
+{
+  "id": "5e-2024-srd:spell:blur",
+  "type": "spell",
+  "name": "Blur",
+  "source": "5e-2024-srd",
+  "tags": [
+    "illusion",
+    "level-2",
+    "sorcerer",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Your body becomes blurred. For the duration, any creature has Disadvantage on attack rolls against you. An attacker is immune to this effect if it perceives you with Blindsight or Truesight.",
+  "data": {
+    "attack_roll": true,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Your body becomes blurred. For the duration, any creature has Disadvantage on attack rolls against you. An attacker is immune to this effect if it perceives you with Blindsight or Truesight.",
+    "duration": "1 minute",
+    "higher_level": "",
+    "key": "srd-2024_blur",
+    "level": 2,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Blur",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "illusion",
+      "name": "Illusion"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": false,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

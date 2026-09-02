@@ -1,0 +1,156 @@
+{
+  "id": "5e-2024-srd:monster:frog",
+  "type": "monster",
+  "name": "Frog",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 3,
+      "constitution": 8,
+      "dexterity": 13,
+      "intelligence": 1,
+      "strength": 1,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 1 Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 30,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "1d4 - 1",
+    "hit_points": 1,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_frog",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 1,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": -1
+    },
+    "name": "Frog",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 1,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": -1
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 1,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 1,
+      "stealth": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": -1,
+      "arcana": -5,
+      "athletics": -5,
+      "deception": -4,
+      "history": -5,
+      "insight": -1,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": -1,
+      "nature": -5,
+      "perception": 1,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": 1,
+      "stealth": 3,
+      "survival": -1
+    },
+    "speed": {
+      "swim": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The frog can breathe air and water.",
+        "name": "Amphibious"
+      },
+      {
+        "desc": "The frog's Long Jump is up to 10 feet and its High Jump is up to 5 feet with or without a running start.",
+        "name": "Standing Leap"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:cloak-of-protection",
+  "type": "magic-item",
+  "name": "Cloak of Protection",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +1 bonus to Armor Class and saving throws while you wear this cloak.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to Armor Class and saving throws while you wear this cloak.",
+    "key": "srd-2024_cloak-of-protection",
+    "name": "Cloak of Protection",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

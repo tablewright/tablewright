@@ -1,0 +1,268 @@
+{
+  "id": "5e-2024-srd:monster:weretiger",
+  "type": "monster",
+  "name": "Weretiger",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "small",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 11,
+      "constitution": 16,
+      "dexterity": 15,
+      "intelligence": 10,
+      "strength": 17,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite (Tiger or Hybrid Form Only) attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 12 (2d8 + 3) Piercing damage. If the target is a Humanoid, it is subjected to the following effect. Constitution Saving Throw: DC 13. Failure: The target is cursed. If the cursed target drops to 0 Hit Points, it instead becomes a Weretiger under the DM's control and has 10 Hit Points. Success: The target is immune to this weretiger's curse for 24 hours.",
+        "legendary_action_cost": null,
+        "limited_to_form": "Tiger or Hybrid Form Only",
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 600,
+            "name": "Longbow attack",
+            "range": 150,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Ranged Attack Roll: +4, range 150/600 ft. 11 (2d8 + 2) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": "Humanoid or Hybrid Form Only",
+        "name": "Longbow",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The weretiger makes two attacks, using Scratch or Longbow in any combination. It can replace one attack with a Bite attack.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Scratch attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 10 (2d6 + 3) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Scratch",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The weretiger moves up to its Speed without provoking Opportunity Attacks. At the end of this movement, the weretiger can take the Hide action.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Prowl (Tiger or Hybrid Form Only)",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The weretiger shape-shifts into a Large tiger-humanoid hybrid or a Large tiger, or it returns to its true humanoid form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn't transformed.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Shape-Shift",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "16d8 + 48",
+    "hit_points": 120,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_weretiger",
+    "languages": {
+      "as_string": "Common (can't speak in tiger form)",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Weretiger",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 5,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": 0,
+      "athletics": 3,
+      "deception": 0,
+      "history": 0,
+      "insight": 1,
+      "intimidation": 0,
+      "investigation": 0,
+      "medicine": 1,
+      "nature": 0,
+      "perception": 5,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 0,
+      "sleight_of_hand": 2,
+      "stealth": 4,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

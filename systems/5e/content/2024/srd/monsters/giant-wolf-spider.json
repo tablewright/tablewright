@@ -1,0 +1,174 @@
+{
+  "id": "5e-2024-srd:monster:giant-wolf-spider",
+  "type": "monster",
+  "name": "Giant Wolf Spider",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 13,
+      "dexterity": 16,
+      "intelligence": 3,
+      "strength": 12,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 5 (1d4 + 3) Piercing damage plus 5 (2d4) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Animals",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "2d8 + 2",
+    "hit_points": 11,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_giant-wolf-spider",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 1
+    },
+    "name": "Giant Wolf Spider",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 3,
+      "stealth": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": 1,
+      "deception": -3,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 3,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 3,
+      "stealth": 7,
+      "survival": 1
+    },
+    "speed": {
+      "climb": 40,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 40,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The spider can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+        "name": "Spider Climb"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

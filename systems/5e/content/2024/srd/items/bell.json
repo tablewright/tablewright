@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:bell",
+  "type": "item",
+  "name": "Bell",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "When rung as a Utilize action, a Bell produces a sound that can be heard up to 60 feet away.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When rung as a Utilize action, a Bell produces a sound that can be heard up to 60 feet away.",
+    "key": "srd-2024_bell",
+    "name": "Bell",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

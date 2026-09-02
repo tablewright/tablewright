@@ -1,0 +1,72 @@
+{
+  "id": "5e-2024-srd:magic-item:holy-avenger-greatclub",
+  "type": "magic-item",
+  "name": "Holy Avenger (Greatclub)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "legendary",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +3 bonus to attack rolls and damage rolls made with this magic weapon. When you hit a Fiend or an Undead with it, that creature takes an extra 2d10 Radiant damage.\n\nWhile you hold the drawn weapon, it creates a 10-foot Emanation originating from you. You and all creatures Friendly to you in the Emanation have Advantage on saving throws against spells and other magical effects. If you have 17 or more levels in the Paladin class, the size of the Emanation increases to 30 feet.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +3 bonus to attack rolls and damage rolls made with this magic weapon. When you hit a Fiend or an Undead with it, that creature takes an extra 2d10 Radiant damage.\n\nWhile you hold the drawn weapon, it creates a 10-foot Emanation originating from you. You and all creatures Friendly to you in the Emanation have Advantage on saving throws against spells and other magical effects. If you have 17 or more levels in the Paladin class, the size of the Emanation increases to 30 feet.",
+    "key": "srd-2024_holy-avenger-greatclub",
+    "name": "Holy Avenger (Greatclub)",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd-2024_greatclub",
+      "name": "Greatclub",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.",
+            "name": "Push",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "A Two-Handed weapon requires two hands when you attack with it.",
+            "name": "Two-Handed",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

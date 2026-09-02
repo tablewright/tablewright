@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:wand-of-web",
+  "type": "magic-item",
+  "name": "Wand of Web",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wand",
+    "uncommon",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "**_Spells._** While holding the wand, you can cast one of the spells (save DC 15) on the following table from it. The table indicates how many charges you must expend to cast the spell.\n\n| Spell                             | Charge Cost |\n|-----------------------------------|-------------|\n| Command (\"flee\" or \"grovel\" only) | 1           |\n| Fear (60-foot Cone)               | 3           |\n\n**_Regaining Charges._** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand crumbles into ashes and is destroyed.",
+  "data": {
+    "armor": null,
+    "attunement_detail": "Requires Attunement by a Spellcaster",
+    "category": {
+      "key": "wand",
+      "name": "Wand"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "**_Spells._** While holding the wand, you can cast one of the spells (save DC 15) on the following table from it. The table indicates how many charges you must expend to cast the spell.\n\n| Spell                             | Charge Cost |\n|-----------------------------------|-------------|\n| Command (\"flee\" or \"grovel\" only) | 1           |\n| Fear (60-foot Cone)               | 3           |\n\n**_Regaining Charges._** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand crumbles into ashes and is destroyed.",
+    "key": "srd-2024_wand-of-web",
+    "name": "Wand of Web",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

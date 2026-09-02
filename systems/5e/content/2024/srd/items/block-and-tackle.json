@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:block-and-tackle",
+  "type": "item",
+  "name": "Block and Tackle",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Block and Tackle allows you to hoist up to four times the weight you can normally lift.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Block and Tackle allows you to hoist up to four times the weight you can normally lift.",
+    "key": "srd-2024_block-and-tackle",
+    "name": "Block and Tackle",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

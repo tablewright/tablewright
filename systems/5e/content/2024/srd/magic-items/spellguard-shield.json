@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:spellguard-shield",
+  "type": "magic-item",
+  "name": "Spellguard Shield",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "very-rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While holding this Shield, you have Advantage on saving throws against spells and other magical effects, and spell attack rolls have Disadvantage against you.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While holding this Shield, you have Advantage on saving throws against spells and other magical effects, and spell attack rolls have Disadvantage against you.",
+    "key": "srd-2024_spellguard-shield",
+    "name": "Spellguard Shield",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

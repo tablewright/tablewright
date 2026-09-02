@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:holy-symbol-reliquary",
+  "type": "item",
+  "name": "Holy Symbol, Reliquary",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Holy Symbol Reliquary is bejeweled or painted to channel divine magic. A Cleric or Paladin can use it as a Spellcasting Focus. It must be held in hand.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Holy Symbol Reliquary is bejeweled or painted to channel divine magic. A Cleric or Paladin can use it as a Spellcasting Focus. It must be held in hand.",
+    "key": "srd-2024_holy-symbol-reliquary",
+    "name": "Holy Symbol, Reliquary",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

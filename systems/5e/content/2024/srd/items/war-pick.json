@@ -1,0 +1,63 @@
+{
+  "id": "5e-2024-srd:item:war-pick",
+  "type": "item",
+  "name": "War Pick",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A war pick.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A war pick.",
+    "key": "srd-2024_war-pick",
+    "name": "War Pick",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_war-pick",
+      "name": "War Pick",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.",
+            "name": "Sap",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": "1d10",
+          "property": {
+            "desc": "A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.",
+            "name": "Versatile",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

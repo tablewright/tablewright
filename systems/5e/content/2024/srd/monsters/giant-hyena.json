@@ -1,0 +1,180 @@
+{
+  "id": "5e-2024-srd:monster:giant-hyena",
+  "type": "monster",
+  "name": "Giant Hyena",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 14,
+      "dexterity": 14,
+      "intelligence": 2,
+      "strength": 16,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 10 (2d6 + 3) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "Immediately after dealing damage to a creature that was already Bloodied, the hyena can move up to half its Speed, and it makes one Bite attack.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Rampage",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "6d10 + 12",
+    "hit_points": 45,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_giant-hyena",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Giant Hyena",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": 3,
+      "deception": -2,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 3,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -4,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

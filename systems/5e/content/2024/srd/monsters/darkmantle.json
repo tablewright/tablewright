@@ -1,0 +1,181 @@
+{
+  "id": "5e-2024-srd:monster:darkmantle",
+  "type": "monster",
+  "name": "Darkmantle",
+  "source": "5e-2024-srd",
+  "tags": [
+    "aberration",
+    "small",
+    "cr-1/2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 13,
+      "dexterity": 12,
+      "intelligence": 2,
+      "strength": 16,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Crush attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 6 (1d6 + 3) Bludgeoning damage, and the darkmantle attaches to the target. If the target is a Medium or smaller creature and the darkmantle had Advantage on the attack roll, it covers the target, which has the Blinded condition and is suffocating while the darkmantle is attached in this way. While attached to a target, the darkmantle can attack only the target but has Advantage on its attack rolls. Its Speed becomes 0, it can't benefit from any bonus to its Speed, and it moves with the target. A creature can take an action to try to detach the darkmantle from itself, doing so with a successful DC 13 Strength (Athletics) check. On its turn, the darkmantle can detach itself by using 5 feet of movement.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Crush",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Magical darkness fills a 15-foot Emanation originating from the darkmantle. This effect lasts while the darkmantle maintains Concentration on it, up to 10 minutes. Darkvision can't penetrate this area, and no light can illuminate it.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Darkness Aura",
+        "order_in_statblock": 1,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 0.5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 100,
+    "hit_dice": "5d6 + 5",
+    "hit_points": 22,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_darkmantle",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "name": "Darkmantle",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "stealth": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": 3,
+      "deception": -3,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 0,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 1,
+      "stealth": 3,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 30,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 5,
+      "crawl": 5,
+      "fly": 30,
+      "hover": false,
+      "swim": 5,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "aberration",
+      "name": "Aberration"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "5e-2024-srd:spell:heroes-feast",
+  "type": "spell",
+  "name": "Heroes' Feast",
+  "source": "5e-2024-srd",
+  "tags": [
+    "conjuration",
+    "level-6",
+    "bard",
+    "cleric",
+    "druid"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You conjure a feast that appears on a surface in an unoccupied 10-foot Cube next to you. The feast takes 1 hour to consume and disappears at the end of that time, and the beneficial effects don't set in until this hour is over. Up to twelve creatures can partake of the feast. A creature that partakes gains several benefits, which last for 24 hours. The creature has Resistance to Poison damage, and it has Immunity to the Frightened and Poisoned conditions. Its Hit Point maximum also increases by 2d10, and it gains the same number of Hit Points.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "1minute",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "2d10",
+    "damage_types": [
+      "poison"
+    ],
+    "desc": "You conjure a feast that appears on a surface in an unoccupied 10-foot Cube next to you. The feast takes 1 hour to consume and disappears at the end of that time, and the beneficial effects don't set in until this hour is over. Up to twelve creatures can partake of the feast. A creature that partakes gains several benefits, which last for 24 hours. The creature has Resistance to Poison damage, and it has Immunity to the Frightened and Poisoned conditions. Its Hit Point maximum also increases by 2d10, and it gains the same number of Hit Points.",
+    "duration": "instantaneous",
+    "higher_level": "",
+    "key": "srd-2024_heroes-feast",
+    "level": 6,
+    "material": true,
+    "material_consumed": true,
+    "material_cost": null,
+    "material_specified": "a gem-encrusted bowl worth 1,000+ GP, which the spell consumes",
+    "name": "Heroes' Feast",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "conjuration",
+      "name": "Conjuration"
+    },
+    "shape_size": 10,
+    "shape_size_unit": "feet",
+    "shape_type": "cube",
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

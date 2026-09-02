@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:painters-supplies",
+  "type": "item",
+  "name": "Painter's Supplies (10 GP)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Wisdom. Utilize: Paint a recognizable image of something you've seen (DC 10). Craft: Druidic Focus, Holy Symbol",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Wisdom. Utilize: Paint a recognizable image of something you've seen (DC 10). Craft: Druidic Focus, Holy Symbol",
+    "key": "srd-2024_painters-supplies",
+    "name": "Painter's Supplies (10 GP)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

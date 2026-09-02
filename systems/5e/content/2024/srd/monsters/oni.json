@@ -1,0 +1,264 @@
+{
+  "id": "5e-2024-srd:monster:oni",
+  "type": "monster",
+  "name": "Oni",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "large",
+    "cr-7"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 15,
+      "constitution": 16,
+      "dexterity": 11,
+      "intelligence": 14,
+      "strength": 19,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 1,
+            "damage_die_type": "D12",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 10 ft. 10 (1d12 + 4) Slashing damage plus 9 (2d8) Necrotic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The oni makes two Claw or Nightmare Ray attacks. It can replace one attack with a use of Spellcasting.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "psychic",
+              "name": "Psychic"
+            },
+            "long_range": null,
+            "name": "Nightmare Ray attack",
+            "range": 60,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Ranged Attack Roll: +5, range 60 ft. 9 (2d6 + 2) Psychic damage, and the target has the Frightened condition until the start of the oni's next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Nightmare Ray",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The oni shape-shifts into a Small or Medium Humanoid or a Large Giant, or it returns to its true form. Other than its size, its game statistics are the same in each form. Any equipment it is wearing or carrying isn't transformed.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Shape-Shift",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The oni casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 13):\n\n- **At Will:**\n- **1/Day Each:** Charm Person, Darkness, Gaseous Form, Sleep",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 4,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The oni casts Invisibility on itself, requiring no spell components and using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Invisibility",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 7,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 2900,
+    "hit_dice": "14d10 + 42",
+    "hit_points": 119,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd-2024_oni",
+    "languages": {
+      "as_string": "Common, Giant",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include ogres, and giants.",
+          "key": "giant",
+          "name": "Giant"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 0,
+      "intelligence": 2,
+      "strength": 4,
+      "wisdom": 1
+    },
+    "name": "Oni",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_resistances_display": "cold",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 5,
+      "constitution": 6,
+      "dexterity": 3,
+      "intelligence": 2,
+      "strength": 4,
+      "wisdom": 4
+    },
+    "saving_throws_all": {
+      "charisma": 5,
+      "constitution": 6,
+      "dexterity": 3,
+      "intelligence": 2,
+      "strength": 4,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "arcana": 5,
+      "deception": 8,
+      "perception": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 1,
+      "arcana": 5,
+      "athletics": 4,
+      "deception": 8,
+      "history": 2,
+      "insight": 1,
+      "intimidation": 2,
+      "investigation": 2,
+      "medicine": 1,
+      "nature": 2,
+      "perception": 4,
+      "performance": 2,
+      "persuasion": 2,
+      "religion": 2,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 30,
+      "hover": true,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 30,
+      "hover": true,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The oni regains 10 Hit Points at the start of each of its turns if it has at least 1 Hit Point.",
+        "name": "Regeneration"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

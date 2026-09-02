@@ -1,0 +1,69 @@
+{
+  "id": "5e-2024-srd:spell:control-weather",
+  "type": "spell",
+  "name": "Control Weather",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "level-8",
+    "cleric",
+    "druid",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You take control of the weather within 5 miles of you for the duration. You must be outdoors to cast this spell, and it ends early if you go indoors. When you cast the spell, you change the current weather conditions, which are determined by the GM. You can change precipitation, temperature, and wind. It takes 1d4 × 10 minutes for the new conditions to take effect. Once they do so, you can change the conditions again. When the spell ends, the weather gradually returns to normal. When you change the weather conditions, find a current condition on the following tables and change its stage by one, up or down. When changing the wind, you can change its direction. Table: Precipitation | Stage | Condition | |-------|--------------------------------------------| | 1 | Clear | | 2 | Light clouds | | 3 | Overcast or ground fog | | 4 | Rain, hail, or snow | | 5 | Torrential rain, driving hail, or blizzard | Table: Temperature | Stage | Condition | |-------------|-----------| | 1 | Heat wave | | 2 | Hot | | 3 | Warm | | 4 | Cool | | 5 | Cold | | 6 | Freezing | Table: Wind | Stage | Condition | |-------|---------------| | 1 | Calm | | 2 | Moderate wind | | 3 | Strong wind | | 4 | Gale | | 5 | Storm |",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "1minute",
+    "classes": [
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "1d4",
+    "damage_types": [],
+    "desc": "You take control of the weather within 5 miles of you for the duration. You must be outdoors to cast this spell, and it ends early if you go indoors. When you cast the spell, you change the current weather conditions, which are determined by the GM. You can change precipitation, temperature, and wind. It takes 1d4 × 10 minutes for the new conditions to take effect. Once they do so, you can change the conditions again. When the spell ends, the weather gradually returns to normal. When you change the weather conditions, find a current condition on the following tables and change its stage by one, up or down. When changing the wind, you can change its direction. Table: Precipitation | Stage | Condition | |-------|--------------------------------------------| | 1 | Clear | | 2 | Light clouds | | 3 | Overcast or ground fog | | 4 | Rain, hail, or snow | | 5 | Torrential rain, driving hail, or blizzard | Table: Temperature | Stage | Condition | |-------------|-----------| | 1 | Heat wave | | 2 | Hot | | 3 | Warm | | 4 | Cool | | 5 | Cold | | 6 | Freezing | Table: Wind | Stage | Condition | |-------|---------------| | 1 | Calm | | 2 | Moderate wind | | 3 | Strong wind | | 4 | Gale | | 5 | Storm |",
+    "duration": "8 hours",
+    "higher_level": "",
+    "key": "srd-2024_control-weather",
+    "level": 8,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "burning incense",
+    "name": "Control Weather",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

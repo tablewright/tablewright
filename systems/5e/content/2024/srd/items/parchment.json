@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:parchment",
+  "type": "item",
+  "name": "Parchment",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "One sheet of Parchment can hold about 250 handwritten words.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.10",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One sheet of Parchment can hold about 250 handwritten words.",
+    "key": "srd-2024_parchment",
+    "name": "Parchment",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

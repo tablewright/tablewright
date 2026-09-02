@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:chain-shirt",
+  "type": "item",
+  "name": "Chain Shirt",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A chain shirt.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 13,
+      "ac_cap_dexmod": 2,
+      "ac_display": "13 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": false,
+      "key": "srd-2024_chain-shirt",
+      "name": "Chain Shirt",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A chain shirt.",
+    "key": "srd-2024_chain-shirt",
+    "name": "Chain Shirt",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "20.000",
+    "weight_unit": "lb"
+  }
+}

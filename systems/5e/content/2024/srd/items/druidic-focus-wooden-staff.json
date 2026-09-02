@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:druidic-focus-wooden-staff",
+  "type": "item",
+  "name": "Druidic Focus, Wooden Staff",
+  "source": "5e-2024-srd",
+  "tags": [
+    "spellcasting-focus"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Druidic Focus is carved, tied with ribbon, or painted to channel primal magic. A Druid or Ranger can use such an object as a Spellcasting Focus. This staff can also be used as a Quarterstaff.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "spellcasting-focus",
+      "name": "Spellcasting Focus"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Druidic Focus is carved, tied with ribbon, or painted to channel primal magic. A Druid or Ranger can use such an object as a Spellcasting Focus. This staff can also be used as a Quarterstaff.",
+    "key": "srd-2024_druidic-focus-wooden-staff",
+    "name": "Druidic Focus, Wooden Staff",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "id": "5e-2024-srd:monster:purple-worm",
+  "type": "monster",
+  "name": "Purple Worm",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "gargantuan",
+    "cr-15"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 22,
+      "dexterity": 7,
+      "intelligence": 1,
+      "strength": 28,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 9,
+            "damage_die_count": 3,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Attack Roll: +14, reach 10 ft. 22 (3d8 + 9) Piercing damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 19), and it has the Restrained condition until the grapple ends.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The worm makes one Bite attack and one Tail Stinger attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 9,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Tail Stinger attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Attack Roll: +14, reach 10 ft. 16 (2d6 + 9) Piercing damage plus 35 (10d6) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Tail Stinger",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 19, one Large or smaller creature Grappled by the worm (it can have up to three creatures swallowed at a time). Failure: The target is swallowed by the worm, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions, has Cover|XPHB|Total Cover against attacks and other effects outside the worm, and takes 17 (5d6) Acid damage at the start of each of the worm's turns. If the worm takes 30 damage or more on a single turn from a creature inside it, the worm must succeed on a DC 21 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 5 feet of the worm and has the Prone condition. If the worm dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 20 feet of movement, exiting Prone.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Swallow",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 18,
+    "armor_detail": "natural armor",
+    "blindsight_range": 30,
+    "category": "Monsters",
+    "challenge_rating": 15,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 13000,
+    "hit_dice": "15d20 + 90",
+    "hit_points": 247,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_purple-worm",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 6,
+      "dexterity": -2,
+      "intelligence": -5,
+      "strength": 9,
+      "wisdom": -1
+    },
+    "name": "Purple Worm",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 11,
+      "dexterity": -2,
+      "intelligence": -5,
+      "strength": 9,
+      "wisdom": 4
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 11,
+      "dexterity": -2,
+      "intelligence": -5,
+      "strength": 9,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "gargantuan",
+      "name": "Gargantuan"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -2,
+      "animal_handling": -1,
+      "arcana": -5,
+      "athletics": 9,
+      "deception": -3,
+      "history": -5,
+      "insight": -1,
+      "intimidation": -3,
+      "investigation": -5,
+      "medicine": -1,
+      "nature": -5,
+      "perception": -1,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -5,
+      "sleight_of_hand": -2,
+      "stealth": -2,
+      "survival": -1
+    },
+    "speed": {
+      "burrow": 50,
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 50,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The worm can burrow through solid rock at half its Burrow Speed and leaves a 10-foot-diameter tunnel in its wake.",
+        "name": "Tunneler"
+      }
+    ],
+    "tremorsense_range": 60,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

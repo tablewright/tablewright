@@ -1,0 +1,52 @@
+{
+  "id": "5e-2024-srd:magic-item:half-plate-armor-of-etherealness",
+  "type": "magic-item",
+  "name": "Half Plate Armor of Etherealness",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "legendary",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While you're wearing this armor, you can take a Magic action and use a command word to gain the effect of the Etherealness spell. The spell ends immediately if you remove the armor or take a Magic action to repeat the command word. This property of the armor can't be used again until the next dawn.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 15,
+      "ac_cap_dexmod": 2,
+      "ac_display": "15 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_half-plate-armor",
+      "name": "Half Plate Armor",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While you're wearing this armor, you can take a Magic action and use a command word to gain the effect of the Etherealness spell. The spell ends immediately if you remove the armor or take a Magic action to repeat the command word. This property of the armor can't be used again until the next dawn.",
+    "key": "srd-2024_half-plate-armor-of-etherealness",
+    "name": "Half Plate Armor of Etherealness",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

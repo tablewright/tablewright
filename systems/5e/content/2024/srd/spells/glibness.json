@@ -1,0 +1,63 @@
+{
+  "id": "5e-2024-srd:spell:glibness",
+  "type": "spell",
+  "name": "Glibness",
+  "source": "5e-2024-srd",
+  "tags": [
+    "enchantment",
+    "level-8",
+    "bard",
+    "warlock"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Until the spell ends, when you make a Charisma check, you can replace the number you roll with a 15. Additionally, no matter what you say, magic that would determine if you are telling the truth indicates that you are being truthful.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_warlock",
+        "name": "Warlock"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Until the spell ends, when you make a Charisma check, you can replace the number you roll with a 15. Additionally, no matter what you say, magic that would determine if you are telling the truth indicates that you are being truthful.",
+    "duration": "1 hour",
+    "higher_level": "",
+    "key": "srd-2024_glibness",
+    "level": 8,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Glibness",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "enchantment",
+      "name": "Enchantment"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": false,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

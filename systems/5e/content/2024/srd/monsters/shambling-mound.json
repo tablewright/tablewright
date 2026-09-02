@@ -1,0 +1,216 @@
+{
+  "id": "5e-2024-srd:monster:shambling-mound",
+  "type": "monster",
+  "name": "Shambling Mound",
+  "source": "5e-2024-srd",
+  "tags": [
+    "plant",
+    "large",
+    "cr-5"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 16,
+      "dexterity": 8,
+      "intelligence": 5,
+      "strength": 18,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Charged Tendril attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 10 ft. 7 (1d6 + 4) Bludgeoning damage plus 5 (2d4) Lightning damage. If the target is a Medium or smaller creature, the shambling mound pulls the target 5 feet straight toward itself.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Charged Tendril",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 15, one Medium or smaller creature within 5 feet. Failure: The target is pulled into the shambling mound's space and has the Grappled condition (escape DC 14). Until the grapple ends, the target has the Blinded and Restrained conditions, and it takes 10 (3d6) Lightning damage at the start of each of its turns. When the shambling mound moves, the Grappled target moves with it, costing it no extra movement. The shambling mound can have only one creature Grappled by this action at a time.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Engulf",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The shambling mound makes three Charged Tendril attacks. It can replace one attack with a use of Engulf.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 1800,
+    "hit_dice": "13d10 + 39",
+    "hit_points": 110,
+    "illustration": null,
+    "initiative_bonus": -1,
+    "key": "srd-2024_shambling-mound",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": -1,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "name": "Shambling Mound",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        }
+      ],
+      "condition_immunities_display": "deafened, exhaustion",
+      "damage_immunities": [
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_immunities_display": "lightning",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_resistances_display": "cold, fire",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": -1,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": -1,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "stealth": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 0,
+      "arcana": -3,
+      "athletics": 4,
+      "deception": -3,
+      "history": -3,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -3,
+      "medicine": 0,
+      "nature": -3,
+      "perception": 0,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -3,
+      "sleight_of_hand": -1,
+      "stealth": 3,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 20,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "Whenever the shambling mound is subjected to Lightning damage, it regains a number of Hit Points equal to the Lightning damage dealt.",
+        "name": "Lightning Absorption"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "plant",
+      "name": "Plant"
+    }
+  }
+}

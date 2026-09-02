@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:bullets-firearm-10",
+  "type": "item",
+  "name": "Bullets, Firearm (10)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ammunition for weapons that use bullets, firearm. Comes in a pack of 10. Typically stored in a pouch.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "3.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ammunition for weapons that use bullets, firearm. Comes in a pack of 10. Typically stored in a pouch.",
+    "key": "srd-2024_bullets-firearm-10",
+    "name": "Bullets, Firearm (10)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

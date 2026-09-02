@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:component-pouch",
+  "type": "item",
+  "name": "Component Pouch",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Component Pouch is watertight and filled with compartments that hold all the free Material components of your spells.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "25.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Component Pouch is watertight and filled with compartments that hold all the free Material components of your spells.",
+    "key": "srd-2024_component-pouch",
+    "name": "Component Pouch",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

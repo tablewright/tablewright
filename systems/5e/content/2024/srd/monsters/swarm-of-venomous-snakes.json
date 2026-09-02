@@ -1,0 +1,171 @@
+{
+  "id": "5e-2024-srd:monster:swarm-of-venomous-snakes",
+  "type": "monster",
+  "name": "Swarm of Venomous Snakes",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 3,
+      "constitution": 11,
+      "dexterity": 18,
+      "intelligence": 1,
+      "strength": 8,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bites attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 5 ft. 8 (1d8 + 4) Piercing damage—or 6 (1d4 + 4) Piercing damage if the swarm is Bloodied—plus 10 (3d6) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bites",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Animals",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 450,
+    "hit_dice": "8d8",
+    "hit_points": 36,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_swarm-of-venomous-snakes",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": -5,
+      "strength": -1,
+      "wisdom": 0
+    },
+    "name": "Swarm of Venomous Snakes",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": -5,
+      "strength": -1,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": -5,
+      "strength": -1,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 4,
+      "animal_handling": 0,
+      "arcana": -5,
+      "athletics": -1,
+      "deception": -4,
+      "history": -5,
+      "insight": 0,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": 0,
+      "nature": -5,
+      "perception": 0,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": 4,
+      "stealth": 4,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny snake. The swarm can't regain Hit Points or gain Temporary Hit Points.",
+        "name": "Swarm"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

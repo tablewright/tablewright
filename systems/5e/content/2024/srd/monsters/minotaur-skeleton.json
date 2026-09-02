@@ -1,0 +1,217 @@
+{
+  "id": "5e-2024-srd:monster:minotaur-skeleton",
+  "type": "monster",
+  "name": "Minotaur Skeleton",
+  "source": "5e-2024-srd",
+  "tags": [
+    "undead",
+    "large",
+    "cr-2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 15,
+      "dexterity": 11,
+      "intelligence": 6,
+      "strength": 18,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Gore attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 5 ft. 11 (2d6 + 4) Piercing damage. If the target is a Large or smaller creature and the skeleton moved 20+ feet straight toward it immediately before the hit, the target takes an extra 9 (2d8) Piercing damage and has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Gore",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Slam attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 5 ft. 15 (2d10 + 4) Bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 450,
+    "hit_dice": "6d10 + 12",
+    "hit_points": 45,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd-2024_minotaur-skeleton",
+    "languages": {
+      "as_string": "Understands Abyssal but can't speak",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": -2,
+      "strength": 4,
+      "wisdom": -1
+    },
+    "name": "Minotaur Skeleton",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "exhaustion, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": -2,
+      "strength": 4,
+      "wisdom": -1
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": -2,
+      "strength": 4,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": -1,
+      "arcana": -2,
+      "athletics": 4,
+      "deception": -3,
+      "history": -2,
+      "insight": -1,
+      "intimidation": -3,
+      "investigation": -2,
+      "medicine": -1,
+      "nature": -2,
+      "perception": -1,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -2,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": -1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "5e-2024-srd:item:warhammer",
+  "type": "item",
+  "name": "Warhammer",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A warhammer.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A warhammer.",
+    "key": "srd-2024_warhammer",
+    "name": "Warhammer",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_warhammer",
+      "name": "Warhammer",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.",
+            "name": "Push",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": "1d10",
+          "property": {
+            "desc": "A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.",
+            "name": "Versatile",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

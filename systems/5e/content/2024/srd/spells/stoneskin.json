@@ -1,0 +1,76 @@
+{
+  "id": "5e-2024-srd:spell:stoneskin",
+  "type": "spell",
+  "name": "Stoneskin",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "level-4",
+    "druid",
+    "ranger",
+    "sorcerer",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Until the spell ends, one willing creature you touch has Resistance to Bludgeoning, Piercing, and Slashing damage.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      },
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [
+      "slashing"
+    ],
+    "desc": "Until the spell ends, one willing creature you touch has Resistance to Bludgeoning, Piercing, and Slashing damage.",
+    "duration": "1 hour",
+    "higher_level": "",
+    "key": "srd-2024_stoneskin",
+    "level": 4,
+    "material": true,
+    "material_consumed": true,
+    "material_cost": null,
+    "material_specified": "diamond dust worth 100+ GP, which the spell consumes",
+    "name": "Stoneskin",
+    "range": 0,
+    "range_text": "Touch",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

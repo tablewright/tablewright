@@ -1,0 +1,251 @@
+{
+  "id": "5e-2024-srd:monster:water-elemental",
+  "type": "monster",
+  "name": "Water Elemental",
+  "source": "5e-2024-srd",
+  "tags": [
+    "elemental",
+    "large",
+    "cr-5"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 8,
+      "constitution": 18,
+      "dexterity": 14,
+      "intelligence": 5,
+      "strength": 18,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The elemental makes two Slam attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Slam attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 5 ft. 13 (2d8 + 4) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Prone condition.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 15, each creature in the elemental's space. Failure: 22 (4d8 + 4) Bludgeoning damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14). Until the grapple ends, the target has the Restrained condition, is suffocating unless it can breathe water, and takes 9 (2d8) Bludgeoning damage at the start of each of the elemental's turns. The elemental can grapple one Large creature or up to two Medium or smaller creatures at a time with Whelm. As an action, a creature within 5 feet of the elemental can pull a creature out of it by succeeding on a DC 14 Strength (Athletics) check. Success: Half damage only.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Whelm",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 4,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1800,
+    "hit_dice": "12d10 + 48",
+    "hit_points": 114,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_water-elemental",
+    "languages": {
+      "as_string": "Primordial (Aquan)",
+      "data": [
+        {
+          "desc": "Typical speakers are elementals.",
+          "key": "primordial",
+          "name": "Primordial"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 4,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "name": "Water Elemental",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        },
+        {
+          "key": "unconscious",
+          "name": "Unconscious"
+        }
+      ],
+      "condition_immunities_display": "exhaustion, grappled, paralyzed, petrified, poisoned, prone, restrained, unconscious",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_resistances_display": "acid, fire",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -1,
+      "constitution": 4,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": 4,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": -3,
+      "athletics": 4,
+      "deception": -1,
+      "history": -3,
+      "insight": 0,
+      "intimidation": -1,
+      "investigation": -3,
+      "medicine": 0,
+      "nature": -3,
+      "perception": 0,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": -3,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 90,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 90,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the elemental takes Cold damage, its Speed decreases by 20 feet until the end of its next turn.",
+        "name": "Freeze"
+      },
+      {
+        "desc": "The elemental can enter an enemy's space and stop there. It can move through a space as narrow as 1 inch without expending extra movement to do so.",
+        "name": "Water Form"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "elemental",
+      "name": "Elemental"
+    }
+  }
+}

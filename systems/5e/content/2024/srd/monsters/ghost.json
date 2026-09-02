@@ -1,0 +1,292 @@
+{
+  "id": "5e-2024-srd:monster:ghost",
+  "type": "monster",
+  "name": "Ghost",
+  "source": "5e-2024-srd",
+  "tags": [
+    "undead",
+    "medium",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 17,
+      "constitution": 10,
+      "dexterity": 13,
+      "intelligence": 10,
+      "strength": 7,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The ghost casts the Etherealness spell, requiring no spell components and using Charisma as the spellcasting ability. The ghost is visible on the Material Plane while on the Border Ethereal and vice versa, but it can't affect or be affected by anything on the other plane.\n\n- **At Will:** Etherealness",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Etherealness",
+        "order_in_statblock": 4,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Wisdom Saving Throw: DC 13, each creature in a 60-foot Cone that can see the ghost and isn't an Undead. Failure: 10 (2d6 + 3) Psychic damage, and the target has the Frightened condition until the start of the ghost's next turn. Success: The target is immune to this ghost's Horrific Visage for 24 hours.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Horrific Visage",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The ghost makes two Withering Touch attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Charisma Saving Throw: DC 13, one Humanoid the ghost can see within 5 feet. Failure: The target is possessed by the ghost; the ghost disappears, and the target has the Incapacitated condition and loses control of its body. The ghost now controls the body, but the target retains awareness. The ghost can't be targeted by any attack, spell, or other effect, except ones that specifically target Undead. The ghost's game statistics are the same, except it uses the possessed target's Speed, as well as the target's Strength, Dexterity, and Constitution modifiers. The possession lasts until the body drops to 0 Hit Points or the ghost leaves as a Bonus Action. When the possession ends, the ghost appears in an unoccupied space within 5 feet of the target, and the target is immune to this ghost's Possession for 24 hours. Success: The target is immune to this ghost's Possession for 24 hours.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Possession",
+        "order_in_statblock": 3,
+        "usage_limits": {
+          "param": 6,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 3,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "necrotic",
+              "name": "Necrotic"
+            },
+            "long_range": null,
+            "name": "Withering Touch attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 19 (3d10 + 3) Necrotic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Withering Touch",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "10d8",
+    "hit_points": 45,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_ghost",
+    "languages": {
+      "as_string": "Common plus one other language",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": 0,
+      "strength": -2,
+      "wisdom": 1
+    },
+    "name": "Ghost",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained",
+      "damage_immunities": [
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "necrotic, poison",
+      "damage_resistances": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        },
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        },
+        {
+          "key": "thunder",
+          "name": "Thunder"
+        }
+      ],
+      "damage_resistances_display": "acid, cold, fire, lightning, thunder",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 3,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": 0,
+      "strength": -2,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": 3,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": 0,
+      "strength": -2,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 1,
+      "arcana": 0,
+      "athletics": -2,
+      "deception": 3,
+      "history": 0,
+      "insight": 1,
+      "intimidation": 3,
+      "investigation": 0,
+      "medicine": 1,
+      "nature": 0,
+      "perception": 1,
+      "performance": 3,
+      "persuasion": 3,
+      "religion": 0,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 40,
+      "hover": true,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 40,
+      "hover": true,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The ghost can see 60 feet into the Ethereal Plane when it is on the Material Plane.",
+        "name": "Ethereal Sight"
+      },
+      {
+        "desc": "The ghost can move through other creatures and objects as if they were Difficult Terrain. It takes 5 (1d10) Force damage if it ends its turn inside an object.",
+        "name": "Incorporeal Movement"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

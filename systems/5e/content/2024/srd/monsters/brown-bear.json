@@ -1,0 +1,210 @@
+{
+  "id": "5e-2024-srd:monster:brown-bear",
+  "type": "monster",
+  "name": "Brown Bear",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 15,
+      "dexterity": 12,
+      "intelligence": 2,
+      "strength": 17,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 7 (1d8 + 3) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 5 (1d4 + 3) Slashing damage. If the target is a Large or smaller creature, it has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The bear makes one Bite attack and one Claw attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "3d10 + 6",
+    "hit_points": 22,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_brown-bear",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Brown Bear",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": 3,
+      "deception": -2,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 3,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -4,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 1
+    },
+    "speed": {
+      "climb": 30,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 30,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

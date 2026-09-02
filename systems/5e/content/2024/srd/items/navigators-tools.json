@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:navigators-tools",
+  "type": "item",
+  "name": "Navigator's Tools",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Wisdom. Utilize: Plot a course (DC 15), or determine position (DC 15)",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "25.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Wisdom. Utilize: Plot a course (DC 15), or determine position (DC 15)",
+    "key": "srd-2024_navigators-tools",
+    "name": "Navigator's Tools",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

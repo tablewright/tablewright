@@ -1,0 +1,249 @@
+{
+  "id": "5e-2024-srd:monster:aboleth",
+  "type": "monster",
+  "name": "Aboleth",
+  "source": "5e-2024-srd",
+  "tags": [
+    "aberration",
+    "large",
+    "cr-10"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 15,
+      "dexterity": 9,
+      "intelligence": 18,
+      "strength": 21,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Intelligence Saving Throw: DC 16, one creature within 30 feet that is Charmed or Grappled by the aboleth. Failure: 10 (3d6) Psychic damage. Success: Half damage. Failure or Success: The aboleth gains the target's memories if the target is a Humanoid and is reduced to 0 Hit Points by this action.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Consume Memories",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Wisdom Saving Throw: DC 16, one creature the aboleth can see within 30 feet. Failure: The target has the Charmed condition until the aboleth dies or is on a different plane of existence from the target. While Charmed, the target acts as an ally to the aboleth and is under its control while within 60 feet of it. In addition, the aboleth and the target can communicate telepathically with each other over any distance. The target repeats the save whenever it takes damage as well as after every 24 hours it spends at least 1 mile away from the aboleth, ending the effect on itself on a success.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Dominate Mind",
+        "order_in_statblock": 3,
+        "usage_limits": {
+          "param": 2,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The aboleth makes one Tentacle attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Lash",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The aboleth makes two Tentacle attacks and uses either Consume Memories or Dominate Mind if available.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "If the aboleth has at least one creature Charmed or Grappled, it uses Consume Memories and regains 5 (1d10) Hit Points.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Psychic Drain",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Tentacle attack",
+            "range": null,
+            "reach": 15,
+            "target_creature_only": false,
+            "to_hit_mod": 9
+          }
+        ],
+        "desc": "Melee Attack Roll: +9, reach 15 ft. 12 (2d6 + 5) Bludgeoning damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of four tentacles.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Tentacle",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 10,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 5900,
+    "hit_dice": "20d10 + 40",
+    "hit_points": 150,
+    "illustration": null,
+    "initiative_bonus": 7,
+    "key": "srd-2024_aboleth",
+    "languages": {
+      "as_string": "Deep Speech; telepathy 120 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers include aboleths and cloakers. It is only spoken.",
+          "key": "deep-speech",
+          "name": "Deep Speech"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 2,
+      "dexterity": -1,
+      "intelligence": 4,
+      "strength": 5,
+      "wisdom": 2
+    },
+    "name": "Aboleth",
+    "normal_sight_range": 10560,
+    "passive_perception": 20,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 4,
+      "constitution": 6,
+      "dexterity": 3,
+      "intelligence": 8,
+      "strength": 5,
+      "wisdom": 6
+    },
+    "saving_throws_all": {
+      "charisma": 4,
+      "constitution": 6,
+      "dexterity": 3,
+      "intelligence": 8,
+      "strength": 5,
+      "wisdom": 6
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "history": 12,
+      "perception": 10
+    },
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 2,
+      "arcana": 4,
+      "athletics": 5,
+      "deception": 4,
+      "history": 12,
+      "insight": 2,
+      "intimidation": 4,
+      "investigation": 4,
+      "medicine": 2,
+      "nature": 4,
+      "perception": 10,
+      "performance": 4,
+      "persuasion": 4,
+      "religion": 4,
+      "sleight_of_hand": -1,
+      "stealth": -1,
+      "survival": 2
+    },
+    "speed": {
+      "swim": 40,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 5,
+      "crawl": 5,
+      "fly": 0,
+      "hover": false,
+      "swim": 40,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The aboleth can breathe air and water.",
+        "name": "Amphibious"
+      },
+      {
+        "desc": "If destroyed, the aboleth gains a new body in 5d10 days, reviving with all its Hit Points in the Far Realm or another location chosen by the DM.",
+        "name": "Eldritch Restoration"
+      },
+      {
+        "desc": "If the aboleth fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (3/Day, or 4/Day in Lair)"
+      },
+      {
+        "desc": "While underwater, the aboleth is surrounded by mucus. Constitution Saving Throw: DC 14, each creature in a 5-foot Emanation originating from the aboleth at the end of the aboleth's turn. Failure: The target is cursed. Until the curse ends, the target's skin becomes slimy, the target can breathe air and water, and it can't regain Hit Points unless it is underwater. While the cursed creature is outside a body of water, the creature takes 6 (1d12) Acid damage at the end of every 10 minutes unless moisture is applied to its skin before those minutes have passed.",
+        "name": "Mucus Cloud"
+      },
+      {
+        "desc": "If a creature the aboleth can see communicates telepathically with the aboleth, the aboleth learns the creature's greatest desires.",
+        "name": "Probing Telepathy"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "aberration",
+      "name": "Aberration"
+    }
+  }
+}

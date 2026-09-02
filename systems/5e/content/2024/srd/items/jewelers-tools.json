@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:jewelers-tools",
+  "type": "item",
+  "name": "Jeweler's Tools (25 GP)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Intelligence. Utilize: Discern a gem's value (DC 15). Craft: Arcane Focus, Holy Symbol",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "25.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Intelligence. Utilize: Discern a gem's value (DC 15). Craft: Arcane Focus, Holy Symbol",
+    "key": "srd-2024_jewelers-tools",
+    "name": "Jeweler's Tools (25 GP)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

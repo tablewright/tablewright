@@ -1,0 +1,190 @@
+{
+  "id": "5e-2024-srd:monster:gorgon",
+  "type": "monster",
+  "name": "Gorgon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "construct",
+    "large",
+    "cr-5"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 18,
+      "dexterity": 11,
+      "intelligence": 2,
+      "strength": 20,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 2,
+            "damage_die_type": "D12",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Gore attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 8
+          }
+        ],
+        "desc": "Melee Attack Roll: +8, reach 5 ft. 18 (2d12 + 5) Piercing damage. If the target is a Large or smaller creature and the gorgon moved 20+ feet straight toward it immediately before the hit, the target has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Gore",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 15, each creature in a 30-foot Cone. First Failure The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success. Second Failure The target has the Petrified condition instead of the Restrained condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Petrifying Breath",
+        "order_in_statblock": 1,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 16, one creature within 5 feet that has the Prone condition. Failure: 16 (2d10 + 5) Bludgeoning damage. Success: Half damage.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Trample",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 19,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1800,
+    "hit_dice": "12d10 + 48",
+    "hit_points": 114,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd-2024_gorgon",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 4,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 5,
+      "wisdom": 1
+    },
+    "name": "Gorgon",
+    "normal_sight_range": 10560,
+    "passive_perception": 17,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 4,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 5,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 4,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 5,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": 5,
+      "deception": -2,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 7,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -4,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "construct",
+      "name": "Construct"
+    }
+  }
+}

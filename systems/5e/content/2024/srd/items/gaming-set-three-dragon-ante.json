@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:gaming-set-three-dragon-ante",
+  "type": "item",
+  "name": "Gaming Set, Three-Dragon Ante",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Charisma. Utilize: Discern an opponent's mood and intentions (DC 15), or win the game (DC 20)",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Charisma. Utilize: Discern an opponent's mood and intentions (DC 15), or win the game (DC 20)",
+    "key": "srd-2024_gaming-set-three-dragon-ante",
+    "name": "Gaming Set, Three-Dragon Ante",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

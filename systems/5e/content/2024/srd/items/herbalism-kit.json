@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:herbalism-kit",
+  "type": "item",
+  "name": "Herbalism Kit",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Intelligence. Utilize: Identify a plant (DC 15). Craft: Antitoxin, Potion of Healing",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Intelligence. Utilize: Identify a plant (DC 15). Craft: Antitoxin, Potion of Healing",
+    "key": "srd-2024_herbalism-kit",
+    "name": "Herbalism Kit",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "3.000",
+    "weight_unit": "lb"
+  }
+}

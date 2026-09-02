@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:potions-of-healing",
+  "type": "item",
+  "name": "Potions of Healing",
+  "source": "5e-2024-srd",
+  "tags": [
+    "potion"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You regain Hit Points when you drink this potion. The number of Hit Points depends on the potion's rarity, as shown in the table below.\n\nWhatever its potency, the potion's red liquid glimmers when agitated.\n\n| Potion                       | HP Regained | Rarity    |\n|------------------------------|-------------|-----------|\n| Potion of Healing            | 2d4 + 2     | Common    |\n| Potion of Healing (greater)  | 4d4 + 4     | Uncommon  |\n| Potion of Healing (superior) | 8d4 + 8     | Rare      |\n| Potion of Healing (supreme)  | 10d4 + 20   | Very Rare |",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You regain Hit Points when you drink this potion. The number of Hit Points depends on the potion's rarity, as shown in the table below.\n\nWhatever its potency, the potion's red liquid glimmers when agitated.\n\n| Potion                       | HP Regained | Rarity    |\n|------------------------------|-------------|-----------|\n| Potion of Healing            | 2d4 + 2     | Common    |\n| Potion of Healing (greater)  | 4d4 + 4     | Uncommon  |\n| Potion of Healing (superior) | 8d4 + 8     | Rare      |\n| Potion of Healing (supreme)  | 10d4 + 20   | Very Rare |",
+    "key": "srd-2024_potions-of-healing",
+    "name": "Potions of Healing",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "5e-2024-srd:magic-item:javelin-plus-1",
+  "type": "magic-item",
+  "name": "Javelin (+1)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You have a bonus to attack rolls and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have a bonus to attack rolls and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity.",
+    "key": "srd-2024_javelin-plus-1",
+    "name": "Javelin (+1)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d6",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd-2024_javelin",
+      "name": "Javelin",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon and deal damage to it, you can reduce its Speed by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",
+            "name": "Slow",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": "Range 30/120",
+          "property": {
+            "desc": "If a weapon has the Thrown property, you can throw the weapon to make a ranged attack, and you can draw that weapon as part of the attack. If the weapon is a Melee weapon, use the same ability modifier for the attack and damage rolls that you use for a melee attack with that weapon.",
+            "name": "Thrown",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

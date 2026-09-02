@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:scimitar-of-speed",
+  "type": "magic-item",
+  "name": "Scimitar of Speed",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "very-rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +2 bonus to attack rolls and damage rolls made with this magic weapon. In addition, you can make one attack with it as a Bonus Action on each of your turns.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +2 bonus to attack rolls and damage rolls made with this magic weapon. In addition, you can make one attack with it as a Bonus Action on each of your turns.",
+    "key": "srd-2024_scimitar-of-speed",
+    "name": "Scimitar of Speed",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

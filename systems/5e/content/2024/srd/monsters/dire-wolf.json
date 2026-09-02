@@ -1,0 +1,173 @@
+{
+  "id": "5e-2024-srd:monster:dire-wolf",
+  "type": "monster",
+  "name": "Dire Wolf",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 15,
+      "dexterity": 15,
+      "intelligence": 3,
+      "strength": 17,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 8 (1d10 + 3) Piercing damage. If the target is a Large or smaller creature, it has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "3d10 + 6",
+    "hit_points": 22,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_dire-wolf",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Dire Wolf",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 5,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": 3,
+      "deception": -2,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 5,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -4,
+      "sleight_of_hand": 2,
+      "stealth": 4,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The wolf has Advantage on an attack roll against a creature if at least one of the wolf's allies is within 5 feet of the creature and the ally doesn't have the Incapacitated condition.",
+        "name": "Pack Tactics"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

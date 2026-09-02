@@ -1,0 +1,60 @@
+{
+  "id": "5e-2024-srd:spell:divine-favor",
+  "type": "spell",
+  "name": "Divine Favor",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "level-1",
+    "paladin"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Until the spell ends, your attacks with weapons deal an extra 1d4 Radiant damage on a hit.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "bonus-action",
+    "classes": [
+      {
+        "key": "srd-2024_paladin",
+        "name": "Paladin"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "1d4",
+    "damage_types": [
+      "radiant"
+    ],
+    "desc": "Until the spell ends, your attacks with weapons deal an extra 1d4 Radiant damage on a hit.",
+    "duration": "1 minute",
+    "higher_level": "",
+    "key": "srd-2024_divine-favor",
+    "level": 1,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Divine Favor",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

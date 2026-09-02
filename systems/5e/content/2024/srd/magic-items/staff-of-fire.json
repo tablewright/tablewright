@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:staff-of-fire",
+  "type": "magic-item",
+  "name": "Staff of Fire",
+  "source": "5e-2024-srd",
+  "tags": [
+    "staff",
+    "very-rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You have Resistance to Fire damage while you hold this staff.\n\n**_Spells._** The staff has 10 charges. While holding the staff, you can cast one of the spells on the following table from it, using your spell save DC. The table indicates how many charges you must expend to cast the spell.\n\n| Spell         | Charge Cost |\n|---------------|-------------|\n| Burning Hands | 1           |\n| Fireball      | 3           |\n| Wall of Fire  | 4           |\n\n**_Regaining Charges._** The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll 1d20. On a 1, the staff crumbles into cinders and is destroyed.",
+  "data": {
+    "armor": null,
+    "attunement_detail": "Requires Attunement by a Druid, Sorcerer, Warlock, or Wizard",
+    "category": {
+      "key": "staff",
+      "name": "Staff"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have Resistance to Fire damage while you hold this staff.\n\n**_Spells._** The staff has 10 charges. While holding the staff, you can cast one of the spells on the following table from it, using your spell save DC. The table indicates how many charges you must expend to cast the spell.\n\n| Spell         | Charge Cost |\n|---------------|-------------|\n| Burning Hands | 1           |\n| Fireball      | 3           |\n| Wall of Fire  | 4           |\n\n**_Regaining Charges._** The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll 1d20. On a 1, the staff crumbles into cinders and is destroyed.",
+    "key": "srd-2024_staff-of-fire",
+    "name": "Staff of Fire",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

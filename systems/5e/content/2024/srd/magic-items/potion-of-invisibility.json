@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:potion-of-invisibility",
+  "type": "magic-item",
+  "name": "Potion of Invisibility",
+  "source": "5e-2024-srd",
+  "tags": [
+    "potion",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "This potion's container looks empty but feels as though it holds liquid. When you drink the potion, you have the Invisible condition for 1 hour. The effect ends early if you make an attack roll, deal damage, or cast a spell.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This potion's container looks empty but feels as though it holds liquid. When you drink the potion, you have the Invisible condition for 1 hour. The effect ends early if you make an attack roll, deal damage, or cast a spell.",
+    "key": "srd-2024_potion-of-invisibility",
+    "name": "Potion of Invisibility",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

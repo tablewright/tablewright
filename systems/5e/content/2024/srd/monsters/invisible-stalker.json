@@ -1,0 +1,248 @@
+{
+  "id": "5e-2024-srd:monster:invisible-stalker",
+  "type": "monster",
+  "name": "Invisible Stalker",
+  "source": "5e-2024-srd",
+  "tags": [
+    "elemental",
+    "large",
+    "cr-6"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 11,
+      "constitution": 14,
+      "dexterity": 19,
+      "intelligence": 10,
+      "strength": 16,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The stalker makes three Wind Swipe attacks. It can replace one attack with a use of Vortex.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 14, one Large or smaller creature in the stalker's space. Failure: 7 (1d8 + 3) Thunder damage, and the target has the Grappled condition (escape DC 13). Until the grapple ends, the target can't cast spells with a Verbal component and takes 7 (2d6) Thunder damage at the start of each of the stalker's turns.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Vortex",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "force",
+              "name": "Force"
+            },
+            "long_range": null,
+            "name": "Wind Swipe attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 5 ft. 11 (2d6 + 4) Force damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Wind Swipe",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 6,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 2300,
+    "hit_dice": "13d10 + 26",
+    "hit_points": 97,
+    "illustration": null,
+    "initiative_bonus": 7,
+    "key": "srd-2024_invisible-stalker",
+    "languages": {
+      "as_string": "Common, Primordial (Auran)",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are elementals.",
+          "key": "primordial",
+          "name": "Primordial"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 2,
+      "dexterity": 4,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "name": "Invisible Stalker",
+    "normal_sight_range": 10560,
+    "passive_perception": 18,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        },
+        {
+          "key": "unconscious",
+          "name": "Unconscious"
+        }
+      ],
+      "condition_immunities_display": "exhaustion, grappled, paralyzed, petrified, poisoned, prone, restrained, unconscious",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 2,
+      "dexterity": 4,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 2,
+      "dexterity": 4,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 8,
+      "stealth": 10
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 4,
+      "animal_handling": 2,
+      "arcana": 0,
+      "athletics": 3,
+      "deception": 0,
+      "history": 0,
+      "insight": 2,
+      "intimidation": 0,
+      "investigation": 0,
+      "medicine": 2,
+      "nature": 0,
+      "perception": 8,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 0,
+      "sleight_of_hand": 4,
+      "stealth": 10,
+      "survival": 2
+    },
+    "speed": {
+      "fly": 50,
+      "hover": true,
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 50,
+      "hover": true,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The stalker can enter an enemy's space and stop there. It can move through a space as narrow as 1 inch without expending extra movement to do so.",
+        "name": "Air Form"
+      },
+      {
+        "desc": "The stalker has the Invisible condition.",
+        "name": "Invisibility"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "elemental",
+      "name": "Elemental"
+    }
+  }
+}

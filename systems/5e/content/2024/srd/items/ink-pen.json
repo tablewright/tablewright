@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:ink-pen",
+  "type": "item",
+  "name": "Ink Pen",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Using Ink, an Ink Pen is used to write or draw.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.02",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Using Ink, an Ink Pen is used to write or draw.",
+    "key": "srd-2024_ink-pen",
+    "name": "Ink Pen",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

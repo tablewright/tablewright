@@ -1,0 +1,254 @@
+{
+  "id": "5e-2024-srd:monster:adult-blue-dragon",
+  "type": "monster",
+  "name": "Adult Blue Dragon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "huge",
+    "cr-16"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 20,
+      "constitution": 23,
+      "dexterity": 10,
+      "intelligence": 16,
+      "strength": 25,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed. The dragon can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Cloaked Flight",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 19, each creature in a 90-foot-long, 5-foot-wide Line. Failure: 60 (11d10) Lightning damage. Success: Half damage.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Lightning Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes three Rend attacks. It can replace one attack with a use of Spellcasting to cast Shatter.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 7,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": 0,
+            "extra_damage_die_count": 1,
+            "extra_damage_die_type": "D10",
+            "extra_damage_type": {
+              "key": "lightning",
+              "name": "Lightning"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 12
+          }
+        ],
+        "desc": "Melee Attack Roll: +12, reach 10 ft. 16 (2d8 + 7) Slashing damage plus 5 (1d10) Lightning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon uses Spellcasting to cast Shatter. The dragon can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Sonic Boom",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 18):\n\n- **At Will:** Detect Magic, Invisibility, Mage Hand, Shatter\n- **1/Day Each:** Scrying, Sending",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon makes one Rend attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Tail Swipe",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 19,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 16,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 15000,
+    "hit_dice": "17d12 + 102",
+    "hit_points": 212,
+    "illustration": null,
+    "initiative_bonus": 10,
+    "key": "srd-2024_adult-blue-dragon",
+    "languages": {
+      "as_string": "Common, Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 5,
+      "constitution": 6,
+      "dexterity": 0,
+      "intelligence": 3,
+      "strength": 7,
+      "wisdom": 2
+    },
+    "name": "Adult Blue Dragon",
+    "normal_sight_range": 10560,
+    "passive_perception": 22,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_immunities_display": "lightning",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 5,
+      "constitution": 6,
+      "dexterity": 5,
+      "intelligence": 3,
+      "strength": 7,
+      "wisdom": 7
+    },
+    "saving_throws_all": {
+      "charisma": 5,
+      "constitution": 6,
+      "dexterity": 5,
+      "intelligence": 3,
+      "strength": 7,
+      "wisdom": 7
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "perception": 12,
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 2,
+      "arcana": 3,
+      "athletics": 7,
+      "deception": 5,
+      "history": 3,
+      "insight": 2,
+      "intimidation": 5,
+      "investigation": 3,
+      "medicine": 2,
+      "nature": 3,
+      "perception": 12,
+      "performance": 5,
+      "persuasion": 5,
+      "religion": 3,
+      "sleight_of_hand": 0,
+      "stealth": 5,
+      "survival": 2
+    },
+    "speed": {
+      "burrow": 30,
+      "fly": 80,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 30,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 80,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the dragon fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (3/Day, or 4/Day in Lair)"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

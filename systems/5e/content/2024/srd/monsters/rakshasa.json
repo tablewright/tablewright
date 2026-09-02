@@ -1,0 +1,222 @@
+{
+  "id": "5e-2024-srd:monster:rakshasa",
+  "type": "monster",
+  "name": "Rakshasa",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "medium",
+    "cr-13"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 20,
+      "constitution": 18,
+      "dexterity": 17,
+      "intelligence": 13,
+      "strength": 14,
+      "wisdom": 16
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Wisdom Saving Throw: DC 18, each enemy in a 30-foot Emanation originating from the rakshasa. Failure: 28 (8d6) Psychic damage, and the target has the Frightened and Incapacitated conditions until the start of the rakshasa's next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Baleful Command",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Cursed Touch attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Attack Roll: +10, reach 5 ft. 12 (2d6 + 5) Slashing damage plus 19 (3d12) Necrotic damage. If the target is a creature, it is cursed. While cursed, the target gains no benefit from finishing a Short Rest|XPHB|Short or Long Rest.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Cursed Touch",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The rakshasa makes three Cursed Touch attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The rakshasa casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 18):\n\n- **At Will:** Detect Magic, Detect Thoughts, Disguise Self, Mage Hand, Minor Illusion\n- **1/Day Each:** Fly, Invisibility, Major Image, Plane Shift",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 13,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 10000,
+    "hit_dice": "26d8 + 104",
+    "hit_points": 221,
+    "illustration": null,
+    "initiative_bonus": 8,
+    "key": "srd-2024_rakshasa",
+    "languages": {
+      "as_string": "Common, Infernal",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are devils.",
+          "key": "infernal",
+          "name": "Infernal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 5,
+      "constitution": 4,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 3
+    },
+    "name": "Rakshasa",
+    "normal_sight_range": 10560,
+    "passive_perception": 18,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 5,
+      "constitution": 4,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 3
+    },
+    "saving_throws_all": {
+      "charisma": 5,
+      "constitution": 4,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 3
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "deception": 10,
+      "insight": 8,
+      "perception": 8
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 3,
+      "arcana": 1,
+      "athletics": 2,
+      "deception": 10,
+      "history": 1,
+      "insight": 8,
+      "intimidation": 5,
+      "investigation": 1,
+      "medicine": 3,
+      "nature": 1,
+      "perception": 8,
+      "performance": 5,
+      "persuasion": 5,
+      "religion": 1,
+      "sleight_of_hand": 3,
+      "stealth": 3,
+      "survival": 3
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the rakshasa dies outside the Nine Hells, its body turns to ichor, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Nine Hells.",
+        "name": "Fiendish Restoration"
+      },
+      {
+        "desc": "The rakshasa automatically succeeds on saving throws against spells and other magical effects, and the attack rolls of spells automatically miss it. Without the rakshasa's permission, no spell can observe the rakshasa remotely or detect its thoughts, creature type, or alignment.",
+        "name": "Greater Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 60,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

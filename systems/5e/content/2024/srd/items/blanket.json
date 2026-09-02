@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:blanket",
+  "type": "item",
+  "name": "Blanket",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wrapped in a blanket, you have Advantage on saving throws against extreme cold (see \"Gameplay Toolbox\").",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.50",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wrapped in a blanket, you have Advantage on saving throws against extreme cold (see \"Gameplay Toolbox\").",
+    "key": "srd-2024_blanket",
+    "name": "Blanket",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "3.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "id": "5e-2024-srd:monster:gelatinous-cube",
+  "type": "monster",
+  "name": "Gelatinous Cube",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ooze",
+    "large",
+    "cr-2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 20,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": 14,
+      "wisdom": 6
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The cube moves up to its Speed without provoking Opportunity Attacks. The cube can move through the spaces of Large or smaller creatures if it has room inside itself to contain them (see the Ooze Cube [Area of Effect]|XPHB|Cube trait). Dexterity Saving Throw: DC 12, each creature whose space the cube enters for the first time during this move. Failure: 10 (3d6) Acid damage, and the target is engulfed. An engulfed target is suffocating, can't cast spells with a Verbal component, has the Restrained condition, and takes 10 (3d6) Acid damage at the start of each of the cube's turns. When the cube moves, the engulfed target moves with it. An engulfed target can try to escape by taking an action to make a DC 12 Strength (Athletics) check. On a successful check, the target escapes and enters the nearest unoccupied space. Success: Half damage, and the target moves to an unoccupied space within 5 feet of the cube. If there is no unoccupied space, the target fails the save instead.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Engulf",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "acid",
+              "name": "Acid"
+            },
+            "long_range": null,
+            "name": "Pseudopod attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 12 (3d6 + 2) Acid damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pseudopod",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 6,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 450,
+    "hit_dice": "6d10 + 30",
+    "hit_points": 63,
+    "illustration": null,
+    "initiative_bonus": -4,
+    "key": "srd-2024_gelatinous-cube",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 5,
+      "dexterity": -4,
+      "intelligence": -5,
+      "strength": 2,
+      "wisdom": -2
+    },
+    "name": "Gelatinous Cube",
+    "normal_sight_range": 10560,
+    "passive_perception": 8,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "blinded",
+          "name": "Blinded"
+        },
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        }
+      ],
+      "condition_immunities_display": "blinded, charmed, deafened, exhaustion, frightened, prone",
+      "damage_immunities": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        }
+      ],
+      "damage_immunities_display": "acid",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -5,
+      "constitution": 5,
+      "dexterity": -4,
+      "intelligence": -5,
+      "strength": 2,
+      "wisdom": -2
+    },
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 5,
+      "dexterity": -4,
+      "intelligence": -5,
+      "strength": 2,
+      "wisdom": -2
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -4,
+      "animal_handling": -2,
+      "arcana": -5,
+      "athletics": 2,
+      "deception": -5,
+      "history": -5,
+      "insight": -2,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -2,
+      "nature": -5,
+      "perception": -2,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": -4,
+      "stealth": -4,
+      "survival": -2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 15
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 7,
+      "crawl": 7,
+      "fly": 0,
+      "hover": false,
+      "swim": 7,
+      "unit": "feet",
+      "walk": 15
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The cube fills its entire space and is transparent. Other creatures can enter that space, but a creature that does so is subjected to the cube's Engulf and has Disadvantage on the saving throw. Creatures inside the cube have Cover|XPHB|Total Cover, and the cube can hold one Large creature or up to four Medium or Small creatures inside itself at a time. As an action, a creature within 5 feet of the cube can pull a creature or an object out of the cube by succeeding on a DC 12 Strength (Athletics) check, and the puller takes 10 (3d6) Acid damage.",
+        "name": "Ooze Cube"
+      },
+      {
+        "desc": "Even when the cube is in plain sight, a creature must succeed on a DC 15 Wisdom (Perception) check to notice the cube if the creature hasn't witnessed the cube move or otherwise act.",
+        "name": "Transparent"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "ooze",
+      "name": "Ooze"
+    }
+  }
+}

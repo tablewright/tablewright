@@ -1,0 +1,151 @@
+{
+  "id": "5e-2024-srd:monster:raven",
+  "type": "monster",
+  "name": "Raven",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 6,
+      "constitution": 10,
+      "dexterity": 14,
+      "intelligence": 5,
+      "strength": 2,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 1 Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Beak",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "1d4",
+    "hit_points": 2,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_raven",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "name": "Raven",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -3,
+      "athletics": -4,
+      "deception": -2,
+      "history": -3,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -3,
+      "medicine": 1,
+      "nature": -3,
+      "perception": 3,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -3,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 50,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 5,
+      "crawl": 5,
+      "fly": 50,
+      "hover": false,
+      "swim": 5,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The raven can mimic simple sounds it has heard, such as a whisper or chitter. A hearer can discern the sounds are imitations with a successful DC 10 Wisdom (Insight) check.",
+        "name": "Mimicry"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

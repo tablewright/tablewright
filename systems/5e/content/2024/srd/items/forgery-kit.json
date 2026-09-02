@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:forgery-kit",
+  "type": "item",
+  "name": "Forgery Kit",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Dexterity. Utilize: Mimic 10 or fewer words of someone else's handwriting (DC 15), or duplicate a wax seal (DC 20)",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Dexterity. Utilize: Mimic 10 or fewer words of someone else's handwriting (DC 15), or duplicate a wax seal (DC 20)",
+    "key": "srd-2024_forgery-kit",
+    "name": "Forgery Kit",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

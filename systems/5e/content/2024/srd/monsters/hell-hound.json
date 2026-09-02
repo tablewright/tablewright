@@ -1,0 +1,206 @@
+{
+  "id": "5e-2024-srd:monster:hell-hound",
+  "type": "monster",
+  "name": "Hell Hound",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "medium",
+    "cr-3"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 6,
+      "constitution": 14,
+      "dexterity": 12,
+      "intelligence": 6,
+      "strength": 17,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 7 (1d8 + 3) Piercing damage plus 3 (1d6) Fire damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 12, each creature in a 15-foot Cone. Failure: 17 (5d6) Fire damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fire Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The hound makes two Bite attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 3,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 700,
+    "hit_dice": "9d8 + 18",
+    "hit_points": 58,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_hell-hound",
+    "languages": {
+      "as_string": "Understands Infernal but can't speak",
+      "data": [
+        {
+          "desc": "Typical speakers are devils.",
+          "key": "infernal",
+          "name": "Infernal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Hell Hound",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_immunities_display": "fire",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 1,
+      "arcana": -2,
+      "athletics": 3,
+      "deception": -2,
+      "history": -2,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -2,
+      "medicine": 1,
+      "nature": -2,
+      "perception": 5,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -2,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The hound has Advantage on an attack roll against a creature if at least one of the hound's allies is within 5 feet of the creature and the ally doesn't have the Incapacitated condition.",
+        "name": "Pack Tactics"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

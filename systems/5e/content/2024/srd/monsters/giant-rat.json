@@ -1,0 +1,151 @@
+{
+  "id": "5e-2024-srd:monster:giant-rat",
+  "type": "monster",
+  "name": "Giant Rat",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-1/8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 11,
+      "dexterity": 16,
+      "intelligence": 2,
+      "strength": 7,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +5, reach 5 feet. 5 (1d4 + 3) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 25,
+    "hit_dice": "2d6",
+    "hit_points": 7,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_giant-rat",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": -2,
+      "wisdom": 0
+    },
+    "name": "Giant Rat",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 5,
+      "intelligence": -4,
+      "strength": -2,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 5,
+      "intelligence": -4,
+      "strength": -2,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": -2,
+      "deception": -3,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 2,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 3,
+      "stealth": 3,
+      "survival": 0
+    },
+    "speed": {
+      "climb": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 30,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The rat has Advantage on an attack roll against a creature if at least one of the rat's allies is within 5 feet of the creature and the ally doesn't have the Incapacitated condition.",
+        "name": "Pack Tactics"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

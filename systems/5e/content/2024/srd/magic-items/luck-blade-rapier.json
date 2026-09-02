@@ -1,0 +1,72 @@
+{
+  "id": "5e-2024-srd:magic-item:luck-blade-rapier",
+  "type": "magic-item",
+  "name": "Luck Blade (Rapier)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "legendary",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon. While the weapon is on your person, you also gain a +1 bonus to saving throws. Luck. If the weapon is on your person, you can call on its luck (no action required) to reroll one failed D20 Test if you don't have the Incapacitated condition. You must use the second roll. Once used, this property can't be used again until the next dawn. Wish. The weapon has 1d3 charges. While holding it, you can expend 1 charge and cast Wish from it. Once used, this property can't be used again until the next dawn. The weapon loses this property if it has no charges.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon. While the weapon is on your person, you also gain a +1 bonus to saving throws. Luck. If the weapon is on your person, you can call on its luck (no action required) to reroll one failed D20 Test if you don't have the Incapacitated condition. You must use the second roll. Once used, this property can't be used again until the next dawn. Wish. The weapon has 1d3 charges. While holding it, you can expend 1 charge and cast Wish from it. Once used, this property can't be used again until the next dawn. The weapon loses this property if it has no charges.",
+    "key": "srd-2024_luck-blade-rapier",
+    "name": "Luck Blade (Rapier)",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_rapier",
+      "name": "Rapier",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "When making an attack with a Finesse weapon, use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.",
+            "name": "Finesse",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.",
+            "name": "Vex",
+            "type": "Mastery"
+          }
+        }
+      ]
+    },
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

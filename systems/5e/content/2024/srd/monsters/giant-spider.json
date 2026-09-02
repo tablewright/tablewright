@@ -1,0 +1,191 @@
+{
+  "id": "5e-2024-srd:monster:giant-spider",
+  "type": "monster",
+  "name": "Giant Spider",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 12,
+      "dexterity": 16,
+      "intelligence": 2,
+      "strength": 14,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 7 (1d8 + 3) Piercing damage plus 7 (2d6) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 13, one creature the spider can see within 60 feet. Failure: The target has the Restrained condition until the web is destroyed (AC 10; HP 5; Vulnerability to Fire damage; Immunity to Poison and Psychic damage).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Web",
+        "order_in_statblock": 1,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "4d10 + 4",
+    "hit_points": 26,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_giant-spider",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "name": "Giant Spider",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "stealth": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": 2,
+      "deception": -3,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 4,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 3,
+      "stealth": 7,
+      "survival": 0
+    },
+    "speed": {
+      "climb": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 30,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The spider can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+        "name": "Spider Climb"
+      },
+      {
+        "desc": "The spider ignores movement restrictions caused by webs, and it knows the location of any other creature in contact with the same web.",
+        "name": "Web Walker"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

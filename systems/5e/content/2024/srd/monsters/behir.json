@@ -1,0 +1,223 @@
+{
+  "id": "5e-2024-srd:monster:behir",
+  "type": "monster",
+  "name": "Behir",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "huge",
+    "cr-11"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 12,
+      "constitution": 18,
+      "dexterity": 16,
+      "intelligence": 7,
+      "strength": 23,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 6,
+            "damage_die_count": 2,
+            "damage_die_type": "D12",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Attack Roll: +10, reach 10 ft. 19 (2d12 + 6) Piercing damage plus 11 (2d10) Lightning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 18, one Large or smaller creature the behir can see within 5 feet. Failure: 28 (5d8 + 6) Bludgeoning damage. The target has the Grappled condition (escape DC 16), and it has the Restrained condition until the grapple ends.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Constrict",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 16, each creature in a 90-foot-long, 5-foot-wide Line. Failure: 66 (12d10) Lightning damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Lightning Breath",
+        "order_in_statblock": 3,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The behir makes one Bite attack and uses Constrict.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 18, one Large or smaller creature Grappled by the behir (the behir can have only one creature swallowed at a time). Failure: The behir swallows the target, which is no longer Grappled. While swallowed, a creature has the Blinded and Restrained conditions, has Cover|XPHB|Total Cover against attacks and other effects outside the behir, and takes 21 (6d6) Acid damage at the start of each of the behir's turns. If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a DC 14 Constitution saving throw at the end of that turn or regurgitate the creature, which falls in a space within 10 feet of the behir and has the Prone condition. If the behir dies, a swallowed creature is no longer Restrained and can escape from the corpse by using 15 feet of movement, exiting Prone.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Swallow",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 11,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 90,
+    "environments": [],
+    "experience_points": 7200,
+    "hit_dice": "16d12 + 64",
+    "hit_points": 168,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_behir",
+    "languages": {
+      "as_string": "Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 4,
+      "dexterity": 3,
+      "intelligence": -2,
+      "strength": 6,
+      "wisdom": 2
+    },
+    "name": "Behir",
+    "normal_sight_range": 10560,
+    "passive_perception": 16,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_immunities_display": "lightning",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 1,
+      "constitution": 4,
+      "dexterity": 3,
+      "intelligence": -2,
+      "strength": 6,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 4,
+      "dexterity": 3,
+      "intelligence": -2,
+      "strength": 6,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "perception": 6,
+      "stealth": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 2,
+      "arcana": -2,
+      "athletics": 6,
+      "deception": 1,
+      "history": -2,
+      "insight": 2,
+      "intimidation": 1,
+      "investigation": -2,
+      "medicine": 2,
+      "nature": -2,
+      "perception": 6,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": -2,
+      "sleight_of_hand": 3,
+      "stealth": 7,
+      "survival": 2
+    },
+    "speed": {
+      "climb": 50,
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 50,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

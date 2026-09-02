@@ -1,0 +1,194 @@
+{
+  "id": "5e-2024-srd:monster:bugbear-warrior",
+  "type": "monster",
+  "name": "Bugbear Warrior",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fey",
+    "medium",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 9,
+      "constitution": 13,
+      "dexterity": 14,
+      "intelligence": 8,
+      "strength": 15,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Grab attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 10 ft. 9 (2d6 + 2) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Grab",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee or Ranged Attack Roll: +4 (with Advantage if the target is Grappled by the bugbear), reach 10 ft. or range 20/60 ft. 9 (3d4 + 2) Bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Light Hammer",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "6d8 + 6",
+    "hit_points": 33,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_bugbear-warrior",
+    "languages": {
+      "as_string": "Common, Goblin",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are goblinoids.",
+          "key": "goblin",
+          "name": "Goblin"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "name": "Bugbear Warrior",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "stealth": 6,
+      "survival": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": -1,
+      "athletics": 2,
+      "deception": -1,
+      "history": -1,
+      "insight": 0,
+      "intimidation": -1,
+      "investigation": -1,
+      "medicine": 0,
+      "nature": -1,
+      "perception": 0,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": -1,
+      "sleight_of_hand": 2,
+      "stealth": 6,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The bugbear needn't spend extra movement to move a creature it is grappling.",
+        "name": "Abduct"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fey",
+      "name": "Fey"
+    }
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "id": "5e-2024-srd:monster:imp",
+  "type": "monster",
+  "name": "Imp",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "small",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 14,
+      "constitution": 13,
+      "dexterity": 17,
+      "intelligence": 11,
+      "strength": 6,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The imp casts Invisibility on itself, requiring no spell components and using Charisma as the spellcasting ability.\n\n- **At Will:** Invisibility",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Invisibility",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The imp shape-shifts to resemble a rat (Speed 20 ft.), a raven (20 ft., Fly 60 ft.), or a spider (20 ft., Climb 20 ft.), or it returns to its true form. Its statistics are the same in each form, except for its Speed. Any equipment it is wearing or carrying isn't transformed.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Shape-Shift",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Sting attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 6 (1d6 + 3) Piercing damage plus 7 (2d6) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Sting",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "6d4 + 6",
+    "hit_points": 21,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_imp",
+    "languages": {
+      "as_string": "Common, Infernal",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are devils.",
+          "key": "infernal",
+          "name": "Infernal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": 0,
+      "strength": -2,
+      "wisdom": 1
+    },
+    "name": "Imp",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "fire, poison",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_resistances_display": "cold",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 2,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": 0,
+      "strength": -2,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": 2,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": 0,
+      "strength": -2,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "deception": 4,
+      "insight": 3,
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 1,
+      "arcana": 0,
+      "athletics": -2,
+      "deception": 4,
+      "history": 0,
+      "insight": 3,
+      "intimidation": 2,
+      "investigation": 0,
+      "medicine": 1,
+      "nature": 0,
+      "perception": 1,
+      "performance": 2,
+      "persuasion": 2,
+      "religion": 0,
+      "sleight_of_hand": 3,
+      "stealth": 5,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 40,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 40,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The imp has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

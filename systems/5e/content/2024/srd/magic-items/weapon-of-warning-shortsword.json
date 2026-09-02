@@ -1,0 +1,79 @@
+{
+  "id": "5e-2024-srd:magic-item:weapon-of-warning-shortsword",
+  "type": "magic-item",
+  "name": "Weapon of Warning (Shortsword)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+    "key": "srd-2024_weapon-of-warning-shortsword",
+    "name": "Weapon of Warning (Shortsword)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d6",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_shortsword",
+      "name": "Shortsword",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "When making an attack with a Finesse weapon, use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.",
+            "name": "Finesse",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "When you take the Attack action on your turn and attack with a Light weapon, you can make one extra attack as a Bonus Action later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative.",
+            "name": "Light",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.",
+            "name": "Vex",
+            "type": "Mastery"
+          }
+        }
+      ]
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

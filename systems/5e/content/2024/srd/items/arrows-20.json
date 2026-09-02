@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:arrows-20",
+  "type": "item",
+  "name": "Arrows (20)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ammunition for weapons that use arrows. Comes in a pack of 20. Typically stored in a quiver.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ammunition for weapons that use arrows. Comes in a pack of 20. Typically stored in a quiver.",
+    "key": "srd-2024_arrows-20",
+    "name": "Arrows (20)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

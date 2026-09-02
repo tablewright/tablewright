@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:barrel",
+  "type": "item",
+  "name": "Barrel",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Barrel holds up to 40 gallons of liquid or up to 4 cubic feet of dry goods.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Barrel holds up to 40 gallons of liquid or up to 4 cubic feet of dry goods.",
+    "key": "srd-2024_barrel",
+    "name": "Barrel",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "70.000",
+    "weight_unit": "lb"
+  }
+}

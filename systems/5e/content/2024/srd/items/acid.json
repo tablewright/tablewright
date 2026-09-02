@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:acid",
+  "type": "item",
+  "name": "Acid",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "When you take the Attack action, you can replace one of your attacks with throwing a vial of Acid. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d6 Acid damage.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "25.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you take the Attack action, you can replace one of your attacks with throwing a vial of Acid. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d6 Acid damage.",
+    "key": "srd-2024_acid",
+    "name": "Acid",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

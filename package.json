@@ -20,7 +20,8 @@
     "tokens": "bun run tools/build-tokens.ts",
     "tokens:check": "bun run tools/build-tokens.ts --check",
     "typecheck:tools": "tsc -p tools",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "import:srd": "bun run tools/import-srd.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

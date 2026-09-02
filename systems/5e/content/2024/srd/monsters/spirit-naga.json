@@ -1,0 +1,247 @@
+{
+  "id": "5e-2024-srd:monster:spirit-naga",
+  "type": "monster",
+  "name": "Spirit Naga",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "large",
+    "cr-8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 16,
+      "constitution": 14,
+      "dexterity": 17,
+      "intelligence": 16,
+      "strength": 18,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 10 ft. 7 (1d6 + 4) Piercing damage plus 14 (4d6) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The naga makes three attacks, using Bite or Necrotic Ray in any combination.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 6,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "necrotic",
+              "name": "Necrotic"
+            },
+            "long_range": null,
+            "name": "Necrotic Ray attack",
+            "range": 60,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Ranged Attack Roll: +6, range 60 ft. 21 (6d6) Necrotic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Necrotic Ray",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The naga casts one of the following spells, requiring no Somatic or Material components and using Intelligence as the spellcasting ability (spell save DC 14):\n\n- **At Will:** Detect Magic, Mage Hand, Minor Illusion, Water Breathing\n- **2/Day Each:** Detect Thoughts, Dimension Door, Hold Person, Lightning Bolt",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 8,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 3900,
+    "hit_dice": "18d10 + 36",
+    "hit_points": 135,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_spirit-naga",
+    "languages": {
+      "as_string": "Abyssal, Common",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        },
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 2,
+      "dexterity": 3,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 2
+    },
+    "name": "Spirit Naga",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 6,
+      "constitution": 5,
+      "dexterity": 6,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 5
+    },
+    "saving_throws_all": {
+      "charisma": 6,
+      "constitution": 5,
+      "dexterity": 6,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 5
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 2,
+      "arcana": 3,
+      "athletics": 4,
+      "deception": 3,
+      "history": 3,
+      "insight": 2,
+      "intimidation": 3,
+      "investigation": 3,
+      "medicine": 2,
+      "nature": 3,
+      "perception": 2,
+      "performance": 3,
+      "persuasion": 3,
+      "religion": 3,
+      "sleight_of_hand": 3,
+      "stealth": 3,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If it dies, the naga returns to life in 1d6 days and regains all its Hit Points. Only a Wish spell can prevent this trait from functioning.",
+        "name": "Fiendish Restoration"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

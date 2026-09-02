@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:saddle-exotic",
+  "type": "item",
+  "name": "Saddle (Exotic)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A saddle designed for unusual mounts, such as aquatic or flying creatures.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "60.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A saddle designed for unusual mounts, such as aquatic or flying creatures.",
+    "key": "srd-2024_saddle-exotic",
+    "name": "Saddle (Exotic)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "40.000",
+    "weight_unit": "lb"
+  }
+}

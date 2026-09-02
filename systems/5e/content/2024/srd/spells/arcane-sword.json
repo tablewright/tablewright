@@ -1,0 +1,66 @@
+{
+  "id": "5e-2024-srd:spell:arcane-sword",
+  "type": "spell",
+  "name": "Arcane Sword",
+  "source": "5e-2024-srd",
+  "tags": [
+    "evocation",
+    "level-7",
+    "bard",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You create a spectral sword that hovers within range. It lasts for the duration. When the sword appears, you make a melee spell attack against a target within 5 feet of the sword. On a hit, the target takes Force damage equal to 4d12 plus your spellcasting ability modifier. On your later turns, you can take a Bonus Action to move the sword up to 30 feet to a spot you can see and repeat the attack against the same target or a different one.",
+  "data": {
+    "attack_roll": true,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "4d12",
+    "damage_types": [
+      "force"
+    ],
+    "desc": "You create a spectral sword that hovers within range. It lasts for the duration. When the sword appears, you make a melee spell attack against a target within 5 feet of the sword. On a hit, the target takes Force damage equal to 4d12 plus your spellcasting ability modifier. On your later turns, you can take a Bonus Action to move the sword up to 30 feet to a spot you can see and repeat the attack against the same target or a different one.",
+    "duration": "1 minute",
+    "higher_level": "",
+    "key": "srd-2024_arcane-sword",
+    "level": 7,
+    "material": true,
+    "material_consumed": true,
+    "material_cost": null,
+    "material_specified": "a miniature sword worth 250+ GP",
+    "name": "Arcane Sword",
+    "range": 90,
+    "range_text": "90 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "evocation",
+      "name": "Evocation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "id": "5e-2024-srd:monster:green-dragon-wyrmling",
+  "type": "monster",
+  "name": "Green Dragon Wyrmling",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "medium",
+    "cr-2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 13,
+      "constitution": 13,
+      "dexterity": 12,
+      "intelligence": 14,
+      "strength": 15,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes two Rend attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 11, each creature in a 15-foot Cone. Failure: 21 (6d6) Poison damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Poison Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": 0,
+            "extra_damage_die_count": 1,
+            "extra_damage_die_type": "D6",
+            "extra_damage_type": {
+              "key": "poison",
+              "name": "Poison"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 7 (1d10 + 2) Slashing damage plus 3 (1d6) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 450,
+    "hit_dice": "7d8 + 7",
+    "hit_points": 38,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_green-dragon-wyrmling",
+    "languages": {
+      "as_string": "Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": 2,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "name": "Green Dragon Wyrmling",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": 2,
+      "strength": 2,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": 2,
+      "strength": 2,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "stealth": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": 2,
+      "athletics": 2,
+      "deception": 1,
+      "history": 2,
+      "insight": 0,
+      "intimidation": 1,
+      "investigation": 2,
+      "medicine": 0,
+      "nature": 2,
+      "perception": 4,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": 2,
+      "sleight_of_hand": 1,
+      "stealth": 3,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 60,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The dragon can breathe air and water.",
+        "name": "Amphibious"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

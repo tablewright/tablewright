@@ -1,0 +1,210 @@
+{
+  "id": "5e-2024-srd:monster:magma-mephit",
+  "type": "monster",
+  "name": "Magma Mephit",
+  "source": "5e-2024-srd",
+  "tags": [
+    "elemental",
+    "small",
+    "cr-1/2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 10,
+      "constitution": 12,
+      "dexterity": 12,
+      "intelligence": 7,
+      "strength": 8,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 1,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 3 (1d4 + 1) Slashing damage plus 3 (1d6) Fire damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 11, each creature in a 15-foot Cone. Failure: 7 (2d6) Fire damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fire Breath",
+        "order_in_statblock": 1,
+        "usage_limits": {
+          "param": 6,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 100,
+    "hit_dice": "4d6 + 4",
+    "hit_points": 18,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_magma-mephit",
+    "languages": {
+      "as_string": "Primordial (Ignan, Terran)",
+      "data": [
+        {
+          "desc": "Typical speakers are elementals.",
+          "key": "primordial",
+          "name": "Primordial"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": -1,
+      "wisdom": 0
+    },
+    "name": "Magma Mephit",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "exhaustion, poisoned",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "fire, poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": -1,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": -1,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "stealth": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": -2,
+      "athletics": -1,
+      "deception": 0,
+      "history": -2,
+      "insight": 0,
+      "intimidation": 0,
+      "investigation": -2,
+      "medicine": 0,
+      "nature": -2,
+      "perception": 0,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": -2,
+      "sleight_of_hand": 1,
+      "stealth": 3,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 30,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The mephit explodes when it dies. Dexterity Saving Throw: DC 11, each creature in a 5-foot Emanation originating from the mephit. Failure: 7 (2d6) Fire damage. Success: Half damage.",
+        "name": "Death Burst"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "elemental",
+      "name": "Elemental"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:saddle-riding",
+  "type": "item",
+  "name": "Saddle (Riding)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A standard saddle for riding mounts.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A standard saddle for riding mounts.",
+    "key": "srd-2024_saddle-riding",
+    "name": "Saddle (Riding)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "25.000",
+    "weight_unit": "lb"
+  }
+}

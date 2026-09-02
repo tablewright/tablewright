@@ -1,0 +1,203 @@
+{
+  "id": "5e-2024-srd:monster:lemure",
+  "type": "monster",
+  "name": "Lemure",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "medium",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 3,
+      "constitution": 11,
+      "dexterity": 5,
+      "intelligence": 1,
+      "strength": 10,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "poison",
+              "name": "Poison"
+            },
+            "long_range": null,
+            "name": "Vile Slime attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 2
+          }
+        ],
+        "desc": "Melee Attack Roll: +2, reach 5 ft. 2 (1d4) Poison damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Vile Slime",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 9,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "2d8",
+    "hit_points": 9,
+    "illustration": null,
+    "initiative_bonus": -3,
+    "key": "srd-2024_lemure",
+    "languages": {
+      "as_string": "Understands Infernal but can't speak",
+      "data": [
+        {
+          "desc": "Typical speakers are devils.",
+          "key": "infernal",
+          "name": "Infernal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": -3,
+      "intelligence": -5,
+      "strength": 0,
+      "wisdom": 0
+    },
+    "name": "Lemure",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, frightened, poisoned",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "fire, poison",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_resistances_display": "cold",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": -3,
+      "intelligence": -5,
+      "strength": 0,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": -3,
+      "intelligence": -5,
+      "strength": 0,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -3,
+      "animal_handling": 0,
+      "arcana": -5,
+      "athletics": 0,
+      "deception": -4,
+      "history": -5,
+      "insight": 0,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": 0,
+      "nature": -5,
+      "perception": 0,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": -3,
+      "stealth": -3,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the lemure dies in the Nine Hells, it revives with all its Hit Points in 1d10 days unless it is killed by a creature under the effects of a Bless spell or its remains are sprinkled with Holy Water.",
+        "name": "Hellish Restoration"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

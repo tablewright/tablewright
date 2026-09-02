@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:ring-of-jumping",
+  "type": "magic-item",
+  "name": "Ring of Jumping",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ring",
+    "uncommon",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wearing this ring, you can cast Jump from it, but can target only yourself when you do so.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this ring, you can cast Jump from it, but can target only yourself when you do so.",
+    "key": "srd-2024_ring-of-jumping",
+    "name": "Ring of Jumping",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

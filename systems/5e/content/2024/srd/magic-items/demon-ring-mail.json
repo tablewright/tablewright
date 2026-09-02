@@ -1,0 +1,52 @@
+{
+  "id": "5e-2024-srd:magic-item:demon-ring-mail",
+  "type": "magic-item",
+  "name": "Demon Ring Mail",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "very-rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wearing this armor, you gain a +1 bonus to Armor Class, and you know Abyssal. In addition, the armor's clawed gauntlets allow your Unarmed Strikes to deal 1d8 Slashing damage instead of the usual Bludgeoning damage, and you gain a +1 bonus to the attack and damage rolls of your Unarmed Strikes.\n\n**Curse.** Once you don this cursed armor, you can't doff it unless you are targeted by a Remove Curse spell or similar magic. While wearing the armor, you have Disadvantage on attack rolls against demons and on saving throws against their spells and special abilities.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 14,
+      "ac_cap_dexmod": null,
+      "ac_display": "14",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_ring-mail",
+      "name": "Ring Mail",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this armor, you gain a +1 bonus to Armor Class, and you know Abyssal. In addition, the armor's clawed gauntlets allow your Unarmed Strikes to deal 1d8 Slashing damage instead of the usual Bludgeoning damage, and you gain a +1 bonus to the attack and damage rolls of your Unarmed Strikes.\n\n**Curse.** Once you don this cursed armor, you can't doff it unless you are targeted by a Remove Curse spell or similar magic. While wearing the armor, you have Disadvantage on attack rolls against demons and on saving throws against their spells and special abilities.",
+    "key": "srd-2024_demon-ring-mail",
+    "name": "Demon Ring Mail",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "40.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:carpenters-tools",
+  "type": "item",
+  "name": "Carpenter's Tools (8 GP)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Strength. Utilize: Seal or pry open a door or container (DC 20). Craft: Club, Greatclub, Quarterstaff, Barrel, Chest, Ladder, Pole, Portable Ram, Torch",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "8.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Strength. Utilize: Seal or pry open a door or container (DC 20). Craft: Club, Greatclub, Quarterstaff, Barrel, Chest, Ladder, Pole, Portable Ram, Torch",
+    "key": "srd-2024_carpenters-tools",
+    "name": "Carpenter's Tools (8 GP)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

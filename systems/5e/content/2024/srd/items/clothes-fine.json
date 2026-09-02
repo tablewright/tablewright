@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:clothes-fine",
+  "type": "item",
+  "name": "Clothes, Fine",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Fine Clothes are made of expensive fabrics and adorned with expertly crafted details. Some events and locations admit only people wearing these clothes.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Fine Clothes are made of expensive fabrics and adorned with expertly crafted details. Some events and locations admit only people wearing these clothes.",
+    "key": "srd-2024_clothes-fine",
+    "name": "Clothes, Fine",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

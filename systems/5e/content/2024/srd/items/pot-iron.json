@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:pot-iron",
+  "type": "item",
+  "name": "Pot, Iron",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "An Iron Pot holds up to 1 gallon.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "An Iron Pot holds up to 1 gallon.",
+    "key": "srd-2024_pot-iron",
+    "name": "Pot, Iron",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

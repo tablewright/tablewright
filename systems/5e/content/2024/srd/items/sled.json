@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:sled",
+  "type": "item",
+  "name": "Sled",
+  "source": "5e-2024-srd",
+  "tags": [
+    "land-vehicle"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A vehicle designed for travel over snow and ice.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "land-vehicle",
+      "name": "Land Vehicle"
+    },
+    "cost": "20.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A vehicle designed for travel over snow and ice.",
+    "key": "srd-2024_sled",
+    "name": "Sled",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "300.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "id": "5e-2024-srd:monster:wereboar",
+  "type": "monster",
+  "name": "Wereboar",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "small",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 8,
+      "constitution": 15,
+      "dexterity": 10,
+      "intelligence": 10,
+      "strength": 17,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Gore (Boar or Hybrid Form Only) attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 12 (2d8 + 3) Piercing damage. If the target is a Humanoid, it is subjected to the following effect. Constitution Saving Throw: DC 12. Failure: The target is cursed. If the cursed target drops to 0 Hit Points, it instead becomes a Wereboar under the DM's control and has 10 Hit Points. Success: The target is immune to this wereboar's curse for 24 hours.",
+        "legendary_action_cost": null,
+        "limited_to_form": "Boar or Hybrid Form Only",
+        "name": "Gore",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 120,
+            "name": "Javelin (Humanoid or Hybrid Form Only) attack",
+            "range": 30,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +5, reach 5 ft. or range 30/120 ft. 13 (3d6 + 3) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": "Humanoid or Hybrid Form Only",
+        "name": "Javelin",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The wereboar makes two attacks, using Javelin or Tusk in any combination. It can replace one attack with a Gore attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Tusk attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 10 (2d6 + 3) Piercing damage. If the target is a Medium or smaller creature and the wereboar moved 20+ feet straight toward it immediately before the hit, the target takes an extra 7 (2d6) Piercing damage and has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": "Boar or Hybrid Form Only",
+        "name": "Tusk",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The wereboar shape-shifts into a Medium boar-humanoid hybrid or a Small boar, or it returns to its true humanoid form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn't transformed.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Shape-Shift",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "15d8 + 30",
+    "hit_points": 97,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_wereboar",
+    "languages": {
+      "as_string": "Common (can't speak in boar form)",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "name": "Wereboar",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -1,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": 2,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 0,
+      "arcana": 0,
+      "athletics": 3,
+      "deception": -1,
+      "history": 0,
+      "insight": 0,
+      "intimidation": -1,
+      "investigation": 0,
+      "medicine": 0,
+      "nature": 0,
+      "perception": 2,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": 0,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

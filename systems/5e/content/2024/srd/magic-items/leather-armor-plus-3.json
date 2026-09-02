@@ -1,0 +1,51 @@
+{
+  "id": "5e-2024-srd:magic-item:leather-armor-plus-3",
+  "type": "magic-item",
+  "name": "Leather Armor (+3)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "very-rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You have a bonus to Armor Class while wearing this armor. The bonus is determined by its rarity.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 11,
+      "ac_cap_dexmod": null,
+      "ac_display": "11 + Dex modifier",
+      "category": "light",
+      "grants_stealth_disadvantage": false,
+      "key": "srd-2024_leather-armor",
+      "name": "Leather Armor",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have a bonus to Armor Class while wearing this armor. The bonus is determined by its rarity.",
+    "key": "srd-2024_leather-armor-plus-3",
+    "name": "Leather Armor (+3)",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

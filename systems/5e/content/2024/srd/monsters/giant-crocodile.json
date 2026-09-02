@@ -1,0 +1,215 @@
+{
+  "id": "5e-2024-srd:monster:giant-crocodile",
+  "type": "monster",
+  "name": "Giant Crocodile",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "huge",
+    "cr-5"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 17,
+      "dexterity": 9,
+      "intelligence": 2,
+      "strength": 21,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 3,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 8
+          }
+        ],
+        "desc": "Melee Attack Roll: +8, reach 5 ft. 21 (3d10 + 5) Piercing damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 15). While Grappled, the target has the Restrained condition and can't be targeted by the crocodile's Tail.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The crocodile makes one Bite attack and one Tail attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 3,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Tail attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 8
+          }
+        ],
+        "desc": "Melee Attack Roll: +8, reach 10 ft. 18 (3d8 + 5) Bludgeoning damage. If the target is a Large or smaller creature, it has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Tail",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 1800,
+    "hit_dice": "9d12 + 27",
+    "hit_points": 85,
+    "illustration": null,
+    "initiative_bonus": -1,
+    "key": "srd-2024_giant-crocodile",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 3,
+      "dexterity": -1,
+      "intelligence": -4,
+      "strength": 5,
+      "wisdom": 0
+    },
+    "name": "Giant Crocodile",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 3,
+      "dexterity": -1,
+      "intelligence": -4,
+      "strength": 5,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 3,
+      "dexterity": -1,
+      "intelligence": -4,
+      "strength": 5,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": 5,
+      "deception": -2,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -2,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 0,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -4,
+      "sleight_of_hand": -1,
+      "stealth": 5,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 50,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 50,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The crocodile can hold its breath for 1 hour.",
+        "name": "Hold Breath"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

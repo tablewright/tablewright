@@ -1,0 +1,234 @@
+{
+  "id": "5e-2024-srd:monster:frost-giant",
+  "type": "monster",
+  "name": "Frost Giant",
+  "source": "5e-2024-srd",
+  "tags": [
+    "giant",
+    "huge",
+    "cr-8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 12,
+      "constitution": 21,
+      "dexterity": 9,
+      "intelligence": 9,
+      "strength": 23,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 6,
+            "damage_die_count": 2,
+            "damage_die_type": "D12",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Frost Axe attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 9
+          }
+        ],
+        "desc": "Melee Attack Roll: +9, reach 10 ft. 19 (2d12 + 6) Slashing damage plus 9 (2d8) Cold damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Frost Axe",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 6,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 600,
+            "name": "Great Bow attack",
+            "range": 150,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 9
+          }
+        ],
+        "desc": "Ranged Attack Roll: +9, range 150/600 ft. 17 (2d10 + 6) Piercing damage plus 7 (2d6) Cold damage, and the target's Speed decreases by 10 feet until the end of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Great Bow",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The giant makes two attacks, using Frost Axe or Great Bow in any combination.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The giant or one creature of its choice that can see or hear it gains 16 (2d10 + 5) Temporary Hit Points and has Advantage on attack rolls until the start of the giant's next turn.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "War Cry",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE"
+        }
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 8,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 3900,
+    "hit_dice": "13d12 + 65",
+    "hit_points": 149,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_frost-giant",
+    "languages": {
+      "as_string": "Giant",
+      "data": [
+        {
+          "desc": "Typical speakers include ogres, and giants.",
+          "key": "giant",
+          "name": "Giant"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 5,
+      "dexterity": -1,
+      "intelligence": -1,
+      "strength": 6,
+      "wisdom": 0
+    },
+    "name": "Frost Giant",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_immunities_display": "cold",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 4,
+      "constitution": 8,
+      "dexterity": -1,
+      "intelligence": -1,
+      "strength": 6,
+      "wisdom": 3
+    },
+    "saving_throws_all": {
+      "charisma": 4,
+      "constitution": 8,
+      "dexterity": -1,
+      "intelligence": -1,
+      "strength": 6,
+      "wisdom": 3
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "athletics": 9,
+      "perception": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 0,
+      "arcana": -1,
+      "athletics": 9,
+      "deception": 1,
+      "history": -1,
+      "insight": 0,
+      "intimidation": 1,
+      "investigation": -1,
+      "medicine": 0,
+      "nature": -1,
+      "perception": 3,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": -1,
+      "sleight_of_hand": -1,
+      "stealth": -1,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "giant",
+      "name": "Giant"
+    }
+  }
+}

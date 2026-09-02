@@ -1,0 +1,188 @@
+{
+  "id": "5e-2024-srd:monster:giant-frog",
+  "type": "monster",
+  "name": "Giant Frog",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 3,
+      "constitution": 11,
+      "dexterity": 13,
+      "intelligence": 2,
+      "strength": 12,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 5 (1d6 + 2) Piercing damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 11).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The frog swallows a Small or smaller target it is grappling. While swallowed, the target isn't Grappled but has the Blinded and Restrained conditions, and it has Cover|XPHB|Total Cover against attacks and other effects outside the frog. While swallowing the target, the frog can't use Bite, and if the frog dies, the swallowed target is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition. At the end of the frog's next turn, the swallowed target takes 5 (2d4) Acid damage. If that damage doesn't kill it, the frog disgorges it, causing it to exit Prone.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Swallow",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 30,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "4d8",
+    "hit_points": 18,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_giant-frog",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 0
+    },
+    "name": "Giant Frog",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 1,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 2,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": 1,
+      "deception": -4,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -4,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 2,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -4,
+      "sleight_of_hand": 1,
+      "stealth": 4,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The frog can breathe air and water.",
+        "name": "Amphibious"
+      },
+      {
+        "desc": "The frog's Long Jump is up to 20 feet and its High Jump is up to 10 feet with or without a running start.",
+        "name": "Standing Leap"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

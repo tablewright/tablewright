@@ -1,0 +1,298 @@
+{
+  "id": "5e-2024-srd:monster:pit-fiend",
+  "type": "monster",
+  "name": "Pit Fiend",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "large",
+    "cr-20"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 24,
+      "constitution": 24,
+      "dexterity": 14,
+      "intelligence": 22,
+      "strength": 26,
+      "wisdom": 18
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 8,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Attack Roll: +14, reach 10 ft. 18 (3d6 + 8) Piercing damage. If the target is a creature, it must make the following saving throw. Constitution Saving Throw: DC 21. Failure: The target has the Poisoned condition. While Poisoned, the target can't regain Hit Points and takes 21 (6d6) Poison damage at the start of each of its turns, and it repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 8,
+            "damage_die_count": 4,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "necrotic",
+              "name": "Necrotic"
+            },
+            "long_range": null,
+            "name": "Devilish Claw attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Attack Roll: +14, reach 10 ft. 26 (4d8 + 8) Necrotic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Devilish Claw",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 8,
+            "damage_die_count": 4,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "force",
+              "name": "Force"
+            },
+            "long_range": null,
+            "name": "Fiery Mace attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Attack Roll: +14, reach 10 ft. 22 (4d6 + 8) Force damage plus 21 (6d6) Fire damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fiery Mace",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The pit fiend casts Fireball (level 5 version) twice, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 21). It can replace one Fireball with Hold Monster (level 7 version) or Wall of Fire.\n\n- **At Will:**",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Hellfire Spellcasting",
+        "order_in_statblock": 4,
+        "usage_limits": {
+          "param": 4,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The pit fiend makes one Bite attack, two Devilish Claw attacks, and one Fiery Mace attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 21,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 20,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 25000,
+    "hit_dice": "27d10 + 189",
+    "hit_points": 337,
+    "illustration": null,
+    "initiative_bonus": 14,
+    "key": "srd-2024_pit-fiend",
+    "languages": {
+      "as_string": "Infernal; telepathy 120 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers are devils.",
+          "key": "infernal",
+          "name": "Infernal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 7,
+      "constitution": 7,
+      "dexterity": 2,
+      "intelligence": 6,
+      "strength": 8,
+      "wisdom": 4
+    },
+    "name": "Pit Fiend",
+    "normal_sight_range": 10560,
+    "passive_perception": 20,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "fire, poison",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_resistances_display": "cold",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 7,
+      "constitution": 7,
+      "dexterity": 8,
+      "intelligence": 6,
+      "strength": 8,
+      "wisdom": 10
+    },
+    "saving_throws_all": {
+      "charisma": 7,
+      "constitution": 7,
+      "dexterity": 8,
+      "intelligence": 6,
+      "strength": 8,
+      "wisdom": 10
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 10,
+      "persuasion": 19
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 4,
+      "arcana": 6,
+      "athletics": 8,
+      "deception": 7,
+      "history": 6,
+      "insight": 4,
+      "intimidation": 7,
+      "investigation": 6,
+      "medicine": 4,
+      "nature": 6,
+      "perception": 10,
+      "performance": 7,
+      "persuasion": 19,
+      "religion": 6,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 4
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the pit fiend dies outside the Nine Hells, its body disappears in sulfurous smoke, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Nine Hells.",
+        "name": "Diabolical Restoration"
+      },
+      {
+        "desc": "The pit fiend emanates an aura in a 20-foot Emanation while it doesn't have the Incapacitated condition. Wisdom Saving Throw: DC 21, any enemy that starts its turn in the aura. Failure: The target has the Frightened condition until the start of its next turn. Success: The target is immune to this pit fiend's aura for 24 hours.",
+        "name": "Fear Aura"
+      },
+      {
+        "desc": "If the pit fiend fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (4/Day)"
+      },
+      {
+        "desc": "The pit fiend has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

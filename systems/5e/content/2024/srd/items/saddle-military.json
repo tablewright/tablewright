@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:saddle-military",
+  "type": "item",
+  "name": "Saddle (Military)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A saddle designed for combat, providing advantage on checks to remain mounted.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "20.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A saddle designed for combat, providing advantage on checks to remain mounted.",
+    "key": "srd-2024_saddle-military",
+    "name": "Saddle (Military)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "30.000",
+    "weight_unit": "lb"
+  }
+}

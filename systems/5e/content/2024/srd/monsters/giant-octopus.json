@@ -1,0 +1,187 @@
+{
+  "id": "5e-2024-srd:monster:giant-octopus",
+  "type": "monster",
+  "name": "Giant Octopus",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 13,
+      "dexterity": 13,
+      "intelligence": 5,
+      "strength": 17,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Tentacles attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 10 ft. 10 (2d6 + 3) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 13) from all eight tentacles. While Grappled, the target has the Restrained condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Tentacles",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "_Trigger:_ The octopus takes damage while underwater. _Response:_ The octopus releases ink that fills a 10-foot Cube centered on itself, and the octopus moves up to its Swim Speed. The Cube is Heavily Obscured for 1 minute or until a strong current or similar effect disperses the ink.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Ink Cloud",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "7d10 + 7",
+    "hit_points": 45,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_giant-octopus",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -3,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "name": "Giant Octopus",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -3,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -3,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": -3,
+      "athletics": 3,
+      "deception": -3,
+      "history": -3,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -3,
+      "medicine": 0,
+      "nature": -3,
+      "perception": 4,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -3,
+      "sleight_of_hand": 1,
+      "stealth": 5,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 60,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 5,
+      "crawl": 5,
+      "fly": 0,
+      "hover": false,
+      "swim": 60,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The octopus can breathe only underwater. It can hold its breath for 1 hour outside water.",
+        "name": "Water Breathing"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

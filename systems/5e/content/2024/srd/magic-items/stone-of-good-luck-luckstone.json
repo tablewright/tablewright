@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:stone-of-good-luck-luckstone",
+  "type": "magic-item",
+  "name": "Stone of Good Luck (Luckstone)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While this polished agate is on your person, you gain a +1 bonus to ability checks and saving throws.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While this polished agate is on your person, you gain a +1 bonus to ability checks and saving throws.",
+    "key": "srd-2024_stone-of-good-luck-luckstone",
+    "name": "Stone of Good Luck (Luckstone)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

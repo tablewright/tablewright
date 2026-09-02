@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:ink",
+  "type": "item",
+  "name": "Ink",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ink comes in a 1-ounce bottle, which provides enough ink to write about 500 pages.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ink comes in a 1-ounce bottle, which provides enough ink to write about 500 pages.",
+    "key": "srd-2024_ink",
+    "name": "Ink",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

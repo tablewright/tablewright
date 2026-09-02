@@ -1,0 +1,249 @@
+{
+  "id": "5e-2024-srd:monster:specter",
+  "type": "monster",
+  "name": "Specter",
+  "source": "5e-2024-srd",
+  "tags": [
+    "undead",
+    "medium",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 11,
+      "constitution": 11,
+      "dexterity": 14,
+      "intelligence": 10,
+      "strength": 1,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "necrotic",
+              "name": "Necrotic"
+            },
+            "long_range": null,
+            "name": "Life Drain attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 7 (2d6) Necrotic damage. If the target is a creature, its Hit Point maximum decreases by an amount equal to the damage taken.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Life Drain",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "5d8",
+    "hit_points": 22,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_specter",
+    "languages": {
+      "as_string": "Understands Common plus one other language but can't speak",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": -5,
+      "wisdom": 0
+    },
+    "name": "Specter",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        },
+        {
+          "key": "unconscious",
+          "name": "Unconscious"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, grappled, paralyzed, petrified, poisoned, prone, restrained, unconscious",
+      "damage_immunities": [
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "necrotic, poison",
+      "damage_resistances": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        },
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        },
+        {
+          "key": "thunder",
+          "name": "Thunder"
+        }
+      ],
+      "damage_resistances_display": "acid, cold, fire, lightning, thunder",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": -5,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": -5,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": 0,
+      "athletics": -5,
+      "deception": 0,
+      "history": 0,
+      "insight": 0,
+      "intimidation": 0,
+      "investigation": 0,
+      "medicine": 0,
+      "nature": 0,
+      "perception": 0,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 0,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 50,
+      "hover": true,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 50,
+      "hover": true,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The specter can move through other creatures and objects as if they were Difficult Terrain. It takes 5 (1d10) Force damage if it ends its turn inside an object.",
+        "name": "Incorporeal Movement"
+      },
+      {
+        "desc": "While in sunlight, the specter has Disadvantage on ability checks and attack rolls.",
+        "name": "Sunlight Sensitivity"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

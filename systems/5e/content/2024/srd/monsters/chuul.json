@@ -1,0 +1,213 @@
+{
+  "id": "5e-2024-srd:monster:chuul",
+  "type": "monster",
+  "name": "Chuul",
+  "source": "5e-2024-srd",
+  "tags": [
+    "aberration",
+    "large",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 16,
+      "dexterity": 10,
+      "intelligence": 5,
+      "strength": 19,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The chuul makes two Pincer attacks and uses Paralyzing Tentacles.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 13, one creature Grappled by the chuul. Failure: The target has the Poisoned condition and repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically. While Poisoned, the target has the Paralyzed condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Paralyzing Tentacles",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Pincer attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 10 ft. 9 (1d10 + 4) Bludgeoning damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two pincers.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pincer",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 16,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "9d10 + 27",
+    "hit_points": 76,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd-2024_chuul",
+    "languages": {
+      "as_string": "Understands Deep Speech but can't speak",
+      "data": [
+        {
+          "desc": "Typical speakers include aboleths and cloakers. It is only spoken.",
+          "key": "deep-speech",
+          "name": "Deep Speech"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": 0,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "name": "Chuul",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": 0,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 3,
+      "dexterity": 0,
+      "intelligence": -3,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 0,
+      "arcana": -3,
+      "athletics": 4,
+      "deception": -3,
+      "history": -3,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -3,
+      "medicine": 0,
+      "nature": -3,
+      "perception": 4,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -3,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The chuul can breathe air and water.",
+        "name": "Amphibious"
+      },
+      {
+        "desc": "The chuul senses magic within 120 feet of itself. This trait otherwise works like the Detect Magic spell but isn't itself magical.",
+        "name": "Sense Magic"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "aberration",
+      "name": "Aberration"
+    }
+  }
+}

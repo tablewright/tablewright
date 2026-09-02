@@ -1,0 +1,220 @@
+{
+  "id": "5e-2024-srd:monster:young-brass-dragon",
+  "type": "monster",
+  "name": "Young Brass Dragon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "large",
+    "cr-6"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 15,
+      "constitution": 17,
+      "dexterity": 10,
+      "intelligence": 12,
+      "strength": 19,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 14, each creature in a 40-foot-long, 5-foot-wide Line. Failure: 38 (11d6) Fire damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fire Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes three Rend attacks. It can replace two attacks with a use of Sleep Breath.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 10 ft. 15 (2d10 + 4) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 14, each creature in a 30-foot Cone. Failure: The target has the Incapacitated condition until the end of its next turn, at which point it repeats the save. Second Failure The target has the Unconscious condition for 1 minute. This effect ends for the target if it takes damage or a creature within 5 feet of it takes an action to wake it.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Sleep Breath",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic good",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": 30,
+    "category": "Monsters",
+    "challenge_rating": 6,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 2300,
+    "hit_dice": "13d10 + 39",
+    "hit_points": 110,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_young-brass-dragon",
+    "languages": {
+      "as_string": "Common, Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 0,
+      "intelligence": 1,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "name": "Young Brass Dragon",
+    "normal_sight_range": 10560,
+    "passive_perception": 16,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_immunities_display": "fire",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": 4,
+      "wisdom": 3
+    },
+    "saving_throws_all": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": 4,
+      "wisdom": 3
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 6,
+      "persuasion": 5,
+      "stealth": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 0,
+      "arcana": 1,
+      "athletics": 4,
+      "deception": 2,
+      "history": 1,
+      "insight": 0,
+      "intimidation": 2,
+      "investigation": 1,
+      "medicine": 0,
+      "nature": 1,
+      "perception": 6,
+      "performance": 2,
+      "persuasion": 5,
+      "religion": 1,
+      "sleight_of_hand": 0,
+      "stealth": 3,
+      "survival": 0
+    },
+    "speed": {
+      "burrow": 20,
+      "fly": 80,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 20,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 80,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

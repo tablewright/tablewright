@@ -1,0 +1,188 @@
+{
+  "id": "5e-2024-srd:monster:giant-constrictor-snake",
+  "type": "monster",
+  "name": "Giant Constrictor Snake",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "huge",
+    "cr-2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 3,
+      "constitution": 12,
+      "dexterity": 14,
+      "intelligence": 1,
+      "strength": 19,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 10 ft. 11 (2d6 + 4) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Strength Saving Throw: DC 14, one Large or smaller creature the snake can see within 10 feet. Failure: 13 (2d8 + 4) Bludgeoning damage, and the target has the Grappled condition (escape DC 14).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Constrict",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The snake makes one Bite attack and uses Constrict.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Animals",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 450,
+    "hit_dice": "8d12 + 8",
+    "hit_points": 60,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_giant-constrictor-snake",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "name": "Giant Constrictor Snake",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "perception": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": -5,
+      "athletics": 4,
+      "deception": -4,
+      "history": -5,
+      "insight": 0,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": 0,
+      "nature": -5,
+      "perception": 2,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

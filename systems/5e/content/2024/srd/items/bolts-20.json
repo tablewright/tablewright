@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:bolts-20",
+  "type": "item",
+  "name": "Bolts (20)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ammunition for weapons that use bolts. Comes in a pack of 20. Typically stored in a case.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ammunition for weapons that use bolts. Comes in a pack of 20. Typically stored in a case.",
+    "key": "srd-2024_bolts-20",
+    "name": "Bolts (20)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.500",
+    "weight_unit": "lb"
+  }
+}

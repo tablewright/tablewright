@@ -1,0 +1,79 @@
+{
+  "id": "5e-2024-srd:item:lance",
+  "type": "item",
+  "name": "Lance",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A lance.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A lance.",
+    "key": "srd-2024_lance",
+    "name": "Lance",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d10",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_lance",
+      "name": "Lance",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "You have Disadvantage on attack rolls with a Heavy weapon if it's a Melee weapon and your Strength score isn't at least 13 or if it's a Ranged weapon and your Dexterity score isn't at least 13.",
+            "name": "Heavy",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "A Reach weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for Opportunity Attacks with it.",
+            "name": "Reach",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and your Proficiency Bonus). On a failed save, the creature has the Prone condition.",
+            "name": "Topple",
+            "type": "Mastery"
+          }
+        },
+        {
+          "detail": "unless mounted",
+          "property": {
+            "desc": "A Two-Handed weapon requires two hands when you attack with it.",
+            "name": "Two-Handed",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

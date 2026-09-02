@@ -1,0 +1,151 @@
+{
+  "id": "5e-2024-srd:monster:rat",
+  "type": "monster",
+  "name": "Rat",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 9,
+      "dexterity": 11,
+      "intelligence": 2,
+      "strength": 2,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +2, reach 5 ft. 1 Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 10,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 30,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "1d4 - 1",
+    "hit_points": 1,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd-2024_rat",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": -1,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "name": "Rat",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": -1,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": -1,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": -4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": -4,
+      "deception": -3,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 2,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 0
+    },
+    "speed": {
+      "climb": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The rat doesn't provoke Opportunity Attacks when it moves out of an enemy's reach.",
+        "name": "Agile"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

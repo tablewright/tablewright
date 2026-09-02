@@ -1,0 +1,182 @@
+{
+  "id": "5e-2024-srd:monster:merfolk-skirmisher",
+  "type": "monster",
+  "name": "Merfolk Skirmisher",
+  "source": "5e-2024-srd",
+  "tags": [
+    "elemental",
+    "medium",
+    "cr-1/8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 12,
+      "constitution": 12,
+      "dexterity": 13,
+      "intelligence": 11,
+      "strength": 10,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 60,
+            "name": "Ocean Spear attack",
+            "range": 20,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 2
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +2, reach 5 ft. or range 20/60 ft. 3 (1d6) Piercing damage plus 2 (1d4) Cold damage. If the target is a creature, its Speed decreases by 10 feet until the end of its next turn. HitomThe spear magically returns to the merfolk's hand immediately after a ranged attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Ocean Spear",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 25,
+    "hit_dice": "2d8 + 2",
+    "hit_points": 11,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_merfolk-skirmisher",
+    "languages": {
+      "as_string": "Common, Primordial (Aquan)",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are elementals.",
+          "key": "primordial",
+          "name": "Primordial"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "name": "Merfolk Skirmisher",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 2,
+      "arcana": 0,
+      "athletics": 0,
+      "deception": 1,
+      "history": 0,
+      "insight": 2,
+      "intimidation": 1,
+      "investigation": 0,
+      "medicine": 2,
+      "nature": 0,
+      "perception": 2,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": 0,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 2
+    },
+    "speed": {
+      "swim": 40,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 5,
+      "crawl": 5,
+      "fly": 0,
+      "hover": false,
+      "swim": 40,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The merfolk can breathe air and water.",
+        "name": "Amphibious"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "elemental",
+      "name": "Elemental"
+    }
+  }
+}

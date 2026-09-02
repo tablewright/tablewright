@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:ring-of-three-wishes",
+  "type": "magic-item",
+  "name": "Ring of Three Wishes",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ring",
+    "legendary"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wearing this ring, you can expend 1 of its 3 charges to cast Wish from it. The ring becomes nonmagical when you use the last charge.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this ring, you can expend 1 of its 3 charges to cast Wish from it. The ring becomes nonmagical when you use the last charge.",
+    "key": "srd-2024_ring-of-three-wishes",
+    "name": "Ring of Three Wishes",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

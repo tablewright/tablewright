@@ -1,0 +1,175 @@
+{
+  "id": "5e-2024-srd:monster:swarm-of-insects",
+  "type": "monster",
+  "name": "Swarm of Insects",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-1/2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 14,
+      "dexterity": 13,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 7
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 1,
+            "damage_die_count": 2,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "poison",
+              "name": "Poison"
+            },
+            "long_range": null,
+            "name": "Bites attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 6 (2d4 + 1) Poison damage, or 3 (1d4 + 1) Poison damage if the swarm is Bloodied.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bites",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": 30,
+    "category": "Animals",
+    "challenge_rating": 0.5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 100,
+    "hit_dice": "3d8 + 6",
+    "hit_points": 19,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_swarm-of-insects",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": -2
+    },
+    "name": "Swarm of Insects",
+    "normal_sight_range": 10560,
+    "passive_perception": 8,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -5,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": -2
+    },
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": -2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": -2,
+      "arcana": -5,
+      "athletics": -4,
+      "deception": -5,
+      "history": -5,
+      "insight": -2,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -2,
+      "nature": -5,
+      "perception": -2,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": -2
+    },
+    "speed": {
+      "fly": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 20,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the swarm has a Climb Speed, the swarm can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+        "name": "Spider Climb"
+      },
+      {
+        "desc": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny insect. The swarm can't regain Hit Points or gain Temporary Hit Points.",
+        "name": "Swarm"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

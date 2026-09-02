@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:elephant",
+  "type": "item",
+  "name": "Elephant",
+  "source": "5e-2024-srd",
+  "tags": [
+    "mount"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A massive mount capable of carrying extremely heavy loads.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "mount",
+      "name": "Mount"
+    },
+    "cost": "200.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A massive mount capable of carrying extremely heavy loads.",
+    "key": "srd-2024_elephant",
+    "name": "Elephant",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

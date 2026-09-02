@@ -9,3 +9,4 @@ coverage/
 perf-report.json
 test-results/
 playwright-report/
+data/

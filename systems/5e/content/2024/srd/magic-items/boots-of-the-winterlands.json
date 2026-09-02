@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:boots-of-the-winterlands",
+  "type": "magic-item",
+  "name": "Boots of the Winterlands",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "These furred boots are snug and feel warm. While wearing them, you gain the following benefits. Cold Resistance. You have Resistance to Cold damage and can tolerate temperatures of 0 degrees Fahrenheit or lower without any additional protection. Winter Strider. You ignore Difficult Terrain created by ice or snow.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "These furred boots are snug and feel warm. While wearing them, you gain the following benefits. Cold Resistance. You have Resistance to Cold damage and can tolerate temperatures of 0 degrees Fahrenheit or lower without any additional protection. Winter Strider. You ignore Difficult Terrain created by ice or snow.",
+    "key": "srd-2024_boots-of-the-winterlands",
+    "name": "Boots of the Winterlands",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

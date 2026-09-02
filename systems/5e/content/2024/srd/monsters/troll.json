@@ -1,0 +1,202 @@
+{
+  "id": "5e-2024-srd:monster:troll",
+  "type": "monster",
+  "name": "Troll",
+  "source": "5e-2024-srd",
+  "tags": [
+    "giant",
+    "large",
+    "cr-5"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 20,
+      "dexterity": 13,
+      "intelligence": 7,
+      "strength": 18,
+      "wisdom": 9
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The troll makes three Rend attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 10 ft. 11 (2d6 + 4) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The troll moves up to half its Speed straight toward an enemy it can see.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Charge",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1800,
+    "hit_dice": "9d10 + 45",
+    "hit_points": 94,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_troll",
+    "languages": {
+      "as_string": "Giant",
+      "data": [
+        {
+          "desc": "Typical speakers include ogres, and giants.",
+          "key": "giant",
+          "name": "Giant"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 5,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 4,
+      "wisdom": -1
+    },
+    "name": "Troll",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 5,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 4,
+      "wisdom": -1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 5,
+      "dexterity": 1,
+      "intelligence": -2,
+      "strength": 4,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": -1,
+      "arcana": -2,
+      "athletics": 4,
+      "deception": -2,
+      "history": -2,
+      "insight": -1,
+      "intimidation": -2,
+      "investigation": -2,
+      "medicine": -1,
+      "nature": -2,
+      "perception": 5,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -2,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": -1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the troll ends any turn Bloodied and took 15+ Slashing damage during that turn, one of the troll's limbs is severed, falls into the troll's space, and becomes a Troll Limb. The limb acts immediately after the troll's turn. The troll has 1 Exhaustion level for each missing limb, and it grows replacement limbs the next time it regains Hit Points.",
+        "name": "Loathsome Limbs (4/Day)"
+      },
+      {
+        "desc": "The troll regains 15 Hit Points at the start of each of its turns. If the troll takes Acid or Fire damage, this trait doesn't function on the troll's next turn. The troll dies only if it starts its turn with 0 Hit Points and doesn't regenerate.",
+        "name": "Regeneration"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "giant",
+      "name": "Giant"
+    }
+  }
+}

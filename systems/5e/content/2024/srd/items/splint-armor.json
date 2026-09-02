@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:splint-armor",
+  "type": "item",
+  "name": "Splint Armor",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A splint armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 17,
+      "ac_cap_dexmod": null,
+      "ac_display": "17",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_splint-armor",
+      "name": "Splint Armor",
+      "strength_score_required": 15
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "200.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A splint armor.",
+    "key": "srd-2024_splint-armor",
+    "name": "Splint Armor",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "60.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "id": "5e-2024-srd:monster:blood-hawk",
+  "type": "monster",
+  "name": "Blood Hawk",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-1/8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 10,
+      "dexterity": 14,
+      "intelligence": 3,
+      "strength": 6,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Beak attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 4 (1d4 + 2) Piercing damage, or 6 (1d8 + 2) Piercing damage if the target is Bloodied.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Beak",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 25,
+    "hit_dice": "2d6",
+    "hit_points": 7,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_blood-hawk",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -2,
+      "wisdom": 2
+    },
+    "name": "Blood Hawk",
+    "normal_sight_range": 10560,
+    "passive_perception": 16,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -2,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -2,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 6
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 2,
+      "arcana": -4,
+      "athletics": -2,
+      "deception": -3,
+      "history": -4,
+      "insight": 2,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 2,
+      "nature": -4,
+      "perception": 6,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 2
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 5,
+      "crawl": 5,
+      "fly": 60,
+      "hover": false,
+      "swim": 5,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The hawk has Advantage on an attack roll against a creature if at least one of the hawk's allies is within 5 feet of the creature and the ally doesn't have the Incapacitated condition.",
+        "name": "Pack Tactics"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

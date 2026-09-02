@@ -1,0 +1,51 @@
+{
+  "id": "5e-2024-srd:magic-item:shield-plus-3",
+  "type": "magic-item",
+  "name": "Shield (+3)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "very-rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While holding this Shield, you have a bonus to Armor Class determined by the Shield's rarity, in addition to the Shield's normal bonus to AC.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 2,
+      "ac_cap_dexmod": null,
+      "ac_display": "2",
+      "category": "heavy",
+      "grants_stealth_disadvantage": false,
+      "key": "srd-2024_shield",
+      "name": "Shield",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While holding this Shield, you have a bonus to Armor Class determined by the Shield's rarity, in addition to the Shield's normal bonus to AC.",
+    "key": "srd-2024_shield-plus-3",
+    "name": "Shield (+3)",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "id": "5e-2024-srd:monster:succubus",
+  "type": "monster",
+  "name": "Succubus",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fiend",
+    "medium",
+    "cr-4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 20,
+      "constitution": 13,
+      "dexterity": 17,
+      "intelligence": 15,
+      "strength": 8,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The succubus casts Dominate Person (level 8 version), requiring no spell components and using Charisma as the spellcasting ability (spell save DC 15).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Charm",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 15, one creature Charmed by the succubus within 5 feet. Failure: 13 (3d8) Psychic damage. Success: Half damage. Failure or Success: The target's Hit Point maximum decreases by an amount equal to the damage taken.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Draining Kiss",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "psychic",
+              "name": "Psychic"
+            },
+            "long_range": null,
+            "name": "Fiendish Touch attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 5 ft. 16 (2d10 + 5) Psychic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fiendish Touch",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The succubus makes one Fiendish Touch attack and uses Charm or Draining Kiss.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The succubus shape-shifts to resemble a Medium or Small Humanoid or back into its true form. Its game statistics are the same in each form, except its Fly Speed is available only in its true form. Any equipment it's wearing or carrying isn't transformed.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Shape-Shift",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 1100,
+    "hit_dice": "13d8 + 13",
+    "hit_points": 71,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_succubus",
+    "languages": {
+      "as_string": "Abyssal, Common, Infernal; telepathy 60 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        },
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are devils.",
+          "key": "infernal",
+          "name": "Infernal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 5,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": 2,
+      "strength": -1,
+      "wisdom": 1
+    },
+    "name": "Succubus",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        },
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        }
+      ],
+      "damage_resistances_display": "cold, fire, poison, psychic",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 5,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": 2,
+      "strength": -1,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": 5,
+      "constitution": 1,
+      "dexterity": 3,
+      "intelligence": 2,
+      "strength": -1,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "deception": 9,
+      "insight": 5,
+      "perception": 5,
+      "persuasion": 9,
+      "stealth": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 1,
+      "arcana": 2,
+      "athletics": -1,
+      "deception": 9,
+      "history": 2,
+      "insight": 5,
+      "intimidation": 5,
+      "investigation": 2,
+      "medicine": 1,
+      "nature": 2,
+      "perception": 5,
+      "performance": 5,
+      "persuasion": 9,
+      "religion": 2,
+      "sleight_of_hand": 3,
+      "stealth": 7,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "When the succubus finishes a Long Rest, it can shape-shift into an Incubus, using that stat block instead of this one.",
+        "name": "Incubus Form"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

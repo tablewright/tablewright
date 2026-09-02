@@ -1,0 +1,109 @@
+{
+  "id": "5e-2024-srd:spell:private-sanctum",
+  "type": "spell",
+  "name": "Private Sanctum",
+  "source": "5e-2024-srd",
+  "tags": [
+    "abjuration",
+    "level-4",
+    "wizard"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You make an area within range magically secure. The area is a Cube that can be as small as 5 feet to as large as 100 feet on each side. The spell lasts for the duration.\n\nWhen you cast the spell, you decide what sort of security the spell provides, choosing any of the following properties:\n\n- Sound can't pass through the barrier at the edge of the warded area.\n- The barrier of the warded area appears dark and foggy, preventing vision (including Darkvision) through it.\n- Sensors created by Divination spells can't appear inside the protected area or pass through the barrier at its perimeter. - Creatures in the area can't be targeted by Divination spells.\n- Nothing can teleport into or out of the warded area.\n- Planar travel is blocked within the warded area. Casting this spell on the same spot every day for 365 days makes the spell last until dispelled.\n\n**Using a Higher-Level Spell Slot.** You can increase the size of the Cube by 100 feet for each spell slot level above 4.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "Cube can be up to 200 feet on a side.",
+        "duration": null,
+        "range": null,
+        "shape_size": 200,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "Cube can be up to 300 feet on a side.",
+        "duration": null,
+        "range": null,
+        "shape_size": 300,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "Cube can be up to 400 feet on a side.",
+        "duration": null,
+        "range": null,
+        "shape_size": 400,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "Cube can be up to 500 feet on a side.",
+        "duration": null,
+        "range": null,
+        "shape_size": 500,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "Cube can be up to 600 feet on a side.",
+        "duration": null,
+        "range": null,
+        "shape_size": 600,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "1minute",
+    "classes": [
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You make an area within range magically secure. The area is a Cube that can be as small as 5 feet to as large as 100 feet on each side. The spell lasts for the duration.\n\nWhen you cast the spell, you decide what sort of security the spell provides, choosing any of the following properties:\n\n- Sound can't pass through the barrier at the edge of the warded area.\n- The barrier of the warded area appears dark and foggy, preventing vision (including Darkvision) through it.\n- Sensors created by Divination spells can't appear inside the protected area or pass through the barrier at its perimeter. - Creatures in the area can't be targeted by Divination spells.\n- Nothing can teleport into or out of the warded area.\n- Planar travel is blocked within the warded area. Casting this spell on the same spot every day for 365 days makes the spell last until dispelled.",
+    "duration": "24 hours",
+    "higher_level": "You can increase the size of the Cube by 100 feet for each spell slot level above 4.",
+    "key": "srd-2024_private-sanctum",
+    "level": 4,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a thin sheet of lead",
+    "name": "Private Sanctum",
+    "range": 120,
+    "range_text": "120 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "abjuration",
+      "name": "Abjuration"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

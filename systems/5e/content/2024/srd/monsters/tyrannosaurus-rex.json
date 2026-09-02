@@ -1,0 +1,209 @@
+{
+  "id": "5e-2024-srd:monster:tyrannosaurus-rex",
+  "type": "monster",
+  "name": "Tyrannosaurus Rex",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "huge",
+    "cr-8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 9,
+      "constitution": 19,
+      "dexterity": 10,
+      "intelligence": 2,
+      "strength": 25,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 7,
+            "damage_die_count": 4,
+            "damage_die_type": "D12",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Attack Roll: +10, reach 10 ft. 33 (4d12 + 7) Piercing damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 17). While Grappled, the target has the Restrained condition and can't be targeted by the tyrannosaurus's Tail.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The tyrannosaurus makes one Bite attack and one Tail attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 7,
+            "damage_die_count": 4,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Tail attack",
+            "range": null,
+            "reach": 15,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Attack Roll: +10, reach 15 ft. 25 (4d8 + 7) Bludgeoning damage. If the target is a Huge or smaller creature, it has the Prone condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Tail",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 8,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 3900,
+    "hit_dice": "13d12 + 52",
+    "hit_points": 136,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_tyrannosaurus-rex",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 4,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 7,
+      "wisdom": 1
+    },
+    "name": "Tyrannosaurus Rex",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -1,
+      "constitution": 4,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 10,
+      "wisdom": 4
+    },
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": 4,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 10,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "perception": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": 7,
+      "deception": -1,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -1,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 4,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": -4,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

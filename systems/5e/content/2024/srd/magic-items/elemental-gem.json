@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:elemental-gem",
+  "type": "magic-item",
+  "name": "Elemental Gem",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "This gem contains a mote of elemental energy. When you take a Utilize action to break the gem, an elemental is summoned (see \"Monsters\" for its stat block), and the gem ceases to be magical. The elemental appears in an unoccupied space as close to the broken gem as possible, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 1 hour, when it dies, or when you dismiss it as a Bonus Action. The type of gem determines the elemental, as shown in the following table.\n\n| Gem            | Summoned Elemental |\n|----------------|--------------------|\n| Blue sapphire  | Air Elemental      |\n| Emerald        | Water Elemental    |\n| Red corundum   | Fire Elemental     |\n| Yellow diamond | Earth Elemental    |",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This gem contains a mote of elemental energy. When you take a Utilize action to break the gem, an elemental is summoned (see \"Monsters\" for its stat block), and the gem ceases to be magical. The elemental appears in an unoccupied space as close to the broken gem as possible, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 1 hour, when it dies, or when you dismiss it as a Bonus Action. The type of gem determines the elemental, as shown in the following table.\n\n| Gem            | Summoned Elemental |\n|----------------|--------------------|\n| Blue sapphire  | Air Elemental      |\n| Emerald        | Water Elemental    |\n| Red corundum   | Fire Elemental     |\n| Yellow diamond | Earth Elemental    |",
+    "key": "srd-2024_elemental-gem",
+    "name": "Elemental Gem",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

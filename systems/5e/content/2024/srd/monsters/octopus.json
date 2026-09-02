@@ -1,0 +1,191 @@
+{
+  "id": "5e-2024-srd:monster:octopus",
+  "type": "monster",
+  "name": "Octopus",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 15,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "_Trigger:_ A creature ends its turn within 5 feet of the octopus while underwater. Response: The octopus releases ink that fills a 5-foot Cube centered on itself, and the octopus moves up to its Swim Speed. The Cube is Heavily Obscured for 1 minute or until a strong current or similar effect disperses the ink.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Ink Cloud",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 1,
+            "damage_die_count": 0,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Tentacles attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. Hit: 1 Bludgeoning damage.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Tentacles",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "",
+    "blindsight_range": null,
+    "category": "Beast",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 30,
+    "environments": [],
+    "experience_points": 10,
+    "hit_dice": "1d6",
+    "hit_points": 3,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_octopus",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -7,
+      "constitution": -5,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": 0
+    },
+    "name": "Octopus",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": 2,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 30,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 30,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 2,
+      "stealth": 6
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": -3,
+      "deception": -7,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -7,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 2,
+      "performance": -7,
+      "persuasion": -7,
+      "religion": -4,
+      "sleight_of_hand": 2,
+      "stealth": 6,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 30,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 0,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The octopus can move through a space as narrow as 1 inch without expending extra movement to do so.",
+        "name": "Compression"
+      },
+      {
+        "desc": "The octopus can breathe only underwater.",
+        "name": "Water Breathing"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

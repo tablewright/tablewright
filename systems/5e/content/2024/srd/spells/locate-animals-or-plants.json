@@ -1,0 +1,69 @@
+{
+  "id": "5e-2024-srd:spell:locate-animals-or-plants",
+  "type": "spell",
+  "name": "Locate Animals or Plants",
+  "source": "5e-2024-srd",
+  "tags": [
+    "divination",
+    "level-2",
+    "bard",
+    "druid",
+    "ranger",
+    "ritual"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Describe or name a specific kind of Beast, Plant creature, or nonmagical plant. You learn the direction and distance to the closest creature or plant of that kind within 5 miles, if any are present.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Describe or name a specific kind of Beast, Plant creature, or nonmagical plant. You learn the direction and distance to the closest creature or plant of that kind within 5 miles, if any are present.",
+    "duration": "instantaneous",
+    "higher_level": "",
+    "key": "srd-2024_locate-animals-or-plants",
+    "level": 2,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "fur from a bloodhound",
+    "name": "Locate Animals or Plants",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": true,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "divination",
+      "name": "Divination"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

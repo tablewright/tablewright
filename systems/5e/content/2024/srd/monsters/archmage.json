@@ -1,0 +1,236 @@
+{
+  "id": "5e-2024-srd:monster:archmage",
+  "type": "monster",
+  "name": "Archmage",
+  "source": "5e-2024-srd",
+  "tags": [
+    "humanoid",
+    "small",
+    "cr-12"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 16,
+      "constitution": 12,
+      "dexterity": 14,
+      "intelligence": 20,
+      "strength": 10,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 5,
+            "damage_die_count": 4,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "force",
+              "name": "Force"
+            },
+            "long_range": null,
+            "name": "Arcane Burst attack",
+            "range": 150,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 9
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +9, reach 5 ft. or range 150 ft. 27 (4d10 + 5) Force damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Arcane Burst",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The archmage makes four Arcane Burst attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The archmage casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 17):\n\n- **At Will:** Detect Magic, Detect Thoughts, Disguise Self, Invisibility, Light, Mage Armor, Mage Hand, Prestidigitation\n- **2/Day Each:** Fly, Lightning Bolt\n- **1/Day Each:** Cone of Cold, Mind Blank, Scrying, Teleport",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The mage casts Misty Step, using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Misty Step",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 3,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "The archmage casts Counterspell or Shield in response to the spell's trigger, using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Protective Magic",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 3,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 12,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 8400,
+    "hit_dice": "31d8 + 31",
+    "hit_points": 170,
+    "illustration": null,
+    "initiative_bonus": 7,
+    "key": "srd-2024_archmage",
+    "languages": {
+      "as_string": "Common plus five other languages",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 5,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "name": "Archmage",
+    "normal_sight_range": 10560,
+    "passive_perception": 16,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        }
+      ],
+      "condition_immunities_display": "charmed",
+      "damage_immunities": [
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        }
+      ],
+      "damage_immunities_display": "psychic",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 3,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 9,
+      "strength": 0,
+      "wisdom": 6
+    },
+    "saving_throws_all": {
+      "charisma": 3,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 9,
+      "strength": 0,
+      "wisdom": 6
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "arcana": 13,
+      "history": 9,
+      "perception": 6
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 2,
+      "arcana": 13,
+      "athletics": 0,
+      "deception": 3,
+      "history": 9,
+      "insight": 2,
+      "intimidation": 3,
+      "investigation": 5,
+      "medicine": 2,
+      "nature": 5,
+      "perception": 6,
+      "performance": 3,
+      "persuasion": 3,
+      "religion": 5,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The archmage has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

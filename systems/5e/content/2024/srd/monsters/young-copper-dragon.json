@@ -1,0 +1,220 @@
+{
+  "id": "5e-2024-srd:monster:young-copper-dragon",
+  "type": "monster",
+  "name": "Young Copper Dragon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "large",
+    "cr-7"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 15,
+      "constitution": 17,
+      "dexterity": 12,
+      "intelligence": 16,
+      "strength": 19,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 14, each creature in a 40-foot-long, 5-foot-wide Line. Failure: 40 (9d8) Acid damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Acid Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes three Rend attacks. It can replace one attack with a use of Slowing Breath.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Attack Roll: +7, reach 10 ft. 15 (2d10 + 4) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 14, each creature in a 30-foot Cone. Failure: The target can't take Reactions; its Speed is halved; and it can take either an action or a Bonus Action on its turn, not both. This effect lasts until the end of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slowing Breath",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic good",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": 30,
+    "category": "Monsters",
+    "challenge_rating": 7,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 2900,
+    "hit_dice": "14d10 + 42",
+    "hit_points": 119,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_young-copper-dragon",
+    "languages": {
+      "as_string": "Common, Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 1,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 1
+    },
+    "name": "Young Copper Dragon",
+    "normal_sight_range": 10560,
+    "passive_perception": 17,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        }
+      ],
+      "damage_immunities_display": "acid",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 4,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 4
+    },
+    "saving_throws_all": {
+      "charisma": 2,
+      "constitution": 3,
+      "dexterity": 4,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "deception": 5,
+      "perception": 7,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 1,
+      "arcana": 3,
+      "athletics": 4,
+      "deception": 5,
+      "history": 3,
+      "insight": 1,
+      "intimidation": 2,
+      "investigation": 3,
+      "medicine": 1,
+      "nature": 3,
+      "perception": 7,
+      "performance": 2,
+      "persuasion": 2,
+      "religion": 3,
+      "sleight_of_hand": 1,
+      "stealth": 4,
+      "survival": 1
+    },
+    "speed": {
+      "climb": 40,
+      "fly": 80,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 40,
+      "crawl": 20,
+      "fly": 80,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

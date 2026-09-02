@@ -1,0 +1,68 @@
+{
+  "id": "5e-2024-srd:spell:counterspell",
+  "type": "spell",
+  "name": "Counterspell",
+  "source": "5e-2024-srd",
+  "tags": [
+    "abjuration",
+    "level-3",
+    "sorcerer",
+    "warlock",
+    "wizard"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You attempt to interrupt a creature in the process of casting a spell. The creature makes a Constitution saving throw. On a failed save, the spell dissipates with no effect, and the action, Bonus Action, or Reaction used to cast it is wasted. If that spell was cast with a spell slot, the slot isn't expended.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "reaction",
+    "classes": [
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_warlock",
+        "name": "Warlock"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You attempt to interrupt a creature in the process of casting a spell. The creature makes a Constitution saving throw. On a failed save, the spell dissipates with no effect, and the action, Bonus Action, or Reaction used to cast it is wasted. If that spell was cast with a spell slot, the slot isn't expended.",
+    "duration": "instantaneous",
+    "higher_level": "",
+    "key": "srd-2024_counterspell",
+    "level": 3,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Counterspell",
+    "range": 60,
+    "range_text": "60 feet",
+    "range_unit": "feet",
+    "reaction_condition": "which you take when you see a creature within 60 feet of yourself casting a spell with Verbal, Somatic, or Material components",
+    "ritual": false,
+    "saving_throw_ability": "constitution",
+    "school": {
+      "key": "abjuration",
+      "name": "Abjuration"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": false
+  }
+}

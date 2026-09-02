@@ -1,0 +1,51 @@
+{
+  "id": "5e-2024-srd:magic-item:mithral-armor-breastplate",
+  "type": "magic-item",
+  "name": "Mithral Armor (Breastplate)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Mithral is a light, flexible metal. Armor made of this substance can be worn under normal clothes. If the armor normally imposes Disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 14,
+      "ac_cap_dexmod": 2,
+      "ac_display": "14 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": false,
+      "key": "srd-2024_breastplate",
+      "name": "Breastplate",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Mithral is a light, flexible metal. Armor made of this substance can be worn under normal clothes. If the armor normally imposes Disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "key": "srd-2024_mithral-armor-breastplate",
+    "name": "Mithral Armor (Breastplate)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "20.000",
+    "weight_unit": "lb"
+  }
+}

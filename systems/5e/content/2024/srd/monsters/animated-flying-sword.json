@@ -1,0 +1,205 @@
+{
+  "id": "5e-2024-srd:monster:animated-flying-sword",
+  "type": "monster",
+  "name": "Animated Flying Sword",
+  "source": "5e-2024-srd",
+  "tags": [
+    "construct",
+    "small",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 11,
+      "dexterity": 15,
+      "intelligence": 1,
+      "strength": 12,
+      "wisdom": 5
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Slash attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 6 (1d8 + 2) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slash",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "4d6",
+    "hit_points": 14,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_animated-flying-sword",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -3
+    },
+    "name": "Animated Flying Sword",
+    "normal_sight_range": 10560,
+    "passive_perception": 7,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, deafened, exhaustion, frightened, paralyzed, petrified, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        },
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        }
+      ],
+      "damage_immunities_display": "poison, psychic",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -3
+    },
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -3
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": -3,
+      "arcana": -5,
+      "athletics": 1,
+      "deception": -5,
+      "history": -5,
+      "insight": -3,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -3,
+      "nature": -5,
+      "perception": -3,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": -3
+    },
+    "speed": {
+      "fly": 50,
+      "hover": true,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 50,
+      "hover": true,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "construct",
+      "name": "Construct"
+    }
+  }
+}

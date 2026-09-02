@@ -1,0 +1,257 @@
+{
+  "id": "5e-2024-srd:monster:ancient-red-dragon",
+  "type": "monster",
+  "name": "Ancient Red Dragon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "gargantuan",
+    "cr-24"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 27,
+      "constitution": 29,
+      "dexterity": 10,
+      "intelligence": 18,
+      "strength": 30,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon uses Spellcasting to cast Command (level 2 version). The dragon can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Commanding Presence",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon uses Spellcasting to cast Scorching Ray (level 3 version). The dragon can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fiery Rays",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 24, each creature in a 90-foot Cone. Failure: 91 (26d6) Fire damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fire Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes three Rend attacks. It can replace one attack with a use of Spellcasting to cast Scorching Ray (level 3 version).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon moves up to half its Speed, and it makes one Rend attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pounce",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 10,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": 0,
+            "extra_damage_die_count": 3,
+            "extra_damage_die_type": "D6",
+            "extra_damage_type": {
+              "key": "fire",
+              "name": "Fire"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 15,
+            "target_creature_only": false,
+            "to_hit_mod": 17
+          }
+        ],
+        "desc": "Melee Attack Roll: +17, reach 15 ft. 19 (2d8 + 10) Slashing damage plus 10 (3d6) Fire damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 23, +15 to hit with spell attacks):\n\n- **At Will:** Command, Detect Magic, Scorching Ray\n- **1/Day Each:** Fireball, Scrying",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 22,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 24,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 62000,
+    "hit_dice": "26d20 + 234",
+    "hit_points": 507,
+    "illustration": null,
+    "initiative_bonus": 14,
+    "key": "srd-2024_ancient-red-dragon",
+    "languages": {
+      "as_string": "Common, Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 8,
+      "constitution": 9,
+      "dexterity": 0,
+      "intelligence": 4,
+      "strength": 10,
+      "wisdom": 2
+    },
+    "name": "Ancient Red Dragon",
+    "normal_sight_range": 10560,
+    "passive_perception": 26,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_immunities_display": "fire",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 8,
+      "constitution": 9,
+      "dexterity": 7,
+      "intelligence": 4,
+      "strength": 10,
+      "wisdom": 9
+    },
+    "saving_throws_all": {
+      "charisma": 8,
+      "constitution": 9,
+      "dexterity": 7,
+      "intelligence": 4,
+      "strength": 10,
+      "wisdom": 9
+    },
+    "size": {
+      "key": "gargantuan",
+      "name": "Gargantuan"
+    },
+    "skill_bonuses": {
+      "perception": 16,
+      "stealth": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 2,
+      "arcana": 4,
+      "athletics": 10,
+      "deception": 8,
+      "history": 4,
+      "insight": 2,
+      "intimidation": 8,
+      "investigation": 4,
+      "medicine": 2,
+      "nature": 4,
+      "perception": 16,
+      "performance": 8,
+      "persuasion": 8,
+      "religion": 4,
+      "sleight_of_hand": 0,
+      "stealth": 7,
+      "survival": 2
+    },
+    "speed": {
+      "climb": 40,
+      "fly": 80,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 40,
+      "crawl": 20,
+      "fly": 80,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the dragon fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (4/Day, or 5/Day in Lair)"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

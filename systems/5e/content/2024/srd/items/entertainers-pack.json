@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:entertainers-pack",
+  "type": "item",
+  "name": "Entertainer's Pack",
+  "source": "5e-2024-srd",
+  "tags": [
+    "equipment-pack"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "An Entertainer's Pack contains the following items: Backpack, Bedroll, Bell, Bullseye Lantern, 3 Costumes, Mirror, 8 flasks of Oil, 9 days of Rations, Tinderbox, and Waterskin.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "equipment-pack",
+      "name": "Equipment Pack"
+    },
+    "cost": "40.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "An Entertainer's Pack contains the following items: Backpack, Bedroll, Bell, Bullseye Lantern, 3 Costumes, Mirror, 8 flasks of Oil, 9 days of Rations, Tinderbox, and Waterskin.",
+    "key": "srd-2024_entertainers-pack",
+    "name": "Entertainer's Pack",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "58.000",
+    "weight_unit": "lb"
+  }
+}

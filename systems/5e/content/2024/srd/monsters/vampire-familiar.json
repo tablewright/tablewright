@@ -1,0 +1,206 @@
+{
+  "id": "5e-2024-srd:monster:vampire-familiar",
+  "type": "monster",
+  "name": "Vampire Familiar",
+  "source": "5e-2024-srd",
+  "tags": [
+    "humanoid",
+    "small",
+    "cr-3"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 14,
+      "constitution": 15,
+      "dexterity": 16,
+      "intelligence": 10,
+      "strength": 17,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The familiar makes two Umbral Dagger attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 60,
+            "name": "Umbral Dagger attack",
+            "range": 20,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +5, reach 5 ft. or range 20/60 ft. 5 (1d4 + 3) Piercing damage plus 7 (3d4) Necrotic damage. If the target is reduced to 0 Hit Points by this attack, the target becomes Stable but has the Poisoned condition for 1 hour. While it has the Poisoned condition, the target has the Paralyzed condition.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Umbral Dagger",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The familiar takes the Dash or Disengage action.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Deathless Agility",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 3,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 700,
+    "hit_dice": "10d8 + 20",
+    "hit_points": 65,
+    "illustration": null,
+    "initiative_bonus": 5,
+    "key": "srd-2024_vampire-familiar",
+    "languages": {
+      "as_string": "Common plus one other language",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 3,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 0
+    },
+    "name": "Vampire Familiar",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        }
+      ],
+      "damage_resistances_display": "necrotic",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 5,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 5,
+      "intelligence": 0,
+      "strength": 3,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "persuasion": 4,
+      "stealth": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 0,
+      "arcana": 0,
+      "athletics": 3,
+      "deception": 2,
+      "history": 0,
+      "insight": 0,
+      "intimidation": 2,
+      "investigation": 0,
+      "medicine": 0,
+      "nature": 0,
+      "perception": 4,
+      "performance": 2,
+      "persuasion": 4,
+      "religion": 0,
+      "sleight_of_hand": 3,
+      "stealth": 7,
+      "survival": 0
+    },
+    "speed": {
+      "climb": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 30,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "While the familiar and its vampire master are on the same plane of existence, the vampire can communicate with the familiar telepathically, and the vampire can perceive through the familiar's senses.",
+        "name": "Vampiric Connection"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "id": "5e-2024-srd:monster:hunter-shark",
+  "type": "monster",
+  "name": "Hunter Shark",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 15,
+      "dexterity": 14,
+      "intelligence": 1,
+      "strength": 18,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +6 (with Advantage if the target doesn't have all its Hit Points), reach 5 ft. 14 (3d6 + 4) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Animals",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 450,
+    "hit_dice": "6d10 + 12",
+    "hit_points": 45,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_hunter-shark",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "name": "Hunter Shark",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": -5,
+      "athletics": 4,
+      "deception": -3,
+      "history": -5,
+      "insight": 0,
+      "intimidation": -3,
+      "investigation": -5,
+      "medicine": 0,
+      "nature": -5,
+      "perception": 2,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -5,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 40,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 0,
+      "hover": false,
+      "swim": 40,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The shark can breathe only underwater.",
+        "name": "Water Breathing"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

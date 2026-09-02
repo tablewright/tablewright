@@ -1,0 +1,152 @@
+{
+  "id": "5e-2024-srd:monster:owl",
+  "type": "monster",
+  "name": "Owl",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "small",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 8,
+      "dexterity": 13,
+      "intelligence": 2,
+      "strength": 3,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 1 Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Talons",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "1d4 - 1",
+    "hit_points": 1,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_owl",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": -1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "name": "Owl",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": -1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": -1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 5,
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": -4,
+      "deception": -2,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 5,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -4,
+      "sleight_of_hand": 1,
+      "stealth": 5,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 60,
+      "hover": false,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The owl doesn't provoke Opportunity Attacks when it flies out of an enemy's reach.",
+        "name": "Flyby"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

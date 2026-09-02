@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:dungeoneers-pack",
+  "type": "item",
+  "name": "Dungeoneer's Pack",
+  "source": "5e-2024-srd",
+  "tags": [
+    "equipment-pack"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Dungeoneer's Pack contains the following items: Backpack, Caltrops, Crowbar, 2 flasks of Oil, 10 days of Rations, Rope, Tinderbox, 10 Torches, and Waterskin.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "equipment-pack",
+      "name": "Equipment Pack"
+    },
+    "cost": "12.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Dungeoneer's Pack contains the following items: Backpack, Caltrops, Crowbar, 2 flasks of Oil, 10 days of Rations, Rope, Tinderbox, 10 Torches, and Waterskin.",
+    "key": "srd-2024_dungeoneers-pack",
+    "name": "Dungeoneer's Pack",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "55.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:disguise-kit",
+  "type": "item",
+  "name": "Disguise Kit",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Charisma. Utilize: Apply makeup (DC 10). Craft: Costume",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "25.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Charisma. Utilize: Apply makeup (DC 10). Craft: Costume",
+    "key": "srd-2024_disguise-kit",
+    "name": "Disguise Kit",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "3.000",
+    "weight_unit": "lb"
+  }
+}

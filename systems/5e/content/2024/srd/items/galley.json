@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:galley",
+  "type": "item",
+  "name": "Galley",
+  "source": "5e-2024-srd",
+  "tags": [
+    "waterborne-vehicle"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A large warship propelled by oars and sails.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "waterborne-vehicle",
+      "name": "Waterborne Vehicle"
+    },
+    "cost": "30000.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A large warship propelled by oars and sails.",
+    "key": "srd-2024_galley",
+    "name": "Galley",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

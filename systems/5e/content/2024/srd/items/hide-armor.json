@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:hide-armor",
+  "type": "item",
+  "name": "Hide Armor",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A hide armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 12,
+      "ac_cap_dexmod": 2,
+      "ac_display": "12 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": false,
+      "key": "srd-2024_hide-armor",
+      "name": "Hide Armor",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A hide armor.",
+    "key": "srd-2024_hide-armor",
+    "name": "Hide Armor",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "12.000",
+    "weight_unit": "lb"
+  }
+}

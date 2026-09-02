@@ -1,0 +1,125 @@
+{
+  "id": "5e-2024-srd:spell:confusion",
+  "type": "spell",
+  "name": "Confusion",
+  "source": "5e-2024-srd",
+  "tags": [
+    "enchantment",
+    "level-4",
+    "bard",
+    "druid",
+    "sorcerer",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Each creature in a 10-foot-radius Sphere centered on a point you choose within range must succeed on a Wisdom saving throw, or that target can't take Bonus Actions or Reactions and must roll 1d10 at the start of each of its turns to determine its behavior for that turn, consulting the table below. Table: 1d10 Behavior for the Turn | d10 | Behavior for the Turn | |------|----------------------------------------------------------------------------------------------------------------------------------------------| | 1 | The target doesn't take an action, and it uses all its movement to move. Roll 1d4 for the direction: 1, north; 2, east; 3, south; or 4, west.| | 2–6 | The target doesn't move or take actions. | | 7–8 | The target doesn't move, and it takes the Attack action to make one melee attack against a random creature within reach. If none are within reach, the target takes no action. | | 9–10 | The target chooses its behavior. | At the end of each of its turns, an affected target repeats the save, ending the spell on itself on a success.\n\n**Using a Higher-Level Spell Slot.** The Sphere's radius increases by 5 feet for each spell slot level above 4.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": 15,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": 20,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": 25,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": 30,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": 35,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd-2024_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "1d10",
+    "damage_types": [],
+    "desc": "Each creature in a 10-foot-radius Sphere centered on a point you choose within range must succeed on a Wisdom saving throw, or that target can't take Bonus Actions or Reactions and must roll 1d10 at the start of each of its turns to determine its behavior for that turn, consulting the table below. Table: 1d10 Behavior for the Turn | d10 | Behavior for the Turn | |------|----------------------------------------------------------------------------------------------------------------------------------------------| | 1 | The target doesn't take an action, and it uses all its movement to move. Roll 1d4 for the direction: 1, north; 2, east; 3, south; or 4, west.| | 2–6 | The target doesn't move or take actions. | | 7–8 | The target doesn't move, and it takes the Attack action to make one melee attack against a random creature within reach. If none are within reach, the target takes no action. | | 9–10 | The target chooses its behavior. | At the end of each of its turns, an affected target repeats the save, ending the spell on itself on a success.",
+    "duration": "1 minute",
+    "higher_level": "The Sphere's radius increases by 5 feet for each spell slot level above 4.",
+    "key": "srd-2024_confusion",
+    "level": 4,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "three nut shells",
+    "name": "Confusion",
+    "range": 90,
+    "range_text": "90 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "wisdom",
+    "school": {
+      "key": "enchantment",
+      "name": "Enchantment"
+    },
+    "shape_size": 10,
+    "shape_size_unit": "feet",
+    "shape_type": "sphere",
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

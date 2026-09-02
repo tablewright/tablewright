@@ -1,0 +1,69 @@
+{
+  "id": "5e-2024-srd:spell:gentle-repose",
+  "type": "spell",
+  "name": "Gentle Repose",
+  "source": "5e-2024-srd",
+  "tags": [
+    "necromancy",
+    "level-2",
+    "cleric",
+    "paladin",
+    "wizard",
+    "ritual"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You touch a corpse or other remains. For the duration, the target is protected from decay and can't become Undead. The spell also effectively extends the time limit on raising the target from the dead, since days spent under the influence of this spell don't count against the time limit of spells such as Raise Dead.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_paladin",
+        "name": "Paladin"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You touch a corpse or other remains. For the duration, the target is protected from decay and can't become Undead. The spell also effectively extends the time limit on raising the target from the dead, since days spent under the influence of this spell don't count against the time limit of spells such as Raise Dead.",
+    "duration": "10 days",
+    "higher_level": "",
+    "key": "srd-2024_gentle-repose",
+    "level": 2,
+    "material": true,
+    "material_consumed": true,
+    "material_cost": null,
+    "material_specified": "2 Copper Pieces, which the spell consumes",
+    "name": "Gentle Repose",
+    "range": 0,
+    "range_text": "Touch",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": true,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "necromancy",
+      "name": "Necromancy"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

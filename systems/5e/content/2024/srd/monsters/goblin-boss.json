@@ -1,0 +1,240 @@
+{
+  "id": "5e-2024-srd:monster:goblin-boss",
+  "type": "monster",
+  "name": "Goblin Boss",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fey",
+    "small",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 10,
+      "constitution": 10,
+      "dexterity": 15,
+      "intelligence": 10,
+      "strength": 10,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The goblin makes two attacks, using Scimitar or Shortbow in any combination.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Scimitar attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 5 (1d6 + 2) Slashing damage, plus 2 (1d4) Slashing damage if the attack roll had Advantage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Scimitar",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 320,
+            "name": "Shortbow attack",
+            "range": 80,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Ranged Attack Roll: +4, range 80/320 ft. 5 (1d6 + 2) Piercing damage, plus 2 (1d4) Piercing damage if the attack roll had Advantage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Shortbow",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The goblin takes the Disengage or Hide action.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Nimble Escape",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "_Trigger:_ A creature the goblin can see makes an attack roll against it. _Response:_ The goblin chooses a Small or Medium ally within 5 feet of itself. The goblin and that ally swap places, and the ally becomes the target of the attack instead.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Redirect Attack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic neutral",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "6d6",
+    "hit_points": 21,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_goblin-boss",
+    "languages": {
+      "as_string": "Common, Goblin",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are goblinoids.",
+          "key": "goblin",
+          "name": "Goblin"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": -1
+    },
+    "name": "Goblin Boss",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": -1
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "stealth": 6
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": -1,
+      "arcana": 0,
+      "athletics": 0,
+      "deception": 0,
+      "history": 0,
+      "insight": -1,
+      "intimidation": 0,
+      "investigation": 0,
+      "medicine": -1,
+      "nature": 0,
+      "perception": -1,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 0,
+      "sleight_of_hand": 2,
+      "stealth": 6,
+      "survival": -1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fey",
+      "name": "Fey"
+    }
+  }
+}

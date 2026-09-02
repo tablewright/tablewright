@@ -1,0 +1,215 @@
+{
+  "id": "5e-2024-srd:monster:sprite",
+  "type": "monster",
+  "name": "Sprite",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fey",
+    "small",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 11,
+      "constitution": 10,
+      "dexterity": 18,
+      "intelligence": 14,
+      "strength": 3,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Ranged Attack Roll: +6, range 40/160 ft. 1 Piercing damage, and the target has the Charmed condition until the start of the sprite's next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Enchanting Bow",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Charisma Saving Throw: DC 10, one creature within 5 feet the sprite can see (Celestials, Fiends, and Undead automatically fail the save). Failure: The sprite knows the target's emotions and alignment.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Heart Sight",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The sprite casts Invisibility on itself, requiring no spell components and using Charisma as the spellcasting ability.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Invisibility",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 4,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": null,
+            "name": "Needle Sword attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Attack Roll: +6, reach 5 ft. 6 (1d4 + 4) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Needle Sword",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral good",
+    "armor_class": 15,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "4d4",
+    "hit_points": 10,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_sprite",
+    "languages": {
+      "as_string": "Common, Elvish, Sylvan",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are elves.",
+          "key": "elvish",
+          "name": "Elvish"
+        },
+        {
+          "desc": "Typical speakers are fey creatures.",
+          "key": "sylvan",
+          "name": "Sylvan"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": 2,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "name": "Sprite",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": 2,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": 2,
+      "strength": -4,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "perception": 3,
+      "stealth": 8
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 4,
+      "animal_handling": 1,
+      "arcana": 2,
+      "athletics": -4,
+      "deception": 0,
+      "history": 2,
+      "insight": 1,
+      "intimidation": 0,
+      "investigation": 2,
+      "medicine": 1,
+      "nature": 2,
+      "perception": 3,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 2,
+      "sleight_of_hand": 4,
+      "stealth": 8,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 40,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 5,
+      "crawl": 5,
+      "fly": 40,
+      "hover": false,
+      "swim": 5,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fey",
+      "name": "Fey"
+    }
+  }
+}

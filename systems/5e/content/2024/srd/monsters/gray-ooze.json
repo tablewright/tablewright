@@ -1,0 +1,190 @@
+{
+  "id": "5e-2024-srd:monster:gray-ooze",
+  "type": "monster",
+  "name": "Gray Ooze",
+  "source": "5e-2024-srd",
+  "tags": [
+    "ooze",
+    "medium",
+    "cr-1/2"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 2,
+      "constitution": 16,
+      "dexterity": 6,
+      "intelligence": 1,
+      "strength": 12,
+      "wisdom": 6
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 1,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "acid",
+              "name": "Acid"
+            },
+            "long_range": null,
+            "name": "Pseudopod attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Attack Roll: +3, reach 5 ft. 10 (2d8 + 1) Acid damage. Nonmagical armor worn by the target takes a -1 penalty to the AC it offers. The armor is destroyed if the penalty reduces its AC to 10. The penalty can be removed by casting the Mending spell on the armor.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pseudopod",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 9,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 0.5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 100,
+    "hit_dice": "3d8 + 9",
+    "hit_points": 22,
+    "illustration": null,
+    "initiative_bonus": -2,
+    "key": "srd-2024_gray-ooze",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": 3,
+      "dexterity": -2,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -2
+    },
+    "name": "Gray Ooze",
+    "normal_sight_range": 10560,
+    "passive_perception": 8,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        },
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_resistances_display": "acid, cold, fire",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": 3,
+      "dexterity": -2,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -2
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": 3,
+      "dexterity": -2,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "stealth": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": -2,
+      "animal_handling": -2,
+      "arcana": -5,
+      "athletics": 1,
+      "deception": -4,
+      "history": -5,
+      "insight": -2,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": -2,
+      "nature": -5,
+      "perception": -2,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": -2,
+      "stealth": 2,
+      "survival": -2
+    },
+    "speed": {
+      "climb": 10,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 5,
+      "fly": 0,
+      "hover": false,
+      "swim": 5,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The ooze can move through a space as narrow as 1 inch without expending extra movement to do so.",
+        "name": "Amorphous"
+      },
+      {
+        "desc": "Nonmagical ammunition is destroyed immediately after hitting the ooze and dealing any damage. Any nonmagical weapon takes a cumulative -1 penalty to attack rolls immediately after dealing damage to the ooze and coming into contact with it. The weapon is destroyed if the penalty reaches -5. The penalty can be removed by casting the Mending spell on the weapon. The ooze can eat through 2-inch-thick, nonmagical metal or wood in 1 round.",
+        "name": "Corrosive Form"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "ooze",
+      "name": "Ooze"
+    }
+  }
+}

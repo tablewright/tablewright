@@ -1,0 +1,144 @@
+{
+  "id": "5e-2024-srd:spell:create-or-destroy-water",
+  "type": "spell",
+  "name": "Create or Destroy Water",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "level-1",
+    "cleric",
+    "druid"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You do one of the following:\n\n**Create Water.** You create up to 10 gallons of clean water within range in an open container. Alternatively, the water falls as rain in a 30-foot Cube within range, extinguishing exposed flames there.\n\n**Destroy Water.** You destroy up to 10 gallons of water in an open container within range. Alternatively, you destroy fog in a 30-foot Cube within range.\n\n**Using a Higher-Level Spell Slot.** You create or destroy 10 additional gallons of water, or the size of the Cube increases by 5 feet, for each spell slot level above 1.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "create or destroy 20 gallons of water, or affect 35-foot cube",
+        "duration": null,
+        "range": null,
+        "shape_size": 35,
+        "target_count": null,
+        "type": "slot_level_2"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "create or destroy 30 gallons of water, or affect 40-foot cube",
+        "duration": null,
+        "range": null,
+        "shape_size": 40,
+        "target_count": null,
+        "type": "slot_level_3"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "create or destroy 40 gallons of water, or affect 45-foot cube",
+        "duration": null,
+        "range": null,
+        "shape_size": 45,
+        "target_count": null,
+        "type": "slot_level_4"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "create or destroy 50 gallons of water, or affect 50-foot cube",
+        "duration": null,
+        "range": null,
+        "shape_size": 50,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "create or destroy 60 gallons of water, or affect 55-foot cube",
+        "duration": null,
+        "range": null,
+        "shape_size": 55,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "create or destroy 70 gallons of water, or affect 60-foot cube",
+        "duration": null,
+        "range": null,
+        "shape_size": 60,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "create or destroy 80 gallons of water, or affect 65-foot cube",
+        "duration": null,
+        "range": null,
+        "shape_size": 65,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": "create or destroy 90 gallons of water, or affect 70-foot cube",
+        "duration": null,
+        "range": null,
+        "shape_size": 70,
+        "target_count": null,
+        "type": "slot_level_9"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You do one of the following:\n\n**Create Water.** You create up to 10 gallons of clean water within range in an open container. Alternatively, the water falls as rain in a 30-foot Cube within range, extinguishing exposed flames there.\n\n**Destroy Water.** You destroy up to 10 gallons of water in an open container within range. Alternatively, you destroy fog in a 30-foot Cube within range.",
+    "duration": "instantaneous",
+    "higher_level": "You create or destroy 10 additional gallons of water, or the size of the Cube increases by 5 feet, for each spell slot level above 1.",
+    "key": "srd-2024_create-or-destroy-water",
+    "level": 1,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "a mix of water and sand",
+    "name": "Create or Destroy Water",
+    "range": 30,
+    "range_text": "30 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

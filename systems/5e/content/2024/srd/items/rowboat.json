@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:rowboat",
+  "type": "item",
+  "name": "Rowboat",
+  "source": "5e-2024-srd",
+  "tags": [
+    "waterborne-vehicle"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A small boat propelled by oars.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "waterborne-vehicle",
+      "name": "Waterborne Vehicle"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A small boat propelled by oars.",
+    "key": "srd-2024_rowboat",
+    "name": "Rowboat",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "100.000",
+    "weight_unit": "lb"
+  }
+}

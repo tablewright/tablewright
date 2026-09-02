@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:warhorse",
+  "type": "item",
+  "name": "Warhorse",
+  "source": "5e-2024-srd",
+  "tags": [
+    "mount"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A horse trained for combat and carrying heavy loads.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "mount",
+      "name": "Mount"
+    },
+    "cost": "400.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A horse trained for combat and carrying heavy loads.",
+    "key": "srd-2024_warhorse",
+    "name": "Warhorse",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

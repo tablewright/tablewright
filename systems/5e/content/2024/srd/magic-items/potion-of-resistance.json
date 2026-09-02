@@ -1,0 +1,41 @@
+{
+  "id": "5e-2024-srd:magic-item:potion-of-resistance",
+  "type": "magic-item",
+  "name": "Potion of Resistance",
+  "source": "5e-2024-srd",
+  "tags": [
+    "potion",
+    "uncommon"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "When you drink this potion, you have Resistance to one type of damage for 1 hour. The GM chooses the type or determines it randomly by rolling on the following table.\n\n| 1d10 | Damage Type |\n|------|-------------|\n| 1    | Acid        |\n| 2    | Cold        |\n| 3    | Fire        |\n| 4    | Force       |\n| 5    | Lightning   |\n| 6    | Necrotic    |\n| 7    | Poison      |\n| 8    | Psychic     |\n| 9    | Radiant     |\n| 10   | Thunder     |",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you drink this potion, you have Resistance to one type of damage for 1 hour. The GM chooses the type or determines it randomly by rolling on the following table.\n\n| 1d10 | Damage Type |\n|------|-------------|\n| 1    | Acid        |\n| 2    | Cold        |\n| 3    | Fire        |\n| 4    | Force       |\n| 5    | Lightning   |\n| 6    | Necrotic    |\n| 7    | Poison      |\n| 8    | Psychic     |\n| 9    | Radiant     |\n| 10   | Thunder     |",
+    "key": "srd-2024_potion-of-resistance",
+    "name": "Potion of Resistance",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

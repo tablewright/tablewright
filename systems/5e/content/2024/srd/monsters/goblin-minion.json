@@ -1,0 +1,188 @@
+{
+  "id": "5e-2024-srd:monster:goblin-minion",
+  "type": "monster",
+  "name": "Goblin Minion",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fey",
+    "small",
+    "cr-1/8"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 8,
+      "constitution": 10,
+      "dexterity": 15,
+      "intelligence": 10,
+      "strength": 8,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "piercing",
+              "name": "Piercing"
+            },
+            "long_range": 60,
+            "name": "Dagger attack",
+            "range": 20,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +4, reach 5 ft. or range 20/60 ft. 4 (1d4 + 2) Piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Dagger",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The goblin takes the Disengage or Hide action.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Nimble Escape",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic neutral",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 25,
+    "hit_dice": "2d6",
+    "hit_points": 7,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_goblin-minion",
+    "languages": {
+      "as_string": "Common, Goblin",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are goblinoids.",
+          "key": "goblin",
+          "name": "Goblin"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": -1,
+      "wisdom": -1
+    },
+    "name": "Goblin Minion",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -1,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": -1,
+      "wisdom": -1
+    },
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": -1,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "stealth": 6
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": -1,
+      "arcana": 0,
+      "athletics": -1,
+      "deception": -1,
+      "history": 0,
+      "insight": -1,
+      "intimidation": -1,
+      "investigation": 0,
+      "medicine": -1,
+      "nature": 0,
+      "perception": -1,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": 0,
+      "sleight_of_hand": 2,
+      "stealth": 6,
+      "survival": -1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fey",
+      "name": "Fey"
+    }
+  }
+}

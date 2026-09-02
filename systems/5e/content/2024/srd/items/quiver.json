@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:quiver",
+  "type": "item",
+  "name": "Quiver",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Quiver holds up to 20 Arrows.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Quiver holds up to 20 Arrows.",
+    "key": "srd-2024_quiver",
+    "name": "Quiver",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

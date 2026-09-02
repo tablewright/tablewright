@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:ladder",
+  "type": "item",
+  "name": "Ladder",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Ladder is 10 feet tall. You must climb to move up or down it.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.10",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Ladder is 10 feet tall. You must climb to move up or down it.",
+    "key": "srd-2024_ladder",
+    "name": "Ladder",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "25.000",
+    "weight_unit": "lb"
+  }
+}

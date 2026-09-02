@@ -1,0 +1,221 @@
+{
+  "id": "5e-2024-srd:monster:mummy",
+  "type": "monster",
+  "name": "Mummy",
+  "source": "5e-2024-srd",
+  "tags": [
+    "undead",
+    "small",
+    "cr-3"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 12,
+      "constitution": 15,
+      "dexterity": 8,
+      "intelligence": 6,
+      "strength": 16,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Wisdom Saving Throw: DC 11, one creature the mummy can see within 60 feet. Failure: The target has the Frightened condition until the end of the mummy's next turn. Success: The target is immune to this mummy's Dreadful Glare for 24 hours.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Dreadful Glare",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The mummy makes two Rotting Fist attacks and uses Dreadful Glare.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 3,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Rotting Fist attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Attack Roll: +5, reach 5 ft. 8 (1d10 + 3) Bludgeoning damage plus 10 (3d6) Necrotic damage. If the target is a creature, it is cursed. While cursed, the target can't regain Hit Points, its Hit Point maximum doesn't return to normal when finishing a Long Rest, and its Hit Point maximum decreases by 10 (3d6) every 24 hours that elapse. A creature dies and turns to dust if reduced to 0 Hit Points by this attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rotting Fist",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 3,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 700,
+    "hit_dice": "9d8 + 18",
+    "hit_points": 58,
+    "illustration": null,
+    "initiative_bonus": -1,
+    "key": "srd-2024_mummy",
+    "languages": {
+      "as_string": "Common plus two other languages",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 2,
+      "dexterity": -1,
+      "intelligence": -2,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Mummy",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened, paralyzed, poisoned",
+      "damage_immunities": [
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "necrotic, poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 1,
+      "constitution": 2,
+      "dexterity": -1,
+      "intelligence": -2,
+      "strength": 3,
+      "wisdom": 3
+    },
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 2,
+      "dexterity": -1,
+      "intelligence": -2,
+      "strength": 3,
+      "wisdom": 3
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 1,
+      "arcana": -2,
+      "athletics": 3,
+      "deception": 1,
+      "history": -2,
+      "insight": 1,
+      "intimidation": 1,
+      "investigation": -2,
+      "medicine": 1,
+      "nature": -2,
+      "perception": 1,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": -2,
+      "sleight_of_hand": -1,
+      "stealth": -1,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "5e-2024-srd:magic-item:flail-plus-3",
+  "type": "magic-item",
+  "name": "Flail (+3)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "weapon",
+    "very-rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You have a bonus to attack rolls and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have a bonus to attack rolls and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity.",
+    "key": "srd-2024_flail-plus-3",
+    "name": "Flail (+3)",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd-2024_flail",
+      "name": "Flail",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.",
+            "name": "Sap",
+            "type": "Mastery"
+          }
+        }
+      ]
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

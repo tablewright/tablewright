@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:shield",
+  "type": "item",
+  "name": "Shield",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A shield.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 2,
+      "ac_cap_dexmod": null,
+      "ac_display": "2",
+      "category": "heavy",
+      "grants_stealth_disadvantage": false,
+      "key": "srd-2024_shield",
+      "name": "Shield",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A shield.",
+    "key": "srd-2024_shield",
+    "name": "Shield",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

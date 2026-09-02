@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:wagon",
+  "type": "item",
+  "name": "Wagon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "land-vehicle"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A four-wheeled vehicle pulled by horses, designed for heavy cargo transport.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "land-vehicle",
+      "name": "Land Vehicle"
+    },
+    "cost": "35.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A four-wheeled vehicle pulled by horses, designed for heavy cargo transport.",
+    "key": "srd-2024_wagon",
+    "name": "Wagon",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "400.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:jug",
+  "type": "item",
+  "name": "Jug",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Jug holds up to 1 gallon.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.02",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Jug holds up to 1 gallon.",
+    "key": "srd-2024_jug",
+    "name": "Jug",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

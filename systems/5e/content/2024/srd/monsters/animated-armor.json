@@ -1,0 +1,213 @@
+{
+  "id": "5e-2024-srd:monster:animated-armor",
+  "type": "monster",
+  "name": "Animated Armor",
+  "source": "5e-2024-srd",
+  "tags": [
+    "construct",
+    "medium",
+    "cr-1"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 13,
+      "dexterity": 11,
+      "intelligence": 1,
+      "strength": 14,
+      "wisdom": 3
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The armor makes two Slam attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Slam attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 5 (1d6 + 2) Bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 18,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 200,
+    "hit_dice": "6d8 + 6",
+    "hit_points": 33,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_animated-armor",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": -5,
+      "strength": 2,
+      "wisdom": -4
+    },
+    "name": "Animated Armor",
+    "normal_sight_range": 10560,
+    "passive_perception": 6,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, deafened, exhaustion, frightened, paralyzed, petrified, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        },
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        }
+      ],
+      "damage_immunities_display": "poison, psychic",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -5,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": -5,
+      "strength": 2,
+      "wisdom": -4
+    },
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": -5,
+      "strength": 2,
+      "wisdom": -4
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": -4,
+      "arcana": -5,
+      "athletics": 2,
+      "deception": -5,
+      "history": -5,
+      "insight": -4,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -4,
+      "nature": -5,
+      "perception": -4,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": -4
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 25
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 12,
+      "crawl": 12,
+      "fly": 0,
+      "hover": false,
+      "swim": 12,
+      "unit": "feet",
+      "walk": 25
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "construct",
+      "name": "Construct"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:cartographers-tools",
+  "type": "item",
+  "name": "Cartographer's Tools (15 GP)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Wisdom. Utilize: Draft a map of a small area (DC 15). Craft: Map",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Wisdom. Utilize: Draft a map of a small area (DC 15). Craft: Map",
+    "key": "srd-2024_cartographers-tools",
+    "name": "Cartographer's Tools (15 GP)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

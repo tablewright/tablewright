@@ -1,0 +1,13 @@
+{
+  "id": "5e",
+  "name": "5e",
+  "versions": {
+    "2014": { "name": "5e (2014 rules)" },
+    "2024": { "name": "5e (2024 rules)" }
+  },
+  "grid": {
+    "type": "square",
+    "cellFeet": 5,
+    "diagonals": "equal"
+  }
+}

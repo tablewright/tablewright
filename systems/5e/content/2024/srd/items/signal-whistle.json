@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:signal-whistle",
+  "type": "item",
+  "name": "Signal Whistle",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "When blown as a Utilize action, a Signal Whistle produces a sound that can be heard up to 600 feet away.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.05",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When blown as a Utilize action, a Signal Whistle produces a sound that can be heard up to 600 feet away.",
+    "key": "srd-2024_signal-whistle",
+    "name": "Signal Whistle",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

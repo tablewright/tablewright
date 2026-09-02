@@ -1,0 +1,267 @@
+{
+  "id": "5e-2024-srd:monster:ancient-silver-dragon",
+  "type": "monster",
+  "name": "Ancient Silver Dragon",
+  "source": "5e-2024-srd",
+  "tags": [
+    "dragon",
+    "gargantuan",
+    "cr-23"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 26,
+      "constitution": 29,
+      "dexterity": 10,
+      "intelligence": 18,
+      "strength": 30,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon uses Spellcasting to cast Hold Monster. The dragon can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Chill",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 24, each creature in a 90-foot Cone. Failure: 67 (15d8) Cold damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Cold Breath",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 23, each creature in a 60-foot-long, 10-foot-wide Line. Failure: 14 (4d6) Cold damage, and the target is pushed up to 30 feet straight away from the dragon. Success: Half damage only. Failure or Success: The dragon can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Cold Gale",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon makes three Rend attacks. It can replace one attack with a use of (A) Paralyzing Breath or (B) Spellcasting to cast Ice Knife (level 2 version).",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 24, each creature in a 90-foot Cone. First Failure The target has the Incapacitated condition until the end of its next turn, when it repeats the save. Second Failure The target has the Paralyzed condition, and it repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Paralyzing Breath",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The dragon moves up to half its Speed, and it makes one Rend attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pounce",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 10,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": 0,
+            "extra_damage_die_count": 2,
+            "extra_damage_die_type": "D8",
+            "extra_damage_type": {
+              "key": "cold",
+              "name": "Cold"
+            },
+            "long_range": null,
+            "name": "Rend attack",
+            "range": null,
+            "reach": 15,
+            "target_creature_only": false,
+            "to_hit_mod": 17
+          }
+        ],
+        "desc": "Melee Attack Roll: +17, reach 15 ft. 19 (2d8 + 10) Slashing damage plus 9 (2d8) Cold damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rend",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 23, +15 to hit with spell attacks):\n\n- **At Will:** Detect Magic, Hold Monster, Ice Knife, Shapechange\n- **1/Day Each:** Control Weather, Ice Storm, Teleport, Zone of Truth",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 4,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 22,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 23,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 50000,
+    "hit_dice": "24d20 + 216",
+    "hit_points": 468,
+    "illustration": null,
+    "initiative_bonus": 14,
+    "key": "srd-2024_ancient-silver-dragon",
+    "languages": {
+      "as_string": "Common, Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 8,
+      "constitution": 9,
+      "dexterity": 0,
+      "intelligence": 4,
+      "strength": 10,
+      "wisdom": 2
+    },
+    "name": "Ancient Silver Dragon",
+    "normal_sight_range": 10560,
+    "passive_perception": 26,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_immunities_display": "cold",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 8,
+      "constitution": 9,
+      "dexterity": 7,
+      "intelligence": 4,
+      "strength": 10,
+      "wisdom": 9
+    },
+    "saving_throws_all": {
+      "charisma": 8,
+      "constitution": 9,
+      "dexterity": 7,
+      "intelligence": 4,
+      "strength": 10,
+      "wisdom": 9
+    },
+    "size": {
+      "key": "gargantuan",
+      "name": "Gargantuan"
+    },
+    "skill_bonuses": {
+      "history": 11,
+      "perception": 16,
+      "stealth": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 2,
+      "arcana": 4,
+      "athletics": 10,
+      "deception": 8,
+      "history": 11,
+      "insight": 2,
+      "intimidation": 8,
+      "investigation": 4,
+      "medicine": 2,
+      "nature": 4,
+      "perception": 16,
+      "performance": 8,
+      "persuasion": 8,
+      "religion": 4,
+      "sleight_of_hand": 0,
+      "stealth": 7,
+      "survival": 2
+    },
+    "speed": {
+      "fly": 80,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 80,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the dragon fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (4/Day, or 5/Day in Lair)"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

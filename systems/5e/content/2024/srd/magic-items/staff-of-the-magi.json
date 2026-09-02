@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:staff-of-the-magi",
+  "type": "magic-item",
+  "name": "Staff of the Magi",
+  "source": "5e-2024-srd",
+  "tags": [
+    "staff",
+    "legendary",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "This staff has 50 charges and can be wielded as a magic Quarterstaff that grants a +2 bonus to attack rolls and damage rolls made with it. While you hold it, you gain a +2 bonus to spell attack rolls.\n\n**_Spell Absorption._** While holding the staff, you have Advantage on saving throws against spells. In addition, you can take a Reaction when another creature casts a spell that targets only you. If you do, the staff absorbs the magic of the spell, canceling its effect and gaining a number of charges equal to the absorbed spell's level. However, if doing so brings the staff's total number of charges above 50, the staff explodes as if you activated its Retributive Strike (see below).\n\n**_Spells._** While holding the staff, you can cast one of the spells on the following table from it, using your spell save DC. The table indicates how many charges you must expend to cast the spell.\n\n| Spell                            | Charge Cost |\n|----------------------------------|-------------|\n| Arcane Lock                      | 0           |\n| Conjure Elemental                | 7           |\n| Detect Magic                     | 0           |\n| Dispel Magic                     | 3           |\n| Enlarge/Reduce                   | 0           |\n| Fireball (level 7 version)       | 7           |\n| Flaming Sphere                   | 2           |\n| Ice Storm                        | 4           |\n| Invisibility                     | 2           |\n| Knock                            | 2           |\n| Light                            | 0           |\n| Lightning Bolt (level 7 version) | 7           |\n| Mage Hand                        | 0           |\n| Passwall                         | 5           |\n| Plane Shift                      | 7           |\n| Protection from Evil and Good    | 0           |\n| Telekinesis                      | 5           |\n| Wall of Fire                     | 4           |\n| Web                              | 2           |\n\n**_Regaining Charges._** The staff regains 4d6 + 2 expended charges daily at dawn. If you expend the last charge, roll 1d20. On a 20, the staff regains 1d12 + 1 charges.\n\n**_Retributive Strike._** You can take a Magic action to break the staff over your knee or against a solid surface. The staff is destroyed and releases its magic in an explosion that fills a 30-foot Emanation originating from itself. You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take Force damage equal to 16 times the number of charges in the staff. Each other creature in the area makes a DC 17 Dexterity saving throw. On a failed save, a creature takes Force damage equal to 6 times the number of charges in the staff. On a successful save, a creature takes half as much damage.",
+  "data": {
+    "armor": null,
+    "attunement_detail": "Requires Attunement by a Sorcerer, Warlock, or Wizard",
+    "category": {
+      "key": "staff",
+      "name": "Staff"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This staff has 50 charges and can be wielded as a magic Quarterstaff that grants a +2 bonus to attack rolls and damage rolls made with it. While you hold it, you gain a +2 bonus to spell attack rolls.\n\n**_Spell Absorption._** While holding the staff, you have Advantage on saving throws against spells. In addition, you can take a Reaction when another creature casts a spell that targets only you. If you do, the staff absorbs the magic of the spell, canceling its effect and gaining a number of charges equal to the absorbed spell's level. However, if doing so brings the staff's total number of charges above 50, the staff explodes as if you activated its Retributive Strike (see below).\n\n**_Spells._** While holding the staff, you can cast one of the spells on the following table from it, using your spell save DC. The table indicates how many charges you must expend to cast the spell.\n\n| Spell                            | Charge Cost |\n|----------------------------------|-------------|\n| Arcane Lock                      | 0           |\n| Conjure Elemental                | 7           |\n| Detect Magic                     | 0           |\n| Dispel Magic                     | 3           |\n| Enlarge/Reduce                   | 0           |\n| Fireball (level 7 version)       | 7           |\n| Flaming Sphere                   | 2           |\n| Ice Storm                        | 4           |\n| Invisibility                     | 2           |\n| Knock                            | 2           |\n| Light                            | 0           |\n| Lightning Bolt (level 7 version) | 7           |\n| Mage Hand                        | 0           |\n| Passwall                         | 5           |\n| Plane Shift                      | 7           |\n| Protection from Evil and Good    | 0           |\n| Telekinesis                      | 5           |\n| Wall of Fire                     | 4           |\n| Web                              | 2           |\n\n**_Regaining Charges._** The staff regains 4d6 + 2 expended charges daily at dawn. If you expend the last charge, roll 1d20. On a 20, the staff regains 1d12 + 1 charges.\n\n**_Retributive Strike._** You can take a Magic action to break the staff over your knee or against a solid surface. The staff is destroyed and releases its magic in an explosion that fills a 30-foot Emanation originating from itself. You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take Force damage equal to 16 times the number of charges in the staff. Each other creature in the area makes a DC 17 Dexterity saving throw. On a failed save, a creature takes Force damage equal to 6 times the number of charges in the staff. On a successful save, a creature takes half as much damage.",
+    "key": "srd-2024_staff-of-the-magi",
+    "name": "Staff of the Magi",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

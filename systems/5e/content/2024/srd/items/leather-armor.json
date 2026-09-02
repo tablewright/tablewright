@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:leather-armor",
+  "type": "item",
+  "name": "Leather Armor",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A leather armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 11,
+      "ac_cap_dexmod": null,
+      "ac_display": "11 + Dex modifier",
+      "category": "light",
+      "grants_stealth_disadvantage": false,
+      "key": "srd-2024_leather-armor",
+      "name": "Leather Armor",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A leather armor.",
+    "key": "srd-2024_leather-armor",
+    "name": "Leather Armor",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

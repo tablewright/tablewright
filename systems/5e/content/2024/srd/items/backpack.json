@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:backpack",
+  "type": "item",
+  "name": "Backpack",
+  "source": "5e-2024-srd",
+  "tags": [
+    "equipment-pack"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Backpack holds up to 30 pounds within 1 cubic foot. It can also serve as a saddlebag.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "equipment-pack",
+      "name": "Equipment Pack"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Backpack holds up to 30 pounds within 1 cubic foot. It can also serve as a saddlebag.",
+    "key": "srd-2024_backpack",
+    "name": "Backpack",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

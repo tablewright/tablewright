@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:staff-of-healing",
+  "type": "magic-item",
+  "name": "Staff of Healing",
+  "source": "5e-2024-srd",
+  "tags": [
+    "staff",
+    "rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "This staff has 10 charges. While holding the staff, you can cast one of the spells on the following table from it, using your spellcasting ability modifier. The table indicates how many charges you must expend to cast the spell.\n\n| Spell              | Charge Cost                                              |\n|--------------------|----------------------------------------------------------|\n| Cure Wounds        | 1 charge per spell level (maximum 4 for a level 4 spell) |\n| Lesser Restoration | 2                                                        |\n| Mass Cure Wounds   | 5                                                        |\n\n**_Regaining Charges._** The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll 1d20. On a 1, the staff vanishes in a flash of light, lost forever.",
+  "data": {
+    "armor": null,
+    "attunement_detail": "Requires Attunement by a Bard, Cleric, or Druid",
+    "category": {
+      "key": "staff",
+      "name": "Staff"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This staff has 10 charges. While holding the staff, you can cast one of the spells on the following table from it, using your spellcasting ability modifier. The table indicates how many charges you must expend to cast the spell.\n\n| Spell              | Charge Cost                                              |\n|--------------------|----------------------------------------------------------|\n| Cure Wounds        | 1 charge per spell level (maximum 4 for a level 4 spell) |\n| Lesser Restoration | 2                                                        |\n| Mass Cure Wounds   | 5                                                        |\n\n**_Regaining Charges._** The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll 1d20. On a 1, the staff vanishes in a flash of light, lost forever.",
+    "key": "srd-2024_staff-of-healing",
+    "name": "Staff of Healing",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

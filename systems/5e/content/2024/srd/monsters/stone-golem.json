@@ -1,0 +1,269 @@
+{
+  "id": "5e-2024-srd:monster:stone-golem",
+  "type": "monster",
+  "name": "Stone Golem",
+  "source": "5e-2024-srd",
+  "tags": [
+    "construct",
+    "large",
+    "cr-10"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 20,
+      "dexterity": 9,
+      "intelligence": 3,
+      "strength": 22,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 4,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "force",
+              "name": "Force"
+            },
+            "long_range": null,
+            "name": "Force Bolt attack",
+            "range": 120,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 9
+          }
+        ],
+        "desc": "Ranged Attack Roll: +9, range 120 ft. 22 (4d10) Force damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Force Bolt",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The golem makes two attacks, using Slam or Force Bolt in any combination.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 6,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Slam attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Attack Roll: +10, reach 5 ft. 15 (2d8 + 6) Bludgeoning damage plus 9 (2d8) Force damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The golem casts the Slow spell, requiring no spell components and using Constitution as the spellcasting ability (spell save DC 17).",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Slow",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE"
+        }
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 18,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 10,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 5900,
+    "hit_dice": "21d10 + 105",
+    "hit_points": 220,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd-2024_stone-golem",
+    "languages": {
+      "as_string": "Understands Common plus two other languages but can't speak",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 5,
+      "dexterity": -1,
+      "intelligence": -4,
+      "strength": 6,
+      "wisdom": 0
+    },
+    "name": "Stone Golem",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        },
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        }
+      ],
+      "damage_immunities_display": "poison, psychic",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -5,
+      "constitution": 5,
+      "dexterity": -1,
+      "intelligence": -4,
+      "strength": 6,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 5,
+      "dexterity": -1,
+      "intelligence": -4,
+      "strength": 6,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": 6,
+      "deception": -5,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -5,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 0,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -4,
+      "sleight_of_hand": -1,
+      "stealth": -1,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The golem can't shape-shift.",
+        "name": "Immutable Form"
+      },
+      {
+        "desc": "The golem has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "construct",
+      "name": "Construct"
+    }
+  }
+}

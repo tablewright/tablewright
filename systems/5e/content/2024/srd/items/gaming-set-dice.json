@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:gaming-set-dice",
+  "type": "item",
+  "name": "Gaming Set, Dice",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Wisdom. Utilize: Discern whether someone is cheating (DC 10), or win the game (DC 20)",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "0.10",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Wisdom. Utilize: Discern whether someone is cheating (DC 10), or win the game (DC 20)",
+    "key": "srd-2024_gaming-set-dice",
+    "name": "Gaming Set, Dice",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

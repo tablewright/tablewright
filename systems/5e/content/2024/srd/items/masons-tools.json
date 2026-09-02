@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:masons-tools",
+  "type": "item",
+  "name": "Mason's Tools (10 GP)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Strength. Utilize: Chisel a symbol or hole in stone (DC 10). Craft: Block and Tackle",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Strength. Utilize: Chisel a symbol or hole in stone (DC 10). Craft: Block and Tackle",
+    "key": "srd-2024_masons-tools",
+    "name": "Mason's Tools (10 GP)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "8.000",
+    "weight_unit": "lb"
+  }
+}

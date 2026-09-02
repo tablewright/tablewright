@@ -1,0 +1,132 @@
+{
+  "id": "5e-2024-srd:spell:bestow-curse",
+  "type": "spell",
+  "name": "Bestow Curse",
+  "source": "5e-2024-srd",
+  "tags": [
+    "necromancy",
+    "level-3",
+    "bard",
+    "cleric",
+    "wizard",
+    "concentration"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You touch a creature, which must succeed on a Wisdom saving throw or become cursed for the duration. Until the curse ends, the target suffers one of the following effects of your choice: - Choose one ability. The target has Disadvantage on ability checks and saving throws made with that ability. - The target has Disadvantage on attack rolls against you. - In combat, the target must succeed on a Wisdom saving throw at the start of each of its turns or be forced to take the Dodge action on that turn. - If you deal damage to the target with an attack roll or a spell, the target takes an extra 1d8 Necrotic damage.\n\n**Using a Higher-Level Spell Slot.** If you cast this spell using a level 4 spell slot, you can maintain Concentration on it for up to 10 minutes. If you use a level 5+ spell slot, the spell doesn't require Concentration, and the duration becomes 8 hours (level 5–6 slot) or 24 hours (level 7–8 slot). If you use a level 9 spell slot, the spell lasts until dispelled.",
+  "data": {
+    "attack_roll": true,
+    "casting_options": [
+      {
+        "concentration": false,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "8 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_5"
+      },
+      {
+        "concentration": false,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "8 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_6"
+      },
+      {
+        "concentration": false,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "24 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_7"
+      },
+      {
+        "concentration": false,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "24 hours",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_8"
+      },
+      {
+        "concentration": false,
+        "damage_roll": null,
+        "desc": null,
+        "duration": "until dispelled",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_9"
+      },
+      {
+        "concentration": true,
+        "damage_roll": null,
+        "desc": "You can maintain Concentration for up to 10 minutes.",
+        "duration": "10 minutes",
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "slot_level_4"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "1d8",
+    "damage_types": [
+      "necrotic"
+    ],
+    "desc": "You touch a creature, which must succeed on a Wisdom saving throw or become cursed for the duration. Until the curse ends, the target suffers one of the following effects of your choice: - Choose one ability. The target has Disadvantage on ability checks and saving throws made with that ability. - The target has Disadvantage on attack rolls against you. - In combat, the target must succeed on a Wisdom saving throw at the start of each of its turns or be forced to take the Dodge action on that turn. - If you deal damage to the target with an attack roll or a spell, the target takes an extra 1d8 Necrotic damage.",
+    "duration": "1 minute",
+    "higher_level": "If you cast this spell using a level 4 spell slot, you can maintain Concentration on it for up to 10 minutes. If you use a level 5+ spell slot, the spell doesn't require Concentration, and the duration becomes 8 hours (level 5–6 slot) or 24 hours (level 7–8 slot). If you use a level 9 spell slot, the spell lasts until dispelled.",
+    "key": "srd-2024_bestow-curse",
+    "level": 3,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Bestow Curse",
+    "range": 0,
+    "range_text": "Touch",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "wisdom",
+    "school": {
+      "key": "necromancy",
+      "name": "Necromancy"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

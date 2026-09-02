@@ -1,0 +1,275 @@
+{
+  "id": "5e-2024-srd:monster:solar",
+  "type": "monster",
+  "name": "Solar",
+  "source": "5e-2024-srd",
+  "tags": [
+    "celestial",
+    "large",
+    "cr-21"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 30,
+      "constitution": 26,
+      "dexterity": 22,
+      "intelligence": 25,
+      "strength": 26,
+      "wisdom": 25
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 25, one creature the solar can see within 120 feet. Failure: The target has the Blinded condition for 1 minute. Failure or Success: The solar can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Blinding Gaze",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 8,
+            "damage_die_count": 4,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Flying Sword attack",
+            "range": 120,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 15
+          }
+        ],
+        "desc": "Melee or Ranged Attack Roll: +15, reach 10 ft. or range 120 ft. 22 (4d6 + 8) Slashing damage plus 36 (8d8) Radiant damage. HitomThe sword magically returns to the solar's hand or hovers within 5 feet of the solar immediately after a ranged attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Flying Sword",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The solar makes two Flying Sword attacks. It can replace one attack with a use of Slaying Bow.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The solar teleports up to 60 feet to an unoccupied space it can see. Dexterity Saving Throw: DC 25, each creature in a 10-foot Emanation originating from the solar at its destination space. Failure: 11 (2d10) Radiant damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Radiant Teleport",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 21, one creature the solar can see within 600 feet. Failure: If the creature has 100 Hit Points or fewer, it dies. It otherwise takes 24 (4d8 + 6) Piercing damage plus 36 (8d8) Radiant damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slaying Bow",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The solar casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 25):\n\n- **At Will:** Detect Evil and Good\n- **1/Day Each:** Commune, Control Weather, Dispel Evil and Good, Resurrection",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The solar casts Cure Wounds (level 2 version), Lesser Restoration, or Remove Curse, using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Divine Aid",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 3,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 21,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 21,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 33000,
+    "hit_dice": "22d10 + 176",
+    "hit_points": 297,
+    "illustration": null,
+    "initiative_bonus": 20,
+    "key": "srd-2024_solar",
+    "languages": {
+      "as_string": "All; telepathy 120 ft.",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 10,
+      "constitution": 8,
+      "dexterity": 6,
+      "intelligence": 7,
+      "strength": 8,
+      "wisdom": 7
+    },
+    "name": "Solar",
+    "normal_sight_range": 10560,
+    "passive_perception": 24,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        },
+        {
+          "key": "radiant",
+          "name": "Radiant"
+        }
+      ],
+      "damage_immunities_display": "poison, radiant",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 10,
+      "constitution": 8,
+      "dexterity": 6,
+      "intelligence": 7,
+      "strength": 8,
+      "wisdom": 7
+    },
+    "saving_throws_all": {
+      "charisma": 10,
+      "constitution": 8,
+      "dexterity": 6,
+      "intelligence": 7,
+      "strength": 8,
+      "wisdom": 7
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 14
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 6,
+      "animal_handling": 7,
+      "arcana": 7,
+      "athletics": 8,
+      "deception": 10,
+      "history": 7,
+      "insight": 7,
+      "intimidation": 10,
+      "investigation": 7,
+      "medicine": 7,
+      "nature": 7,
+      "perception": 14,
+      "performance": 10,
+      "persuasion": 10,
+      "religion": 7,
+      "sleight_of_hand": 6,
+      "stealth": 6,
+      "survival": 7
+    },
+    "speed": {
+      "fly": 150,
+      "hover": true,
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 150,
+      "hover": true,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The solar knows if it hears a lie.",
+        "name": "Divine Awareness"
+      },
+      {
+        "desc": "If the solar dies outside Mount Celestia, its body disappears, and it gains a new body instantly, reviving with all its Hit Points somewhere in Mount Celestia.",
+        "name": "Exalted Restoration"
+      },
+      {
+        "desc": "If the solar fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (4/Day)"
+      },
+      {
+        "desc": "The solar has Advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}

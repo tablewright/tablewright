@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:chain-mail",
+  "type": "item",
+  "name": "Chain Mail",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A chain mail.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 16,
+      "ac_cap_dexmod": null,
+      "ac_display": "16",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_chain-mail",
+      "name": "Chain Mail",
+      "strength_score_required": 13
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "75.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A chain mail.",
+    "key": "srd-2024_chain-mail",
+    "name": "Chain Mail",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "55.000",
+    "weight_unit": "lb"
+  }
+}

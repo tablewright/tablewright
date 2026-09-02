@@ -1,0 +1,203 @@
+{
+  "id": "5e-2024-srd:monster:giant-ape",
+  "type": "monster",
+  "name": "Giant Ape",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "huge",
+    "cr-7"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 18,
+      "dexterity": 14,
+      "intelligence": 5,
+      "strength": 23,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The ape hurls a boulder at a point it can see within 90 feet. Dexterity Saving Throw: DC 17, each creature in a 5-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on that point. Failure: 24 (7d6) Bludgeoning damage. If the target is a Large or smaller creature, it has the Prone condition. Success: Half damage only.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Boulder Toss",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 6,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 6,
+            "damage_die_count": 3,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Fist attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 9
+          }
+        ],
+        "desc": "Melee Attack Roll: +9, reach 10 ft. 22 (3d10 + 6) Bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fist",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The ape makes two Fist attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The ape jumps up to 30 feet by spending 10 feet of movement.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Leap",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 7,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 2900,
+    "hit_dice": "16d12 + 64",
+    "hit_points": 168,
+    "illustration": null,
+    "initiative_bonus": 5,
+    "key": "srd-2024_giant-ape",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 4,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": 6,
+      "wisdom": 1
+    },
+    "name": "Giant Ape",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -2,
+      "constitution": 4,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": 6,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 4,
+      "dexterity": 2,
+      "intelligence": -3,
+      "strength": 6,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "athletics": 9,
+      "perception": 4,
+      "survival": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -3,
+      "athletics": 9,
+      "deception": -2,
+      "history": -3,
+      "insight": 1,
+      "intimidation": -2,
+      "investigation": -3,
+      "medicine": 1,
+      "nature": -3,
+      "perception": 4,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -3,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 4
+    },
+    "speed": {
+      "climb": 40,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 40,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

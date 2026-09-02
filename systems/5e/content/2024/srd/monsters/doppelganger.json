@@ -1,0 +1,195 @@
+{
+  "id": "5e-2024-srd:monster:doppelganger",
+  "type": "monster",
+  "name": "Doppelganger",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "medium",
+    "cr-3"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 14,
+      "constitution": 14,
+      "dexterity": 18,
+      "intelligence": 11,
+      "strength": 11,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The doppelganger makes two Slam attacks and uses Unsettling Visage if available.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The doppelganger casts Detect Thoughts, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 12).\n\n- **At Will:** Detect Thoughts",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Read Thoughts",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Melee Attack Roll: +6 (with Advantage during the first round of each combat), reach 5 ft. 11 (2d6 + 4) Bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Wisdom Saving Throw: DC 12, each creature in a 15-foot Emanation originating from the doppelganger that can see the doppelganger. Failure: The target has the Frightened condition and repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Unsettling Visage",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 6,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The doppelganger shape-shifts into a Medium or Small Humanoid, or it returns to its true form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn't transformed.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Shape-Shift",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 3,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 700,
+    "hit_dice": "8d8 + 16",
+    "hit_points": 52,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd-2024_doppelganger",
+    "languages": {
+      "as_string": "Common plus three other languages",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 4,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 1
+    },
+    "name": "Doppelganger",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 4,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 1
+    },
+    "saving_throws_all": {
+      "charisma": 2,
+      "constitution": 2,
+      "dexterity": 4,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "deception": 6,
+      "insight": 3
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 4,
+      "animal_handling": 1,
+      "arcana": 0,
+      "athletics": 0,
+      "deception": 6,
+      "history": 0,
+      "insight": 3,
+      "intimidation": 2,
+      "investigation": 0,
+      "medicine": 1,
+      "nature": 0,
+      "perception": 1,
+      "performance": 2,
+      "persuasion": 2,
+      "religion": 0,
+      "sleight_of_hand": 4,
+      "stealth": 4,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

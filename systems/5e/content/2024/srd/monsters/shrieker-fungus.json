@@ -1,0 +1,143 @@
+{
+  "id": "5e-2024-srd:monster:shrieker-fungus",
+  "type": "monster",
+  "name": "Shrieker Fungus",
+  "source": "5e-2024-srd",
+  "tags": [
+    "plant",
+    "medium",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 10,
+      "dexterity": 1,
+      "intelligence": 1,
+      "strength": 1,
+      "wisdom": 3
+    },
+    "actions": [
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "_Trigger:_ A creature or a source of Bright Light moves within 30 feet of the shrieker. _Response:_ The shrieker emits a shriek audible within 300 feet of itself for 1 minute or until the shrieker dies.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Shriek",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 5,
+    "armor_detail": "natural armor",
+    "blindsight_range": 30,
+    "category": "Monsters",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "3d8",
+    "hit_points": 13,
+    "illustration": null,
+    "initiative_bonus": -5,
+    "key": "srd-2024_shrieker-fungus",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": -5,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": -4
+    },
+    "name": "Shrieker Fungus",
+    "normal_sight_range": 10560,
+    "passive_perception": 6,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": -5,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": -4
+    },
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": -5,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": -4
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -5,
+      "animal_handling": -4,
+      "arcana": -5,
+      "athletics": -5,
+      "deception": -5,
+      "history": -5,
+      "insight": -4,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -4,
+      "nature": -5,
+      "perception": -4,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": -5,
+      "stealth": -5,
+      "survival": -4
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 0,
+      "hover": false,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "plant",
+      "name": "Plant"
+    }
+  }
+}

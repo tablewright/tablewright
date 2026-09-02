@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:belt-of-giant-strength-cloud",
+  "type": "magic-item",
+  "name": "Belt of Giant Strength (Cloud)",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "legendary",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wearing this belt, your Strength changes to a score granted by the belt. The type of giant determines the score (see the table below). The item has no effect on you if your Strength without the belt is equal to or greater than the belt's score.\n\n| Belt                                    | Str. | Rarity    |\n|-----------------------------------------|------|-----------|\n| Belt of Giant Strength (hill)           | 21   | Rare      |\n| Belt of Giant Strength (frost or stone) | 23   | Very Rare |\n| Belt of Giant Strength (fire)           | 25   | Very Rare |\n| Belt of Giant Strength (cloud)          | 27   | Legendary |\n| Belt of Giant Strength (storm)          | 29   | Legendary |",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this belt, your Strength changes to a score granted by the belt. The type of giant determines the score (see the table below). The item has no effect on you if your Strength without the belt is equal to or greater than the belt's score.\n\n| Belt                                    | Str. | Rarity    |\n|-----------------------------------------|------|-----------|\n| Belt of Giant Strength (hill)           | 21   | Rare      |\n| Belt of Giant Strength (frost or stone) | 23   | Very Rare |\n| Belt of Giant Strength (fire)           | 25   | Very Rare |\n| Belt of Giant Strength (cloud)          | 27   | Legendary |\n| Belt of Giant Strength (storm)          | 29   | Legendary |",
+    "key": "srd-2024_belt-of-giant-strength-cloud",
+    "name": "Belt of Giant Strength (Cloud)",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

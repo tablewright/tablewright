@@ -1,0 +1,51 @@
+{
+  "id": "5e-2024-srd:magic-item:elven-chain-mail",
+  "type": "magic-item",
+  "name": "Elven Chain Mail",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "You gain a +1 bonus to Armor Class while you wear this armor. You are considered trained with this armor even if you lack training with Heavy armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 16,
+      "ac_cap_dexmod": null,
+      "ac_display": "16",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_chain-mail",
+      "name": "Chain Mail",
+      "strength_score_required": 13
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to Armor Class while you wear this armor. You are considered trained with this armor even if you lack training with Heavy armor.",
+    "key": "srd-2024_elven-chain-mail",
+    "name": "Elven Chain Mail",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

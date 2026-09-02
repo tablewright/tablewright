@@ -1,0 +1,289 @@
+{
+  "id": "5e-2024-srd:monster:kraken",
+  "type": "monster",
+  "name": "Kraken",
+  "source": "5e-2024-srd",
+  "tags": [
+    "monstrosity",
+    "gargantuan",
+    "cr-23"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 20,
+      "constitution": 26,
+      "dexterity": 11,
+      "intelligence": 22,
+      "strength": 30,
+      "wisdom": 18
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The kraken throws a Large or smaller creature Grappled by it to a space it can see within 60 feet of itself that isn't in the air. Dexterity Saving Throw: DC 25, the creature thrown and each creature in the destination space. Failure: 18 (4d8) Bludgeoning damage, and the target has the Prone condition. Success: Half damage only.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fling",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 23, one creature the kraken can see within 120 feet. Failure: 33 (6d10) Lightning damage. Success: Half damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Lightning Strike",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The kraken makes two Tentacle attacks and uses Fling, Lightning Strike, or Swallow.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The kraken uses Lightning Strike.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Storm Bolt",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "Dexterity Saving Throw: DC 25, one creature Grappled by the kraken (it can have up to four creatures swallowed at a time). Failure: 23 (3d8 + 10) Piercing damage. If the target is Large or smaller, it is swallowed and no longer Grappled. A swallowed creature has the Restrained condition, has Cover|XPHB|Total Cover against attacks and other effects outside the kraken, and takes 24 (7d6) Acid damage at the start of each of its turns. If the kraken takes 50 damage or more on a single turn from a creature inside it, the kraken must succeed on a DC 25 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 10 feet of the kraken with the Prone condition. If the kraken dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 15 feet of movement, exiting Prone.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Swallow",
+        "order_in_statblock": 4,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 10,
+            "damage_die_count": 4,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Tentacle attack",
+            "range": null,
+            "reach": 30,
+            "target_creature_only": false,
+            "to_hit_mod": 17
+          }
+        ],
+        "desc": "Melee Attack Roll: +17, reach 30 ft. 24 (4d6 + 10) Bludgeoning damage. The target has the Grappled condition (escape DC 20) from one of ten tentacles, and it has the Restrained condition until the grapple ends.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Tentacle",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "Constitution Saving Throw: DC 23, each creature in a 15-foot Emanation originating from the kraken while it is underwater. Failure: The target has the Blinded and Poisoned conditions until the end of the kraken's next turn. The kraken then moves up to its Speed. Failure or Success: The kraken can't take this action again until the start of its next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Toxic Ink",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 18,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 23,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 50000,
+    "hit_dice": "26d20 + 208",
+    "hit_points": 481,
+    "illustration": null,
+    "initiative_bonus": 14,
+    "key": "srd-2024_kraken",
+    "languages": {
+      "as_string": "Understands Abyssal, Celestial, Infernal, And Primordial but can't speak; telepathy 120 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers are demons.",
+          "key": "abyssal",
+          "name": "Abyssal"
+        },
+        {
+          "desc": "Typical speakers are celestials",
+          "key": "celestial",
+          "name": "Celestial"
+        },
+        {
+          "desc": "Typical speakers are devils.",
+          "key": "infernal",
+          "name": "Infernal"
+        },
+        {
+          "desc": "Typical speakers are elementals.",
+          "key": "primordial",
+          "name": "Primordial"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 5,
+      "constitution": 8,
+      "dexterity": 0,
+      "intelligence": 6,
+      "strength": 10,
+      "wisdom": 4
+    },
+    "name": "Kraken",
+    "normal_sight_range": 10560,
+    "passive_perception": 21,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        }
+      ],
+      "condition_immunities_display": "frightened, grappled, paralyzed, restrained",
+      "damage_immunities": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        },
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        }
+      ],
+      "damage_immunities_display": "cold, lightning",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 5,
+      "constitution": 15,
+      "dexterity": 7,
+      "intelligence": 6,
+      "strength": 17,
+      "wisdom": 11
+    },
+    "saving_throws_all": {
+      "charisma": 5,
+      "constitution": 15,
+      "dexterity": 7,
+      "intelligence": 6,
+      "strength": 17,
+      "wisdom": 11
+    },
+    "size": {
+      "key": "gargantuan",
+      "name": "Gargantuan"
+    },
+    "skill_bonuses": {
+      "history": 13,
+      "perception": 11
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 4,
+      "arcana": 6,
+      "athletics": 10,
+      "deception": 5,
+      "history": 13,
+      "insight": 4,
+      "intimidation": 5,
+      "investigation": 6,
+      "medicine": 4,
+      "nature": 6,
+      "perception": 11,
+      "performance": 5,
+      "persuasion": 5,
+      "religion": 6,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 4
+    },
+    "speed": {
+      "swim": 120,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 120,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The kraken can breathe air and water.",
+        "name": "Amphibious"
+      },
+      {
+        "desc": "If the kraken fails a saving throw, it can choose to succeed instead.",
+        "name": "Legendary Resistance (4/Day, or 5/Day in Lair)"
+      },
+      {
+        "desc": "The kraken deals double damage to objects and structures.",
+        "name": "Siege Monster"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

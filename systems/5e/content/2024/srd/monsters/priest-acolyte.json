@@ -1,0 +1,229 @@
+{
+  "id": "5e-2024-srd:monster:priest-acolyte",
+  "type": "monster",
+  "name": "Priest Acolyte",
+  "source": "5e-2024-srd",
+  "tags": [
+    "humanoid",
+    "small",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 11,
+      "constitution": 12,
+      "dexterity": 10,
+      "intelligence": 10,
+      "strength": 14,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "bludgeoning",
+              "name": "Bludgeoning"
+            },
+            "long_range": null,
+            "name": "Mace attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 5 (1d6 + 2) Bludgeoning damage plus 2 (1d4) Radiant damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Mace",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "radiant",
+              "name": "Radiant"
+            },
+            "long_range": null,
+            "name": "Radiant Flame attack",
+            "range": 60,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Ranged Attack Roll: +4, range 60 ft. 7 (2d6) Radiant damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Radiant Flame",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The priest casts one of the following spells, using Wisdom as the spellcasting ability:\n\n- **At Will:** Light, Thaumaturgy",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "BONUS_ACTION",
+        "attacks": [],
+        "desc": "The priest casts Bless, Healing Word, or Sanctuary, using the same spellcasting ability as Spellcasting.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Divine Aid",
+        "order_in_statblock": 0,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "2d8 + 2",
+    "hit_points": 11,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd-2024_priest-acolyte",
+    "languages": {
+      "as_string": "Common",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 2,
+      "wisdom": 2
+    },
+    "name": "Priest Acolyte",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 2,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 2,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "medicine": 4,
+      "religion": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 2,
+      "arcana": 0,
+      "athletics": 2,
+      "deception": 0,
+      "history": 0,
+      "insight": 2,
+      "intimidation": 0,
+      "investigation": 0,
+      "medicine": 4,
+      "nature": 0,
+      "perception": 2,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 2,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

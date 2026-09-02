@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:thieves-tools",
+  "type": "item",
+  "name": "Thieves' Tools",
+  "source": "5e-2024-srd",
+  "tags": [
+    "tools"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Ability: Dexterity. Utilize: Pick a lock (DC 15), or disarm a trap (DC 15)",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "25.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Ability: Dexterity. Utilize: Pick a lock (DC 15), or disarm a trap (DC 15)",
+    "key": "srd-2024_thieves-tools",
+    "name": "Thieves' Tools",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

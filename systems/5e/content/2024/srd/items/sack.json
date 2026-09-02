@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:sack",
+  "type": "item",
+  "name": "Sack",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Sack holds up to 30 pounds within 1 cubic foot.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.01",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Sack holds up to 30 pounds within 1 cubic foot.",
+    "key": "srd-2024_sack",
+    "name": "Sack",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.500",
+    "weight_unit": "lb"
+  }
+}

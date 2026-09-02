@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:bucket",
+  "type": "item",
+  "name": "Bucket",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Bucket holds up to half a cubic foot of contents.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.05",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Bucket holds up to half a cubic foot of contents.",
+    "key": "srd-2024_bucket",
+    "name": "Bucket",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

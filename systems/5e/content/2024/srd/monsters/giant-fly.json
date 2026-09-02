@@ -1,0 +1,133 @@
+{
+  "id": "5e-2024-srd:monster:giant-fly",
+  "type": "monster",
+  "name": "Giant Fly",
+  "source": "5e-2024-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-0"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 3,
+      "constitution": 13,
+      "dexterity": 13,
+      "intelligence": 2,
+      "strength": 14,
+      "wisdom": 10
+    },
+    "actions": [],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [],
+    "experience_points": 0,
+    "hit_dice": "3d10 + 3",
+    "hit_points": 19,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd-2024_giant-fly",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "name": "Giant Fly",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": 1,
+      "dexterity": 1,
+      "intelligence": -4,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": 2,
+      "deception": -4,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -4,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 0,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -4,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

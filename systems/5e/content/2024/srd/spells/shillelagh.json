@@ -1,0 +1,91 @@
+{
+  "id": "5e-2024-srd:spell:shillelagh",
+  "type": "spell",
+  "name": "Shillelagh",
+  "source": "5e-2024-srd",
+  "tags": [
+    "transmutation",
+    "cantrip",
+    "druid"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Club or Quarterstaff you are holding is imbued with nature's power. For the duration, you can use your spellcasting ability instead of Strength for the attack and damage rolls of melee attacks using that weapon, and the weapon's damage die becomes a d8. If the attack deals damage, it can be Force damage or the weapon's normal damage type (your choice). The spell ends early if you cast it again or if you let go of the weapon.\n\n**Cantrip Upgrade.** The damage die changes when you reach levels 5 (d10), 11 (d12), and 17 (2d6).",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": "1d10",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "1d12",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_11"
+      },
+      {
+        "concentration": null,
+        "damage_roll": "2d6",
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_17"
+      }
+    ],
+    "casting_time": "bonus-action",
+    "classes": [
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [
+      "force"
+    ],
+    "desc": "A Club or Quarterstaff you are holding is imbued with nature's power. For the duration, you can use your spellcasting ability instead of Strength for the attack and damage rolls of melee attacks using that weapon, and the weapon's damage die becomes a d8. If the attack deals damage, it can be Force damage or the weapon's normal damage type (your choice). The spell ends early if you cast it again or if you let go of the weapon.",
+    "duration": "1 minute",
+    "higher_level": "The damage die changes when you reach levels 5 (d10), 11 (d12), and 17 (2d6).",
+    "key": "srd-2024_shillelagh",
+    "level": 0,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "mistletoe",
+    "name": "Shillelagh",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "transmutation",
+      "name": "Transmutation"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

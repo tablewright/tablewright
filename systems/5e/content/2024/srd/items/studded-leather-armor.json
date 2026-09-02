@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:item:studded-leather-armor",
+  "type": "item",
+  "name": "Studded Leather Armor",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A studded leather armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 12,
+      "ac_cap_dexmod": null,
+      "ac_display": "12 + Dex modifier",
+      "category": "light",
+      "grants_stealth_disadvantage": false,
+      "key": "srd-2024_studded-leather-armor",
+      "name": "Studded Leather Armor",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "45.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A studded leather armor.",
+    "key": "srd-2024_studded-leather-armor",
+    "name": "Studded Leather Armor",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "13.000",
+    "weight_unit": "lb"
+  }
+}

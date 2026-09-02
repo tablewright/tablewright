@@ -1,0 +1,94 @@
+{
+  "id": "5e-2024-srd:spell:spare-the-dying",
+  "type": "spell",
+  "name": "Spare the Dying",
+  "source": "5e-2024-srd",
+  "tags": [
+    "necromancy",
+    "cantrip",
+    "cleric",
+    "druid"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "Choose a creature within range that has 0 Hit Points and isn't dead. The creature becomes Stable.\n\n**Cantrip Upgrade.** The range doubles when you reach levels 5 (30 feet), 11 (60 feet), and 17 (120 feet).",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": "30 feet",
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_5"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": "60 feet",
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_11"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": "120 feet",
+        "shape_size": null,
+        "target_count": null,
+        "type": "player_level_17"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd-2024_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd-2024_druid",
+        "name": "Druid"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Choose a creature within range that has 0 Hit Points and isn't dead. The creature becomes Stable.",
+    "duration": "instantaneous",
+    "higher_level": "The range doubles when you reach levels 5 (30 feet), 11 (60 feet), and 17 (120 feet).",
+    "key": "srd-2024_spare-the-dying",
+    "level": 0,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Spare the Dying",
+    "range": 15,
+    "range_text": "15 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "necromancy",
+      "name": "Necromancy"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

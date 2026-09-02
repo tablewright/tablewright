@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:druidic-focus-sprig-of-mistletoe",
+  "type": "item",
+  "name": "Druidic Focus, Sprig of Mistletoe",
+  "source": "5e-2024-srd",
+  "tags": [
+    "spellcasting-focus"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Druidic Focus is carved, tied with ribbon, or painted to channel primal magic. A Druid or Ranger can use such an object as a Spellcasting Focus.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "spellcasting-focus",
+      "name": "Spellcasting Focus"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Druidic Focus is carved, tied with ribbon, or painted to channel primal magic. A Druid or Ranger can use such an object as a Spellcasting Focus.",
+    "key": "srd-2024_druidic-focus-sprig-of-mistletoe",
+    "name": "Druidic Focus, Sprig of Mistletoe",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

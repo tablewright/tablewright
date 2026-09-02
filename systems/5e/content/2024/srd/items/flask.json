@@ -1,0 +1,33 @@
+{
+  "id": "5e-2024-srd:item:flask",
+  "type": "item",
+  "name": "Flask",
+  "source": "5e-2024-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "A Flask holds up to 1 pint.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.02",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A Flask holds up to 1 pint.",
+    "key": "srd-2024_flask",
+    "name": "Flask",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

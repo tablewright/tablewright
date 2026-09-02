@@ -1,0 +1,42 @@
+{
+  "id": "5e-2024-srd:magic-item:boots-of-levitation",
+  "type": "magic-item",
+  "name": "Boots of Levitation",
+  "source": "5e-2024-srd",
+  "tags": [
+    "wondrous-item",
+    "rare",
+    "attunement"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While you wear these boots, you can cast Levitate on yourself.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While you wear these boots, you can cast Levitate on yourself.",
+    "key": "srd-2024_boots-of-levitation",
+    "name": "Boots of Levitation",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

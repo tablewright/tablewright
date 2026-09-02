@@ -1,0 +1,51 @@
+{
+  "id": "5e-2024-srd:magic-item:dwarven-half-plate",
+  "type": "magic-item",
+  "name": "Dwarven Half Plate",
+  "source": "5e-2024-srd",
+  "tags": [
+    "armor",
+    "very-rare"
+  ],
+  "visibility": "world",
+  "data_visibility": "world",
+  "body": "While wearing this armor, you gain a +2 bonus to Armor Class. In addition, if an effect moves you against your will along the ground, you can take a Reaction to reduce the distance you are moved by up to 10 feet.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 15,
+      "ac_cap_dexmod": 2,
+      "ac_display": "15 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": true,
+      "key": "srd-2024_half-plate-armor",
+      "name": "Half Plate Armor",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this armor, you gain a +2 bonus to Armor Class. In addition, if an effect moves you against your will along the ground, you can take a Reaction to reduce the distance you are moved by up to 10 feet.",
+    "key": "srd-2024_dwarven-half-plate",
+    "name": "Dwarven Half Plate",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "id": "5e-2024-srd:monster:giant-owl",
+  "type": "monster",
+  "name": "Giant Owl",
+  "source": "5e-2024-srd",
+  "tags": [
+    "celestial",
+    "large",
+    "cr-1/4"
+  ],
+  "visibility": "party",
+  "data_visibility": "dm",
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 10,
+      "constitution": 12,
+      "dexterity": 15,
+      "intelligence": 10,
+      "strength": 13,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The owl casts one of the following spells, requiring no spell components and using Wisdom as the spellcasting ability:\n\n- **At Will:** Detect Evil and Good, Detect Magic\n- **1/Day Each:** Clairvoyance",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Spellcasting",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": 2,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": null,
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "slashing",
+              "name": "Slashing"
+            },
+            "long_range": null,
+            "name": "Talons attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Attack Roll: +4, reach 5 ft. 7 (1d10 + 2) Slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Talons",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Animals",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [],
+    "experience_points": 50,
+    "hit_dice": "3d10 + 3",
+    "hit_points": 19,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd-2024_giant-owl",
+    "languages": {
+      "as_string": "Celestial; understands Common, Elvish, And Sylvan but can't speak them",
+      "data": [
+        {
+          "desc": "Typical speakers are celestials",
+          "key": "celestial",
+          "name": "Celestial"
+        },
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are elves.",
+          "key": "elvish",
+          "name": "Elvish"
+        },
+        {
+          "desc": "Typical speakers are fey creatures.",
+          "key": "sylvan",
+          "name": "Sylvan"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 1,
+      "wisdom": 2
+    },
+    "name": "Giant Owl",
+    "normal_sight_range": 10560,
+    "passive_perception": 16,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        },
+        {
+          "key": "radiant",
+          "name": "Radiant"
+        }
+      ],
+      "damage_resistances_display": "necrotic, radiant",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 1,
+      "wisdom": 4
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 1,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 6,
+      "stealth": 6
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 2,
+      "arcana": 0,
+      "athletics": 1,
+      "deception": 0,
+      "history": 0,
+      "insight": 2,
+      "intimidation": 0,
+      "investigation": 0,
+      "medicine": 2,
+      "nature": 0,
+      "perception": 6,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 0,
+      "sleight_of_hand": 2,
+      "stealth": 6,
+      "survival": 2
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 60,
+      "hover": false,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The owl doesn't provoke an Opportunity Attack when it flies out of an enemy's reach.",
+        "name": "Flyby"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}
