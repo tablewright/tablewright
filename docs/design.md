@@ -103,6 +103,8 @@ PixiJS (WebGL).
   rich content (panels, labels).
 - **Engine/skin split:** camera, coordinate math (square + hex),
   drag-snap, hit-testing are aesthetic-neutral; looks are skins.
+  Square ships in the PoC; hex *(later)* imports the pointy-top
+  lattice math from `@hexpunk/core` rather than duplicating it.
 - **Token bridge:** CSS custom properties are read via
   getComputedStyle, fed to Pixi, re-read on theme change.
 
