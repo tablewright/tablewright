@@ -12,17 +12,31 @@ import {
   GridLayer,
   MapLayer,
   TokenLayer,
+  cellCenter,
   extentCovering,
   readBoardTheme,
   visibleExtent,
   watchBoardTheme,
   type BoardStage,
   type BoardTheme,
+  type CameraState,
+  type Cell,
   type CellExtent,
+  type Point,
   type SquareGrid,
   type TokenStyle,
   type TokenView,
 } from "@tablewright/board";
+
+/** What a dev build exposes on `window.__tablewright` for tests: reads only, no mutation. */
+export interface BoardDebug {
+  tokens(): readonly TokenView[];
+  selectedId(): string | undefined;
+  camera(): CameraState;
+  bounds(): CellExtent;
+  /** Screen position of a cell's centre, for pointing a test's mouse at it. */
+  cellToScreen(cell: Cell): Point;
+}
 
 // Pixels per cell until a per-map setting exists; 50 px is five feet here.
 const CELL_SIZE = 50;
@@ -97,6 +111,17 @@ export class BoardHost {
         this.redrawGrid();
       }
     });
+  }
+
+  /** Read-only view of the scene for dev builds and end-to-end tests. */
+  debug(): BoardDebug {
+    return {
+      tokens: () => this.tokens,
+      selectedId: () => this.tokenLayer.selectedId,
+      camera: () => this.camera.current,
+      bounds: () => this.bounds,
+      cellToScreen: (cell) => this.camera.toScreen(cellCenter(this.grid, cell)),
+    };
   }
 
   /** Replace the tokens with `count` placeholders spread over the map, for stress runs. */

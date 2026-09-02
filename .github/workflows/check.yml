@@ -28,20 +28,24 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run check
 
-  # Informational only: hosted runners render in software, so the numbers are
-  # not comparable to a real GPU and cannot gate. The job fails only on a
-  # collapse, and uploads the report for inspection.
-  perf:
+  # Browser end-to-end tests with videos and traces as artifacts. Hosted
+  # runners render in software, so the frame-time spec gates only on a
+  # collapse there; real numbers come from a machine with a GPU.
+  e2e:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    env:
+      CI: "true"
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
-      - run: bun run perf -- --ci --report=perf-report.json
+      - run: bunx playwright install --with-deps chromium webkit
+      - run: bun run e2e
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: perf-report
-          path: perf-report.json
+          name: e2e-artifacts
+          path: |
+            apps/table/test-results
+            apps/table/playwright-report
           if-no-files-found: ignore

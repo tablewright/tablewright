@@ -83,6 +83,8 @@ try {
   });
   if (__DEV_BUILD__) {
     await loadDevFixture(board, host);
+    // Exposed only once the fixture is in, so a test that sees it sees a settled scene.
+    window.__tablewright = board.debug();
   }
   await stage.firstFrame;
 } catch (error) {

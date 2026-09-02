@@ -7,3 +7,5 @@ coverage/
 .DS_Store
 .turbo/
 perf-report.json
+test-results/
+playwright-report/

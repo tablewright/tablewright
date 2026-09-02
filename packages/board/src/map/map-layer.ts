@@ -15,6 +15,21 @@ export interface MapSize {
   readonly height: number;
 }
 
+const IMAGE_EXTENSION = /\.(png|jpe?g|webp|avif|gif|svg)(\?.*)?$/i;
+const SVG_URL = /(\.svg(\?.*)?$)|(^data:image\/svg\+xml)/i;
+
+/**
+ * Which loader parser to name. Pixi picks one from the file extension, so a
+ * URL without one, such as a content-addressed asset, needs the texture parser
+ * named; SVG needs its own parser even as a data URL.
+ */
+export function parserFor(url: string): "loadSVG" | "loadTextures" | undefined {
+  if (SVG_URL.test(url)) {
+    return "loadSVG";
+  }
+  return IMAGE_EXTENSION.test(url) ? undefined : "loadTextures";
+}
+
 /** Holds the current map sprite; `setImage` swaps it for another. */
 export class MapLayer {
   private readonly container: Container;
@@ -29,12 +44,10 @@ export class MapLayer {
    * Rejects when the image cannot be fetched or decoded; the previous map stays.
    */
   async setImage(url: string): Promise<MapSize> {
-    // Name the parser: the loader otherwise guesses from the extension, and
-    // content-addressed asset URLs have none.
-    const texture: Texture | undefined = await Assets.load({
-      src: url,
-      loadParser: "loadTextures",
-    });
+    const loadParser = parserFor(url);
+    const texture: Texture | undefined = await Assets.load(
+      loadParser === undefined ? url : { src: url, loadParser }
+    );
     if (!texture) {
       throw new Error(`no image could be decoded from ${url}`);
     }

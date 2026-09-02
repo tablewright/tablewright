@@ -101,7 +101,7 @@ export class TokenLayer {
   private readonly selectListeners = new Set<TokenSelectListener>();
   private grid: SquareGrid;
   private style: TokenStyle;
-  private selectedId: string | undefined;
+  private selected: string | undefined;
   private press: PressState | undefined;
 
   constructor(container: Container, grid: SquareGrid, style: TokenStyle) {
@@ -152,12 +152,17 @@ export class TokenLayer {
     }
   }
 
+  /** The selected token, if any. */
+  get selectedId(): string | undefined {
+    return this.selected;
+  }
+
   select(id: string | undefined): void {
-    if (id === this.selectedId) {
+    if (id === this.selected) {
       return;
     }
-    this.sprites.get(this.selectedId ?? "")?.setSelected(false);
-    this.selectedId = id;
+    this.sprites.get(this.selected ?? "")?.setSelected(false);
+    this.selected = id;
     this.sprites.get(id ?? "")?.setSelected(true);
     for (const listener of this.selectListeners) {
       listener(id);
@@ -296,6 +301,11 @@ export class TokenLayer {
       this.container.addChild(sprite.view);
       this.ghost.visible = true;
     }
+    this.follow(press, sprite, event);
+  };
+
+  // Move the token or its facing to where the pointer is now.
+  private follow(press: PressState, sprite: TokenSprite, event: PointerEvent): void {
     const world = this.toWorld(press, event);
     if (press.mode === "turn") {
       const facing = facingToward(sprite.position, world);
@@ -306,7 +316,7 @@ export class TokenLayer {
     }
     sprite.setPosition(world);
     this.drawGhost(snapToCellCenter(this.grid, world));
-  };
+  }
 
   private readonly onPointerUp = (event: PointerEvent): void => {
     const press = this.press;
@@ -315,6 +325,11 @@ export class TokenLayer {
     }
     const sprite = this.sprites.get(press.id);
     if (sprite !== undefined) {
+      // The release position is the gesture's last word: engines may coalesce
+      // or reorder the final move, so it is applied here rather than trusted.
+      if (press.mode !== "pending") {
+        this.follow(press, sprite, event);
+      }
       if (press.mode === "drag") {
         const cell = worldToCell(this.grid, sprite.position);
         const from = worldToCell(this.grid, press.origin);
@@ -356,7 +371,7 @@ export class TokenLayer {
   // One press moves the selected token one cell: the same scene command as a
   // drop, so the move listeners fire exactly as they do for a drag.
   private moveSelectedBy(dc: number, dr: number): void {
-    const id = this.selectedId;
+    const id = this.selected;
     const sprite = id === undefined ? undefined : this.sprites.get(id);
     if (id === undefined || sprite === undefined) {
       return;

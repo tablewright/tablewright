@@ -14,7 +14,8 @@
     "icon:table": "bun run tools/app-icon.ts",
     "format:check": "oxfmt --check",
     "lint": "oxlint --no-error-on-unmatched-pattern",
-    "perf": "bun run tools/perf-board.ts",
+    "perf": "bun run --filter @tablewright/table e2e:perf",
+    "e2e": "bun run --filter @tablewright/table e2e",
     "lint:design": "bun x @google/design.md@0.4.0 lint DESIGN.md",
     "tokens": "bun run tools/build-tokens.ts",
     "tokens:check": "bun run tools/build-tokens.ts --check",
@@ -22,6 +23,7 @@
     "test": "turbo run test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@types/bun": "^1.4.0",
     "oxfmt": "^0.66.0",
     "oxlint": "^1.81.0",

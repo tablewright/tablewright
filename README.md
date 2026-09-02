@@ -32,14 +32,16 @@ bun run check       # format + lint + typecheck + tests + build, both languages
 bun run dev:table   # run the Table app (tauri dev)
 bun run tokens      # regenerate packages/ui/src/tokens.css from DESIGN.md
 bun run icon:table  # regenerate the Table icon set from apps/table/assets/icon.png
-bun run perf        # board frame-time scenarios in the local Chrome or Edge (add --headless)
+bun run e2e         # Playwright end-to-end tests in Chromium and WebKit, with videos
+bun run perf        # board frame-time scenarios in the installed Chrome, on the GPU
 ```
 
 `bun run check` is deterministic and CI-ready; `.github/workflows/check.yml`
-is drafted for the day a remote exists. `bun run perf` needs a real GPU
-for its numbers to mean anything: on hosted runners it runs with `--ci`,
-which records the software renderer, gates only on a collapse, and
-uploads a report.
+is drafted for the day a remote exists. End-to-end tests live in
+`apps/table/tests/*.e2e.ts` and leave a video per test under
+`apps/table/test-results`; run `bunx playwright install chromium webkit`
+once. Frame-time numbers need a real GPU: on hosted runners the browser
+renders in software, so the perf spec there gates only on a collapse.
 
 Visual identity lives in [DESIGN.md](DESIGN.md) (the design.md
 format); its front matter is the single source of the CSS tokens.

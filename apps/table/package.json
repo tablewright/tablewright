@@ -7,8 +7,10 @@
     "dev": "tauri dev",
     "dev:web": "vite",
     "build": "vite build",
-    "typecheck": "tsc -p .",
+    "typecheck": "tsc -p . && tsc -p tests",
     "check": "bun run typecheck && bun run build",
+    "e2e": "playwright test",
+    "e2e:perf": "playwright test tests/perf.e2e.ts --project=chromium",
     "tauri": "tauri"
   },
   "dependencies": {
