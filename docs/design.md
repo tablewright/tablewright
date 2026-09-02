@@ -107,6 +107,12 @@ PixiJS (WebGL).
   lattice math from `@hexpunk/core` rather than duplicating it.
 - **Token bridge:** CSS custom properties are read via
   getComputedStyle, fed to Pixi, re-read on theme change.
+- **Input follows VTT convention,** not design-tool convention:
+  left-drag or middle-drag on empty board pans, the wheel zooms about
+  the cursor, and a trackpad pinch zooms the same way. Anything in
+  the scene that claims a pointer stops the native event before it
+  reaches the board element, so the camera only ever pans on empty
+  board.
 
 ### First-person view *(later)*
 
