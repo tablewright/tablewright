@@ -72,12 +72,29 @@ One search spans Vault and Compendium; results are labeled by origin.
 
 ### Systems and modules
 
-- **Three layers.** A *system* is a ruleset with code behind it (5e):
-  the shape of its statblocks and sheets. A *version* is an edition
-  of that ruleset (5e 2014, 5e 2024). A *module* is a compendium of
-  content for one version (the SRD, a homebrew collection). The
-  envelope's `source` names the module; the `data` blob's schema
-  belongs to the system and version.
+- **Three layers.** A *system* is a ruleset (5e): the shape of its
+  statblocks and sheets and its choice of mechanics. A *version* is
+  an edition of that ruleset (5e 2014, 5e 2024). A *module* is a
+  compendium of content for one version (the SRD, a homebrew
+  collection). The envelope's `source` names the module; the `data`
+  blob's schema belongs to the system and version.
+- **A ramp, not three things.** Extending Tablewright must be as
+  approachable as making a Foundry module, so code is optional at
+  every level but the last. A *module* is a folder, no code: a
+  manifest plus one JSON file per entry, or the single SQLite that
+  folder compiles to. A *declarative system* is also a folder, no
+  code: its manifest picks and parametrises rule families the engine
+  already implements (grid type, distance rule, dice, turn order,
+  resource pools); 5e's every-square-is-5-feet diagonal is one line
+  in it. A *coded system* adds a Rust crate for logic no family
+  covers (derivations, level-up). Shared logic therefore lives in
+  the engine as rule families, written once in Rust and once on the
+  board; systems only choose among them. A deliberately different
+  second system, even a tiny one on hexes, is added early to keep
+  the families generic and 5e's assumptions out of the engine.
+  Longer term the plugin format for coded systems is WebAssembly, so
+  one build runs in the core and in the browser client and
+  contributors are not bound to Rust; noted, not decided.
 - **Campaign creation** picks a system, then a version, then
   multi-selects the modules to include, with the bundled SRD checked
   by default. One compendium serves both apps, so Vault lore can
@@ -86,17 +103,22 @@ One search spans Vault and Compendium; results are labeled by origin.
   under CC-BY-4.0, and homebrew that is CC-BY-4.0 or licensed to
   Tablewright. Nothing else of 5e. The bundled SRD is the latest
   under a usable licence, SRD 5.2 (the 2024 rules), imported from
-  5e-bits' 5e-database at a pinned tag; SRD 5.1 can become a second
-  module later. The licence's attribution notice ships with the
-  module and shows in a credits view; the name is "5e SRD", never
-  the trademark.
-- **Where modules live.** Bundled modules are source-tracked under
-  `systems/<system>/<version>/<module>/` in the house module source
-  format: a `module.json` (id, name, version, licence, attribution)
-  and one JSON file per entry in the envelope shape under
-  `<kind>/<slug>.json`. The compendium SQLite is generated from it
-  at build time and shipped as an app resource, never committed. The
-  layout is a working assumption until the first module lands.
+  Open5e's `srd-2024` document; the committed module is the pin, and
+  a re-run of the importer shows upstream drift as a diff. SRD 5.1
+  can become a second module later. The licence's attribution notice
+  ships with the module and shows in a credits view; the name is
+  "5e SRD", never the trademark.
+- **Where things live.** A bundled system is one directory,
+  `systems/<system>/`: `system.json` as the entry point,
+  `content/<version>/<module>/` for its bundled modules, and `src/`
+  only when it is a coded system. A module directory is `module.json`
+  (id, name, version, licence, attribution, upstream) and one JSON
+  file per entry in the envelope shape under `<kind>/<slug>.json`,
+  ids `<module>:<kind>:<slug>`. A DM's own module, say a book they
+  own, has exactly that shape in a folder on their machine and is
+  imported from the app; it never enters the repo. The compendium
+  SQLite is generated from module directories at build time and
+  shipped as an app resource, never committed.
 - **Typing.** For the PoC the `data` blob is untyped JSON. Typed
   system data (Rust structs, generated TS) comes after; its shape is
   undecided.
