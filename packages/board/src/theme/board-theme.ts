@@ -17,14 +17,18 @@ export interface BoardTheme {
   readonly grid: PackedColor;
   readonly selection: PackedColor;
   readonly hover: PackedColor;
+  readonly token: PackedColor;
+  readonly tokenLabel: PackedColor;
 }
 
 // Used when a token is missing or unparseable, so a broken theme still shows a board.
 const FALLBACK: BoardTheme = {
   ground: 0x1b1d24,
   grid: { rgb: 0x8b8fa3, alpha: 0.35 },
-  selection: { rgb: 0xd9a648, alpha: 1 },
-  hover: { rgb: 0xf5dea6, alpha: 1 },
+  selection: { rgb: 0xc9a24e, alpha: 1 },
+  hover: { rgb: 0xe4c57a, alpha: 1 },
+  token: { rgb: 0xb5683e, alpha: 1 },
+  tokenLabel: { rgb: 0xf1e6d2, alpha: 1 },
 };
 
 /** Read the board tokens from `element`'s computed style. */
@@ -37,6 +41,8 @@ export function readBoardTheme(element: Element): BoardTheme {
     grid: token("grid", FALLBACK.grid),
     selection: token("selection", FALLBACK.selection),
     hover: token("hover", FALLBACK.hover),
+    token: token("token", FALLBACK.token),
+    tokenLabel: token("token-label", FALLBACK.tokenLabel),
   };
 }
 

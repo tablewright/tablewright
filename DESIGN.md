@@ -63,6 +63,8 @@ colors:
   board-grid: "#8B8FA359"
   board-selection: "#C9A24E"
   board-hover: "#E4C57A"
+  board-token: "#B5683E"
+  board-token-label: "#F1E6D2"
 
 typography:
   headline-md:
