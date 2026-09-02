@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { parseCssColor } from "../src/index.js";
+import { mixColors, parseCssColor } from "../src/index.js";
 
 describe("parseCssColor", () => {
   test("six-digit hex packs to rgb with full alpha", () => {
@@ -32,5 +32,22 @@ describe("parseCssColor", () => {
     expect(parseCssColor("brass")).toBe(undefined);
     expect(parseCssColor("")).toBe(undefined);
     expect(parseCssColor("var(--tw-primary)")).toBe(undefined);
+  });
+});
+
+describe("mixColors", () => {
+  test("zero keeps the first colour and one gives the second", () => {
+    expect(mixColors(0x102030, 0xf0e0d0, 0)).toBe(0x102030);
+    expect(mixColors(0x102030, 0xf0e0d0, 1)).toBe(0xf0e0d0);
+  });
+
+  test("halfway lands between each channel pair", () => {
+    expect(mixColors(0x000000, 0xffffff, 0.5)).toBe(0x808080);
+    expect(mixColors(0x102030, 0x304050, 0.5)).toBe(0x203040);
+  });
+
+  test("amounts outside the range are clamped", () => {
+    expect(mixColors(0x000000, 0xffffff, 2)).toBe(0xffffff);
+    expect(mixColors(0x000000, 0xffffff, -1)).toBe(0x000000);
   });
 });

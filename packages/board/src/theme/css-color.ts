@@ -31,6 +31,17 @@ export function parseCssColor(value: string): PackedColor | undefined {
   return undefined;
 }
 
+/** Blend `from` toward `to` by `amount` in [0, 1], channel by channel; alpha stays 1. */
+export function mixColors(from: number, to: number, amount: number): number {
+  const t = Math.min(1, Math.max(0, amount));
+  const channel = (shift: number): number => {
+    const a = (from >> shift) & 0xff;
+    const b = (to >> shift) & 0xff;
+    return Math.round(a + (b - a) * t);
+  };
+  return (channel(16) << 16) | (channel(8) << 8) | channel(0);
+}
+
 function fromHex(digits: string): PackedColor {
   // Short forms double each digit: #abc is #aabbcc, #abcd is #aabbccdd.
   const full =

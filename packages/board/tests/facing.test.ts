@@ -1,11 +1,30 @@
 import { describe, expect, test } from "bun:test";
-import { facingBetween, facingToRadians, normalizeDegrees, ringArc } from "../src/index.js";
+import {
+  facingBetween,
+  facingToRadians,
+  facingToward,
+  normalizeDegrees,
+  ringArc,
+} from "../src/index.js";
 
 describe("normalizeDegrees", () => {
   test("wraps into the compass range from either side", () => {
     expect(normalizeDegrees(370)).toBe(10);
     expect(normalizeDegrees(-90)).toBe(270);
     expect(normalizeDegrees(360)).toBe(0);
+  });
+});
+
+describe("facingToward", () => {
+  test("points from a world position toward another as a compass heading", () => {
+    const centre = { x: 100, y: 100 };
+    expect(facingToward(centre, { x: 100, y: 0 })).toBe(0);
+    expect(facingToward(centre, { x: 200, y: 200 })).toBe(135);
+    expect(facingToward(centre, { x: 0, y: 100 })).toBe(270);
+  });
+
+  test("the same point has no direction", () => {
+    expect(facingToward({ x: 5, y: 5 }, { x: 5, y: 5 })).toBe(undefined);
   });
 });
 

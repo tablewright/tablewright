@@ -34,9 +34,12 @@ export class CameraInput {
     target.addEventListener("pointermove", this.onPointerMove);
     target.addEventListener("pointerup", this.onPointerEnd);
     target.addEventListener("pointercancel", this.onPointerEnd);
+    // A long press on touch would otherwise open the browser context menu mid-gesture.
+    target.addEventListener("contextmenu", this.onContextMenu);
   }
 
   dispose(): void {
+    this.target.removeEventListener("contextmenu", this.onContextMenu);
     this.target.removeEventListener("wheel", this.onWheel);
     this.target.removeEventListener("pointerdown", this.onPointerDown);
     this.target.removeEventListener("pointermove", this.onPointerMove);
@@ -45,6 +48,10 @@ export class CameraInput {
     this.pointers.clear();
     this.target.removeAttribute("data-camera");
   }
+
+  private readonly onContextMenu = (event: Event): void => {
+    event.preventDefault();
+  };
 
   private readonly onWheel = (event: WheelEvent): void => {
     event.preventDefault();

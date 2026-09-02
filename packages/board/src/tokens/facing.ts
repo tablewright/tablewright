@@ -7,6 +7,7 @@
  * here and nowhere else.
  */
 
+import type { Point } from "../geometry.js";
 import type { Cell } from "../grid/square-grid.js";
 
 const FULL_TURN = 360;
@@ -17,15 +18,20 @@ export function normalizeDegrees(degrees: number): number {
   return wrapped < 0 ? wrapped + FULL_TURN : wrapped;
 }
 
-/** Facing that points from `from` to `to`, or undefined when they are the same cell. */
-export function facingBetween(from: Cell, to: Cell): number | undefined {
-  const dc = to.col - from.col;
-  const dr = to.row - from.row;
-  if (dc === 0 && dr === 0) {
+/** Facing that points from `from` to `to` in world space, or undefined when they coincide. */
+export function facingToward(from: Point, to: Point): number | undefined {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  if (dx === 0 && dy === 0) {
     return undefined;
   }
-  // atan2 of (east, north): screen rows grow downward, so north is negative dr.
-  return normalizeDegrees((Math.atan2(dc, -dr) * 180) / Math.PI);
+  // atan2 of (east, north): screen y grows downward, so north is negative dy.
+  return normalizeDegrees((Math.atan2(dx, -dy) * 180) / Math.PI);
+}
+
+/** Facing that points from `from` to `to`, or undefined when they are the same cell. */
+export function facingBetween(from: Cell, to: Cell): number | undefined {
+  return facingToward({ x: from.col, y: from.row }, { x: to.col, y: to.row });
 }
 
 /** Degrees clockwise from north into Pixi radians clockwise from east. */
