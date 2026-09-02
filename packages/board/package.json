@@ -10,5 +10,8 @@
     "typecheck": "tsc -p . && tsc -p tests",
     "test": "bun test",
     "check": "bun run typecheck && bun run test"
+  },
+  "dependencies": {
+    "pixi.js": "^8.20.1"
   }
 }
