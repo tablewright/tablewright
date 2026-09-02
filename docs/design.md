@@ -129,7 +129,8 @@ PixiJS (WebGL).
   board or drags a token; two fingers pinch to zoom and pan. Nothing
   depends on hover, so every affordance a hover reveals must also be
   reachable by tap or selection. Arrow keys or WASD step the selected
-  token one cell, the same scene command as a drop.
+  token one cell, the same scene command as a drop. A tap on empty
+  board, or Escape, clears the selection.
 - **Tokens carry a facing** in degrees clockwise from north. Every
   token wears a ring open at the rear with an arrow at the front, in
   the manner of an FF14 target ring, dim at rest and lit by hover or
