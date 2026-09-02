@@ -88,10 +88,10 @@ crates/net        WebRTC sync + content-addressed assets (later)
   untested for lack of a machine; nothing engine-specific is written
   and no fixes are promised without one. The frontend stays on
   engine-neutral features: WebGL2, pointer events, no WebGPU-only
-  paths. Fallback if a system WebView fails: the DM client runs in
-  the user's own browser against the Rust core as a local service.
+  paths. Fallback if a system WebView fails: serve mode (§6), the
+  same binary serving the DM client to the user's own browser.
   `packages/ui` and `packages/board` being Tauri-agnostic keeps that
-  possible; only the IPC layer would change.
+  possible; only the transport under the command boundary changes.
 
 ## 5. Board engine
 
@@ -158,6 +158,23 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   connectivity; optional dumb asset relay for slow DM uplinks;
   headless DM host as the eventual server-hosting story.
 - Player client is a **browser page**.
+- **Serve mode.** The same installed binary has a second entry
+  point, `table --serve`: it runs the core plus a local HTTP and
+  WebSocket server from crates/net without creating a WebView,
+  serves the embedded frontend, and opens `http://127.0.0.1:<port>/`
+  in the user's own browser with a per-launch token in the URL. Bound
+  to loopback only; LAN exposure is a separate explicit choice. It is
+  the DM client on a machine whose system WebView fails (§4
+  Platforms), and with the browser step skipped it is the headless
+  host. The player client is the same page with a player role, so
+  one server serves both.
+- **One command surface, two transports.** Commands are defined once
+  in Rust; the generated TS boundary is a single typed `call` that
+  goes over Tauri invoke in the window and over WebSocket in the
+  browser. Nothing above that line knows which. Browser mode swaps
+  Tauri-only conveniences for web ones: file dialogs become the
+  browser's picker, assets are served by hash over HTTP instead of
+  the asset protocol.
 
 ## 7. Book import *(later)*
 
