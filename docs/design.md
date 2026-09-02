@@ -21,6 +21,11 @@ commitments.
 4. **Import.** Third-party and homebrew PDFs become structured
    content without hours of hand transcription. DM-only,
    human-in-the-loop.
+5. **Presence.** It should feel like sitting at a physical table.
+   Not one to one, but every element is based on a thing a table
+   has: desk, paper, ink, brass instruments, dice, a map. Objects,
+   not widgets. The visual system that follows from this lives in
+   DESIGN.md.
 
 ## 2. Product shape
 
@@ -78,8 +83,13 @@ crates/net        WebRTC sync + content-addressed assets (later)
 - `packages/ui` and `packages/board` stay Tauri-agnostic for the
   browser player client.
 - App chrome stays visually recessive: map art and tokens are the
-  star, and the same table hosts any genre. Per-campaign theming
-  *(later)*.
+  star. The look is a desk with paper on it (DESIGN.md): dark warm
+  tool chrome, light paper documents whose sections are shaped like
+  instruments and rendered as materials, and a board that keeps a
+  neutral ground so map art is never tinted. Fantasy craft is the
+  first skin; other genres and per-class accents are skins over the
+  same tokens *(later)*. The PoC ships flat colour; materials and
+  instrument frames are a post-PoC stage.
 - **Platforms.** Windows is the target now (WebView2, the Chromium
   engine as a shared runtime; the default browser is irrelevant).
   Linux comes next and must at least be usable: the engine there is
