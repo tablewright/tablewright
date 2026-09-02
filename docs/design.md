@@ -128,7 +128,8 @@ PixiJS (WebGL).
   none` so the browser never claims a gesture. One finger pans empty
   board or drags a token; two fingers pinch to zoom and pan. Nothing
   depends on hover, so every affordance a hover reveals must also be
-  reachable by tap or selection.
+  reachable by tap or selection. Arrow keys or WASD step the selected
+  token one cell, the same scene command as a drop.
 
 ### First-person view *(later)*
 
