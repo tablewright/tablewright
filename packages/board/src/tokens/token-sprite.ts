@@ -1,11 +1,12 @@
 /**
  * ─ Token sprite ─
  *
- * One token as Pixi display objects: a disc, its label, a facing arrow
- * that is always visible, and a ring for hover or selection that is
- * open at the rear so the facing reads at a glance, the way a target
- * ring does in FF14, instead of rotating the art. The layer decides
- * state and position; the sprite only knows how a token looks.
+ * One token as Pixi display objects: a disc, its label, and a ring
+ * open at the rear with an arrow at the front, so facing reads at a
+ * glance the way an FF14 target ring does, instead of rotating the
+ * art. The ring is always present, dim at rest and lit by hover or
+ * selection. The layer decides state and position; the sprite only
+ * knows how a token looks.
  */
 
 import { Circle, Container, Graphics, Text } from "pixi.js";
@@ -29,6 +30,8 @@ const RING_GAP_DEGREES = 80;
 // Arrow proportions relative to the disc radius.
 const ARROW_LENGTH = 0.32;
 const ARROW_HALF_WIDTH = 0.22;
+// At rest the ring is a quiet outline and the arrow stays readable.
+const IDLE_RING_ALPHA = 0.4;
 const IDLE_ARROW_ALPHA = 0.85;
 
 /** A disc with a label and facing; call the setters and it redraws itself. */
@@ -126,24 +129,24 @@ export class TokenSprite {
   }
 
   // The ring and the arrow share one Graphics because both depend on facing.
+  // The ring is always drawn so facing reads at rest; state only changes its colour.
   private redrawRing(): void {
     const g = this.ring.clear();
     const r = this.radius;
-    const accent = this.isSelected
+    const isActive = this.isSelected || this.isHovered;
+    const colour = this.isSelected
       ? this.style.selection
       : this.isHovered
         ? this.style.hover
-        : undefined;
-    if (accent !== undefined) {
-      const arc = ringArc(this.currentFacing, RING_GAP_DEGREES);
-      g.arc(0, 0, r + RING_WIDTH / 2, arc.start, arc.end).stroke({
-        width: RING_WIDTH,
-        color: accent.rgb,
-        alpha: accent.alpha,
-        cap: "round",
-      });
-    }
-    const arrow = accent ?? this.style.label;
+        : this.style.label;
+    const alpha = isActive ? colour.alpha : IDLE_RING_ALPHA;
+    const arc = ringArc(this.currentFacing, RING_GAP_DEGREES);
+    g.arc(0, 0, r + RING_WIDTH / 2, arc.start, arc.end).stroke({
+      width: RING_WIDTH,
+      color: colour.rgb,
+      alpha,
+      cap: "round",
+    });
     const angle = facingToRadians(this.currentFacing);
     const tip = r * (1 + ARROW_LENGTH) + RING_WIDTH;
     const base = r + RING_WIDTH;
@@ -157,6 +160,6 @@ export class TokenSprite {
       base * sin + half * cos,
       base * cos + half * sin,
       base * sin - half * cos,
-    ]).fill({ color: arrow.rgb, alpha: accent === undefined ? IDLE_ARROW_ALPHA : arrow.alpha });
+    ]).fill({ color: colour.rgb, alpha: isActive ? colour.alpha : IDLE_ARROW_ALPHA });
   }
 }
