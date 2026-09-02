@@ -20,8 +20,8 @@ Turborepo for the TS side, Cargo workspace for the Rust side.
 ## Prerequisites
 
 - [Bun](https://bun.sh)
-- [Rust](https://rustup.rs) (rustup; required for Tauri and the core
-  crates — not yet installed on this machine at scaffold time)
+- [Rust](https://rustup.rs) via rustup, stable MSVC toolchain (required for
+  Tauri and the core crates)
 - Tauri OS prerequisites (WebView2 is preinstalled on Windows 10/11)
 
 ## Commands
