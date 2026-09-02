@@ -28,5 +28,6 @@ Turborepo for the TS side, Cargo workspace for the Rust side.
 
 ```bash
 bun install
-bun run check   # format + lint + typecheck + tests + build, both languages
+bun run check       # format + lint + typecheck + tests + build, both languages
+bun run dev:table   # run the Table app (tauri dev)
 ```

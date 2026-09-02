@@ -7,7 +7,9 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "check": "bun run format:check && bun run lint && turbo run check",
+    "check": "bun run format:check && bun run lint && turbo run check && bun run check:rust",
+    "check:rust": "cargo fmt --all --check && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace",
+    "dev:table": "bun run --filter @tablewright/table dev",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "oxlint --no-error-on-unmatched-pattern",
