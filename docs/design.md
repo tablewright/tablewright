@@ -115,15 +115,18 @@ same scene document, never a second source of truth.
 - Scene document additions when needed, all optional with defaults:
   wall height, token facing, token model ref.
 
-Movement is free, bounded by the character's speed. The token moves
-anywhere; a counter shows distance spent against the budget (30 ft
-is six cells); walls and blocking tokens stop it; the budget resets
-with the turn. The same rule governs top-down drags, so the mechanic
-lives with the scene rules, not the 3D view: the client predicts
+Movement is grid-step by default: one press moves the token one
+cell, the classic dungeon-crawler feel, and each step is the same
+scene command as a one-cell move on the top-down board. Free
+movement is an optional mode for fun: the token moves anywhere,
+walls and blocking tokens stop it. Both spend the character's speed
+against a visible counter (30 ft is six cells), reset with the turn,
+and live with the scene rules, not the 3D view: the client predicts
 and shows the counter, the DM's process is the authority (§6) and
-corrects an overrun. Distance uses the measurement layer's ruler.
+corrects an overrun. Step cost uses the measurement layer's grid
+distance and diagonal rule; free movement uses path length.
 
-Open: path length (Euclidean) versus grid-equivalent cost; which
+Open: turn increments in grid-step (90°, 45°, or free look); which
 tokens block (a system rule); exploration without a budget; undo to
 turn start; DM preview inside Table; timing relative to multiplayer.
 
