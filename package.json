@@ -14,6 +14,7 @@
     "icon:table": "bun run tools/app-icon.ts",
     "format:check": "oxfmt --check",
     "lint": "oxlint --no-error-on-unmatched-pattern",
+    "perf": "bun run tools/perf-board.ts",
     "lint:design": "bun x @google/design.md@0.4.0 lint DESIGN.md",
     "tokens": "bun run tools/build-tokens.ts",
     "tokens:check": "bun run tools/build-tokens.ts --check",

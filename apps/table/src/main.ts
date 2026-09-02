@@ -42,21 +42,30 @@ async function openMap(board: BoardHost): Promise<void> {
 }
 
 // A fixture so the board has a map to show without hunting for one. The query
-// string can swap the map and seed tokens for performance runs:
-// ?map=<url>&tokens=<count>. A fixture that fails to load is a notice, not a
-// failure of the board.
-async function loadDevFixture(board: BoardHost): Promise<void> {
+// string can swap the map, seed tokens, and start a performance probe:
+// ?map=<url>&tokens=<count>&perf=<scenario>. A fixture that fails to load is a
+// notice, not a failure of the board.
+async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void> {
+  const { SCENARIOS, runPerfProbe } = await import("./dev/perf-probe.js");
   const params = new URLSearchParams(window.location.search);
-  const url = params.get("map") ?? new URL("../dev/tavern.svg", import.meta.url).href;
+  const perf = params.get("perf");
+  const scenario =
+    perf !== null && perf in SCENARIOS ? (perf as keyof typeof SCENARIOS) : undefined;
+  const preset = scenario === undefined ? undefined : SCENARIOS[scenario];
+  const url =
+    params.get("map") ?? preset?.map ?? new URL("../dev/tavern.svg", import.meta.url).href;
   try {
     await board.loadMap(url);
   } catch (error) {
     const reason = error instanceof Error ? error.message : String(error);
     showNotice(`Could not load the dev map ${url}: ${reason}.`);
   }
-  const count = Number(params.get("tokens"));
+  const count = Number(params.get("tokens") ?? preset?.tokens);
   if (Number.isInteger(count) && count > 0) {
     board.seedTokens(count);
+  }
+  if (scenario !== undefined) {
+    window.__tablewrightPerf = runPerfProbe(host, scenario);
   }
 }
 
@@ -73,7 +82,7 @@ try {
     }
   });
   if (__DEV_BUILD__) {
-    await loadDevFixture(board);
+    await loadDevFixture(board, host);
   }
   await stage.firstFrame;
 } catch (error) {

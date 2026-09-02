@@ -32,6 +32,7 @@ bun run check       # format + lint + typecheck + tests + build, both languages
 bun run dev:table   # run the Table app (tauri dev)
 bun run tokens      # regenerate packages/ui/src/tokens.css from DESIGN.md
 bun run icon:table  # regenerate the Table icon set from apps/table/assets/icon.png
+bun run perf        # board frame-time scenarios in the local Chrome or Edge (add --headless)
 ```
 
 Visual identity lives in [DESIGN.md](DESIGN.md) (the design.md
