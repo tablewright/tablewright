@@ -11,3 +11,5 @@ test-results/
 playwright-report/
 data/
 apps/table/src-tauri/resources/compendium/*.sqlite
+*.sqlite-wal
+*.sqlite-shm

@@ -37,6 +37,7 @@ fn run(module_dir: &Path, output: &Path) -> Result<(), Box<dyn Error>> {
     let mut store = Store::open(output)?;
     store.put_module(&module.manifest)?;
     let written = store.upsert_all(&module.entries)?;
+    store.seal()?;
     drop(store);
 
     let mut by_kind: BTreeMap<&str, usize> = BTreeMap::new();

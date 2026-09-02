@@ -265,6 +265,22 @@ impl Store {
         Ok(manifests)
     }
 
+    /// Leave the file self-contained for shipping: checkpoint and drop the
+    /// write-ahead log, switch to the rollback journal, and vacuum. Opening
+    /// the file again turns the write-ahead log back on.
+    ///
+    /// # Errors
+    ///
+    /// Fails if the checkpoint or vacuum fails.
+    pub fn seal(&self) -> Result<(), StoreError> {
+        self.connection
+            .execute_batch("PRAGMA wal_checkpoint(TRUNCATE);")?;
+        self.connection
+            .pragma_update(None, "journal_mode", "DELETE")?;
+        self.connection.execute_batch("VACUUM;")?;
+        Ok(())
+    }
+
     /// How many entries the store holds, regardless of visibility.
     ///
     /// # Errors
@@ -421,6 +437,30 @@ mod tests {
         let store = seeded();
         let missing = store.get(&EntryId::new("m:nothing"), Visibility::Dm);
         assert!(matches!(missing, Err(StoreError::NotFound(_))));
+    }
+
+    #[test]
+    fn a_sealed_file_store_has_no_write_ahead_log() {
+        let dir = std::env::temp_dir().join(format!("tablewright-seal-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).expect("temp dir");
+        let path = dir.join("compendium.sqlite");
+        {
+            let store = Store::open(&path).expect("open");
+            store
+                .upsert(&entry("m:goblin", "monster", "Goblin", Visibility::Party))
+                .expect("write");
+            store.seal().expect("seal");
+            let mode: String = store
+                .connection
+                .pragma_query_value(None, "journal_mode", |row| row.get(0))
+                .expect("mode");
+            assert_eq!(mode, "delete");
+        }
+        assert!(!dir.join("compendium.sqlite-wal").exists());
+        let reopened = Store::open(&path).expect("reopen");
+        assert_eq!(reopened.count().expect("count"), 1);
+        drop(reopened);
+        std::fs::remove_dir_all(&dir).expect("cleanup");
     }
 
     #[test]
