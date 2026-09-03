@@ -7,8 +7,9 @@
 //
 // Events, both with the hit as `detail`:
 // - `tw-select`: a tile was activated (Enter or click).
-// - `tw-share`: a tile was dragged out of the box, or its share button
-//   pressed. The host turns it into a card for the table.
+// - `tw-share`: a tile was dragged out of the box (the whole tile is the
+//   handle), or its Share button pressed. The host turns it into a card
+//   for the table.
 
 import { LitElement, css, html, nothing } from "lit";
 import type { PropertyValues } from "lit";
@@ -21,8 +22,8 @@ type Status = "idle" | "searching" | "done" | "error";
 const HANDLED_KEYS = new Set(["ArrowDown", "ArrowUp", "Home", "End", "Enter", "Escape"]);
 
 const SHARE_ICON = html`<svg
-  width="16"
-  height="16"
+  width="14"
+  height="14"
   viewBox="0 0 16 16"
   fill="none"
   stroke="currentColor"
@@ -31,24 +32,10 @@ const SHARE_ICON = html`<svg
   stroke-linejoin="round"
   aria-hidden="true"
 >
-  <path d="M8 10V2"></path>
-  <path d="M5 5l3-3 3 3"></path>
-  <path d="M3 9v4h10V9"></path>
-</svg>`;
-
-const GRIP_ICON = html`<svg
-  width="10"
-  height="16"
-  viewBox="0 0 10 16"
-  fill="currentColor"
-  aria-hidden="true"
->
-  <circle cx="3" cy="3" r="1.3"></circle>
-  <circle cx="7" cy="3" r="1.3"></circle>
-  <circle cx="3" cy="8" r="1.3"></circle>
-  <circle cx="7" cy="8" r="1.3"></circle>
-  <circle cx="3" cy="13" r="1.3"></circle>
-  <circle cx="7" cy="13" r="1.3"></circle>
+  <circle cx="6" cy="5.5" r="2.5"></circle>
+  <path d="M1.5 13.5c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4"></path>
+  <circle cx="11.5" cy="6" r="2"></circle>
+  <path d="M14.5 13.5c0-2-1.3-3.4-3.2-3.8"></path>
 </svg>`;
 
 export class TwSpotlight extends LitElement {
@@ -290,21 +277,23 @@ export class TwSpotlight extends LitElement {
     }
     .share {
       display: inline-flex;
-      padding: 2px;
-      border: 0;
+      align-items: center;
+      gap: var(--tw-space-xs);
+      padding: 2px var(--tw-space-sm);
+      border: 1px solid currentColor;
+      border-radius: var(--tw-rounded-sm);
       background: none;
       color: inherit;
+      font-family: var(--tw-typo-label-md-font-family);
+      font-size: var(--tw-typo-label-md-font-size);
+      font-weight: var(--tw-typo-label-md-font-weight);
+      line-height: var(--tw-typo-label-md-line-height);
+      letter-spacing: var(--tw-typo-label-md-letter-spacing);
       cursor: pointer;
     }
     .share:focus-visible {
       outline: 2px solid var(--tw-focus-ring);
       outline-offset: 2px;
-    }
-    .grip {
-      display: inline-flex;
-      color: inherit;
-      opacity: 0.7;
-      cursor: grab;
     }
     footer {
       display: flex;
@@ -475,9 +464,8 @@ export class TwSpotlight extends LitElement {
                         this.#share(hit);
                       }}
                     >
-                      ${SHARE_ICON}
+                      ${SHARE_ICON} Share
                     </button>
-                    <span class="grip">${GRIP_ICON}</span>
                   </span>
                 `
               : nothing
