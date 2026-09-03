@@ -14,7 +14,7 @@ pub mod system;
 pub use compendium::{Entry, EntryId, EntrySummary, FacetValue, JsonValue, Visibility};
 pub use module::{Manifest, Module, ModuleError, read_module};
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};
-pub use search::{Catalogue, DEFAULT_LIMIT, Hit};
+pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood};
 pub use store::{Store, StoreError};
 pub use system::{
     Cell, ControlKind, ControlSpec, FacetSpec, FacetType, KindSpec, Sentinels, Stop, SystemError,

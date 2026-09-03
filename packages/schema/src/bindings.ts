@@ -61,6 +61,9 @@ export type CommandError =
 /**  The scene refused the change, or could not be saved. */
 { kind: "scene"; message: string };
 
+/**  How a facet filter compares. */
+export type Compare = "eq" | "lt" | "le" | "gt" | "ge";
+
 /**
  *  The five controls of the tray. `Rail` paints spans over an ordered
  *  scale; `Switch` is the same strip with each cell its own switch.
@@ -142,6 +145,19 @@ export type FacetType = "number" | "text" | "bool";
  *  search can answer `level<=3` without opening the data.
  */
 export type FacetValue = number | null | string | boolean;
+
+/**
+ *  A filter: what an entry must satisfy to be listed at all. Values are
+ *  normalised like everything else. A list of filters is a conjunction;
+ *  `Any` and `Not` give it the rest of the shapes a phrase can take.
+ */
+export type Filter = { filter: "kind"; value: string } | { filter: "tag"; value: string } | { filter: "source"; value: string } | 
+/**  A facet of the entry's data: `level<=3`, `school:evocation`. */
+{ filter: "facet"; name: string; compare: Compare; value: string } | 
+/**  At least one of these passes. */
+{ filter: "any"; items: Filter[] } | 
+/**  This one does not pass. */
+{ filter: "not"; item: Filter };
 
 /**  A square grid, in map pixels; hex grids arrive with hexpunk's lattice. */
 export type Grid = {
@@ -230,6 +246,11 @@ export type SearchResponse = {
 	elapsed_us: number,
 	/**  How many entries the catalogue held when it answered. */
 	catalogue_size: number,
+	/**
+	 *  What the parser made of the typed text: the stretches that became
+	 *  filters, and those set aside as meaning nothing here.
+	 */
+	understood: Understood[],
 };
 
 /**  Words at `path` that stand for a number. */
@@ -274,6 +295,18 @@ export type Token = {
 	/**  The compendium entry this token stands for, when it stands for one. */
 	entry: EntryId | null,
 	visibility: Visibility,
+};
+
+/**
+ *  A stretch of the typed query the parser dealt with: the filter it
+ *  became, or nothing when the stretch was set aside as meaning nothing
+ *  here (a connective on its own, a word no entry has).
+ */
+export type Understood = {
+	/**  Char offsets into the typed text. */
+	start: number,
+	end: number,
+	filter: Filter | null,
 };
 
 /**

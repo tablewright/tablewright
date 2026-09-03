@@ -15,3 +15,8 @@ serde_json = "1"
 # Pinned exactly: tauri-specta requires the matching release candidate.
 specta = { version = "=2.0.0-rc.25", features = ["derive", "serde_json"] }
 thiserror = "2"
+# The query grammar (design §3 "Linguistic search and filters").
+pest = "2.9"
+pest_derive = "2.9"
+# Snowball stemming, so "wands" finds the value "wand".
+rust-stemmers = "1.2"

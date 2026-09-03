@@ -236,7 +236,16 @@ is not the interface.
   control several values mean any of them; controls combine with all.
   Text facet values also count as a field in rule 3, at the tag rung,
   so a word that happens to be a facet value ranks entries rather than
-  excluding them ("giant" still finds Giant Spider, a beast).
+  excluding them ("giant" still finds Giant Spider, a beast). When a
+  value word turns into a filter follows from what is *in play*: a
+  kind named by a noun ("creatures"), by the operator syntax, or
+  implied by a bound on a facet only some kinds carry ("cr 5+") puts
+  those kinds in play, and a value of a facet they carry then filters
+  ("giant creatures", "undead cr 5+"). A word the system declared
+  itself, an alias like cantrip or a yes/no fact like ritual, is sure
+  of its kind and always filters. Out of play, the word stays search
+  text. The active category tab will count as in play once the tray
+  exists.
 - **The tray.** Inside the box under the category tabs, scrolling away
   with the tiles as one column, never an overlay over the compendium
   leaf. It opens on the funnel button or when typed words match a

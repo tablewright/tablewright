@@ -1,0 +1,56 @@
+// The shape of a query, over the classes the lexer assigns to its tokens
+// (design §3 "Linguistic search and filters"). The lexer has already
+// turned words into classes from the language's vocabulary and the
+// system's lexicon, so this grammar is language-neutral: it only knows
+// that a comparator, a facet and a number make a bound, that values join
+// with "or" and flip with "not", and that anything else is a word.
+//
+// Every class is also a `word`, so a query never fails to parse: what the
+// grammar does not recognise falls through as plain search text.
+
+WHITESPACE = _{ " " }
+
+query = { SOI ~ item* ~ EOI }
+item  = { filter | range | bound | value_bound | alternation | kind | word }
+
+// One token that already is a filter: `level<=3`, `type:spell`.
+filter = { FILTER }
+kind   = { KIND }
+
+// A numeric bound. The comparator may come before the facet ("below
+// level 3"), after it ("level below 3"), or after the number ("level 3
+// or lower"); a trailing "+" reads as "or more". "level 3 or 5" is an
+// alternation of numbers.
+bound       = { cmp_first | facet_first | num_first }
+cmp_first   = { CMP ~ FACET ~ number | CMP ~ number ~ FACET }
+facet_first = { FACET ~ CMP ~ number | FACET ~ number ~ (PLUS | CMP)? ~ (OR ~ number)* }
+num_first   = { number ~ FACET }
+number      = { NUM | NTH }
+
+// "between level 1 and 3", "level 1 to 3", "1-3 level".
+range = { BETWEEN? ~ (FACET ~ number ~ joiner ~ number | number ~ joiner ~ number ~ FACET) }
+joiner = { TO | AND | DASH }
+
+// A comparison on an ordered set of words: "large or bigger", "at least rare".
+value_bound = { VALUE ~ CMP | CMP ~ VALUE }
+
+// "evocation", "not evocation", "wands or staffs", "not undead or fiends".
+alternation = { NOT? ~ VALUE ~ (OR ~ NOT? ~ VALUE)* }
+
+word = { WORD | NUM | NTH | PLUS | CMP | OR | AND | NOT | BETWEEN | TO | DASH | FACET | VALUE }
+
+FILTER  = { "FILTER" }
+KIND    = { "KIND" }
+FACET   = { "FACET" }
+VALUE   = { "VALUE" }
+NUM     = { "NUM" }
+NTH     = { "NTH" }
+PLUS    = { "PLUS" }
+CMP     = { "CMP" }
+OR      = { "OR" }
+AND     = { "AND" }
+NOT     = { "NOT" }
+BETWEEN = { "BETWEEN" }
+TO      = { "TO" }
+DASH    = { "DASH" }
+WORD    = { "WORD" }

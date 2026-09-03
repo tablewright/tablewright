@@ -7,21 +7,36 @@
 //! one DM process answers viewers of different tiers.
 
 mod index;
+mod lexer;
+mod lexicon;
 mod normalize;
+mod parse;
 mod rank;
+mod vocabulary;
 
 use std::sync::Mutex;
 
 use serde::{Deserialize, Serialize};
 use specta::Type;
 
-use crate::compendium::{EntryId, EntrySummary, Visibility};
+use crate::compendium::{EntryId, EntrySummary, FacetValue, Visibility};
 use crate::store::{Store, StoreError};
+use crate::system::SystemManifest;
 use index::TrigramIndex;
+use lexicon::Lexicon;
 use rank::Candidate;
 
-pub use normalize::{Filter, Query, normalize};
+pub use normalize::{Compare, Filter, Query, Understood, normalize};
 pub use rank::Score;
+
+/// What a search returns: the hits, and what the parser made of the typed
+/// text, so the box can show which words it read as filters and which it
+/// set aside.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Answer {
+    pub hits: Vec<Hit>,
+    pub understood: Vec<Understood>,
+}
 
 /// Rule 6: the longest list a search returns.
 pub const DEFAULT_LIMIT: usize = 50;
@@ -46,6 +61,8 @@ pub struct Hit {
 pub struct Catalogue {
     entries: Vec<(EntrySummary, Candidate)>,
     index: TrigramIndex,
+    /// The system's words and the values the entries hold, for the parser.
+    lexicon: Lexicon,
     /// What the previous search matched in full, so a query that extends
     /// it only rescores those entries.
     last: Mutex<Option<LastSearch>>,
@@ -64,8 +81,19 @@ enum Pool {
 }
 
 impl Catalogue {
-    /// Build a catalogue from entry summaries of any visibility.
+    /// Build a catalogue from entry summaries of any visibility, with no
+    /// system words: the operator syntax and plain text still search.
     pub fn new(summaries: impl IntoIterator<Item = EntrySummary>) -> Self {
+        Self::with_system(summaries, None)
+    }
+
+    /// Build a catalogue that also speaks the system's words.
+    pub fn with_system(
+        summaries: impl IntoIterator<Item = EntrySummary>,
+        system: Option<&SystemManifest>,
+    ) -> Self {
+        let summaries: Vec<EntrySummary> = summaries.into_iter().collect();
+        let lexicon = Lexicon::build(system, &summaries);
         let entries: Vec<(EntrySummary, Candidate)> = summaries
             .into_iter()
             .map(|summary| {
@@ -86,22 +114,29 @@ impl Catalogue {
                 candidate.source.as_str(),
             ];
             fields.extend(candidate.tags.iter().map(String::as_str));
+            fields.extend(candidate.facets.values().filter_map(|value| match value {
+                FacetValue::Text(text) => Some(text.as_str()),
+                _ => None,
+            }));
             (u32::try_from(id).expect("catalogue fits in u32"), fields)
         }));
         Self {
             entries,
             index,
+            lexicon,
             last: Mutex::new(None),
         }
     }
 
-    /// Build a catalogue from everything in `store`.
+    /// Build a catalogue from everything in `store`, speaking the words of
+    /// the system it was seeded for.
     ///
     /// # Errors
     ///
     /// Fails if the store cannot be read.
     pub fn from_store(store: &Store) -> Result<Self, StoreError> {
-        Ok(Self::new(store.summaries()?))
+        let system = store.system()?;
+        Ok(Self::with_system(store.summaries()?, system.as_ref()))
     }
 
     pub fn len(&self) -> usize {
@@ -116,9 +151,18 @@ impl Catalogue {
     /// `limit` hits. An empty query finds nothing; a query of only filters
     /// lists everything that passes them.
     pub fn search(&self, query: &str, viewer: Visibility, limit: usize) -> Vec<Hit> {
-        let query = Query::parse(query);
+        self.answer(query, viewer, limit).hits
+    }
+
+    /// [`search`](Self::search), with what the parser made of the text.
+    pub fn answer(&self, raw: &str, viewer: Visibility, limit: usize) -> Answer {
+        let query = self.prepare(raw);
+        let understood = query.understood.clone();
         if query.is_empty() {
-            return Vec::new();
+            return Answer {
+                hits: Vec::new(),
+                understood,
+            };
         }
         let pool = self.pool_for(&query, viewer);
         let (hits, matched) = self.rank(&query, viewer, limit, pool);
@@ -129,7 +173,34 @@ impl Catalogue {
                 matched,
             });
         }
-        hits
+        Answer { hits, understood }
+    }
+
+    // Parse with the system's words, then set aside every token no entry
+    // could match: a filler word must not empty the list (rule 2, as the
+    // linguistic layer amends it). Single letters say nothing to the index
+    // and stay, so a first keystroke still narrows.
+    fn prepare(&self, raw: &str) -> Query {
+        let mut query = Query::parse_with(raw, &self.lexicon);
+        let mut tokens = Vec::with_capacity(query.tokens.len());
+        let mut spans = Vec::with_capacity(query.spans.len());
+        for (token, span) in query.tokens.iter().zip(&query.spans) {
+            let dead = self
+                .index
+                .candidates(std::slice::from_ref(token))
+                .is_some_and(|ids| ids.is_empty());
+            if dead {
+                query
+                    .understood
+                    .push(Understood::ignored(span.0 as usize, span.1 as usize));
+            } else {
+                tokens.push(token.clone());
+                spans.push(*span);
+            }
+        }
+        query.tokens = tokens;
+        query.spans = spans;
+        query
     }
 
     // The smallest set that is still a superset of the answer: what the index
@@ -215,7 +286,7 @@ impl Catalogue {
     /// the reference the aids are checked against.
     #[cfg(test)]
     fn search_scanning(&self, query: &str, viewer: Visibility, limit: usize) -> Vec<Hit> {
-        let query = Query::parse(query);
+        let query = self.prepare(query);
         if query.is_empty() {
             return Vec::new();
         }

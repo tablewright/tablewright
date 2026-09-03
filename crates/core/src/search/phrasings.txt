@@ -1,0 +1,64 @@
+# Phrasings the parser must read, one per line: `query => filters ; tokens`.
+# Filters print in the order they were read, as `type:x`, `name<op>value`,
+# `(a | b)` for any, `!x` for not; tokens are what is left to score.
+# Grow this file from playtesting.
+
+# kind nouns and numeric bounds
+evocation spells below level 3 => school=evocation type:spell level<3 ;
+spells up to level 3 => type:spell level<=3 ;
+level 3 or lower spells => level<=3 type:spell ;
+spells of level 3 or higher => type:spell level>=3 ; of
+3rd level evocation spells => level=3 school=evocation type:spell ;
+third level spells => level=3 type:spell ;
+level three spells => level=3 type:spell ;
+spells between level 1 and 3 => type:spell level>=1 level<=3 ;
+level 1 to 3 spells => level>=1 level<=3 type:spell ;
+level 1-3 spells => level>=1 level<=3 type:spell ;
+level 3 or 5 spells => (level=3 | level=5) type:spell ;
+creatures cr 5+ => type:monster cr>=5 ;
+cr 1/4 creatures => cr=1/4 type:monster ;
+creatures with at least 100 hp => type:monster hp>=100 ; with
+monsters above cr 10 => type:monster cr>10 ;
+creatures cr under 1 => type:monster cr<1 ;
+
+# declared words are sure of their kind, so they need no kind noun
+cantrips => level=0 ;
+evocation cantrips => school=evocation level=0 ;
+ritual spells => ritual=true type:spell ;
+undead cr 5+ => creature=undead cr>=5 ;
+cr 5+ not undead => cr>=5 !creature=undead ;
+
+# yes/no facts, negation, alternation
+spells without material => type:spell !material=true ;
+no material spells => !material=true type:spell ;
+spells that need concentration => type:spell concentration=true ; that need
+not evocation spells => !school=evocation type:spell ;
+evocation or necromancy spells => (school=evocation | school=necromancy) type:spell ;
+wands or staffs items => (category=wand | category=staff) (type:item | type:magic-item) ;
+rare magic items => rarity=rare (type:item | type:magic-item) ;
+very rare items => rarity=very-rare (type:item | type:magic-item) ;
+
+# ordered words compare by the order the system gave them
+large or bigger creatures => (size=large | size=huge | size=gargantuan) type:monster ;
+rare or better items => (rarity=rare | rarity=very-rare | rarity=legendary | rarity=artifact) (type:item | type:magic-item) ;
+at least huge creatures => (size=huge | size=gargantuan) type:monster ;
+
+# a value on two facets reads as either
+neutral creatures => (law=neutral | moral=neutral) type:monster ;
+
+# values from the data stay search text until their kind is in play
+evocation => ; evocation
+giant => ; giant
+wands or staffs => ; wands staffs
+fire evocation spells => school=evocation type:spell ; fire
+
+# the operator syntax is the wire form and always works
+type:spell level<=3 fire => type:spell level<=3 ; fire
+school:evocation => school=evocation ;
+1 minute spells => duration=1 minute type:spell ;
+
+# what the grammar does not know is plain text
+fire bolt => ; fire bolt
+silver crown 7 => ; silver crown 7
+12:30 => ; 12:30
+below 3 => ; below 3

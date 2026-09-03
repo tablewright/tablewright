@@ -93,10 +93,14 @@ pub fn score(candidate: &Candidate, query: &Query) -> Option<Score> {
 }
 
 fn passes_filters(candidate: &Candidate, filters: &[Filter]) -> bool {
-    filters.iter().all(|filter| match filter {
-        Filter::Kind(value) => candidate.kind == *value,
-        Filter::Source(value) => candidate.source == *value,
-        Filter::Tag(value) => candidate.tags.iter().any(|tag| tag == value),
+    filters.iter().all(|filter| passes(candidate, filter))
+}
+
+fn passes(candidate: &Candidate, filter: &Filter) -> bool {
+    match filter {
+        Filter::Kind { value } => candidate.kind == *value,
+        Filter::Source { value } => candidate.source == *value,
+        Filter::Tag { value } => candidate.tags.iter().any(|tag| tag == value),
         Filter::Facet {
             name,
             compare,
@@ -105,7 +109,9 @@ fn passes_filters(candidate: &Candidate, filters: &[Filter]) -> bool {
             .facets
             .get(name)
             .is_some_and(|facet| facet_passes(facet, *compare, value)),
-    })
+        Filter::Any { items } => items.iter().any(|item| passes(candidate, item)),
+        Filter::Not { item } => !passes(candidate, item),
+    }
 }
 
 // A number compares as a number, against `3`, `0.25` or `1/4` alike; text
@@ -155,6 +161,14 @@ fn best_hit(candidate: &Candidate, token: &str) -> Option<Hit> {
     consider(&mut best, rung(&candidate.name, token), 0);
     for tag in &candidate.tags {
         consider(&mut best, rung(tag, token), TAG_RUNGS);
+    }
+    // A text facet is a field too, at the tag rung: "evocation" finds the
+    // school even where no tag names it, and a word that happens to be a
+    // value ranks entries rather than excluding them.
+    for value in candidate.facets.values() {
+        if let FacetValue::Text(text) = value {
+            consider(&mut best, rung(text, token), TAG_RUNGS);
+        }
     }
     consider(&mut best, rung(&candidate.kind, token), TYPE_SOURCE_RUNGS);
     consider(&mut best, rung(&candidate.source, token), TYPE_SOURCE_RUNGS);

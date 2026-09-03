@@ -13,7 +13,7 @@ use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
     DEFAULT_LIMIT, Entry, EntryId, Hit, Manifest, Scene, SceneError, StoreError, SystemManifest,
-    Visibility,
+    Understood, Visibility,
 };
 use tauri::State;
 
@@ -27,6 +27,9 @@ pub struct SearchResponse {
     pub elapsed_us: u32,
     /// How many entries the catalogue held when it answered.
     pub catalogue_size: u32,
+    /// What the parser made of the typed text: the stretches that became
+    /// filters, and those set aside as meaning nothing here.
+    pub understood: Vec<Understood>,
 }
 
 /// Why a command could not answer.
@@ -78,11 +81,12 @@ pub fn search(
     let compendium = compendium(&state)?;
     let started = Instant::now();
     let limit = limit.map_or(DEFAULT_LIMIT, |limit| limit as usize);
-    let hits = compendium.catalogue.search(&query, viewer, limit);
+    let answer = compendium.catalogue.answer(&query, viewer, limit);
     Ok(SearchResponse {
-        hits,
+        hits: answer.hits,
         elapsed_us: u32::try_from(started.elapsed().as_micros()).unwrap_or(u32::MAX),
         catalogue_size: u32::try_from(compendium.catalogue.len()).unwrap_or(u32::MAX),
+        understood: answer.understood,
     })
 }
 
