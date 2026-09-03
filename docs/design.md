@@ -171,10 +171,12 @@ boosts. Body text arrives through FTS5 as a lower tier.
 Scale: the SRD is a few thousand entries, and a linear scan of the
 catalogue takes well under a millisecond. A full 5e library plus a
 few homebrew books runs to tens of thousands, so the catalogue gains
-a derived trigram index as a candidate pre-filter (rebuildable, never
-the record) and narrows the previous hit set while a query is being
-extended. The rules above stay the ranking; the index only chooses
-candidates.
+a derived n-gram index (trigrams, and bigrams for two-letter tokens)
+as a candidate pre-filter (rebuildable, never the record) and, while a
+query is being extended, rescores only what the previous query
+matched. The rules above stay the ranking; the index and the previous
+match set only choose candidates, and only the top of the list is
+ever sorted.
 
 ## 4. Architecture
 
