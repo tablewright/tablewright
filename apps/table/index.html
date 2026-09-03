@@ -50,6 +50,10 @@
       .chrome .scene svg {
         color: var(--tw-primary);
       }
+      .chrome-right {
+        left: auto;
+        right: var(--tw-space-md);
+      }
       .chrome button {
         background: var(--tw-comp-button-quiet-background-color);
         color: var(--tw-comp-button-quiet-text-color);
@@ -62,6 +66,9 @@
         border: 1px solid var(--tw-outline);
         border-radius: var(--tw-comp-button-quiet-rounded);
         cursor: pointer;
+      }
+      .chrome button svg {
+        display: block;
       }
       .chrome button:hover {
         background: var(--tw-surface-container-highest);
@@ -109,8 +116,25 @@
           <path d="M6 2v10.5M10 3.5V14"></path></svg
         ><span class="scene-name">Scene</span></span
       >
+      <button id="search" type="button" aria-label="Search" title="Search (Ctrl+Space)">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="7" cy="7" r="4.5"></circle>
+          <path d="M10.5 10.5 14 14"></path>
+        </svg>
+      </button>
+    </div>
+    <!-- Scene controls, the DM side: opening a map changes the scene under everyone. -->
+    <div class="chrome chrome-right">
       <button id="open-map" type="button">Open map</button>
-      <button id="search" type="button">Search</button>
     </div>
     <!-- Mounted once and hidden, so Ctrl+Space costs nothing but a class change. -->
     <tw-spotlight></tw-spotlight>
