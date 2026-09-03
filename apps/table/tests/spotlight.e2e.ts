@@ -1,10 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-// The panel runs against the dev fixture searcher here: no Tauri, no core.
-// What is under test is the panel itself: opening, typing, grouping,
-// keyboard driving, selection, tabs, sharing, and the latency readout.
+// The panel runs against the dev fixture here: no Tauri, no core. Under
+// test are the panel, the share queue, and the entry page they open.
 
 const box = "tw-spotlight";
+const card = "tw-share-tray tw-share-card";
+const page_ = "tw-entry-view";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -49,7 +50,7 @@ test("tiles arrive grouped by category as you type, and the readout reports timi
   await expect(tiles.first().locator(".name")).toHaveText("Fire Bolt");
 });
 
-test("arrows move the selection with wrap-around and Enter selects", async ({ page }) => {
+test("arrows move the selection with wrap-around and Enter opens the entry", async ({ page }) => {
   await page.keyboard.press("Control+Space");
   await page.keyboard.type("fire");
   const tiles = page.locator(`${box} li`);
@@ -61,7 +62,11 @@ test("arrows move the selection with wrap-around and Enter selects", async ({ pa
   await expect(tiles.nth(4)).toHaveAttribute("aria-selected", "true");
   await page.keyboard.press("Enter");
   await expect(page.locator(box)).not.toHaveAttribute("open", "");
-  await expect(page.locator(".notice[data-level='info']")).toContainText("Flame Tongue");
+  await expect(page.locator(page_)).toHaveAttribute("open", "");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Flame Tongue");
+  await expect(page.locator(`${page_} article`)).toContainText("flames to sheathe its blade");
+  await page.locator(page_).getByRole("button", { name: "Close" }).click();
+  await expect(page.locator(page_)).not.toHaveAttribute("open", "");
 });
 
 test("category tabs narrow the tiles, and an unmatched query says so", async ({ page }) => {
@@ -87,16 +92,26 @@ test("a type filter in the query lists only that kind", async ({ page }) => {
   await expect(page.locator(`${box} .group > span:first-child`)).toHaveText(["Bestiary"]);
 });
 
-test("the share button puts a dismissable card on the table", async ({ page }) => {
+test("shares queue one card at a time, and a card opens its entry", async ({ page }) => {
   await page.keyboard.press("Control+Space");
   await page.keyboard.type("fire");
   await page.getByRole("button", { name: "Share Fire Bolt with the table" }).click();
-  const card = page.locator(".shares tw-share-card");
-  await expect(card).toHaveCount(1);
-  await expect(card).toContainText("Fire Bolt");
-  await expect(card).toContainText("Shared by you");
-  await card.getByRole("button", { name: "Dismiss" }).click();
-  await expect(card).toHaveCount(0);
+  await page.keyboard.press("ArrowDown");
+  await page.getByRole("button", { name: "Share Fireball with the table" }).click();
+  const shown = page.locator(card);
+  await expect(shown).toHaveCount(1);
+  await expect(shown).toContainText("Fire Bolt");
+  await expect(shown).toContainText("Shared by you · 1 more waits");
+  await shown.getByRole("button", { name: "Dismiss" }).click();
+  await expect(shown).toHaveCount(1);
+  await expect(shown).toContainText("Fireball");
+  await expect(shown).not.toContainText("waits");
+  await shown.getByRole("button", { name: "Open Fireball" }).click();
+  await expect(page.locator(page_)).toHaveAttribute("open", "");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Fireball");
+  await expect(shown).toHaveCount(1);
+  await shown.getByRole("button", { name: "Dismiss" }).click();
+  await expect(shown).toHaveCount(0);
 });
 
 test("dragging a tile out of the box shares it", async ({ page, browserName }) => {
@@ -106,7 +121,7 @@ test("dragging a tile out of the box shares it", async ({ page, browserName }) =
   await page.dragAndDrop(`${box} li >> nth=1`, `${box} .scrim`, {
     targetPosition: { x: 900, y: 400 },
   });
-  const card = page.locator(".shares tw-share-card");
-  await expect(card).toHaveCount(1);
-  await expect(card).toContainText("Fireball");
+  const shown = page.locator(card);
+  await expect(shown).toHaveCount(1);
+  await expect(shown).toContainText("Fireball");
 });

@@ -574,6 +574,8 @@ export class TwSpotlight extends LitElement {
     this.dispatchEvent(
       new CustomEvent<SpotlightHit>("tw-share", { detail: hit, bubbles: true, composed: true })
     );
+    // Sharing is a side act; typing and the arrows carry on from the input.
+    this.#input()?.focus();
   }
 
   // A tile dragged onto the scrim, which is everything outside the box, is

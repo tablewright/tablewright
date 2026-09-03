@@ -1,9 +1,11 @@
 // The card everyone at the table sees when an entry is shared (design.md
 // §6): paper on the desk, who shared it, the entry's summary, and a way
-// to dismiss it. The host decides who "shared by" is and what a Reveal
-// control does; this element only shows and dismisses.
+// to dismiss it. Pressing the card opens the entry; the host decides who
+// "shared by" is and what a Reveal control does.
 //
-// Events: `tw-dismiss` (detail: the hit) before the card removes itself.
+// Events, both with the hit as `detail`:
+// - `tw-open`: the card body was pressed.
+// - `tw-dismiss`: Dismiss was pressed. The host removes the card.
 
 import { LitElement, css, html, nothing } from "lit";
 import { previewOf } from "../spotlight/preview.js";
@@ -13,15 +15,19 @@ export class TwShareCard extends LitElement {
   static override properties = {
     hit: { attribute: false },
     sharedBy: { type: String, attribute: "shared-by" },
+    pending: { type: Number },
   };
 
   declare hit: SpotlightHit | undefined;
   declare sharedBy: string;
+  /** How many more shares wait behind this one. */
+  declare pending: number;
 
   constructor() {
     super();
     this.hit = undefined;
     this.sharedBy = "";
+    this.pending = 0;
   }
 
   static override styles = css`
@@ -62,15 +68,20 @@ export class TwShareCard extends LitElement {
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       cursor: pointer;
     }
-    button:focus-visible {
+    button:focus-visible,
+    .body:focus-visible {
       outline: 2px solid var(--tw-focus-ring);
-      outline-offset: 2px;
+      outline-offset: -2px;
     }
     .body {
       display: flex;
       flex-direction: column;
       gap: var(--tw-space-xs);
       padding: var(--tw-space-md) var(--tw-space-lg) var(--tw-space-lg);
+      cursor: pointer;
+    }
+    .body:hover {
+      background: var(--tw-paper-deep);
     }
     .label {
       color: var(--tw-comp-document-label-text-color);
@@ -104,9 +115,11 @@ export class TwShareCard extends LitElement {
     const label = [hit.type, preview.badge ?? preview.ring]
       .filter((part) => part !== undefined)
       .join(" · ");
+    const waiting =
+      this.pending > 0 ? ` · ${this.pending} more ${this.pending === 1 ? "waits" : "wait"}` : "";
     return html`
       <header>
-        <span>Shared by <strong>${this.sharedBy}</strong></span>
+        <span>Shared by <strong>${this.sharedBy}</strong>${waiting}</span>
         <button type="button" @click=${this.#dismiss}>
           Dismiss
           <svg
@@ -123,7 +136,14 @@ export class TwShareCard extends LitElement {
           </svg>
         </button>
       </header>
-      <div class="body">
+      <div
+        class="body"
+        role="button"
+        tabindex="0"
+        aria-label=${`Open ${hit.name}`}
+        @click=${this.#open}
+        @keydown=${this.#onKeydown}
+      >
         <span class="label">${label}</span>
         <span class="title">${hit.name}</span>
         <span class="meta">${preview.meta}</span>
@@ -131,18 +151,29 @@ export class TwShareCard extends LitElement {
     `;
   }
 
-  #dismiss = (): void => {
-    if (this.hit !== undefined) {
-      this.dispatchEvent(
-        new CustomEvent<SpotlightHit>("tw-dismiss", {
-          detail: this.hit,
-          bubbles: true,
-          composed: true,
-        })
-      );
+  #onKeydown = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      this.#open();
     }
-    this.remove();
   };
+
+  #open = (): void => {
+    this.#emit("tw-open");
+  };
+
+  #dismiss = (): void => {
+    this.#emit("tw-dismiss");
+  };
+
+  #emit(name: "tw-open" | "tw-dismiss"): void {
+    if (this.hit === undefined) {
+      return;
+    }
+    this.dispatchEvent(
+      new CustomEvent<SpotlightHit>(name, { detail: this.hit, bubbles: true, composed: true })
+    );
+  }
 }
 
 customElements.define("tw-share-card", TwShareCard);

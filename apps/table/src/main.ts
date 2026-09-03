@@ -6,23 +6,25 @@ import { BoardStage, readBoardTheme } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
 import type { Visibility } from "@tablewright/schema";
 import "@tablewright/ui";
-import type { Searcher, SpotlightHit } from "@tablewright/ui";
+import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
 import { BoardHost } from "./board-host.js";
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
 const searchButton = document.getElementById("search");
 const spotlight = document.querySelector("tw-spotlight");
-const shares = document.getElementById("shares");
+const shares = document.querySelector("tw-share-tray");
+const entryView = document.querySelector("tw-entry-view");
 if (
   host === null ||
   openButton === null ||
   searchButton === null ||
   spotlight === null ||
-  shares === null
+  shares === null ||
+  entryView === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #search, #shares, and <tw-spotlight>"
+    "index.html must contain #board, #open-map, #search, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
   );
 }
 
@@ -84,35 +86,68 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
   }
 }
 
-// The search behind the panel. In a Tauri window it is the core, one typed
-// call away; under plain Vite it is the dev fixture, so the panel can be
-// driven in a browser and by Playwright without a core.
-function makeSearcher(): Searcher {
+// The core behind the panels. In a Tauri window it is one typed call away;
+// under plain Vite it is the dev fixture, so everything can be driven in a
+// browser and by Playwright without a core.
+interface Core {
+  search: Searcher;
+  entry: (id: string) => Promise<EntryDocument>;
+}
+
+function connectCore(): Core {
   if (!("__TAURI_INTERNALS__" in window)) {
     if (__DEV_BUILD__) {
       // Loaded now, not on the first keystroke, so the readout measures the
       // panel rather than the module import.
       const fixture = import("./dev/search-fixture.js");
-      return async (query) => (await fixture).fixtureSearcher(query);
+      return {
+        search: async (query) => (await fixture).fixtureSearcher(query),
+        entry: async (id) => {
+          const found = (await fixture).fixtureEntry(id);
+          if (found === undefined) {
+            throw new Error(`No entry ${id} in the fixture.`);
+          }
+          return found;
+        },
+      };
     }
-    return async () => {
+    const unconnected = async () => {
       throw new Error("No core is connected to this page.");
     };
+    return { search: unconnected, entry: unconnected };
   }
-  return async (query) => {
-    const result = await commands.search(query, "dm", null);
-    if (result.status === "error") {
-      const error = result.error;
-      throw new Error(
-        error.kind === "no-compendium" ? "No compendium is installed." : JSON.stringify(error)
-      );
-    }
-    return {
-      hits: result.data.hits,
-      elapsedUs: result.data.elapsed_us,
-      catalogueSize: result.data.catalogue_size,
-    };
+  return {
+    search: async (query) => {
+      const result = await commands.search(query, "dm", null);
+      if (result.status === "error") {
+        throw new Error(describe(result.error));
+      }
+      return {
+        hits: result.data.hits,
+        elapsedUs: result.data.elapsed_us,
+        catalogueSize: result.data.catalogue_size,
+      };
+    },
+    entry: async (id) => {
+      const result = await commands.getEntry(id, "dm");
+      if (result.status === "error") {
+        throw new Error(describe(result.error));
+      }
+      const { type, name, source, tags, body } = result.data;
+      return { id: result.data.id, type, name, source, tags, body };
+    },
   };
+}
+
+function describe(error: { kind: string }): string {
+  switch (error.kind) {
+    case "no-compendium":
+      return "No compendium is installed.";
+    case "not-found":
+      return "That entry is not in the compendium.";
+    default:
+      return JSON.stringify(error);
+  }
 }
 
 // A console seam for measuring the command surface without the panel:
@@ -136,21 +171,30 @@ function exposeSearchProbe(): void {
 try {
   const stage = await BoardStage.create(host, { background: readBoardTheme(host).ground });
   const board = new BoardHost(stage, host);
+  const core = connectCore();
+  // Opening an entry is the same act from the box and from a shared card:
+  // the page the desk turns to, until the surfaces exist.
+  const openEntry = async (hit: SpotlightHit): Promise<void> => {
+    try {
+      entryView.show(await core.entry(hit.id));
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      showNotice(`Could not open ${hit.name}: ${reason}`);
+    }
+  };
   openButton.addEventListener("click", () => void openMap(board));
-  spotlight.searcher = makeSearcher();
+  spotlight.searcher = core.search;
   searchButton.addEventListener("click", () => spotlight.show());
-  // Until the compendium view exists, a selection is acknowledged on screen.
   spotlight.addEventListener("tw-select", (event) => {
-    const hit = (event as CustomEvent<SpotlightHit>).detail;
-    showNotice(`Selected ${hit.name} (${hit.type}, ${hit.id}).`, "info");
+    void openEntry((event as CustomEvent<SpotlightHit>).detail);
   });
   // A share becomes a card on this table; the session message to everyone
   // else arrives with networking (design §6).
   spotlight.addEventListener("tw-share", (event) => {
-    const card = document.createElement("tw-share-card");
-    card.hit = (event as CustomEvent<SpotlightHit>).detail;
-    card.sharedBy = "you";
-    shares.append(card);
+    shares.push((event as CustomEvent<SpotlightHit>).detail, "you");
+  });
+  shares.addEventListener("tw-open", (event) => {
+    void openEntry((event as CustomEvent<SpotlightHit>).detail);
   });
   window.addEventListener("keydown", (event) => {
     if (event.key === "o" && (event.ctrlKey || event.metaKey)) {
