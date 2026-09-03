@@ -189,6 +189,80 @@ matched. The rules above stay the ranking; the index and the previous
 match set only choose candidates, and only the top of the list is
 ever sorted.
 
+### Linguistic search and filters
+
+Decided 2026-09-03 after the filters design round (canvas page
+"Filters"). The operator syntax of rule 1 stays as the wire form; it
+is not the interface.
+
+- **Two ways in, one filter set.** A query is typed words, tray
+  controls, or both. Both lower to the same filter expression the
+  ranker applies, so the tray and the parser can never disagree about
+  what a filter means.
+- **The words stay the words.** Typed text is never rewritten into
+  chips or tokens. What the parser understood is shown by a brass
+  underline under those words in the input, and by the tray, which
+  shows the matching controls selected. Chips in the input appear only
+  for filters made in the tray, so the two sources stay visible as
+  such. A kind word (spells, creatures, items) lights the category
+  tab, since the tab is that filter.
+- **Grammar by pest, meaning by data.** The linguistic layer is a pest
+  (PEG) grammar over normalised tokens: numbers, ordinals, fractions,
+  ranges, comparator phrases, and the connectives and, or, not;
+  everything else is a word, so half-typed input falls through to
+  plain tokens rather than failing. A lowering pass binds words to
+  facets from two sources: the system manifest (facet words and
+  aliases such as cantrip = level 0, kind nouns and plurals) and the
+  catalogue (the live set of each facet's values, so "evocation" is
+  recognised because the data holds it). Comparator phrases and number
+  words are a per-language vocabulary file beside the grammar;
+  inflection comes from a Snowball stemmer and accent folding from
+  unicode-normalization, both per-language switches. No language
+  model: results stay instant while typing, and mistakes are
+  deterministic and therefore fixable.
+- **Comparators.** Strict: below, under, less than, lower than, above,
+  over, more than, higher than. Inclusive: up to, at most, no more
+  than, or lower, or less, at least, no less than, or higher, or more,
+  N+. A bare number, an ordinal (3rd level) and a fraction (cr 1/4)
+  mean equality; between A and B, A to B, A–B mean an inclusive range.
+  A phrasing the grammar does not know must not empty the list, so
+  rule 2 changes with this layer: a token that matches no field of any
+  entry is dropped instead of failing everything (data-driven, no
+  stop-word list, because "of" is in half the item names).
+- **Filter expression.** Filters form a tree of all, any and not
+  rather than a flat list, so "level 3 or 5", "not evocation" and
+  "wands or staffs" are grammar rules with precedence. Within one
+  control several values mean any of them; controls combine with all.
+  Text facet values also count as a field in rule 3, at the tag rung,
+  so a word that happens to be a facet value ranks entries rather than
+  excluding them ("giant" still finds Giant Spider, a beast).
+- **The tray.** Inside the box under the category tabs, scrolling away
+  with the tiles as one column, never an overlay over the compendium
+  leaf. It opens on the funnel button or when typed words match a
+  filter, and stays shut on the All tab until user testing says
+  otherwise. One control per facet the manifest declares for the
+  category, in the manifest's order. A *rail* for ordered values
+  (level, CR, size, rarity, duration, and bucketed HP, AC, cost,
+  weight): one click is exactly that value, a second click or a drag
+  is the span between, and a span reaching an end of the rail is open
+  (CR 5+, level up to 2). A *stepped slider* for distances, whose
+  stops are the ranges the system uses, with Self and Touch as toggles
+  beside it. *Toggle chips* for unordered sets (school, creature type,
+  category, components, casting time), cycling off, on, not, with long
+  sets folded behind "more". A *single toggle* for yes/no facts
+  (ritual, concentration, attunement). No selects. Clicking a control
+  edits the filters and reruns the search at once.
+- **The manifest declares it all.** Per kind, each facet's path,
+  control (rail, slider, chips, toggle), order, bucket edges, display
+  words and aliases; every system says what is searchable and
+  filterable, and the tray renders whatever is declared. The category
+  labels the UI shows come from the same place, so no kind, label or
+  control is hard-coded in TS.
+- **Open.** A control selected by typed words and then clicked in the
+  tray: proposal, the click wins for that facet and the phrase keeps a
+  dimmer underline. Units (60 feet) and grammars for other languages
+  come later.
+
 ## 4. Architecture
 
 Monorepo: Bun + Turborepo (TS) alongside a Cargo workspace (Rust).
