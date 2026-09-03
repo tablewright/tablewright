@@ -350,7 +350,9 @@ export class TokenLayer {
   };
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
-    if (isEditable(event.target)) {
+    // The first element on the composed path is the real target, even inside
+    // another component's shadow tree; `event.target` is retargeted to its host.
+    if (isEditable(event.composedPath()[0] ?? event.target)) {
       return;
     }
     if (event.key === "Escape") {
