@@ -109,8 +109,7 @@ test("shares queue one card at a time, and a card opens its entry", async ({ pag
   await shown.getByRole("button", { name: "Open Fireball" }).click();
   await expect(page.locator(page_)).toHaveAttribute("open", "");
   await expect(page.locator(`${page_} h1`)).toHaveText("Fireball");
-  await expect(shown).toHaveCount(1);
-  await shown.getByRole("button", { name: "Dismiss" }).click();
+  // Opening is also a dismissal: the reader has the entry now.
   await expect(shown).toHaveCount(0);
 });
 

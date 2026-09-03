@@ -2,8 +2,8 @@
 // it, the next stepping up when the current one is dismissed. A share
 // never stacks over another and none is lost.
 //
-// `tw-open` from the card bubbles through unchanged; the host opens the
-// entry.
+// `tw-open` from the card bubbles through to the host, which opens the
+// entry; opening also dismisses the card.
 
 import { LitElement, css, html, nothing } from "lit";
 import type { SpotlightHit } from "../spotlight/searcher.js";
@@ -58,16 +58,28 @@ export class TwShareTray extends LitElement {
         .hit=${current.hit}
         shared-by=${current.sharedBy}
         .pending=${this.queue.length - 1}
-        @tw-dismiss=${this.#next}
+        @tw-dismiss=${this.#dismissed}
+        @tw-open=${this.#opened}
       ></tw-share-card>
     `;
   }
 
-  #next = (event: Event): void => {
-    // The card's own event is consumed here; the tray is its host.
+  // Dismiss drops the card and nothing else; the tray is its host, so the
+  // event stops here.
+  #dismissed = (event: Event): void => {
     event.stopPropagation();
-    this.queue = this.queue.slice(1);
+    this.#advance();
   };
+
+  // Opening the entry also clears the card: the reader has it now. The
+  // event carries on to the host, which opens the page.
+  #opened = (): void => {
+    this.#advance();
+  };
+
+  #advance(): void {
+    this.queue = this.queue.slice(1);
+  }
 }
 
 customElements.define("tw-share-tray", TwShareTray);
