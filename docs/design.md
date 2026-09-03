@@ -70,8 +70,10 @@ One search spans Vault and Compendium; results are labeled by origin.
   its level and school, a creature its type and challenge, an item
   its rarity and cost) rather than one uniform row. Grouping is
   presentation over the ranked list: within a group rows keep their
-  rank order; the ranking rules below decide the order, and a
-  `type:` filter is the same thing as choosing a category tab. While
+  rank order, and groups are ordered by their best hit, so whatever
+  matched best sits at the top; the ranking rules below decide the
+  order, and a `type:` filter is the same thing as choosing a
+  category tab. While
   the box is open the desk pans to the DM screen or the journal (§4)
   and turns it to the entry that is selected, or the top hit while
   typing. Dragging a row out of the box, or its share button, shares
@@ -209,12 +211,13 @@ crates/net        WebRTC sync + content-addressed assets (later)
   pans over to them, and each is hinted at the screen edge in the
   manner of hexpunk's hextrack rail: a translucent peek that raises
   on pointer or keys and auto-pans the desk when clicked, folding
-  back on Escape. Working assumption: surfaces are real DOM, laid
-  out in world space and moved with the camera transform, so text
-  stays crisp and documents stay documents; rendering them inside
-  the board engine is the alternative if the transform proves too
-  costly. Not part of the PoC; the spotlight (§3) is the first thing
-  that pans to a surface.
+  back on Escape. What matters is the feeling that they are on the
+  desk with the board. Whether they truly live in world space or are
+  an overlay with the board moving underneath, faked for the sake of
+  performance, is an implementation choice, as long as the animation
+  makes sense: the pan, the settle, and the return have to read as
+  one desk. Not part of the PoC; the spotlight (§3) is the first
+  thing that pans to a surface.
 - **Platforms.** Windows is the target now (WebView2, the Chromium
   engine as a shared runtime; the default browser is irrelevant).
   Linux comes next and must at least be usable: the engine there is
@@ -360,9 +363,11 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   or pressing its share button. A share is a message carrying the
   entry as the receiving tier may see it, applied by the DM's
   process like every other outbound message, and each client shows
-  it as a dismissable card. Open: whether the DM sharing a DM-only
-  entry reveals it whole, shares only the visible part with a reveal
-  toggle on the card, or asks each time.
+  it as a dismissable card. In practice there are two views of an
+  entry: the DM's, which is everything, and the player's, which is
+  reduced. A share carries the player view; the DM may push the
+  everything view deliberately, by a reveal control on the card, and
+  nothing is revealed by accident.
 - **Offline sheet edits (later).** A player may open and edit their
   own character while the DM is offline: the player page is a
   service-worker app, the sheet and the compendium slice the player
