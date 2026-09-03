@@ -189,13 +189,40 @@ try {
     void openEntry((event as CustomEvent<SpotlightHit>).detail);
   });
   // A share becomes a card on this table; the session message to everyone
-  // else arrives with networking (design §6).
+  // else arrives with networking (design §6). A share of the entry already
+  // open as a page raises no card: the reader has it in front of them.
   spotlight.addEventListener("tw-share", (event) => {
-    shares.push((event as CustomEvent<SpotlightHit>).detail, "you");
+    const hit = (event as CustomEvent<SpotlightHit>).detail;
+    if (entryView.open && entryView.entry?.id === hit.id) {
+      return;
+    }
+    shares.push(hit, "you");
   });
   shares.addEventListener("tw-open", (event) => {
     void openEntry((event as CustomEvent<SpotlightHit>).detail);
   });
+  // Escape peels the layers back one at a time: the shared card, then the
+  // search box, then the page. Seen first, before any panel's own handler.
+  window.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+      if (shares.length > 0) {
+        shares.dismiss();
+      } else if (spotlight.open) {
+        spotlight.hide();
+      } else if (entryView.open) {
+        entryView.hide();
+      } else {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    { capture: true }
+  );
   window.addEventListener("keydown", (event) => {
     if (event.key === "o" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();

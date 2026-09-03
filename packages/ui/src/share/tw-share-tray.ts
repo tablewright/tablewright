@@ -48,6 +48,16 @@ export class TwShareTray extends LitElement {
     return this.queue.length;
   }
 
+  /** The share on show, if any. */
+  get current(): Share | undefined {
+    return this.queue[0];
+  }
+
+  /** Drop the card on show, as its Dismiss button would. */
+  dismiss(): void {
+    this.#advance();
+  }
+
   protected override render() {
     const current = this.queue[0];
     if (current === undefined) {

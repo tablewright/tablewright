@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 // The panel runs against the dev fixture here: no Tauri, no core. Under
-// test are the panel, the share queue, and the entry page they open.
+// test are the panel, the share queue, the entry page they open, and how
+// the three layer.
 
 const box = "tw-spotlight";
 const card = "tw-share-tray tw-share-card";
@@ -50,7 +51,9 @@ test("tiles arrive grouped by category as you type, and the readout reports timi
   await expect(tiles.first().locator(".name")).toHaveText("Fire Bolt");
 });
 
-test("arrows move the selection with wrap-around and Enter opens the entry", async ({ page }) => {
+test("arrows move the selection with wrap-around, and Enter opens the entry without closing the box", async ({
+  page,
+}) => {
   await page.keyboard.press("Control+Space");
   await page.keyboard.type("fire");
   const tiles = page.locator(`${box} li`);
@@ -61,12 +64,35 @@ test("arrows move the selection with wrap-around and Enter opens the entry", asy
   await page.keyboard.press("ArrowUp");
   await expect(tiles.nth(4)).toHaveAttribute("aria-selected", "true");
   await page.keyboard.press("Enter");
-  await expect(page.locator(box)).not.toHaveAttribute("open", "");
   await expect(page.locator(page_)).toHaveAttribute("open", "");
   await expect(page.locator(`${page_} h1`)).toHaveText("Flame Tongue");
   await expect(page.locator(`${page_} article`)).toContainText("flames to sheathe its blade");
-  await page.locator(page_).getByRole("button", { name: "Close" }).click();
-  await expect(page.locator(page_)).not.toHaveAttribute("open", "");
+  await expect(page.locator(box)).toHaveAttribute("open", "");
+  await expect(page.locator(`${box} input`)).toBeFocused();
+  // A second choice turns the page without closing anything.
+  await page.keyboard.press("Home");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Fire Bolt");
+  await expect(page.locator(box)).toHaveAttribute("open", "");
+});
+
+test("Tab reaches the selected tile, then its Share button, before the category tabs", async ({
+  page,
+}) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fire");
+  const tiles = page.locator(`${box} li`);
+  await page.keyboard.press("Tab");
+  await expect(tiles.first()).toBeFocused();
+  await page.keyboard.press("ArrowDown");
+  await expect(tiles.nth(1)).toBeFocused();
+  await expect(tiles.nth(1)).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Fireball");
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Share Fireball with the table" })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "All 5" })).toBeFocused();
 });
 
 test("category tabs narrow the tiles, and an unmatched query says so", async ({ page }) => {
@@ -111,6 +137,33 @@ test("shares queue one card at a time, and a card opens its entry", async ({ pag
   await expect(page.locator(`${page_} h1`)).toHaveText("Fireball");
   // Opening is also a dismissal: the reader has the entry now.
   await expect(shown).toHaveCount(0);
+});
+
+test("sharing the entry already open as a page raises no card", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fireball");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Fireball");
+  await page.getByRole("button", { name: "Share Fireball with the table" }).click();
+  await expect(page.locator(card)).toHaveCount(0);
+});
+
+test("Escape peels the layers back: card, then box, then page", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fire");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(page_)).toHaveAttribute("open", "");
+  await page.keyboard.press("ArrowDown");
+  await page.getByRole("button", { name: "Share Fireball with the table" }).click();
+  await expect(page.locator(card)).toHaveCount(1);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(card)).toHaveCount(0);
+  await expect(page.locator(box)).toHaveAttribute("open", "");
+  await page.keyboard.press("Escape");
+  await expect(page.locator(box)).not.toHaveAttribute("open", "");
+  await expect(page.locator(page_)).toHaveAttribute("open", "");
+  await page.keyboard.press("Escape");
+  await expect(page.locator(page_)).not.toHaveAttribute("open", "");
 });
 
 test("dragging a tile out of the box shares it", async ({ page, browserName }) => {

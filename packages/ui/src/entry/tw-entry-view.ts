@@ -41,7 +41,9 @@ export class TwEntryView extends LitElement {
       top: var(--tw-space-lg);
       right: var(--tw-space-lg);
       bottom: var(--tw-space-lg);
-      z-index: 90;
+      /* Above the search box's scrim: the page stays lit while the box is
+         open, since reading it is the point of searching. */
+      z-index: 150;
       display: flex;
       flex-direction: column;
       width: min(560px, calc(100vw - 2 * var(--tw-space-lg)));
@@ -142,13 +144,11 @@ export class TwEntryView extends LitElement {
     }
   `;
 
-  /** Show `entry` and take focus, so Escape closes it. */
+  /** Show `entry`. Focus stays where it was: a reader turning pages from the
+   * search box keeps typing there, and the host decides what Escape does. */
   show(entry: EntryDocument): void {
     this.entry = entry;
     this.open = true;
-    void this.updateComplete.then(() => {
-      this.renderRoot.querySelector("button")?.focus();
-    });
   }
 
   hide(): void {

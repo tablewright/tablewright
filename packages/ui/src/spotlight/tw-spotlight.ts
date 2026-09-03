@@ -73,6 +73,8 @@ export class TwSpotlight extends LitElement {
   #sequence = 0;
   // The hit under the pointer during a drag, shared when it lands outside.
   #dragging: SpotlightHit | undefined;
+  // Set when the arrows were pressed on a tile, so focus follows the selection.
+  #focusTile = false;
   // Derived from hits and filter once per update, not per render call.
   #groups: HitGroup[] = [];
   #visible: SpotlightHit[] = [];
@@ -144,7 +146,10 @@ export class TwSpotlight extends LitElement {
     input::placeholder {
       color: var(--tw-on-surface-variant);
     }
+    /* Screen order: input, tabs, results, footer. DOM order puts the tabs after
+       the results so the tab key reaches the selected tile before them. */
     .tabs {
+      order: 1;
       display: flex;
       flex-wrap: wrap;
       gap: var(--tw-space-sm);
@@ -171,9 +176,14 @@ export class TwSpotlight extends LitElement {
       color: var(--tw-on-primary-container);
     }
     .results {
+      order: 2;
       flex: 1 1 auto;
       overflow-y: auto;
       padding-bottom: var(--tw-space-sm);
+    }
+    li:focus-visible {
+      outline: 2px solid var(--tw-focus-ring);
+      outline-offset: -2px;
     }
     .group {
       display: flex;
@@ -296,6 +306,7 @@ export class TwSpotlight extends LitElement {
       outline-offset: 2px;
     }
     footer {
+      order: 3;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -375,6 +386,23 @@ export class TwSpotlight extends LitElement {
           @input=${this.#onInput}
           @keydown=${this.#onKeydown}
         />
+        <div class="results" id="hits" role="listbox">
+          ${this.#groups.map((group, groupIndex) => {
+            const start = offset;
+            offset += group.hits.length;
+            return html`
+              <div class="group">
+                <span>${group.category}</span>
+                ${groupIndex === 0 ? html`<span class="hint">top hit</span>` : nothing}
+              </div>
+              <ul>
+                ${group.hits.map((hit, index) => this.#renderTile(hit, start + index))}
+              </ul>
+            `;
+          })}
+        </div>
+        <!-- The tabs sit above the results on screen but after them in the
+             tab order, so Tab from the input reaches the selected tile first. -->
         <div class="tabs">
           ${
             this.hits.length === 0
@@ -403,21 +431,6 @@ export class TwSpotlight extends LitElement {
                 `
           }
         </div>
-        <div class="results" id="hits" role="listbox">
-          ${this.#groups.map((group, groupIndex) => {
-            const start = offset;
-            offset += group.hits.length;
-            return html`
-              <div class="group">
-                <span>${group.category}</span>
-                ${groupIndex === 0 ? html`<span class="hint">top hit</span>` : nothing}
-              </div>
-              <ul>
-                ${group.hits.map((hit, index) => this.#renderTile(hit, start + index))}
-              </ul>
-            `;
-          })}
-        </div>
         <footer data-status=${this.status}>
           <span>${this.#readout()}</span>
           ${this.#visible.length > 0 ? html`<span>drag a tile out to share</span>` : nothing}
@@ -428,10 +441,18 @@ export class TwSpotlight extends LitElement {
 
   protected override updated(changed: PropertyValues<this>): void {
     if (changed.has("selected") || changed.has("hits") || changed.has("filter")) {
-      this.renderRoot.querySelector(`#hit-${this.selected}`)?.scrollIntoView({ block: "nearest" });
+      const tile = this.renderRoot.querySelector<HTMLElement>(`#hit-${this.selected}`);
+      tile?.scrollIntoView({ block: "nearest" });
+      // Focus follows the selection only when it was already on a tile.
+      if (this.#focusTile) {
+        this.#focusTile = false;
+        tile?.focus();
+      }
     }
   }
 
+  // Only the selected tile is in the tab order: Tab from the input lands on
+  // it, Tab again reaches its Share button, and the arrows move the selection.
   #renderTile(hit: SpotlightHit, index: number) {
     const preview = previewOf(hit);
     const selected = index === this.selected;
@@ -440,9 +461,11 @@ export class TwSpotlight extends LitElement {
         id=${`hit-${index}`}
         role="option"
         aria-selected=${selected ? "true" : "false"}
+        tabindex=${selected ? "0" : "-1"}
         draggable="true"
         @pointermove=${() => this.#select(index)}
         @click=${() => this.#choose(index)}
+        @keydown=${this.#onTileKeydown}
         @dragstart=${(event: DragEvent) => this.#onDragStart(event, hit)}
         @dragend=${this.#onDragEnd}
       >
@@ -510,25 +533,45 @@ export class TwSpotlight extends LitElement {
   };
 
   #onKeydown = (event: KeyboardEvent): void => {
-    // Keys the box handles are its own; nothing behind it may act on them.
+    this.#navigate(event, false);
+  };
+
+  #onTileKeydown = (event: KeyboardEvent): void => {
+    // Space activates a focused tile, as it does a button.
+    if (event.key === " ") {
+      event.preventDefault();
+      event.stopPropagation();
+      this.#choose(this.selected);
+      return;
+    }
+    this.#navigate(event, true);
+  };
+
+  // The keys the box answers, from the input or from a tile. Keys it handles
+  // are its own; nothing behind it may act on them.
+  #navigate(event: KeyboardEvent, fromTile: boolean): void {
     if (HANDLED_KEYS.has(event.key)) {
       event.stopPropagation();
     }
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
+        this.#focusTile = fromTile;
         this.#select(this.#step(1));
         break;
       case "ArrowUp":
         event.preventDefault();
+        this.#focusTile = fromTile;
         this.#select(this.#step(-1));
         break;
       case "Home":
         event.preventDefault();
+        this.#focusTile = fromTile;
         this.#select(0);
         break;
       case "End":
         event.preventDefault();
+        this.#focusTile = fromTile;
         this.#select(this.#visible.length - 1);
         break;
       case "Enter":
@@ -542,7 +585,7 @@ export class TwSpotlight extends LitElement {
       default:
         break;
     }
-  };
+  }
 
   // Wraps at both ends, as Spotlight does.
   #step(delta: number): number {
@@ -559,6 +602,8 @@ export class TwSpotlight extends LitElement {
     }
   }
 
+  // Choosing opens the entry and leaves the box open: reading through a
+  // compendium is many choices in a row. Escape closes the box.
   #choose(index: number): void {
     const hit = this.#visible[index];
     if (hit === undefined) {
@@ -567,7 +612,6 @@ export class TwSpotlight extends LitElement {
     this.dispatchEvent(
       new CustomEvent<SpotlightHit>("tw-select", { detail: hit, bubbles: true, composed: true })
     );
-    this.hide();
   }
 
   #share(hit: SpotlightHit): void {
