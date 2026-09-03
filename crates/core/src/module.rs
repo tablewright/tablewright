@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use specta::Type;
 use thiserror::Error;
 
-use crate::compendium::Entry;
+use crate::compendium::{Entry, JsonValue};
 
 /// The manifest at a module's root, `module.json`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
@@ -26,7 +26,8 @@ pub struct Manifest {
     /// The notice the licence requires; shown in the credits view.
     pub attribution: String,
     /// Free-form provenance: where the content was imported from.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
+    #[specta(type = Option<JsonValue>)]
     pub upstream: Option<serde_json::Value>,
 }
 

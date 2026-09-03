@@ -9,7 +9,7 @@ pub mod module;
 pub mod search;
 pub mod store;
 
-pub use compendium::{Entry, EntryId, EntrySummary, Visibility};
+pub use compendium::{Entry, EntryId, EntrySummary, JsonValue, Visibility};
 pub use module::{Manifest, Module, ModuleError, read_module};
 pub use search::{Catalogue, DEFAULT_LIMIT, Hit};
 pub use store::{Store, StoreError};

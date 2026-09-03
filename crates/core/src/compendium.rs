@@ -66,6 +66,23 @@ impl Visibility {
     }
 }
 
+/// The TypeScript shape of `serde_json::Value`, used only as a type witness
+/// through `#[specta(type = JsonValue)]`; the fields themselves stay
+/// `serde_json::Value`. The exporter refuses the 64-bit integers inside
+/// `serde_json::Number` because JavaScript would truncate them; JSON numbers
+/// are JavaScript numbers on that side whatever we say, so this names that
+/// truth once. JSON `null` needs no variant: specta renders an untagged enum
+/// with `null` in its union.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
+#[serde(untagged)]
+pub enum JsonValue {
+    Bool(bool),
+    Number(f64),
+    String(String),
+    Array(Vec<JsonValue>),
+    Object(std::collections::HashMap<String, JsonValue>),
+}
+
 /// One compendium entry: the system-agnostic envelope plus the system's data.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 pub struct Entry {
@@ -84,6 +101,7 @@ pub struct Entry {
     /// Prose body, markdown.
     pub body: String,
     /// The per-system structured blob; its schema belongs to the game system, not the envelope.
+    #[specta(type = JsonValue)]
     pub data: serde_json::Value,
 }
 
