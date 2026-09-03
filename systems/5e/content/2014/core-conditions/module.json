@@ -1,0 +1,18 @@
+{
+  "id": "5e-2014-core-conditions",
+  "name": "5e conditions (SRD 5.1 text)",
+  "system": "5e",
+  "systemVersion": "2014",
+  "version": "2026-09-03",
+  "license": "CC-BY-4.0",
+  "attribution": "This work includes material from the System Reference Document 5.1 (\"SRD 5.1\") by Wizards of the Coast LLC, available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode. Transcribed to structured data by Open5e (https://open5e.com) as its 5e Core Concepts document and reshaped for Tablewright.",
+  "upstream": {
+    "name": "Open5e",
+    "api": "https://api.open5e.com/v2",
+    "document": "core",
+    "fetched": "2026-09-03T19:50:55.577Z"
+  },
+  "kinds": {
+    "condition": 15
+  }
+}

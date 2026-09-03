@@ -1,0 +1,38 @@
+{
+  "id": "5e-2014-core-conditions:condition:charmed",
+  "type": "condition",
+  "name": "Charmed",
+  "source": "5e-2014-core-conditions",
+  "tags": [
+    "2014"
+  ],
+  "body": "* A charmed creature can’t take any hostile action against the charmer.\n\n* Ability checks the charmer makes to socially interact with the charmed creature have advantage.\n\n* A charmed creature can’t attack the charmer or target the charmer with harmful abilities or magical effects.\r\n* The charmer has advantage on any ability check to interact socially with the creature.\n\nWhile you have the Charmed condition, you experience the following effects. \n* Can’t Harm the Charmer. You can’t attack the charmer or target the charmer with damaging abilities or magical effects. \n* Social Advantage. The charmer has Advantage on any ability check to interact with you socially.",
+  "data": {
+    "descriptions": [
+      {
+        "desc": "* A charmed creature can’t take any hostile action against the charmer.\n\n* Ability checks the charmer makes to socially interact with the charmed creature have advantage.",
+        "document": "a5e-ag",
+        "gamesystem": "a5e"
+      },
+      {
+        "desc": "* A charmed creature can’t attack the charmer or target the charmer with harmful abilities or magical effects.\r\n* The charmer has advantage on any ability check to interact socially with the creature.",
+        "document": "srd-2014",
+        "gamesystem": "5e-2014"
+      },
+      {
+        "desc": "While you have the Charmed condition, you experience the following effects. \n* Can’t Harm the Charmer. You can’t attack the charmer or target the charmer with damaging abilities or magical effects. \n* Social Advantage. The charmer has Advantage on any ability check to interact with you socially.",
+        "document": "srd-2024",
+        "gamesystem": "5e-2024"
+      }
+    ],
+    "icon": {
+      "alt_text": "An icon representing the charmed condition in an RPG. A simple black-and-white silhouette of a humanoid facing the viewer. There is a heart where their face should be.",
+      "attribution": "Designed with love by Anaislalovi (@anaislalovi) for Elderberry Inn.",
+      "file_url": "/static/img/object_icons/elderberry-inn-icons/conditions/charmed.svg",
+      "key": "elderberry_charmed",
+      "name": "Charmed"
+    },
+    "key": "charmed",
+    "name": "Charmed"
+  }
+}

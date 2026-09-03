@@ -1,12 +1,13 @@
-//! Seeds a compendium SQLite file from a module directory, through the
+//! Seeds a compendium SQLite file from module directories, through the
 //! store API, so the store format lives in exactly one place.
 //!
-//! Usage: `seed <module directory> <output.sqlite> [system.json]`. The
-//! output is rewritten from scratch on every run. With a system manifest,
-//! each entry's facets are read from its data by the manifest's specs
-//! unless the entry file already names them, an entry that does not say
-//! who may see it takes its kind's default, and the manifest itself is
-//! stored so the app can read kinds, facets and controls from the store.
+//! Usage: `seed <output.sqlite> <system.json> <module directory>...`. The
+//! output is rewritten from scratch on every run and holds every module
+//! given, in order. Each entry's facets and parts are read from its data by
+//! the system manifest unless the entry file already names them, an entry
+//! that does not say who may see it takes its kind's default, and the
+//! manifest itself is stored so the app can read kinds, facets and
+//! controls from the store.
 
 use std::collections::BTreeMap;
 use std::error::Error;
@@ -18,15 +19,16 @@ use tablewright_core::{Store, SystemManifest, read_module};
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    let (module_dir, output, system) = match args.as_slice() {
-        [module_dir, output] => (module_dir, output, None),
-        [module_dir, output, system] => (module_dir, output, Some(Path::new(system))),
-        _ => {
-            eprintln!("usage: seed <module directory> <output.sqlite> [system.json]");
-            return ExitCode::from(2);
-        }
+    let [output, system, modules @ ..] = args.as_slice() else {
+        eprintln!("usage: seed <output.sqlite> <system.json> <module directory>...");
+        return ExitCode::from(2);
     };
-    match run(Path::new(module_dir), Path::new(output), system) {
+    if modules.is_empty() {
+        eprintln!("usage: seed <output.sqlite> <system.json> <module directory>...");
+        return ExitCode::from(2);
+    }
+    let modules: Vec<&Path> = modules.iter().map(Path::new).collect();
+    match run(Path::new(output), Path::new(system), &modules) {
         Ok(()) => ExitCode::SUCCESS,
         Err(error) => {
             eprintln!("seed: {error}");
@@ -35,11 +37,19 @@ fn main() -> ExitCode {
     }
 }
 
-fn run(module_dir: &Path, output: &Path, system: Option<&Path>) -> Result<(), Box<dyn Error>> {
+fn run(output: &Path, system: &Path, module_dirs: &[&Path]) -> Result<(), Box<dyn Error>> {
     let started = Instant::now();
-    let manifest = system.map(SystemManifest::load).transpose()?;
-    let mut module = read_module(module_dir, manifest.as_ref())?;
-    if let (Some(manifest), Some(system)) = (&manifest, system) {
+    let manifest = SystemManifest::load(system)?;
+    remove_previous(output)?;
+    if let Some(parent) = output.parent() {
+        std::fs::create_dir_all(parent)?;
+    }
+    let mut store = Store::open(output)?;
+    store.put_system(&manifest)?;
+    let mut by_kind: BTreeMap<String, usize> = BTreeMap::new();
+    let mut written = 0;
+    for module_dir in module_dirs {
+        let mut module = read_module(module_dir, Some(&manifest))?;
         let mut faceted = 0;
         let mut parted = 0;
         for entry in &mut module.entries {
@@ -51,30 +61,20 @@ fn run(module_dir: &Path, output: &Path, system: Option<&Path>) -> Result<(), Bo
                 entry.parts = manifest.parts_for(&entry.kind, &entry.data);
                 parted += entry.parts.len();
             }
+            *by_kind.entry(entry.kind.clone()).or_default() += 1;
         }
+        store.put_module(&module.manifest)?;
+        written += store.upsert_all(&module.entries)?;
         println!(
-            "{}: facets for {faceted} entries, {parted} parts, from {}",
-            manifest.id,
-            system.display()
+            "{}: {} entries, facets for {faceted}, {parted} parts, from {}",
+            module.manifest.id,
+            module.entries.len(),
+            module_dir.display()
         );
     }
-    remove_previous(output)?;
-    if let Some(parent) = output.parent() {
-        std::fs::create_dir_all(parent)?;
-    }
-    let mut store = Store::open(output)?;
-    store.put_module(&module.manifest)?;
-    if let Some(manifest) = &manifest {
-        store.put_system(manifest)?;
-    }
-    let written = store.upsert_all(&module.entries)?;
     store.seal()?;
     drop(store);
 
-    let mut by_kind: BTreeMap<&str, usize> = BTreeMap::new();
-    for entry in &module.entries {
-        *by_kind.entry(entry.kind.as_str()).or_default() += 1;
-    }
     let kinds: Vec<String> = by_kind
         .iter()
         .map(|(kind, count)| format!("{count} {kind}"))
@@ -82,7 +82,7 @@ fn run(module_dir: &Path, output: &Path, system: Option<&Path>) -> Result<(), Bo
     let size = std::fs::metadata(output)?.len();
     println!(
         "{}: {written} entries ({}) -> {} ({} KB) in {} ms",
-        module.manifest.id,
+        manifest.id,
         kinds.join(", "),
         output.display(),
         size / 1024,

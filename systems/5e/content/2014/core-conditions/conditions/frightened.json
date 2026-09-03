@@ -1,0 +1,38 @@
+{
+  "id": "5e-2014-core-conditions:condition:frightened",
+  "type": "condition",
+  "name": "Frightened",
+  "source": "5e-2014-core-conditions",
+  "tags": [
+    "2014"
+  ],
+  "body": "* A frightened creature has disadvantage on ability checks and attack rolls while it is able to see the source of its fear.\n\n* A frightened creature can’t willingly move closer to the source of its fear.\n\n* A frightened creature has disadvantage on ability checks and attack rolls while the source of its fear is within line of sight.\r\n* The creature can’t willingly move closer to the source of its fear.\n\nWhile you have the Frightened condition, you experience the following effects. \n* Ability Checks and Attacks Affected. You have Disadvantage on ability checks and attack rolls while the source of fear is within line of sight. \n * Can’t Approach. You can’t willingly move closer to the source of fear.",
+  "data": {
+    "descriptions": [
+      {
+        "desc": "* A frightened creature has disadvantage on ability checks and attack rolls while it is able to see the source of its fear.\n\n* A frightened creature can’t willingly move closer to the source of its fear.",
+        "document": "a5e-ag",
+        "gamesystem": "a5e"
+      },
+      {
+        "desc": "* A frightened creature has disadvantage on ability checks and attack rolls while the source of its fear is within line of sight.\r\n* The creature can’t willingly move closer to the source of its fear.",
+        "document": "srd-2014",
+        "gamesystem": "5e-2014"
+      },
+      {
+        "desc": "While you have the Frightened condition, you experience the following effects. \n* Ability Checks and Attacks Affected. You have Disadvantage on ability checks and attack rolls while the source of fear is within line of sight. \n * Can’t Approach. You can’t willingly move closer to the source of fear.",
+        "document": "srd-2024",
+        "gamesystem": "5e-2024"
+      }
+    ],
+    "icon": {
+      "alt_text": "An icon representing the Frightened condition. A simple black-and-white silhouette figure from the shoulders up facing the viewer. Their hands are raised to their head and they are screaming.",
+      "attribution": "Designed with love by Anaislalovi (@anaislalovi) for Elderberry Inn.",
+      "file_url": "/static/img/object_icons/elderberry-inn-icons/conditions/frightened.svg",
+      "key": "elderberry_frightened",
+      "name": "Frightened"
+    },
+    "key": "frightened",
+    "name": "Frightened"
+  }
+}

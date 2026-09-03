@@ -1,0 +1,38 @@
+{
+  "id": "5e-2014-core-conditions:condition:restrained",
+  "type": "condition",
+  "name": "Restrained",
+  "source": "5e-2014-core-conditions",
+  "tags": [
+    "2014"
+  ],
+  "body": "* A restrained creature's speed becomes 0, and it can't benefit from bonuses to Speed.\n\n* Attack rolls against a restrained creature are made with advantage.\n\n* A restrained creature makes attacks rolls with disadvantage. \n\n* The restrained creature has disadvantage on Dexterity saving throws.\n\n* A restrained creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.\r\n* Attack rolls against the creature have advantage, and the creature’s attack rolls have disadvantage.\r\n* The creature has disadvantage on Dexterity saving throws.\n\nWhile you have the Restrained condition, you experience the following effects.\n* Speed 0. Your Speed is 0 and can’t increase.\n* Attacks Affected. Attack rolls against you have Advantage, and your attack rolls have Disadvantage. \n* Saving Throws Affected. You have Disadvantage on Dexterity saving throws.",
+  "data": {
+    "descriptions": [
+      {
+        "desc": "* A restrained creature's speed becomes 0, and it can't benefit from bonuses to Speed.\n\n* Attack rolls against a restrained creature are made with advantage.\n\n* A restrained creature makes attacks rolls with disadvantage. \n\n* The restrained creature has disadvantage on Dexterity saving throws.",
+        "document": "a5e-ag",
+        "gamesystem": "a5e"
+      },
+      {
+        "desc": "* A restrained creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.\r\n* Attack rolls against the creature have advantage, and the creature’s attack rolls have disadvantage.\r\n* The creature has disadvantage on Dexterity saving throws.",
+        "document": "srd-2014",
+        "gamesystem": "5e-2014"
+      },
+      {
+        "desc": "While you have the Restrained condition, you experience the following effects.\n* Speed 0. Your Speed is 0 and can’t increase.\n* Attacks Affected. Attack rolls against you have Advantage, and your attack rolls have Disadvantage. \n* Saving Throws Affected. You have Disadvantage on Dexterity saving throws.",
+        "document": "srd-2024",
+        "gamesystem": "5e-2024"
+      }
+    ],
+    "icon": {
+      "alt_text": "An icon representing the Restrained condition. A simple black-and-white silouetted figure is on all fours, as if crawling. Three large arrows above the figure point downward.",
+      "attribution": "Designed with love by Anaislalovi (@anaislalovi) for Elderberry Inn.",
+      "file_url": "/static/img/object_icons/elderberry-inn-icons/conditions/restrained.svg",
+      "key": "elderberry_restrained",
+      "name": "Restrained"
+    },
+    "key": "restrained",
+    "name": "Restrained"
+  }
+}

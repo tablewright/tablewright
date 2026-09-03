@@ -1,0 +1,38 @@
+{
+  "id": "5e-2014-core-conditions:condition:blinded",
+  "type": "condition",
+  "name": "Blinded",
+  "source": "5e-2014-core-conditions",
+  "tags": [
+    "2014"
+  ],
+  "body": "* A blinded creature can’t see and it automatically fails ability checks that require sight.\n\n* Attack rolls against a blinded creature are made with advantage, and the creature’s attack rolls are made with disadvantage.\n\n* A blinded creature can't see and automatically fails any ability check that requires sight.\r\n* Attack rolls against the creature have advantage, and the creature’s attack rolls have disadvantage.\n\nWhile you have the Blinded condition, you experience the following effects.\n * Can’t See. You can’t see and automatically fail any ability check that requires sight.\n * Attacks Affected. Attack rolls against you have Advantage, and your attack rolls have Disadvantage.",
+  "data": {
+    "descriptions": [
+      {
+        "desc": "* A blinded creature can’t see and it automatically fails ability checks that require sight.\n\n* Attack rolls against a blinded creature are made with advantage, and the creature’s attack rolls are made with disadvantage.",
+        "document": "a5e-ag",
+        "gamesystem": "a5e"
+      },
+      {
+        "desc": "* A blinded creature can't see and automatically fails any ability check that requires sight.\r\n* Attack rolls against the creature have advantage, and the creature’s attack rolls have disadvantage.",
+        "document": "srd-2014",
+        "gamesystem": "5e-2014"
+      },
+      {
+        "desc": "While you have the Blinded condition, you experience the following effects.\n * Can’t See. You can’t see and automatically fail any ability check that requires sight.\n * Attacks Affected. Attack rolls against you have Advantage, and your attack rolls have Disadvantage.",
+        "document": "srd-2024",
+        "gamesystem": "5e-2024"
+      }
+    ],
+    "icon": {
+      "alt_text": "An icon representing the blinded condition in an RPG. A simple, abstract black-and-white icon of an eye with a line crossed through it.",
+      "attribution": "Designed with love by Anaislalovi (@anaislalovi) for Elderberry Inn.",
+      "file_url": "/static/img/object_icons/elderberry-inn-icons/conditions/blinded.svg",
+      "key": "elderberry_blinded",
+      "name": "Blinded"
+    },
+    "key": "blinded",
+    "name": "Blinded"
+  }
+}

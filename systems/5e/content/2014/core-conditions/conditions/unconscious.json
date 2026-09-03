@@ -1,0 +1,38 @@
+{
+  "id": "5e-2014-core-conditions:condition:unconscious",
+  "type": "condition",
+  "name": "Unconscious",
+  "source": "5e-2014-core-conditions",
+  "tags": [
+    "2014"
+  ],
+  "body": "* An unconscious creature is incapacitated, can’t move or speak, and is unaware of its surroundings. \n\n* An unconscious creature drops whatever it’s holding and falls prone.\n\n* An unconscious creature automatically fails Strength and Dexterity saving throws. \n\n* Attack rolls against an unconscious creature are made with advantage.\n\n* Any attack that hits an unconscious creature is a critical hit if the attacker is within 5 feet.\n\n* An unconscious creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings\r\n* The creature drops whatever it’s holding and falls prone.\r\n* The creature automatically fails Strength and Dexterity saving throws.\r\n* Attack rolls against the creature have advantage.\r\n* Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.\n\nWhile you have the Unconscious condition, you experience the following effects. \n* Inert. You have the Incapacitated and Prone conditions, and you drop whatever you’re holding. When this condition ends, you remain Prone. \n* Speed 0. Your Speed is 0 and can’t increase.\n* Attacks Affected. Attack rolls against you have Advantage. \n* Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. \n* Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you. Unaware. You’re unaware of your surroundings.",
+  "data": {
+    "descriptions": [
+      {
+        "desc": "* An unconscious creature is incapacitated, can’t move or speak, and is unaware of its surroundings. \n\n* An unconscious creature drops whatever it’s holding and falls prone.\n\n* An unconscious creature automatically fails Strength and Dexterity saving throws. \n\n* Attack rolls against an unconscious creature are made with advantage.\n\n* Any attack that hits an unconscious creature is a critical hit if the attacker is within 5 feet.",
+        "document": "a5e-ag",
+        "gamesystem": "a5e"
+      },
+      {
+        "desc": "* An unconscious creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings\r\n* The creature drops whatever it’s holding and falls prone.\r\n* The creature automatically fails Strength and Dexterity saving throws.\r\n* Attack rolls against the creature have advantage.\r\n* Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.",
+        "document": "srd-2014",
+        "gamesystem": "5e-2014"
+      },
+      {
+        "desc": "While you have the Unconscious condition, you experience the following effects. \n* Inert. You have the Incapacitated and Prone conditions, and you drop whatever you’re holding. When this condition ends, you remain Prone. \n* Speed 0. Your Speed is 0 and can’t increase.\n* Attacks Affected. Attack rolls against you have Advantage. \n* Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. \n* Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you. Unaware. You’re unaware of your surroundings.",
+        "document": "srd-2024",
+        "gamesystem": "5e-2024"
+      }
+    ],
+    "icon": {
+      "alt_text": "An icon representing the Inconscious condition. A black-and-white silhouetted figure visible from the shoulders up faces the viewer. Where its eyes should be are swirls",
+      "attribution": "Designed with love by Anaislalovi (@anaislalovi) for Elderberry Inn.",
+      "file_url": "/static/img/object_icons/elderberry-inn-icons/conditions/inconscious.svg",
+      "key": "elderberry_inconscious",
+      "name": "Inconscious"
+    },
+    "key": "unconscious",
+    "name": "Unconscious"
+  }
+}

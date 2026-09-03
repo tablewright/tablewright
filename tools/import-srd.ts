@@ -74,10 +74,19 @@ const KINDS: Kind[] = [
   { endpoint: "backgrounds", type: "background", directory: "backgrounds", shape: shapeBackground },
   { endpoint: "feats", type: "feat", directory: "feats", shape: shapeFeat },
   { endpoint: "rules", type: "rule", directory: "rules", shape: shapeRule },
-  // Conditions: Open5e carries none under srd-2024 (only its own core
-  // and A5E documents), so the kind is declared in the manifest and
-  // waits for upstream, or for a hand import of the SRD 5.2 glossary.
+  // Conditions: Open5e carries none under srd-2024; the 2014 text ships
+  // as a module of its own below, until the 5.2 glossary lands upstream.
 ];
+
+// Open5e's "5e Core Concepts" document: the SRD 5.1 text, CC-BY-4.0, by
+// the SRD's own authors. Its fifteen conditions become a second module,
+// named for what they are, so a search for "frightened" has a page to
+// open while the 2024 wording is not published in structured form.
+const CORE = {
+  document: "core",
+  moduleId: "5e-2014-core-conditions",
+  outDir: join(ROOT, "systems", "5e", "content", "2014", "core-conditions"),
+};
 
 const refresh = process.argv.includes("--refresh");
 const started = performance.now();
@@ -140,21 +149,69 @@ await Bun.write(join(OUT_DIR, "module.json"), `${JSON.stringify(manifest, null, 
 
 const elapsed = Math.round(performance.now() - started);
 const summary = Object.entries(counts)
-  .map(([type, count]) => `${count} ${type}s`)
+  .map(([type, count]) => `${count} ${type.endsWith("s") ? `${type}es` : `${type}s`}`)
   .join(", ");
 console.log(`${MODULE_ID}: ${summary} in ${elapsed} ms (upstream fetched ${fetched})`);
 
+{
+  const cache = await load("conditions", CORE.document);
+  const directory = join(CORE.outDir, "conditions");
+  await rm(directory, { recursive: true, force: true });
+  await mkdir(directory, { recursive: true });
+  const records = cache.results.filter((record) => keyOf(record.document) === CORE.document);
+  let count = 0;
+  for (const record of records) {
+    const slug = slugOf(record.key, `${CORE.document}_`);
+    const descriptions = Array.isArray(record.descriptions) ? record.descriptions : [];
+    const body = compact(
+      descriptions.map((description) => text((description as { desc?: unknown }).desc))
+    ).join("\n\n");
+    const entry: Entry = {
+      id: `${CORE.moduleId}:condition:${slug}`,
+      type: "condition",
+      name: record.name,
+      source: CORE.moduleId,
+      tags: ["2014"],
+      body,
+      data: sorted(withoutDocument(record)),
+    };
+    await Bun.write(join(directory, `${slug}.json`), `${JSON.stringify(entry, null, 2)}\n`);
+    count += 1;
+  }
+  const coreManifest = {
+    id: CORE.moduleId,
+    name: "5e conditions (SRD 5.1 text)",
+    system: "5e",
+    systemVersion: "2014",
+    version: cache.fetched.slice(0, 10),
+    license: "CC-BY-4.0",
+    attribution:
+      'This work includes material from the System Reference Document 5.1 ("SRD 5.1") by ' +
+      "Wizards of the Coast LLC, available at " +
+      "https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed " +
+      "under the Creative Commons Attribution 4.0 International License, available at " +
+      "https://creativecommons.org/licenses/by/4.0/legalcode. Transcribed to structured data " +
+      "by Open5e (https://open5e.com) as its 5e Core Concepts document and reshaped for " +
+      "Tablewright.",
+    upstream: { name: "Open5e", api: API, document: CORE.document, fetched: cache.fetched },
+    kinds: { condition: count },
+  };
+  await Bun.write(join(CORE.outDir, "module.json"), `${JSON.stringify(coreManifest, null, 2)}\n`);
+  console.log(`${CORE.moduleId}: ${count} conditions (upstream fetched ${cache.fetched})`);
+}
+
 // Reads the cached upstream list for an endpoint, fetching it when absent or
 // when --refresh was given.
-async function load(endpoint: string): Promise<Cache> {
-  const file = Bun.file(join(CACHE_DIR, `${endpoint}.json`));
+async function load(endpoint: string, document = DOCUMENT): Promise<Cache> {
+  const name = document === DOCUMENT ? endpoint : `${document}-${endpoint}`;
+  const file = Bun.file(join(CACHE_DIR, `${name}.json`));
   if (!refresh && (await file.exists())) {
     return (await file.json()) as Cache;
   }
   // Lists disagree on which document filter they honour (`document=` on
   // magic items, `document__key=` on creatures and spells), so both are
   // sent; the document check above catches whatever still leaks.
-  const first = `${API}/${endpoint}/?document=${DOCUMENT}&document__key=${DOCUMENT}&limit=${PAGE_SIZE}`;
+  const first = `${API}/${endpoint}/?document=${document}&document__key=${document}&limit=${PAGE_SIZE}`;
   const results: Upstream[] = [];
   let url: string | null = first;
   while (url !== null) {
@@ -307,8 +364,8 @@ function shapeRule(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
 // Upstream keys look like `srd-2024_goblin-warrior`; the slug is the rest.
 // A rule's key nests its section with a second underscore, which becomes a
 // dash so the id stays one word.
-function slugOf(key: string): string {
-  const rest = key.startsWith(KEY_PREFIX) ? key.slice(KEY_PREFIX.length) : key;
+function slugOf(key: string, prefix = KEY_PREFIX): string {
+  const rest = key.startsWith(prefix) ? key.slice(prefix.length) : key;
   const slug = rest.replace(/_/g, "-");
   if (!/^[a-z0-9-]+$/.test(slug)) {
     throw new Error(`unusable slug in key ${key}`);
