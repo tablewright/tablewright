@@ -464,7 +464,10 @@ export class TwSpotlight extends LitElement {
         tabindex=${selected ? "0" : "-1"}
         draggable="true"
         @pointermove=${() => this.#select(index)}
-        @click=${() => this.#choose(index)}
+        @click=${() => {
+          this.#select(index);
+          this.#choose(index);
+        }}
         @keydown=${this.#onTileKeydown}
         @dragstart=${(event: DragEvent) => this.#onDragStart(event, hit)}
         @dragend=${this.#onDragEnd}
