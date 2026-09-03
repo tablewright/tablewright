@@ -6,8 +6,6 @@
   "tags": [
     "tools"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ability: Intelligence. Utilize: Detect a poisoned object (DC 10). Craft: Basic Poison",
   "data": {
     "armor": null,

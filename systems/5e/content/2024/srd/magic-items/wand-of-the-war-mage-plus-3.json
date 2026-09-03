@@ -8,8 +8,6 @@
     "very-rare",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity (Uncommon +1, Rare +2, Very Rare +3). In addition, you ignore Half Cover when making a spell attack roll.",
   "data": {
     "armor": null,

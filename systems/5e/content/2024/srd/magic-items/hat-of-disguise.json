@@ -8,8 +8,6 @@
     "uncommon",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While wearing this hat, you can cast the Disguise Self spell. The spell ends if the hat is removed.",
   "data": {
     "armor": null,

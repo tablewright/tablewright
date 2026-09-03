@@ -6,8 +6,6 @@
   "tags": [
     "tools"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ability: Intelligence. Utilize: Discern a gem's value (DC 15). Craft: Arcane Focus, Holy Symbol",
   "data": {
     "armor": null,

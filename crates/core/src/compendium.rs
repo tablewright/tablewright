@@ -139,13 +139,14 @@ impl Entry {
 }
 
 /// A facet: one filterable fact about an entry, read from its data by the
-/// system's manifest at seed time (`level`, `school`, `cr`), so search can
-/// answer `level<=3` without opening the data.
+/// system's manifest at seed time (`level`, `school`, `cr`, `ritual`), so
+/// search can answer `level<=3` without opening the data.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 #[serde(untagged)]
 pub enum FacetValue {
     Number(f64),
     Text(String),
+    Bool(bool),
 }
 
 /// The envelope fields that identify and classify an entry, without the

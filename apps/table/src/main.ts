@@ -6,7 +6,7 @@ import { BoardStage, readBoardTheme } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
 import type { CommandError, Scene, Visibility } from "@tablewright/schema";
 import "@tablewright/ui";
-import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
+import type { EntryDocument, Searcher, SpotlightHit, Taxonomy } from "@tablewright/ui";
 import { BoardHost } from "./board-host.js";
 
 const host = document.getElementById("board");
@@ -93,6 +93,8 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
 // browser and by Playwright without a core.
 interface Core {
   search: Searcher;
+  /** Kind to category label, from the system the compendium was seeded for. */
+  taxonomy: () => Promise<Taxonomy>;
   entry: (id: string) => Promise<EntryDocument>;
   scene: () => Promise<Scene>;
   moveToken: (id: string, col: number, row: number, facing: number) => Promise<Scene>;
@@ -108,6 +110,7 @@ function connectCore(): Core {
       const scenes = import("./dev/scene-fixture.js");
       return {
         search: async (query) => (await fixture).fixtureSearcher(query),
+        taxonomy: async () => (await fixture).fixtureTaxonomy,
         entry: async (id) => {
           const found = (await fixture).fixtureEntry(id);
           if (found === undefined) {
@@ -126,6 +129,7 @@ function connectCore(): Core {
     };
     return {
       search: unconnected,
+      taxonomy: unconnected,
       entry: unconnected,
       scene: unconnected,
       moveToken: unconnected,
@@ -144,6 +148,16 @@ function connectCore(): Core {
     search: async (query) => {
       const data = unwrap(await commands.search(query, "dm", null));
       return { hits: data.hits, elapsedUs: data.elapsed_us, catalogueSize: data.catalogue_size };
+    },
+    taxonomy: async () => {
+      const system = unwrap(await commands.system());
+      const taxonomy: Record<string, string> = {};
+      if (system !== null) {
+        for (const [kind, spec] of Object.entries(system.kinds ?? {})) {
+          taxonomy[kind] = system.categories?.[spec.category] ?? spec.name;
+        }
+      }
+      return taxonomy;
     },
     entry: async (id) => {
       const { type, name, source, tags, body, ...rest } = unwrap(await commands.getEntry(id, "dm"));
@@ -236,6 +250,15 @@ try {
   });
   openButton.addEventListener("click", () => void openMap(board));
   spotlight.searcher = core.search;
+  // The box groups by the system's categories; a missing system leaves
+  // every kind its own group, which still reads.
+  try {
+    spotlight.taxonomy = await core.taxonomy();
+  } catch (error) {
+    showNotice(
+      `Could not read the system: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
   searchButton.addEventListener("click", () => spotlight.show());
   spotlight.addEventListener("tw-select", (event) => {
     void openEntry((event as CustomEvent<SpotlightHit>).detail);

@@ -12,8 +12,6 @@
     "paladin",
     "ranger"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Choose up to three creatures within range. Each target's Hit Point maximum and current Hit Points increase by 5 for the duration.\n\n**Using a Higher-Level Spell Slot.** Each target's Hit Points increase by 5 for each spell slot level above 2.",
   "data": {
     "attack_roll": false,

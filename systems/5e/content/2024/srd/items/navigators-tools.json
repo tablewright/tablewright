@@ -6,8 +6,6 @@
   "tags": [
     "tools"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ability: Wisdom. Utilize: Plot a course (DC 15), or determine position (DC 15)",
   "data": {
     "armor": null,

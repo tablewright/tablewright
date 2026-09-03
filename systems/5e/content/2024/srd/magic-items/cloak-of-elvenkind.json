@@ -8,8 +8,6 @@
     "uncommon",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While you wear this cloak, Wisdom (Perception) checks made to perceive you have Disadvantage, and you have Advantage on Dexterity (Stealth) checks.",
   "data": {
     "armor": null,

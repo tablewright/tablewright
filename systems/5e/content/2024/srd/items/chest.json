@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Chest holds up to 12 cubic feet of contents.",
   "data": {
     "armor": null,

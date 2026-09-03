@@ -1,13 +1,16 @@
 // How a hit is shown as a tile: its category, and the preview each
-// category draws (design.md §3). The envelope summary carries only name,
-// type, source, and tags, so previews are read from the tags a system's
-// importer wrote: a spell's level, a creature's challenge, an item's
-// rarity. Pure functions, so the rules are unit-tested without a DOM.
+// category draws (design.md §3). The category a kind belongs to comes from
+// the system manifest, handed in as a taxonomy; nothing here knows a kind
+// by name except the previews, which read a system's tags until typed
+// data arrives. Pure functions, so the rules are unit-tested without a DOM.
 
 import type { SpotlightHit } from "./searcher.js";
 
+/** Kind to the category label it is grouped under, from the system manifest. */
+export type Taxonomy = Readonly<Record<string, string>>;
+
 export interface TilePreview {
-  /** The group the tile belongs to: Spells, Bestiary, Items, or the kind itself. */
+  /** The group the tile belongs to: a category from the taxonomy, or the kind itself. */
   category: string;
   /** The line under the name. */
   meta: string;
@@ -22,23 +25,16 @@ export interface HitGroup {
   hits: SpotlightHit[];
 }
 
-const CATEGORY: Readonly<Record<string, string>> = {
-  spell: "Spells",
-  monster: "Bestiary",
-  item: "Items",
-  "magic-item": "Items",
-};
-
 const RARITIES = new Set(["common", "uncommon", "rare", "very-rare", "legendary", "artifact"]);
 
-/** The category a kind is grouped under. Unknown kinds group by themselves. */
-export function categoryOf(kind: string): string {
-  return CATEGORY[kind] ?? titleCase(kind);
+/** The category a kind is grouped under. A kind the taxonomy does not name groups by itself. */
+export function categoryOf(kind: string, taxonomy?: Taxonomy): string {
+  return taxonomy?.[kind] ?? titleCase(kind);
 }
 
 /** What a tile shows for `hit`. */
-export function previewOf(hit: SpotlightHit): TilePreview {
-  const category = categoryOf(hit.type);
+export function previewOf(hit: SpotlightHit, taxonomy?: Taxonomy): TilePreview {
+  const category = categoryOf(hit.type, taxonomy);
   switch (hit.type) {
     case "spell": {
       const level = hit.tags.find((tag) => tag === "cantrip" || /^level-\d+$/.test(tag));
@@ -66,11 +62,11 @@ export function previewOf(hit: SpotlightHit): TilePreview {
  * hit, and hits keep their rank order within a group: grouping is
  * presentation over the ranked list, never a reordering of it.
  */
-export function groupHits(hits: readonly SpotlightHit[]): HitGroup[] {
+export function groupHits(hits: readonly SpotlightHit[], taxonomy?: Taxonomy): HitGroup[] {
   const groups: HitGroup[] = [];
   const byCategory = new Map<string, HitGroup>();
   for (const hit of hits) {
-    const category = categoryOf(hit.type);
+    const category = categoryOf(hit.type, taxonomy);
     let group = byCategory.get(category);
     if (group === undefined) {
       group = { category, hits: [] };

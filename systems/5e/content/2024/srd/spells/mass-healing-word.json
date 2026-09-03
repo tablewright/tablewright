@@ -9,8 +9,6 @@
     "bard",
     "cleric"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Up to six creatures of your choice that you can see within range regain Hit Points equal to 2d4 plus your spellcasting ability modifier.\n\n**Using a Higher-Level Spell Slot.** The healing increases by 1d4 for each spell slot level above 3.",
   "data": {
     "attack_roll": false,

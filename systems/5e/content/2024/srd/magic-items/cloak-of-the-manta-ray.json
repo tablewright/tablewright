@@ -8,8 +8,6 @@
     "uncommon",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While wearing this cloak, you can breathe underwater, and you have a Swim Speed of 60 feet.",
   "data": {
     "armor": null,

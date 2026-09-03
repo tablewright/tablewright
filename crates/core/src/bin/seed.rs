@@ -3,8 +3,10 @@
 //!
 //! Usage: `seed <module directory> <output.sqlite> [system.json]`. The
 //! output is rewritten from scratch on every run. With a system manifest,
-//! each entry's facets are read from its data by the manifest's paths,
-//! unless the entry file already names them.
+//! each entry's facets are read from its data by the manifest's specs
+//! unless the entry file already names them, an entry that does not say
+//! who may see it takes its kind's default, and the manifest itself is
+//! stored so the app can read kinds, facets and controls from the store.
 
 use std::collections::BTreeMap;
 use std::error::Error;
@@ -35,9 +37,9 @@ fn main() -> ExitCode {
 
 fn run(module_dir: &Path, output: &Path, system: Option<&Path>) -> Result<(), Box<dyn Error>> {
     let started = Instant::now();
-    let mut module = read_module(module_dir)?;
-    if let Some(system) = system {
-        let manifest = SystemManifest::load(system)?;
+    let manifest = system.map(SystemManifest::load).transpose()?;
+    let mut module = read_module(module_dir, manifest.as_ref())?;
+    if let (Some(manifest), Some(system)) = (&manifest, system) {
         let mut faceted = 0;
         for entry in &mut module.entries {
             if entry.facets.is_empty() {
@@ -57,6 +59,9 @@ fn run(module_dir: &Path, output: &Path, system: Option<&Path>) -> Result<(), Bo
     }
     let mut store = Store::open(output)?;
     store.put_module(&module.manifest)?;
+    if let Some(manifest) = &manifest {
+        store.put_system(manifest)?;
+    }
     let written = store.upsert_all(&module.entries)?;
     store.seal()?;
     drop(store);

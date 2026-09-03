@@ -10,8 +10,6 @@
     "paladin",
     "concentration"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A shimmering field surrounds a creature of your choice within range, granting it a +2 bonus to AC for the duration.",
   "data": {
     "attack_roll": false,

@@ -6,8 +6,6 @@
   "tags": [
     "tools"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ability: Charisma. Utilize: Apply makeup (DC 10). Craft: Costume",
   "data": {
     "armor": null,

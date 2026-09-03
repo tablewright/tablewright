@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "An Iron Pot holds up to 1 gallon.",
   "data": {
     "armor": null,

@@ -6,8 +6,6 @@
   "tags": [
     "ammunition"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ammunition for weapons that use arrows. Comes in a pack of 20. Typically stored in a quiver.",
   "data": {
     "armor": null,

@@ -10,8 +10,6 @@
     "paladin",
     "concentration"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "For the duration, Celestials, Elementals, Fey, Fiends, and Undead have Disadvantage on attack rolls against you. You can end the spell early by using either of the following special functions.",
   "data": {
     "attack_roll": true,

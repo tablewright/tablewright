@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A handheld steel Mirror is useful for personal cosmetics but also for peeking around corners and reflecting light as a signal.",
   "data": {
     "armor": null,

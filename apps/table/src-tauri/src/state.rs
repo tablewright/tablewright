@@ -6,13 +6,15 @@
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
-use tablewright_core::{Catalogue, Scene, Store, StoreError};
+use tablewright_core::{Catalogue, Scene, Store, StoreError, SystemManifest};
 
-/// An open compendium and its catalogue.
+/// An open compendium, its catalogue, and the system it was seeded for.
 pub struct Compendium {
     /// SQLite connections are not `Sync`; the mutex makes the state shareable.
     pub store: Mutex<Store>,
     pub catalogue: Catalogue,
+    /// The manifest the seeder was given, if any: kinds, facets, controls.
+    pub system: Option<SystemManifest>,
 }
 
 impl Compendium {
@@ -24,9 +26,11 @@ impl Compendium {
     pub fn open(path: &Path) -> Result<Self, StoreError> {
         let store = Store::open(path)?;
         let catalogue = Catalogue::from_store(&store)?;
+        let system = store.system()?;
         Ok(Self {
             store: Mutex::new(store),
             catalogue,
+            system,
         })
     }
 }

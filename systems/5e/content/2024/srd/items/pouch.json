@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Pouch holds up to 6 pounds within one-fifth of a cubic foot.",
   "data": {
     "armor": null,

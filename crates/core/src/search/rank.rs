@@ -48,7 +48,7 @@ impl Candidate {
                 .map(|(name, value)| {
                     let value = match value {
                         FacetValue::Text(text) => FacetValue::Text(normalize(text)),
-                        number => number.clone(),
+                        other => other.clone(),
                     };
                     (name.clone(), value)
                 })
@@ -120,6 +120,15 @@ fn facet_passes(facet: &FacetValue, compare: Compare, value: &str) -> bool {
             Compare::Ge => *have >= want,
         }),
         FacetValue::Text(have) => compare == Compare::Eq && have == value,
+        FacetValue::Bool(have) => compare == Compare::Eq && truth(value) == Some(*have),
+    }
+}
+
+fn truth(value: &str) -> Option<bool> {
+    match value {
+        "true" | "yes" | "1" => Some(true),
+        "false" | "no" | "0" => Some(false),
+        _ => None,
     }
 }
 

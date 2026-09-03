@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Ladder is 10 feet tall. You must climb to move up or down it.",
   "data": {
     "armor": null,

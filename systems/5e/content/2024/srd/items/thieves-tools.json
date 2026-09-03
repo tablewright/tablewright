@@ -6,8 +6,6 @@
   "tags": [
     "tools"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ability: Dexterity. Utilize: Pick a lock (DC 15), or disarm a trap (DC 15)",
   "data": {
     "armor": null,

@@ -6,8 +6,6 @@
   "tags": [
     "tools"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ability: Wisdom. Utilize: Discern whether someone is cheating (DC 10), or win the game (DC 20)",
   "data": {
     "armor": null,

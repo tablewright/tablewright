@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Glass Bottle holds up to 1 0.5 pints.",
   "data": {
     "armor": null,

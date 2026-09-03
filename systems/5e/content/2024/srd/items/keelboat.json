@@ -6,8 +6,6 @@
   "tags": [
     "waterborne-vehicle"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A small riverboat with a keel.",
   "data": {
     "armor": null,

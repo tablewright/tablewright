@@ -8,8 +8,6 @@
     "rare",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "This cube is about an inch across. Each face has a distinct marking on it. You can press one of those faces, expend the number of charges required for it, and thereby cast the spell associated with it (save DC 17), as shown in the Cube of Force Faces table.\n\nThe cube starts with 10 charges, and it regains 1d6 expended charges daily at dawn.\n\nTable: Cube of Force Faces\n\n| Spell            | Charge Cost |\n|------------------|-------------|\n| Mage Armor       | 1           |\n| Shield           | 1           |\n| Tiny Hut         | 3           |\n| Private Sanctum  | 4           |\n| Resilient Sphere | 4           |\n| Wall of Force    | 5           |",
   "data": {
     "armor": null,

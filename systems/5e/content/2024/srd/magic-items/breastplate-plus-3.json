@@ -7,8 +7,6 @@
     "armor",
     "very-rare"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "You have a bonus to Armor Class while wearing this armor. The bonus is determined by its rarity.",
   "data": {
     "armor": {

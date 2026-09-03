@@ -6,8 +6,6 @@
   "tags": [
     "waterborne-vehicle"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A heavily armed ship designed for naval combat.",
   "data": {
     "armor": null,

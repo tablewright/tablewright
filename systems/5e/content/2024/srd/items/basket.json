@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Basket holds up to 40 pounds within 2 cubic feet.",
   "data": {
     "armor": null,

@@ -6,8 +6,6 @@
   "tags": [
     "ammunition"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ammunition for weapons that use bolts. Comes in a pack of 20. Typically stored in a case.",
   "data": {
     "armor": null,

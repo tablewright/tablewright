@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "When rung as a Utilize action, a Bell produces a sound that can be heard up to 60 feet away.",
   "data": {
     "armor": null,

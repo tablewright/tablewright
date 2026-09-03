@@ -3,7 +3,13 @@
 // ranking (name matches first, then tags, then type), and a lookup by id.
 // Enough to drive the panel, the share cards, and the entry page.
 
-import type { EntryDocument, SearchAnswer, Searcher, SpotlightHit } from "@tablewright/ui";
+import type {
+  EntryDocument,
+  SearchAnswer,
+  Searcher,
+  SpotlightHit,
+  Taxonomy,
+} from "@tablewright/ui";
 
 const ENTRIES: EntryDocument[] = [
   {
@@ -112,3 +118,11 @@ function summaryOf(entry: EntryDocument): SpotlightHit {
   const { id, type, name, source, tags } = entry;
   return { id, type, name, source, tags };
 }
+
+/** What the 5e manifest declares: kind to category label. */
+export const fixtureTaxonomy: Taxonomy = {
+  spell: "Spells",
+  monster: "Bestiary",
+  item: "Items",
+  "magic-item": "Items",
+};

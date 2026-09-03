@@ -10,8 +10,6 @@
     "druid",
     "concentration"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "You touch a willing creature and choose a skill. Until the spell ends, the creature adds 1d4 to any ability check using the chosen skill.",
   "data": {
     "attack_roll": false,

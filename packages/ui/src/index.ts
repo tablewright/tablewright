@@ -10,5 +10,5 @@ export type { EntryDocument } from "./entry/tw-entry-view.js";
 export { paragraphs, runs } from "./entry/markdown-lite.js";
 export type { Run } from "./entry/markdown-lite.js";
 export { categoryOf, groupHits, previewOf } from "./spotlight/preview.js";
-export type { HitGroup, TilePreview } from "./spotlight/preview.js";
+export type { HitGroup, Taxonomy, TilePreview } from "./spotlight/preview.js";
 export type { SearchAnswer, Searcher, SpotlightHit } from "./spotlight/searcher.js";

@@ -6,8 +6,6 @@
   "tags": [
     "waterborne-vehicle"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A swift ship designed for raiding and exploration.",
   "data": {
     "armor": null,

@@ -12,8 +12,6 @@
     "paladin",
     "ranger"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A creature you touch regains a number of Hit Points equal to 2d8 plus your spellcasting ability modifier.\n\n**Using a Higher-Level Spell Slot.** The healing increases by 2d8 for each spell slot level above 1.",
   "data": {
     "attack_roll": false,

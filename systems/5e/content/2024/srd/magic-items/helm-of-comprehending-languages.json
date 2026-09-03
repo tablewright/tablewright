@@ -7,8 +7,6 @@
     "wondrous-item",
     "uncommon"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While wearing this helm, you can cast Comprehend Languages from it.",
   "data": {
     "armor": null,

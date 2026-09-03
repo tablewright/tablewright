@@ -11,9 +11,10 @@ use thiserror::Error;
 
 use crate::compendium::{Entry, EntryId, EntrySummary, Visibility};
 use crate::module::Manifest;
+use crate::system::SystemManifest;
 
 /// Schema version this build writes and reads; bumped with every migration.
-const SCHEMA_VERSION: i64 = 2;
+const SCHEMA_VERSION: i64 = 3;
 
 /// Failures of the compendium store.
 #[derive(Debug, Error)]
@@ -94,6 +95,16 @@ impl Store {
             // Version 2: facets, the filterable facts read from data at seed time.
             connection.execute_batch(
                 "ALTER TABLE entries ADD COLUMN facets TEXT NOT NULL DEFAULT '{}';",
+            )?;
+        }
+        if found < 3 {
+            // Version 3: the system manifest the content was seeded for, so
+            // the app reads kinds, facets and controls from the store.
+            connection.execute_batch(
+                "CREATE TABLE IF NOT EXISTS systems (
+                    id TEXT PRIMARY KEY,
+                    manifest TEXT NOT NULL
+                );",
             )?;
         }
         if found < SCHEMA_VERSION {
@@ -279,6 +290,35 @@ impl Store {
         Ok(manifests)
     }
 
+    /// Record the system the content was seeded for.
+    ///
+    /// # Errors
+    ///
+    /// Fails if the manifest cannot be written.
+    pub fn put_system(&self, system: &SystemManifest) -> Result<(), StoreError> {
+        self.connection.execute(
+            "INSERT OR REPLACE INTO systems (id, manifest) VALUES (?1, ?2)",
+            params![system.id, serde_json::to_string(system)?],
+        )?;
+        Ok(())
+    }
+
+    /// The system the content was seeded for, if the seeder was given one.
+    ///
+    /// # Errors
+    ///
+    /// Fails if the store cannot be read or the manifest no longer parses.
+    pub fn system(&self) -> Result<Option<SystemManifest>, StoreError> {
+        let mut statement = self
+            .connection
+            .prepare("SELECT manifest FROM systems ORDER BY id LIMIT 1")?;
+        let mut rows = statement.query([])?;
+        match rows.next()? {
+            Some(row) => Ok(Some(serde_json::from_str(&row.get::<_, String>(0)?)?)),
+            None => Ok(None),
+        }
+    }
+
     /// Leave the file self-contained for shipping: checkpoint and drop the
     /// write-ahead log, switch to the rollback journal, and vacuum. Opening
     /// the file again turns the write-ahead log back on.
@@ -366,6 +406,19 @@ fn build_entry(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_system_manifest_is_kept_with_the_content() {
+        let store = Store::open_in_memory().expect("store");
+        assert_eq!(store.system().expect("read"), None);
+        let system: SystemManifest = serde_json::from_str(
+            r#"{"id":"5e","name":"5e","categories":{"spells":"Spells"},
+                "kinds":{"spell":{"name":"Spell","category":"spells"}}}"#,
+        )
+        .expect("manifest");
+        store.put_system(&system).expect("write");
+        assert_eq!(store.system().expect("read"), Some(system));
+    }
 
     fn entry(id: &str, kind: &str, name: &str, visibility: Visibility) -> Entry {
         Entry {

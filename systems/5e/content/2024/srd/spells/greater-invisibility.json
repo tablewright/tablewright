@@ -11,8 +11,6 @@
     "wizard",
     "concentration"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "",
   "data": {
     "attack_roll": false,

@@ -11,8 +11,6 @@
     "sorcerer",
     "wizard"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "For the duration, a willing creature you touch has Darkvision with a range of 150 feet.",
   "data": {
     "attack_roll": false,

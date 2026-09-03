@@ -6,8 +6,6 @@
   "tags": [
     "tools"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ability: Wisdom. Utilize: Draft a map of a small area (DC 15). Craft: Map",
   "data": {
     "armor": null,

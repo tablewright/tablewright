@@ -10,31 +10,324 @@
     "cellFeet": 5,
     "diagonals": "equal"
   },
-  "facets": {
-    "spell": {
-      "level": "level",
-      "school": "school.key",
-      "ritual": "ritual",
-      "concentration": "concentration",
-      "range": "range"
-    },
+  "categories": { "spells": "Spells", "bestiary": "Bestiary", "items": "Items" },
+  "kinds": {
+    "spell": { "name": "Spell", "category": "spells", "words": ["spell", "spells"] },
     "monster": {
-      "cr": "challenge_rating",
-      "ac": "armor_class",
-      "hp": "hit_points",
-      "size": "size.key",
-      "creature": "type.key",
-      "alignment": "alignment"
+      "name": "Creature",
+      "category": "bestiary",
+      "words": ["monster", "monsters", "creature", "creatures"],
+      "visibility": "dm",
+      "data_visibility": "dm"
     },
     "item": {
-      "category": "category.key",
-      "cost": "cost",
-      "weight": "weight"
+      "name": "Item",
+      "category": "items",
+      "words": ["item", "items", "gear", "equipment"]
     },
     "magic-item": {
-      "category": "category.key",
-      "rarity": "rarity.key",
-      "attunement": "requires_attunement"
+      "name": "Magic item",
+      "category": "items",
+      "words": ["magic item", "magic items"]
     }
+  },
+  "facets": {
+    "spell": {
+      "level": {
+        "path": "level",
+        "type": "number",
+        "words": ["level", "lvl"],
+        "aliases": { "cantrip": 0 }
+      },
+      "school": { "path": "school.key", "type": "text", "words": ["school"] },
+      "ritual": { "path": "ritual", "type": "bool", "words": ["ritual"] },
+      "concentration": { "path": "concentration", "type": "bool", "words": ["concentration"] },
+      "verbal": { "path": "verbal", "type": "bool", "words": ["verbal"] },
+      "somatic": { "path": "somatic", "type": "bool", "words": ["somatic"] },
+      "material": { "path": "material", "type": "bool", "words": ["material", "materials"] },
+      "casting_time": { "path": "casting_time", "type": "text", "words": ["casting time", "cast"] },
+      "duration": { "path": "duration", "type": "text", "words": ["duration", "lasts", "lasting"] },
+      "range_kind": { "path": "range_text", "type": "text", "pick": ["self", "touch"] },
+      "range": {
+        "path": "range",
+        "type": "number",
+        "unit": "ft",
+        "words": ["range", "reach"],
+        "sentinels": {
+          "path": "range_text",
+          "values": { "sight": 10000000, "unlimited": 100000000 }
+        }
+      }
+    },
+    "monster": {
+      "cr": {
+        "path": "challenge_rating",
+        "type": "number",
+        "words": ["cr", "challenge", "challenge rating"]
+      },
+      "size": { "path": "size.key", "type": "text", "words": ["size"] },
+      "creature": { "path": "type.key", "type": "text", "words": ["type", "creature type"] },
+      "law": { "path": "alignment", "type": "text", "pick": ["lawful", "chaotic", "neutral"] },
+      "moral": { "path": "alignment", "type": "text", "pick": ["good", "evil", "neutral"] },
+      "ac": {
+        "path": "armor_class",
+        "type": "number",
+        "words": ["ac", "armor class", "armour class"]
+      },
+      "hp": { "path": "hit_points", "type": "number", "words": ["hp", "hit points", "health"] }
+    },
+    "item": {
+      "category": { "path": "category.key", "type": "text", "words": ["category"] },
+      "cost": {
+        "path": "cost",
+        "type": "number",
+        "unit": "gp",
+        "words": ["cost", "price", "costs", "costing"]
+      },
+      "weight": {
+        "path": "weight",
+        "type": "number",
+        "unit": "lb",
+        "words": ["weight", "weighs", "weighing"]
+      }
+    },
+    "magic-item": {
+      "category": { "path": "category.key", "type": "text", "words": ["category"] },
+      "rarity": { "path": "rarity.key", "type": "text", "words": ["rarity"] },
+      "attunement": {
+        "path": "requires_attunement",
+        "type": "bool",
+        "words": ["attunement", "attune", "attuned"]
+      }
+    }
+  },
+  "controls": {
+    "spell": [
+      {
+        "control": "rail",
+        "label": "Level",
+        "facet": "level",
+        "stops": [{ "value": 0, "label": "Cantrip" }, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      },
+      { "control": "chips", "label": "School", "facet": "school" },
+      {
+        "control": "switch",
+        "label": "Casting",
+        "cells": [
+          { "facet": "ritual", "label": "Ritual" },
+          { "facet": "concentration", "label": "Concentration" }
+        ]
+      },
+      {
+        "control": "switch",
+        "label": "Components",
+        "cells": [
+          { "facet": "verbal", "label": "Verbal" },
+          { "facet": "somatic", "label": "Somatic" },
+          { "facet": "material", "label": "Material" }
+        ]
+      },
+      {
+        "control": "slider",
+        "label": "Casting time",
+        "facet": "casting_time",
+        "stops": [
+          { "value": "bonus-action", "label": "Bonus" },
+          { "value": "action", "label": "Action" },
+          { "value": "reaction", "label": "Reaction" },
+          { "value": "1minute", "label": "1 min" },
+          { "value": "10minutes", "label": "10 min" },
+          { "value": "1hour", "label": "1 h" }
+        ]
+      },
+      {
+        "control": "select",
+        "label": "Duration",
+        "facet": "duration",
+        "stops": [
+          { "value": "instantaneous", "label": "Instantaneous" },
+          { "value": "1 round", "label": "1 round" },
+          { "value": "6 rounds", "label": "6 rounds" },
+          { "value": "1 minute", "label": "1 minute" },
+          { "value": "10 minutes", "label": "10 minutes" },
+          { "value": "1 hour", "label": "1 hour" },
+          { "value": "2 hours", "label": "2 hours" },
+          { "value": "8 hours", "label": "8 hours" },
+          { "value": "24 hours", "label": "24 hours" },
+          { "value": "1 day", "label": "1 day" },
+          { "value": "7 days", "label": "7 days" },
+          { "value": "10 days", "label": "10 days" },
+          { "value": "30 days", "label": "30 days" },
+          { "value": "until dispelled", "label": "Until dispelled" },
+          { "value": "until dispelled or triggered", "label": "Until dispelled or triggered" },
+          { "value": "special", "label": "Special" }
+        ]
+      },
+      {
+        "control": "slider",
+        "label": "Range",
+        "facet": "range",
+        "stops": [
+          5,
+          10,
+          15,
+          30,
+          60,
+          90,
+          100,
+          120,
+          150,
+          300,
+          500,
+          { "value": 5280, "label": "1 mi" },
+          { "value": 2640000, "label": "500 mi" },
+          { "value": 10000000, "label": "Sight" },
+          { "value": 100000000, "label": "∞" }
+        ],
+        "beside": {
+          "control": "switch",
+          "label": "",
+          "cells": [
+            { "facet": "range_kind", "value": "self", "label": "Self" },
+            { "facet": "range_kind", "value": "touch", "label": "Touch" }
+          ]
+        }
+      }
+    ],
+    "monster": [
+      {
+        "control": "slider",
+        "label": "Challenge rating",
+        "facet": "cr",
+        "stops": [
+          0,
+          { "value": 0.125, "label": "⅛" },
+          { "value": 0.25, "label": "¼" },
+          { "value": 0.5, "label": "½" },
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ]
+      },
+      {
+        "control": "rail",
+        "label": "Size",
+        "facet": "size",
+        "stops": [
+          { "value": "tiny", "label": "Tiny" },
+          { "value": "small", "label": "Small" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "large", "label": "Large" },
+          { "value": "huge", "label": "Huge" },
+          { "value": "gargantuan", "label": "Garg." }
+        ]
+      },
+      { "control": "chips", "label": "Type", "facet": "creature" },
+      {
+        "control": "switch",
+        "label": "Alignment",
+        "cells": [
+          [
+            { "facet": "law", "value": "lawful", "label": "Lawful" },
+            { "facet": "law", "value": "neutral", "label": "Neutral" },
+            { "facet": "law", "value": "chaotic", "label": "Chaotic" }
+          ],
+          [
+            { "facet": "moral", "value": "good", "label": "Good" },
+            { "facet": "moral", "value": "neutral", "label": "Neutral" },
+            { "facet": "moral", "value": "evil", "label": "Evil" }
+          ]
+        ]
+      },
+      {
+        "control": "slider",
+        "label": "Armor class",
+        "facet": "ac",
+        "stops": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+      }
+    ],
+    "item": [
+      { "control": "chips", "label": "Category", "facet": "category" },
+      {
+        "control": "slider",
+        "label": "Cost",
+        "facet": "cost",
+        "stops": [
+          { "value": 0.01, "label": "1 cp" },
+          { "value": 0.05, "label": "5 cp" },
+          { "value": 0.1, "label": "1 sp" },
+          { "value": 0.5, "label": "5 sp" },
+          { "value": 1, "label": "1 gp" },
+          5,
+          10,
+          25,
+          50,
+          100,
+          250,
+          500,
+          { "value": 1000, "label": "1k" },
+          { "value": 5000, "label": "5k" },
+          { "value": 10000, "label": "10k" },
+          { "value": 50000, "label": "50k" }
+        ]
+      },
+      {
+        "control": "slider",
+        "label": "Weight",
+        "facet": "weight",
+        "stops": [0, 0.5, 1, 2, 3, 5, 8, 10, 15, 20, 40, 60, 100, 200]
+      }
+    ],
+    "magic-item": [
+      { "control": "chips", "label": "Category", "facet": "category" },
+      {
+        "control": "rail",
+        "label": "Rarity",
+        "facet": "rarity",
+        "stops": [
+          { "value": "common", "label": "Common" },
+          { "value": "uncommon", "label": "Uncommon" },
+          { "value": "rare", "label": "Rare" },
+          { "value": "very-rare", "label": "Very rare" },
+          { "value": "legendary", "label": "Legendary" },
+          { "value": "artifact", "label": "Artifact" }
+        ]
+      },
+      {
+        "control": "switch",
+        "label": "Attunement",
+        "cells": [
+          { "facet": "attunement", "label": "Requires attunement" },
+          { "facet": "attunement", "value": false, "label": "No attunement" }
+        ]
+      }
+    ]
   }
 }

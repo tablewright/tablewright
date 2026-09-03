@@ -8,8 +8,6 @@
     "rare",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "When you fall while wearing this ring, you descend 60 feet per round and take no damage from falling.",
   "data": {
     "armor": null,

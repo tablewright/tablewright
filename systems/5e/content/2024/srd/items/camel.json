@@ -6,8 +6,6 @@
   "tags": [
     "mount"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A desert-dwelling mount capable of carrying heavy loads.",
   "data": {
     "armor": null,

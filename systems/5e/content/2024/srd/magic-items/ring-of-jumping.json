@@ -8,8 +8,6 @@
     "uncommon",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While wearing this ring, you can cast Jump from it, but can target only yourself when you do so.",
   "data": {
     "armor": null,

@@ -13,8 +13,6 @@
     "wizard",
     "concentration"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "For the duration, the willing creature you touch has Resistance to one damage type of your choice: Acid, Cold, Fire, Lightning, or Thunder.",
   "data": {
     "attack_roll": false,

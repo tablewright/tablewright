@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Sack holds up to 30 pounds within 1 cubic foot.",
   "data": {
     "armor": null,

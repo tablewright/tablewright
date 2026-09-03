@@ -6,8 +6,6 @@
   "tags": [
     "spellcasting-focus"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Druidic Focus is carved, tied with ribbon, or painted to channel primal magic. A Druid or Ranger can use such an object as a Spellcasting Focus.",
   "data": {
     "armor": null,

@@ -6,8 +6,6 @@
   "tags": [
     "armor"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A breastplate.",
   "data": {
     "armor": {

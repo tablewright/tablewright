@@ -10,8 +10,6 @@
     "warlock",
     "wizard"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space you can see.",
   "data": {
     "attack_roll": false,

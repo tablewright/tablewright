@@ -22,19 +22,17 @@ const ROOT = join(import.meta.dir, "..");
 const CACHE_DIR = join(ROOT, "data", "srd", "open5e");
 const OUT_DIR = join(ROOT, "systems", "5e", "content", "2024", "srd");
 
-type Visibility = "world" | "party" | "dm";
-
-// The envelope as the Rust core defines it (crates/core/src/compendium.rs).
-// Mirrored here by hand only because this tool runs before packages/schema
-// exists; once it does, import the generated type instead.
+// The envelope as the Rust core defines it (crates/core/src/compendium.rs),
+// less the visibility fields: who may see an entry is the kind default the
+// system manifest declares, so the module says nothing. Mirrored here by
+// hand only because this tool runs before packages/schema exists; once it
+// does, import the generated type instead.
 interface Entry {
   id: string;
   type: string;
   name: string;
   source: string;
   tags: string[];
-  visibility: Visibility;
-  data_visibility: Visibility;
   body: string;
   data: Record<string, unknown>;
 }
@@ -103,8 +101,6 @@ for (const kind of KINDS) {
       name: shaped.name,
       source: MODULE_ID,
       tags: shaped.tags,
-      visibility: shaped.visibility,
-      data_visibility: shaped.data_visibility,
       body: shaped.body,
       data: sorted(withoutDocument(record)),
     };
@@ -199,8 +195,6 @@ function shapeCreature(record: Upstream): Omit<Entry, "id" | "source" | "data"> 
     type: "monster",
     name: record.name,
     tags,
-    visibility: "party",
-    data_visibility: "dm",
     body: "",
   };
 }
@@ -226,8 +220,6 @@ function shapeSpell(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
     type: "spell",
     name: record.name,
     tags,
-    visibility: "world",
-    data_visibility: "world",
     body,
   };
 }
@@ -242,8 +234,6 @@ function shapeItem(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
     type: "item",
     name: record.name,
     tags,
-    visibility: "world",
-    data_visibility: "world",
     body: text(record.desc),
   };
 }
@@ -258,8 +248,6 @@ function shapeMagicItem(record: Upstream): Omit<Entry, "id" | "source" | "data">
     type: "magic-item",
     name: record.name,
     tags,
-    visibility: "world",
-    data_visibility: "world",
     body: text(record.desc),
   };
 }

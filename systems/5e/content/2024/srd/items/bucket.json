@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Bucket holds up to half a cubic foot of contents.",
   "data": {
     "armor": null,

@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ink comes in a 1-ounce bottle, which provides enough ink to write about 500 pages.",
   "data": {
     "armor": null,

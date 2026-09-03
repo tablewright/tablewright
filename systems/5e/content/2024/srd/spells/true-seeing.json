@@ -12,8 +12,6 @@
     "warlock",
     "wizard"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "For the duration, the willing creature you touch has Truesight with a range of 120 feet.",
   "data": {
     "attack_roll": false,

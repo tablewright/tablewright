@@ -8,8 +8,6 @@
     "rare",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "You gain a +1 bonus to Armor Class and saving throws while wearing this ring.",
   "data": {
     "armor": null,

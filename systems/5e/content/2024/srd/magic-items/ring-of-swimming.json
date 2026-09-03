@@ -7,8 +7,6 @@
     "ring",
     "uncommon"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "You have a Swim Speed of 40 feet while wearing this ring.",
   "data": {
     "armor": null,

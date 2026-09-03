@@ -14,6 +14,7 @@
 import { LitElement, css, html, nothing } from "lit";
 import type { PropertyValues } from "lit";
 import { groupHits, previewOf } from "./preview.js";
+import type { Taxonomy } from "./preview.js";
 import type { HitGroup } from "./preview.js";
 import type { SearchAnswer, Searcher, SpotlightHit } from "./searcher.js";
 
@@ -43,6 +44,7 @@ export class TwSpotlight extends LitElement {
     open: { type: Boolean, reflect: true },
     placeholder: { type: String },
     searcher: { attribute: false },
+    taxonomy: { attribute: false },
     query: { state: true },
     hits: { state: true },
     filter: { state: true },
@@ -57,6 +59,8 @@ export class TwSpotlight extends LitElement {
   declare open: boolean;
   declare placeholder: string;
   declare searcher: Searcher | undefined;
+  /** Kind to category label, from the system manifest; kinds it omits group by themselves. */
+  declare taxonomy: Taxonomy | undefined;
   declare query: string;
   declare hits: SpotlightHit[];
   /** The category tab in force, or undefined for all. */
@@ -84,6 +88,7 @@ export class TwSpotlight extends LitElement {
     this.open = false;
     this.placeholder = "Search the compendium";
     this.searcher = undefined;
+    this.taxonomy = undefined;
     this.query = "";
     this.hits = [];
     this.filter = undefined;
@@ -355,8 +360,8 @@ export class TwSpotlight extends LitElement {
   }
 
   protected override willUpdate(changed: PropertyValues<this>): void {
-    if (changed.has("hits") || changed.has("filter")) {
-      const groups = groupHits(this.hits);
+    if (changed.has("hits") || changed.has("filter") || changed.has("taxonomy")) {
+      const groups = groupHits(this.hits, this.taxonomy);
       // A tab that no longer matches anything falls back to all.
       if (this.filter !== undefined && !groups.some((group) => group.category === this.filter)) {
         this.filter = undefined;
@@ -373,7 +378,7 @@ export class TwSpotlight extends LitElement {
   }
 
   protected override render() {
-    const all = groupHits(this.hits);
+    const all = groupHits(this.hits, this.taxonomy);
     let offset = 0;
     return html`
       <div
@@ -448,7 +453,12 @@ export class TwSpotlight extends LitElement {
   }
 
   protected override updated(changed: PropertyValues<this>): void {
-    if (changed.has("selected") || changed.has("hits") || changed.has("filter")) {
+    if (
+      changed.has("selected") ||
+      changed.has("hits") ||
+      changed.has("filter") ||
+      changed.has("taxonomy")
+    ) {
       const tile = this.renderRoot.querySelector<HTMLElement>(`#hit-${this.selected}`);
       tile?.scrollIntoView({ block: "nearest" });
       // Focus follows the selection only when it was already on a tile.
@@ -463,7 +473,7 @@ export class TwSpotlight extends LitElement {
   // walks tile, share, tile, share. Focus on a tile selects it; the arrows
   // move selection and focus together.
   #renderTile(hit: SpotlightHit, index: number) {
-    const preview = previewOf(hit);
+    const preview = previewOf(hit, this.taxonomy);
     const selected = index === this.selected;
     return html`
       <li

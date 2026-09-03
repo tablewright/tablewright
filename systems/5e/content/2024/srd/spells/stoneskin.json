@@ -12,8 +12,6 @@
     "wizard",
     "concentration"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Until the spell ends, one willing creature you touch has Resistance to Bludgeoning, Piercing, and Slashing damage.",
   "data": {
     "attack_roll": false,

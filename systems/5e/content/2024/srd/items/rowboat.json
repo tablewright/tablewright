@@ -6,8 +6,6 @@
   "tags": [
     "waterborne-vehicle"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A small boat propelled by oars.",
   "data": {
     "armor": null,

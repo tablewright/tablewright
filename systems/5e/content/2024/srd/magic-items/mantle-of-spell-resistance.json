@@ -8,8 +8,6 @@
     "rare",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "You have Advantage on saving throws against spells while you wear this cloak.",
   "data": {
     "armor": null,

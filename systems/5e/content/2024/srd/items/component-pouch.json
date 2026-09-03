@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Component Pouch is watertight and filled with compartments that hold all the free Material components of your spells.",
   "data": {
     "armor": null,

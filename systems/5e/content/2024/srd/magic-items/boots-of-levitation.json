@@ -8,8 +8,6 @@
     "rare",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While you wear these boots, you can cast Levitate on yourself.",
   "data": {
     "armor": null,

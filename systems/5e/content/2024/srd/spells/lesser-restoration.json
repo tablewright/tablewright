@@ -12,8 +12,6 @@
     "paladin",
     "ranger"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "You touch a creature and end one condition on it: Blinded, Deafened, Paralyzed, or Poisoned.",
   "data": {
     "attack_roll": false,

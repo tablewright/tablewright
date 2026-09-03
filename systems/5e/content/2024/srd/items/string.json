@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "String is 10 feet long. You can tie a knot in it as a Utilize action.",
   "data": {
     "armor": null,

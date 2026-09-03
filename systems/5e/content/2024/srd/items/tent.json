@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A Tent sleeps up to two Small or Medium creatures.",
   "data": {
     "armor": null,

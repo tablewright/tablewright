@@ -12,7 +12,8 @@ use std::time::Instant;
 use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
-    DEFAULT_LIMIT, Entry, EntryId, Hit, Manifest, Scene, SceneError, StoreError, Visibility,
+    DEFAULT_LIMIT, Entry, EntryId, Hit, Manifest, Scene, SceneError, StoreError, SystemManifest,
+    Visibility,
 };
 use tauri::State;
 
@@ -109,6 +110,14 @@ pub fn modules(state: State<'_, AppState>) -> Result<Vec<Manifest>, CommandError
         message: "the store lock is poisoned".into(),
     })?;
     Ok(store.modules()?)
+}
+
+/// The system the compendium was seeded for: its categories, kinds,
+/// facets and the tray's controls. `None` when the seeder was given none.
+#[tauri::command]
+#[specta::specta]
+pub fn system(state: State<'_, AppState>) -> Result<Option<SystemManifest>, CommandError> {
+    Ok(compendium(&state)?.system.clone())
 }
 
 /// The scene the board shows.

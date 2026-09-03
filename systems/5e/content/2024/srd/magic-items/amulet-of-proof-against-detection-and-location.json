@@ -8,8 +8,6 @@
     "uncommon",
     "attunement"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While wearing this amulet, you can't be targeted by Divination spells or perceived through magical scrying sensors unless you allow it.",
   "data": {
     "armor": null,

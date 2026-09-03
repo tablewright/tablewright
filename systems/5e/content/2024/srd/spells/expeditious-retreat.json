@@ -11,8 +11,6 @@
     "wizard",
     "concentration"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "You take the Dash action, and until the spell ends, you can take that action again as a Bonus Action.",
   "data": {
     "attack_roll": false,

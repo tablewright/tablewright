@@ -7,8 +7,6 @@
     "armor",
     "uncommon"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "While holding this Shield, you have a bonus to Armor Class determined by the Shield's rarity, in addition to the Shield's normal bonus to AC.",
   "data": {
     "armor": {

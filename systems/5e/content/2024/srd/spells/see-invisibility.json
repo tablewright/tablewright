@@ -10,8 +10,6 @@
     "sorcerer",
     "wizard"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "For the duration, you see creatures and objects that have the Invisible condition as if they were visible, and you can see into the Ethereal Plane. Creatures and objects there appear ghostly.",
   "data": {
     "attack_roll": false,

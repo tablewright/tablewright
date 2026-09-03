@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Objects viewed through a Spyglass are magnified to twice their size.",
   "data": {
     "armor": null,

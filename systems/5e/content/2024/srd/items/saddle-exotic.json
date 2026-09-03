@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A saddle designed for unusual mounts, such as aquatic or flying creatures.",
   "data": {
     "armor": null,

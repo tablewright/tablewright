@@ -6,8 +6,6 @@
   "tags": [
     "mount"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "A small horse suitable for smaller riders and lighter loads.",
   "data": {
     "armor": null,

@@ -6,8 +6,6 @@
   "tags": [
     "tools"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ability: Charisma. Utilize: Identify a musical piece (DC 15)",
   "data": {
     "armor": null,

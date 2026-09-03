@@ -13,6 +13,22 @@ export const commands = {
 	getEntry: (id: EntryId, viewer: Visibility) => typedError<Entry, CommandError>(__TAURI_INVOKE("get_entry", { id, viewer })),
 	/**  The manifests of every module in the compendium, for the credits view. */
 	modules: () => typedError<Manifest[], CommandError>(__TAURI_INVOKE("modules")),
+	/**
+	 *  The system the compendium was seeded for: its categories, kinds,
+	 *  facets and the tray's controls. `None` when the seeder was given none.
+	 */
+	system: () => typedError<{
+	id: string,
+	name: string,
+	/**  Category id to label: the tabs of the box, in this order. */
+	categories?: { [key in string]: string },
+	/**  Entry kind to what it is called and where it is grouped. */
+	kinds?: { [key in string]: KindSpec },
+	/**  Per kind, facet name to how it is read from `data`. */
+	facets?: { [key in string]: { [key in string]: FacetSpec } },
+	/**  Per kind, the tray's controls in order. */
+	controls?: { [key in string]: ControlSpec[] },
+} | null, CommandError>(__TAURI_INVOKE("system")),
 	/**  The scene the board shows. */
 	getScene: () => typedError<Scene, CommandError>(__TAURI_INVOKE("get_scene")),
 	/**  Commit a token's move: the release of a drag, or a keyboard step. */
@@ -24,6 +40,16 @@ export const commands = {
 };
 
 /* Types */
+/**
+ *  One cell of a switch rail: the facet and value it stands for. A cell
+ *  without a value stands for a yes.
+ */
+export type Cell = {
+	facet: string,
+	value?: FacetValue,
+	label: string,
+};
+
 /**  Why a command could not answer. */
 export type CommandError = 
 /**  No compendium is installed; nothing to search. */
@@ -34,6 +60,32 @@ export type CommandError =
 { kind: "store"; message: string } | 
 /**  The scene refused the change, or could not be saved. */
 { kind: "scene"; message: string };
+
+/**
+ *  The five controls of the tray. `Rail` paints spans over an ordered
+ *  scale; `Switch` is the same strip with each cell its own switch.
+ */
+export type ControlKind = "rail" | "switch" | "slider" | "chips" | "select";
+
+/**  One control of the tray. */
+export type ControlSpec = {
+	control: ControlKind,
+	label: string,
+	/**  The facet a rail, slider, chips or select edits. */
+	facet?: string | null,
+	/**
+	 *  The ordered values of a rail, slider or select. Chips take theirs
+	 *  from the data.
+	 */
+	stops?: Stop[],
+	/**
+	 *  The cells of a switch rail, as rows shown side by side. A manifest
+	 *  may write one flat row.
+	 */
+	cells?: Cell[][],
+	/**  A control shown beside this one (the switches beside a range slider). */
+	beside?: ControlSpec | null,
+};
 
 /**  One compendium entry: the system-agnostic envelope plus the system's data. */
 export type Entry = {
@@ -59,12 +111,37 @@ export type Entry = {
 /**  Stable identifier of an entry; links never break because ids never change. */
 export type EntryId = string;
 
+/**  How one facet is read from an entry's `data`, and the words that name it. */
+export type FacetSpec = {
+	/**  Dotted path into `data`. */
+	path: string,
+	type: FacetType,
+	/**  Words the parser accepts for the facet's name. */
+	words?: string[],
+	/**  Words that stand for one value of the facet (`cantrip` for level 0). */
+	aliases?: { [key in string]: FacetValue },
+	/**
+	 *  Text facets only: the value is the first of these words found in the
+	 *  text at `path`, so one string can feed several facets.
+	 */
+	pick?: string[],
+	/**
+	 *  Number facets only: words in another field that stand for a number
+	 *  beyond any real one (a range of sight).
+	 */
+	sentinels?: Sentinels | null,
+	/**  Display unit, never stored with the value. */
+	unit?: string | null,
+};
+
+export type FacetType = "number" | "text" | "bool";
+
 /**
  *  A facet: one filterable fact about an entry, read from its data by the
- *  system's manifest at seed time (`level`, `school`, `cr`), so search can
- *  answer `level<=3` without opening the data.
+ *  system's manifest at seed time (`level`, `school`, `cr`, `ritual`), so
+ *  search can answer `level<=3` without opening the data.
  */
-export type FacetValue = number | null | string;
+export type FacetValue = number | null | string | boolean;
 
 /**  A square grid, in map pixels; hex grids arrive with hexpunk's lattice. */
 export type Grid = {
@@ -101,6 +178,18 @@ export type Hit = {
  *  with `null` in its union.
  */
 export type JsonValue = boolean | number | null | string | JsonValue[] | { [key in string]: JsonValue };
+
+/**
+ *  What a kind is called, where the box groups it, which words mean it,
+ *  and what an entry of it may be seen by unless the entry says otherwise.
+ */
+export type KindSpec = {
+	name: string,
+	category: string,
+	words?: string[],
+	visibility?: Visibility | null,
+	data_visibility?: Visibility | null,
+};
 
 /**  The manifest at a module's root, `module.json`. */
 export type Manifest = {
@@ -141,6 +230,35 @@ export type SearchResponse = {
 	elapsed_us: number,
 	/**  How many entries the catalogue held when it answered. */
 	catalogue_size: number,
+};
+
+/**  Words at `path` that stand for a number. */
+export type Sentinels = {
+	path: string,
+	values: { [key in string]: number | null },
+};
+
+/**
+ *  One value on a rail, slider or select, with the label it shows when
+ *  the value itself will not do.
+ */
+export type Stop = {
+	value: FacetValue,
+	label?: string | null,
+};
+
+/**  The system manifest. */
+export type SystemManifest = {
+	id: string,
+	name: string,
+	/**  Category id to label: the tabs of the box, in this order. */
+	categories?: { [key in string]: string },
+	/**  Entry kind to what it is called and where it is grouped. */
+	kinds?: { [key in string]: KindSpec },
+	/**  Per kind, facet name to how it is read from `data`. */
+	facets?: { [key in string]: { [key in string]: FacetSpec } },
+	/**  Per kind, the tray's controls in order. */
+	controls?: { [key in string]: ControlSpec[] },
 };
 
 /**  Something standing on a cell. */

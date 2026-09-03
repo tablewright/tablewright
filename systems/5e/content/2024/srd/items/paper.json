@@ -6,8 +6,6 @@
   "tags": [
     "adventuring-gear"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "One sheet of Paper can hold about 250 handwritten words.",
   "data": {
     "armor": null,

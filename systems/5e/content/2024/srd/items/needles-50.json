@@ -6,8 +6,6 @@
   "tags": [
     "ammunition"
   ],
-  "visibility": "world",
-  "data_visibility": "world",
   "body": "Ammunition for weapons that use needles. Comes in a pack of 50. Typically stored in a pouch.",
   "data": {
     "armor": null,
