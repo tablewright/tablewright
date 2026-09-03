@@ -261,7 +261,10 @@ export class TwSpotlight extends LitElement {
         return this.message;
       case "searching":
       case "done": {
-        const count = this.hits.length === 0 ? "No matches" : `${this.hits.length} hits`;
+        const count =
+          this.hits.length === 0
+            ? "No matches"
+            : `${this.hits.length} ${this.hits.length === 1 ? "hit" : "hits"}`;
         const core = (this.elapsedUs / 1000).toFixed(2);
         const paint = this.paintMs.toFixed(0);
         return `${count} of ${this.catalogueSize} · core ${core} ms · to paint ${paint} ms`;
