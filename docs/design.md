@@ -493,9 +493,22 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   process like every other outbound message, and each client shows
   it as a dismissable card. In practice there are two views of an
   entry: the DM's, which is everything, and the player's, which is
-  reduced. A share carries the player view; the DM may push the
-  everything view deliberately, by a reveal control on the card, and
-  nothing is revealed by accident.
+  reduced. So there are two share actions, side by side wherever an
+  entry can be shared (a tile, an entry page, a card): *Share* sends
+  the player view and is the one everyone has; *Reveal* sends the
+  everything view and only the DM has it. Two buttons rather than a
+  mode, so nothing is revealed by accident and the DM never has to
+  remember which state they are in (decided 2026-09-03).
+- **Grants (later).** A reveal is a one-off: a card, seen once. Some
+  access is ongoing: a player whose character keeps a pet bear needs
+  the bear's block, normally DM material, in their own compendium for
+  as long as they have the bear. That is a *grant*: the DM gives one
+  named player (or the party) access to one entry, or to its data,
+  and the visibility rule becomes tiers plus grants. Every query and
+  message honours grants as it honours tiers, so the bear turns up in
+  that player's search and nobody else's. Grants need the player
+  model of the session, so they land with networking; the entry's
+  `visibility` and `data_visibility` stay the baseline they override.
 - **Offline sheet edits (later).** A player may open and edit their
   own character while the DM is offline: the player page is a
   service-worker app, the sheet and the compendium slice the player
