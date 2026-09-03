@@ -15,7 +15,7 @@ import { LitElement, css, html, nothing } from "lit";
 import type { PropertyValues } from "lit";
 import type { ControlSpec, SystemManifest, Understood } from "@tablewright/schema";
 import "../filters/tw-filter-tray.js";
-import { filtersOf, selectionOf } from "../filters/state.js";
+import { activeCount, filtersOf, selectionOf } from "../filters/state.js";
 import type { TrayState } from "../filters/state.js";
 import { categoryOf, groupHits, previewOf } from "./preview.js";
 import type { Taxonomy } from "./preview.js";
@@ -500,19 +500,7 @@ export class TwSpotlight extends LitElement {
           <div class="mask" aria-hidden="true">${this.#renderMask()}</div>
         </div>
         <div class="results" id="hits" role="listbox">
-          ${
-            this.trayOpen && controls.length > 0
-              ? html`<tw-filter-tray
-                  .label=${this.filter ?? ""}
-                  .controls=${controls}
-                  .values=${this.facetValues}
-                  .state=${this.trayState}
-                  .selection=${selectionOf(controls, this.understood)}
-                  @tw-filter=${this.#onTrayFilter}
-                  @keydown=${this.#onTrayKeydown}
-                ></tw-filter-tray>`
-              : nothing
-          }
+          ${this.#renderTray(controls)}
           ${this.#groups.map((group, groupIndex) => {
             const start = offset;
             offset += group.hits.length;
@@ -673,12 +661,42 @@ export class TwSpotlight extends LitElement {
     return own + said;
   }
 
+  // The tray, or a fold of it: when the tray is shut but the words or its
+  // own state filter, only what is chosen shows, until the funnel or a
+  // click on the fold unfolds it.
+  #renderTray(controls: ControlSpec[]) {
+    if (controls.length === 0) {
+      return nothing;
+    }
+    const selection = selectionOf(controls, this.understood);
+    const active = filtersOf(controls, this.trayState).length > 0 || activeCount(selection) > 0;
+    if (!this.trayOpen && !active) {
+      return nothing;
+    }
+    return html`<tw-filter-tray
+      ?compact=${!this.trayOpen}
+      .label=${this.filter ?? ""}
+      .controls=${controls}
+      .values=${this.facetValues}
+      .state=${this.trayState}
+      .selection=${selection}
+      @tw-filter=${this.#onTrayFilter}
+      @tw-expand=${this.#unfoldTray}
+      @keydown=${this.#onTrayKeydown}
+    ></tw-filter-tray>`;
+  }
+
+  #unfoldTray = (): void => {
+    this.trayOpen = true;
+  };
+
   #toggleTray = (): void => {
     this.trayOpen = !this.trayOpen;
   };
 
   // The words lead: a kind noun lights its category's tab, and a filter
-  // read from the text opens the tray on it. Neither closes anything.
+  // read from the text shows in the tray, folded until the funnel unfolds
+  // it. Neither closes anything.
   #followWords(): void {
     const said = this.understood.filter((item) => item.filter !== null && item.overruled !== true);
     const categories = new Set(
@@ -690,10 +708,6 @@ export class TwSpotlight extends LitElement {
         this.filter = category;
         this.trayState = {};
       }
-    }
-    const facets = said.some((item) => item.filter !== null && item.filter.filter !== "kind");
-    if (facets && this.filter !== undefined && this.#controls().length > 0) {
-      this.trayOpen = true;
     }
   }
 

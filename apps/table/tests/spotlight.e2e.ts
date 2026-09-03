@@ -261,6 +261,12 @@ test("typed filters light the tab, open the tray, and stay underlined until the 
   const level = tray.getByRole("group", { name: "Level" });
   await expect(level.locator("button[aria-pressed='true']")).toHaveCount(4);
   await expect(page.locator(`${box} .mask u`)).toHaveCount(2);
+  // Folded: only the chosen cells show until the funnel unfolds the tray.
+  await expect(tray).toHaveAttribute("compact", "");
+  await expect(level.locator("button")).toHaveCount(4);
+  await page.getByRole("button", { name: "Filters" }).click();
+  await expect(tray).not.toHaveAttribute("compact", "");
+  await expect(level.locator("button")).toHaveCount(6);
   await level.getByRole("button", { name: "4", exact: true }).click();
   await expect(tiles).toHaveCount(1);
   await expect(tiles.first().locator(".name")).toHaveText("Wall of Fire");

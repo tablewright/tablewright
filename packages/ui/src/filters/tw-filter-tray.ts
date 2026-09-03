@@ -24,6 +24,7 @@ export class TwFilterTray extends LitElement {
     values: { attribute: false },
     state: { attribute: false },
     selection: { attribute: false },
+    compact: { type: Boolean, reflect: true },
     expanded: { state: true },
   };
 
@@ -35,6 +36,8 @@ export class TwFilterTray extends LitElement {
   declare state: TrayState;
   /** What the typed words selected; shown until the tray holds its own. */
   declare selection: TrayState;
+  /** Folded: only what is chosen shows, and a click on it unfolds the tray. */
+  declare compact: boolean;
   /** Chip controls unfolded past their first dozen, by control index. */
   declare expanded: number[];
 
@@ -48,6 +51,7 @@ export class TwFilterTray extends LitElement {
     this.values = {};
     this.state = {};
     this.selection = {};
+    this.compact = false;
     this.expanded = [];
   }
 
@@ -63,6 +67,32 @@ export class TwFilterTray extends LitElement {
       border-radius: var(--tw-rounded-sm);
       background: var(--tw-surface-container);
       color: var(--tw-on-surface);
+    }
+    :host([compact]) {
+      gap: 8px;
+      padding: 8px var(--tw-space-md) 10px;
+    }
+    .summary {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 12px;
+      cursor: pointer;
+    }
+    .pick {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pick .flabel {
+      margin: 0;
+    }
+    .pick .rail {
+      display: inline-flex;
+    }
+    .pick .cell {
+      flex: 0 0 auto;
+      padding: 3px 10px;
     }
     header,
     .flabel {
@@ -279,6 +309,9 @@ export class TwFilterTray extends LitElement {
   `;
 
   protected override render() {
+    if (this.compact) {
+      return this.#renderCompact();
+    }
     const count = activeCount(this.state) + activeCount(this.selection);
     return html`
       <header>
@@ -294,6 +327,113 @@ export class TwFilterTray extends LitElement {
   }
 
   // The tray's own state for a control wins; otherwise the words' selection.
+  // Folded: only what is chosen, so the box keeps its room for tiles. A
+  // click on any of it, like the funnel, unfolds the whole tray.
+  #renderCompact() {
+    const picks = this.controls.flatMap((control, index) => {
+      const shown = [this.#renderPick(control, index, control.label)];
+      if (control.beside !== undefined && control.beside !== null) {
+        shown.push(this.#renderPick(control.beside, besideIndex(index), control.label));
+      }
+      return shown.filter((pick) => pick !== nothing);
+    });
+    if (picks.length === 0) {
+      return nothing;
+    }
+    return html`
+      <header>
+        <span>Filters${this.label === "" ? "" : ` · ${this.label}`}</span>
+        <button type="button" class="clear" @click=${this.#clear}>Clear</button>
+      </header>
+      <div class="summary" @click=${this.#expand}>${picks}</div>
+    `;
+  }
+
+  // One control folded to its chosen cells: a span as its cells, a slider
+  // as its two ends, switches and chips as the ones on or ruled out, a
+  // select as its pick.
+  #renderPick(control: ControlSpec, index: number, label: string) {
+    const shown = this.#shown(index);
+    if (shown === undefined) {
+      return nothing;
+    }
+    const stops = control.stops ?? [];
+    const cells: { text: string; tri: Tri }[] = [];
+    switch (control.control) {
+      case "rail":
+      case "slider": {
+        let picked: number[] = [];
+        if (shown.cells !== undefined && shown.cells.length > 0) {
+          picked = shown.cells;
+        } else if (shown.span !== undefined) {
+          const [lo, hi] = shown.span;
+          picked =
+            control.control === "slider"
+              ? lo === hi
+                ? [lo]
+                : [lo, hi]
+              : Array.from({ length: hi - lo + 1 }, (_, at) => lo + at);
+        }
+        for (const at of picked) {
+          cells.push({ text: labelOf(stops[at]), tri: "on" });
+        }
+        break;
+      }
+      case "switch": {
+        for (const cell of (control.cells ?? []).flat()) {
+          const tri = shown.tri?.[cellKey(cell.facet, cell.value ?? true)];
+          if (tri !== undefined && tri !== "off") {
+            cells.push({ text: cell.label, tri });
+          }
+        }
+        break;
+      }
+      case "chips": {
+        for (const value of chipValues(control, this.values)) {
+          const tri = shown.tri?.[cellKey(control.facet ?? "", value)];
+          if (tri !== undefined && tri !== "off") {
+            cells.push({ text: titleCase(value), tri });
+          }
+        }
+        break;
+      }
+      case "select": {
+        if (shown.pick !== undefined && shown.pick !== "") {
+          const stop = stops.find((candidate) => valueText(candidate.value) === shown.pick);
+          cells.push({ text: stop === undefined ? shown.pick : labelOf(stop), tri: "on" });
+        }
+        break;
+      }
+      default:
+        break;
+    }
+    if (cells.length === 0) {
+      return nothing;
+    }
+    return html`
+      <span class="pick">
+        <span class="flabel">${label}</span>
+        <span class="rail" role="group" aria-label=${label}>
+          ${cells.map(
+            (cell) => html`
+              <button
+                type="button"
+                class="cell ${cell.tri}"
+                aria-pressed=${cell.tri === "on" ? "true" : "mixed"}
+              >
+                ${cell.text}
+              </button>
+            `
+          )}
+        </span>
+      </span>
+    `;
+  }
+
+  #expand = (): void => {
+    this.dispatchEvent(new CustomEvent("tw-expand", { bubbles: true, composed: true }));
+  };
+
   #shown(index: number): ControlState | undefined {
     return this.state[index] ?? this.selection[index];
   }
