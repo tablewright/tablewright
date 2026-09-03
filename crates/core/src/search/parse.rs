@@ -25,7 +25,10 @@ pub fn parse(raw: &str, lexicon: &Lexicon) -> Query {
     lower(&tokens, lexicon)
 }
 
-fn class(token: &Token) -> &'static str {
+// A value whose facet has an order (a rail, slider or select with stops) is
+// an OVALUE, so "large or bigger" can be a bound while "beasts below cr 4"
+// leaves its comparator to the bound that follows.
+fn class(token: &Token, lexicon: &Lexicon) -> &'static str {
     match &token.tag {
         Tag::Word => "WORD",
         Tag::Num(_) => "NUM",
@@ -40,13 +43,22 @@ fn class(token: &Token) -> &'static str {
         Tag::Dash => "DASH",
         Tag::Kind(_) => "KIND",
         Tag::Facet(_) => "FACET",
-        Tag::Value(_) => "VALUE",
+        Tag::Value(readings) => {
+            if readings
+                .iter()
+                .any(|reading| lexicon.ordered_values(&reading.facet).is_some())
+            {
+                "OVALUE"
+            } else {
+                "VALUE"
+            }
+        }
         Tag::Filter(_) => "FILTER",
     }
 }
 
 fn lower(tokens: &[Token], lexicon: &Lexicon) -> Query {
-    let classes: Vec<&str> = tokens.iter().map(class).collect();
+    let classes: Vec<&str> = tokens.iter().map(|token| class(token, lexicon)).collect();
     let text = classes.join(" ");
     let Ok(mut pairs) = Grammar::parse(Rule::query, &text) else {
         // Cannot happen, since every class is a word; but a query must
@@ -106,6 +118,7 @@ fn is_class(rule: Rule) -> bool {
             | Rule::KIND
             | Rule::FACET
             | Rule::VALUE
+            | Rule::OVALUE
             | Rule::NUM
             | Rule::NTH
             | Rule::PLUS
@@ -257,7 +270,7 @@ impl Item {
         let value_index = self
             .parts
             .iter()
-            .find(|(rule, _)| *rule == Rule::VALUE)
+            .find(|(rule, _)| matches!(rule, Rule::VALUE | Rule::OVALUE))
             .map(|(_, index)| *index);
         let (Some(index), Some(compare)) = (value_index, self.compare(tokens)) else {
             return self.as_words(tokens, query);
@@ -415,6 +428,11 @@ mod tests {
                 "monster",
                 &[("creature", text("giant")), ("size", text("huge"))],
             ),
+            entry(
+                "monster",
+                &[("creature", text("beast")), ("size", text("small"))],
+            ),
+            entry("monster", &[("creature", text("fiend"))]),
             entry(
                 "magic-item",
                 &[("category", text("wand")), ("rarity", text("rare"))],

@@ -31,18 +31,22 @@ number      = { NUM | NTH }
 range = { BETWEEN? ~ (FACET ~ number ~ joiner ~ number | number ~ joiner ~ number ~ FACET) }
 joiner = { TO | AND | DASH }
 
-// A comparison on an ordered set of words: "large or bigger", "at least rare".
-value_bound = { VALUE ~ CMP | CMP ~ VALUE }
+// A comparison on an ordered set of words: "large or bigger", "at least
+// rare". Only a value whose facet has an order (OVALUE) takes one, so in
+// "beasts below cr 4" the comparator stays with the bound that follows.
+value_bound = { OVALUE ~ CMP | CMP ~ OVALUE }
 
 // "evocation", "not evocation", "wands or staffs", "not undead or fiends".
-alternation = { NOT? ~ VALUE ~ (OR ~ NOT? ~ VALUE)* }
+alternation = { NOT? ~ value ~ (OR ~ NOT? ~ value)* }
+value       = { VALUE | OVALUE }
 
-word = { WORD | NUM | NTH | PLUS | CMP | OR | AND | NOT | BETWEEN | TO | DASH | FACET | VALUE }
+word = { WORD | NUM | NTH | PLUS | CMP | OR | AND | NOT | BETWEEN | TO | DASH | FACET | VALUE | OVALUE }
 
 FILTER  = { "FILTER" }
 KIND    = { "KIND" }
 FACET   = { "FACET" }
 VALUE   = { "VALUE" }
+OVALUE  = { "OVALUE" }
 NUM     = { "NUM" }
 NTH     = { "NTH" }
 PLUS    = { "PLUS" }

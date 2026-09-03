@@ -27,6 +27,8 @@ evocation cantrips => school=evocation level=0 ;
 ritual spells => ritual=true type:spell ;
 undead cr 5+ => creature=undead cr>=5 ;
 cr 5+ not undead => cr>=5 !creature=undead ;
+small beasts below cr 4 => size=small creature=beast cr<4 ;
+beasts or fiends under cr 2 => (creature=beast | creature=fiend) cr<2 ;
 
 # yes/no facts, negation, alternation
 spells without material => type:spell !material=true ;
