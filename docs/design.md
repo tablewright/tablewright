@@ -265,6 +265,15 @@ is not the interface.
   searchable and filterable, and the tray renders whatever is
   declared. The category labels the UI shows come from the same
   place, so no kind, label or control is hard-coded in TS.
+- **Who sees what.** The bestiary is DM material: in the manifest the
+  `monster` kind defaults to visibility dm and data visibility dm, so
+  no creature reaches a player's box, category tabs or tray, and the
+  player side simply has no Bestiary. That is the only permission
+  restriction for the PoC. Kinds carry these defaults; an entry file
+  may omit its visibility and take the kind's, and an explicit value
+  in the file wins. Facets may take a visibility of their own later,
+  for the day a shared creature shows players its name but not its
+  CR; nothing needs it yet.
 - **Later.** Units (60 feet) and grammars for other languages.
 
 ## 4. Architecture
