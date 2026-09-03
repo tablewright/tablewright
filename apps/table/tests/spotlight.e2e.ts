@@ -177,6 +177,22 @@ test("Escape peels the layers back: card, then box, then page", async ({ page })
   await expect(page.locator(page_)).not.toHaveAttribute("open", "");
 });
 
+test("a click outside the page closes it, once the box is shut", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fire");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(page_)).toHaveAttribute("open", "");
+  // The scrim takes the first click and closes the box; the page stays.
+  await page.mouse.click(600, 500);
+  await expect(page.locator(box)).not.toHaveAttribute("open", "");
+  await expect(page.locator(page_)).toHaveAttribute("open", "");
+  // A click on the page itself is not outside.
+  await page.locator(page_).click({ position: { x: 40, y: 200 } });
+  await expect(page.locator(page_)).toHaveAttribute("open", "");
+  await page.mouse.click(600, 500);
+  await expect(page.locator(page_)).not.toHaveAttribute("open", "");
+});
+
 test("a creature's page can place it on the board as a token", async ({ page }) => {
   await page.keyboard.press("Control+Space");
   await page.keyboard.type("goblin");

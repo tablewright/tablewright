@@ -298,6 +298,29 @@ try {
     },
     { capture: true }
   );
+  // A click outside the page closes it, as Escape does, once the box is
+  // shut: while the box is open its scrim takes the click and the page
+  // stays, so the layers still peel one at a time. The chrome is not
+  // outside: its buttons open things.
+  const chrome = document.querySelector(".chrome");
+  window.addEventListener(
+    "click",
+    (event) => {
+      if (!entryView.open || spotlight.open) {
+        return;
+      }
+      const path = event.composedPath();
+      if (
+        path.includes(entryView) ||
+        path.includes(shares) ||
+        (chrome !== null && path.includes(chrome))
+      ) {
+        return;
+      }
+      entryView.hide();
+    },
+    { capture: true }
+  );
   window.addEventListener("keydown", (event) => {
     if (event.key === "o" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
