@@ -263,6 +263,14 @@ export class TwSpotlight extends LitElement {
       overflow-y: auto;
       padding-bottom: var(--tw-space-sm);
     }
+    /* Empty, the box is just the search bar and its hint; it grows to the
+       full panel once there is anything to show. */
+    .box.idle {
+      bottom: auto;
+    }
+    .box.idle .results {
+      display: none;
+    }
     li:focus-visible {
       outline: 2px solid var(--tw-focus-ring);
       outline-offset: -2px;
@@ -483,7 +491,11 @@ export class TwSpotlight extends LitElement {
         @dragover=${this.#onDragOver}
         @drop=${this.#onDrop}
       ></div>
-      <div class="box" role="dialog" aria-label="Search the compendium">
+      <div
+        class="box ${this.status === "idle" ? "idle" : ""}"
+        role="dialog"
+        aria-label="Search the compendium"
+      >
         <div class="field">
           <input
             type="text"
@@ -709,6 +721,15 @@ export class TwSpotlight extends LitElement {
         this.trayState = {};
       }
     }
+    // Words that narrow the answer to one category light its tab too,
+    // so the tray can show what they chose; plain words never move it.
+    if (this.filter === undefined && said.length > 0 && this.hits.length > 0) {
+      const found = new Set(this.hits.map((hit) => categoryOf(hit.type, this.#tax())));
+      if (found.size === 1) {
+        const [only] = found;
+        this.filter = only;
+      }
+    }
   }
 
   #onTrayFilter = (event: Event): void => {
@@ -854,14 +875,15 @@ export class TwSpotlight extends LitElement {
         this.#select(this.#step(-1));
         break;
       case "Home":
-        event.preventDefault();
-        this.#focusTile = fromTile;
-        this.#select(0);
-        break;
       case "End":
+        // In the input these move the caret, as in any text field; on a
+        // tile they jump to the first or the last tile.
+        if (!fromTile) {
+          break;
+        }
         event.preventDefault();
-        this.#focusTile = fromTile;
-        this.#select(this.#visible.length - 1);
+        this.#focusTile = true;
+        this.#select(event.key === "Home" ? 0 : this.#visible.length - 1);
         break;
       case "Enter":
         event.preventDefault();

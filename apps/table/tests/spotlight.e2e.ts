@@ -18,8 +18,24 @@ test("Ctrl+Space opens the box focused and Escape closes it", async ({ page }) =
   await page.keyboard.press("Control+Space");
   await expect(page.locator(box)).toHaveAttribute("open", "");
   await expect(page.locator(`${box} input`)).toBeFocused();
+  // Empty, the box is just the search bar; typing grows it into the panel.
+  await expect(page.locator(`${box} .box`)).toHaveClass(/idle/);
+  await page.keyboard.type("fire");
+  await expect(page.locator(`${box} .box`)).not.toHaveClass(/idle/);
   await page.keyboard.press("Escape");
   await expect(page.locator(box)).not.toHaveAttribute("open", "");
+});
+
+test("words that narrow the answer to one category light its tab", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("cr<=4");
+  const tiles = page.locator(`${box} li`);
+  await expect(tiles).toHaveCount(1);
+  await expect(page.getByRole("button", { name: "Bestiary 1" })).toHaveAttribute(
+    "aria-pressed",
+    "true"
+  );
+  await expect(page.locator("tw-filter-tray")).toHaveAttribute("compact", "");
 });
 
 test("the Search button opens it too", async ({ page }) => {
@@ -69,8 +85,9 @@ test("arrows move the selection with wrap-around, and Enter opens the entry with
   await expect(page.locator(`${page_} article`)).toContainText("flames to sheathe its blade");
   await expect(page.locator(box)).toHaveAttribute("open", "");
   await expect(page.locator(`${box} input`)).toBeFocused();
-  // A second choice turns the page without closing anything.
-  await page.keyboard.press("Home");
+  // A second choice turns the page without closing anything; Down wraps
+  // from the last tile to the first.
+  await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
   await expect(page.locator(`${page_} h1`)).toHaveText("Fire Bolt");
   await expect(page.locator(box)).toHaveAttribute("open", "");
@@ -286,4 +303,15 @@ test("a folded slider reads as a range", async ({ page }) => {
   await page.keyboard.press("Control+a");
   await page.keyboard.type("type:monster cr>=5");
   await expect(tray.getByRole("group", { name: "Challenge rating" })).toHaveText(/5\+/);
+});
+
+test("Home and End move the caret in the input", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fire");
+  await page.keyboard.press("Home");
+  await page.keyboard.type("z");
+  await expect(page.locator(`${box} input`)).toHaveValue("zfire");
+  await page.keyboard.press("End");
+  await page.keyboard.type("q");
+  await expect(page.locator(`${box} input`)).toHaveValue("zfireq");
 });
