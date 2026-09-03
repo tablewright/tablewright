@@ -82,20 +82,7 @@ fn specta_builder() -> Builder<tauri::Wry> {
 // without one and the commands say so. The scene is loaded from the app's
 // data directory, or is the tavern until something is saved.
 fn open_compendium(app: &tauri::App) -> AppState {
-    let compendium = install_compendium(app).and_then(|path| match Compendium::open(&path) {
-        Ok(compendium) => {
-            eprintln!(
-                "compendium: {} entries from {}",
-                compendium.catalogue.len(),
-                path.display()
-            );
-            Some(compendium)
-        }
-        Err(error) => {
-            eprintln!("compendium: could not open {}: {error}", path.display());
-            None
-        }
-    });
+    let compendium = open_installed(app);
     let scene_path = app
         .path()
         .app_data_dir()
@@ -118,22 +105,57 @@ fn open_compendium(app: &tauri::App) -> AppState {
     }
 }
 
-fn install_compendium(app: &tauri::App) -> Option<PathBuf> {
-    let bundled = app
-        .path()
-        .resolve(compendium::BUNDLED, BaseDirectory::Resource);
-    let data_dir = app.path().app_data_dir();
-    match (bundled, data_dir) {
-        (Ok(bundled), Ok(data_dir)) => match compendium::install(&bundled, &data_dir) {
-            Ok(path) => Some(path),
-            Err(error) => {
-                eprintln!("compendium: not installed: {error} ({})", bundled.display());
-                None
-            }
-        },
+// The installed copy is replaced from the bundle when it is out of date, and
+// once more when it will not open (a crash mid-write, or a log another build
+// left beside it). Only then does the app give up on it.
+fn open_installed(app: &tauri::App) -> Option<Compendium> {
+    let (bundled, data_dir) = match (
+        app.path()
+            .resolve(compendium::BUNDLED, BaseDirectory::Resource),
+        app.path().app_data_dir(),
+    ) {
+        (Ok(bundled), Ok(data_dir)) => (bundled, data_dir),
         (Err(error), _) | (_, Err(error)) => {
             eprintln!("compendium: no path: {error}");
+            return None;
+        }
+    };
+    let installed = installed_or_report(compendium::install(&bundled, &data_dir), &bundled)?;
+    match Compendium::open(&installed) {
+        Ok(compendium) => return Some(announce(compendium, &installed)),
+        Err(error) => eprintln!(
+            "compendium: could not open {}: {error}; replacing it from the bundle",
+            installed.display()
+        ),
+    }
+    let installed = installed_or_report(compendium::reinstall(&bundled, &data_dir), &bundled)?;
+    match Compendium::open(&installed) {
+        Ok(compendium) => Some(announce(compendium, &installed)),
+        Err(error) => {
+            eprintln!(
+                "compendium: could not open {}: {error}",
+                installed.display()
+            );
             None
         }
     }
+}
+
+fn installed_or_report(result: std::io::Result<PathBuf>, bundled: &Path) -> Option<PathBuf> {
+    match result {
+        Ok(path) => Some(path),
+        Err(error) => {
+            eprintln!("compendium: not installed: {error} ({})", bundled.display());
+            None
+        }
+    }
+}
+
+fn announce(compendium: Compendium, path: &Path) -> Compendium {
+    eprintln!(
+        "compendium: {} entries from {}",
+        compendium.catalogue.len(),
+        path.display()
+    );
+    compendium
 }
