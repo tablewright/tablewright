@@ -76,22 +76,33 @@ test("arrows move the selection with wrap-around, and Enter opens the entry with
   await expect(page.locator(box)).toHaveAttribute("open", "");
 });
 
-test("Tab reaches the selected tile, then its Share button, before the category tabs", async ({
+test("Tab walks tile, share, tile, share, and lands on the selected tile first", async ({
   page,
 }) => {
   await page.keyboard.press("Control+Space");
   await page.keyboard.type("fire");
   const tiles = page.locator(`${box} li`);
-  await page.keyboard.press("Tab");
-  await expect(tiles.first()).toBeFocused();
   await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Tab");
   await expect(tiles.nth(1)).toBeFocused();
-  await expect(tiles.nth(1)).toHaveAttribute("aria-selected", "true");
-  await page.keyboard.press("Enter");
-  await expect(page.locator(`${page_} h1`)).toHaveText("Fireball");
   await page.keyboard.press("Tab");
   await expect(page.getByRole("button", { name: "Share Fireball with the table" })).toBeFocused();
   await page.keyboard.press("Tab");
+  await expect(tiles.nth(2)).toBeFocused();
+  await expect(tiles.nth(2)).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Wall of Fire");
+  await page.keyboard.press("Tab");
+  await expect(
+    page.getByRole("button", { name: "Share Wall of Fire with the table" })
+  ).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await page.keyboard.press("ArrowUp");
+  await expect(tiles.nth(1)).toBeFocused();
+  // Share, then three more tiles with their Shares, then the category tabs.
+  for (let i = 0; i < 8; i += 1) {
+    await page.keyboard.press("Tab");
+  }
   await expect(page.getByRole("button", { name: "All 5" })).toBeFocused();
 });
 

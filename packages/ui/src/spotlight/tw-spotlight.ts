@@ -279,11 +279,19 @@ export class TwSpotlight extends LitElement {
       font-size: var(--tw-typo-label-md-font-size);
       font-weight: var(--tw-typo-numeric-md-font-weight);
     }
+    /* Every tile has a Share button; it shows on the selected, hovered, or
+       focused tile and stays a tab stop on all of them. */
     .actions {
       display: flex;
       align-items: center;
       gap: var(--tw-space-sm);
       margin-left: auto;
+      opacity: 0;
+    }
+    li[aria-selected="true"] .actions,
+    li:hover .actions,
+    li:focus-within .actions {
+      opacity: 1;
     }
     .share {
       display: inline-flex;
@@ -451,8 +459,9 @@ export class TwSpotlight extends LitElement {
     }
   }
 
-  // Only the selected tile is in the tab order: Tab from the input lands on
-  // it, Tab again reaches its Share button, and the arrows move the selection.
+  // Every tile is a tab stop with its Share button right after it, so Tab
+  // walks tile, share, tile, share. Focus on a tile selects it; the arrows
+  // move selection and focus together.
   #renderTile(hit: SpotlightHit, index: number) {
     const preview = previewOf(hit);
     const selected = index === this.selected;
@@ -461,9 +470,10 @@ export class TwSpotlight extends LitElement {
         id=${`hit-${index}`}
         role="option"
         aria-selected=${selected ? "true" : "false"}
-        tabindex=${selected ? "0" : "-1"}
+        tabindex="0"
         draggable="true"
         @pointermove=${() => this.#select(index)}
+        @focusin=${() => this.#select(index)}
         @click=${() => {
           this.#select(index);
           this.#choose(index);
@@ -477,25 +487,19 @@ export class TwSpotlight extends LitElement {
         <span class="foot">
           ${preview.ring === undefined ? nothing : html`<span class="ring">${preview.ring}</span>`}
           ${preview.badge === undefined ? nothing : html`<span class="badge">${preview.badge}</span>`}
-          ${
-            selected
-              ? html`
-                  <span class="actions">
-                    <button
-                      type="button"
-                      class="share"
-                      aria-label=${`Share ${hit.name} with the table`}
-                      @click=${(event: Event) => {
-                        event.stopPropagation();
-                        this.#share(hit);
-                      }}
-                    >
-                      ${SHARE_ICON} Share
-                    </button>
-                  </span>
-                `
-              : nothing
-          }
+          <span class="actions">
+            <button
+              type="button"
+              class="share"
+              aria-label=${`Share ${hit.name} with the table`}
+              @click=${(event: Event) => {
+                event.stopPropagation();
+                this.#share(hit);
+              }}
+            >
+              ${SHARE_ICON} Share
+            </button>
+          </span>
         </span>
       </li>
     `;
@@ -557,6 +561,14 @@ export class TwSpotlight extends LitElement {
       event.stopPropagation();
     }
     switch (event.key) {
+      case "Tab":
+        // From the input, Tab lands on the selected tile rather than the
+        // first; from there the native order takes over.
+        if (!fromTile && !event.shiftKey && this.#visible.length > 0) {
+          event.preventDefault();
+          this.renderRoot.querySelector<HTMLElement>(`#hit-${this.selected}`)?.focus();
+        }
+        break;
       case "ArrowDown":
         event.preventDefault();
         this.#focusTile = fromTile;
