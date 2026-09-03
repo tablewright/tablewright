@@ -200,12 +200,13 @@ is not the interface.
   ranker applies, so the tray and the parser can never disagree about
   what a filter means.
 - **The words stay the words.** Typed text is never rewritten into
-  chips or tokens. What the parser understood is shown by a brass
-  underline under those words in the input, and by the tray, which
-  shows the matching controls selected. Chips in the input appear only
-  for filters made in the tray, so the two sources stay visible as
-  such. A kind word (spells, creatures, items) lights the category
-  tab, since the tab is that filter.
+  chips or tokens, and never edited by the app. A mask over the input
+  underlines in brass what the parser understood, and greys out a
+  phrase the tray has since overruled, so the words stay and the
+  search shows which reading it used. There are no chips in the
+  input: the tray is the one place filters show, and the funnel
+  button carries their count. A kind word (spells, creatures, items)
+  lights the category tab, since the tab is that filter.
 - **Grammar by pest, meaning by data.** The linguistic layer is a pest
   (PEG) grammar over normalised tokens: numbers, ordinals, fractions,
   ranges, comparator phrases, and the connectives and, or, not;
@@ -241,27 +242,30 @@ is not the interface.
   leaf. It opens on the funnel button or when typed words match a
   filter, and stays shut on the All tab until user testing says
   otherwise. One control per facet the manifest declares for the
-  category, in the manifest's order. A *rail* for ordered values
-  (level, CR, size, rarity, duration, and bucketed HP, AC, cost,
-  weight): one click is exactly that value, a second click or a drag
-  is the span between, and a span reaching an end of the rail is open
-  (CR 5+, level up to 2). A *stepped slider* for distances, whose
-  stops are the ranges the system uses, with Self and Touch as toggles
-  beside it. *Toggle chips* for unordered sets (school, creature type,
-  category, components, casting time), cycling off, on, not, with long
-  sets folded behind "more". A *single toggle* for yes/no facts
-  (ritual, concentration, attunement). No selects. Clicking a control
-  edits the filters and reruns the search at once.
+  category, in the manifest's order, chosen by the kind of fact. A
+  *span rail* for a short ordered scale (level, size, rarity): one
+  click is exactly that value, a second click or a drag is the span
+  between, and a span reaching an end of the rail is open (level up
+  to 2). A *switch rail*, the same strip with each cell its own
+  switch cycling off, on, not, for a few values or a yes/no fact
+  (ritual and concentration, verbal/somatic/material, self and touch,
+  the two alignment axes, attunement). A *stepped slider* for a long
+  scale, two nuts on stops the system declares (range, casting time,
+  challenge rating, armor class, cost, weight); a nut left at an end
+  reads as open (CR 5+). *Toggle chips* for a long unordered set
+  (school, creature type, category), cycling off, on, not, with long
+  sets folded behind "more". One *select*, duration. Hit points are
+  not a filter. Clicking a control edits the filters and reruns the
+  search at once; a control that typed words had selected can be
+  changed in the tray, and the click wins for that facet while the
+  phrase greys out in the input.
 - **The manifest declares it all.** Per kind, each facet's path,
-  control (rail, slider, chips, toggle), order, bucket edges, display
-  words and aliases; every system says what is searchable and
-  filterable, and the tray renders whatever is declared. The category
-  labels the UI shows come from the same place, so no kind, label or
-  control is hard-coded in TS.
-- **Open.** A control selected by typed words and then clicked in the
-  tray: proposal, the click wins for that facet and the phrase keeps a
-  dimmer underline. Units (60 feet) and grammars for other languages
-  come later.
+  control (span rail, switch rail, slider, chips, select), order,
+  stops, display words and aliases; every system says what is
+  searchable and filterable, and the tray renders whatever is
+  declared. The category labels the UI shows come from the same
+  place, so no kind, label or control is hard-coded in TS.
+- **Later.** Units (60 feet) and grammars for other languages.
 
 ## 4. Architecture
 
