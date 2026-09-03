@@ -128,7 +128,11 @@ One search spans Vault and Compendium; results are labeled by origin.
 - **Where things live.** A bundled system is one directory,
   `systems/<system>/`: `system.json` as the entry point,
   `content/<version>/<module>/` for its bundled modules, and `src/`
-  only when it is a coded system. A module directory is `module.json`
+  only when it is a coded system. `system.json` declares, per kind,
+  the facets search may filter on as dotted paths into `data`
+  (`"spell": { "level": "level", "school": "school.key" }`); the
+  seeder reads them once and stores the values on each entry, so a
+  query never opens `data`. A module directory is `module.json`
   (id, name, version, licence, attribution, upstream) and one JSON
   file per entry in the envelope shape under `<kind>/<slug>.json`,
   ids `<module>:<kind>:<slug>`. A DM's own module, say a book they
@@ -149,7 +153,14 @@ test per rule. They are expected to change; change the list first.
    stripped, whitespace collapsed. The query splits on whitespace into
    tokens. A token of the form `field:value` whose field is `type`,
    `tag`, or `source` (for example `type:spell`) is a filter, not a
-   scoring token; any other `a:b` is an ordinary token.
+   scoring token. So is `name<op>value` for any other word, with one
+   of `:` `=` `<` `<=` `>` `>=` as the operator (`level<=3`,
+   `school:evocation`, `cr>=1/4`): a facet filter, answered from the
+   facets the system manifest declares per kind and the seeder reads
+   out of `data` (§3 "Systems and modules"). Numbers compare as
+   numbers, fractions included; text only ever compares equal; an
+   entry without the facet never passes. Anything else with a colon
+   (`12:30`) is an ordinary token.
 2. Every scoring token must match at least one field: name, tags,
    type, or source. More tokens narrow the result, never widen it.
 3. A token scores by the best match it finds; lower is better. In

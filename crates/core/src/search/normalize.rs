@@ -66,17 +66,35 @@ pub struct Query {
     pub filters: Vec<Filter>,
 }
 
-/// A `field:value` token. Values are normalised like everything else.
+/// A filter token. Values are normalised like everything else.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Filter {
     Kind(String),
     Tag(String),
     Source(String),
+    /// A facet of the entry's data: `level<=3`, `school:evocation`.
+    Facet {
+        name: String,
+        compare: Compare,
+        value: String,
+    },
+}
+
+/// How a facet filter compares.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Compare {
+    Eq,
+    Lt,
+    Le,
+    Gt,
+    Ge,
 }
 
 impl Query {
-    /// Split a raw query into scoring tokens and filters. A token is a filter
-    /// only when its field is one search knows; `12:30` stays a token.
+    /// Split a raw query into scoring tokens and filters. `type:`, `tag:`
+    /// and `source:` are the envelope's own filters; any other word followed
+    /// by `:`, `=`, `<`, `<=`, `>` or `>=` and a value is a facet filter.
+    /// `12:30` stays a token, since a facet name is a word.
     pub fn parse(raw: &str) -> Self {
         let mut query = Query::default();
         for token in normalize(raw).split(' ').filter(|token| !token.is_empty()) {
@@ -90,7 +108,10 @@ impl Query {
                 Some(("source", value)) if !value.is_empty() => {
                     query.filters.push(Filter::Source(value.to_owned()));
                 }
-                _ => query.tokens.push(token.to_owned()),
+                _ => match facet_filter(token) {
+                    Some(filter) => query.filters.push(filter),
+                    None => query.tokens.push(token.to_owned()),
+                },
             }
         }
         query
@@ -123,9 +144,59 @@ impl Query {
     }
 }
 
+// `name<=value` and the like, with the longest operator tried first so `<=`
+// is never read as `<` followed by `=value`.
+fn facet_filter(token: &str) -> Option<Filter> {
+    const OPERATORS: [(&str, Compare); 6] = [
+        ("<=", Compare::Le),
+        (">=", Compare::Ge),
+        ("<", Compare::Lt),
+        (">", Compare::Gt),
+        ("=", Compare::Eq),
+        (":", Compare::Eq),
+    ];
+    let at = token.find(['<', '>', '=', ':'])?;
+    let (name, rest) = token.split_at(at);
+    let (symbol, compare) = OPERATORS
+        .iter()
+        .find(|(symbol, _)| rest.starts_with(symbol))?;
+    let value = &rest[symbol.len()..];
+    let is_word = !name.is_empty() && name.chars().all(|c| c.is_alphabetic() || c == '_');
+    if !is_word || value.is_empty() {
+        return None;
+    }
+    Some(Filter::Facet {
+        name: name.to_owned(),
+        compare: *compare,
+        value: value.to_owned(),
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn rule_1_facet_tokens_carry_their_comparison() {
+        let facet = |name: &str, compare: Compare, value: &str| Filter::Facet {
+            name: name.into(),
+            compare,
+            value: value.into(),
+        };
+        let query = Query::parse("type:spell level<=3 school:evocation cr>=1/4 hp>100 size=large");
+        assert!(query.tokens.is_empty());
+        assert_eq!(
+            query.filters,
+            vec![
+                Filter::Kind("spell".into()),
+                facet("level", Compare::Le, "3"),
+                facet("school", Compare::Eq, "evocation"),
+                facet("cr", Compare::Ge, "1/4"),
+                facet("hp", Compare::Gt, "100"),
+                facet("size", Compare::Eq, "large"),
+            ]
+        );
+    }
 
     #[test]
     fn a_query_extends_another_when_filters_match_and_tokens_only_grow() {
@@ -164,9 +235,9 @@ mod tests {
     }
 
     #[test]
-    fn rule_1_unknown_fields_and_empty_values_stay_tokens() {
-        let query = Query::parse("12:30 tag: level:3");
-        assert_eq!(query.tokens, vec!["12:30", "tag:", "level:3"]);
+    fn rule_1_numbers_before_a_colon_and_empty_values_stay_tokens() {
+        let query = Query::parse("12:30 tag: level< a=");
+        assert_eq!(query.tokens, vec!["12:30", "tag:", "level<", "a="]);
         assert!(query.filters.is_empty());
         assert!(Query::parse("   ").is_empty());
     }

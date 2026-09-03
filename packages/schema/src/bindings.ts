@@ -52,10 +52,19 @@ export type Entry = {
 	body: string,
 	/**  The per-system structured blob; its schema belongs to the game system, not the envelope. */
 	data: JsonValue,
+	/**  Filterable facts read from `data` by the system manifest at seed time. */
+	facets?: { [key in string]: FacetValue },
 };
 
 /**  Stable identifier of an entry; links never break because ids never change. */
 export type EntryId = string;
+
+/**
+ *  A facet: one filterable fact about an entry, read from its data by the
+ *  system's manifest at seed time (`level`, `school`, `cr`), so search can
+ *  answer `level<=3` without opening the data.
+ */
+export type FacetValue = number | null | string;
 
 /**  A square grid, in map pixels; hex grids arrive with hexpunk's lattice. */
 export type Grid = {

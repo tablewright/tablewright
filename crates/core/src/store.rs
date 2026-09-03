@@ -13,7 +13,7 @@ use crate::compendium::{Entry, EntryId, EntrySummary, Visibility};
 use crate::module::Manifest;
 
 /// Schema version this build writes and reads; bumped with every migration.
-const SCHEMA_VERSION: i64 = 1;
+const SCHEMA_VERSION: i64 = 2;
 
 /// Failures of the compendium store.
 #[derive(Debug, Error)]
@@ -68,6 +68,8 @@ impl Store {
                 supported: SCHEMA_VERSION,
             });
         }
+        // Each version adds its own step, so a file from any earlier build is
+        // carried forward rather than rebuilt.
         if found < 1 {
             connection.execute_batch(
                 "CREATE TABLE IF NOT EXISTS entries (
@@ -87,6 +89,14 @@ impl Store {
                     manifest TEXT NOT NULL
                 );",
             )?;
+        }
+        if found < 2 {
+            // Version 2: facets, the filterable facts read from data at seed time.
+            connection.execute_batch(
+                "ALTER TABLE entries ADD COLUMN facets TEXT NOT NULL DEFAULT '{}';",
+            )?;
+        }
+        if found < SCHEMA_VERSION {
             connection.pragma_update(None, "user_version", SCHEMA_VERSION)?;
         }
         Ok(Self { connection })
@@ -100,8 +110,8 @@ impl Store {
     pub fn upsert(&self, entry: &Entry) -> Result<(), StoreError> {
         self.connection.execute(
             "INSERT OR REPLACE INTO entries
-                (id, kind, name, source, tags, visibility, data_visibility, body, data)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+                (id, kind, name, source, tags, visibility, data_visibility, body, data, facets)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
             params![
                 entry.id.as_str(),
                 entry.kind,
@@ -112,6 +122,7 @@ impl Store {
                 entry.data_visibility.code(),
                 entry.body,
                 serde_json::to_string(&entry.data)?,
+                serde_json::to_string(&entry.facets)?,
             ],
         )?;
         Ok(())
@@ -131,8 +142,8 @@ impl Store {
         {
             let mut statement = transaction.prepare(
                 "INSERT OR REPLACE INTO entries
-                    (id, kind, name, source, tags, visibility, data_visibility, body, data)
-                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+                    (id, kind, name, source, tags, visibility, data_visibility, body, data, facets)
+                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
             )?;
             for entry in entries {
                 statement.execute(params![
@@ -145,6 +156,7 @@ impl Store {
                     entry.data_visibility.code(),
                     entry.body,
                     serde_json::to_string(&entry.data)?,
+                    serde_json::to_string(&entry.facets)?,
                 ])?;
                 count += 1;
             }
@@ -163,7 +175,7 @@ impl Store {
         let entry = self
             .connection
             .query_row(
-                "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data
+                "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets
                  FROM entries WHERE id = ?1",
                 params![id.as_str()],
                 read_entry,
@@ -182,7 +194,7 @@ impl Store {
     /// Fails if the read fails or a stored row is corrupt.
     pub fn list(&self, kind: Option<&str>, viewer: Visibility) -> Result<Vec<Entry>, StoreError> {
         let mut statement = self.connection.prepare(
-            "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data
+            "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets
              FROM entries
              WHERE visibility <= ?1 AND (?2 IS NULL OR kind = ?2)
              ORDER BY name, id",
@@ -206,9 +218,9 @@ impl Store {
     ///
     /// Fails if the read fails or a stored row is corrupt.
     pub fn summaries(&self) -> Result<Vec<EntrySummary>, StoreError> {
-        let mut statement = self
-            .connection
-            .prepare("SELECT id, kind, name, source, tags, visibility FROM entries ORDER BY id")?;
+        let mut statement = self.connection.prepare(
+            "SELECT id, kind, name, source, tags, visibility, facets FROM entries ORDER BY id",
+        )?;
         let rows = statement.query_map([], |row| {
             Ok((
                 row.get::<_, String>(0)?,
@@ -217,11 +229,12 @@ impl Store {
                 row.get::<_, String>(3)?,
                 row.get::<_, String>(4)?,
                 row.get::<_, i64>(5)?,
+                row.get::<_, String>(6)?,
             ))
         })?;
         let mut summaries = Vec::new();
         for row in rows {
-            let (id, kind, name, source, tags, visibility) = row?;
+            let (id, kind, name, source, tags, visibility, facets) = row?;
             summaries.push(EntrySummary {
                 id: EntryId::new(id),
                 kind,
@@ -230,6 +243,7 @@ impl Store {
                 tags: serde_json::from_str(&tags)?,
                 visibility: Visibility::from_code(visibility)
                     .ok_or(StoreError::UnknownVisibility(visibility))?,
+                facets: serde_json::from_str(&facets)?,
             });
         }
         Ok(summaries)
@@ -305,6 +319,7 @@ fn read_entry(row: &Row<'_>) -> rusqlite::Result<Result<Entry, StoreError>> {
     let data_visibility: i64 = row.get(6)?;
     let body: String = row.get(7)?;
     let data: String = row.get(8)?;
+    let facets: String = row.get(9)?;
     Ok(build_entry(
         id,
         kind,
@@ -315,6 +330,7 @@ fn read_entry(row: &Row<'_>) -> rusqlite::Result<Result<Entry, StoreError>> {
         data_visibility,
         body,
         &data,
+        &facets,
     ))
 }
 
@@ -329,6 +345,7 @@ fn build_entry(
     data_visibility: i64,
     body: String,
     data: &str,
+    facets: &str,
 ) -> Result<Entry, StoreError> {
     Ok(Entry {
         id: EntryId::new(id),
@@ -342,6 +359,7 @@ fn build_entry(
             .ok_or(StoreError::UnknownVisibility(data_visibility))?,
         body,
         data: serde_json::from_str(data)?,
+        facets: serde_json::from_str(facets)?,
     })
 }
 
@@ -360,6 +378,7 @@ mod tests {
             data_visibility: Visibility::Dm,
             body: format!("About {name}."),
             data: serde_json::json!({ "name": name }),
+            facets: std::collections::BTreeMap::new(),
         }
     }
 

@@ -69,8 +69,13 @@ impl Catalogue {
         let entries: Vec<(EntrySummary, Candidate)> = summaries
             .into_iter()
             .map(|summary| {
-                let candidate =
-                    Candidate::new(&summary.name, &summary.kind, &summary.source, &summary.tags);
+                let candidate = Candidate::new(
+                    &summary.name,
+                    &summary.kind,
+                    &summary.source,
+                    &summary.tags,
+                    &summary.facets,
+                );
                 (summary, candidate)
             })
             .collect();
@@ -220,7 +225,10 @@ impl Catalogue {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::BTreeMap;
+
     use super::*;
+    use crate::compendium::FacetValue;
 
     fn summary(id: &str, kind: &str, name: &str, visibility: Visibility) -> EntrySummary {
         EntrySummary {
@@ -230,6 +238,7 @@ mod tests {
             source: "srd-5e".into(),
             tags: Vec::new(),
             visibility,
+            facets: BTreeMap::new(),
         }
     }
 
@@ -266,6 +275,13 @@ mod tests {
                 tiers[n % 3],
             );
             entry.tags = vec![stems[(n / 3) % 8].to_lowercase(), format!("cr-{}", n % 5)];
+            entry.facets = BTreeMap::from([
+                ("level".to_owned(), FacetValue::Number((n % 9) as f64)),
+                (
+                    "school".to_owned(),
+                    FacetValue::Text(stems[(n / 5) % 8].to_owned()),
+                ),
+            ]);
             entry
         }))
     }
@@ -285,7 +301,28 @@ mod tests {
         "zzz",
         "fir bl",
         "e b",
+        "level<=3",
+        "school:fire type:spell",
+        "level>=4 fire",
+        "cr<=1/4",
     ];
+
+    #[test]
+    fn facet_filters_narrow_by_the_data_read_at_seed_time() {
+        let catalogue = varied();
+        let low = catalogue.search("level<=2", Visibility::Dm, 1000);
+        assert!(!low.is_empty());
+        for hit in &low {
+            let n: usize = hit.id.as_str()[2..].parse().expect("synthetic id");
+            assert!(n % 9 <= 2, "{} has level {}", hit.name, n % 9);
+        }
+        let fire = catalogue.search("school:fire", Visibility::Dm, 1000);
+        assert!(fire.iter().all(|hit| {
+            let n: usize = hit.id.as_str()[2..].parse().expect("synthetic id");
+            (n / 5) % 8 == 0
+        }));
+        assert!(catalogue.search("level<0", Visibility::Dm, 1000).is_empty());
+    }
 
     #[test]
     fn rule_6_orders_by_score_then_name_length_then_name() {
@@ -355,6 +392,7 @@ mod tests {
                 data_visibility: Visibility::World,
                 body: String::new(),
                 data: serde_json::Value::Null,
+                facets: BTreeMap::new(),
             })
             .expect("write");
         let catalogue = Catalogue::from_store(&store).expect("catalogue");

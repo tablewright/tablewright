@@ -9,5 +9,32 @@
     "type": "square",
     "cellFeet": 5,
     "diagonals": "equal"
+  },
+  "facets": {
+    "spell": {
+      "level": "level",
+      "school": "school.key",
+      "ritual": "ritual",
+      "concentration": "concentration",
+      "range": "range"
+    },
+    "monster": {
+      "cr": "challenge_rating",
+      "ac": "armor_class",
+      "hp": "hit_points",
+      "size": "size.key",
+      "creature": "type.key",
+      "alignment": "alignment"
+    },
+    "item": {
+      "category": "category.key",
+      "cost": "cost",
+      "weight": "weight"
+    },
+    "magic-item": {
+      "category": "category.key",
+      "rarity": "rarity.key",
+      "attunement": "requires_attunement"
+    }
   }
 }

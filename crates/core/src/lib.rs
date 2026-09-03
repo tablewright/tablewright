@@ -9,9 +9,11 @@ pub mod module;
 pub mod scene;
 pub mod search;
 pub mod store;
+pub mod system;
 
-pub use compendium::{Entry, EntryId, EntrySummary, JsonValue, Visibility};
+pub use compendium::{Entry, EntryId, EntrySummary, FacetValue, JsonValue, Visibility};
 pub use module::{Manifest, Module, ModuleError, read_module};
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};
 pub use search::{Catalogue, DEFAULT_LIMIT, Hit};
 pub use store::{Store, StoreError};
+pub use system::{SystemError, SystemManifest};

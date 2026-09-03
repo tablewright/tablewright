@@ -225,6 +225,7 @@ mod tests {
             source: "5e-2024-srd".into(),
             tags: vec!["fey".into()],
             visibility: Visibility::Party,
+            facets: std::collections::BTreeMap::new(),
         }
     }
 

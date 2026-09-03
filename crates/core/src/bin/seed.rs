@@ -1,8 +1,10 @@
 //! Seeds a compendium SQLite file from a module directory, through the
 //! store API, so the store format lives in exactly one place.
 //!
-//! Usage: `seed <module directory> <output.sqlite>`. The output is
-//! rewritten from scratch on every run.
+//! Usage: `seed <module directory> <output.sqlite> [system.json]`. The
+//! output is rewritten from scratch on every run. With a system manifest,
+//! each entry's facets are read from its data by the manifest's paths,
+//! unless the entry file already names them.
 
 use std::collections::BTreeMap;
 use std::error::Error;
@@ -10,15 +12,19 @@ use std::path::Path;
 use std::process::ExitCode;
 use std::time::Instant;
 
-use tablewright_core::{Store, read_module};
+use tablewright_core::{Store, SystemManifest, read_module};
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    let [module_dir, output] = args.as_slice() else {
-        eprintln!("usage: seed <module directory> <output.sqlite>");
-        return ExitCode::from(2);
+    let (module_dir, output, system) = match args.as_slice() {
+        [module_dir, output] => (module_dir, output, None),
+        [module_dir, output, system] => (module_dir, output, Some(Path::new(system))),
+        _ => {
+            eprintln!("usage: seed <module directory> <output.sqlite> [system.json]");
+            return ExitCode::from(2);
+        }
     };
-    match run(Path::new(module_dir), Path::new(output)) {
+    match run(Path::new(module_dir), Path::new(output), system) {
         Ok(()) => ExitCode::SUCCESS,
         Err(error) => {
             eprintln!("seed: {error}");
@@ -27,9 +33,24 @@ fn main() -> ExitCode {
     }
 }
 
-fn run(module_dir: &Path, output: &Path) -> Result<(), Box<dyn Error>> {
+fn run(module_dir: &Path, output: &Path, system: Option<&Path>) -> Result<(), Box<dyn Error>> {
     let started = Instant::now();
-    let module = read_module(module_dir)?;
+    let mut module = read_module(module_dir)?;
+    if let Some(system) = system {
+        let manifest = SystemManifest::load(system)?;
+        let mut faceted = 0;
+        for entry in &mut module.entries {
+            if entry.facets.is_empty() {
+                entry.facets = manifest.facets_for(&entry.kind, &entry.data);
+                faceted += usize::from(!entry.facets.is_empty());
+            }
+        }
+        println!(
+            "{}: facets for {faceted} entries from {}",
+            manifest.id,
+            system.display()
+        );
+    }
     remove_previous(output)?;
     if let Some(parent) = output.parent() {
         std::fs::create_dir_all(parent)?;

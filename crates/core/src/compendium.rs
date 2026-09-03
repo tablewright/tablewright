@@ -3,6 +3,8 @@
 //! the per-system statblock rides along as an opaque JSON `data` blob.
 //! Design: docs/design.md §3.
 
+use std::collections::BTreeMap;
+
 use serde::{Deserialize, Serialize};
 use specta::Type;
 
@@ -103,6 +105,9 @@ pub struct Entry {
     /// The per-system structured blob; its schema belongs to the game system, not the envelope.
     #[specta(type = JsonValue)]
     pub data: serde_json::Value,
+    /// Filterable facts read from `data` by the system manifest at seed time.
+    #[serde(default)]
+    pub facets: BTreeMap<String, FacetValue>,
 }
 
 impl Entry {
@@ -128,13 +133,24 @@ impl Entry {
             source: self.source.clone(),
             tags: self.tags.clone(),
             visibility: self.visibility,
+            facets: self.facets.clone(),
         }
     }
 }
 
+/// A facet: one filterable fact about an entry, read from its data by the
+/// system's manifest at seed time (`level`, `school`, `cr`), so search can
+/// answer `level<=3` without opening the data.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
+#[serde(untagged)]
+pub enum FacetValue {
+    Number(f64),
+    Text(String),
+}
+
 /// The envelope fields that identify and classify an entry, without the
 /// body or the system data. Search ranks over these.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 pub struct EntrySummary {
     pub id: EntryId,
     #[serde(rename = "type")]
@@ -143,6 +159,8 @@ pub struct EntrySummary {
     pub source: String,
     pub tags: Vec<String>,
     pub visibility: Visibility,
+    #[serde(default)]
+    pub facets: BTreeMap<String, FacetValue>,
 }
 
 #[cfg(test)]
@@ -160,6 +178,7 @@ mod tests {
             data_visibility: Visibility::Dm,
             body: "A small, black-hearted humanoid.".into(),
             data: serde_json::json!({ "armor_class": 15, "hit_points": 7 }),
+            facets: BTreeMap::new(),
         }
     }
 

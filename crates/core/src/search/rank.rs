@@ -2,7 +2,10 @@
 //! against a parsed query. Pure functions over normalised text; the catalogue
 //! in `super` decides who is a candidate and orders the result (rule 6).
 
-use super::normalize::{Filter, Query, normalize};
+use std::collections::BTreeMap;
+
+use super::normalize::{Compare, Filter, Query, normalize};
+use crate::compendium::FacetValue;
 
 /// A pre-normalised entry, ready to be scored against many queries.
 #[derive(Debug, Clone)]
@@ -15,10 +18,18 @@ pub struct Candidate {
     pub kind: String,
     pub source: String,
     pub tags: Vec<String>,
+    /// Text facets are normalised; numbers stay numbers.
+    pub facets: BTreeMap<String, FacetValue>,
 }
 
 impl Candidate {
-    pub fn new(name: &str, kind: &str, source: &str, tags: &[String]) -> Self {
+    pub fn new(
+        name: &str,
+        kind: &str,
+        source: &str,
+        tags: &[String],
+        facets: &BTreeMap<String, FacetValue>,
+    ) -> Self {
         let name = normalize(name);
         let words = name
             .split(|c: char| !c.is_alphanumeric())
@@ -32,6 +43,16 @@ impl Candidate {
             kind: normalize(kind),
             source: normalize(source),
             tags: tags.iter().map(|tag| normalize(tag)).collect(),
+            facets: facets
+                .iter()
+                .map(|(name, value)| {
+                    let value = match value {
+                        FacetValue::Text(text) => FacetValue::Text(normalize(text)),
+                        number => number.clone(),
+                    };
+                    (name.clone(), value)
+                })
+                .collect(),
         }
     }
 }
@@ -76,7 +97,41 @@ fn passes_filters(candidate: &Candidate, filters: &[Filter]) -> bool {
         Filter::Kind(value) => candidate.kind == *value,
         Filter::Source(value) => candidate.source == *value,
         Filter::Tag(value) => candidate.tags.iter().any(|tag| tag == value),
+        Filter::Facet {
+            name,
+            compare,
+            value,
+        } => candidate
+            .facets
+            .get(name)
+            .is_some_and(|facet| facet_passes(facet, *compare, value)),
     })
+}
+
+// A number compares as a number, against `3`, `0.25` or `1/4` alike; text
+// only ever compares equal. An entry without the facet never passes.
+fn facet_passes(facet: &FacetValue, compare: Compare, value: &str) -> bool {
+    match facet {
+        FacetValue::Number(have) => number(value).is_some_and(|want| match compare {
+            Compare::Eq => (have - want).abs() < f64::EPSILON,
+            Compare::Lt => *have < want,
+            Compare::Le => *have <= want,
+            Compare::Gt => *have > want,
+            Compare::Ge => *have >= want,
+        }),
+        FacetValue::Text(have) => compare == Compare::Eq && have == value,
+    }
+}
+
+fn number(value: &str) -> Option<f64> {
+    if let Some((numerator, denominator)) = value.split_once('/') {
+        let (numerator, denominator) = (
+            numerator.parse::<f64>().ok()?,
+            denominator.parse::<f64>().ok()?,
+        );
+        return (denominator != 0.0).then(|| numerator / denominator);
+    }
+    value.parse().ok()
 }
 
 struct Hit {
@@ -163,12 +218,55 @@ mod tests {
     use super::*;
 
     fn spell(name: &str) -> Candidate {
-        Candidate::new(name, "spell", "srd-5e", &[])
+        Candidate::new(name, "spell", "srd-5e", &[], &BTreeMap::new())
     }
 
     fn tagged(name: &str, tags: &[&str]) -> Candidate {
         let tags: Vec<String> = tags.iter().map(|tag| (*tag).to_owned()).collect();
-        Candidate::new(name, "spell", "srd-5e", &tags)
+        Candidate::new(name, "spell", "srd-5e", &tags, &BTreeMap::new())
+    }
+
+    fn faceted(name: &str, kind: &str, facets: &[(&str, FacetValue)]) -> Candidate {
+        let facets: BTreeMap<String, FacetValue> = facets
+            .iter()
+            .map(|(key, value)| ((*key).to_owned(), value.clone()))
+            .collect();
+        Candidate::new(name, kind, "srd-5e", &[], &facets)
+    }
+
+    #[test]
+    fn facet_filters_compare_numbers_and_match_text_exactly() {
+        let fireball = faceted(
+            "Fireball",
+            "spell",
+            &[
+                ("level", FacetValue::Number(3.0)),
+                ("school", FacetValue::Text("Evocation".into())),
+            ],
+        );
+        let goblin = faceted("Goblin", "monster", &[("cr", FacetValue::Number(0.25))]);
+        assert!(rank_of(&fireball, "level<=3").is_some());
+        assert!(rank_of(&fireball, "level<3").is_none());
+        assert!(rank_of(&fireball, "level>=3 level=3").is_some());
+        assert!(
+            rank_of(&fireball, "school:evocation").is_some(),
+            "text is normalised"
+        );
+        assert!(rank_of(&fireball, "school:abjuration").is_none());
+        assert!(
+            rank_of(&fireball, "school<evocation").is_none(),
+            "text has no order"
+        );
+        assert!(rank_of(&goblin, "cr<=1/4").is_some());
+        assert!(rank_of(&goblin, "cr>0.25").is_none());
+        assert!(
+            rank_of(&goblin, "level<=3").is_none(),
+            "a missing facet never passes"
+        );
+        assert!(
+            rank_of(&goblin, "cr<=x").is_none(),
+            "a value that is not a number passes nothing"
+        );
     }
 
     fn rank_of(candidate: &Candidate, query: &str) -> Option<i32> {

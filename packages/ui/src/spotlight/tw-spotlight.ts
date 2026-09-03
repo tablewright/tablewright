@@ -508,7 +508,7 @@ export class TwSpotlight extends LitElement {
   #readout(): string {
     switch (this.status) {
       case "idle":
-        return "Type to search. Narrow with type:spell, tag:fire, or source:5e-2024-srd.";
+        return "Type to search. Narrow with type:spell, level<=3, school:evocation, or cr>=5.";
       case "error":
         return this.message;
       case "searching":
