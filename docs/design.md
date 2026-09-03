@@ -254,10 +254,12 @@ is not the interface.
   filter, and stays shut on the All tab until user testing says
   otherwise. One control per facet the manifest declares for the
   category, in the manifest's order, chosen by the kind of fact. A
-  *span rail* for a short ordered scale (level, size, rarity): one
-  click is exactly that value, a second click or a drag is the span
-  between, and a span reaching an end of the rail is open (level up
-  to 2). A *switch rail*, the same strip with each cell its own
+  *span rail* for a short ordered scale (level, size, rarity): a click
+  toggles that cell, as a chip does, Shift with a click or a drag
+  paints the span from the last cell clicked, a run of adjacent cells
+  reads as a range and cells apart as either, and a run reaching an
+  end of the rail is open (level up to 2). Every multi-select in the
+  tray toggles the same way, so a click never means two things. A *switch rail*, the same strip with each cell its own
   switch cycling off, on, not, for a few values or a yes/no fact
   (ritual and concentration, verbal/somatic/material, self and touch,
   the two alignment axes, attunement). A *stepped slider* for a long
