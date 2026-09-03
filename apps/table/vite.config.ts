@@ -8,6 +8,12 @@ export default defineConfig(({ mode }) => ({
   server: {
     port: 1420,
     strictPort: true,
+    // `bun run dev:tunnel` with `bun run demo` fronts this server with a
+    // cloudflared quick tunnel, for a phone or a guest. Vite must accept
+    // that host, and the hot-reload client must come back through the
+    // tunnel on 443 rather than to port 1420 on the tunnel's name.
+    allowedHosts: [".trycloudflare.com"],
+    ...(mode === "tunnel" ? { hmr: { clientPort: 443, protocol: "wss" } } : {}),
   },
   envPrefix: ["VITE_", "TAURI_ENV_"],
   build: {
