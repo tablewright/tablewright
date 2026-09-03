@@ -157,14 +157,16 @@ One search spans Vault and Compendium; results are labeled by origin.
   version, and a table picks the version in play; the DM who wrote
   this prefers 2014, so neither is the default by fiat. An entry is a
   *version of a thing*: `<kind>:<slug>` is its identity across
-  versions, so fireball is fireball in both, and the box shows the
-  version in play. When that version has no entry for a thing the
-  other version's stands in, badged with its year, which is how the
-  2024 table sees conditions today. Both versions can be asked for at
-  once, for a DM comparing them, and a tile then carries its year. The
-  version is picked per session, by the DM, and every query carries it
-  as it carries the viewer; campaign creation will own the choice
-  later. Open5e's `srd` document is the 2014 source.
+  versions, so fireball is fireball in both, and a tile or a page
+  shows one version only. The version is each person's own: a player
+  on 2014 rules sits at the same table as one on 2024, so anyone may
+  switch whenever they like, the choice is remembered per person, and
+  every query carries the viewer's version as it carries their tier.
+  When that version has no entry for a thing the other version's
+  stands in, badged with its year, which is how a 2024 reader sees
+  conditions today. Comparing the two side by side is a later view,
+  not a tile with two years on it. Open5e's `srd` document is the
+  2014 source.
 - **Searchable data, not body text.** A creature's traits, actions,
   reactions and legendary actions, and a class's features, are named
   parts inside `data`. The manifest names the lists that carry them,
