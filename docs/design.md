@@ -152,6 +152,19 @@ One search spans Vault and Compendium; results are labeled by origin.
   "what does frightened do" is a name search that opens a page;
   classes and races are what character creation builds from later.
   Only the bestiary is DM material; the rest is world.
+- **Two rule versions, one compendium (decided 2026-09-03).** The 2014
+  SRD (5.1) ships beside the 2024 SRD (5.2), each as modules of its own
+  version, and a table picks the version in play; the DM who wrote
+  this prefers 2014, so neither is the default by fiat. An entry is a
+  *version of a thing*: `<kind>:<slug>` is its identity across
+  versions, so fireball is fireball in both, and the box shows the
+  version in play. When that version has no entry for a thing the
+  other version's stands in, badged with its year, which is how the
+  2024 table sees conditions today. Both versions can be asked for at
+  once, for a DM comparing them, and a tile then carries its year. The
+  version is picked per session, by the DM, and every query carries it
+  as it carries the viewer; campaign creation will own the choice
+  later. Open5e's `srd` document is the 2014 source.
 - **Searchable data, not body text.** A creature's traits, actions,
   reactions and legendary actions, and a class's features, are named
   parts inside `data`. The manifest names the lists that carry them,
