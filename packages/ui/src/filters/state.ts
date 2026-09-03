@@ -104,13 +104,22 @@ function controlFilters(control: ControlSpec, state: ControlState): Filter[] {
       if (facet === undefined) {
         return [];
       }
+      // Cells apart read as either of them; a run of adjacent cells is a
+      // span, and a span reads as bounds.
+      let span = state.span;
       if (state.cells !== undefined && state.cells.length > 0) {
-        return [any(state.cells.map((at) => eq(facet, valueText(stops[at]?.value ?? null))))];
+        const cells = [...state.cells].sort((a, b) => a - b);
+        const first = cells[0] ?? 0;
+        const last = cells[cells.length - 1] ?? first;
+        if (last - first + 1 !== cells.length) {
+          return [any(cells.map((at) => eq(facet, valueText(stops[at]?.value ?? null))))];
+        }
+        span = [first, last];
       }
-      if (state.span === undefined) {
+      if (span === undefined) {
         return [];
       }
-      const [lo, hi] = state.span;
+      const [lo, hi] = span;
       const ordered = stops.every((stop) => typeof stop.value === "number");
       if (!ordered) {
         return [any(stops.slice(lo, hi + 1).map((stop) => eq(facet, valueText(stop.value))))];

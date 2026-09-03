@@ -224,3 +224,24 @@ describe("helpers", () => {
     expect(chipValues(rarity, {})).toEqual(["common", "rare", "very-rare", "legendary"]);
   });
 });
+
+describe("rail cells", () => {
+  test("a run of adjacent cells is a span, cells apart are either", () => {
+    expect(filtersOf(controls, { 0: { cells: [3, 1, 2] } })).toEqual([
+      { filter: "facet", name: "level", compare: "ge", value: "1" },
+      { filter: "facet", name: "level", compare: "le", value: "3" },
+    ]);
+    expect(filtersOf(controls, { 0: { cells: [1, 3] } })).toEqual([
+      {
+        filter: "any",
+        items: [
+          { filter: "facet", name: "level", compare: "eq", value: "1" },
+          { filter: "facet", name: "level", compare: "eq", value: "3" },
+        ],
+      },
+    ]);
+    expect(filtersOf(controls, { 0: { cells: [2] } })).toEqual([
+      { filter: "facet", name: "level", compare: "eq", value: "2" },
+    ]);
+  });
+});

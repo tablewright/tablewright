@@ -284,11 +284,17 @@ test("typed filters light the tab, open the tray, and stay underlined until the 
   await page.getByRole("button", { name: "Filters" }).click();
   await expect(tray).not.toHaveAttribute("compact", "");
   await expect(level.locator("button")).toHaveCount(6);
+  // A click toggles a cell: 4 joins the run the words chose, and the tray
+  // now owns the level, so the typed bound is set aside.
   await level.getByRole("button", { name: "4", exact: true }).click();
-  await expect(tiles).toHaveCount(1);
-  await expect(tiles.first().locator(".name")).toHaveText("Wall of Fire");
+  await expect(tiles).toHaveCount(3);
   await expect(page.locator(`${box} .mask .masked`)).toHaveText("level<=3");
   await expect(page.locator(`${box} .mask u`)).toHaveCount(1);
+  await level.getByRole("button", { name: "4", exact: true }).click();
+  await expect(tiles).toHaveCount(2);
+  await level.getByRole("button", { name: "Cantrip", exact: true }).click();
+  await expect(tiles).toHaveCount(1);
+  await expect(tiles.first().locator(".name")).toHaveText("Fireball");
 });
 
 test("a folded slider reads as a range", async ({ page }) => {

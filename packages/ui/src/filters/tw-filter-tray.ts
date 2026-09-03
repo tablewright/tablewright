@@ -43,6 +43,8 @@ export class TwFilterTray extends LitElement {
 
   // A press on a rail cell, so dragging across the rail paints a span.
   #painting: { index: number; from: number } | undefined;
+  // The last cell clicked on each rail, where Shift extends from.
+  #anchors = new Map<number, number>();
 
   constructor() {
     super();
@@ -509,7 +511,11 @@ export class TwFilterTray extends LitElement {
               @pointerenter=${(event: PointerEvent) => {
                 if (this.#painting?.index === index && event.buttons === 1) {
                   const from = this.#painting.from;
-                  this.#commit(index, { span: [Math.min(from, at), Math.max(from, at)] });
+                  const [lo, hi] = [Math.min(from, at), Math.max(from, at)];
+                  this.#anchors.set(index, from);
+                  this.#commit(index, {
+                    cells: Array.from({ length: hi - lo + 1 }, (_, cell) => lo + cell),
+                  });
                 }
               }}
               @pointerup=${() => {
@@ -525,18 +531,30 @@ export class TwFilterTray extends LitElement {
     `;
   }
 
+  // A click toggles the cell, like a chip; Shift with a click, or a drag,
+  // paints the span from the last cell clicked. A run of adjacent cells
+  // reads as a range, and cells apart read as either.
   #pickStop(control: ControlSpec, index: number, at: number, extend: boolean): void {
-    const own = this.state[index] ?? this.#shown(index);
-    const span = own?.span;
-    if (extend && span !== undefined) {
-      this.#commit(index, { span: [Math.min(span[0], at), Math.max(span[1], at)] });
-    } else if (span !== undefined && span[0] === at && span[1] === at) {
-      this.#commit(index, {});
-    } else if (span !== undefined && span[0] === span[1]) {
-      this.#commit(index, { span: [Math.min(span[0], at), Math.max(span[0], at)] });
-    } else {
-      this.#commit(index, { span: [at, at] });
+    const shown = this.state[index] ?? this.#shown(index);
+    const chosen = new Set<number>(shown?.cells ?? []);
+    if (shown?.span !== undefined) {
+      for (let cell = shown.span[0]; cell <= shown.span[1]; cell += 1) {
+        chosen.add(cell);
+      }
     }
+    const anchor = this.#anchors.get(index);
+    if (extend && anchor !== undefined) {
+      for (let cell = Math.min(anchor, at); cell <= Math.max(anchor, at); cell += 1) {
+        chosen.add(cell);
+      }
+    } else if (chosen.has(at)) {
+      chosen.delete(at);
+    } else {
+      chosen.add(at);
+    }
+    this.#anchors.set(index, at);
+    const cells = [...chosen].sort((a, b) => a - b);
+    this.#commit(index, cells.length === 0 ? {} : { cells });
     void control;
   }
 
