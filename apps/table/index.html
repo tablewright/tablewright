@@ -65,13 +65,21 @@
       .notice[data-level="error"] {
         cursor: pointer;
       }
+      .notice[data-level="info"] {
+        background: var(--tw-surface-container-high);
+        color: var(--tw-on-surface);
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div id="board"></div>
     <div class="chrome">
       <button id="open-map" type="button">Open map</button>
+      <button id="search" type="button">Search</button>
     </div>
+    <!-- Mounted once and hidden, so Ctrl+Space costs nothing but a class change. -->
+    <tw-spotlight></tw-spotlight>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

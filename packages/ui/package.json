@@ -4,7 +4,15 @@
   "private": true,
   "type": "module",
   "exports": {
+    ".": "./src/index.ts",
     "./theme.css": "./src/theme.css",
     "./tokens.css": "./src/tokens.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "check": "bun run typecheck"
+  },
+  "dependencies": {
+    "lit": "^3.3.3"
   }
 }
