@@ -50,6 +50,7 @@ test.beforeEach(async ({ page }) => {
 test("renders a WebGL board with the fixture map and its tokens", async ({ page }) => {
   await expect(page.locator("#board > canvas")).toHaveCount(1);
   await expect(page.locator(".notice")).toHaveCount(0);
+  await expect(page.locator("#scene .scene-name")).toHaveText("The Rusty Flagon");
   const hasWebgl = await page.evaluate(() => {
     const canvas = document.querySelector("#board > canvas");
     return canvas instanceof HTMLCanvasElement && canvas.getContext("webgl2") !== null;

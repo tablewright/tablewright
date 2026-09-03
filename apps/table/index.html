@@ -32,6 +32,24 @@
         display: flex;
         gap: var(--tw-space-sm);
       }
+      .chrome .scene {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--tw-space-sm);
+        padding: var(--tw-comp-button-quiet-padding) var(--tw-space-md);
+        border: 1px solid var(--tw-outline);
+        border-radius: var(--tw-comp-button-quiet-rounded);
+        background: var(--tw-comp-panel-background-color);
+        color: var(--tw-on-surface);
+        font-family: var(--tw-typo-label-md-font-family);
+        font-size: var(--tw-typo-label-md-font-size);
+        font-weight: var(--tw-typo-label-md-font-weight);
+        line-height: var(--tw-typo-label-md-line-height);
+        letter-spacing: var(--tw-typo-label-md-letter-spacing);
+      }
+      .chrome .scene svg {
+        color: var(--tw-primary);
+      }
       .chrome button {
         background: var(--tw-comp-button-quiet-background-color);
         color: var(--tw-comp-button-quiet-text-color);
@@ -75,6 +93,22 @@
   <body>
     <div id="board"></div>
     <div class="chrome">
+      <!-- Which scene this is: the player-facing tab; the DM screen holds the full list later. -->
+      <span id="scene" class="scene" aria-label="Current scene"
+        ><svg
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M1.5 3.5 6 2l4 1.5L14.5 2v10.5L10 14l-4-1.5L1.5 14z"></path>
+          <path d="M6 2v10.5M10 3.5V14"></path></svg
+        ><span class="scene-name">Scene</span></span
+      >
       <button id="open-map" type="button">Open map</button>
       <button id="search" type="button">Search</button>
     </div>

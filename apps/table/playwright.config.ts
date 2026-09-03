@@ -17,7 +17,9 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${PORT}`,
     viewport: { width: 1280, height: 800 },
-    video: "on",
+    // Off while the PoC iterates fast; every recording is encoded in software.
+    // Back on, at least for failures, once past the PoC.
+    video: "off",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },

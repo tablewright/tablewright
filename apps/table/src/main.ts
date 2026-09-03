@@ -15,16 +15,18 @@ const searchButton = document.getElementById("search");
 const spotlight = document.querySelector("tw-spotlight");
 const shares = document.querySelector("tw-share-tray");
 const entryView = document.querySelector("tw-entry-view");
+const sceneName = document.querySelector("#scene .scene-name");
 if (
   host === null ||
   openButton === null ||
   searchButton === null ||
   spotlight === null ||
   shares === null ||
-  entryView === null
+  entryView === null ||
+  sceneName === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #search, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #search, #scene, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
   );
 }
 
@@ -201,15 +203,20 @@ try {
   };
   // The board shows the core's scene and asks it to record every gesture.
   // A move the scene refuses is undone by showing the scene as it stands.
-  board.setScene(await core.scene());
+  // The scene tab names what is shown; the DM screen's list comes later.
+  const showScene = (scene: Scene): void => {
+    board.setScene(scene);
+    sceneName.textContent = scene.name;
+  };
+  showScene(await core.scene());
   board.onTokenMove(({ id, cell, facing }) => {
     void (async () => {
       try {
-        board.setScene(await core.moveToken(id, cell.col, cell.row, facing));
+        showScene(await core.moveToken(id, cell.col, cell.row, facing));
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
         showNotice(`Could not move ${id}: ${reason}`);
-        board.setScene(await core.scene());
+        showScene(await core.scene());
       }
     })();
   });
@@ -220,7 +227,7 @@ try {
     const cell = board.centerCell();
     void (async () => {
       try {
-        board.setScene(await core.placeEntry(entry, cell.col, cell.row));
+        showScene(await core.placeEntry(entry, cell.col, cell.row));
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
         showNotice(`Could not place ${entry.name}: ${reason}`);
