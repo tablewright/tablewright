@@ -273,3 +273,17 @@ test("typed filters light the tab, open the tray, and stay underlined until the 
   await expect(page.locator(`${box} .mask .masked`)).toHaveText("level<=3");
   await expect(page.locator(`${box} .mask u`)).toHaveCount(1);
 });
+
+test("a folded slider reads as a range", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("type:monster cr<=4");
+  const tray = page.locator("tw-filter-tray");
+  await expect(tray).toHaveAttribute("compact", "");
+  await expect(tray.getByRole("group", { name: "Challenge rating" })).toHaveText(/up to 4/);
+  await page.keyboard.press("Control+a");
+  await page.keyboard.type("type:monster cr>=2 cr<=4");
+  await expect(tray.getByRole("group", { name: "Challenge rating" })).toHaveText(/2 – 4/);
+  await page.keyboard.press("Control+a");
+  await page.keyboard.type("type:monster cr>=5");
+  await expect(tray.getByRole("group", { name: "Challenge rating" })).toHaveText(/5\+/);
+});

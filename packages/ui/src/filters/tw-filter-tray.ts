@@ -367,12 +367,22 @@ export class TwFilterTray extends LitElement {
           picked = shown.cells;
         } else if (shown.span !== undefined) {
           const [lo, hi] = shown.span;
-          picked =
-            control.control === "slider"
-              ? lo === hi
-                ? [lo]
-                : [lo, hi]
-              : Array.from({ length: hi - lo + 1 }, (_, at) => lo + at);
+          if (control.control === "slider") {
+            // A slider folds to one cell that reads as a range: both ends
+            // with a dash, or the open end in words, as a chip would.
+            const last = stops.length - 1;
+            const text =
+              lo === hi
+                ? labelOf(stops[lo])
+                : lo === 0
+                  ? `up to ${labelOf(stops[hi])}`
+                  : hi === last
+                    ? `${labelOf(stops[lo])}+`
+                    : `${labelOf(stops[lo])} – ${labelOf(stops[hi])}`;
+            cells.push({ text, tri: "on" });
+            break;
+          }
+          picked = Array.from({ length: hi - lo + 1 }, (_, at) => lo + at);
         }
         for (const at of picked) {
           cells.push({ text: labelOf(stops[at]), tri: "on" });
