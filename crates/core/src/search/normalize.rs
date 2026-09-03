@@ -132,6 +132,10 @@ pub struct Understood {
     pub start: u32,
     pub end: u32,
     pub filter: Option<Filter>,
+    /// The tray said otherwise about this facet, so the words were set
+    /// aside; they stay in the text, greyed.
+    #[serde(default)]
+    pub overruled: bool,
 }
 
 impl Understood {
@@ -140,6 +144,7 @@ impl Understood {
             start: start as u32,
             end: end as u32,
             filter: None,
+            overruled: false,
         }
     }
 }
@@ -170,6 +175,20 @@ impl Filter {
     pub fn negated(item: Filter) -> Self {
         Self::Not {
             item: Box::new(item),
+        }
+    }
+
+    /// The facets this filter speaks of, the envelope's `type`, `tag` and
+    /// `source` among them, so a tray filter can overrule the text's on
+    /// the same facet.
+    pub fn facets_named(&self) -> Vec<String> {
+        match self {
+            Self::Kind { .. } => vec!["type".into()],
+            Self::Tag { .. } => vec!["tag".into()],
+            Self::Source { .. } => vec!["source".into()],
+            Self::Facet { name, .. } => vec![name.clone()],
+            Self::Any { items } => items.iter().flat_map(Filter::facets_named).collect(),
+            Self::Not { item } => item.facets_named(),
         }
     }
 
@@ -231,6 +250,7 @@ impl Query {
             start: span.0 as u32,
             end: span.1 as u32,
             filter: Some(filter.clone()),
+            overruled: false,
         });
         self.filters.push(filter);
     }

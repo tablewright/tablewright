@@ -12,8 +12,8 @@ use std::time::Instant;
 use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
-    DEFAULT_LIMIT, Entry, EntryId, Hit, Manifest, Scene, SceneError, StoreError, SystemManifest,
-    Understood, Visibility,
+    DEFAULT_LIMIT, Entry, EntryId, Filter, Hit, Manifest, Scene, SceneError, StoreError,
+    SystemManifest, Understood, Visibility,
 };
 use tauri::State;
 
@@ -77,11 +77,15 @@ pub fn search(
     query: String,
     viewer: Visibility,
     limit: Option<u32>,
+    filters: Option<Vec<Filter>>,
 ) -> Result<SearchResponse, CommandError> {
     let compendium = compendium(&state)?;
     let started = Instant::now();
     let limit = limit.map_or(DEFAULT_LIMIT, |limit| limit as usize);
-    let answer = compendium.catalogue.answer(&query, viewer, limit);
+    let answer =
+        compendium
+            .catalogue
+            .answer_with(&query, viewer, limit, &filters.unwrap_or_default());
     Ok(SearchResponse {
         hits: answer.hits,
         elapsed_us: u32::try_from(started.elapsed().as_micros()).unwrap_or(u32::MAX),
@@ -114,6 +118,16 @@ pub fn modules(state: State<'_, AppState>) -> Result<Vec<Manifest>, CommandError
         message: "the store lock is poisoned".into(),
     })?;
     Ok(store.modules()?)
+}
+
+/// The text values each facet holds across the compendium, for the tray's
+/// chips: schools, creature types, categories.
+#[tauri::command]
+#[specta::specta]
+pub fn facet_values(
+    state: State<'_, AppState>,
+) -> Result<std::collections::BTreeMap<String, Vec<String>>, CommandError> {
+    Ok(compendium(&state)?.catalogue.facet_values())
 }
 
 /// The system the compendium was seeded for: its categories, kinds,

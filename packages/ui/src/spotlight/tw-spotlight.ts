@@ -13,12 +13,30 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { PropertyValues } from "lit";
-import { groupHits, previewOf } from "./preview.js";
+import type { ControlSpec, SystemManifest, Understood } from "@tablewright/schema";
+import "../filters/tw-filter-tray.js";
+import { filtersOf, selectionOf } from "../filters/state.js";
+import type { TrayState } from "../filters/state.js";
+import { categoryOf, groupHits, previewOf } from "./preview.js";
 import type { Taxonomy } from "./preview.js";
 import type { HitGroup } from "./preview.js";
 import type { SearchAnswer, Searcher, SpotlightHit } from "./searcher.js";
 
 type Status = "idle" | "searching" | "done" | "error";
+
+const FUNNEL_ICON = html`<svg
+  width="12"
+  height="12"
+  viewBox="0 0 12 12"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.4"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <path d="M1 2h10L7.5 6.5V10l-3 1V6.5z"></path>
+</svg>`;
 
 const HANDLED_KEYS = new Set(["ArrowDown", "ArrowUp", "Home", "End", "Enter", "Escape"]);
 
@@ -45,8 +63,13 @@ export class TwSpotlight extends LitElement {
     placeholder: { type: String },
     searcher: { attribute: false },
     taxonomy: { attribute: false },
+    system: { attribute: false },
+    facetValues: { attribute: false },
     query: { state: true },
     hits: { state: true },
+    understood: { state: true },
+    trayState: { state: true },
+    trayOpen: { state: true },
     filter: { state: true },
     selected: { state: true },
     status: { state: true },
@@ -59,10 +82,19 @@ export class TwSpotlight extends LitElement {
   declare open: boolean;
   declare placeholder: string;
   declare searcher: Searcher | undefined;
-  /** Kind to category label, from the system manifest; kinds it omits group by themselves. */
+  /** Kind to category label; derived from `system` unless set outright. */
   declare taxonomy: Taxonomy | undefined;
+  /** The system manifest: categories, kinds, and the tray's controls per kind. */
+  declare system: SystemManifest | undefined;
+  /** Facet name to the values the data holds, for chips without stops. */
+  declare facetValues: Record<string, string[]>;
   declare query: string;
   declare hits: SpotlightHit[];
+  /** What the parser made of the typed text on the last answer. */
+  declare understood: Understood[];
+  /** What the tray holds, by control index; cleared when the tab changes. */
+  declare trayState: TrayState;
+  declare trayOpen: boolean;
   /** The category tab in force, or undefined for all. */
   declare filter: string | undefined;
   declare selected: number;
@@ -82,6 +114,8 @@ export class TwSpotlight extends LitElement {
   // Derived from hits and filter once per update, not per render call.
   #groups: HitGroup[] = [];
   #visible: SpotlightHit[] = [];
+  // Kind to category label, from the system when no taxonomy was given.
+  #derived: Taxonomy | undefined;
 
   constructor() {
     super();
@@ -89,8 +123,13 @@ export class TwSpotlight extends LitElement {
     this.placeholder = "Search the compendium";
     this.searcher = undefined;
     this.taxonomy = undefined;
+    this.system = undefined;
+    this.facetValues = {};
     this.query = "";
     this.hits = [];
+    this.understood = [];
+    this.trayState = {};
+    this.trayOpen = false;
     this.filter = undefined;
     this.selected = 0;
     this.status = "idle";
@@ -133,23 +172,61 @@ export class TwSpotlight extends LitElement {
       border-radius: var(--tw-comp-panel-rounded);
       overflow: hidden;
     }
-    input {
+    .field {
+      position: relative;
+    }
+    /* The words stay the words: the input's own text is painted transparent
+       and the mask over it draws the same text with what the parser
+       understood underlined, and what the tray overruled greyed. */
+    input,
+    .mask {
       box-sizing: border-box;
       width: 100%;
       margin: 0;
       padding: var(--tw-space-md) var(--tw-space-lg);
       border: 0;
       border-bottom: 1px solid var(--tw-outline-variant);
-      outline: none;
-      background: var(--tw-comp-input-background-color);
-      color: var(--tw-comp-input-text-color);
       font-family: var(--tw-comp-input-font-family);
       font-size: var(--tw-typo-headline-sm-font-size);
       font-weight: var(--tw-comp-input-font-weight);
       line-height: var(--tw-typo-headline-sm-line-height);
     }
+    input {
+      outline: none;
+      background: var(--tw-comp-input-background-color);
+      color: transparent;
+      caret-color: var(--tw-comp-input-text-color);
+    }
     input::placeholder {
       color: var(--tw-on-surface-variant);
+    }
+    .mask {
+      position: absolute;
+      inset: 0;
+      border-bottom-color: transparent;
+      overflow: hidden;
+      white-space: pre;
+      pointer-events: none;
+      color: var(--tw-comp-input-text-color);
+    }
+    .mask u {
+      text-decoration: underline;
+      text-decoration-color: var(--tw-primary);
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 4px;
+    }
+    .mask .masked {
+      color: var(--tw-on-surface-variant);
+      opacity: 0.6;
+    }
+    .funnel {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--tw-space-xs);
+      margin-left: auto;
+    }
+    .funnel[aria-pressed="true"] {
+      border: 1px solid var(--tw-primary);
     }
     /* Screen order: input, tabs, results, footer. DOM order puts the tabs after
        the results so the tab key reaches the selected tile before them. */
@@ -360,10 +437,24 @@ export class TwSpotlight extends LitElement {
   }
 
   protected override willUpdate(changed: PropertyValues<this>): void {
-    if (changed.has("hits") || changed.has("filter") || changed.has("taxonomy")) {
-      const groups = groupHits(this.hits, this.taxonomy);
-      // A tab that no longer matches anything falls back to all.
-      if (this.filter !== undefined && !groups.some((group) => group.category === this.filter)) {
+    if (changed.has("system") || changed.has("taxonomy")) {
+      this.#derived = deriveTaxonomy(this.system);
+    }
+    if (
+      changed.has("hits") ||
+      changed.has("filter") ||
+      changed.has("taxonomy") ||
+      changed.has("system")
+    ) {
+      const groups = groupHits(this.hits, this.#tax());
+      // A tab that no longer matches anything falls back to all, unless
+      // nothing matched at all: then the tab and its tray stay, so a
+      // filter that emptied the list can be undone where it was made.
+      if (
+        this.filter !== undefined &&
+        this.hits.length > 0 &&
+        !groups.some((group) => group.category === this.filter)
+      ) {
         this.filter = undefined;
       }
       this.#groups =
@@ -378,7 +469,12 @@ export class TwSpotlight extends LitElement {
   }
 
   protected override render() {
-    const all = groupHits(this.hits, this.taxonomy);
+    const all = groupHits(this.hits, this.#tax());
+    const controls = this.#controls();
+    const tabs =
+      this.filter !== undefined && !all.some((group) => group.category === this.filter)
+        ? [...all, { category: this.filter, hits: [] }]
+        : all;
     let offset = 0;
     return html`
       <div
@@ -388,18 +484,35 @@ export class TwSpotlight extends LitElement {
         @drop=${this.#onDrop}
       ></div>
       <div class="box" role="dialog" aria-label="Search the compendium">
-        <input
-          type="text"
-          .value=${this.query}
-          placeholder=${this.placeholder}
-          autocomplete="off"
-          spellcheck="false"
-          aria-controls="hits"
-          aria-activedescendant=${this.#visible.length === 0 ? nothing : `hit-${this.selected}`}
-          @input=${this.#onInput}
-          @keydown=${this.#onKeydown}
-        />
+        <div class="field">
+          <input
+            type="text"
+            .value=${this.query}
+            placeholder=${this.placeholder}
+            autocomplete="off"
+            spellcheck="false"
+            aria-controls="hits"
+            aria-activedescendant=${this.#visible.length === 0 ? nothing : `hit-${this.selected}`}
+            @input=${this.#onInput}
+            @scroll=${this.#syncMask}
+            @keydown=${this.#onKeydown}
+          />
+          <div class="mask" aria-hidden="true">${this.#renderMask()}</div>
+        </div>
         <div class="results" id="hits" role="listbox">
+          ${
+            this.trayOpen && controls.length > 0
+              ? html`<tw-filter-tray
+                  .label=${this.filter ?? ""}
+                  .controls=${controls}
+                  .values=${this.facetValues}
+                  .state=${this.trayState}
+                  .selection=${selectionOf(controls, this.understood)}
+                  @tw-filter=${this.#onTrayFilter}
+                  @keydown=${this.#onTrayKeydown}
+                ></tw-filter-tray>`
+              : nothing
+          }
           ${this.#groups.map((group, groupIndex) => {
             const start = offset;
             offset += group.hits.length;
@@ -418,7 +531,7 @@ export class TwSpotlight extends LitElement {
              tab order, so Tab from the input reaches the selected tile first. -->
         <div class="tabs">
           ${
-            this.hits.length === 0
+            this.hits.length === 0 && this.filter === undefined
               ? nothing
               : html`
                   <button
@@ -429,7 +542,7 @@ export class TwSpotlight extends LitElement {
                   >
                     All ${this.hits.length}
                   </button>
-                  ${all.map(
+                  ${tabs.map(
                     (group) => html`
                       <button
                         type="button"
@@ -441,6 +554,21 @@ export class TwSpotlight extends LitElement {
                       </button>
                     `
                   )}
+                  ${
+                    controls.length === 0
+                      ? nothing
+                      : html`
+                          <button
+                            type="button"
+                            class="tab funnel"
+                            aria-label="Filters"
+                            aria-pressed=${this.trayOpen ? "true" : "false"}
+                            @click=${this.#toggleTray}
+                          >
+                            ${FUNNEL_ICON} ${this.#filterCount(controls)}
+                          </button>
+                        `
+                  }
                 `
           }
         </div>
@@ -453,11 +581,15 @@ export class TwSpotlight extends LitElement {
   }
 
   protected override updated(changed: PropertyValues<this>): void {
+    if (changed.has("query") || changed.has("understood")) {
+      this.#syncMask();
+    }
     if (
       changed.has("selected") ||
       changed.has("hits") ||
       changed.has("filter") ||
-      changed.has("taxonomy")
+      changed.has("taxonomy") ||
+      changed.has("system")
     ) {
       const tile = this.renderRoot.querySelector<HTMLElement>(`#hit-${this.selected}`);
       tile?.scrollIntoView({ block: "nearest" });
@@ -472,8 +604,116 @@ export class TwSpotlight extends LitElement {
   // Every tile is a tab stop with its Share button right after it, so Tab
   // walks tile, share, tile, share. Focus on a tile selects it; the arrows
   // move selection and focus together.
+  // The mask's text is the query itself, cut at the spans the parser
+  // reported: understood words underlined, overruled words greyed, the
+  // rest plain. Offsets are in chars, as the core counts them.
+  #renderMask() {
+    const chars = Array.from(this.query);
+    const spans = this.understood
+      .filter((item) => item.filter !== null)
+      .sort((a, b) => a.start - b.start);
+    const parts = [];
+    let at = 0;
+    for (const span of spans) {
+      if (span.start < at || span.end > chars.length) {
+        continue;
+      }
+      parts.push(chars.slice(at, span.start).join(""));
+      const text = chars.slice(span.start, span.end).join("");
+      parts.push(
+        span.overruled === true ? html`<span class="masked">${text}</span>` : html`<u>${text}</u>`
+      );
+      at = span.end;
+    }
+    parts.push(chars.slice(at).join(""));
+    return parts;
+  }
+
+  #syncMask = (): void => {
+    const input = this.#input();
+    const mask = this.renderRoot.querySelector<HTMLElement>(".mask");
+    if (input !== null && mask !== null) {
+      mask.scrollLeft = input.scrollLeft;
+    }
+  };
+
+  #tax(): Taxonomy | undefined {
+    return this.taxonomy ?? this.#derived;
+  }
+
+  // The tray's controls: those the manifest declares for every kind of the
+  // active category, each control once, in manifest order.
+  #controls(): ControlSpec[] {
+    const system = this.system;
+    if (system === undefined || this.filter === undefined) {
+      return [];
+    }
+    const controls: ControlSpec[] = [];
+    const seen = new Set<string>();
+    for (const [kind, declared] of Object.entries(system.controls ?? {})) {
+      if (categoryOf(kind, this.#tax()) !== this.filter) {
+        continue;
+      }
+      for (const control of declared) {
+        const key = `${control.control}:${control.facet ?? ""}:${control.label}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          controls.push(control);
+        }
+      }
+    }
+    return controls;
+  }
+
+  #filterCount(controls: ControlSpec[]): number {
+    const own = filtersOf(controls, this.trayState).length;
+    const said = this.understood.filter(
+      (item) => item.filter !== null && item.filter.filter !== "kind" && item.overruled !== true
+    ).length;
+    return own + said;
+  }
+
+  #toggleTray = (): void => {
+    this.trayOpen = !this.trayOpen;
+  };
+
+  // The words lead: a kind noun lights its category's tab, and a filter
+  // read from the text opens the tray on it. Neither closes anything.
+  #followWords(): void {
+    const said = this.understood.filter((item) => item.filter !== null && item.overruled !== true);
+    const categories = new Set(
+      said.flatMap((item) => kindsNamed(item.filter)).map((kind) => categoryOf(kind, this.#tax()))
+    );
+    if (categories.size === 1) {
+      const [category] = categories;
+      if (category !== undefined && category !== this.filter) {
+        this.filter = category;
+        this.trayState = {};
+      }
+    }
+    const facets = said.some((item) => item.filter !== null && item.filter.filter !== "kind");
+    if (facets && this.filter !== undefined && this.#controls().length > 0) {
+      this.trayOpen = true;
+    }
+  }
+
+  #onTrayFilter = (event: Event): void => {
+    this.trayState = (event as CustomEvent<TrayState>).detail;
+    void this.#search(performance.now());
+  };
+
+  // Escape in the tray returns to the input; the host's Escape cascade
+  // leaves it to the tray while focus is there.
+  #onTrayKeydown = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      this.#input()?.focus();
+    }
+  };
+
   #renderTile(hit: SpotlightHit, index: number) {
-    const preview = previewOf(hit, this.taxonomy);
+    const preview = previewOf(hit, this.#tax());
     const selected = index === this.selected;
     return html`
       <li
@@ -518,7 +758,7 @@ export class TwSpotlight extends LitElement {
   #readout(): string {
     switch (this.status) {
       case "idle":
-        return "Type to search. Narrow with type:spell, level<=3, school:evocation, or cr>=5.";
+        return "Type to search. Try evocation spells below level 3, or creatures cr 5+.";
       case "error":
         return this.message;
       case "searching":
@@ -538,10 +778,20 @@ export class TwSpotlight extends LitElement {
     return this.renderRoot.querySelector("input");
   }
 
+  // A tab is a view; the tray's own state belongs to the tab it was made
+  // on, so changing tabs lets it go and searches again without it.
   #setFilter(category: string | undefined): void {
+    const had = filtersOf(this.#controls(), this.trayState).length > 0;
     this.filter = category;
     this.selected = 0;
+    this.trayState = {};
+    if (category === undefined) {
+      this.trayOpen = false;
+    }
     this.#input()?.focus();
+    if (had) {
+      void this.#search(performance.now());
+    }
   }
 
   #onInput = (event: Event): void => {
@@ -686,8 +936,10 @@ export class TwSpotlight extends LitElement {
   async #search(startedAt: number): Promise<void> {
     const sequence = ++this.#sequence;
     const query = this.query;
-    if (query.trim() === "") {
+    const filters = filtersOf(this.#controls(), this.trayState);
+    if (query.trim() === "" && filters.length === 0) {
       this.hits = [];
+      this.understood = [];
       this.selected = 0;
       this.status = "idle";
       return;
@@ -700,7 +952,7 @@ export class TwSpotlight extends LitElement {
     this.status = "searching";
     let answer: SearchAnswer;
     try {
-      answer = await this.searcher(query);
+      answer = await this.searcher(query, filters);
     } catch (error) {
       if (sequence !== this.#sequence) {
         return;
@@ -713,10 +965,12 @@ export class TwSpotlight extends LitElement {
       return;
     }
     this.hits = answer.hits;
+    this.understood = answer.understood ?? [];
     this.selected = 0;
     this.elapsedUs = answer.elapsedUs;
     this.catalogueSize = answer.catalogueSize;
     this.status = "done";
+    this.#followWords();
     // The readout is keystroke to paint. The DOM commit is measured first so
     // the number is always this keystroke's; the frame after it, when one
     // comes, refines it to the paint. A throttled tab never paints late and
@@ -731,6 +985,33 @@ export class TwSpotlight extends LitElement {
         this.paintMs = performance.now() - startedAt;
       }
     });
+  }
+}
+
+// Kind to category label, from a system manifest.
+function deriveTaxonomy(system: SystemManifest | undefined): Taxonomy | undefined {
+  if (system === undefined) {
+    return undefined;
+  }
+  const taxonomy: Record<string, string> = {};
+  for (const [kind, spec] of Object.entries(system.kinds ?? {})) {
+    taxonomy[kind] = system.categories?.[spec.category] ?? spec.name;
+  }
+  return taxonomy;
+}
+
+// The kinds a filter names outright.
+function kindsNamed(filter: Understood["filter"]): string[] {
+  if (filter === null) {
+    return [];
+  }
+  switch (filter.filter) {
+    case "kind":
+      return [filter.value];
+    case "any":
+      return filter.items.flatMap((item) => kindsNamed(item));
+    default:
+      return [];
   }
 }
 

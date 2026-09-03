@@ -4,9 +4,9 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
 import { BoardStage, readBoardTheme } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
-import type { CommandError, Scene, Visibility } from "@tablewright/schema";
+import type { CommandError, Scene, SystemManifest, Visibility } from "@tablewright/schema";
 import "@tablewright/ui";
-import type { EntryDocument, Searcher, SpotlightHit, Taxonomy } from "@tablewright/ui";
+import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
 import { BoardHost } from "./board-host.js";
 
 const host = document.getElementById("board");
@@ -93,8 +93,10 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
 // browser and by Playwright without a core.
 interface Core {
   search: Searcher;
-  /** Kind to category label, from the system the compendium was seeded for. */
-  taxonomy: () => Promise<Taxonomy>;
+  /** The system the compendium was seeded for, or null when the seeder had none. */
+  system: () => Promise<SystemManifest | null>;
+  /** Facet name to the text values the compendium holds, for the tray's chips. */
+  facetValues: () => Promise<Record<string, string[]>>;
   entry: (id: string) => Promise<EntryDocument>;
   scene: () => Promise<Scene>;
   moveToken: (id: string, col: number, row: number, facing: number) => Promise<Scene>;
@@ -108,9 +110,11 @@ function connectCore(): Core {
       // panel rather than the module import.
       const fixture = import("./dev/search-fixture.js");
       const scenes = import("./dev/scene-fixture.js");
+      const system = import("./dev/system-fixture.js");
       return {
-        search: async (query) => (await fixture).fixtureSearcher(query),
-        taxonomy: async () => (await fixture).fixtureTaxonomy,
+        search: async (query, filters) => (await fixture).fixtureSearcher(query, filters),
+        system: async () => (await system).fixtureSystem,
+        facetValues: async () => (await system).fixtureFacetValues,
         entry: async (id) => {
           const found = (await fixture).fixtureEntry(id);
           if (found === undefined) {
@@ -129,7 +133,8 @@ function connectCore(): Core {
     };
     return {
       search: unconnected,
-      taxonomy: unconnected,
+      system: unconnected,
+      facetValues: unconnected,
       entry: unconnected,
       scene: unconnected,
       moveToken: unconnected,
@@ -145,20 +150,17 @@ function connectCore(): Core {
     return result.data;
   };
   return {
-    search: async (query) => {
-      const data = unwrap(await commands.search(query, "dm", null));
-      return { hits: data.hits, elapsedUs: data.elapsed_us, catalogueSize: data.catalogue_size };
+    search: async (query, filters) => {
+      const data = unwrap(await commands.search(query, "dm", null, filters));
+      return {
+        hits: data.hits,
+        elapsedUs: data.elapsed_us,
+        catalogueSize: data.catalogue_size,
+        understood: data.understood,
+      };
     },
-    taxonomy: async () => {
-      const system = unwrap(await commands.system());
-      const taxonomy: Record<string, string> = {};
-      if (system !== null) {
-        for (const [kind, spec] of Object.entries(system.kinds ?? {})) {
-          taxonomy[kind] = system.categories?.[spec.category] ?? spec.name;
-        }
-      }
-      return taxonomy;
-    },
+    system: async () => unwrap(await commands.system()),
+    facetValues: async () => unwrap(await commands.facetValues()),
     entry: async (id) => {
       const { type, name, source, tags, body, ...rest } = unwrap(await commands.getEntry(id, "dm"));
       return { id: rest.id, type, name, source, tags, body };
@@ -190,7 +192,7 @@ function describe(error: { kind: string }): string {
 function exposeSearchProbe(): void {
   window.__tablewrightSearch = async (query: string, viewer: Visibility = "dm", limit = null) => {
     const started = performance.now();
-    const result = await commands.search(query, viewer, limit);
+    const result = await commands.search(query, viewer, limit, null);
     const roundTripMs = performance.now() - started;
     if (result.status === "error") {
       throw new Error(`search failed: ${JSON.stringify(result.error)}`);
@@ -250,10 +252,12 @@ try {
   });
   openButton.addEventListener("click", () => void openMap(board));
   spotlight.searcher = core.search;
-  // The box groups by the system's categories; a missing system leaves
-  // every kind its own group, which still reads.
+  // The box groups by the system's categories and builds its tray from the
+  // system's controls; without a system every kind is its own group and
+  // there is no tray, which still reads.
   try {
-    spotlight.taxonomy = await core.taxonomy();
+    spotlight.system = (await core.system()) ?? undefined;
+    spotlight.facetValues = await core.facetValues();
   } catch (error) {
     showNotice(
       `Could not read the system: ${error instanceof Error ? error.message : String(error)}`
@@ -282,6 +286,14 @@ try {
     "keydown",
     (event) => {
       if (event.key !== "Escape") {
+        return;
+      }
+      // Inside the filter tray, Escape returns to the input; the tray's own.
+      if (
+        event
+          .composedPath()
+          .some((node) => node instanceof Element && node.tagName === "TW-FILTER-TRAY")
+      ) {
         return;
       }
       if (shares.length > 0) {

@@ -43,6 +43,8 @@ pub struct Lexicon {
     /// Text facets with an order, from the controls' stops: facet name to
     /// its values in order.
     ordered: HashMap<String, Vec<String>>,
+    /// Facet name to every text value the catalogue holds for it.
+    values: HashMap<String, BTreeSet<String>>,
 }
 
 impl Lexicon {
@@ -116,6 +118,11 @@ impl Lexicon {
                 if let FacetValue::Text(text) = value {
                     let text = normalize(text);
                     if seen.insert((facet.clone(), text.clone())) {
+                        lexicon
+                            .values
+                            .entry(facet.clone())
+                            .or_default()
+                            .insert(text.clone());
                         lexicon.add(
                             &text,
                             Meaning::Value {
@@ -180,6 +187,15 @@ impl Lexicon {
     /// The category `kind` belongs to.
     pub fn category_of(&self, kind: &str) -> Option<&str> {
         self.kind_category.get(kind).map(String::as_str)
+    }
+
+    /// Every text value the catalogue holds, per facet, sorted: what the
+    /// tray offers as chips.
+    pub fn values(&self) -> std::collections::BTreeMap<String, Vec<String>> {
+        self.values
+            .iter()
+            .map(|(facet, values)| (facet.clone(), values.iter().cloned().collect()))
+            .collect()
     }
 
     /// The values of `facet` in order, when the system gave it one.

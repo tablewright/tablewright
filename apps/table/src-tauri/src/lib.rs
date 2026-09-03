@@ -72,6 +72,7 @@ fn specta_builder() -> Builder<tauri::Wry> {
             commands::get_entry,
             commands::modules,
             commands::system,
+            commands::facet_values,
             commands::get_scene,
             commands::move_token,
             commands::place_entry,

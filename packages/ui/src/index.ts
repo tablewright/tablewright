@@ -9,6 +9,17 @@ export { TwEntryView } from "./entry/tw-entry-view.js";
 export type { EntryDocument } from "./entry/tw-entry-view.js";
 export { paragraphs, runs } from "./entry/markdown-lite.js";
 export type { Run } from "./entry/markdown-lite.js";
+export { TwFilterTray } from "./filters/tw-filter-tray.js";
+export {
+  activeCount,
+  besideIndex,
+  cellKey,
+  chipValues,
+  filtersOf,
+  selectionOf,
+  valueText,
+} from "./filters/state.js";
+export type { ControlState, TrayState, Tri } from "./filters/state.js";
 export { categoryOf, groupHits, previewOf } from "./spotlight/preview.js";
 export type { HitGroup, Taxonomy, TilePreview } from "./spotlight/preview.js";
 export type { SearchAnswer, Searcher, SpotlightHit } from "./spotlight/searcher.js";

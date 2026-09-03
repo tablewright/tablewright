@@ -224,3 +224,46 @@ test("dragging a tile out of the box shares it", async ({ page, browserName }) =
   await expect(shown).toHaveCount(1);
   await expect(shown).toContainText("Fireball");
 });
+
+test("the tray shows the category controls and narrows the tiles", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fire");
+  const tiles = page.locator(`${box} li`);
+  await expect(tiles).toHaveCount(5);
+  await page.getByRole("button", { name: "Spells 3" }).click();
+  await expect(tiles).toHaveCount(3);
+  const tray = page.locator("tw-filter-tray");
+  await expect(tray).toHaveCount(0);
+  await page.getByRole("button", { name: "Filters" }).click();
+  await expect(tray).toBeVisible();
+  const level = tray.getByRole("group", { name: "Level" });
+  await expect(level).toBeVisible();
+  await level.getByRole("button", { name: "3", exact: true }).click();
+  await expect(tiles).toHaveCount(1);
+  await expect(tiles.first().locator(".name")).toHaveText("Fireball");
+  await tray.getByRole("button", { name: "Clear" }).click();
+  await expect(tiles).toHaveCount(3);
+});
+
+test("typed filters light the tab, open the tray, and stay underlined until the tray overrules them", async ({
+  page,
+}) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("type:spell level<=3");
+  const tiles = page.locator(`${box} li`);
+  await expect(tiles).toHaveCount(2);
+  await expect(page.getByRole("button", { name: "Spells 2" })).toHaveAttribute(
+    "aria-pressed",
+    "true"
+  );
+  const tray = page.locator("tw-filter-tray");
+  await expect(tray).toBeVisible();
+  const level = tray.getByRole("group", { name: "Level" });
+  await expect(level.locator("button[aria-pressed='true']")).toHaveCount(4);
+  await expect(page.locator(`${box} .mask u`)).toHaveCount(2);
+  await level.getByRole("button", { name: "4", exact: true }).click();
+  await expect(tiles).toHaveCount(1);
+  await expect(tiles.first().locator(".name")).toHaveText("Wall of Fire");
+  await expect(page.locator(`${box} .mask .masked`)).toHaveText("level<=3");
+  await expect(page.locator(`${box} .mask u`)).toHaveCount(1);
+});

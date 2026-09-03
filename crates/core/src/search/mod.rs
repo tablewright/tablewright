@@ -14,6 +14,7 @@ mod parse;
 mod rank;
 mod vocabulary;
 
+use std::collections::{BTreeMap, BTreeSet};
 use std::sync::Mutex;
 
 use serde::{Deserialize, Serialize};
@@ -139,6 +140,12 @@ impl Catalogue {
         Ok(Self::with_system(store.summaries()?, system.as_ref()))
     }
 
+    /// The text values each facet holds across the catalogue, sorted: what
+    /// the tray offers as chips.
+    pub fn facet_values(&self) -> BTreeMap<String, Vec<String>> {
+        self.lexicon.values()
+    }
+
     pub fn len(&self) -> usize {
         self.entries.len()
     }
@@ -156,7 +163,40 @@ impl Catalogue {
 
     /// [`search`](Self::search), with what the parser made of the text.
     pub fn answer(&self, raw: &str, viewer: Visibility, limit: usize) -> Answer {
-        let query = self.prepare(raw);
+        self.answer_with(raw, viewer, limit, &[])
+    }
+
+    /// [`answer`](Self::answer) with the tray's own filters as well. A tray
+    /// filter wins over what the text said about the same facet: that
+    /// stretch of text is marked overruled and its filter dropped.
+    pub fn answer_with(
+        &self,
+        raw: &str,
+        viewer: Visibility,
+        limit: usize,
+        extra: &[Filter],
+    ) -> Answer {
+        let mut query = self.prepare(raw);
+        if !extra.is_empty() {
+            let taken: BTreeSet<String> = extra.iter().flat_map(Filter::facets_named).collect();
+            for item in &mut query.understood {
+                if item.filter.as_ref().is_some_and(|filter| {
+                    filter
+                        .facets_named()
+                        .iter()
+                        .any(|name| taken.contains(name))
+                }) {
+                    item.overruled = true;
+                }
+            }
+            query.filters = query
+                .understood
+                .iter()
+                .filter(|item| !item.overruled)
+                .filter_map(|item| item.filter.clone())
+                .collect();
+            query.filters.extend(extra.iter().cloned());
+        }
         let understood = query.understood.clone();
         if query.is_empty() {
             return Answer {
@@ -393,6 +433,33 @@ mod tests {
             (n / 5) % 8 == 0
         }));
         assert!(catalogue.search("level<0", Visibility::Dm, 1000).is_empty());
+    }
+
+    #[test]
+    fn a_tray_filter_overrules_the_text_on_the_same_facet() {
+        let catalogue = varied();
+        let text = catalogue.answer("level<=2 fire", Visibility::Dm, 1000);
+        assert!(
+            text.understood
+                .iter()
+                .any(|u| u.filter.is_some() && !u.overruled)
+        );
+        let tray = [Filter::facet("level", Compare::Ge, "5")];
+        let answer = catalogue.answer_with("level<=2 fire", Visibility::Dm, 1000, &tray);
+        let overruled: Vec<bool> = answer
+            .understood
+            .iter()
+            .filter(|u| u.filter.is_some())
+            .map(|u| u.overruled)
+            .collect();
+        assert_eq!(overruled, vec![true]);
+        assert!(!answer.hits.is_empty());
+        for hit in &answer.hits {
+            let n: usize = hit.id.as_str()[2..].parse().expect("synthetic id");
+            assert!(n % 9 >= 5, "{} has level {}", hit.name, n % 9);
+        }
+        let values = catalogue.facet_values();
+        assert!(values["school"].contains(&"fire".to_owned()));
     }
 
     #[test]

@@ -14,6 +14,7 @@
     "test": "bun test"
   },
   "dependencies": {
+    "@tablewright/schema": "workspace:*",
     "lit": "^3.3.3"
   }
 }

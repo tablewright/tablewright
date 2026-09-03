@@ -2,6 +2,8 @@
 // summary, so the core's `Hit` satisfies it without conversion, and a test
 // can satisfy it with a plain array.
 
+import type { Filter, Understood } from "@tablewright/schema";
+
 export interface SpotlightHit {
   id: string;
   type: string;
@@ -16,6 +18,9 @@ export interface SearchAnswer {
   elapsedUs: number;
   /** How many entries were searchable. */
   catalogueSize: number;
+  /** What the parser made of the typed text, when the host has a parser. */
+  understood?: Understood[];
 }
 
-export type Searcher = (query: string) => Promise<SearchAnswer>;
+/** Search `query`, with the tray's own filters applied as well. */
+export type Searcher = (query: string, filters: Filter[]) => Promise<SearchAnswer>;

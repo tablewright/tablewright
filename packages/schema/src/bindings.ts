@@ -8,7 +8,7 @@ import { invoke as __TAURI_INVOKE } from "@tauri-apps/api/core";
 /** Commands */
 export const commands = {
 	/**  Rank the compendium against `query` for a viewer of `viewer` tier. */
-	search: (query: string, viewer: Visibility, limit: number | null) => typedError<SearchResponse, CommandError>(__TAURI_INVOKE("search", { query, viewer, limit })),
+	search: (query: string, viewer: Visibility, limit: number | null, filters: Filter[] | null) => typedError<SearchResponse, CommandError>(__TAURI_INVOKE("search", { query, viewer, limit, filters })),
 	/**  One entry as `viewer` may see it. */
 	getEntry: (id: EntryId, viewer: Visibility) => typedError<Entry, CommandError>(__TAURI_INVOKE("get_entry", { id, viewer })),
 	/**  The manifests of every module in the compendium, for the credits view. */
@@ -29,6 +29,11 @@ export const commands = {
 	/**  Per kind, the tray's controls in order. */
 	controls?: { [key in string]: ControlSpec[] },
 } | null, CommandError>(__TAURI_INVOKE("system")),
+	/**
+	 *  The text values each facet holds across the compendium, for the tray's
+	 *  chips: schools, creature types, categories.
+	 */
+	facetValues: () => typedError<{ [key in string]: string[] }, CommandError>(__TAURI_INVOKE("facet_values")),
 	/**  The scene the board shows. */
 	getScene: () => typedError<Scene, CommandError>(__TAURI_INVOKE("get_scene")),
 	/**  Commit a token's move: the release of a drag, or a keyboard step. */
@@ -307,6 +312,11 @@ export type Understood = {
 	start: number,
 	end: number,
 	filter: Filter | null,
+	/**
+	 *  The tray said otherwise about this facet, so the words were set
+	 *  aside; they stay in the text, greyed.
+	 */
+	overruled?: boolean,
 };
 
 /**
