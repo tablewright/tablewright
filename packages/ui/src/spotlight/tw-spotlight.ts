@@ -1,17 +1,55 @@
-// The Spotlight-style search box (design.md §3): one input, one flat ranked
-// list with a type badge per row, driven by the keyboard. It is mounted
-// once and hidden, so opening costs nothing but a class change, and every
-// answer that arrives after a newer keystroke is dropped: latest wins.
+// The Spotlight-style search box (design.md §3): one input pinned to the
+// left edge, the rest of the screen dimmed, results as tiles two per row
+// grouped by category, with groups ordered by their best hit. It is
+// mounted once and hidden, so opening costs nothing but a class change,
+// and every answer that arrives after a newer keystroke is dropped:
+// latest wins.
 //
-// Events: `tw-select` (detail: the chosen hit) when a row is activated.
+// Events, both with the hit as `detail`:
+// - `tw-select`: a tile was activated (Enter or click).
+// - `tw-share`: a tile was dragged out of the box, or its share button
+//   pressed. The host turns it into a card for the table.
 
 import { LitElement, css, html, nothing } from "lit";
 import type { PropertyValues } from "lit";
+import { groupHits, previewOf } from "./preview.js";
+import type { HitGroup } from "./preview.js";
 import type { SearchAnswer, Searcher, SpotlightHit } from "./searcher.js";
 
 type Status = "idle" | "searching" | "done" | "error";
 
 const HANDLED_KEYS = new Set(["ArrowDown", "ArrowUp", "Home", "End", "Enter", "Escape"]);
+
+const SHARE_ICON = html`<svg
+  width="16"
+  height="16"
+  viewBox="0 0 16 16"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <path d="M8 10V2"></path>
+  <path d="M5 5l3-3 3 3"></path>
+  <path d="M3 9v4h10V9"></path>
+</svg>`;
+
+const GRIP_ICON = html`<svg
+  width="10"
+  height="16"
+  viewBox="0 0 10 16"
+  fill="currentColor"
+  aria-hidden="true"
+>
+  <circle cx="3" cy="3" r="1.3"></circle>
+  <circle cx="7" cy="3" r="1.3"></circle>
+  <circle cx="3" cy="8" r="1.3"></circle>
+  <circle cx="7" cy="8" r="1.3"></circle>
+  <circle cx="3" cy="13" r="1.3"></circle>
+  <circle cx="7" cy="13" r="1.3"></circle>
+</svg>`;
 
 export class TwSpotlight extends LitElement {
   static override properties = {
@@ -20,6 +58,7 @@ export class TwSpotlight extends LitElement {
     searcher: { attribute: false },
     query: { state: true },
     hits: { state: true },
+    filter: { state: true },
     selected: { state: true },
     status: { state: true },
     message: { state: true },
@@ -33,6 +72,8 @@ export class TwSpotlight extends LitElement {
   declare searcher: Searcher | undefined;
   declare query: string;
   declare hits: SpotlightHit[];
+  /** The category tab in force, or undefined for all. */
+  declare filter: string | undefined;
   declare selected: number;
   declare status: Status;
   declare message: string;
@@ -43,6 +84,11 @@ export class TwSpotlight extends LitElement {
   // Every search gets a number; an answer whose number is no longer the
   // latest is stale and is thrown away.
   #sequence = 0;
+  // The hit under the pointer during a drag, shared when it lands outside.
+  #dragging: SpotlightHit | undefined;
+  // Derived from hits and filter once per update, not per render call.
+  #groups: HitGroup[] = [];
+  #visible: SpotlightHit[] = [];
 
   constructor() {
     super();
@@ -51,6 +97,7 @@ export class TwSpotlight extends LitElement {
     this.searcher = undefined;
     this.query = "";
     this.hits = [];
+    this.filter = undefined;
     this.selected = 0;
     this.status = "idle";
     this.message = "";
@@ -72,15 +119,15 @@ export class TwSpotlight extends LitElement {
     .scrim {
       position: absolute;
       inset: 0;
-      background: rgb(0 0 0 / 0.25);
+      background: rgb(0 0 0 / 0.35);
     }
     .box {
       position: absolute;
-      top: 12vh;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(640px, 92vw);
-      max-height: 64vh;
+      top: var(--tw-space-lg);
+      bottom: var(--tw-space-lg);
+      left: var(--tw-space-lg);
+      width: min(440px, calc(100vw - 2 * var(--tw-space-lg)));
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       background: var(--tw-comp-panel-background-color);
@@ -90,7 +137,6 @@ export class TwSpotlight extends LitElement {
       line-height: var(--tw-comp-panel-line-height);
       border: 1px solid var(--tw-outline-variant);
       border-radius: var(--tw-comp-panel-rounded);
-      box-shadow: 0 24px 48px rgb(0 0 0 / 0.45);
       overflow: hidden;
     }
     input {
@@ -111,36 +157,41 @@ export class TwSpotlight extends LitElement {
     input::placeholder {
       color: var(--tw-on-surface-variant);
     }
-    ul {
-      margin: 0;
-      padding: var(--tw-space-xs) 0;
-      list-style: none;
-      overflow-y: auto;
-      flex: 1 1 auto;
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--tw-space-sm);
+      padding: var(--tw-space-sm) var(--tw-space-lg) var(--tw-space-xs);
     }
-    ul:empty {
+    .tabs:empty {
       display: none;
     }
-    li {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      column-gap: var(--tw-space-md);
-      align-items: baseline;
-      padding: var(--tw-space-sm) var(--tw-space-lg);
+    .tab {
+      padding: var(--tw-space-xs) 10px;
+      border: 0;
+      border-radius: var(--tw-rounded-sm);
+      background: var(--tw-surface-container-high);
+      color: var(--tw-on-surface-variant);
+      font-family: var(--tw-typo-label-md-font-family);
+      font-size: var(--tw-typo-label-md-font-size);
+      font-weight: var(--tw-typo-label-md-font-weight);
+      line-height: var(--tw-typo-label-md-line-height);
+      letter-spacing: var(--tw-typo-label-md-letter-spacing);
       cursor: pointer;
     }
-    li[aria-selected="true"] {
+    .tab[aria-pressed="true"] {
       background: var(--tw-primary-container);
       color: var(--tw-on-primary-container);
     }
-    .badge {
-      grid-column: 2;
-      grid-row: 1 / span 2;
-      align-self: center;
-      justify-self: end;
-      padding: 0 var(--tw-space-sm);
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-surface-container-highest);
+    .results {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding-bottom: var(--tw-space-sm);
+    }
+    .group {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--tw-space-md) var(--tw-space-lg) var(--tw-space-xs);
       color: var(--tw-on-surface-variant);
       font-family: var(--tw-typo-label-md-font-family);
       font-size: var(--tw-typo-label-md-font-size);
@@ -148,11 +199,34 @@ export class TwSpotlight extends LitElement {
       line-height: var(--tw-typo-label-md-line-height);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       text-transform: uppercase;
-      white-space: nowrap;
     }
-    li[aria-selected="true"] .badge {
-      background: var(--tw-primary);
-      color: var(--tw-on-primary);
+    .group .hint {
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: var(--tw-typo-body-sm-font-weight);
+    }
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--tw-space-sm);
+      margin: 0;
+      padding: var(--tw-space-xs) var(--tw-space-lg) var(--tw-space-sm);
+      list-style: none;
+    }
+    li {
+      display: flex;
+      flex-direction: column;
+      gap: var(--tw-space-xs);
+      padding: 10px var(--tw-space-md);
+      border: 1px solid var(--tw-outline-variant);
+      border-radius: var(--tw-rounded-sm);
+      background: var(--tw-surface-container-high);
+      cursor: pointer;
+    }
+    li[aria-selected="true"] {
+      background: var(--tw-primary-container);
+      border-color: var(--tw-primary);
+      color: var(--tw-on-primary-container);
     }
     .name {
       overflow: hidden;
@@ -160,7 +234,6 @@ export class TwSpotlight extends LitElement {
       white-space: nowrap;
     }
     .meta {
-      grid-column: 1;
       color: var(--tw-on-surface-variant);
       font-size: var(--tw-typo-body-sm-font-size);
       line-height: var(--tw-typo-body-sm-line-height);
@@ -170,8 +243,74 @@ export class TwSpotlight extends LitElement {
     }
     li[aria-selected="true"] .meta {
       color: inherit;
+      opacity: 0.8;
+    }
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--tw-space-sm);
+      min-height: 24px;
+      margin-top: var(--tw-space-xs);
+    }
+    .badge {
+      padding: 1px var(--tw-space-sm);
+      border-radius: var(--tw-rounded-sm);
+      background: var(--tw-surface-container);
+      color: var(--tw-on-surface-variant);
+      font-family: var(--tw-typo-label-md-font-family);
+      font-size: var(--tw-typo-label-md-font-size);
+      font-weight: var(--tw-typo-label-md-font-weight);
+      line-height: var(--tw-typo-label-md-line-height);
+      letter-spacing: var(--tw-typo-label-md-letter-spacing);
+      white-space: nowrap;
+    }
+    li[aria-selected="true"] .badge {
+      background: var(--tw-primary);
+      color: var(--tw-on-primary);
+    }
+    .ring {
+      display: inline-flex;
+      width: 24px;
+      height: 24px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--tw-primary);
+      border-radius: var(--tw-rounded-full);
+      color: var(--tw-on-primary-container);
+      font-family: var(--tw-typo-numeric-md-font-family);
+      font-size: var(--tw-typo-label-md-font-size);
+      font-weight: var(--tw-typo-numeric-md-font-weight);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: var(--tw-space-sm);
+      margin-left: auto;
+    }
+    .share {
+      display: inline-flex;
+      padding: 2px;
+      border: 0;
+      background: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    .share:focus-visible {
+      outline: 2px solid var(--tw-focus-ring);
+      outline-offset: 2px;
+    }
+    .grip {
+      display: inline-flex;
+      color: inherit;
+      opacity: 0.7;
+      cursor: grab;
     }
     footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2px var(--tw-space-md);
       padding: var(--tw-space-xs) var(--tw-space-lg);
       border-top: 1px solid var(--tw-outline-variant);
       color: var(--tw-on-surface-variant);
@@ -207,9 +346,34 @@ export class TwSpotlight extends LitElement {
     }
   }
 
+  protected override willUpdate(changed: PropertyValues<this>): void {
+    if (changed.has("hits") || changed.has("filter")) {
+      const groups = groupHits(this.hits);
+      // A tab that no longer matches anything falls back to all.
+      if (this.filter !== undefined && !groups.some((group) => group.category === this.filter)) {
+        this.filter = undefined;
+      }
+      this.#groups =
+        this.filter === undefined
+          ? groups
+          : groups.filter((group) => group.category === this.filter);
+      this.#visible = this.#groups.flatMap((group) => group.hits);
+      if (this.selected >= this.#visible.length) {
+        this.selected = 0;
+      }
+    }
+  }
+
   protected override render() {
+    const all = groupHits(this.hits);
+    let offset = 0;
     return html`
-      <div class="scrim" @click=${this.hide}></div>
+      <div
+        class="scrim"
+        @click=${this.hide}
+        @dragover=${this.#onDragOver}
+        @drop=${this.#onDrop}
+      ></div>
       <div class="box" role="dialog" aria-label="Search the compendium">
         <input
           type="text"
@@ -218,42 +382,112 @@ export class TwSpotlight extends LitElement {
           autocomplete="off"
           spellcheck="false"
           aria-controls="hits"
-          aria-activedescendant=${this.hits.length === 0 ? nothing : `hit-${this.selected}`}
+          aria-activedescendant=${this.#visible.length === 0 ? nothing : `hit-${this.selected}`}
           @input=${this.#onInput}
           @keydown=${this.#onKeydown}
         />
-        <ul id="hits" role="listbox">
-          ${this.hits.map((hit, index) => this.#renderHit(hit, index))}
-        </ul>
-        <footer data-status=${this.status}>${this.#footer()}</footer>
+        <div class="tabs">
+          ${
+            this.hits.length === 0
+              ? nothing
+              : html`
+                  <button
+                    type="button"
+                    class="tab"
+                    aria-pressed=${this.filter === undefined ? "true" : "false"}
+                    @click=${() => this.#setFilter(undefined)}
+                  >
+                    All ${this.hits.length}
+                  </button>
+                  ${all.map(
+                    (group) => html`
+                      <button
+                        type="button"
+                        class="tab"
+                        aria-pressed=${this.filter === group.category ? "true" : "false"}
+                        @click=${() => this.#setFilter(group.category)}
+                      >
+                        ${group.category} ${group.hits.length}
+                      </button>
+                    `
+                  )}
+                `
+          }
+        </div>
+        <div class="results" id="hits" role="listbox">
+          ${this.#groups.map((group, groupIndex) => {
+            const start = offset;
+            offset += group.hits.length;
+            return html`
+              <div class="group">
+                <span>${group.category}</span>
+                ${groupIndex === 0 ? html`<span class="hint">top hit</span>` : nothing}
+              </div>
+              <ul>
+                ${group.hits.map((hit, index) => this.#renderTile(hit, start + index))}
+              </ul>
+            `;
+          })}
+        </div>
+        <footer data-status=${this.status}>
+          <span>${this.#readout()}</span>
+          ${this.#visible.length > 0 ? html`<span>drag a tile out to share</span>` : nothing}
+        </footer>
       </div>
     `;
   }
 
   protected override updated(changed: PropertyValues<this>): void {
-    if (changed.has("selected") || changed.has("hits")) {
+    if (changed.has("selected") || changed.has("hits") || changed.has("filter")) {
       this.renderRoot.querySelector(`#hit-${this.selected}`)?.scrollIntoView({ block: "nearest" });
     }
   }
 
-  #renderHit(hit: SpotlightHit, index: number) {
-    const meta = hit.tags.length > 0 ? hit.tags.join(" · ") : hit.source;
+  #renderTile(hit: SpotlightHit, index: number) {
+    const preview = previewOf(hit);
+    const selected = index === this.selected;
     return html`
       <li
         id=${`hit-${index}`}
         role="option"
-        aria-selected=${index === this.selected ? "true" : "false"}
+        aria-selected=${selected ? "true" : "false"}
+        draggable="true"
         @pointermove=${() => this.#select(index)}
         @click=${() => this.#choose(index)}
+        @dragstart=${(event: DragEvent) => this.#onDragStart(event, hit)}
+        @dragend=${this.#onDragEnd}
       >
         <span class="name">${hit.name}</span>
-        <span class="meta">${meta}</span>
-        <span class="badge">${hit.type}</span>
+        <span class="meta">${preview.meta}</span>
+        <span class="foot">
+          ${preview.ring === undefined ? nothing : html`<span class="ring">${preview.ring}</span>`}
+          ${preview.badge === undefined ? nothing : html`<span class="badge">${preview.badge}</span>`}
+          ${
+            selected
+              ? html`
+                  <span class="actions">
+                    <button
+                      type="button"
+                      class="share"
+                      aria-label=${`Share ${hit.name} with the table`}
+                      @click=${(event: Event) => {
+                        event.stopPropagation();
+                        this.#share(hit);
+                      }}
+                    >
+                      ${SHARE_ICON}
+                    </button>
+                    <span class="grip">${GRIP_ICON}</span>
+                  </span>
+                `
+              : nothing
+          }
+        </span>
       </li>
     `;
   }
 
-  #footer() {
+  #readout(): string {
     switch (this.status) {
       case "idle":
         return "Type to search. Narrow with type:spell, tag:fire, or source:5e-2024-srd.";
@@ -274,6 +508,12 @@ export class TwSpotlight extends LitElement {
 
   #input(): HTMLInputElement | null {
     return this.renderRoot.querySelector("input");
+  }
+
+  #setFilter(category: string | undefined): void {
+    this.filter = category;
+    this.selected = 0;
+    this.#input()?.focus();
   }
 
   #onInput = (event: Event): void => {
@@ -301,7 +541,7 @@ export class TwSpotlight extends LitElement {
         break;
       case "End":
         event.preventDefault();
-        this.#select(this.hits.length - 1);
+        this.#select(this.#visible.length - 1);
         break;
       case "Enter":
         event.preventDefault();
@@ -318,7 +558,7 @@ export class TwSpotlight extends LitElement {
 
   // Wraps at both ends, as Spotlight does.
   #step(delta: number): number {
-    const count = this.hits.length;
+    const count = this.#visible.length;
     if (count === 0) {
       return 0;
     }
@@ -326,13 +566,13 @@ export class TwSpotlight extends LitElement {
   }
 
   #select(index: number): void {
-    if (index >= 0 && index < this.hits.length) {
+    if (index >= 0 && index < this.#visible.length) {
       this.selected = index;
     }
   }
 
   #choose(index: number): void {
-    const hit = this.hits[index];
+    const hit = this.#visible[index];
     if (hit === undefined) {
       return;
     }
@@ -341,6 +581,46 @@ export class TwSpotlight extends LitElement {
     );
     this.hide();
   }
+
+  #share(hit: SpotlightHit): void {
+    this.dispatchEvent(
+      new CustomEvent<SpotlightHit>("tw-share", { detail: hit, bubbles: true, composed: true })
+    );
+  }
+
+  // A tile dragged onto the scrim, which is everything outside the box, is
+  // a share; the pointer never has to find a drop target.
+  #onDragStart(event: DragEvent, hit: SpotlightHit): void {
+    this.#dragging = hit;
+    if (event.dataTransfer !== null) {
+      event.dataTransfer.effectAllowed = "copy";
+      event.dataTransfer.setData("text/plain", hit.name);
+      event.dataTransfer.setData("application/x-tablewright-entry", hit.id);
+    }
+  }
+
+  #onDragEnd = (): void => {
+    this.#dragging = undefined;
+  };
+
+  #onDragOver = (event: DragEvent): void => {
+    if (this.#dragging !== undefined) {
+      event.preventDefault();
+      if (event.dataTransfer !== null) {
+        event.dataTransfer.dropEffect = "copy";
+      }
+    }
+  };
+
+  #onDrop = (event: DragEvent): void => {
+    const hit = this.#dragging;
+    this.#dragging = undefined;
+    if (hit === undefined) {
+      return;
+    }
+    event.preventDefault();
+    this.#share(hit);
+  };
 
   // One search per keystroke, no debounce: the core answers in well under a
   // millisecond, and a debounce would only add latency. Latest wins.

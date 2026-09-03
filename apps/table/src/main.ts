@@ -13,8 +13,17 @@ const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
 const searchButton = document.getElementById("search");
 const spotlight = document.querySelector("tw-spotlight");
-if (host === null || openButton === null || searchButton === null || spotlight === null) {
-  throw new Error("index.html must contain #board, #open-map, #search, and <tw-spotlight>");
+const shares = document.getElementById("shares");
+if (
+  host === null ||
+  openButton === null ||
+  searchButton === null ||
+  spotlight === null ||
+  shares === null
+) {
+  throw new Error(
+    "index.html must contain #board, #open-map, #search, #shares, and <tw-spotlight>"
+  );
 }
 
 // Errors are named states on screen: what went wrong, and what to do.
@@ -134,6 +143,14 @@ try {
   spotlight.addEventListener("tw-select", (event) => {
     const hit = (event as CustomEvent<SpotlightHit>).detail;
     showNotice(`Selected ${hit.name} (${hit.type}, ${hit.id}).`, "info");
+  });
+  // A share becomes a card on this table; the session message to everyone
+  // else arrives with networking (design §6).
+  spotlight.addEventListener("tw-share", (event) => {
+    const card = document.createElement("tw-share-card");
+    card.hit = (event as CustomEvent<SpotlightHit>).detail;
+    card.sharedBy = "you";
+    shares.append(card);
   });
   window.addEventListener("keydown", (event) => {
     if (event.key === "o" && (event.ctrlKey || event.metaKey)) {

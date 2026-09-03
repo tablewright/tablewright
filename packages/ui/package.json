@@ -9,8 +9,9 @@
     "./tokens.css": "./src/tokens.css"
   },
   "scripts": {
-    "typecheck": "tsc -p .",
-    "check": "bun run typecheck"
+    "typecheck": "tsc -p . && tsc -p tests",
+    "check": "bun run typecheck && bun run test",
+    "test": "bun test"
   },
   "dependencies": {
     "lit": "^3.3.3"
