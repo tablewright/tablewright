@@ -108,6 +108,10 @@ pub struct Entry {
     /// Filterable facts read from `data` by the system manifest at seed time.
     #[serde(default)]
     pub facets: BTreeMap<String, FacetValue>,
+    /// Named parts of `data` read by the system manifest at seed time, so
+    /// search can find an entry by a trait, an action, or a feature.
+    #[serde(default)]
+    pub parts: Vec<Part>,
 }
 
 impl Entry {
@@ -134,8 +138,20 @@ impl Entry {
             tags: self.tags.clone(),
             visibility: self.visibility,
             facets: self.facets.clone(),
+            parts: self.parts.clone(),
         }
     }
+}
+
+/// A named part of an entry's data: a creature's trait or action, a
+/// class's feature. The manifest names the lists that carry them, the
+/// seeder stores their names, and search matches them as a field, so
+/// "pack tactics" finds its bearers and the tile can say which part hit.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct Part {
+    /// What kind of part, as the system calls it: "Trait", "Action".
+    pub label: String,
+    pub name: String,
 }
 
 /// A facet: one filterable fact about an entry, read from its data by the
@@ -162,6 +178,10 @@ pub struct EntrySummary {
     pub visibility: Visibility,
     #[serde(default)]
     pub facets: BTreeMap<String, FacetValue>,
+    /// Named parts of `data` read by the system manifest at seed time, so
+    /// search can find an entry by a trait, an action, or a feature.
+    #[serde(default)]
+    pub parts: Vec<Part>,
 }
 
 #[cfg(test)]
@@ -180,6 +200,7 @@ mod tests {
             body: "A small, black-hearted humanoid.".into(),
             data: serde_json::json!({ "armor_class": 15, "hit_points": 7 }),
             facets: BTreeMap::new(),
+            parts: Vec::new(),
         }
     }
 

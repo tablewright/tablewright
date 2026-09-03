@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use specta::Type;
 use thiserror::Error;
 
-use crate::compendium::{Entry, EntryId, FacetValue, JsonValue, Visibility};
+use crate::compendium::{Entry, EntryId, FacetValue, JsonValue, Part, Visibility};
 use crate::system::SystemManifest;
 
 /// The manifest at a module's root, `module.json`.
@@ -81,6 +81,8 @@ struct EntryFile {
     data: serde_json::Value,
     #[serde(default)]
     facets: BTreeMap<String, FacetValue>,
+    #[serde(default)]
+    parts: Vec<Part>,
 }
 
 impl EntryFile {
@@ -100,6 +102,7 @@ impl EntryFile {
             body: self.body,
             data: self.data,
             facets: self.facets,
+            parts: self.parts,
         }
     }
 }

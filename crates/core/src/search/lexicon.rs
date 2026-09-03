@@ -279,6 +279,7 @@ mod tests {
                 .iter()
                 .map(|(name, value)| ((*name).to_owned(), FacetValue::Text((*value).to_owned())))
                 .collect::<BTreeMap<_, _>>(),
+            parts: Vec::new(),
         }
     }
 

@@ -28,6 +28,8 @@ export const commands = {
 	facets?: { [key in string]: { [key in string]: FacetSpec } },
 	/**  Per kind, the tray's controls in order. */
 	controls?: { [key in string]: ControlSpec[] },
+	/**  Per kind, the lists in `data` whose items are named parts. */
+	parts?: { [key in string]: PartSpec[] },
 } | null, CommandError>(__TAURI_INVOKE("system")),
 	/**
 	 *  The text values each facet holds across the compendium, for the tray's
@@ -114,6 +116,11 @@ export type Entry = {
 	data: JsonValue,
 	/**  Filterable facts read from `data` by the system manifest at seed time. */
 	facets?: { [key in string]: FacetValue },
+	/**
+	 *  Named parts of `data` read by the system manifest at seed time, so
+	 *  search can find an entry by a trait, an action, or a feature.
+	 */
+	parts?: Part[],
 };
 
 /**  Stable identifier of an entry; links never break because ids never change. */
@@ -181,6 +188,11 @@ export type Hit = {
 	source: string,
 	tags: string[],
 	/**
+	 *  The part the query found this entry by, when its best match was a
+	 *  trait, an action or a feature rather than the entry itself.
+	 */
+	part: Part | null,
+	/**
 	 *  Rule 3 rungs less the rule 5 bonus; lower is better. Comparable only
 	 *  within one result list.
 	 */
@@ -231,6 +243,31 @@ export type MapImage = {
 	url: string,
 	width: number,
 	height: number,
+};
+
+/**
+ *  A named part of an entry's data: a creature's trait or action, a
+ *  class's feature. The manifest names the lists that carry them, the
+ *  seeder stores their names, and search matches them as a field, so
+ *  "pack tactics" finds its bearers and the tile can say which part hit.
+ */
+export type Part = {
+	/**  What kind of part, as the system calls it: "Trait", "Action". */
+	label: string,
+	name: string,
+};
+
+/**
+ *  A list inside `data` whose items carry a name: `traits`, `actions`,
+ *  a class's `features`. Each item becomes a searchable part.
+ */
+export type PartSpec = {
+	/**  Dotted path to the list. */
+	path: string,
+	/**  What the parts are called: "Trait", "Action", "Feature". */
+	label: string,
+	/**  The item field holding the name. */
+	key?: string,
 };
 
 /**  A scene as the board shows it. */
@@ -285,6 +322,8 @@ export type SystemManifest = {
 	facets?: { [key in string]: { [key in string]: FacetSpec } },
 	/**  Per kind, the tray's controls in order. */
 	controls?: { [key in string]: ControlSpec[] },
+	/**  Per kind, the lists in `data` whose items are named parts. */
+	parts?: { [key in string]: PartSpec[] },
 };
 
 /**  Something standing on a cell. */

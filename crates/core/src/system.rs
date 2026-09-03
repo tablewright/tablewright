@@ -17,7 +17,7 @@ use serde::{Deserialize, Deserializer, Serialize};
 use specta::Type;
 use thiserror::Error;
 
-use crate::compendium::{FacetValue, Visibility};
+use crate::compendium::{FacetValue, Part, Visibility};
 use crate::search::normalize;
 
 /// The system manifest.
@@ -37,6 +37,26 @@ pub struct SystemManifest {
     /// Per kind, the tray's controls in order.
     #[serde(default)]
     pub controls: BTreeMap<String, Vec<ControlSpec>>,
+    /// Per kind, the lists in `data` whose items are named parts.
+    #[serde(default)]
+    pub parts: BTreeMap<String, Vec<PartSpec>>,
+}
+
+/// A list inside `data` whose items carry a name: `traits`, `actions`,
+/// a class's `features`. Each item becomes a searchable part.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
+pub struct PartSpec {
+    /// Dotted path to the list.
+    pub path: String,
+    /// What the parts are called: "Trait", "Action", "Feature".
+    pub label: String,
+    /// The item field holding the name.
+    #[serde(default = "name_key")]
+    pub key: String,
+}
+
+fn name_key() -> String {
+    "name".into()
 }
 
 /// What a kind is called, where the box groups it, which words mean it,
@@ -232,6 +252,31 @@ impl SystemManifest {
             .collect()
     }
 
+    /// The named parts of an entry of `kind` with `data`, in the order the
+    /// manifest lists them and the data holds them.
+    pub fn parts_for(&self, kind: &str, data: &serde_json::Value) -> Vec<Part> {
+        let Some(specs) = self.parts.get(kind) else {
+            return Vec::new();
+        };
+        let mut parts = Vec::new();
+        for spec in specs {
+            let Some(items) = at(data, &spec.path).and_then(serde_json::Value::as_array) else {
+                continue;
+            };
+            for item in items {
+                if let Some(name) = item.get(&spec.key).and_then(serde_json::Value::as_str)
+                    && !name.trim().is_empty()
+                {
+                    parts.push(Part {
+                        label: spec.label.clone(),
+                        name: name.trim().to_owned(),
+                    });
+                }
+            }
+        }
+        parts
+    }
+
     /// What an entry of `kind` may be seen by when the entry does not say:
     /// the kind's defaults, else the world.
     pub fn kind_visibility(&self, kind: &str) -> (Visibility, Visibility) {
@@ -407,6 +452,38 @@ mod tests {
         assert_eq!(
             touch.get("range_kind"),
             Some(&FacetValue::Text("touch".into()))
+        );
+    }
+
+    #[test]
+    fn parts_are_read_from_the_named_lists() {
+        let manifest: SystemManifest = serde_json::from_value(serde_json::json!({
+            "id": "5e", "name": "5e",
+            "parts": { "monster": [
+                { "path": "traits", "label": "Trait" },
+                { "path": "actions", "label": "Action" }
+            ] }
+        }))
+        .expect("manifest");
+        let parts = manifest.parts_for(
+            "monster",
+            &serde_json::json!({
+                "traits": [{ "name": "Pack Tactics", "desc": "..." }, { "name": " " }],
+                "actions": [{ "name": "Scimitar" }, { "desc": "no name" }]
+            }),
+        );
+        let names: Vec<(&str, &str)> = parts
+            .iter()
+            .map(|part| (part.label.as_str(), part.name.as_str()))
+            .collect();
+        assert_eq!(
+            names,
+            vec![("Trait", "Pack Tactics"), ("Action", "Scimitar")]
+        );
+        assert!(
+            manifest
+                .parts_for("spell", &serde_json::json!({}))
+                .is_empty()
         );
     }
 

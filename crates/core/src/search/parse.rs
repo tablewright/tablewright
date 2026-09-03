@@ -401,6 +401,7 @@ mod tests {
                 .iter()
                 .map(|(name, value)| ((*name).to_owned(), value.clone()))
                 .collect::<BTreeMap<_, _>>(),
+            parts: Vec::new(),
         }
     }
 

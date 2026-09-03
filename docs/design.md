@@ -164,6 +164,21 @@ One search spans Vault and Compendium; results are labeled by origin.
 - **Typing.** For the PoC the `data` blob is untyped JSON. Typed
   system data (Rust structs, generated TS) comes after; its shape is
   undecided.
+- **Import as a pipeline (noted 2026-09-03).** The importer will grow
+  into three stages: read the upstream shape (Open5e today, a book
+  tomorrow), transform it into the Tablewright spec for the system,
+  and write module files. The transform is where knowledge is added
+  that the upstream never had and the table needs: a spell whose
+  range is "self, 15-foot cone" becomes an area template, anchored on
+  the caster and their facing, so pressing cast lays the cone on the
+  board, the player turns to aim it, and the engine knows who is in
+  it; a creature's reach and senses become numbers the board can use.
+  The spec is the typed system data; whether it is declared as Rust
+  types alone or as a small declarative language that the types are
+  generated from (the shape a form builder over OpenAPI grows into,
+  once business logic needs a place) is open until the Open5e data
+  has been used in anger. Until then the facets, parts and kinds in
+  the manifest are the first, declarative, slice of that spec.
 
 ### Search ranking rules (v1)
 

@@ -10,6 +10,8 @@ export interface SpotlightHit {
   name: string;
   source: string;
   tags: string[];
+  /** The part the search found this entry by: a trait, an action, a feature. */
+  part?: { label: string; name: string } | null;
 }
 
 export interface SearchAnswer {

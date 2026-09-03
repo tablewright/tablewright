@@ -101,6 +101,12 @@
       }
     }
   },
+  "parts": {
+    "monster": [
+      { "path": "traits", "label": "Trait" },
+      { "path": "actions", "label": "Action" }
+    ]
+  },
   "controls": {
     "spell": [
       {

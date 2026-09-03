@@ -32,8 +32,16 @@ export function categoryOf(kind: string, taxonomy?: Taxonomy): string {
   return taxonomy?.[kind] ?? titleCase(kind);
 }
 
-/** What a tile shows for `hit`. */
+/** What a tile shows for `hit`. A hit found by one of its parts leads with it. */
 export function previewOf(hit: SpotlightHit, taxonomy?: Taxonomy): TilePreview {
+  const preview = fieldsPreview(hit, taxonomy);
+  if (hit.part !== undefined && hit.part !== null) {
+    preview.meta = `${hit.part.name} · ${preview.meta}`;
+  }
+  return preview;
+}
+
+function fieldsPreview(hit: SpotlightHit, taxonomy?: Taxonomy): TilePreview {
   const category = categoryOf(hit.type, taxonomy);
   switch (hit.type) {
     case "spell": {

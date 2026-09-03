@@ -226,6 +226,7 @@ mod tests {
             tags: vec!["fey".into()],
             visibility: Visibility::Party,
             facets: std::collections::BTreeMap::new(),
+            parts: Vec::new(),
         }
     }
 

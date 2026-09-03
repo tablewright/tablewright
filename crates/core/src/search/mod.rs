@@ -20,7 +20,7 @@ use std::sync::Mutex;
 use serde::{Deserialize, Serialize};
 use specta::Type;
 
-use crate::compendium::{EntryId, EntrySummary, FacetValue, Visibility};
+use crate::compendium::{EntryId, EntrySummary, FacetValue, Part, Visibility};
 use crate::store::{Store, StoreError};
 use crate::system::SystemManifest;
 use index::TrigramIndex;
@@ -51,6 +51,9 @@ pub struct Hit {
     pub name: String,
     pub source: String,
     pub tags: Vec<String>,
+    /// The part the query found this entry by, when its best match was a
+    /// trait, an action or a feature rather than the entry itself.
+    pub part: Option<Part>,
     /// Rule 3 rungs less the rule 5 bonus; lower is better. Comparable only
     /// within one result list.
     pub rank: i32,
@@ -104,6 +107,7 @@ impl Catalogue {
                     &summary.source,
                     &summary.tags,
                     &summary.facets,
+                    &summary.parts,
                 );
                 (summary, candidate)
             })
@@ -119,6 +123,7 @@ impl Catalogue {
                 FacetValue::Text(text) => Some(text.as_str()),
                 _ => None,
             }));
+            fields.extend(candidate.parts.iter().map(String::as_str));
             (u32::try_from(id).expect("catalogue fits in u32"), fields)
         }));
         Self {
@@ -307,13 +312,15 @@ impl Catalogue {
         let hits = scored
             .into_iter()
             .map(|(score, id)| {
-                let summary = &self.entries[id as usize].0;
+                let (summary, candidate) = &self.entries[id as usize];
                 Hit {
                     id: summary.id.clone(),
                     kind: summary.kind.clone(),
                     name: summary.name.clone(),
                     source: summary.source.clone(),
                     tags: summary.tags.clone(),
+                    part: rank::matched_part(candidate, query)
+                        .and_then(|at| summary.parts.get(at).cloned()),
                     rank: score.rank,
                     penalty: score.penalty,
                 }
@@ -350,6 +357,7 @@ mod tests {
             tags: Vec::new(),
             visibility,
             facets: BTreeMap::new(),
+            parts: Vec::new(),
         }
     }
 
@@ -463,6 +471,25 @@ mod tests {
     }
 
     #[test]
+    fn a_part_finds_its_entry_and_the_hit_names_it() {
+        let mut goblin = summary("m:goblin", "monster", "Goblin Warrior", Visibility::Dm);
+        goblin.parts = vec![Part {
+            label: "Trait".into(),
+            name: "Pack Tactics".into(),
+        }];
+        let catalogue =
+            Catalogue::new([goblin, summary("m:owl", "monster", "Owl", Visibility::Dm)]);
+        let hits = catalogue.search("pack tactics", Visibility::Dm, DEFAULT_LIMIT);
+        assert_eq!(names(&hits), vec!["Goblin Warrior"]);
+        assert_eq!(
+            hits[0].part.as_ref().map(|part| part.name.as_str()),
+            Some("Pack Tactics")
+        );
+        let by_name = catalogue.search("goblin", Visibility::Dm, DEFAULT_LIMIT);
+        assert_eq!(by_name[0].part, None);
+    }
+
+    #[test]
     fn rule_6_orders_by_score_then_name_length_then_name() {
         let catalogue = spells(&["Arrow", "Arm", "Ar", "Arc", "Bar"]);
         let hits = catalogue.search("ar", Visibility::World, DEFAULT_LIMIT);
@@ -531,6 +558,7 @@ mod tests {
                 body: String::new(),
                 data: serde_json::Value::Null,
                 facets: BTreeMap::new(),
+                parts: Vec::new(),
             })
             .expect("write");
         let catalogue = Catalogue::from_store(&store).expect("catalogue");

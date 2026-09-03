@@ -14,7 +14,7 @@ use crate::module::Manifest;
 use crate::system::SystemManifest;
 
 /// Schema version this build writes and reads; bumped with every migration.
-const SCHEMA_VERSION: i64 = 3;
+const SCHEMA_VERSION: i64 = 4;
 
 /// Failures of the compendium store.
 #[derive(Debug, Error)]
@@ -107,6 +107,13 @@ impl Store {
                 );",
             )?;
         }
+        if found < 4 {
+            // Version 4: parts, the named pieces of data search finds an
+            // entry by (traits, actions, features).
+            connection.execute_batch(
+                "ALTER TABLE entries ADD COLUMN parts TEXT NOT NULL DEFAULT '[]';",
+            )?;
+        }
         if found < SCHEMA_VERSION {
             connection.pragma_update(None, "user_version", SCHEMA_VERSION)?;
         }
@@ -121,8 +128,8 @@ impl Store {
     pub fn upsert(&self, entry: &Entry) -> Result<(), StoreError> {
         self.connection.execute(
             "INSERT OR REPLACE INTO entries
-                (id, kind, name, source, tags, visibility, data_visibility, body, data, facets)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
+                (id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
             params![
                 entry.id.as_str(),
                 entry.kind,
@@ -134,6 +141,7 @@ impl Store {
                 entry.body,
                 serde_json::to_string(&entry.data)?,
                 serde_json::to_string(&entry.facets)?,
+                serde_json::to_string(&entry.parts)?,
             ],
         )?;
         Ok(())
@@ -153,8 +161,8 @@ impl Store {
         {
             let mut statement = transaction.prepare(
                 "INSERT OR REPLACE INTO entries
-                    (id, kind, name, source, tags, visibility, data_visibility, body, data, facets)
-                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
+                    (id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts)
+                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
             )?;
             for entry in entries {
                 statement.execute(params![
@@ -168,6 +176,7 @@ impl Store {
                     entry.body,
                     serde_json::to_string(&entry.data)?,
                     serde_json::to_string(&entry.facets)?,
+                    serde_json::to_string(&entry.parts)?,
                 ])?;
                 count += 1;
             }
@@ -186,7 +195,7 @@ impl Store {
         let entry = self
             .connection
             .query_row(
-                "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets
+                "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts
                  FROM entries WHERE id = ?1",
                 params![id.as_str()],
                 read_entry,
@@ -205,7 +214,7 @@ impl Store {
     /// Fails if the read fails or a stored row is corrupt.
     pub fn list(&self, kind: Option<&str>, viewer: Visibility) -> Result<Vec<Entry>, StoreError> {
         let mut statement = self.connection.prepare(
-            "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets
+            "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts
              FROM entries
              WHERE visibility <= ?1 AND (?2 IS NULL OR kind = ?2)
              ORDER BY name, id",
@@ -230,7 +239,7 @@ impl Store {
     /// Fails if the read fails or a stored row is corrupt.
     pub fn summaries(&self) -> Result<Vec<EntrySummary>, StoreError> {
         let mut statement = self.connection.prepare(
-            "SELECT id, kind, name, source, tags, visibility, facets FROM entries ORDER BY id",
+            "SELECT id, kind, name, source, tags, visibility, facets, parts FROM entries ORDER BY id",
         )?;
         let rows = statement.query_map([], |row| {
             Ok((
@@ -241,11 +250,12 @@ impl Store {
                 row.get::<_, String>(4)?,
                 row.get::<_, i64>(5)?,
                 row.get::<_, String>(6)?,
+                row.get::<_, String>(7)?,
             ))
         })?;
         let mut summaries = Vec::new();
         for row in rows {
-            let (id, kind, name, source, tags, visibility, facets) = row?;
+            let (id, kind, name, source, tags, visibility, facets, parts) = row?;
             summaries.push(EntrySummary {
                 id: EntryId::new(id),
                 kind,
@@ -255,6 +265,7 @@ impl Store {
                 visibility: Visibility::from_code(visibility)
                     .ok_or(StoreError::UnknownVisibility(visibility))?,
                 facets: serde_json::from_str(&facets)?,
+                parts: serde_json::from_str(&parts)?,
             });
         }
         Ok(summaries)
@@ -360,6 +371,7 @@ fn read_entry(row: &Row<'_>) -> rusqlite::Result<Result<Entry, StoreError>> {
     let body: String = row.get(7)?;
     let data: String = row.get(8)?;
     let facets: String = row.get(9)?;
+    let parts: String = row.get(10)?;
     Ok(build_entry(
         id,
         kind,
@@ -371,6 +383,7 @@ fn read_entry(row: &Row<'_>) -> rusqlite::Result<Result<Entry, StoreError>> {
         body,
         &data,
         &facets,
+        &parts,
     ))
 }
 
@@ -386,6 +399,7 @@ fn build_entry(
     body: String,
     data: &str,
     facets: &str,
+    parts: &str,
 ) -> Result<Entry, StoreError> {
     Ok(Entry {
         id: EntryId::new(id),
@@ -400,6 +414,7 @@ fn build_entry(
         body,
         data: serde_json::from_str(data)?,
         facets: serde_json::from_str(facets)?,
+        parts: serde_json::from_str(parts)?,
     })
 }
 
@@ -432,6 +447,7 @@ mod tests {
             body: format!("About {name}."),
             data: serde_json::json!({ "name": name }),
             facets: std::collections::BTreeMap::new(),
+            parts: Vec::new(),
         }
     }
 

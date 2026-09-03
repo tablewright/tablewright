@@ -41,14 +41,19 @@ fn run(module_dir: &Path, output: &Path, system: Option<&Path>) -> Result<(), Bo
     let mut module = read_module(module_dir, manifest.as_ref())?;
     if let (Some(manifest), Some(system)) = (&manifest, system) {
         let mut faceted = 0;
+        let mut parted = 0;
         for entry in &mut module.entries {
             if entry.facets.is_empty() {
                 entry.facets = manifest.facets_for(&entry.kind, &entry.data);
                 faceted += usize::from(!entry.facets.is_empty());
             }
+            if entry.parts.is_empty() {
+                entry.parts = manifest.parts_for(&entry.kind, &entry.data);
+                parted += entry.parts.len();
+            }
         }
         println!(
-            "{}: facets for {faceted} entries from {}",
+            "{}: facets for {faceted} entries, {parted} parts, from {}",
             manifest.id,
             system.display()
         );

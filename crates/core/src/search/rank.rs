@@ -5,7 +5,7 @@
 use std::collections::BTreeMap;
 
 use super::normalize::{Compare, Filter, Query, normalize};
-use crate::compendium::FacetValue;
+use crate::compendium::{FacetValue, Part};
 
 /// A pre-normalised entry, ready to be scored against many queries.
 #[derive(Debug, Clone)]
@@ -20,6 +20,8 @@ pub struct Candidate {
     pub tags: Vec<String>,
     /// Text facets are normalised; numbers stay numbers.
     pub facets: BTreeMap<String, FacetValue>,
+    /// The names of the entry's parts, normalised, in the entry's order.
+    pub parts: Vec<String>,
 }
 
 impl Candidate {
@@ -29,6 +31,7 @@ impl Candidate {
         source: &str,
         tags: &[String],
         facets: &BTreeMap<String, FacetValue>,
+        parts: &[Part],
     ) -> Self {
         let name = normalize(name);
         let words = name
@@ -53,6 +56,7 @@ impl Candidate {
                     (name.clone(), value)
                 })
                 .collect(),
+            parts: parts.iter().map(|part| normalize(&part.name)).collect(),
         }
     }
 }
@@ -90,6 +94,15 @@ pub fn score(candidate: &Candidate, query: &Query) -> Option<Score> {
     let query_chars = u32::try_from(query.scoring_len()).unwrap_or(u32::MAX);
     penalty += candidate.name_chars.saturating_sub(query_chars);
     Some(Score { rank, penalty })
+}
+
+/// The part a query found the candidate by: the first token whose best
+/// match was a part's name rather than one of the entry's own fields.
+pub fn matched_part(candidate: &Candidate, query: &Query) -> Option<usize> {
+    query
+        .tokens
+        .iter()
+        .find_map(|token| best_hit(candidate, token).and_then(|hit| hit.part))
 }
 
 fn passes_filters(candidate: &Candidate, filters: &[Filter]) -> bool {
@@ -152,36 +165,58 @@ fn number(value: &str) -> Option<f64> {
 struct Hit {
     rank: i32,
     offset: u32,
+    /// The part whose name matched, when the best field was a part.
+    part: Option<usize>,
 }
 
 // Rule 3: the best field match for one token, name first, tags next, then
 // type and source.
 fn best_hit(candidate: &Candidate, token: &str) -> Option<Hit> {
     let mut best = None;
-    consider(&mut best, rung(&candidate.name, token), 0);
+    consider(&mut best, rung(&candidate.name, token), 0, None);
     for tag in &candidate.tags {
-        consider(&mut best, rung(tag, token), TAG_RUNGS);
+        consider(&mut best, rung(tag, token), TAG_RUNGS, None);
     }
     // A text facet is a field too, at the tag rung: "evocation" finds the
     // school even where no tag names it, and a word that happens to be a
     // value ranks entries rather than excluding them.
     for value in candidate.facets.values() {
         if let FacetValue::Text(text) = value {
-            consider(&mut best, rung(text, token), TAG_RUNGS);
+            consider(&mut best, rung(text, token), TAG_RUNGS, None);
         }
     }
-    consider(&mut best, rung(&candidate.kind, token), TYPE_SOURCE_RUNGS);
-    consider(&mut best, rung(&candidate.source, token), TYPE_SOURCE_RUNGS);
+    // So is a part's name: "pack tactics" finds every creature with it.
+    for (at, part) in candidate.parts.iter().enumerate() {
+        consider(&mut best, rung(part, token), TAG_RUNGS, Some(at));
+    }
+    consider(
+        &mut best,
+        rung(&candidate.kind, token),
+        TYPE_SOURCE_RUNGS,
+        None,
+    );
+    consider(
+        &mut best,
+        rung(&candidate.source, token),
+        TYPE_SOURCE_RUNGS,
+        None,
+    );
     best
 }
 
-fn consider(best: &mut Option<Hit>, found: Option<(i32, u32)>, field_rungs: i32) {
+fn consider(
+    best: &mut Option<Hit>,
+    found: Option<(i32, u32)>,
+    field_rungs: i32,
+    part: Option<usize>,
+) {
     let Some((rung, offset)) = found else {
         return;
     };
     let hit = Hit {
         rank: rung + field_rungs,
         offset,
+        part,
     };
     if best
         .as_ref()
@@ -241,12 +276,12 @@ mod tests {
     use super::*;
 
     fn spell(name: &str) -> Candidate {
-        Candidate::new(name, "spell", "srd-5e", &[], &BTreeMap::new())
+        Candidate::new(name, "spell", "srd-5e", &[], &BTreeMap::new(), &[])
     }
 
     fn tagged(name: &str, tags: &[&str]) -> Candidate {
         let tags: Vec<String> = tags.iter().map(|tag| (*tag).to_owned()).collect();
-        Candidate::new(name, "spell", "srd-5e", &tags, &BTreeMap::new())
+        Candidate::new(name, "spell", "srd-5e", &tags, &BTreeMap::new(), &[])
     }
 
     fn faceted(name: &str, kind: &str, facets: &[(&str, FacetValue)]) -> Candidate {
@@ -254,7 +289,31 @@ mod tests {
             .iter()
             .map(|(key, value)| ((*key).to_owned(), value.clone()))
             .collect();
-        Candidate::new(name, kind, "srd-5e", &[], &facets)
+        Candidate::new(name, kind, "srd-5e", &[], &facets, &[])
+    }
+
+    fn with_parts(name: &str, parts: &[&str]) -> Candidate {
+        let parts: Vec<Part> = parts
+            .iter()
+            .map(|part| Part {
+                label: "Trait".into(),
+                name: (*part).to_owned(),
+            })
+            .collect();
+        Candidate::new(name, "monster", "srd-5e", &[], &BTreeMap::new(), &parts)
+    }
+
+    #[test]
+    fn a_part_name_is_a_field_at_the_tag_rung_and_says_which_part_hit() {
+        let goblin = with_parts("Goblin Warrior", &["Nimble Escape", "Pack Tactics"]);
+        // Prefix of the part, then a later word of it, both at the tag rung;
+        // the phrase bonus belongs to names, not parts.
+        assert_eq!(rank_of(&goblin, "pack tactics"), Some(5 + 6));
+        let query = Query::parse("pack");
+        assert_eq!(matched_part(&goblin, &query), Some(1));
+        assert_eq!(matched_part(&goblin, &Query::parse("goblin")), None);
+        assert!(rank_of(&goblin, "escape").is_some());
+        assert!(rank_of(&with_parts("Owl", &[]), "pack").is_none());
     }
 
     #[test]

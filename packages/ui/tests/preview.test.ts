@@ -55,6 +55,15 @@ describe("previewOf", () => {
     expect(gear.badge).toBeUndefined();
   });
 
+  test("a hit found by a part leads with the part", () => {
+    const goblin = {
+      ...hit("monster", "Goblin", ["fey", "small"]),
+      part: { label: "Trait", name: "Pack Tactics" },
+    };
+    expect(previewOf(goblin, TAXONOMY).meta).toBe("Pack Tactics · fey · small");
+    expect(previewOf({ ...goblin, part: null }, TAXONOMY).meta).toBe("fey · small");
+  });
+
   test("with no tags the line falls back to the source", () => {
     expect(previewOf(hit("monster", "Owl", []), TAXONOMY).meta).toBe("test");
   });
