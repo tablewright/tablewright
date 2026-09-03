@@ -203,11 +203,14 @@ crates/net        WebRTC sync + content-addressed assets (later)
   instrument frames are a post-PoC stage.
 - **Two surfaces on the desk.** Beyond the board and the small tool
   menus (drawing and the like), each role has one place where its
-  content lives. The DM has the *DM screen*: an extra panel for DM
-  things such as advanced options, the scene switcher, and the full
-  compendium. A player has the *journal*: the character sheets and
-  handouts they have access to, and the compendium as their tier
-  sees it. Both are placed on the desk near the board, so the camera
+  content lives. The DM has the *DM screen*: three leaves standing
+  side by side like a physical screen, holding DM things such as the
+  full compendium, the scene switcher, and advanced options. A player
+  has the *journal*: a two-leaf spread with a spine, in the manner of
+  izelya.me's journal but in the fantasy skin, with thumb-index tabs
+  cut into the page edge as its rail; it holds the character sheets
+  and handouts they have access to, and the compendium as their tier
+  sees it. Each leaf takes the document look of DESIGN.md. Both are placed on the desk near the board, so the camera
   pans over to them, and each is hinted at the screen edge in the
   manner of hexpunk's hextrack rail: a translucent peek that raises
   on pointer or keys and auto-pans the desk when clicked, folding
