@@ -244,8 +244,10 @@ is not the interface.
   ("giant creatures", "undead cr 5+"). A word the system declared
   itself, an alias like cantrip or a yes/no fact like ritual, is sure
   of its kind and always filters. Out of play, the word stays search
-  text. The active category tab will count as in play once the tray
-  exists.
+  text. The category tab is a view over one answer (its counts come
+  from the same search), so it does not put its kinds in play; whether
+  a bare value word typed on a tab should filter is left to
+  playtesting, since it would mean sending the tab to the core.
 - **The tray.** Inside the box under the category tabs, scrolling away
   with the tiles as one column, never an overlay over the compendium
   leaf. It opens on the funnel button or when typed words match a
