@@ -375,8 +375,15 @@ export class TwSpotlight extends LitElement {
     this.elapsedUs = answer.elapsedUs;
     this.catalogueSize = answer.catalogueSize;
     this.status = "done";
-    // The readout is keystroke to paint: the frame after the list committed.
+    // The readout is keystroke to paint. The DOM commit is measured first so
+    // the number is always this keystroke's; the frame after it, when one
+    // comes, refines it to the paint. A throttled tab never paints late and
+    // stale.
     await this.updateComplete;
+    if (sequence !== this.#sequence) {
+      return;
+    }
+    this.paintMs = performance.now() - startedAt;
     requestAnimationFrame(() => {
       if (sequence === this.#sequence) {
         this.paintMs = performance.now() - startedAt;
