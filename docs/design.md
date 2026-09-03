@@ -64,12 +64,14 @@ One search spans Vault and Compendium; results are labeled by origin.
   touching stored content.
 - **Search feels like Spotlight.** Ctrl+Space opens one box, results
   as you type, driven by the keyboard. The box is pinned to the left
-  edge of the screen and dims the rest. Results are grouped by
-  category, spells, items, bestiary, and later lore, and each
-  category draws its rows as its own kind of preview (a spell shows
-  its level and school, a creature its type and challenge, an item
-  its rarity and cost) rather than one uniform row. Grouping is
-  presentation over the ranked list: within a group rows keep their
+  edge of the screen and dims the rest. Results are tiles, two per
+  row, grouped by category, spells, items, bestiary, and later lore,
+  and each category draws its tile as its own kind of preview (a
+  spell shows its level and casting line, a creature its type,
+  challenge, and defences, an item its rarity or cost) rather than
+  one uniform row; tiles were chosen over rows because compendium
+  content is easier to go through that way. Grouping is
+  presentation over the ranked list: within a group tiles keep their
   rank order, and groups are ordered by their best hit, so whatever
   matched best sits at the top; the ranking rules below decide the
   order, and a `type:` filter is the same thing as choosing a
