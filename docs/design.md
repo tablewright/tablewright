@@ -63,12 +63,25 @@ One search spans Vault and Compendium; results are labeled by origin.
   of record. FTS5 + JSON attribute indexes; swappable later without
   touching stored content.
 - **Search feels like Spotlight.** Ctrl+Space opens one box, results
-  as you type, one ranked list across every type with a type label
-  per row, driven by the keyboard. v1 ranking is a heuristic over the
-  envelope fields (name, type, tags, source): every query token must
-  match, name prefix beats word start beats substring, ties break by
-  name length. Body text joins later through FTS5 below the name
-  matches.
+  as you type, driven by the keyboard. The box is pinned to the left
+  edge of the screen and dims the rest. Results are grouped by
+  category, spells, items, bestiary, and later lore, and each
+  category draws its rows as its own kind of preview (a spell shows
+  its level and school, a creature its type and challenge, an item
+  its rarity and cost) rather than one uniform row. Grouping is
+  presentation over the ranked list: within a group rows keep their
+  rank order; the ranking rules below decide the order, and a
+  `type:` filter is the same thing as choosing a category tab. While
+  the box is open the desk pans to the DM screen or the journal (§4)
+  and turns it to the entry that is selected, or the top hit while
+  typing. Dragging a row out of the box, or its share button, shares
+  the entry with everyone at the table (§6). v1 ranking is a
+  heuristic over the envelope fields (name, type, tags, source):
+  every query token must match, name prefix beats word start beats
+  substring, ties break by name length. Body text joins later
+  through FTS5 below the name matches. The first panel shipped as one
+  flat list with a type badge per row; the grouped, left-pinned form
+  is designed in a Claude Design round before it is built.
 
 ### Systems and modules
 
@@ -186,6 +199,22 @@ crates/net        WebRTC sync + content-addressed assets (later)
   first skin; other genres and per-class accents are skins over the
   same tokens *(later)*. The PoC ships flat colour; materials and
   instrument frames are a post-PoC stage.
+- **Two surfaces on the desk.** Beyond the board and the small tool
+  menus (drawing and the like), each role has one place where its
+  content lives. The DM has the *DM screen*: an extra panel for DM
+  things such as advanced options, the scene switcher, and the full
+  compendium. A player has the *journal*: the character sheets and
+  handouts they have access to, and the compendium as their tier
+  sees it. Both are placed on the desk near the board, so the camera
+  pans over to them, and each is hinted at the screen edge in the
+  manner of hexpunk's hextrack rail: a translucent peek that raises
+  on pointer or keys and auto-pans the desk when clicked, folding
+  back on Escape. Working assumption: surfaces are real DOM, laid
+  out in world space and moved with the camera transform, so text
+  stays crisp and documents stay documents; rendering them inside
+  the board engine is the alternative if the transform proves too
+  costly. Not part of the PoC; the spotlight (§3) is the first thing
+  that pans to a surface.
 - **Platforms.** Windows is the target now (WebView2, the Chromium
   engine as a shared runtime; the default browser is irrelevant).
   Linux comes next and must at least be usable: the engine there is
@@ -326,6 +355,14 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   browser's picker, assets are served by hash over HTTP instead of
   the asset protocol.
 
+- **Share to the table.** Any entry a viewer can search can be shared
+  with everyone in the session, by dragging it out of the search box
+  or pressing its share button. A share is a message carrying the
+  entry as the receiving tier may see it, applied by the DM's
+  process like every other outbound message, and each client shows
+  it as a dismissable card. Open: whether the DM sharing a DM-only
+  entry reveals it whole, shares only the visible part with a reveal
+  toggle on the card, or asks each time.
 - **Offline sheet edits (later).** A player may open and edit their
   own character while the DM is offline: the player page is a
   service-worker app, the sheet and the compendium slice the player
