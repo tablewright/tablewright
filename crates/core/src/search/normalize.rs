@@ -96,6 +96,20 @@ impl Query {
         query
     }
 
+    /// Whether every match of `previous` is still a candidate for this query,
+    /// so a search may rescore only what `previous` matched: the filters are
+    /// the same and each earlier token has only grown at its end. Filters are
+    /// exact, so a changed one is never an extension.
+    pub fn extends(&self, previous: &Query) -> bool {
+        self.filters == previous.filters
+            && self.tokens.len() >= previous.tokens.len()
+            && previous
+                .tokens
+                .iter()
+                .zip(&self.tokens)
+                .all(|(before, now)| now.starts_with(before.as_str()))
+    }
+
     /// Whether there is anything to search for at all.
     pub fn is_empty(&self) -> bool {
         self.tokens.is_empty() && self.filters.is_empty()
@@ -112,6 +126,19 @@ impl Query {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_query_extends_another_when_filters_match_and_tokens_only_grow() {
+        let q = |text: &str| Query::parse(text);
+        assert!(q("fire bo").extends(&q("fire b")));
+        assert!(q("fire bolt x").extends(&q("fir")));
+        assert!(q("fire").extends(&q("fire")));
+        assert!(q("type:spell fireb").extends(&q("type:spell fire")));
+        assert!(!q("fire").extends(&q("fire b")));
+        assert!(!q("bolt fire").extends(&q("fire")));
+        assert!(!q("type:spell").extends(&q("type:s")));
+        assert!(!q("fire type:spell").extends(&q("fire")));
+    }
 
     #[test]
     fn rule_1_normalises_case_diacritics_and_whitespace() {

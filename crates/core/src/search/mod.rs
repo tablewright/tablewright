@@ -1,18 +1,23 @@
 //! Search over the compendium: the Spotlight-style ranked list of
 //! design.md §3. The catalogue is an in-memory copy of every entry's
-//! summary, rebuilt from the store when content changes; a few thousand
-//! names scan in microseconds, so there is no index to keep in step.
-//! Visibility is applied per search, because one DM process answers
-//! viewers of different tiers.
+//! summary, rebuilt from the store when content changes, plus two derived
+//! aids that only choose candidates and never change the order: a trigram
+//! index for a fresh query, and the previous match set for a query that
+//! extends the one before it. Visibility is applied per search, because
+//! one DM process answers viewers of different tiers.
 
+mod index;
 mod normalize;
 mod rank;
+
+use std::sync::Mutex;
 
 use serde::{Deserialize, Serialize};
 use specta::Type;
 
 use crate::compendium::{EntryId, EntrySummary, Visibility};
 use crate::store::{Store, StoreError};
+use index::TrigramIndex;
 use rank::Candidate;
 
 pub use normalize::{Filter, Query, normalize};
@@ -40,12 +45,28 @@ pub struct Hit {
 /// Every searchable entry, normalised once.
 pub struct Catalogue {
     entries: Vec<(EntrySummary, Candidate)>,
+    index: TrigramIndex,
+    /// What the previous search matched in full, so a query that extends
+    /// it only rescores those entries.
+    last: Mutex<Option<LastSearch>>,
+}
+
+struct LastSearch {
+    query: Query,
+    viewer: Visibility,
+    matched: Vec<u32>,
+}
+
+// Where a search looks: everything, or a sorted list of candidate ids.
+enum Pool {
+    All,
+    Ids(Vec<u32>),
 }
 
 impl Catalogue {
     /// Build a catalogue from entry summaries of any visibility.
     pub fn new(summaries: impl IntoIterator<Item = EntrySummary>) -> Self {
-        let entries = summaries
+        let entries: Vec<(EntrySummary, Candidate)> = summaries
             .into_iter()
             .map(|summary| {
                 let candidate =
@@ -53,7 +74,20 @@ impl Catalogue {
                 (summary, candidate)
             })
             .collect();
-        Self { entries }
+        let index = TrigramIndex::build(entries.iter().enumerate().map(|(id, (_, candidate))| {
+            let mut fields = vec![
+                candidate.name.as_str(),
+                candidate.kind.as_str(),
+                candidate.source.as_str(),
+            ];
+            fields.extend(candidate.tags.iter().map(String::as_str));
+            (u32::try_from(id).expect("catalogue fits in u32"), fields)
+        }));
+        Self {
+            entries,
+            index,
+            last: Mutex::new(None),
+        }
     }
 
     /// Build a catalogue from everything in `store`.
@@ -81,33 +115,106 @@ impl Catalogue {
         if query.is_empty() {
             return Vec::new();
         }
-        let mut hits: Vec<(Score, &EntrySummary, &Candidate)> = self
-            .entries
-            .iter()
-            .filter(|(summary, _)| summary.visibility.is_visible_to(viewer))
-            .filter_map(|(summary, candidate)| {
-                rank::score(candidate, &query).map(|score| (score, summary, candidate))
+        let pool = self.pool_for(&query, viewer);
+        let (hits, matched) = self.rank(&query, viewer, limit, pool);
+        if let Ok(mut last) = self.last.lock() {
+            *last = Some(LastSearch {
+                query,
+                viewer,
+                matched,
+            });
+        }
+        hits
+    }
+
+    // The smallest set that is still a superset of the answer: what the index
+    // allows, cut down by the previous match set when this query only narrows
+    // it; everything only when neither can say anything.
+    fn pool_for(&self, query: &Query, viewer: Visibility) -> Pool {
+        let indexed = self.index.candidates(&query.tokens);
+        if let Ok(last) = self.last.lock()
+            && let Some(last) = last.as_ref()
+            && last.viewer == viewer
+            && query.extends(&last.query)
+        {
+            return Pool::Ids(match indexed {
+                Some(ids) => index::intersect(&last.matched, &ids),
+                None => last.matched.clone(),
+            });
+        }
+        match indexed {
+            Some(ids) => Pool::Ids(ids),
+            None => Pool::All,
+        }
+    }
+
+    // Scores the pool, keeps every id that matched (in id order, for the next
+    // narrowing), and returns the top `limit` in rule 6 order.
+    fn rank(
+        &self,
+        query: &Query,
+        viewer: Visibility,
+        limit: usize,
+        pool: Pool,
+    ) -> (Vec<Hit>, Vec<u32>) {
+        let mut scored: Vec<(Score, u32)> = Vec::new();
+        let mut consider = |id: u32| {
+            let (summary, candidate) = &self.entries[id as usize];
+            if summary.visibility.is_visible_to(viewer)
+                && let Some(score) = rank::score(candidate, query)
+            {
+                scored.push((score, id));
+            }
+        };
+        match pool {
+            Pool::All => (0..self.entries.len()).for_each(|id| consider(id as u32)),
+            Pool::Ids(ids) => ids.into_iter().for_each(consider),
+        }
+        let matched: Vec<u32> = scored.iter().map(|(_, id)| *id).collect();
+        // Rule 6: score, then name length, then name, then id as a last resort.
+        let by_rule_6 = |a: &(Score, u32), b: &(Score, u32)| {
+            let (left, right) = (&self.entries[a.1 as usize], &self.entries[b.1 as usize]);
+            a.0.cmp(&b.0)
+                .then_with(|| left.1.name_chars.cmp(&right.1.name_chars))
+                .then_with(|| left.1.name.cmp(&right.1.name))
+                .then_with(|| left.0.id.cmp(&right.0.id))
+        };
+        // Only the top `limit` need ordering: a broad query matches thousands
+        // and shows fifty, so the rest are partitioned off, not sorted.
+        if limit == 0 {
+            scored.clear();
+        } else if scored.len() > limit {
+            scored.select_nth_unstable_by(limit - 1, by_rule_6);
+            scored.truncate(limit);
+        }
+        scored.sort_by(by_rule_6);
+        let hits = scored
+            .into_iter()
+            .map(|(score, id)| {
+                let summary = &self.entries[id as usize].0;
+                Hit {
+                    id: summary.id.clone(),
+                    kind: summary.kind.clone(),
+                    name: summary.name.clone(),
+                    source: summary.source.clone(),
+                    tags: summary.tags.clone(),
+                    rank: score.rank,
+                    penalty: score.penalty,
+                }
             })
             .collect();
-        // Rule 6: score, then name length, then name, then id as a last resort.
-        hits.sort_by(|a, b| {
-            a.0.cmp(&b.0)
-                .then_with(|| a.2.name_chars.cmp(&b.2.name_chars))
-                .then_with(|| a.2.name.cmp(&b.2.name))
-                .then_with(|| a.1.id.cmp(&b.1.id))
-        });
-        hits.truncate(limit);
-        hits.into_iter()
-            .map(|(score, summary, _)| Hit {
-                id: summary.id.clone(),
-                kind: summary.kind.clone(),
-                name: summary.name.clone(),
-                source: summary.source.clone(),
-                tags: summary.tags.clone(),
-                rank: score.rank,
-                penalty: score.penalty,
-            })
-            .collect()
+        (hits, matched)
+    }
+
+    /// The same search over every entry, with no index and no narrowing:
+    /// the reference the aids are checked against.
+    #[cfg(test)]
+    fn search_scanning(&self, query: &str, viewer: Visibility, limit: usize) -> Vec<Hit> {
+        let query = Query::parse(query);
+        if query.is_empty() {
+            return Vec::new();
+        }
+        self.rank(&query, viewer, limit, Pool::All).0
     }
 }
 
@@ -140,6 +247,45 @@ mod tests {
     fn names(hits: &[Hit]) -> Vec<&str> {
         hits.iter().map(|hit| hit.name.as_str()).collect()
     }
+
+    // A varied catalogue: every kind, tags, and names that share trigrams.
+    fn varied() -> Catalogue {
+        let stems = [
+            "Fire", "Ice", "Storm", "Shadow", "Iron", "Silver", "Wild", "Holy",
+        ];
+        let nouns = [
+            "Bolt", "Wall", "Blade", "Ward", "Hound", "Golem", "Sigil", "Crown",
+        ];
+        let kinds = ["spell", "monster", "item", "magic-item"];
+        let tiers = [Visibility::World, Visibility::Party, Visibility::Dm];
+        Catalogue::new((0..256).map(|n| {
+            let mut entry = summary(
+                &format!("x:{n}"),
+                kinds[n % 4],
+                &format!("{} {} {}", stems[n % 8], nouns[(n / 8) % 8], n),
+                tiers[n % 3],
+            );
+            entry.tags = vec![stems[(n / 3) % 8].to_lowercase(), format!("cr-{}", n % 5)];
+            entry
+        }))
+    }
+
+    const QUERIES: &[&str] = &[
+        "fire",
+        "fire bo",
+        "fire bolt",
+        "bolt",
+        "ol",
+        "f",
+        "storm hound",
+        "type:spell fire",
+        "tag:ice",
+        "type:monster",
+        "silver crown 7",
+        "zzz",
+        "fir bl",
+        "e b",
+    ];
 
     #[test]
     fn rule_6_orders_by_score_then_name_length_then_name() {
@@ -216,35 +362,131 @@ mod tests {
         assert_eq!(names(&hits), vec!["Fire Bolt"]);
     }
 
-    // Run by hand: cargo test -p tablewright-core -- --ignored --nocapture
+    #[test]
+    fn the_index_never_changes_an_answer() {
+        let catalogue = varied();
+        for viewer in [Visibility::World, Visibility::Party, Visibility::Dm] {
+            for query in QUERIES {
+                // A fresh catalogue each time, so no narrowing is in play.
+                let fresh = varied();
+                assert_eq!(
+                    fresh.search(query, viewer, DEFAULT_LIMIT),
+                    catalogue.search_scanning(query, viewer, DEFAULT_LIMIT),
+                    "query {query:?} for {viewer:?}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn narrowing_while_typing_never_changes_an_answer() {
+        let typed = varied();
+        let reference = varied();
+        let keystrokes = [
+            "f",
+            "fi",
+            "fir",
+            "fire",
+            "fire ",
+            "fire b",
+            "fire bo",
+            "fire bolt",
+        ];
+        for query in keystrokes {
+            assert_eq!(
+                typed.search(query, Visibility::Dm, DEFAULT_LIMIT),
+                reference.search_scanning(query, Visibility::Dm, DEFAULT_LIMIT),
+                "query {query:?}"
+            );
+        }
+        // Backspacing, a new viewer, and a changed filter all start fresh.
+        for (query, viewer) in [
+            ("fire bo", Visibility::Dm),
+            ("fire bo", Visibility::Party),
+            ("type:s", Visibility::Party),
+            ("type:spell", Visibility::Party),
+            ("type:spell fire", Visibility::Party),
+        ] {
+            assert_eq!(
+                typed.search(query, viewer, DEFAULT_LIMIT),
+                reference.search_scanning(query, viewer, DEFAULT_LIMIT),
+                "query {query:?} for {viewer:?}"
+            );
+        }
+    }
+
+    // Run by hand: cargo test --release -p tablewright-core -- --ignored --nocapture
     #[test]
     #[ignore = "timing report, not an assertion"]
-    fn scan_time_for_five_thousand_names() {
+    fn scan_time_for_thirty_thousand_names() {
         let stems = [
             "Fire", "Ice", "Storm", "Shadow", "Iron", "Silver", "Wild", "Holy",
         ];
         let nouns = [
             "Bolt", "Wall", "Blade", "Ward", "Hound", "Golem", "Sigil", "Crown",
         ];
-        let many: Vec<EntrySummary> = (0..5000)
+        let many: Vec<EntrySummary> = (0..30_000)
             .map(|n| {
-                let name = format!("{} {} {}", stems[n % 8], nouns[(n / 8) % 8], n);
-                summary(&format!("x:{n}"), "spell", &name, Visibility::World)
+                let mut entry = summary(
+                    &format!("x:{n}"),
+                    "spell",
+                    &format!("{} {} {}", stems[n % 8], nouns[(n / 8) % 8], n),
+                    Visibility::World,
+                );
+                entry.tags = vec!["evocation".into(), format!("level-{}", n % 9)];
+                entry
             })
             .collect();
+        let built = std::time::Instant::now();
         let catalogue = Catalogue::new(many);
-        let started = std::time::Instant::now();
-        let rounds = 200;
-        let mut found = 0;
-        for _ in 0..rounds {
-            found += catalogue
-                .search("fire bo", Visibility::World, DEFAULT_LIMIT)
-                .len();
-        }
-        let per_search = started.elapsed() / rounds;
-        println!(
-            "5000 names, query 'fire bo': {per_search:?} per search, {} hits",
-            found / rounds as usize
+        println!("30000 names: index built in {:?}", built.elapsed());
+        let rounds: u32 = 200;
+        // `prepare` runs untimed before every timed `run`, to set the state a
+        // real keystroke would find.
+        let time = |label: &str, prepare: &dyn Fn(), run: &dyn Fn() -> usize| {
+            let mut elapsed = std::time::Duration::ZERO;
+            let mut hits = 0;
+            for _ in 0..rounds {
+                prepare();
+                let started = std::time::Instant::now();
+                hits += run();
+                elapsed += started.elapsed();
+            }
+            println!(
+                "  {label}: {:?} per search, {} hits",
+                elapsed / rounds,
+                hits / rounds as usize
+            );
+        };
+        let world = Visibility::World;
+        time("scan, fire bo", &|| {}, &|| {
+            catalogue
+                .search_scanning("fire bo", world, DEFAULT_LIMIT)
+                .len()
+        });
+        time(
+            "fresh, fire bo",
+            &|| {
+                catalogue.search("zzz", world, DEFAULT_LIMIT);
+            },
+            &|| catalogue.search("fire bo", world, DEFAULT_LIMIT).len(),
+        );
+        time(
+            "extended, fire b -> fire bo",
+            &|| {
+                catalogue.search("fire b", world, DEFAULT_LIMIT);
+            },
+            &|| catalogue.search("fire bo", world, DEFAULT_LIMIT).len(),
+        );
+        time("scan, fi", &|| {}, &|| {
+            catalogue.search_scanning("fi", world, DEFAULT_LIMIT).len()
+        });
+        time(
+            "extended, fi -> fir",
+            &|| {
+                catalogue.search("fi", world, DEFAULT_LIMIT);
+            },
+            &|| catalogue.search("fir", world, DEFAULT_LIMIT).len(),
         );
     }
 }
