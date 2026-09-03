@@ -33,6 +33,7 @@ bun run dev:table   # run the Table app (tauri dev)
 bun run tokens      # regenerate packages/ui/src/tokens.css from DESIGN.md
 bun run import:srd  # rebuild systems/5e/content/2024/srd from Open5e (cache in data/srd)
 bun run seed        # write the bundled compendium SQLite from systems/ (gitignored output)
+bun run schema      # regenerate packages/schema/src/bindings.ts from the Rust command surface
 bun run icon:table  # regenerate the Table icon set from apps/table/assets/icon.png
 bun run e2e         # Playwright end-to-end tests in Chromium and WebKit, with videos
 bun run perf        # board frame-time scenarios in the installed Chrome, on the GPU

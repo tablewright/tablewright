@@ -3,6 +3,8 @@ import { convertFileSrc } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
 import { BoardStage, readBoardTheme } from "@tablewright/board";
+import { commands } from "@tablewright/schema";
+import type { Visibility } from "@tablewright/schema";
 import { BoardHost } from "./board-host.js";
 
 const host = document.getElementById("board");
@@ -69,6 +71,22 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
   }
 }
 
+// A console seam for trying the command surface before the search panel
+// exists: window.__tablewrightSearch("fire bolt") resolves to the hits, the
+// core's own time, and the round trip through the webview. Only in a Tauri
+// window; the plain Vite page has no core behind it.
+function exposeSearchProbe(): void {
+  window.__tablewrightSearch = async (query: string, viewer: Visibility = "dm", limit = null) => {
+    const started = performance.now();
+    const result = await commands.search(query, viewer, limit);
+    const roundTripMs = performance.now() - started;
+    if (result.status === "error") {
+      throw new Error(`search failed: ${JSON.stringify(result.error)}`);
+    }
+    return { ...result.data, roundTripMs };
+  };
+}
+
 // The window starts hidden (tauri.conf.json) and shows only after the board
 // has rendered its first frame, so the user never sees an empty frame.
 try {
@@ -85,6 +103,9 @@ try {
     await loadDevFixture(board, host);
     // Exposed only once the fixture is in, so a test that sees it sees a settled scene.
     window.__tablewright = board.debug();
+    if ("__TAURI_INTERNALS__" in window) {
+      exposeSearchProbe();
+    }
   }
   await stage.firstFrame;
 } catch (error) {

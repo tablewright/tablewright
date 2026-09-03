@@ -4,10 +4,20 @@ description = "Tablewright Table: the VTT shell"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
+default-run = "table"
 
 [lib]
 name = "table_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "table"
+path = "src/main.rs"
+
+# Regenerates packages/schema/src/bindings.ts: `bun run schema`.
+[[bin]]
+name = "schema"
+path = "src/bin/schema.rs"
 
 [build-dependencies]
 tauri-build = { version = "2.6", features = [] }
@@ -15,3 +25,9 @@ tauri-build = { version = "2.6", features = [] }
 [dependencies]
 tauri = { version = "2.11", features = ["protocol-asset"] }
 tauri-plugin-dialog = "2"
+tablewright-core = { path = "../../../crates/core" }
+serde = { version = "1", features = ["derive"] }
+# Pinned exactly, as in crates/core.
+specta = "=2.0.0-rc.25"
+specta-typescript = "0.0.12"
+tauri-specta = { version = "=2.0.0-rc.25", features = ["derive", "typescript"] }

@@ -22,7 +22,8 @@
     "typecheck:tools": "tsc -p tools",
     "test": "turbo run test",
     "import:srd": "bun run tools/import-srd.ts",
-    "seed": "bun run --filter @tablewright/table seed"
+    "seed": "bun run --filter @tablewright/table seed",
+    "schema": "cargo run -p table --bin schema"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
