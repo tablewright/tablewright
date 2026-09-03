@@ -4,7 +4,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
 import { BoardStage, readBoardTheme } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
-import type { Visibility } from "@tablewright/schema";
+import type { CommandError, Scene, Visibility } from "@tablewright/schema";
 import "@tablewright/ui";
 import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
 import { BoardHost } from "./board-host.js";
@@ -92,6 +92,9 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
 interface Core {
   search: Searcher;
   entry: (id: string) => Promise<EntryDocument>;
+  scene: () => Promise<Scene>;
+  moveToken: (id: string, col: number, row: number, facing: number) => Promise<Scene>;
+  placeEntry: (entry: EntryDocument, col: number, row: number) => Promise<Scene>;
 }
 
 function connectCore(): Core {
@@ -100,6 +103,7 @@ function connectCore(): Core {
       // Loaded now, not on the first keystroke, so the readout measures the
       // panel rather than the module import.
       const fixture = import("./dev/search-fixture.js");
+      const scenes = import("./dev/scene-fixture.js");
       return {
         search: async (query) => (await fixture).fixtureSearcher(query),
         entry: async (id) => {
@@ -109,33 +113,44 @@ function connectCore(): Core {
           }
           return found;
         },
+        scene: async () => (await scenes).fixtureScene(),
+        moveToken: async (id, col, row, facing) =>
+          (await scenes).fixtureMoveToken(id, col, row, facing),
+        placeEntry: async (entry, col, row) => (await scenes).fixturePlace(entry, col, row),
       };
     }
     const unconnected = async () => {
       throw new Error("No core is connected to this page.");
     };
-    return { search: unconnected, entry: unconnected };
+    return {
+      search: unconnected,
+      entry: unconnected,
+      scene: unconnected,
+      moveToken: unconnected,
+      placeEntry: unconnected,
+    };
   }
+  const unwrap = <T>(
+    result: { status: "ok"; data: T } | { status: "error"; error: CommandError }
+  ) => {
+    if (result.status === "error") {
+      throw new Error(describe(result.error));
+    }
+    return result.data;
+  };
   return {
     search: async (query) => {
-      const result = await commands.search(query, "dm", null);
-      if (result.status === "error") {
-        throw new Error(describe(result.error));
-      }
-      return {
-        hits: result.data.hits,
-        elapsedUs: result.data.elapsed_us,
-        catalogueSize: result.data.catalogue_size,
-      };
+      const data = unwrap(await commands.search(query, "dm", null));
+      return { hits: data.hits, elapsedUs: data.elapsed_us, catalogueSize: data.catalogue_size };
     },
     entry: async (id) => {
-      const result = await commands.getEntry(id, "dm");
-      if (result.status === "error") {
-        throw new Error(describe(result.error));
-      }
-      const { type, name, source, tags, body } = result.data;
-      return { id: result.data.id, type, name, source, tags, body };
+      const { type, name, source, tags, body, ...rest } = unwrap(await commands.getEntry(id, "dm"));
+      return { id: rest.id, type, name, source, tags, body };
     },
+    scene: async () => unwrap(await commands.getScene()),
+    moveToken: async (id, col, row, facing) =>
+      unwrap(await commands.moveToken(id, col, row, facing)),
+    placeEntry: async (entry, col, row) => unwrap(await commands.placeEntry(entry.id, col, row)),
   };
 }
 
@@ -145,6 +160,8 @@ function describe(error: { kind: string }): string {
       return "No compendium is installed.";
     case "not-found":
       return "That entry is not in the compendium.";
+    case "scene":
+      return `The scene refused: ${(error as { message?: string }).message ?? "unknown"}.`;
     default:
       return JSON.stringify(error);
   }
@@ -182,6 +199,34 @@ try {
       showNotice(`Could not open ${hit.name}: ${reason}`);
     }
   };
+  // The board shows the core's scene and asks it to record every gesture.
+  // A move the scene refuses is undone by showing the scene as it stands.
+  board.setScene(await core.scene());
+  board.onTokenMove(({ id, cell, facing }) => {
+    void (async () => {
+      try {
+        board.setScene(await core.moveToken(id, cell.col, cell.row, facing));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not move ${id}: ${reason}`);
+        board.setScene(await core.scene());
+      }
+    })();
+  });
+  // Placing stands the creature on the cell under the middle of the view;
+  // dragging it to a cell arrives with the desk surfaces.
+  entryView.addEventListener("tw-place", (event) => {
+    const entry = (event as CustomEvent<EntryDocument>).detail;
+    const cell = board.centerCell();
+    void (async () => {
+      try {
+        board.setScene(await core.placeEntry(entry, cell.col, cell.row));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not place ${entry.name}: ${reason}`);
+      }
+    })();
+  });
   openButton.addEventListener("click", () => void openMap(board));
   spotlight.searcher = core.search;
   searchButton.addEventListener("click", () => spotlight.show());

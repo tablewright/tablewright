@@ -177,6 +177,26 @@ test("Escape peels the layers back: card, then box, then page", async ({ page })
   await expect(page.locator(page_)).not.toHaveAttribute("open", "");
 });
 
+test("a creature's page can place it on the board as a token", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("goblin");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Goblin Warrior");
+  await page.locator(page_).getByRole("button", { name: "Place on board" }).click();
+  await expect.poll(() => page.evaluate(() => window.__tablewright?.tokens().length)).toBe(4);
+  const placed = await page.evaluate(() => window.__tablewright?.tokens().at(-1));
+  expect(placed?.label).toBe("GW");
+  expect(placed?.id).toBe("tok-1");
+  // A spell's page offers no such thing. The click left focus on the
+  // page's button, so the search is retyped from the box.
+  await page.locator(`${box} input`).click();
+  await page.keyboard.press("Control+a");
+  await page.keyboard.type("fireball");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Fireball");
+  await expect(page.locator(page_).getByRole("button", { name: "Place on board" })).toHaveCount(0);
+});
+
 test("dragging a tile out of the box shares it", async ({ page, browserName }) => {
   test.skip(browserName === "webkit", "WebKit's synthetic drag does not fire HTML drag events");
   await page.keyboard.press("Control+Space");

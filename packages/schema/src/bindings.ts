@@ -13,6 +13,14 @@ export const commands = {
 	getEntry: (id: EntryId, viewer: Visibility) => typedError<Entry, CommandError>(__TAURI_INVOKE("get_entry", { id, viewer })),
 	/**  The manifests of every module in the compendium, for the credits view. */
 	modules: () => typedError<Manifest[], CommandError>(__TAURI_INVOKE("modules")),
+	/**  The scene the board shows. */
+	getScene: () => typedError<Scene, CommandError>(__TAURI_INVOKE("get_scene")),
+	/**  Commit a token's move: the release of a drag, or a keyboard step. */
+	moveToken: (id: string, col: number, row: number, facing: number) => typedError<Scene, CommandError>(__TAURI_INVOKE("move_token", { id, col, row, facing })),
+	/**  Stand a compendium entry on a cell as a new token. */
+	placeEntry: (id: EntryId, col: number, row: number) => typedError<Scene, CommandError>(__TAURI_INVOKE("place_entry", { id, col, row })),
+	/**  Take a token off the board. */
+	removeToken: (id: string) => typedError<Scene, CommandError>(__TAURI_INVOKE("remove_token", { id })),
 };
 
 /* Types */
@@ -23,7 +31,9 @@ export type CommandError =
 /**  No entry with that id, or none the viewer may see. */
 { kind: "not-found"; id: string } | 
 /**  The store failed underneath. */
-{ kind: "store"; message: string };
+{ kind: "store"; message: string } | 
+/**  The scene refused the change, or could not be saved. */
+{ kind: "scene"; message: string };
 
 /**  One compendium entry: the system-agnostic envelope plus the system's data. */
 export type Entry = {
@@ -46,6 +56,15 @@ export type Entry = {
 
 /**  Stable identifier of an entry; links never break because ids never change. */
 export type EntryId = string;
+
+/**  A square grid, in map pixels; hex grids arrive with hexpunk's lattice. */
+export type Grid = {
+	cell_size: number,
+	origin_x: number,
+	origin_y: number,
+	cols: number,
+	rows: number,
+};
 
 /**  One row of a search result. */
 export type Hit = {
@@ -88,6 +107,24 @@ export type Manifest = {
 	upstream?: JsonValue | null,
 };
 
+/**  The map image under the grid. */
+export type MapImage = {
+	url: string,
+	width: number,
+	height: number,
+};
+
+/**  A scene as the board shows it. */
+export type Scene = {
+	id: string,
+	name: string,
+	grid: Grid,
+	map: MapImage | null,
+	tokens: Token[],
+	/**  Counter behind the ids this scene mints for new tokens. */
+	next_token: number,
+};
+
 /**  A ranked search result with the time the core spent on it. */
 export type SearchResponse = {
 	hits: Hit[],
@@ -95,6 +132,21 @@ export type SearchResponse = {
 	elapsed_us: number,
 	/**  How many entries the catalogue held when it answered. */
 	catalogue_size: number,
+};
+
+/**  Something standing on a cell. */
+export type Token = {
+	id: string,
+	name: string,
+	/**  The short mark drawn on the disc: initials, at most two letters. */
+	label: string,
+	col: number,
+	row: number,
+	/**  Degrees clockwise from north. */
+	facing: number,
+	/**  The compendium entry this token stands for, when it stands for one. */
+	entry: EntryId | null,
+	visibility: Visibility,
 };
 
 /**

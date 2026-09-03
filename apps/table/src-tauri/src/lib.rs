@@ -7,8 +7,10 @@ mod compendium;
 mod state;
 
 use std::path::{Path, PathBuf};
+use std::sync::Mutex;
 
 use specta_typescript::Typescript;
+use tablewright_core::Scene;
 use tauri::Manager;
 use tauri::path::BaseDirectory;
 use tauri_specta::{Builder, collect_commands};
@@ -69,11 +71,16 @@ fn specta_builder() -> Builder<tauri::Wry> {
             commands::search,
             commands::get_entry,
             commands::modules,
+            commands::get_scene,
+            commands::move_token,
+            commands::place_entry,
+            commands::remove_token,
         ])
 }
 
 // A missing or unreadable compendium is reported, not fatal: the app runs
-// without one and the commands say so.
+// without one and the commands say so. The scene is loaded from the app's
+// data directory, or is the tavern until something is saved.
 fn open_compendium(app: &tauri::App) -> AppState {
     let compendium = install_compendium(app).and_then(|path| match Compendium::open(&path) {
         Ok(compendium) => {
@@ -89,7 +96,26 @@ fn open_compendium(app: &tauri::App) -> AppState {
             None
         }
     });
-    AppState { compendium }
+    let scene_path = app
+        .path()
+        .app_data_dir()
+        .map(|dir| dir.join("scenes").join("current.json"))
+        .unwrap_or_else(|_| PathBuf::from("current.json"));
+    let scene = match Scene::load(&scene_path) {
+        Ok(scene) => {
+            eprintln!("scene: {} from {}", scene.name, scene_path.display());
+            scene
+        }
+        Err(error) => {
+            eprintln!("scene: starting in the tavern ({error})");
+            Scene::tavern()
+        }
+    };
+    AppState {
+        compendium,
+        scene: Mutex::new(scene),
+        scene_path,
+    }
 }
 
 fn install_compendium(app: &tauri::App) -> Option<PathBuf> {

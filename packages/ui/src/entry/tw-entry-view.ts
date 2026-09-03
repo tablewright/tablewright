@@ -4,7 +4,8 @@
 // (a spell's casting gauge, a creature's statblock) comes with typed
 // system data. Tauri-agnostic: the host loads the entry and hands it in.
 //
-// Events: `tw-close` when the page is closed.
+// Events: `tw-close` when the page is closed; `tw-place` (detail: the
+// entry) when a creature's Place on board button is pressed.
 
 import { LitElement, css, html, nothing } from "lit";
 import { previewOf } from "../spotlight/preview.js";
@@ -67,6 +68,11 @@ export class TwEntryView extends LitElement {
       justify-content: space-between;
       align-items: flex-start;
       gap: var(--tw-space-lg);
+    }
+    .actions {
+      display: flex;
+      gap: var(--tw-space-sm);
+      flex-shrink: 0;
     }
     .label {
       color: var(--tw-comp-document-label-text-color);
@@ -194,7 +200,14 @@ export class TwEntryView extends LitElement {
           <div class="label">${label}</div>
           <h1>${entry.name}</h1>
         </div>
-        <button type="button" @click=${this.hide}>Close</button>
+        <span class="actions">
+          ${
+            entry.type === "monster"
+              ? html`<button type="button" @click=${this.#place}>Place on board</button>`
+              : nothing
+          }
+          <button type="button" @click=${this.hide}>Close</button>
+        </span>
       </header>
       <article>
         ${paragraphs(entry.body).map(
@@ -224,6 +237,19 @@ export class TwEntryView extends LitElement {
     if (event.key === "Escape") {
       event.stopPropagation();
       this.hide();
+    }
+  };
+
+  // A creature can stand on the board; the host decides where.
+  #place = (): void => {
+    if (this.entry !== undefined) {
+      this.dispatchEvent(
+        new CustomEvent<EntryDocument>("tw-place", {
+          detail: this.entry,
+          bubbles: true,
+          composed: true,
+        })
+      );
     }
   };
 }
