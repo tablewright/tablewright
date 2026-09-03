@@ -1,0 +1,29 @@
+{
+  "id": "5e-2024-srd:feat:boon-of-dimensional-travel",
+  "type": "feat",
+  "name": "Boon of Dimensional Travel",
+  "source": "5e-2024-srd",
+  "tags": [
+    "epic boon"
+  ],
+  "body": "You gain the following benefits.\n\nIncrease one ability score of your choice by 1, to a maximum of 30.\n\nImmediately after you take the Attack action or the Magic action, you can teleport up to 30 feet to an unoccupied space you can see.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Increase one ability score of your choice by 1, to a maximum of 30."
+      },
+      {
+        "desc": "Immediately after you take the Attack action or the Magic action, you can teleport up to 30 feet to an unoccupied space you can see."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain the following benefits.",
+    "has_prerequisite": true,
+    "key": "srd-2024_boon-of-dimensional-travel",
+    "name": "Boon of Dimensional Travel",
+    "prerequisite": "Level 19+",
+    "type": "Epic Boon"
+  }
+}

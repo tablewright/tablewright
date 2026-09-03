@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:damage-and-healing-immunity",
+  "type": "rule",
+  "name": "Immunity",
+  "source": "5e-2024-srd",
+  "tags": [
+    "damage-and-healing"
+  ],
+  "body": "Some creatures and objects have Immunity to certain damage types and conditions. Immunity to a damage type means you don’t take damage of that type, and Immunity to a condition means you aren’t affected by it.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some creatures and objects have Immunity to certain damage types and conditions. Immunity to a damage type means you don’t take damage of that type, and Immunity to a condition means you aren’t affected by it.",
+    "index": 8,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_damage-and-healing_immunity",
+    "name": "Immunity",
+    "ruleset": "srd-2024_damage-and-healing"
+  }
+}

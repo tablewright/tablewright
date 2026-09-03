@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:combat-melee-attacks",
+  "type": "rule",
+  "name": "Melee Attacks",
+  "source": "5e-2024-srd",
+  "tags": [
+    "combat"
+  ],
+  "body": "A melee attack allows you to attack a target within your reach. A melee attack typically uses a hand-held weapon or an Unarmed Strike. Many monsters make melee attacks with claws, teeth, or other body parts. A few spells also involve melee attacks.\n\n## Reach\n\nA creature has a 5-foot reach and can thus attack targets within 5 feet when making a melee attack. Certain creatures have melee attacks with a reach greater than 5 feet, as noted in their descriptions.\n\n## Opportunity Attacks\n\nCombatants watch for enemies to drop their guard. If you move heedlessly past your foes, you put yourself in danger by provoking an Opportunity Attack.\n\n**Avoiding Opportunity Attacks.** You can avoid provoking an Opportunity Attack by taking the Disengage action. You also don’t provoke an Opportunity Attack when you Teleport or when you are moved without using your movement, action, Bonus Action, or Reaction. For example, you don’t provoke an Opportunity Attack if an explosion hurls you out of a foe’s reach or if you fall past an enemy.\n\n**Making an Opportunity Attack.** You can make an Opportunity Attack when a creature that you can see leaves your reach. To make the attack, take a Reaction to make one melee attack with a weapon or an Unarmed Strike against that creature. The attack occurs right before it leaves your reach.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A melee attack allows you to attack a target within your reach. A melee attack typically uses a hand-held weapon or an Unarmed Strike. Many monsters make melee attacks with claws, teeth, or other body parts. A few spells also involve melee attacks.\n\n## Reach\n\nA creature has a 5-foot reach and can thus attack targets within 5 feet when making a melee attack. Certain creatures have melee attacks with a reach greater than 5 feet, as noted in their descriptions.\n\n## Opportunity Attacks\n\nCombatants watch for enemies to drop their guard. If you move heedlessly past your foes, you put yourself in danger by provoking an Opportunity Attack.\n\n**Avoiding Opportunity Attacks.** You can avoid provoking an Opportunity Attack by taking the Disengage action. You also don’t provoke an Opportunity Attack when you Teleport or when you are moved without using your movement, action, Bonus Action, or Reaction. For example, you don’t provoke an Opportunity Attack if an explosion hurls you out of a foe’s reach or if you fall past an enemy.\n\n**Making an Opportunity Attack.** You can make an Opportunity Attack when a creature that you can see leaves your reach. To make the attack, take a Reaction to make one melee attack with a weapon or an Unarmed Strike against that creature. The attack occurs right before it leaves your reach.",
+    "index": 8,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_combat_melee-attacks",
+    "name": "Melee Attacks",
+    "ruleset": "srd-2024_combat"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:background:acolyte",
+  "type": "background",
+  "name": "Acolyte",
+  "source": "5e-2024-srd",
+  "tags": [],
+  "body": "",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Intelligence, Wisdom, Charisma",
+        "name": "Ability Scores",
+        "type": "ability_score"
+      },
+      {
+        "desc": "*Choose A or B:* (A) Calligrapher's Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP; or (B) 50 GP",
+        "name": "Equipment",
+        "type": "equipment"
+      },
+      {
+        "desc": "Magic Initiate (Cleric)",
+        "name": "Feat",
+        "type": "feat"
+      },
+      {
+        "desc": "Insight and Religion",
+        "name": "Skill Proficiencies",
+        "type": "skill_proficiency"
+      },
+      {
+        "desc": "Calligrapher's Supplies",
+        "name": "Tool Proficiency",
+        "type": "tool_proficiency"
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "key": "srd-2024_acolyte",
+    "name": "Acolyte"
+  }
+}

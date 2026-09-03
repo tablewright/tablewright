@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:combat-unseen-attackers-and-target",
+  "type": "rule",
+  "name": "Unseen Attackers and Targets",
+  "source": "5e-2024-srd",
+  "tags": [
+    "combat"
+  ],
+  "body": "When you make an attack roll against a target you can’t see, you have Disadvantage on the roll. This is true whether you’re guessing the target’s location or targeting a creature you can hear but not see. If the target isn’t in the location you targeted, you miss.\n\nWhen a creature can’t see you, you have Advantage on attack rolls against it.\n\nIf you are hidden when you make an attack roll, you give away your location when the attack hits or misses.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you make an attack roll against a target you can’t see, you have Disadvantage on the roll. This is true whether you’re guessing the target’s location or targeting a creature you can hear but not see. If the target isn’t in the location you targeted, you miss.\n\nWhen a creature can’t see you, you have Advantage on attack rolls against it.\n\nIf you are hidden when you make an attack roll, you give away your location when the attack hits or misses.",
+    "index": 5,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_combat_unseen-attackers-and-target",
+    "name": "Unseen Attackers and Targets",
+    "ruleset": "srd-2024_combat"
+  }
+}

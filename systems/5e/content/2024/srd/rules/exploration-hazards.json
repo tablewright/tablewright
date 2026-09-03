@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:exploration-hazards",
+  "type": "rule",
+  "name": "Hazards",
+  "source": "5e-2024-srd",
+  "tags": [
+    "exploration"
+  ],
+  "body": "Monsters are the main perils characters face, but other dangers await. “Rules Glossary” defines the following hazards:\n\n* Burning\n* Dehydration\n* Falling\n* Malnutrition\n* Suffocation",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Monsters are the main perils characters face, but other dangers await. “Rules Glossary” defines the following hazards:\n\n* Burning\n* Dehydration\n* Falling\n* Malnutrition\n* Suffocation",
+    "index": 5,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_exploration_hazards",
+    "name": "Hazards",
+    "ruleset": "srd-2024_exploration"
+  }
+}

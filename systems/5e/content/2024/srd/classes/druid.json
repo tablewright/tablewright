@@ -1,0 +1,1100 @@
+{
+  "id": "5e-2024-srd:class:druid",
+  "type": "class",
+  "name": "Druid",
+  "source": "5e-2024-srd",
+  "tags": [
+    "full"
+  ],
+  "body": "",
+  "data": {
+    "caster_type": "FULL",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Druid levels 8, 12, and 16.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 16
+          },
+          {
+            "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 8
+          }
+        ],
+        "key": "srd-2024_druid_ability-score-improvement",
+        "name": "Ability Score Improvement"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "The vitality of nature constantly blooms within you, granting you the following benefits.\n\n**Evergreen Wild Shape.** Whenever you roll Initiative and have no uses of Wild Shape left, you regain one expended use of it.\n\n**Nature Magician.** You can convert uses of Wild Shape into a spell slot (no action required). Choose a number of your unexpended uses of Wild Shape and convert them into a single spell slot, with each use contributing 2 spell levels. For example, if you convert two uses of Wild Shape, you produce a level 4 spell slot. Once you use this benefit, you can't do so again until you finish a Long Rest.\n\n**Longevity.** The primal magic that you wield causes you to age more slowly. For every ten years that pass, your body ages only one year.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 20
+          }
+        ],
+        "key": "srd-2024_druid_archdruid",
+        "name": "Archdruid"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "While using Wild Shape, you can cast spells in Beast form, except for any spell that has a Material component with a cost specified or that consumes its Material component.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 18
+          }
+        ],
+        "key": "srd-2024_druid_beast-spells",
+        "name": "Beast Spells"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 1
+          },
+          {
+            "column_value": "4",
+            "level": 10
+          },
+          {
+            "column_value": "4",
+            "level": 11
+          },
+          {
+            "column_value": "4",
+            "level": 12
+          },
+          {
+            "column_value": "4",
+            "level": 13
+          },
+          {
+            "column_value": "4",
+            "level": 14
+          },
+          {
+            "column_value": "4",
+            "level": 15
+          },
+          {
+            "column_value": "4",
+            "level": 16
+          },
+          {
+            "column_value": "4",
+            "level": 17
+          },
+          {
+            "column_value": "4",
+            "level": 18
+          },
+          {
+            "column_value": "4",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 2
+          },
+          {
+            "column_value": "4",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 3
+          },
+          {
+            "column_value": "3",
+            "level": 4
+          },
+          {
+            "column_value": "3",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_TABLE_DATA",
+        "gained_at": [],
+        "key": "srd-2024_druid_cantrips",
+        "name": "Cantrips"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "|||\n|---|---|\n|Primary Ability|Wisdom|\n|Hit Point Die|D8 per Druid level|\n|Saving Throw Proficiencies|Intelligence and Wisdom|\n|Skill Proficiencies|Choose 2: Animal Handling, Arcana, Insight, Medicine, Na ture, Perception, Religion, or Survival|\n|Weapon Proficiencies|Simple weapons|\n|Tool Proficiencies|Herbalism Kit|\n|Armor Training|Light armor and Shields|\n|Starting Equipment|Choose A or B: (A) Leather Ar mor, Shield, Sickle, Druidic Focus (Quarterstaff), Explorer's Pack, Herbalism Kit, and 9 GP; or (B) 50 GP|",
+        "feature_type": "CORE_TRAITS_TABLE",
+        "gained_at": [],
+        "key": "srd-2024_druid_core-traits",
+        "name": "Core Druid Traits"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "This section presents the Druid spell list. The spells are organized by spell level and then alphabetized, and each spell's school of magic is listed. In the Special column, *C* means the spell requires Concentration, *R* means it's a Ritual, and *M* means it requires a specific Material component.\n\nTable: Cantrips (Level 0 Druid Spells)\n\n|School|Special|\n|---|---|\n|Transmutation|—|\n|Transmutation|—|\n|Divination|C|\n|Transmutation|—|\n|Transmutation|—|\n|Necromancy|—|\n|Conjuration|—|\n|Abjuration|C|\n|Transmutation|—|\n|Necromancy|—|\n|Evocation|—|\n|||\n\nTable: Level 1 Druid Spells\n\n|Spell|School|Special|\n|---|---|---|\n|Animal Friendship|Enchantment|—|\n|Charm Person|Enchantment|—|\n|Create or Destroy Water|Transmutation|—|\n|Cure Wounds|Abjuration|—|\n|Detect Magic|Divination|C, R|\n|Detect Poison and Disease|Divination|C, R|\n|Entangle|Conjuration|C|\n|Faerie Fire|Evocation|C|\n|Fog Cloud|Conjuration|C|\n|Goodberry|Conjuration|—|\n|Healing Word|Abjuration|—|\n|Ice Knife|Conjuration|—|\n|Jump|Transmutation|—|\n|Longstrider|Transmutation|—|\n|Protection from Evil and Good|Abjuration|C, M|\n|Purify Food and Drink|Transmutation|R|\n|Speak with Animals|Divination|R|\n|Thunderwave|Evocation|—|\n\nTable: Level 2 Druid Spells\n\n|Spell|School|Special|\n|---|---|---|\n|Aid|Abjuration|—|\n|Animal Messenger|Enchantment|R|\n|Augury|Divination|R, M|\n|Barkskin|Transmutation|—|\n|Continual Flame|Evocation|M|\n|Darkvision|Transmutation|—|\n|Enhance Ability|Transmutation|C|\n|Enlarge/Reduce|Transmutation|C|\n|Find Traps|Divination|—|\n|Flame Blade|Evocation|C|",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [],
+        "key": "srd-2024_druid_druid-spell-list",
+        "name": "Druid Spell List"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You gain a Druid subclass of your choice. The Circle of the Land subclass is detailed after this class's description. A subclass is a specialization that grants you features at certain Druid levels. For the rest of your career, you gain each of your subclass's features that are of your Druid level or lower.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_druid_druid-subclass",
+        "name": "Druid Subclass"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You know Druidic, the secret language of Druids. While learning this ancient tongue, you also unlocked the magic of communicating with animals; you always have the *Speak with Animals* spell prepared.\n\nYou can use Druidic to leave hidden messages. You and others who know Druidic automatically spot such a message. Others spot the message's presence with a successful DC 15 Intelligence (Investigation) check but can't decipher it without magic.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd-2024_druid_druidic",
+        "name": "Druidic"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "The might of the elements flows through you. You gain one of the following options of your choice.\n\n**Potent Spellcasting.** Add your Wisdom modifier to the damage you deal with any Druid cantrip.\n\n**Primal Strike.** Once on each of your turns when you hit a creature with an attack roll using a weapon or a Beast form's attack in Wild Shape, you can cause the target to take an extra 1d8 Cold, Fire, Lightning, or Thunder damage (choose when you hit).",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 7
+          }
+        ],
+        "key": "srd-2024_druid_elemental-fury",
+        "name": "Elemental Fury"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You gain an Epic Boon feat (see \"Feats\") or another feat of your choice for which you qualify. Boon of Dimensional Travel is recommended.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 19
+          }
+        ],
+        "key": "srd-2024_druid_epic-boon",
+        "name": "Epic Boon"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "The option you chose for Elemental Fury grows more powerful, as detailed below.\n\n**Potent Spellcasting.** When you cast a Druid cantrip with a range of 10 feet or greater, the spell's range increases by 300 feet.\n\n**Primal Strike.** The extra damage of your Primal Strike increases to 2d8.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 15
+          }
+        ],
+        "key": "srd-2024_druid_improved-elemental-fury",
+        "name": "Improved Elemental Fury"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "4",
+            "level": 1
+          },
+          {
+            "column_value": "15",
+            "level": 10
+          },
+          {
+            "column_value": "16",
+            "level": 11
+          },
+          {
+            "column_value": "16",
+            "level": 12
+          },
+          {
+            "column_value": "17",
+            "level": 13
+          },
+          {
+            "column_value": "17",
+            "level": 14
+          },
+          {
+            "column_value": "18",
+            "level": 15
+          },
+          {
+            "column_value": "18",
+            "level": 16
+          },
+          {
+            "column_value": "19",
+            "level": 17
+          },
+          {
+            "column_value": "20",
+            "level": 18
+          },
+          {
+            "column_value": "21",
+            "level": 19
+          },
+          {
+            "column_value": "5",
+            "level": 2
+          },
+          {
+            "column_value": "22",
+            "level": 20
+          },
+          {
+            "column_value": "6",
+            "level": 3
+          },
+          {
+            "column_value": "7",
+            "level": 4
+          },
+          {
+            "column_value": "9",
+            "level": 5
+          },
+          {
+            "column_value": "10",
+            "level": 6
+          },
+          {
+            "column_value": "11",
+            "level": 7
+          },
+          {
+            "column_value": "12",
+            "level": 8
+          },
+          {
+            "column_value": "14",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_TABLE_DATA",
+        "gained_at": [],
+        "key": "srd-2024_druid_prepared-spells",
+        "name": "Prepared Spells"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You have dedicated yourself to one of the following sacred roles of your choice.\n\n**Magician.** You know one extra cantrip from the Druid spell list. In addition, your mystical connection to nature gives you a bonus to your Intelligence (Arcana or Nature) checks. The bonus equals your Wisdom modifier (minimum bonus of +1).\n\n**Warden.** Trained for battle, you gain proficiency with Martial weapons and training with Medium armor.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd-2024_druid_primal-order",
+        "name": "Primal Order"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "+2",
+            "level": 1
+          },
+          {
+            "column_value": "+4",
+            "level": 10
+          },
+          {
+            "column_value": "+4",
+            "level": 11
+          },
+          {
+            "column_value": "+4",
+            "level": 12
+          },
+          {
+            "column_value": "+5",
+            "level": 13
+          },
+          {
+            "column_value": "+5",
+            "level": 14
+          },
+          {
+            "column_value": "+5",
+            "level": 15
+          },
+          {
+            "column_value": "+5",
+            "level": 16
+          },
+          {
+            "column_value": "+6",
+            "level": 17
+          },
+          {
+            "column_value": "+6",
+            "level": 18
+          },
+          {
+            "column_value": "+6",
+            "level": 19
+          },
+          {
+            "column_value": "+2",
+            "level": 2
+          },
+          {
+            "column_value": "+6",
+            "level": 20
+          },
+          {
+            "column_value": "+2",
+            "level": 3
+          },
+          {
+            "column_value": "+2",
+            "level": 4
+          },
+          {
+            "column_value": "+3",
+            "level": 5
+          },
+          {
+            "column_value": "+3",
+            "level": 6
+          },
+          {
+            "column_value": "+3",
+            "level": 7
+          },
+          {
+            "column_value": "+3",
+            "level": 8
+          },
+          {
+            "column_value": "+4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "PROFICIENCY_BONUS",
+        "gained_at": [],
+        "key": "srd-2024_druid_proficiency-bonus",
+        "name": "Proficiency Bonus"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 1
+          },
+          {
+            "column_value": "4",
+            "level": 10
+          },
+          {
+            "column_value": "4",
+            "level": 11
+          },
+          {
+            "column_value": "4",
+            "level": 12
+          },
+          {
+            "column_value": "4",
+            "level": 13
+          },
+          {
+            "column_value": "4",
+            "level": 14
+          },
+          {
+            "column_value": "4",
+            "level": 15
+          },
+          {
+            "column_value": "4",
+            "level": 16
+          },
+          {
+            "column_value": "4",
+            "level": 17
+          },
+          {
+            "column_value": "4",
+            "level": 18
+          },
+          {
+            "column_value": "4",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 2
+          },
+          {
+            "column_value": "4",
+            "level": 20
+          },
+          {
+            "column_value": "4",
+            "level": 3
+          },
+          {
+            "column_value": "4",
+            "level": 4
+          },
+          {
+            "column_value": "4",
+            "level": 5
+          },
+          {
+            "column_value": "4",
+            "level": 6
+          },
+          {
+            "column_value": "4",
+            "level": 7
+          },
+          {
+            "column_value": "4",
+            "level": 8
+          },
+          {
+            "column_value": "4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-1st",
+        "name": "1st"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 3
+          },
+          {
+            "column_value": "3",
+            "level": 4
+          },
+          {
+            "column_value": "3",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-2nd",
+        "name": "2nd"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-3rd",
+        "name": "3rd"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "1",
+            "level": 7
+          },
+          {
+            "column_value": "2",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-4th",
+        "name": "4th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 10
+          },
+          {
+            "column_value": "2",
+            "level": 11
+          },
+          {
+            "column_value": "2",
+            "level": 12
+          },
+          {
+            "column_value": "2",
+            "level": 13
+          },
+          {
+            "column_value": "2",
+            "level": 14
+          },
+          {
+            "column_value": "2",
+            "level": 15
+          },
+          {
+            "column_value": "2",
+            "level": 16
+          },
+          {
+            "column_value": "2",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "1",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-5th",
+        "name": "5th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 11
+          },
+          {
+            "column_value": "1",
+            "level": 12
+          },
+          {
+            "column_value": "1",
+            "level": 13
+          },
+          {
+            "column_value": "1",
+            "level": 14
+          },
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "2",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-6th",
+        "name": "6th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 13
+          },
+          {
+            "column_value": "1",
+            "level": 14
+          },
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-7th",
+        "name": "7th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "1",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-8th",
+        "name": "8th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "1",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd-2024_druid_slots-9th",
+        "name": "9th"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You have learned to cast spells through studying the mystical forces of nature. See \"Spells\" for the rules on spellcasting. The information below details how you use those rules with Druid spells, which appear on the Druid spell list later in the class's description.\n\n**Cantrips.** You know two cantrips of your choice from the Druid spell list. *Druidcraft* and *Produce Flame* are recommended.\n\nWhenever you gain a Druid level, you can replace one of your cantrips with another cantrip of your choice from the Druid spell list.\n\nWhen you reach Druid levels 4 and 10, you learn another cantrip of your choice from the Druid spell list, as shown in the Cantrips column of the Druid Features table.\n\n**Spell Slots.** The Druid Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the Druid spell list. *Animal Friendship*, *Cure Wounds*, *Faerie Fire*, and *Thunderwave* are recommended.\n\nThe number of spells on your list increases as you gain Druid levels, as shown in the Prepared Spells column of the Druid Features table. Whenever that number increases, choose additional spells from the Druid spell list until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. For example, if you're a level 3 Druid, your list of prepared spells can include six spells of levels 1 and 2 in any combination.\n\nIf another Druid feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Druid spells for you.\n\n**Changing Your Prepared Spells.** Whenever you finish a Long Rest, you can change your list of prepared spells, replacing any of the spells with other Druid spells for which you have spell slots.\n\n**Spellcasting Ability.** Wisdom is your spellcasting ability for your Druid spells.\n\n**Spellcasting Focus.** You can use a Druidic Focus as a Spellcasting Focus for your Druid spells.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd-2024_druid_spellcasting",
+        "name": "Spellcasting"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You can summon a nature spirit that assumes an animal form to aid you. As a Magic action, you can expend a spell slot or a use of Wild Shape to cast the *Find Familiar* spell without Material components.\n\nWhen you cast the spell in this way, the familiar is Fey and disappears when you finish a Long Rest.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd-2024_druid_wild-companion",
+        "name": "Wild Companion"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Once on each of your turns, if you have no uses of Wild Shape left, you can give yourself one use by expending a spell slot (no action required).\n\nIn addition, you can expend one use of Wild Shape (no action required) to give yourself a level 1 spell slot, but you can't do so again until you finish a Long Rest.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 5
+          }
+        ],
+        "key": "srd-2024_druid_wild-resurgence",
+        "name": "Wild Resurgence"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "The power of nature allows you to assume the form of an animal. As a Bonus Action, you shape-shift into a Beast form that you have learned for this feature (see \"Known Forms\" below). You stay in that form for a number of hours equal to half your Druid level or until you use Wild Shape again, have the Incapacitated condition, or die. You can also leave the form early as a Bonus Action.\n\n**Number of Uses.** You can use Wild Shape twice. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest.\n\nYou gain additional uses when you reach certain Druid levels, as shown in the Wild Shape column of the Druid Features table.\n\n**Known Forms.** You know four Beast forms for this feature, chosen from among Beast stat blocks that have a maximum Challenge Rating of 1/4 and that lack a Fly Speed (see \"Animals\" in \"Monsters\" for stat block options). The **Rat**, **Riding Horse**, **Spider**, and **Wolf** are recommended. Whenever you finish a Long Rest, you can replace one of your known forms with another eligible form.\n\nWhen you reach certain Druid levels, your number of known forms and the maximum Challenge Rating for those forms increases, as shown in the Beast Shapes table. In addition, starting at level 8, you can adopt a form that has a Fly Speed.\n\nWhen choosing known forms, you may look in other sources for eligible Beasts if the Game Master permits you to do so.\n\nTable: Beast Shapes\n\n|Druid Level|Known Forms|Max CR|Fly Speed|\n|---|---|---|---|\n|2|4|1/4|No|\n|4|6|1/2|No|\n|8|8|1|Yes|\n\n**Rules While Shape-Shifted.** While in a form, you retain your personality, memories, and ability to speak, and the following rules apply:\n- **Temporary Hit Points.** When you assume a Wild Shape form, you gain a number of Temporary Hit Points equal to your Druid level.\n- **Game Statistics.** Your game statistics are replaced by the Beast's stat block, but you retain your creature type; Hit Points; Hit Point Dice; Intelligence, Wisdom, and Charisma scores; class features; languages; and feats. You also retain your skill and saving throw proficiencies and use your Proficiency Bonus for them, in addition to gaining the proficiencies of the creature. If a skill or saving throw modifier in the Beast's stat block is higher than yours, use the one in the stat block.\n- **No Spellcasting.** You can't cast spells, but shapeshifting doesn't break your Concentration or otherwise interfere with a spell you've already cast.\n- **Objects.** Your ability to handle objects is determined by the form's limbs rather than your own. In addition, you choose whether your equipment falls in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it's practical for the new form to wear a piece of equipment based on the creature's size and shape. Your equipment doesn't change size or shape to match the new form, and any equipment that the new form can't wear must either fall to the ground or merge with the form. Equipment that merges with the form has no effect while you're in that form.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd-2024_druid_wild-shape",
+        "name": "Wild Shape"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "4",
+            "level": 17
+          },
+          {
+            "column_value": "4",
+            "level": 18
+          },
+          {
+            "column_value": "4",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 2
+          },
+          {
+            "column_value": "4",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 3
+          },
+          {
+            "column_value": "2",
+            "level": 4
+          },
+          {
+            "column_value": "2",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [],
+        "key": "srd-2024_druid_wild-shape-uses",
+        "name": "Cantrips Known"
+      }
+    ],
+    "hit_dice": "D8",
+    "hit_points": {
+      "hit_dice": "D8",
+      "hit_dice_name": "1D8 per Druid level",
+      "hit_points_at_1st_level": "8 + your Constitution modifier",
+      "hit_points_at_higher_levels": "1D8 (or 5) + your Constitution modifier per druid level after 1st"
+    },
+    "key": "srd-2024_druid",
+    "name": "Druid",
+    "primary_abilities": [],
+    "saving_throws": [
+      {
+        "name": "Intelligence"
+      },
+      {
+        "name": "Wisdom"
+      }
+    ],
+    "subclass_of": null
+  }
+}

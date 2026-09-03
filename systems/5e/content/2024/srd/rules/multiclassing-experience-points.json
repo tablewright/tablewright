@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:multiclassing-experience-points",
+  "type": "rule",
+  "name": "Experience Points",
+  "source": "5e-2024-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "The Experience Point cost to gain a level is based on your total character level, not your level in a particular class, as shown in the Character Advancement table in \"Character Creation.\" For example, if you are a level 6 Cleric / level 1 Fighter, you must gain enough XP to reach level 8 before you can take your second level as a Fighter or your seventh level as a Cleric.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The Experience Point cost to gain a level is based on your total character level, not your level in a particular class, as shown in the Character Advancement table in \"Character Creation.\" For example, if you are a level 6 Cleric / level 1 Fighter, you must gain enough XP to reach level 8 before you can take your second level as a Fighter or your seventh level as a Cleric.",
+    "index": 2,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_multiclassing_experience-points",
+    "name": "Experience Points",
+    "ruleset": "srd-2024_multiclassing"
+  }
+}

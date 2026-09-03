@@ -1,0 +1,88 @@
+{
+  "id": "5e-2024-srd:class:path-of-the-berserker",
+  "type": "class",
+  "name": "Path of the Berserker",
+  "source": "5e-2024-srd",
+  "tags": [
+    "subclass",
+    "barbarian",
+    "none"
+  ],
+  "body": "*Channel Rage into Violent Fury*\n\nBarbarians who walk the Path of the Berserker direct their Rage primarily toward violence. Their path is one of untrammeled fury, and they thrill in the chaos of battle as they allow their Rage to seize and empower them.",
+  "data": {
+    "caster_type": "NONE",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "*Channel Rage into Violent Fury*\n\nBarbarians who walk the Path of the Berserker direct their Rage primarily toward violence. Their path is one of untrammeled fury, and they thrill in the chaos of battle as they allow their Rage to seize and empower them.",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "If you use Reckless Attack while your Rage is active, you deal extra damage to the first target you hit on your turn with a Strength-based attack. To determine the extra damage, roll a number of d6s equal to your Rage Damage bonus, and add them together. The damage has the same type as the weapon or Unarmed Strike used for the attack.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_path-of-the-berserker_frenzy",
+        "name": "Frenzy"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "As a Bonus Action, you can strike terror into others with your menacing presence and primal power. When you do so, each creature of your choice in a 30-foot Emanation originating from you must make a Wisdom saving throw (DC 8 plus your Strength modifier and Proficiency Bonus). On a failed save, a creature has the Frightened condition for 1 minute. At the end of each of the Frightened creature's turns, the creature repeats the save, ending the effect on itself on a success.\n\nOnce you use this feature, you can't use it again until you finish a Long Rest unless you expend a use of your Rage (no action required) to restore your use of it.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 14
+          }
+        ],
+        "key": "srd-2024_path-of-the-berserker_intimidating-presence",
+        "name": "Intimidating Presence"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You have Immunity to the Charmed and Frightened conditions while your Rage is active. If you're Charmed or Frightened when you enter your Rage, the condition ends on you.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 6
+          }
+        ],
+        "key": "srd-2024_path-of-the-berserker_mindless-rage",
+        "name": "Mindless Rage"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you take damage from a creature that is within 5 feet of you, you can take a Reaction to make one melee attack against that creature, using a weapon or an Unarmed Strike.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 10
+          }
+        ],
+        "key": "srd-2024_path-of-the-berserker_retaliation",
+        "name": "Retaliation"
+      }
+    ],
+    "hit_dice": "D12",
+    "hit_points": {
+      "hit_dice": "D12",
+      "hit_dice_name": "1D12 per Path of the Berserker level",
+      "hit_points_at_1st_level": "12 + your Constitution modifier",
+      "hit_points_at_higher_levels": "1D12 (or 7) + your Constitution modifier per path of the berserker level after 1st"
+    },
+    "key": "srd-2024_path-of-the-berserker",
+    "name": "Path of the Berserker",
+    "primary_abilities": [],
+    "saving_throws": [],
+    "subclass_of": {
+      "key": "srd-2024_barbarian",
+      "name": "Barbarian"
+    }
+  }
+}

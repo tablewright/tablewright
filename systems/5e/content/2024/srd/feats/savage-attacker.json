@@ -1,0 +1,26 @@
+{
+  "id": "5e-2024-srd:feat:savage-attacker",
+  "type": "feat",
+  "name": "Savage Attacker",
+  "source": "5e-2024-srd",
+  "tags": [
+    "origin"
+  ],
+  "body": "You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "has_prerequisite": false,
+    "key": "srd-2024_savage-attacker",
+    "name": "Savage Attacker",
+    "prerequisite": "",
+    "type": "Origin"
+  }
+}

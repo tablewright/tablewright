@@ -1,0 +1,26 @@
+{
+  "id": "5e-2024-srd:feat:two-weapon-fighting",
+  "type": "feat",
+  "name": "Two-Weapon Fighting",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fighting style"
+  ],
+  "body": "When you make an extra attack as a result of using a weapon that has the Light property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "When you make an extra attack as a result of using a weapon that has the Light property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "has_prerequisite": true,
+    "key": "srd-2024_two-weapon-fighting",
+    "name": "Two-Weapon Fighting",
+    "prerequisite": "Fighting Style Feature",
+    "type": "Fighting Style"
+  }
+}

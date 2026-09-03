@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:d20-tests-saving-throw",
+  "type": "rule",
+  "name": "Saving Throws",
+  "source": "5e-2024-srd",
+  "tags": [
+    "d20-tests"
+  ],
+  "body": "A saving throw—also called a save—represents an attempt to evade or resist a threat, such as a fiery explosion, a blast of poisonous gas, or a spell trying to invade your mind. You don’t normally choose to make a save; you must make one because your character or a monster (if you’re the GM) is at risk. A save’s result is detailed in the effect that caused it.\n\nIf you don’t want to resist the effect, you can choose to fail the save without rolling.\n\n## Ability Modifier\n\nSaving throws are named for the ability modifiers they use: a Constitution saving throw, a Wisdom saving throw, and so on. Different saving throws are used to resist different kinds of effects, as shown on the Saving Throw Examples table.\n\nTable: Saving Throw Examples\n\n|Ability|Make a Save To …|\n|---|---|\n|Strength|Physically resist direct force|\n|Dexterity|Dodge out of harm’s way|\n|Constitution|Endure a toxic hazard|\n|Intelligence|Recognize an illusion as fake|\n|Wisdom|Resist a mental assault|\n|Charisma|Assert your identity|\n\n## Proficiency Bonus\n\nYou add your Proficiency Bonus to your saving throw if you have proficiency in that kind of save. See “Proficiency” later in “Playing the Game.”\n\n## Difficulty Class\n\nThe Difficulty Class for a saving throw is determined by the effect that causes it or by the GM. For example, if a spell forces you to make a save, the DC is determined by the caster’s spellcasting ability and Proficiency Bonus. Monster abilities that call for saves specify the DC.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A saving throw—also called a save—represents an attempt to evade or resist a threat, such as a fiery explosion, a blast of poisonous gas, or a spell trying to invade your mind. You don’t normally choose to make a save; you must make one because your character or a monster (if you’re the GM) is at risk. A save’s result is detailed in the effect that caused it.\n\nIf you don’t want to resist the effect, you can choose to fail the save without rolling.\n\n## Ability Modifier\n\nSaving throws are named for the ability modifiers they use: a Constitution saving throw, a Wisdom saving throw, and so on. Different saving throws are used to resist different kinds of effects, as shown on the Saving Throw Examples table.\n\nTable: Saving Throw Examples\n\n|Ability|Make a Save To …|\n|---|---|\n|Strength|Physically resist direct force|\n|Dexterity|Dodge out of harm’s way|\n|Constitution|Endure a toxic hazard|\n|Intelligence|Recognize an illusion as fake|\n|Wisdom|Resist a mental assault|\n|Charisma|Assert your identity|\n\n## Proficiency Bonus\n\nYou add your Proficiency Bonus to your saving throw if you have proficiency in that kind of save. See “Proficiency” later in “Playing the Game.”\n\n## Difficulty Class\n\nThe Difficulty Class for a saving throw is determined by the effect that causes it or by the GM. For example, if a spell forces you to make a save, the DC is determined by the caster’s spellcasting ability and Proficiency Bonus. Monster abilities that call for saves specify the DC.",
+    "index": 2,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_d20-tests_saving-throw",
+    "name": "Saving Throws",
+    "ruleset": "srd-2024_d20-tests"
+  }
+}

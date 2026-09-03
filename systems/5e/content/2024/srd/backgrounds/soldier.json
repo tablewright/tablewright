@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:background:soldier",
+  "type": "background",
+  "name": "Soldier",
+  "source": "5e-2024-srd",
+  "tags": [],
+  "body": "",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Strength, Dexterity, Constitution",
+        "name": "Ability Scores",
+        "type": "ability_score"
+      },
+      {
+        "desc": "*Choose A or B:* (A) Spear, Shortbow, 20 Arrows, Gaming Set (same as above), Healer's Kit, Quiver, Traveler's Clothes, 14 GP; or (B) 50 GP",
+        "name": "Equipment",
+        "type": "equipment"
+      },
+      {
+        "desc": "Savage Attacker",
+        "name": "Feat",
+        "type": "feat"
+      },
+      {
+        "desc": "Athletics and Intimidation",
+        "name": "Skill Proficiencies",
+        "type": "skill_proficiency"
+      },
+      {
+        "desc": "Choose one kind of Gaming Set",
+        "name": "Tool Proficiency",
+        "type": "tool_proficiency"
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "key": "srd-2024_soldier",
+    "name": "Soldier"
+  }
+}

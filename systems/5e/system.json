@@ -10,7 +10,13 @@
     "cellFeet": 5,
     "diagonals": "equal"
   },
-  "categories": { "spells": "Spells", "bestiary": "Bestiary", "items": "Items" },
+  "categories": {
+    "spells": "Spells",
+    "bestiary": "Bestiary",
+    "items": "Items",
+    "characters": "Characters",
+    "rules": "Rules"
+  },
   "kinds": {
     "spell": { "name": "Spell", "category": "spells", "words": ["spell", "spells"] },
     "monster": {
@@ -29,7 +35,25 @@
       "name": "Magic item",
       "category": "items",
       "words": ["magic item", "magic items"]
-    }
+    },
+    "class": {
+      "name": "Class",
+      "category": "characters",
+      "words": ["class", "classes", "subclass", "subclasses"]
+    },
+    "race": {
+      "name": "Race",
+      "category": "characters",
+      "words": ["race", "races", "species", "subrace", "subraces", "subspecies"]
+    },
+    "background": {
+      "name": "Background",
+      "category": "characters",
+      "words": ["background", "backgrounds"]
+    },
+    "feat": { "name": "Feat", "category": "characters", "words": ["feat", "feats"] },
+    "rule": { "name": "Rule", "category": "rules", "words": ["rule", "rules"] },
+    "condition": { "name": "Condition", "category": "rules", "words": ["condition", "conditions"] }
   },
   "facets": {
     "spell": {
@@ -105,7 +129,10 @@
     "monster": [
       { "path": "traits", "label": "Trait" },
       { "path": "actions", "label": "Action" }
-    ]
+    ],
+    "class": [{ "path": "features", "label": "Feature" }],
+    "race": [{ "path": "traits", "label": "Trait" }],
+    "background": [{ "path": "benefits", "label": "Benefit" }]
   },
   "controls": {
     "spell": [

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:exploration-vision-and-light",
+  "type": "rule",
+  "name": "Vision and Light",
+  "source": "5e-2024-srd",
+  "tags": [
+    "exploration"
+  ],
+  "body": "Some adventuring tasks—such as noticing danger, hitting an enemy, and targeting certain spells are affected by sight, so effects that obscure vision can hinder you, as explained below.\n\n## Obscured Areas\n\nAn area might be Lightly or Heavily Obscured. In a Lightly Obscured area—such as an area with Dim Light, patchy fog, or moderate foliage—you have Disadvantage on Wisdom (Perception) checks that rely on sight.\n\nA Heavily Obscured area—such as an area with Darkness, heavy fog, or dense foliage—is opaque. You have the Blinded condition (see “Rules Glossary”) when trying to see something there.\n\n## Light\n\nThe presence or absence of light determines the category of illumination in an area, as defined below.\n\n**Bright Light.** Bright Light lets most creatures see normally. Even gloomy days provide Bright Light, as do torches, lanterns, fires, and other sources of illumination within a specific radius.\n\n**Dim Light.** Dim Light, also called shadows, creates a Lightly Obscured area. An area of Dim Light is usually a boundary between Bright Light and surrounding Darkness. The soft light of twilight and dawn also counts as Dim Light. A full moon might bathe the land in Dim Light.\n\n**Darkness.** Darkness creates a Heavily Obscured area. Characters face Darkness outdoors at night (even most moonlit nights), within the confines of an unlit dungeon, or in an area of magical Darkness.\n\n## Special Senses\n\nSome creatures have special senses that help them perceive things in certain situations. “Rules Glossary” defines the following special senses:\n\n* Blindsight\n* Darkvision\n* Tremorsense\n* Truesight",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some adventuring tasks—such as noticing danger, hitting an enemy, and targeting certain spells are affected by sight, so effects that obscure vision can hinder you, as explained below.\n\n## Obscured Areas\n\nAn area might be Lightly or Heavily Obscured. In a Lightly Obscured area—such as an area with Dim Light, patchy fog, or moderate foliage—you have Disadvantage on Wisdom (Perception) checks that rely on sight.\n\nA Heavily Obscured area—such as an area with Darkness, heavy fog, or dense foliage—is opaque. You have the Blinded condition (see “Rules Glossary”) when trying to see something there.\n\n## Light\n\nThe presence or absence of light determines the category of illumination in an area, as defined below.\n\n**Bright Light.** Bright Light lets most creatures see normally. Even gloomy days provide Bright Light, as do torches, lanterns, fires, and other sources of illumination within a specific radius.\n\n**Dim Light.** Dim Light, also called shadows, creates a Lightly Obscured area. An area of Dim Light is usually a boundary between Bright Light and surrounding Darkness. The soft light of twilight and dawn also counts as Dim Light. A full moon might bathe the land in Dim Light.\n\n**Darkness.** Darkness creates a Heavily Obscured area. Characters face Darkness outdoors at night (even most moonlit nights), within the confines of an unlit dungeon, or in an area of magical Darkness.\n\n## Special Senses\n\nSome creatures have special senses that help them perceive things in certain situations. “Rules Glossary” defines the following special senses:\n\n* Blindsight\n* Darkvision\n* Tremorsense\n* Truesight",
+    "index": 2,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_exploration_vision-and-light",
+    "name": "Vision and Light",
+    "ruleset": "srd-2024_exploration"
+  }
+}

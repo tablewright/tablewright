@@ -1,0 +1,108 @@
+{
+  "id": "5e-2024-srd:class:champion",
+  "type": "class",
+  "name": "Champion",
+  "source": "5e-2024-srd",
+  "tags": [
+    "subclass",
+    "fighter",
+    "none"
+  ],
+  "body": "*Pursue Physical Excellence in Combat*\n\nA Champion focuses on the development of martial prowess in a relentless pursuit of victory. Champions combine rigorous training with physical excellence to deal devastating blows, withstand peril, and garner glory. Whether in athletic contests or bloody battle, Champions strive for the crown of the victor.",
+  "data": {
+    "caster_type": "NONE",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "*Pursue Physical Excellence in Combat*\n\nA Champion focuses on the development of martial prowess in a relentless pursuit of victory. Champions combine rigorous training with physical excellence to deal devastating blows, withstand peril, and garner glory. Whether in athletic contests or bloody battle, Champions strive for the crown of the victor.",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "You gain another Fighting Style feat of your choice.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 7
+          }
+        ],
+        "key": "srd-2024_fighter_champion_additional-fighting-style",
+        "name": "Additional Fighting Style"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "The thrill of battle drives you toward victory. During combat, you can give yourself Heroic Inspiration whenever you start your turn without it.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 10
+          }
+        ],
+        "key": "srd-2024_fighter_champion_heroic-warrior",
+        "name": "Heroic Warrior"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Your attack rolls with weapons and Unarmed Strikes can score a Critical Hit on a roll of 19 or 20 on the d20.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_fighter_champion_improved-critical",
+        "name": "Improved Critical"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Thanks to your athleticism, you have Advantage on Initiative rolls and Strength (Athletics) checks.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_fighter_champion_remarkable-athlete",
+        "name": "Remarkable Athlete"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Your attack rolls with weapons and Unarmed Strikes can now score a Critical Hit on a roll of 18–20 on the d20.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 15
+          }
+        ],
+        "key": "srd-2024_fighter_champion_superior-critical",
+        "name": "Superior Critical"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You attain the pinnacle of resilience in battle, giving you these benefits.\n\n**Defy Death**. You have Advantage on Death Saving Throws. Moreover, when you roll 18–20 on a Death Saving Throw, you gain the benefit of rolling a 20 on it.\n\n**Heroic Rally**. At the start of each of your turns, you regain Hit Points equal to 5 plus your Constitution modifier if you are Bloodied and have at least 1 Hit Point.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 18
+          }
+        ],
+        "key": "srd-2024_fighter_champion_survivor",
+        "name": "Survivor"
+      }
+    ],
+    "hit_dice": null,
+    "key": "srd-2024_champion",
+    "name": "Champion",
+    "primary_abilities": [],
+    "saving_throws": [],
+    "subclass_of": {
+      "key": "srd-2024_fighter",
+      "name": "Fighter"
+    }
+  }
+}

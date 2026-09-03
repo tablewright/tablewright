@@ -1,0 +1,29 @@
+{
+  "id": "5e-2024-srd:feat:boon-of-truesight",
+  "type": "feat",
+  "name": "Boon of Truesight",
+  "source": "5e-2024-srd",
+  "tags": [
+    "epic boon"
+  ],
+  "body": "You gain the following benefits.\n\nIncrease one ability score of your choice by 1, to a maximum of 30.\n\nYou have Truesight with a range of 60 feet.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Increase one ability score of your choice by 1, to a maximum of 30."
+      },
+      {
+        "desc": "You have Truesight with a range of 60 feet."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain the following benefits.",
+    "has_prerequisite": true,
+    "key": "srd-2024_boon-of-truesight",
+    "name": "Boon of Truesight",
+    "prerequisite": "Level 19+",
+    "type": "Epic Boon"
+  }
+}

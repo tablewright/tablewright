@@ -1,0 +1,26 @@
+{
+  "id": "5e-2024-srd:feat:defense",
+  "type": "feat",
+  "name": "Defense",
+  "source": "5e-2024-srd",
+  "tags": [
+    "fighting style"
+  ],
+  "body": "While you're wearing Light, Medium, or Heavy armor, you gain a +1 bonus to Armor Class.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "While you're wearing Light, Medium, or Heavy armor, you gain a +1 bonus to Armor Class."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "has_prerequisite": true,
+    "key": "srd-2024_defense",
+    "name": "Defense",
+    "prerequisite": "Fighting Style Feature",
+    "type": "Fighting Style"
+  }
+}

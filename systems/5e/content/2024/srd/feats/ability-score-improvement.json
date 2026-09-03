@@ -1,0 +1,29 @@
+{
+  "id": "5e-2024-srd:feat:ability-score-improvement",
+  "type": "feat",
+  "name": "Ability Score Improvement",
+  "source": "5e-2024-srd",
+  "tags": [
+    "general"
+  ],
+  "body": "Increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. This feat can't increase an ability score above 20.\n\nYou can take this feat more than once.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. This feat can't increase an ability score above 20."
+      },
+      {
+        "desc": "You can take this feat more than once."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "has_prerequisite": true,
+    "key": "srd-2024_ability-score-improvement",
+    "name": "Ability Score Improvement",
+    "prerequisite": "Level 4+",
+    "type": "General"
+  }
+}

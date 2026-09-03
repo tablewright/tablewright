@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:proficiency-saving-throw-proficiencies",
+  "type": "rule",
+  "name": "Saving Throw Proficiencies",
+  "source": "5e-2024-srd",
+  "tags": [
+    "proficiency"
+  ],
+  "body": "Proficiency in a saving throw lets a character add their Proficiency Bonus to saves that use a particular ability. For example, proficiency in Wisdom saves lets you add your Proficiency Bonus to your Wisdom saves. Some monsters also have saving throw proficiencies, as noted in their stat blocks.\n\nEach class gives proficiency in at least two saving throws, representing that class’s training in evading or resisting certain threats. Wizards, for example, are proficient in Intelligence and Wisdom saves; they train to resist mental assault.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Proficiency in a saving throw lets a character add their Proficiency Bonus to saves that use a particular ability. For example, proficiency in Wisdom saves lets you add your Proficiency Bonus to your Wisdom saves. Some monsters also have saving throw proficiencies, as noted in their stat blocks.\n\nEach class gives proficiency in at least two saving throws, representing that class’s training in evading or resisting certain threats. Wizards, for example, are proficient in Intelligence and Wisdom saves; they train to resist mental assault.",
+    "index": 3,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_proficiency_saving-throw-proficiencies",
+    "name": "Saving Throw Proficiencies",
+    "ruleset": "srd-2024_proficiency"
+  }
+}

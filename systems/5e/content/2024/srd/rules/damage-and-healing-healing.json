@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:damage-and-healing-healing",
+  "type": "rule",
+  "name": "Healing",
+  "source": "5e-2024-srd",
+  "tags": [
+    "damage-and-healing"
+  ],
+  "body": "Hit Points can be restored by magic, such as the *Cure Wounds* or by a *Potion of Healing*,  spell or a Short or Long Rest (see “Rules Glossary”).\n\nWhen you receive healing, add the restored Hit Points to your current Hit Points. Your Hit Points can’t exceed your Hit Point maximum, so any Hit Points regained in excess of the maximum are lost. For example, if you receive 8 Hit Points of healing and have 14 Hit Points and a Hit Point maximum of 20, you regain 6 Hit Points, not 8.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Hit Points can be restored by magic, such as the *Cure Wounds* or by a *Potion of Healing*,  spell or a Short or Long Rest (see “Rules Glossary”).\n\nWhen you receive healing, add the restored Hit Points to your current Hit Points. Your Hit Points can’t exceed your Hit Point maximum, so any Hit Points regained in excess of the maximum are lost. For example, if you receive 8 Hit Points of healing and have 14 Hit Points and a Hit Point maximum of 20, you regain 6 Hit Points, not 8.",
+    "index": 9,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_damage-and-healing_healing",
+    "name": "Healing",
+    "ruleset": "srd-2024_damage-and-healing"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:multiclassing-armor-class",
+  "type": "rule",
+  "name": "Armor Class",
+  "source": "5e-2024-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "If you have multiple ways to calculate your Armor Class, you can benefit from only one at a time. For example, a Monk/Sorcerer with a Monk's Unarmored Defense feature and a Sorcerer's Draconic Resilience feature must choose only one of those features as a way to calculate Armor Class.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "If you have multiple ways to calculate your Armor Class, you can benefit from only one at a time. For example, a Monk/Sorcerer with a Monk's Unarmored Defense feature and a Sorcerer's Draconic Resilience feature must choose only one of those features as a way to calculate Armor Class.",
+    "index": 6,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_multiclassing_armor-class",
+    "name": "Armor Class",
+    "ruleset": "srd-2024_multiclassing"
+  }
+}

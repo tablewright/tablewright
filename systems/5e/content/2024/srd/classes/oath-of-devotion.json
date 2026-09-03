@@ -1,0 +1,95 @@
+{
+  "id": "5e-2024-srd:class:oath-of-devotion",
+  "type": "class",
+  "name": "Oath of Devotion",
+  "source": "5e-2024-srd",
+  "tags": [
+    "subclass",
+    "paladin",
+    "none"
+  ],
+  "body": "*Uphold the Ideals of Justice and Order*\n\nThe Oath of Devotion binds Paladins to the ideals of justice and order. These Paladins meet the archetype of the knight in shining armor. They hold themselves to the highest standards of conduct, and some—for better or worse—hold the rest of the world to the same standards.\n\nMany who swear this oath are devoted to gods of law and good and use their gods' tenets as the measure of personal devotion. Others hold angels as their ideals and incorporate images of angelic wings into their helmets or coats of arms.\n\nThese paladins share the following tenets:\n\n- Let your word be your promise.\n- Protect the weak and never fear to act.\n- Let your honorable deeds be an example.",
+  "data": {
+    "caster_type": "NONE",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "*Uphold the Ideals of Justice and Order*\n\nThe Oath of Devotion binds Paladins to the ideals of justice and order. These Paladins meet the archetype of the knight in shining armor. They hold themselves to the highest standards of conduct, and some—for better or worse—hold the rest of the world to the same standards.\n\nMany who swear this oath are devoted to gods of law and good and use their gods' tenets as the measure of personal devotion. Others hold angels as their ideals and incorporate images of angelic wings into their helmets or coats of arms.\n\nThese paladins share the following tenets:\n\n- Let your word be your promise.\n- Protect the weak and never fear to act.\n- Let your honorable deeds be an example.",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "You and your allies have Immunity to the Charmed condition while in your Aura of Protection. If a Charmed ally enters the aura, that condition has no effect on that ally while there.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 7
+          }
+        ],
+        "key": "srd-2024_paladin_oath-of-devotion_aura-of-devotion",
+        "name": "Aura of Devotion"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "As a Bonus Action, you can imbue your Aura of Protection with holy power, granting the benefits below for 10 minutes or until you end them (no action required). Once you use this feature, you can't use it again until you finish a Long Rest. You can also restore your use of it by expending a level 5 spell slot (no action required).\n\n**Holy Ward.** You have Advantage on any saving throw you are forced to make by a Fiend or an Undead.\n\n**Radiant Damage.** Whenever an enemy starts its turn in the aura, that creature takes Radiant damage equal to your Charisma modifier plus your Proficiency Bonus.\n\n**Sunlight.** The aura is filled with Bright Light that is sunlight.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 20
+          }
+        ],
+        "key": "srd-2024_paladin_oath-of-devotion_holy-nimbus",
+        "name": "Holy Nimbus"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you take the Attack action, you can expend one use of your Channel Divinity to imbue one Melee weapon that you are holding with positive energy. For 10 minutes or until you use this feature again, you add your Charisma modifier to attack rolls you make with that weapon (minimum bonus of +1), and each time you hit with it, you cause it to deal its normal damage type or Radiant damage.\n\nThe weapon also emits Bright Light in a 20-foot radius and Dim Light 20 feet beyond that.\n\nYou can end this effect early (no action required). This effect also ends if you aren't carrying the weapon.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_paladin_oath-of-devotion_sacred-weapon",
+        "name": "Sacred Weapon"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Your magical smite now radiates protective energy. Whenever you cast *Divine Smite*, you and your allies have Half Cover while in your Aura of Protection. The aura has this benefit until the start of your next turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 15
+          }
+        ],
+        "key": "srd-2024_paladin_oath-of-devotion_smite-of-protection",
+        "name": "Smite of Protection"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Devotion Spells table, you thereafter always have the listed spells prepared.\n\nTable: Oath of Devotion Spells\n\n|Paladin Level|Spells|\n|---|---|\n|3|Protection from Evil and Good, Shield of Faith|\n|5|Aid, Zone of Truth|\n|9|Beacon of Hope, Dispel Magic|\n|13|Freedom of Movement, Guardian of Faith|\n|17|Commune, Flame Strike|",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_paladin_oath-of-devotion_spells",
+        "name": "Oath of Devotion Spells"
+      }
+    ],
+    "hit_dice": null,
+    "key": "srd-2024_oath-of-devotion",
+    "name": "Oath of Devotion",
+    "primary_abilities": [],
+    "saving_throws": [],
+    "subclass_of": {
+      "key": "srd-2024_paladin",
+      "name": "Paladin"
+    }
+  }
+}

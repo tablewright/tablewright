@@ -1,0 +1,29 @@
+{
+  "id": "5e-2024-srd:feat:boon-of-fate",
+  "type": "feat",
+  "name": "Boon of Fate",
+  "source": "5e-2024-srd",
+  "tags": [
+    "epic boon"
+  ],
+  "body": "You gain the following benefits.\n\nIncrease one ability score of your choice by 1, to a maximum of 30.\n\nWhen you or another creature within 60 feet of you succeeds on or fails a D20 Test, you can roll 2d4 and apply the total rolled as a bonus or penalty to the d20 roll. Once you use this benefit, you can't use it again until you roll Initiative or finish a Short or Long Rest.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Increase one ability score of your choice by 1, to a maximum of 30."
+      },
+      {
+        "desc": "When you or another creature within 60 feet of you succeeds on or fails a D20 Test, you can roll 2d4 and apply the total rolled as a bonus or penalty to the d20 roll. Once you use this benefit, you can't use it again until you roll Initiative or finish a Short or Long Rest."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain the following benefits.",
+    "has_prerequisite": true,
+    "key": "srd-2024_boon-of-fate",
+    "name": "Boon of Fate",
+    "prerequisite": "Level 19+",
+    "type": "Epic Boon"
+  }
+}

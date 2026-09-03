@@ -1,0 +1,32 @@
+{
+  "id": "5e-2024-srd:feat:boon-of-the-night-spirit",
+  "type": "feat",
+  "name": "Boon of the Night Spirit",
+  "source": "5e-2024-srd",
+  "tags": [
+    "epic boon"
+  ],
+  "body": "You gain the following benefits.\n\nIncrease one ability score of your choice by 1, to a maximum of 30.\n\nWhile within Dim Light or Darkness, you can give yourself the Invisible condition as a Bonus Action. The condition ends on you immediately after you take an action, a Bonus Action, or a Reaction.\n\nWhile within Dim Light or Darkness, you have Resistance to all damage except Psychic and Radiant.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Increase one ability score of your choice by 1, to a maximum of 30."
+      },
+      {
+        "desc": "While within Dim Light or Darkness, you can give yourself the Invisible condition as a Bonus Action. The condition ends on you immediately after you take an action, a Bonus Action, or a Reaction."
+      },
+      {
+        "desc": "While within Dim Light or Darkness, you have Resistance to all damage except Psychic and Radiant."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain the following benefits.",
+    "has_prerequisite": true,
+    "key": "srd-2024_boon-of-the-night-spirit",
+    "name": "Boon of the Night Spirit",
+    "prerequisite": "Level 19+",
+    "type": "Epic Boon"
+  }
+}

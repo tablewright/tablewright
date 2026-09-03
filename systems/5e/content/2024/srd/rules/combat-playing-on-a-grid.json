@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:combat-playing-on-a-grid",
+  "type": "rule",
+  "name": "Playing on a Grid",
+  "source": "5e-2024-srd",
+  "tags": [
+    "combat"
+  ],
+  "body": "If you play using a square grid and miniatures or other tokens, follow these rules.\n\n**Squares.** Each square represents 5 feet.\n\n**Speed.** Rather than moving foot by foot, move square by square on the grid, using your Speed in 5-foot segments. You can translate your Speed into squares by dividing it by 5. For example, a Speed of 30 feet translates into 6 squares. If you use a grid often, consider writing your Speed in squares on your character sheet.\n\n**Entering a Square.** To enter a square, you must have enough movement left to pay for entering. It costs 1 square of movement to enter an unoccupied square that’s adjacent to your space (orthogonally or diagonally adjacent). A square of Difficult Terrain costs 2 squares to enter. Other effects might make a square cost even more.\n\n**Corners.** Diagonal movement can’t cross the corner of a wall, a large tree, or another terrain feature that fills its space.\n\n**Ranges.** To determine the range on a grid between two things—whether creatures or objects—count squares from a square adjacent to one of them and stop counting in the space of the other one. Count by the shortest route.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "If you play using a square grid and miniatures or other tokens, follow these rules.\n\n**Squares.** Each square represents 5 feet.\n\n**Speed.** Rather than moving foot by foot, move square by square on the grid, using your Speed in 5-foot segments. You can translate your Speed into squares by dividing it by 5. For example, a Speed of 30 feet translates into 6 squares. If you use a grid often, consider writing your Speed in squares on your character sheet.\n\n**Entering a Square.** To enter a square, you must have enough movement left to pay for entering. It costs 1 square of movement to enter an unoccupied square that’s adjacent to your space (orthogonally or diagonally adjacent). A square of Difficult Terrain costs 2 squares to enter. Other effects might make a square cost even more.\n\n**Corners.** Diagonal movement can’t cross the corner of a wall, a large tree, or another terrain feature that fills its space.\n\n**Ranges.** To determine the range on a grid between two things—whether creatures or objects—count squares from a square adjacent to one of them and stop counting in the space of the other one. Count by the shortest route.",
+    "index": 2,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_combat_playing-on-a-grid",
+    "name": "Playing on a Grid",
+    "ruleset": "srd-2024_combat"
+  }
+}

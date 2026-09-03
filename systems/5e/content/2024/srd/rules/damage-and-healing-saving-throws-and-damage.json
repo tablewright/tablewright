@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:damage-and-healing-saving-throws-and-damage",
+  "type": "rule",
+  "name": "Saving Throws and Damage",
+  "source": "5e-2024-srd",
+  "tags": [
+    "damage-and-healing"
+  ],
+  "body": "Damage dealt via saving throws uses these rules.\n\n## Damage against Multiple Targets\n\nWhen you create a damaging effect that forces two or more targets to make saving throws against it at the same time, roll the damage once for all the targets. For example, when a wizard casts Fireball, the spell’s damage is rolled once for all creatures caught in the blast.\n\n## Half Damage\n\nMany saving throw effects deal half damage (round down) to a target when the target succeeds on the saving throw. The halved damage is equal to half the damage that would be dealt on a failed save.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Damage dealt via saving throws uses these rules.\n\n## Damage against Multiple Targets\n\nWhen you create a damaging effect that forces two or more targets to make saving throws against it at the same time, roll the damage once for all the targets. For example, when a wizard casts Fireball, the spell’s damage is rolled once for all creatures caught in the blast.\n\n## Half Damage\n\nMany saving throw effects deal half damage (round down) to a target when the target succeeds on the saving throw. The halved damage is equal to half the damage that would be dealt on a failed save.",
+    "index": 5,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_damage-and-healing_saving-throws-and-damage",
+    "name": "Saving Throws and Damage",
+    "ruleset": "srd-2024_damage-and-healing"
+  }
+}

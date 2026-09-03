@@ -1,0 +1,29 @@
+{
+  "id": "5e-2024-srd:feat:boon-of-spell-recall",
+  "type": "feat",
+  "name": "Boon of Spell Recall",
+  "source": "5e-2024-srd",
+  "tags": [
+    "epic boon"
+  ],
+  "body": "You gain the following benefits.\n\nIncrease one ability score of your choice by 1, to a maximum of 30.\n\nWhenever you cast a spell with a level 1–4 spell slot, roll 1d4. If the number you roll is the same as the slot's level, the slot isn't expended.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Increase one ability score of your choice by 1, to a maximum of 30."
+      },
+      {
+        "desc": "Whenever you cast a spell with a level 1–4 spell slot, roll 1d4. If the number you roll is the same as the slot's level, the slot isn't expended."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain the following benefits.",
+    "has_prerequisite": true,
+    "key": "srd-2024_boon-of-spell-recall",
+    "name": "Boon of Spell Recall",
+    "prerequisite": "Level 19+, Spellcasting Feature",
+    "type": "Epic Boon"
+  }
+}

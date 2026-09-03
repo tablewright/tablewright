@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:multiclassing-prerequisties",
+  "type": "rule",
+  "name": "Prerequisites",
+  "source": "5e-2024-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "To qualify for a new class, you must have a score of at least 13 in the primary ability of the new class and your current classes. For example, a Barbarian who decides to multiclass into the Druid class must have Strength and Wisdom scores of 13 or higher, since Strength is the primary ability for Barbarians and Wisdom is the primary ability for Druids.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "To qualify for a new class, you must have a score of at least 13 in the primary ability of the new class and your current classes. For example, a Barbarian who decides to multiclass into the Druid class must have Strength and Wisdom scores of 13 or higher, since Strength is the primary ability for Barbarians and Wisdom is the primary ability for Druids.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_multiclassing_prerequisties",
+    "name": "Prerequisites",
+    "ruleset": "srd-2024_multiclassing"
+  }
+}

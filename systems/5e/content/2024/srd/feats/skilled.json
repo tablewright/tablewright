@@ -1,0 +1,29 @@
+{
+  "id": "5e-2024-srd:feat:skilled",
+  "type": "feat",
+  "name": "Skilled",
+  "source": "5e-2024-srd",
+  "tags": [
+    "origin"
+  ],
+  "body": "You gain proficiency in any combination of three skills or tools of your choice.\n\nYou can take this feat more than once.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "You gain proficiency in any combination of three skills or tools of your choice."
+      },
+      {
+        "desc": "You can take this feat more than once."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "has_prerequisite": false,
+    "key": "srd-2024_skilled",
+    "name": "Skilled",
+    "prerequisite": "",
+    "type": "Origin"
+  }
+}

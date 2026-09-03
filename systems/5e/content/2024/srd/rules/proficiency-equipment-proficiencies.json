@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:proficiency-equipment-proficiencies",
+  "type": "rule",
+  "name": "Equipment Proficiencies",
+  "source": "5e-2024-srd",
+  "tags": [
+    "proficiency"
+  ],
+  "body": "A character gains proficiency with various weapons and tools from their class and background. There are two categories of equipment proficiency:\n\n**Weapons.** Anyone can wield a weapon, but proficiency makes you better at wielding it. If you have proficiency with a weapon, you add your Proficiency Bonus to attack rolls you make with it.\n\n**Tools.** If you have proficiency with a tool, you can add your Proficiency Bonus to any ability check you make that uses the tool. If you have profciency in the skill that’s also used with that check, you have Advantage on the check too. This means you can benefit from both skill proficiency and tool proficiency on the same ability check.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A character gains proficiency with various weapons and tools from their class and background. There are two categories of equipment proficiency:\n\n**Weapons.** Anyone can wield a weapon, but proficiency makes you better at wielding it. If you have proficiency with a weapon, you add your Proficiency Bonus to attack rolls you make with it.\n\n**Tools.** If you have proficiency with a tool, you can add your Proficiency Bonus to any ability check you make that uses the tool. If you have profciency in the skill that’s also used with that check, you have Advantage on the check too. This means you can benefit from both skill proficiency and tool proficiency on the same ability check.",
+    "index": 4,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_proficiency_equipment-proficiencies",
+    "name": "Equipment Proficiencies",
+    "ruleset": "srd-2024_proficiency"
+  }
+}

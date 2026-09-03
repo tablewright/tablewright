@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:multiclassing-extra-attack",
+  "type": "rule",
+  "name": "Extra Attack",
+  "source": "5e-2024-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "If you gain the Extra Attack feature from more than one class, the features don't stack. You can't make more than two attacks with this feature unless you have a feature that says you can (such as the Fighter's Two Extra Attacks feature).\n\nSimilarly, the Warlock's Thirsting Blade invocation, which grants you the Extra Attack feature with your pact weapon, doesn't give you additional attacks if you also have Extra Attack.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "If you gain the Extra Attack feature from more than one class, the features don't stack. You can't make more than two attacks with this feature unless you have a feature that says you can (such as the Fighter's Two Extra Attacks feature).\n\nSimilarly, the Warlock's Thirsting Blade invocation, which grants you the Extra Attack feature with your pact weapon, doesn't give you additional attacks if you also have Extra Attack.",
+    "index": 7,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_multiclassing_extra-attack",
+    "name": "Extra Attack",
+    "ruleset": "srd-2024_multiclassing"
+  }
+}

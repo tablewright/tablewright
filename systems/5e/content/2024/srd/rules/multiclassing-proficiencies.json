@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:multiclassing-proficiencies",
+  "type": "rule",
+  "name": "Proficiencies",
+  "source": "5e-2024-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "When you gain your first level in a class other than your initial class, you gain only some of the new class's starting proficiencies, as detailed in each class's description in \"Classes.\"",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you gain your first level in a class other than your initial class, you gain only some of the new class's starting proficiencies, as detailed in each class's description in \"Classes.\"\n\n",
+    "index": 4,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_multiclassing_proficiencies",
+    "name": "Proficiencies",
+    "ruleset": "srd-2024_multiclassing"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "5e-2024-srd:feat:alert",
+  "type": "feat",
+  "name": "Alert",
+  "source": "5e-2024-srd",
+  "tags": [
+    "origin"
+  ],
+  "body": "You gain the following benefits.\n\nWhen you roll Initiative, you can add your Proficiency Bonus to the roll.\n\nImmediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can't make this swap if you or the ally has the Incapacitated condition.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "When you roll Initiative, you can add your Proficiency Bonus to the roll."
+      },
+      {
+        "desc": "Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can't make this swap if you or the ally has the Incapacitated condition."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain the following benefits.",
+    "has_prerequisite": false,
+    "key": "srd-2024_alert",
+    "name": "Alert",
+    "prerequisite": "",
+    "type": "Origin"
+  }
+}

@@ -67,6 +67,16 @@ const KINDS: Kind[] = [
   { endpoint: "spells", type: "spell", directory: "spells", shape: shapeSpell },
   { endpoint: "items", type: "item", directory: "items", shape: shapeItem },
   { endpoint: "magicitems", type: "magic-item", directory: "magic-items", shape: shapeMagicItem },
+  { endpoint: "classes", type: "class", directory: "classes", shape: shapeClass },
+  // Open5e calls them species, as the 2024 rules do; Tablewright names the
+  // kind race by choice, and the box answers to both words.
+  { endpoint: "species", type: "race", directory: "races", shape: shapeRace },
+  { endpoint: "backgrounds", type: "background", directory: "backgrounds", shape: shapeBackground },
+  { endpoint: "feats", type: "feat", directory: "feats", shape: shapeFeat },
+  { endpoint: "rules", type: "rule", directory: "rules", shape: shapeRule },
+  // Conditions: Open5e carries none under srd-2024 (only its own core
+  // and A5E documents), so the kind is declared in the manifest and
+  // waits for upstream, or for a hand import of the SRD 5.2 glossary.
 ];
 
 const refresh = process.argv.includes("--refresh");
@@ -252,9 +262,54 @@ function shapeMagicItem(record: Upstream): Omit<Entry, "id" | "source" | "data">
   };
 }
 
+// A class, species or background is one file, with its subclasses,
+// subspecies and the like as entries of their own; a rule's key carries
+// its section too, joined by an underscore, which becomes a dash.
+function shapeClass(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+  const parent = keyOf(record.subclass_of);
+  const tags = compact([
+    parent === undefined ? undefined : "subclass",
+    parent === undefined ? undefined : slugOf(parent),
+    keyOf(record.caster_type)?.toLowerCase(),
+  ]);
+  return { type: "class", name: record.name, tags, body: text(record.desc) };
+}
+
+function shapeRace(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+  const parent = keyOf(record.subspecies_of);
+  const tags = compact([
+    parent === undefined ? undefined : "subrace",
+    parent === undefined ? undefined : slugOf(parent),
+  ]);
+  return { type: "race", name: record.name, tags, body: text(record.desc) };
+}
+
+function shapeBackground(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+  return { type: "background", name: record.name, tags: [], body: text(record.desc) };
+}
+
+// A feat's benefits carry text but no names, so they are the body.
+function shapeFeat(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+  const benefits = Array.isArray(record.benefits)
+    ? record.benefits.map((benefit) => text((benefit as { desc?: unknown }).desc))
+    : [];
+  const tags = compact([keyOf(record.type)?.toLowerCase()]);
+  const body = compact([text(record.desc), ...benefits]).join("\n\n");
+  return { type: "feat", name: record.name, tags, body };
+}
+
+function shapeRule(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+  const ruleset = keyOf(record.ruleset);
+  const tags = compact([ruleset === undefined ? undefined : slugOf(ruleset)]);
+  return { type: "rule", name: record.name, tags, body: text(record.desc) };
+}
+
 // Upstream keys look like `srd-2024_goblin-warrior`; the slug is the rest.
+// A rule's key nests its section with a second underscore, which becomes a
+// dash so the id stays one word.
 function slugOf(key: string): string {
-  const slug = key.startsWith(KEY_PREFIX) ? key.slice(KEY_PREFIX.length) : key;
+  const rest = key.startsWith(KEY_PREFIX) ? key.slice(KEY_PREFIX.length) : key;
+  const slug = rest.replace(/_/g, "-");
   if (!/^[a-z0-9-]+$/.test(slug)) {
     throw new Error(`unusable slug in key ${key}`);
   }

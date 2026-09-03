@@ -1,0 +1,56 @@
+{
+  "id": "5e-2024-srd:race:halfling",
+  "type": "race",
+  "name": "Halfling",
+  "source": "5e-2024-srd",
+  "tags": [],
+  "body": "",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "is_subspecies": false,
+    "key": "srd-2024_halfling",
+    "name": "Halfling",
+    "subspecies_of": null,
+    "traits": [
+      {
+        "desc": "Small (about 2–3 feet tall) ",
+        "name": "Size",
+        "order": 1,
+        "type": "SIZE"
+      },
+      {
+        "desc": "30 feet",
+        "name": "Speed",
+        "order": 2,
+        "type": "SPEED"
+      },
+      {
+        "desc": "You have Advantage on saving throws you make to avoid or end the Frightened condition.",
+        "name": "Brave",
+        "order": 3,
+        "type": null
+      },
+      {
+        "desc": "You can move through the space of any creature that is a size larger than you, but you can't stop in the same space.",
+        "name": "Halfling Nimbleness",
+        "order": 4,
+        "type": null
+      },
+      {
+        "desc": "When you roll a 1 on the d20 of a D20 Test, you can reroll the die, and you must use the new roll.",
+        "name": "Luck",
+        "order": 5,
+        "type": null
+      },
+      {
+        "desc": "You can take the Hide action even when you are obscured only by a creature that is at least one size larger than you.",
+        "name": "Naturally Stealthy",
+        "order": 6,
+        "type": null
+      }
+    ]
+  }
+}

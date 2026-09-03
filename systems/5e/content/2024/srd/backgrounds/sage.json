@@ -1,0 +1,43 @@
+{
+  "id": "5e-2024-srd:background:sage",
+  "type": "background",
+  "name": "Sage",
+  "source": "5e-2024-srd",
+  "tags": [],
+  "body": "",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Constitution, Intelligence, Wisdom",
+        "name": "Ability Scores",
+        "type": "ability_score"
+      },
+      {
+        "desc": "*Choose A or B:* (A) Quarterstaff, Calligrapher's Supplies, Book (history), Parchment (8 sheets), Robe, 8 GP; or (B) 50 GP",
+        "name": "Equipment",
+        "type": "equipment"
+      },
+      {
+        "desc": "Magic Initiate (Wizard)",
+        "name": "Feat",
+        "type": "feat"
+      },
+      {
+        "desc": "Arcana and History",
+        "name": "Skill Proficiencies",
+        "type": "skill_proficiency"
+      },
+      {
+        "desc": "Calligrapher's Supplies",
+        "name": "Tool Proficiency",
+        "type": "tool_proficiency"
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "key": "srd-2024_sage",
+    "name": "Sage"
+  }
+}

@@ -1,0 +1,544 @@
+{
+  "id": "5e-2024-srd:class:fighter",
+  "type": "class",
+  "name": "Fighter",
+  "source": "5e-2024-srd",
+  "tags": [
+    "none"
+  ],
+  "body": "",
+  "data": {
+    "caster_type": "NONE",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 14
+          },
+          {
+            "detail": null,
+            "level": 16
+          },
+          {
+            "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 6
+          },
+          {
+            "detail": null,
+            "level": 8
+          }
+        ],
+        "key": "srd-2024_fighter_ability-score-improvement",
+        "name": "Ability Score Improvement"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action, except the Magic action.\n\nOnce you use this feature, you can't do so again until you finish a Short or Long Rest. Starting at level 17, you can use it twice before a rest but only once on a turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": "one use",
+            "level": 2
+          },
+          {
+            "detail": "two uses",
+            "level": 17
+          }
+        ],
+        "key": "srd-2024_fighter_action-surge",
+        "name": "Action Surge"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "|||\n|---|---|\n|Primary Ability|Strength or Dexterity|\n|Hit Point Die|D10 per Fighter level|\n|Saving Throw Proficiencies|Strength and Constitution|\n|Skill Proficiencies|Choose 2: Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Persuasion, Perception, or Survival|\n|Weapon Proficiencies|Simple and Martial weapons|\n|Armor Training|Light, Medium, and Heavy armor and Shields|\n|Starting Equipment|Choose A, B, or C: (A) Chain Mail, Greatsword, Flail, 8 Javelins, Dungeoneer's Pack, and 4 GP; (B) Studded Leather Armor, Scimitar, Shortsword, Longbow, 20 Arrows, Quiver, Dungeoneer's Pack, and 11 GP; or (C) 155 GP|",
+        "feature_type": "CORE_TRAITS_TABLE",
+        "gained_at": [],
+        "key": "srd-2024_fighter_core-traits",
+        "name": "Core Fighter Traits"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You gain an Epic Boon feat (see \"Feats\") or another feat of your choice for which you qualify. Boon of Combat Prowess is recommended.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 19
+          }
+        ],
+        "key": "srd-2024_fighter_epic-boon",
+        "name": "Epic Boon"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 5
+          }
+        ],
+        "key": "srd-2024_fighter_extra-attack",
+        "name": "Extra Attack"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You gain a Fighter subclass of your choice. The Champion subclass is detailed after this class's description. A subclass is a specialization that grants you features at certain Fighter levels. For the rest of your career, you gain each of your subclass's features that are of your Fighter level or lower.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_fighter_fighter-subclass",
+        "name": "Fighter Subclass"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You have honed your martial prowess and gain a Fighting Style feat of your choice (see \"Feats\"). Defense is recommended.\n\nWhenever you gain a Fighter level, you can replace the feat you chose with a different Fighting Style feat.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd-2024_fighter_fighting-style",
+        "name": "Fighting Style"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "If you fail a saving throw, you can reroll it with a bonus equal to your Fighter level. You must use the new roll, and you can't use this feature again until you finish a Long Rest.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": "one use",
+            "level": 9
+          },
+          {
+            "detail": "three uses",
+            "level": 17
+          },
+          {
+            "detail": "two uses",
+            "level": 13
+          }
+        ],
+        "key": "srd-2024_fighter_indomitable",
+        "name": "Indomitable"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "+2",
+            "level": 1
+          },
+          {
+            "column_value": "+4",
+            "level": 10
+          },
+          {
+            "column_value": "+4",
+            "level": 11
+          },
+          {
+            "column_value": "+4",
+            "level": 12
+          },
+          {
+            "column_value": "+5",
+            "level": 13
+          },
+          {
+            "column_value": "+5",
+            "level": 14
+          },
+          {
+            "column_value": "+5",
+            "level": 15
+          },
+          {
+            "column_value": "+5",
+            "level": 16
+          },
+          {
+            "column_value": "+6",
+            "level": 17
+          },
+          {
+            "column_value": "+6",
+            "level": 18
+          },
+          {
+            "column_value": "+6",
+            "level": 19
+          },
+          {
+            "column_value": "+2",
+            "level": 2
+          },
+          {
+            "column_value": "+6",
+            "level": 20
+          },
+          {
+            "column_value": "+2",
+            "level": 3
+          },
+          {
+            "column_value": "+2",
+            "level": 4
+          },
+          {
+            "column_value": "+3",
+            "level": 5
+          },
+          {
+            "column_value": "+3",
+            "level": 6
+          },
+          {
+            "column_value": "+3",
+            "level": 7
+          },
+          {
+            "column_value": "+3",
+            "level": 8
+          },
+          {
+            "column_value": "+4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "PROFICIENCY_BONUS",
+        "gained_at": [],
+        "key": "srd-2024_fighter_proficiency-bonus",
+        "name": "Proficiency Bonus"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You have a limited well of physical and mental stamina that you can draw on. As a Bonus Action, you can use it to regain Hit Points equal to 1d10 plus your Fighter level.\n\nYou can use this feature twice. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest.\n\nWhen you reach certain Fighter levels, you gain more uses of this feature, as shown in the Second Wind column of the Fighter Features table.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd-2024_fighter_second-wind",
+        "name": "Second Wind"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 1
+          },
+          {
+            "column_value": "4",
+            "level": 10
+          },
+          {
+            "column_value": "4",
+            "level": 11
+          },
+          {
+            "column_value": "4",
+            "level": 12
+          },
+          {
+            "column_value": "4",
+            "level": 13
+          },
+          {
+            "column_value": "4",
+            "level": 14
+          },
+          {
+            "column_value": "4",
+            "level": 15
+          },
+          {
+            "column_value": "4",
+            "level": 16
+          },
+          {
+            "column_value": "4",
+            "level": 17
+          },
+          {
+            "column_value": "4",
+            "level": 18
+          },
+          {
+            "column_value": "4",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 2
+          },
+          {
+            "column_value": "4",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 3
+          },
+          {
+            "column_value": "3",
+            "level": 4
+          },
+          {
+            "column_value": "3",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_TABLE_DATA",
+        "gained_at": [],
+        "key": "srd-2024_fighter_second-wind-uses",
+        "name": "Second Wind"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You study your opponents and learn from each attack you make. If you make an attack roll against a creature and miss, you have Advantage on your next attack roll against that creature before the end of your next turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 13
+          }
+        ],
+        "key": "srd-2024_fighter_studied-attacks",
+        "name": "Studdied Attacks"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you attack with a weapon whose mastery property you can use, you can replace that property with the Push, Sap, or Slow property for that attack.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 9
+          }
+        ],
+        "key": "srd-2024_fighter_tactical-master",
+        "name": "Tactical Master"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You have a mind for tactics on and off the battlefield. When you fail an ability check, you can expend a use of your Second Wind to push yourself toward success. Rather than regaining Hit Points, you roll 1d10 and add the number rolled to the ability check, potentially turning it into a success. If the check still fails, this use of Second Wind isn't expended.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd-2024_fighter_tactical-mind",
+        "name": "Tactical Mind"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Whenever you activate your Second Wind with a Bonus Action, you can move up to half your Speed without provoking Opportunity Attacks.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 5
+          }
+        ],
+        "key": "srd-2024_fighter_tactical-shift",
+        "name": "Tactical Shift"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You can attack four times instead of once whenever you take the Attack action on your turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 20
+          }
+        ],
+        "key": "srd-2024_fighter_three-extra-attacks",
+        "name": "Three Extra Attacks"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You can attack three times instead of once whenever you take the Attack action on your turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 11
+          }
+        ],
+        "key": "srd-2024_fighter_two-extra-attacks",
+        "name": "Two Extra Attacks"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Your training with weapons allows you to use the mastery properties of three kinds of Simple or Martial weapons of your choice. Whenever you finish a Long Rest, you can practice weapon drills and change one of those weapon choices.\n\nWhen you reach certain Fighter levels, you gain the ability to use the mastery properties of more kinds of weapons, as shown in the Weapon Mastery column of the Fighter Features table.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd-2024_fighter_weapon-mastery",
+        "name": "Weapon Mastery"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 1
+          },
+          {
+            "column_value": "5",
+            "level": 10
+          },
+          {
+            "column_value": "5",
+            "level": 11
+          },
+          {
+            "column_value": "5",
+            "level": 12
+          },
+          {
+            "column_value": "5",
+            "level": 13
+          },
+          {
+            "column_value": "5",
+            "level": 14
+          },
+          {
+            "column_value": "5",
+            "level": 15
+          },
+          {
+            "column_value": "6",
+            "level": 16
+          },
+          {
+            "column_value": "6",
+            "level": 17
+          },
+          {
+            "column_value": "6",
+            "level": 18
+          },
+          {
+            "column_value": "6",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 2
+          },
+          {
+            "column_value": "6",
+            "level": 20
+          },
+          {
+            "column_value": "3",
+            "level": 3
+          },
+          {
+            "column_value": "4",
+            "level": 4
+          },
+          {
+            "column_value": "4",
+            "level": 5
+          },
+          {
+            "column_value": "4",
+            "level": 6
+          },
+          {
+            "column_value": "4",
+            "level": 7
+          },
+          {
+            "column_value": "4",
+            "level": 8
+          },
+          {
+            "column_value": "4",
+            "level": 9
+          },
+          {
+            "column_value": "3",
+            "level": 1
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_TABLE_DATA",
+        "gained_at": [],
+        "key": "srd-2024_fighter_weapon-mastery-count",
+        "name": "Weapon Mastery"
+      }
+    ],
+    "hit_dice": "D10",
+    "hit_points": {
+      "hit_dice": "D10",
+      "hit_dice_name": "1D10 per Fighter level",
+      "hit_points_at_1st_level": "10 + your Constitution modifier",
+      "hit_points_at_higher_levels": "1D10 (or 6) + your Constitution modifier per fighter level after 1st"
+    },
+    "key": "srd-2024_fighter",
+    "name": "Fighter",
+    "primary_abilities": [],
+    "saving_throws": [
+      {
+        "name": "Dexterity"
+      },
+      {
+        "name": "Strength"
+      }
+    ],
+    "subclass_of": null
+  }
+}

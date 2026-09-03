@@ -1,0 +1,95 @@
+{
+  "id": "5e-2024-srd:class:hunter",
+  "type": "class",
+  "name": "Hunter",
+  "source": "5e-2024-srd",
+  "tags": [
+    "subclass",
+    "ranger",
+    "none"
+  ],
+  "body": "*Protect Nature and People from Destruction*\n\nYou stalk prey in the wilds and elsewhere, using your abilities as a Hunter to protect nature and people everywhere from forces that would destroy them.",
+  "data": {
+    "caster_type": "NONE",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "*Protect Nature and People from Destruction*\n\nYou stalk prey in the wilds and elsewhere, using your abilities as a Hunter to protect nature and people everywhere from forces that would destroy them.",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "You gain one of the following feature options of your choice. Whenever you finish a Short or Long Rest, you can replace the chosen option with the other one.\n\n**Escape the Horde.** Opportunity Attacks have Disadvantage against you.\n\n**Multiattack Defense.** When a creature hits you with an attack roll, that creature has Disadvantage on all other attack rolls against you this turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 7
+          }
+        ],
+        "key": "srd-2024_ranger_hunter_defensive-tactics",
+        "name": "Defensive Tactics"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You can call on the forces of nature to reveal certain strengths and weaknesses of your prey. While a creature is marked by your *Hunter's Mark*, you know whether that creature has any Immunities, Resistances, or Vulnerabilities, and if the creature has any, you know what they are.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_ranger_hunter_hunters-lore",
+        "name": "Hunter's Lore"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You gain one of the following feature options of your choice. Whenever you finish a Short or Long Rest, you can replace the chosen option with the other one.\n\n**Colossus Slayer.** Your tenacity can wear down even the most resilient foes. When you hit a creature with a weapon, the weapon deals an extra 1d8 damage to the target if it's missing any of its Hit Points. You can deal this extra damage only once per turn.\n\n**Horde Breaker.** Once on each of your turns when you make an attack with a weapon, you can make another attack with the same weapon against a different creature that is within 5 feet of the original target, that is within the weapon's range, and that you haven't attacked this turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd-2024_ranger_hunter_hunters-prey",
+        "name": "Hunter's Prey"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you take damage, you can take a Reaction to give yourself Resistance to that damage and any other damage of the same type until the end of the current turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 15
+          }
+        ],
+        "key": "srd-2024_ranger_hunter_superior-hunters-defense",
+        "name": "Superior Hunter's Defense"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Once per turn when you deal damage to a creature marked by your *Hunter's Mark*, you can also deal that spell's extra damage to a different creature that you can see within 30 feet of the first creature.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 11
+          }
+        ],
+        "key": "srd-2024_ranger_hunter_superior-hunters-prey",
+        "name": "Superior Hunter's Prey"
+      }
+    ],
+    "hit_dice": null,
+    "key": "srd-2024_hunter",
+    "name": "Hunter",
+    "primary_abilities": [],
+    "saving_throws": [],
+    "subclass_of": {
+      "key": "srd-2024_ranger",
+      "name": "Ranger"
+    }
+  }
+}

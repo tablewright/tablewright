@@ -1,0 +1,29 @@
+{
+  "id": "5e-2024-srd:feat:boon-of-combat-prowess",
+  "type": "feat",
+  "name": "Boon of Combat Prowess",
+  "source": "5e-2024-srd",
+  "tags": [
+    "epic boon"
+  ],
+  "body": "You gain the following benefits.\n\nIncrease one ability score of your choice by 1, to a maximum of 30.\n\nWhen you miss with an attack roll, you can hit instead. Once you use this benefit, you can't use it again until the start of your next turn.",
+  "data": {
+    "benefits": [
+      {
+        "desc": "Increase one ability score of your choice by 1, to a maximum of 30."
+      },
+      {
+        "desc": "When you miss with an attack roll, you can hit instead. Once you use this benefit, you can't use it again until the start of your next turn."
+      }
+    ],
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain the following benefits.",
+    "has_prerequisite": true,
+    "key": "srd-2024_boon-of-combat-prowess",
+    "name": "Boon of Combat Prowess",
+    "prerequisite": "Level 19+",
+    "type": "Epic Boon"
+  }
+}

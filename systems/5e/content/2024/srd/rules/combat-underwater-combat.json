@@ -1,0 +1,21 @@
+{
+  "id": "5e-2024-srd:rule:combat-underwater-combat",
+  "type": "rule",
+  "name": "Underwater Combat",
+  "source": "5e-2024-srd",
+  "tags": [
+    "combat"
+  ],
+  "body": "A fight underwater follows these rules.\n\n## Impeded Weapons\n\nWhen making a melee attack roll with a weapon underwater, a creature that lacks a Swim Speed has Disadvantage on the attack roll unless the weapon deals Piercing damage. A ranged attack roll with a weapon underwater automatically misses a target beyond the weapon’s normal range, and the attack roll has Disadvantage against a target within normal range.\n\n## Fire Resistance\n\nAnything underwater has Resistance to Fire damage (explained in “Damage and Healing”).",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A fight underwater follows these rules.\n\n## Impeded Weapons\n\nWhen making a melee attack roll with a weapon underwater, a creature that lacks a Swim Speed has Disadvantage on the attack roll unless the weapon deals Piercing damage. A ranged attack roll with a weapon underwater automatically misses a target beyond the weapon’s normal range, and the attack roll has Disadvantage against a target within normal range.\n\n## Fire Resistance\n\nAnything underwater has Resistance to Fire damage (explained in “Damage and Healing”).",
+    "index": 10,
+    "initialHeaderLevel": 2,
+    "key": "srd-2024_combat_underwater-combat",
+    "name": "Underwater Combat",
+    "ruleset": "srd-2024_combat"
+  }
+}
