@@ -140,6 +140,27 @@ One search spans Vault and Compendium; results are labeled by origin.
   imported from the app; it never enters the repo. The compendium
   SQLite is generated from module directories at build time and
   shipped as an app resource, never committed.
+- **Coverage (decided 2026-09-03).** The SRD module carries everything
+  Open5e publishes for it, not a selection: creatures, magic items,
+  spells, equipment, classes, species, backgrounds, feats, rules and
+  conditions. Kinds: `monster`, `magic-item`, `spell`, `item`, `class`,
+  `race` (Open5e's species, named races here by choice), `background`,
+  `feat`, `rule`, `condition`. The box groups them as Spells, Bestiary,
+  Items (equipment and magic items), Characters (classes, races,
+  backgrounds, feats) and Rules (rules and conditions). Rules and
+  conditions are the foundation the typed system data stands on, and
+  "what does frightened do" is a name search that opens a page;
+  classes and races are what character creation builds from later.
+  Only the bestiary is DM material; the rest is world.
+- **Searchable data, not body text.** A creature's traits, actions,
+  reactions and legendary actions, and a class's features, are named
+  parts inside `data`. The manifest names the lists that carry them,
+  the seeder stores the part names on the entry, and the ranker
+  matches them as one more field at the tag rung, so "pack tactics"
+  lists every creature with it and the tile says which part matched.
+  Parts are a way in, never a filter: no facet, no control. Searching
+  inside a part's wording waits for FTS5, which moves out of the PoC
+  to the Vault stage with lore, where body text matters.
 - **Typing.** For the PoC the `data` blob is untyped JSON. Typed
   system data (Rust structs, generated TS) comes after; its shape is
   undecided.
