@@ -518,7 +518,14 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   needs no infrastructure with public relays. TURN, when wanted, is
   a hosted free tier.
 - Player client is a **browser page**, `apps/player`: the same UI and
-  board packages as Table, a static Vite build, no Tauri.
+  board packages as Table, a static Vite build, no Tauri. Until it
+  exists, the Table page served without Tauri *is* the player view
+  (decided 2026-09-03): the party tier, no DM chrome (no Open map, no
+  Place on board, no Reveal), the fixtures at party visibility, and
+  the demo tunnel (`bun run demo`) is how a phone or a guest reaches
+  it. When networking lands the same page connects to the DM's
+  process and the fixtures fall away; the DM's own view stays in the
+  Tauri window.
 - **Serve mode.** The same installed binary has a second entry
   point, `table --serve`: it runs the core plus a local HTTP and
   WebSocket server from crates/net without creating a WebView,
