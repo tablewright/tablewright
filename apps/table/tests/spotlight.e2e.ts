@@ -315,3 +315,23 @@ test("Home and End move the caret in the input", async ({ page }) => {
   await page.keyboard.type("q");
   await expect(page.locator(`${box} input`)).toHaveValue("zfireq");
 });
+
+test("closing the box lets the tray filters go", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fire");
+  const tiles = page.locator(`${box} li`);
+  await page.getByRole("button", { name: "Spells 3" }).click();
+  await page.getByRole("button", { name: "Filters" }).click();
+  const level = page.locator("tw-filter-tray").getByRole("group", { name: "Level" });
+  await level.getByRole("button", { name: "3", exact: true }).click();
+  await expect(tiles).toHaveCount(1);
+  // Focus is on the rail: the first Escape returns to the input, the
+  // second closes the box.
+  await page.keyboard.press("Escape");
+  await expect(page.locator(`${box} input`)).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.locator(box)).not.toHaveAttribute("open", "");
+  await page.keyboard.press("Control+Space");
+  await expect(tiles).toHaveCount(3);
+  await expect(page.locator("tw-filter-tray")).toHaveCount(0);
+});

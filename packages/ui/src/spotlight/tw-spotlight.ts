@@ -432,8 +432,15 @@ export class TwSpotlight extends LitElement {
     });
   }
 
+  // Closing lets the tray's own filters go, and searches again so the
+  // list is right when the box reopens; the words keep what they said.
   hide(): void {
     this.open = false;
+    this.trayOpen = false;
+    if (filtersOf(this.#controls(), this.trayState).length > 0) {
+      this.trayState = {};
+      void this.#search(performance.now());
+    }
   }
 
   toggle(): void {
