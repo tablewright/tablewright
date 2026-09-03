@@ -255,11 +255,11 @@ is not the interface.
   otherwise. One control per facet the manifest declares for the
   category, in the manifest's order, chosen by the kind of fact. A
   *span rail* for a short ordered scale (level, size, rarity): a click
-  toggles that cell, as a chip does, Shift with a click or a drag
-  paints the span from the last cell clicked, a run of adjacent cells
-  reads as a range and cells apart as either, and a run reaching an
-  end of the rail is open (level up to 2). Every multi-select in the
-  tray toggles the same way, so a click never means two things. A *switch rail*, the same strip with each cell its own
+  toggles that cell, as a chip does, and nothing else; a run of
+  adjacent cells reads as a range and cells apart as either, and a
+  run reaching an end of the rail is open (level up to 2). Every
+  multi-select in the tray toggles the same way, so a click never
+  means two things, and there are no Shift or drag gestures to learn. A *switch rail*, the same strip with each cell its own
   switch cycling off, on, not, for a few values or a yes/no fact
   (ritual and concentration, verbal/somatic/material, self and touch,
   the two alignment axes, attunement). A *stepped slider* for a long

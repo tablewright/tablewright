@@ -41,11 +41,6 @@ export class TwFilterTray extends LitElement {
   /** Chip controls unfolded past their first dozen, by control index. */
   declare expanded: number[];
 
-  // A press on a rail cell, so dragging across the rail paints a span.
-  #painting: { index: number; from: number } | undefined;
-  // The last cell clicked on each rail, where Shift extends from.
-  #anchors = new Map<number, number>();
-
   constructor() {
     super();
     this.label = "";
@@ -485,9 +480,8 @@ export class TwFilterTray extends LitElement {
     }
   }
 
-  // A span rail: one click is exactly that value, a second click or a
-  // drag the span between, Shift with a click extends, the same cell again
-  // clears. Arrows move along it, Space chooses, Shift with arrows extends.
+  // A span rail: a click toggles a cell, and a run of adjacent cells is a
+  // range. Arrows move along it, Space or Enter toggles.
   #renderRail(control: ControlSpec, index: number) {
     const stops = control.stops ?? [];
     const shown = this.#shown(index);
@@ -504,23 +498,7 @@ export class TwFilterTray extends LitElement {
               class="cell ${labelOf(stop).length > 4 ? "wide" : ""}"
               aria-pressed=${on ? "true" : "false"}
               tabindex=${at === focus ? "0" : "-1"}
-              @click=${(event: MouseEvent) => this.#pickStop(control, index, at, event.shiftKey)}
-              @pointerdown=${() => {
-                this.#painting = { index, from: at };
-              }}
-              @pointerenter=${(event: PointerEvent) => {
-                if (this.#painting?.index === index && event.buttons === 1) {
-                  const from = this.#painting.from;
-                  const [lo, hi] = [Math.min(from, at), Math.max(from, at)];
-                  this.#anchors.set(index, from);
-                  this.#commit(index, {
-                    cells: Array.from({ length: hi - lo + 1 }, (_, cell) => lo + cell),
-                  });
-                }
-              }}
-              @pointerup=${() => {
-                this.#painting = undefined;
-              }}
+              @click=${() => this.#pickStop(index, at)}
               @keydown=${(event: KeyboardEvent) => this.#onRailKey(control, index, at, event)}
             >
               ${labelOf(stop)}
@@ -534,7 +512,9 @@ export class TwFilterTray extends LitElement {
   // A click toggles the cell, like a chip; Shift with a click, or a drag,
   // paints the span from the last cell clicked. A run of adjacent cells
   // reads as a range, and cells apart read as either.
-  #pickStop(control: ControlSpec, index: number, at: number, extend: boolean): void {
+  // A click toggles the cell, as a chip does, and nothing else: a run of
+  // adjacent cells reads as a range, cells apart as either.
+  #pickStop(index: number, at: number): void {
     const shown = this.state[index] ?? this.#shown(index);
     const chosen = new Set<number>(shown?.cells ?? []);
     if (shown?.span !== undefined) {
@@ -542,22 +522,16 @@ export class TwFilterTray extends LitElement {
         chosen.add(cell);
       }
     }
-    const anchor = this.#anchors.get(index);
-    if (extend && anchor !== undefined) {
-      for (let cell = Math.min(anchor, at); cell <= Math.max(anchor, at); cell += 1) {
-        chosen.add(cell);
-      }
-    } else if (chosen.has(at)) {
+    if (chosen.has(at)) {
       chosen.delete(at);
     } else {
       chosen.add(at);
     }
-    this.#anchors.set(index, at);
     const cells = [...chosen].sort((a, b) => a - b);
     this.#commit(index, cells.length === 0 ? {} : { cells });
-    void control;
   }
 
+  // Arrows move along the rail, Space or Enter toggles the cell.
   #onRailKey(control: ControlSpec, index: number, at: number, event: KeyboardEvent): void {
     const stops = control.stops ?? [];
     const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
@@ -565,9 +539,6 @@ export class TwFilterTray extends LitElement {
       event.preventDefault();
       event.stopPropagation();
       const next = Math.max(0, Math.min(stops.length - 1, at + step));
-      if (event.shiftKey) {
-        this.#pickStop(control, index, next, true);
-      }
       const cells = this.renderRoot.querySelectorAll<HTMLButtonElement>(".cell");
       const rail = (event.currentTarget as HTMLElement).parentElement;
       const siblings = Array.from(cells).filter((cell) => cell.parentElement === rail);
@@ -577,7 +548,7 @@ export class TwFilterTray extends LitElement {
     if (event.key === " " || event.key === "Enter") {
       event.preventDefault();
       event.stopPropagation();
-      this.#pickStop(control, index, at, event.shiftKey);
+      this.#pickStop(index, at);
     }
   }
 
