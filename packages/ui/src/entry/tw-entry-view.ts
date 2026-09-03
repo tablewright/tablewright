@@ -175,9 +175,19 @@ export class TwEntryView extends LitElement {
       return nothing;
     }
     const preview = previewOf(entry);
-    const label = [preview.category, entry.type, preview.badge ?? preview.ring]
-      .filter((part) => part !== undefined)
-      .join(" · ");
+    // "Spell · Cantrip", "Monster · CR 1/4", "Magic Item · Rare": the kind as
+    // words, then the one fact the category leads with.
+    const kind = entry.type
+      .split("-")
+      .map((word) => (word.length === 0 ? word : word[0]?.toUpperCase() + word.slice(1)))
+      .join(" ");
+    const detail =
+      preview.ring === "C"
+        ? "Cantrip"
+        : preview.ring !== undefined
+          ? `Level ${preview.ring}`
+          : preview.badge;
+    const label = detail === undefined ? kind : `${kind} · ${detail}`;
     return html`
       <header>
         <div>
