@@ -102,7 +102,8 @@ interface Core {
   system: () => Promise<SystemManifest | null>;
   /** Facet name to the text values the compendium holds, for the tray's chips. */
   facetValues: () => Promise<Record<string, string[]>>;
-  entry: (id: string) => Promise<EntryDocument>;
+  /** One entry; with a version, the same thing in that rule version when it exists. */
+  entry: (id: string, version?: string) => Promise<EntryDocument>;
   scene: () => Promise<Scene>;
   moveToken: (id: string, col: number, row: number, facing: number) => Promise<Scene>;
   placeEntry: (entry: EntryDocument, col: number, row: number) => Promise<Scene>;
@@ -117,11 +118,11 @@ function connectCore(): Core {
       const scenes = import("./dev/scene-fixture.js");
       const system = import("./dev/system-fixture.js");
       return {
-        search: async (query, filters) => (await fixture).fixtureSearcher(query, filters),
+        search: async (query, filters) => (await fixture).fixtureSearcher(query, filters, VERSION),
         system: async () => (await system).fixtureSystem,
         facetValues: async () => (await system).fixtureFacetValues,
-        entry: async (id) => {
-          const found = (await fixture).fixtureEntry(id);
+        entry: async (id, version) => {
+          const found = (await fixture).fixtureEntry(id, version);
           if (found === undefined) {
             throw new Error(`No entry ${id} in the fixture.`);
           }
@@ -166,15 +167,17 @@ function connectCore(): Core {
     },
     system: async () => unwrap(await commands.system()),
     facetValues: async () => unwrap(await commands.facetValues()),
-    entry: async (id) => {
+    entry: async (id, version) => {
       const { type, name, source, tags, body, html, sections, ...rest } = unwrap(
-        await commands.getEntry(id, "dm")
+        await commands.getEntry(id, "dm", version ?? null)
       );
       return {
         id: rest.id,
         type,
         name,
         source,
+        version: rest.version ?? "",
+        versions: rest.versions ?? [],
         tags,
         body,
         html: html ?? "",
@@ -252,6 +255,18 @@ try {
       }
     })();
   });
+  // The footer's rail turns the page to the same thing in another version.
+  entryView.addEventListener("tw-version", (event) => {
+    const { id, version } = (event as CustomEvent<{ id: string; version: string }>).detail;
+    void (async () => {
+      try {
+        entryView.show(await core.entry(id, version));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not turn to the ${version} rules: ${reason}`);
+      }
+    })();
+  });
   // Placing stands the creature on the cell under the middle of the view;
   // dragging it to a cell arrives with the desk surfaces.
   entryView.addEventListener("tw-place", (event) => {
@@ -275,6 +290,7 @@ try {
   try {
     spotlight.system = (await core.system()) ?? undefined;
     spotlight.facetValues = await core.facetValues();
+    entryView.versions = Object.keys(spotlight.system?.versions ?? {});
   } catch (error) {
     showNotice(
       `Could not read the system: ${error instanceof Error ? error.message : String(error)}`

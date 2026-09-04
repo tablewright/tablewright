@@ -13,8 +13,12 @@ export const commands = {
 	 *  when it has one, else another version's, which carries its version).
 	 */
 	search: (query: string, viewer: Visibility, limit: number | null, filters: Filter[] | null, version: string | null) => typedError<SearchResponse, CommandError>(__TAURI_INVOKE("search", { query, viewer, limit, filters, version })),
-	/**  One entry as `viewer` may see it. */
-	getEntry: (id: EntryId, viewer: Visibility) => typedError<Entry, CommandError>(__TAURI_INVOKE("get_entry", { id, viewer })),
+	/**
+	 *  One entry as `viewer` may see it. With a `version`, the same thing in
+	 *  that rule version when it exists there, else the entry asked for: a
+	 *  page turns to the reader's version when they switch.
+	 */
+	getEntry: (id: EntryId, viewer: Visibility, version: string | null) => typedError<Entry, CommandError>(__TAURI_INVOKE("get_entry", { id, viewer, version })),
 	/**  The manifests of every module in the compendium, for the credits view. */
 	modules: () => typedError<Manifest[], CommandError>(__TAURI_INVOKE("modules")),
 	/**
@@ -24,6 +28,12 @@ export const commands = {
 	system: () => typedError<{
 	id: string,
 	name: string,
+	/**
+	 *  The rule versions the system's content comes in, by id ("2014",
+	 *  "2024"), in the order a switch shows them. Each person reads one
+	 *  (design.md §3 "Two rule versions, one compendium").
+	 */
+	versions?: { [key in string]: VersionSpec },
 	/**  Category id to label: the tabs of the box, in this order. */
 	categories?: { [key in string]: string },
 	/**  Entry kind to what it is called and where it is grouped. */
@@ -116,6 +126,12 @@ export type Entry = {
 	 *  from the module manifest when the module is read; empty means unversioned.
 	 */
 	version?: string,
+	/**
+	 *  Every rule version this thing exists in, its own among them, so a
+	 *  page can offer the switch. Filled when one entry is read; never
+	 *  stored, and a list carries none.
+	 */
+	versions?: string[],
 	tags: string[],
 	/**  Who may see the entry at all: its name, tags, and body. */
 	visibility: Visibility,
@@ -389,6 +405,12 @@ export type Stop = {
 export type SystemManifest = {
 	id: string,
 	name: string,
+	/**
+	 *  The rule versions the system's content comes in, by id ("2014",
+	 *  "2024"), in the order a switch shows them. Each person reads one
+	 *  (design.md §3 "Two rule versions, one compendium").
+	 */
+	versions?: { [key in string]: VersionSpec },
 	/**  Category id to label: the tabs of the box, in this order. */
 	categories?: { [key in string]: string },
 	/**  Entry kind to what it is called and where it is grouped. */
@@ -431,6 +453,11 @@ export type Understood = {
 	 *  aside; they stay in the text, greyed.
 	 */
 	overruled?: boolean,
+};
+
+/**  One rule version of a system. */
+export type VersionSpec = {
+	name: string,
 };
 
 /**

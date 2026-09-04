@@ -646,6 +646,7 @@ mod tests {
                 name: "Fire Bolt".into(),
                 source: "srd-5e".into(),
                 version: "2024".into(),
+                versions: Vec::new(),
                 tags: vec!["evocation".into()],
                 visibility: Visibility::World,
                 data_visibility: Visibility::World,

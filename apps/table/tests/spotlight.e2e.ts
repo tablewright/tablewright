@@ -60,7 +60,7 @@ test("tiles arrive grouped by category as you type, and the readout reports timi
   await expect(tiles.nth(3).locator(".badge")).toHaveText("CR 5");
   await expect(tiles.nth(4).locator(".badge")).toHaveText("Rare");
   await expect(page.locator(`${box} footer`)).toContainText(
-    /5 hits of 8 · core [\d.]+ ms · to paint \d+ ms/
+    /5 hits of 9 · core [\d.]+ ms · to paint \d+ ms/
   );
   await page.keyboard.type(" bolt");
   await expect(tiles).toHaveCount(1);
@@ -121,6 +121,30 @@ test("a hit from another rule version wears its year", async ({ page }) => {
   await page.keyboard.type("fire bolt");
   await expect(page.locator(`${box} li`).first().locator(".name")).toHaveText("Fire Bolt");
   await expect(page.locator(`${box} li .year`)).toHaveCount(0);
+});
+
+test("the page's rail turns a thing to its other rule version", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fireball");
+  await expect(page.locator(`${box} li`)).toHaveCount(1);
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Fireball");
+  const rail = page.locator(`${page_} footer .versions button`);
+  await expect(rail).toHaveText(["2014", "2024"]);
+  await expect(rail.nth(1)).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(`${page_} article`)).toContainText("flashes from you to a point");
+  await rail.nth(0).click();
+  await expect(rail.nth(0)).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(`${page_} article`)).toContainText("from your pointing finger");
+  await expect(page.locator(`${page_} footer code`)).toHaveText("fx14:spell:fireball");
+  // A thing one version lacks offers no turn there.
+  await page.locator(`${box} input`).click();
+  await page.keyboard.press("Control+a");
+  await page.keyboard.type("feeblemind");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Feeblemind");
+  await expect(rail.nth(0)).toHaveAttribute("aria-pressed", "true");
+  await expect(rail.nth(1)).toBeDisabled();
 });
 
 test("the page shows an entry's parts under their headings", async ({ page }) => {

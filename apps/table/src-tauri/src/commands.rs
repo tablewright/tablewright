@@ -101,18 +101,25 @@ pub fn search(
     })
 }
 
-/// One entry as `viewer` may see it.
+/// One entry as `viewer` may see it. With a `version`, the same thing in
+/// that rule version when it exists there, else the entry asked for: a
+/// page turns to the reader's version when they switch.
 #[tauri::command]
 #[specta::specta]
 pub fn get_entry(
     state: State<'_, AppState>,
     id: EntryId,
     viewer: Visibility,
+    version: Option<String>,
 ) -> Result<Entry, CommandError> {
     let compendium = compendium(&state)?;
     let store = compendium.store.lock().map_err(|_| CommandError::Store {
         message: "the store lock is poisoned".into(),
     })?;
+    let id = match version {
+        Some(version) => store.version_of(&id, &version)?.unwrap_or(id),
+        None => id,
+    };
     Ok(store.get(&id, viewer)?)
 }
 

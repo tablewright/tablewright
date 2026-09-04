@@ -116,6 +116,11 @@ pub struct Entry {
     /// from the module manifest when the module is read; empty means unversioned.
     #[serde(default)]
     pub version: String,
+    /// Every rule version this thing exists in, its own among them, so a
+    /// page can offer the switch. Filled when one entry is read; never
+    /// stored, and a list carries none.
+    #[serde(default)]
+    pub versions: Vec<String>,
     pub tags: Vec<String>,
     /// Who may see the entry at all: its name, tags, and body.
     pub visibility: Visibility,
@@ -232,6 +237,7 @@ mod tests {
             name: "Goblin".into(),
             source: "srd-5e".into(),
             version: "2024".into(),
+            versions: Vec::new(),
             tags: vec!["humanoid".into(), "small".into()],
             visibility: Visibility::Party,
             data_visibility: Visibility::Dm,

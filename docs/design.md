@@ -165,8 +165,18 @@ One search spans Vault and Compendium; results are labeled by origin.
   When that version has no entry for a thing the other version's
   stands in, badged with its year, which is how a 2024 reader sees
   conditions today. Comparing the two side by side is a later view,
-  not a tile with two years on it. Open5e's `srd` document is the
-  2014 source.
+  not a tile with two years on it. Open5e's `srd-2014` document is
+  the 2014 source. *Amended 2026-09-04 (user):* until character sheets
+  exist there is no person to remember a version for, so the personal
+  version waits for them. Until then the box folds every thing to one
+  default version, the newest, badging a stand-in with its year, and
+  the page carries its own switch, per thing: a rail in its footer
+  where the source used to show, one cell per version the system comes
+  in, lit for the version shown and dimmed where the thing does not
+  exist, which turns the page to the same thing in the other rules.
+  The core already takes the viewer's version on every search and
+  serves "this thing in that version", so the personal choice, when it
+  comes, is a preference that feeds both.
 - **Searchable data, not body text.** A creature's traits, actions,
   reactions and legendary actions, and a class's features, are named
   parts inside `data`. The manifest names the lists that carry them,

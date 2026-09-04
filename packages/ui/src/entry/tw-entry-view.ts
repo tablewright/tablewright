@@ -5,7 +5,10 @@
 // system data. Tauri-agnostic: the host loads the entry and hands it in.
 //
 // Events: `tw-close` when the page is closed; `tw-place` (detail: the
-// entry) when a creature's Place on board button is pressed.
+// entry) when a creature's Place on board button is pressed; `tw-version`
+// (detail: { id, version }) when the footer's rail asks for the same thing
+// in another rule version. The switch is the page's own, per thing: a
+// personal version waits for character sheets (design.md §3).
 
 import { LitElement, css, html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
@@ -20,6 +23,10 @@ export interface EntryDocument {
   name: string;
   source: string;
   tags: string[];
+  /** The rule version this entry is: "2014", "2024"; empty when unversioned. */
+  version: string;
+  /** Every rule version the same thing exists in, its own among them. */
+  versions: string[];
   /** The prose as written, markdown. */
   body: string;
   /**
@@ -40,15 +47,22 @@ export class TwEntryView extends LitElement {
   static override properties = {
     open: { type: Boolean, reflect: true },
     entry: { attribute: false },
+    versions: { attribute: false },
   };
 
   declare open: boolean;
   declare entry: EntryDocument | undefined;
+  /**
+   * The rule versions the system comes in, in rail order; the footer offers
+   * each, lit for the one shown, dimmed where the thing does not exist.
+   */
+  declare versions: string[];
 
   constructor() {
     super();
     this.open = false;
     this.entry = undefined;
+    this.versions = [];
   }
 
   static override styles = css`
@@ -278,6 +292,32 @@ export class TwEntryView extends LitElement {
       font-family: var(--tw-typo-numeric-md-font-family);
       font-size: inherit;
     }
+    .versions {
+      display: inline-flex;
+      border: 1px solid var(--tw-paper-shade);
+      border-radius: var(--tw-rounded-sm);
+      overflow: hidden;
+    }
+    .versions button {
+      padding: 2px 10px;
+      border: 0;
+      border-right: 1px solid var(--tw-paper-shade);
+      border-radius: 0;
+      color: var(--tw-ink-faint);
+      font-family: var(--tw-typo-numeric-md-font-family);
+      font-variant-numeric: tabular-nums;
+    }
+    .versions button:last-child {
+      border-right: 0;
+    }
+    .versions button[aria-pressed="true"] {
+      background: var(--tw-ink-soft);
+      color: var(--tw-paper);
+    }
+    .versions button:disabled {
+      color: var(--tw-paper-shade);
+      cursor: default;
+    }
   `;
 
   /** Show `entry`. Focus stays where it was: a reader turning pages from the
@@ -372,7 +412,24 @@ export class TwEntryView extends LitElement {
         }
       </article>
       <footer>
-        <span>${entry.source}</span>
+        ${
+          this.versions.length > 1
+            ? html`<span class="versions" role="group" aria-label="Rule version">
+                ${this.versions.map((version) => {
+                  const here = entry.versions.includes(version);
+                  return html`<button
+                    type="button"
+                    aria-pressed=${version === entry.version}
+                    ?disabled=${!here}
+                    title=${here ? `The ${version} rules` : `Not in the ${version} rules`}
+                    @click=${() => this.#turnTo(version)}
+                  >
+                    ${version}
+                  </button>`;
+                })}
+              </span>`
+            : html`<span>${entry.source}</span>`
+        }
         <code>${entry.id}</code>
       </footer>
     `;
@@ -386,6 +443,19 @@ export class TwEntryView extends LitElement {
   };
 
   // A creature can stand on the board; the host decides where.
+  #turnTo(version: string): void {
+    if (this.entry === undefined || version === this.entry.version) {
+      return;
+    }
+    this.dispatchEvent(
+      new CustomEvent("tw-version", {
+        detail: { id: this.entry.id, version },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
   #place = (): void => {
     if (this.entry !== undefined) {
       this.dispatchEvent(

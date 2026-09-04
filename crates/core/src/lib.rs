@@ -22,5 +22,5 @@ pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Underst
 pub use store::{Store, StoreError};
 pub use system::{
     Cell, ControlKind, ControlSpec, FacetSpec, FacetType, KindSpec, NoteSpec, PartSpec, Sentinels,
-    Stop, SystemError, SystemManifest,
+    Stop, SystemError, SystemManifest, VersionSpec,
 };

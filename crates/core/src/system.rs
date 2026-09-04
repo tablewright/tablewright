@@ -26,6 +26,11 @@ use crate::search::normalize;
 pub struct SystemManifest {
     pub id: String,
     pub name: String,
+    /// The rule versions the system's content comes in, by id ("2014",
+    /// "2024"), in the order a switch shows them. Each person reads one
+    /// (design.md §3 "Two rule versions, one compendium").
+    #[serde(default)]
+    pub versions: BTreeMap<String, VersionSpec>,
     /// Category id to label: the tabs of the box, in this order.
     #[serde(default)]
     pub categories: BTreeMap<String, String>,
@@ -41,6 +46,12 @@ pub struct SystemManifest {
     /// Per kind, the lists in `data` whose items are named parts.
     #[serde(default)]
     pub parts: BTreeMap<String, Vec<PartSpec>>,
+}
+
+/// One rule version of a system.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
+pub struct VersionSpec {
+    pub name: String,
 }
 
 /// A list inside `data` whose items carry a name and a text: `traits`,

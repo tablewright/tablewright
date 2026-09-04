@@ -8,6 +8,7 @@ import type { SystemManifest } from "@tablewright/schema";
 export const fixtureSystem: SystemManifest = {
   id: "5e",
   name: "5e",
+  versions: { "2014": { name: "5e (2014 rules)" }, "2024": { name: "5e (2024 rules)" } },
   categories: { spells: "Spells", bestiary: "Bestiary", items: "Items" },
   kinds: {
     spell: { name: "Spell", category: "spells", words: ["spell", "spells"] },

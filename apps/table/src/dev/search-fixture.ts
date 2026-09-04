@@ -4,13 +4,11 @@
 // Enough to drive the panel, the share cards, and the entry page.
 
 import type { Filter, Understood } from "@tablewright/schema";
-import type { EntryDocument, SearchAnswer, Searcher, SpotlightHit } from "@tablewright/ui";
+import type { EntryDocument, SearchAnswer, SpotlightHit } from "@tablewright/ui";
 
 /** A fixture entry carries the facets the seeder would have read. */
-interface FixtureEntry extends EntryDocument {
+interface FixtureEntry extends Omit<EntryDocument, "versions"> {
   facets: Record<string, string | number | boolean>;
-  /** The rule version, as the module would give it. */
-  version: string;
 }
 
 const ENTRIES: FixtureEntry[] = [
@@ -36,6 +34,19 @@ const ENTRIES: FixtureEntry[] = [
     facets: { level: 3, school: "evocation", ritual: false, concentration: false },
     body: "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion.",
     html: "<p>A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion.</p>\n",
+    sections: [],
+  },
+  {
+    // The same thing in the 2014 rules: the footer's rail turns to it.
+    id: "fx14:spell:fireball",
+    type: "spell",
+    name: "Fireball",
+    source: "fixture-2014",
+    version: "2014",
+    tags: ["evocation", "level-3"],
+    facets: { level: 3, school: "evocation", ritual: false, concentration: false },
+    body: "A bright streak flashes from your pointing finger to a point you choose within range and then blossoms with a low roar into an explosion of flame.",
+    html: "<p>A bright streak flashes from your pointing finger to a point you choose within range and then blossoms with a low roar into an explosion of flame.</p>\n",
     sections: [],
   },
   {
@@ -132,9 +143,10 @@ const ENTRIES: FixtureEntry[] = [
   },
 ];
 
-export const fixtureSearcher: Searcher = async (
+export const fixtureSearcher = async (
   query: string,
-  filters: Filter[]
+  filters: Filter[],
+  version = ""
 ): Promise<SearchAnswer> => {
   const started = performance.now();
   // The operator syntax only, with where each stretch sat in the text:
@@ -185,8 +197,18 @@ export const fixtureSearcher: Searcher = async (
     return [{ entry, score }];
   });
   scored.sort((a, b) => a.score - b.score || a.entry.name.localeCompare(b.entry.name));
+  // One hit per thing, as the core folds: the asked-for version when it
+  // matched, else whichever ranked first stands in.
+  const chosen = new Map<string, FixtureEntry>();
+  for (const { entry } of scored) {
+    const key = thingOf(entry);
+    const kept = chosen.get(key);
+    if (kept === undefined || (kept.version !== version && entry.version === version)) {
+      chosen.set(key, entry);
+    }
+  }
   return {
-    hits: scored.map(({ entry }) => summaryOf(entry)),
+    hits: [...chosen.values()].map(summaryOf),
     elapsedUs: Math.round((performance.now() - started) * 1000),
     catalogueSize: ENTRIES.length,
     understood,
@@ -284,9 +306,24 @@ function numberOf(value: string): number | undefined {
   return Number.isFinite(number) ? number : undefined;
 }
 
-/** The fixture's answer to `get_entry`. */
-export function fixtureEntry(id: string): EntryDocument | undefined {
-  return ENTRIES.find((entry) => entry.id === id);
+/**
+ * The fixture's answer to `get_entry`: the entry, or with a version the
+ * same thing in that version when there is one, each with every version
+ * the thing exists in.
+ */
+export function fixtureEntry(id: string, version?: string): EntryDocument | undefined {
+  const asked = ENTRIES.find((entry) => entry.id === id);
+  if (asked === undefined) {
+    return undefined;
+  }
+  const siblings = ENTRIES.filter((entry) => thingOf(entry) === thingOf(asked));
+  const found = siblings.find((entry) => entry.version === version) ?? asked;
+  return { ...found, versions: siblings.map((entry) => entry.version).sort() };
+}
+
+// `<kind>:<slug>`, the thing an entry is a version of.
+function thingOf(entry: FixtureEntry): string {
+  return `${entry.type}:${entry.id.split(":").at(-1) ?? entry.id}`;
 }
 
 function summaryOf(entry: FixtureEntry): SpotlightHit {

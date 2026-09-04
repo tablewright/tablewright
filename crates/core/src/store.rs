@@ -218,7 +218,9 @@ impl Store {
         let seen = entry
             .and_then(|entry| entry.as_seen_by(viewer))
             .ok_or_else(|| StoreError::NotFound(id.clone()))?;
-        Ok(dress(seen, self.system()?.as_ref()))
+        let mut entry = dress(seen, self.system()?.as_ref());
+        entry.versions = self.versions_of(id)?;
+        Ok(entry)
     }
 
     /// Every entry `viewer` may see, optionally of one `kind`, ordered by name.
@@ -244,6 +246,47 @@ impl Store {
             }
         }
         Ok(entries)
+    }
+
+    /// The id of the same thing as `id` in rule `version`, when that version
+    /// has one: fireball in 2014 for fireball in 2024. A thing is its kind
+    /// and the last segment of its id (design.md §3 "Two rule versions").
+    ///
+    /// # Errors
+    ///
+    /// Fails if the read fails.
+    pub fn version_of(&self, id: &EntryId, version: &str) -> Result<Option<EntryId>, StoreError> {
+        let found: Option<String> = self
+            .connection
+            .query_row(
+                "SELECT id FROM entries
+                 WHERE version = ?1
+                   AND kind = (SELECT kind FROM entries WHERE id = ?2)
+                   AND (id = ?2 OR id LIKE ?3)
+                 ORDER BY id LIMIT 1",
+                params![version, id.as_str(), same_thing(id)],
+                |row| row.get(0),
+            )
+            .optional()?;
+        Ok(found.map(EntryId::new))
+    }
+
+    /// Every rule version the same thing as `id` exists in, sorted, empty
+    /// for entries with no version.
+    ///
+    /// # Errors
+    ///
+    /// Fails if the read fails.
+    pub fn versions_of(&self, id: &EntryId) -> Result<Vec<String>, StoreError> {
+        let mut statement = self.connection.prepare(
+            "SELECT DISTINCT version FROM entries
+             WHERE version <> ''
+               AND kind = (SELECT kind FROM entries WHERE id = ?1)
+               AND (id = ?1 OR id LIKE ?2)
+             ORDER BY version",
+        )?;
+        let rows = statement.query_map(params![id.as_str(), same_thing(id)], |row| row.get(0))?;
+        rows.collect::<Result<Vec<String>, _>>().map_err(Into::into)
     }
 
     /// Every entry's summary whatever its visibility: the raw material of the
@@ -378,6 +421,14 @@ impl Store {
     }
 }
 
+// The LIKE pattern for every version of the thing `id` names: any module,
+// the same slug. Slugs are `[a-z0-9-]`, so the pattern has no wildcards of
+// its own to escape.
+fn same_thing(id: &EntryId) -> String {
+    let slug = id.as_str().rsplit(':').next().unwrap_or(id.as_str());
+    format!("%:{slug}")
+}
+
 // Rows are read in the column order every SELECT above uses.
 fn read_entry(row: &Row<'_>) -> rusqlite::Result<Result<Entry, StoreError>> {
     let id: String = row.get(0)?;
@@ -429,6 +480,7 @@ fn build_entry(
         name,
         source,
         version,
+        versions: Vec::new(),
         tags: serde_json::from_str(tags)?,
         visibility: Visibility::from_code(visibility)
             .ok_or(StoreError::UnknownVisibility(visibility))?,
@@ -478,6 +530,7 @@ mod tests {
             name: name.into(),
             source: "srd-5e".into(),
             version: "2024".into(),
+            versions: Vec::new(),
             tags: vec!["test".into()],
             visibility,
             data_visibility: Visibility::Dm,
@@ -526,6 +579,66 @@ mod tests {
         assert_eq!(goblin.version, "2024");
         assert_eq!(goblin.html, "<p>About Goblin.</p>\n");
         assert!(goblin.sections.is_empty(), "no manifest, no sections");
+    }
+
+    #[test]
+    fn the_same_thing_is_found_in_another_version() {
+        let mut store = Store::open_in_memory().expect("store");
+        let mut old = entry(
+            "5e-2014-srd:spell:fireball",
+            "spell",
+            "Fireball",
+            Visibility::World,
+        );
+        old.version = "2014".into();
+        let new = entry(
+            "5e-2024-srd:spell:fireball",
+            "spell",
+            "Fireball",
+            Visibility::World,
+        );
+        let mut lone = entry(
+            "5e-2014-srd:spell:feeblemind",
+            "spell",
+            "Feeblemind",
+            Visibility::World,
+        );
+        lone.version = "2014".into();
+        store.upsert_all(&[old, new, lone]).expect("seed");
+        let fireball = EntryId::new("5e-2024-srd:spell:fireball");
+        assert_eq!(
+            store.version_of(&fireball, "2014").expect("read"),
+            Some(EntryId::new("5e-2014-srd:spell:fireball"))
+        );
+        assert_eq!(
+            store.version_of(&fireball, "2024").expect("read"),
+            Some(fireball.clone())
+        );
+        assert_eq!(
+            store
+                .version_of(&EntryId::new("5e-2014-srd:spell:feeblemind"), "2024")
+                .expect("read"),
+            None
+        );
+        assert_eq!(
+            store
+                .version_of(&EntryId::new("nowhere:spell:x"), "2024")
+                .expect("read"),
+            None
+        );
+        assert_eq!(
+            store.versions_of(&fireball).expect("read"),
+            vec!["2014".to_string(), "2024".to_string()]
+        );
+        let page = store.get(&fireball, Visibility::World).expect("page");
+        assert_eq!(page.versions, vec!["2014".to_string(), "2024".to_string()]);
+        let lone = store
+            .get(
+                &EntryId::new("5e-2014-srd:spell:feeblemind"),
+                Visibility::World,
+            )
+            .expect("lone");
+        assert_eq!(lone.versions, vec!["2014".to_string()]);
     }
 
     #[test]

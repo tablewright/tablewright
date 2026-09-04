@@ -97,6 +97,7 @@ impl EntryFile {
             name: self.name,
             source: self.source,
             version: version.to_owned(),
+            versions: Vec::new(),
             tags: self.tags,
             visibility: self.visibility.unwrap_or(visibility),
             data_visibility: self.data_visibility.unwrap_or(data_visibility),
