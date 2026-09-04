@@ -203,6 +203,11 @@ jobs:
         with:
           name: dist-${{ github.sha }}
           path: apps/table/dist
+      # The compendium is generated, never committed, but tauri.conf.json
+      # bundles it as a resource — so the table crate's build script fails
+      # on a fresh checkout until it exists. Seeding is a cargo run out of
+      # crates/core: no frontend involved, and it shares this job's cache.
+      - run: bun run seed
       - run: bun run check:rust
       # Rust is the source of truth for the boundary types, and the
       # generated TypeScript is committed. Prove the two still agree.
