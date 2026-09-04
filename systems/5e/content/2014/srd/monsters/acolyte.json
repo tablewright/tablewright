@@ -1,0 +1,187 @@
+{
+  "id": "5e-2014-srd:monster:acolyte",
+  "type": "monster",
+  "name": "Acolyte",
+  "source": "5e-2014-srd",
+  "tags": [
+    "humanoid",
+    "medium",
+    "cr-1/4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 11,
+      "constitution": 10,
+      "dexterity": 10,
+      "intelligence": 10,
+      "strength": 10,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Club attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 2
+          }
+        ],
+        "desc": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Club",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "any alignment",
+    "armor_class": 10,
+    "armor_detail": "",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "temple",
+        "name": "Temple"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 50,
+    "hit_dice": "2d8",
+    "hit_points": 9,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd_acolyte",
+    "languages": {
+      "as_string": "any one language (usually Common)",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "name": "Acolyte",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 0,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "medicine": 4,
+      "religion": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 2,
+      "arcana": 0,
+      "athletics": 0,
+      "deception": 0,
+      "history": 0,
+      "insight": 2,
+      "intimidation": 0,
+      "investigation": 0,
+      "medicine": 4,
+      "nature": 0,
+      "perception": 2,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 2,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The acolyte is a 1st-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). The acolyte has following cleric spells prepared:\n\n* Cantrips (at will): light, sacred flame, thaumaturgy\n* 1st level (3 slots): bless, cure wounds, sanctuary",
+        "name": "Spellcasting"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

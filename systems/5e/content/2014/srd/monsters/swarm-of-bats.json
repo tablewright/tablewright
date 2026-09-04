@@ -1,0 +1,249 @@
+{
+  "id": "5e-2014-srd:monster:swarm-of-bats",
+  "type": "monster",
+  "name": "Swarm of Bats",
+  "source": "5e-2014-srd",
+  "tags": [
+    "beast",
+    "medium",
+    "cr-1/4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 4,
+      "constitution": 10,
+      "dexterity": 15,
+      "intelligence": 2,
+      "strength": 5,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Bites attack",
+            "range": null,
+            "reach": 0,
+            "target_creature_only": true,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Weapon Attack: +4 to hit, reach 0 ft., one creature in the swarm's space. Hit: 5 (2d4) piercing damage, or 2 (1d4) piercing damage if the swarm has half of its hit points or fewer.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bites",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "armor_detail": "",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "mountain",
+        "name": "Mountain"
+      },
+      {
+        "key": "shadowfell",
+        "name": "Shadowfell"
+      },
+      {
+        "key": "tomb",
+        "name": "Tomb"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 50,
+    "hit_dice": "5d8",
+    "hit_points": 22,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_swarm-of-bats",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": 1
+    },
+    "name": "Swarm of Bats",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "grappled",
+          "name": "Grappled"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        },
+        {
+          "key": "restrained",
+          "name": "Restrained"
+        },
+        {
+          "key": "stunned",
+          "name": "Stunned"
+        }
+      ],
+      "condition_immunities_display": "charmed, frightened, grappled, paralyzed, petrified, prone, restrained, stunned",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_resistances_display": "bludgeoning, piercing, slashing",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -4,
+      "athletics": -3,
+      "deception": -3,
+      "history": -4,
+      "insight": 1,
+      "intimidation": -3,
+      "investigation": -4,
+      "medicine": 1,
+      "nature": -4,
+      "perception": 1,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -4,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 30,
+      "unit": "feet",
+      "walk": 0
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 0,
+      "crawl": 0,
+      "fly": 30,
+      "hover": false,
+      "swim": 0,
+      "unit": "feet",
+      "walk": 0
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The swarm can't use its blindsight while deafened.",
+        "name": "Echolocation"
+      },
+      {
+        "desc": "The swarm has advantage on Wisdom (Perception) checks that rely on hearing.",
+        "name": "Keen Hearing"
+      },
+      {
+        "desc": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny bat. The swarm can't regain hit points or gain temporary hit points.",
+        "name": "Swarm"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "id": "5e-2014-srd:monster:chimera",
+  "type": "monster",
+  "name": "Chimera",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monstrosity",
+    "large",
+    "cr-6"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 10,
+      "constitution": 19,
+      "dexterity": 11,
+      "intelligence": 3,
+      "strength": 19,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Claws attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claws",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon head exhales fire in a 15-foot cone. Each creature in that area must make a DC 15 Dexterity saving throw, taking 31 (7d8) fire damage on a failed save, or half as much damage on a successful one.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Fire Breath",
+        "order_in_statblock": 4,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D12",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Horns attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 10 (1d12 + 4) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Horns",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The chimera makes three attacks: one with its bite, one with its horns, and one with its claws. When its fire breath is available, it can use the breath in place of its bite or horns.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 6,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "arctic",
+        "name": "Arctic or Tundra"
+      },
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "grassland",
+        "name": "Grassland or Plains"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "mountain",
+        "name": "Mountain"
+      },
+      {
+        "key": "ocean",
+        "name": "Ocean"
+      },
+      {
+        "key": "sewer",
+        "name": "Sewer"
+      },
+      {
+        "key": "srd_feywild",
+        "name": "Feywild"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      }
+    ],
+    "experience_points": 2300,
+    "hit_dice": "12d10+48",
+    "hit_points": 114,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd_chimera",
+    "languages": {
+      "as_string": "understands Draconic but can't speak",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 4,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 4,
+      "wisdom": 2
+    },
+    "name": "Chimera",
+    "normal_sight_range": 10560,
+    "passive_perception": 18,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 4,
+      "dexterity": 0,
+      "intelligence": -4,
+      "strength": 4,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 8
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 2,
+      "arcana": -4,
+      "athletics": 4,
+      "deception": 0,
+      "history": -4,
+      "insight": 2,
+      "intimidation": 0,
+      "investigation": -4,
+      "medicine": 2,
+      "nature": -4,
+      "perception": 8,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": -4,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 2
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

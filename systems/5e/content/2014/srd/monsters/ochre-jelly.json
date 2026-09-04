@@ -1,0 +1,239 @@
+{
+  "id": "5e-2014-srd:monster:ochre-jelly",
+  "type": "monster",
+  "name": "Ochre Jelly",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ooze",
+    "large",
+    "cr-2"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 14,
+      "dexterity": 6,
+      "intelligence": 2,
+      "strength": 15,
+      "wisdom": 6
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Pseudopod attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 9 (2d6 + 2) bludgeoning damage plus 3 (1d6) acid damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pseudopod",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "When a jelly that is Medium or larger is subjected to lightning or slashing damage, it splits into two new jellies if it has at least 10 hit points. Each new jelly has hit points equal to half the original jelly's, rounded down. New jellies are one size smaller than the original jelly.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Split",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 8,
+    "armor_detail": "",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "ocean",
+        "name": "Ocean"
+      },
+      {
+        "key": "ruins",
+        "name": "Ruins"
+      },
+      {
+        "key": "sewer",
+        "name": "Sewer"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      }
+    ],
+    "experience_points": 450,
+    "hit_dice": "6d10+12",
+    "hit_points": 45,
+    "illustration": null,
+    "initiative_bonus": -2,
+    "key": "srd_ochre-jelly",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 2,
+      "dexterity": -2,
+      "intelligence": -4,
+      "strength": 2,
+      "wisdom": -2
+    },
+    "name": "Ochre Jelly",
+    "normal_sight_range": null,
+    "passive_perception": 8,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "blinded",
+          "name": "Blinded"
+        },
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "prone",
+          "name": "Prone"
+        }
+      ],
+      "condition_immunities_display": "blinded, charmed, deafened, exhaustion, frightened, prone",
+      "damage_immunities": [
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_immunities_display": "lightning, slashing",
+      "damage_resistances": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        }
+      ],
+      "damage_resistances_display": "acid",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 2,
+      "dexterity": -2,
+      "intelligence": -4,
+      "strength": 2,
+      "wisdom": -2
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -2,
+      "animal_handling": -2,
+      "arcana": -4,
+      "athletics": 2,
+      "deception": -5,
+      "history": -4,
+      "insight": -2,
+      "intimidation": -5,
+      "investigation": -4,
+      "medicine": -2,
+      "nature": -4,
+      "perception": -2,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -4,
+      "sleight_of_hand": -2,
+      "stealth": -2,
+      "survival": -2
+    },
+    "speed": {
+      "climb": 10,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 5,
+      "fly": 0,
+      "hover": false,
+      "swim": 5,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": "Oozes",
+    "traits": [
+      {
+        "desc": "The jelly can move through a space as narrow as 1 inch wide without squeezing.",
+        "name": "Amorphous"
+      },
+      {
+        "desc": "The jelly can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.",
+        "name": "Spider Climb"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "ooze",
+      "name": "Ooze"
+    }
+  }
+}

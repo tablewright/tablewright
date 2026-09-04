@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:ring-of-free-action",
+  "type": "magic-item",
+  "name": "Ring of Free Action",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring",
+    "rare",
+    "attunement"
+  ],
+  "body": "While you wear this ring, difficult terrain doesn't cost you extra movement. In addition, magic can neither reduce your speed nor cause you to be paralyzed or restrained.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While you wear this ring, difficult terrain doesn't cost you extra movement. In addition, magic can neither reduce your speed nor cause you to be paralyzed or restrained.",
+    "key": "srd_ring-of-free-action",
+    "name": "Ring of Free Action",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

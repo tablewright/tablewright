@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:bucket",
+  "type": "item",
+  "name": "Bucket",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A bucket. Capacity: 3 gallons liquid, 1/2 cubic foot solid.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.05",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A bucket. Capacity: 3 gallons liquid, 1/2 cubic foot solid.",
+    "key": "srd_bucket",
+    "name": "Bucket",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "id": "5e-2014-srd:spell:lesser-restoration",
+  "type": "spell",
+  "name": "Lesser Restoration",
+  "source": "5e-2014-srd",
+  "tags": [
+    "abjuration",
+    "level-2",
+    "bard",
+    "cleric",
+    "druid",
+    "ranger"
+  ],
+  "body": "You touch a creature and can end either one disease or one condition afflicting it. The condition can be blinded, deafened, paralyzed, or poisoned.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "default"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You touch a creature and can end either one disease or one condition afflicting it. The condition can be blinded, deafened, paralyzed, or poisoned.",
+    "duration": "instantaneous",
+    "higher_level": "",
+    "key": "srd_lesser-restoration",
+    "level": 2,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Lesser Restoration",
+    "range": 0,
+    "range_text": "Touch",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "abjuration",
+      "name": "Abjuration"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "id": "5e-2014-srd:spell:silence",
+  "type": "spell",
+  "name": "Silence",
+  "source": "5e-2014-srd",
+  "tags": [
+    "illusion",
+    "level-2",
+    "bard",
+    "cleric",
+    "druid",
+    "ranger",
+    "ritual",
+    "concentration"
+  ],
+  "body": "For the duration, no sound can be created within or pass through a 20-foot-radius sphere centered on a point you choose within range. Any creature or object entirely inside the sphere is immune to thunder damage, and creatures are deafened while entirely inside it. Casting a spell that includes a verbal component is impossible there.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "default"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "ritual"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "For the duration, no sound can be created within or pass through a 20-foot-radius sphere centered on a point you choose within range. Any creature or object entirely inside the sphere is immune to thunder damage, and creatures are deafened while entirely inside it. Casting a spell that includes a verbal component is impossible there.",
+    "duration": "10 minutes",
+    "higher_level": "",
+    "key": "srd_silence",
+    "level": 2,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Silence",
+    "range": 120,
+    "range_text": "120 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": true,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "illusion",
+      "name": "Illusion"
+    },
+    "shape_size": 20,
+    "shape_size_unit": "feet",
+    "shape_type": "sphere",
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "point",
+    "verbal": true
+  }
+}

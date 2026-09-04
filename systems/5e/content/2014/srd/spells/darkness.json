@@ -1,0 +1,83 @@
+{
+  "id": "5e-2014-srd:spell:darkness",
+  "type": "spell",
+  "name": "Darkness",
+  "source": "5e-2014-srd",
+  "tags": [
+    "evocation",
+    "level-2",
+    "druid",
+    "sorcerer",
+    "warlock",
+    "wizard",
+    "concentration"
+  ],
+  "body": "Magical darkness spreads from a point you choose within range to fill a 15-foot-radius sphere for the duration. The darkness spreads around corners. A creature with darkvision can't see through this darkness, and nonmagical light can't illuminate it. If the point you choose is on an object you are holding or one that isn't being worn or carried, the darkness emanates from the object and moves with it. Completely covering the source of the darkness with an opaque object, such as a bowl or a helm, blocks the darkness. If any of this spell's area overlaps with an area of light created by a spell of 2nd level or lower, the spell that created the light is dispelled.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "default"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd_warlock",
+        "name": "Warlock"
+      },
+      {
+        "key": "srd_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Magical darkness spreads from a point you choose within range to fill a 15-foot-radius sphere for the duration. The darkness spreads around corners. A creature with darkvision can't see through this darkness, and nonmagical light can't illuminate it. If the point you choose is on an object you are holding or one that isn't being worn or carried, the darkness emanates from the object and moves with it. Completely covering the source of the darkness with an opaque object, such as a bowl or a helm, blocks the darkness. If any of this spell's area overlaps with an area of light created by a spell of 2nd level or lower, the spell that created the light is dispelled.",
+    "duration": "10 minutes",
+    "higher_level": "",
+    "key": "srd_darkness",
+    "level": 2,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "Bat fur and a drop of pitch or piece of coal.",
+    "name": "Darkness",
+    "range": 60,
+    "range_text": "60 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "evocation",
+      "name": "Evocation"
+    },
+    "shape_size": 15,
+    "shape_size_unit": "feet",
+    "shape_type": "sphere",
+    "somatic": false,
+    "target_count": 1,
+    "target_type": "point",
+    "verbal": true
+  }
+}

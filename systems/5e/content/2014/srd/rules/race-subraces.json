@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:race-subraces",
+  "type": "rule",
+  "name": "Subraces",
+  "source": "5e-2014-srd",
+  "tags": [
+    "races"
+  ],
+  "body": "Some races have subraces. Members of a subrace have the traits of the parent race in addition to the traits specified for their subrace. Relationships among subraces vary significantly from race to race and world to world.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some races have subraces. Members of a subrace have the traits of the parent race in addition to the traits specified for their subrace. Relationships among subraces vary significantly from race to race and world to world.",
+    "index": 8,
+    "initialHeaderLevel": 3,
+    "key": "srd_race_subraces",
+    "name": "Subraces",
+    "ruleset": "srd_races"
+  }
+}

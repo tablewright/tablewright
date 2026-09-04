@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-skills",
+  "type": "rule",
+  "name": "Skills",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "The Skills entry is reserved for monsters that are proficient in one or more skills. For example, a monster that is very perceptive and stealthy might have bonuses to Wisdom (Perception) and Dexterity (Stealth) checks.\n\nA skill bonus is the sum of a monster’s relevant ability modifier and its proficiency bonus, which is determined by the monster’s challenge rating (as shown in the Proficiency Bonus by Challenge Rating table). Other modifiers might apply. For instance, a monster might have a larger-than-expected bonus (usually double its proficiency bonus) to account for its heightened expertise.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The Skills entry is reserved for monsters that are proficient in one or more skills. For example, a monster that is very perceptive and stealthy might have bonuses to Wisdom (Perception) and Dexterity (Stealth) checks.\n\nA skill bonus is the sum of a monster’s relevant ability modifier and its proficiency bonus, which is determined by the monster’s challenge rating (as shown in the Proficiency Bonus by Challenge Rating table). Other modifiers might apply. For instance, a monster might have a larger-than-expected bonus (usually double its proficiency bonus) to account for its heightened expertise.",
+    "index": 12,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_skills",
+    "name": "Skills",
+    "ruleset": "srd_monsters"
+  }
+}

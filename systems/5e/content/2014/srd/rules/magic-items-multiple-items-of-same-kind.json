@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:magic-items-multiple-items-of-same-kind",
+  "type": "rule",
+  "name": "Multiple Items of the Same Kind",
+  "source": "5e-2014-srd",
+  "tags": [
+    "magic-items"
+  ],
+  "body": "Use common sense to determine whether more than one of a given kind of magic item can be worn. A character can’t normally wear more than one pair of footwear, one pair of gloves or gauntlets, one pair of bracers, one suit of armor, one item of headwear, and one cloak. You can make exceptions; a character might be able to wear a circlet under a helmet, for example, or to layer two cloaks.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Use common sense to determine whether more than one of a given kind of magic item can be worn. A character can’t normally wear more than one pair of footwear, one pair of gloves or gauntlets, one pair of bracers, one suit of armor, one item of headwear, and one cloak. You can make exceptions; a character might be able to wear a circlet under a helmet, for example, or to layer two cloaks.",
+    "index": 3,
+    "initialHeaderLevel": 3,
+    "key": "srd_magic-items_multiple-items-of-same-kind",
+    "name": "Multiple Items of the Same Kind",
+    "ruleset": "srd_magic-items"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:multiclassing-prerequistes",
+  "type": "rule",
+  "name": "Prerequisites",
+  "source": "5e-2014-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "To qualify for a new class, you must meet the ability score prerequisites for both your current class and your new one, as shown in the Multiclassing Prerequisites table. For example, a barbarian who decides to multiclass into the druid class must have both Strength and Wisdom scores of 13 or higher. Without the full training that a beginning character receives, you must be a quick study in your new class, having a natural aptitude that is reflected by higher- than-average ability scores.\n\n**Multiclassing Prerequisites (table)**\n\n| Class     | Ability Score Minimum       |\n|-----------|-----------------------------|\n| Barbarian | Strength 13                 |\n| Bard      | Charisma 13                 |\n| Cleric    | Wisdom 13                   |\n| Druid     | Wisdom 13                   |\n| Fighter   | Strength 13 or Dexterity 13 |\n| Monk      | Dexterity 13 and Wisdom 13  |\n| Paladin   | Strength 13 and Charisma 13 |\n| Ranger    | Dexterity 13 and Wisdom 13  |\n| Rogue     | Dexterity 13                |\n| Sorcerer  | Charisma 13                 |\n| Warlock   | Charisma 13                 |\n| Wizard    | Intelligence 13             |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "To qualify for a new class, you must meet the ability score prerequisites for both your current class and your new one, as shown in the Multiclassing Prerequisites table. For example, a barbarian who decides to multiclass into the druid class must have both Strength and Wisdom scores of 13 or higher. Without the full training that a beginning character receives, you must be a quick study in your new class, having a natural aptitude that is reflected by higher- than-average ability scores.\n\n**Multiclassing Prerequisites (table)**\n\n| Class     | Ability Score Minimum       |\n|-----------|-----------------------------|\n| Barbarian | Strength 13                 |\n| Bard      | Charisma 13                 |\n| Cleric    | Wisdom 13                   |\n| Druid     | Wisdom 13                   |\n| Fighter   | Strength 13 or Dexterity 13 |\n| Monk      | Dexterity 13 and Wisdom 13  |\n| Paladin   | Strength 13 and Charisma 13 |\n| Ranger    | Dexterity 13 and Wisdom 13  |\n| Rogue     | Dexterity 13                |\n| Sorcerer  | Charisma 13                 |\n| Warlock   | Charisma 13                 |\n| Wizard    | Intelligence 13             |",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_multiclassing_prerequistes",
+    "name": "Prerequisites",
+    "ruleset": "srd_multiclassing"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "5e-2014-srd:magic-item:dragon-slayer-greatsword",
+  "type": "magic-item",
+  "name": "Dragon Slayer (Greatsword)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon",
+    "rare"
+  ],
+  "body": "You gain a +1 bonus to attack and damage rolls made with this magic weapon.\n\nWhen you hit a dragon with this weapon, the dragon takes an extra 3d6 damage of the weapon's type. For the purpose of this weapon, \"dragon\" refers to any creature with the dragon type, including dragon turtles and wyverns.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to attack and damage rolls made with this magic weapon.\n\nWhen you hit a dragon with this weapon, the dragon takes an extra 3d6 damage of the weapon's type. For the purpose of this weapon, \"dragon\" refers to any creature with the dragon type, including dragon turtles and wyverns.",
+    "key": "srd_dragon-slayer-greatsword",
+    "name": "Dragon Slayer (Greatsword)",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "2d6",
+      "damage_type": {
+        "key": "slashing",
+        "name": "Slashing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd_greatsword",
+      "name": "Greatsword",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "This weapon requires two hands when you attack with it.",
+            "name": "Two-Handed",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

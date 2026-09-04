@@ -1,0 +1,78 @@
+{
+  "id": "5e-2014-srd:spell:pass-without-trace",
+  "type": "spell",
+  "name": "Pass without Trace",
+  "source": "5e-2014-srd",
+  "tags": [
+    "abjuration",
+    "level-2",
+    "cleric",
+    "druid",
+    "ranger",
+    "concentration"
+  ],
+  "body": "A veil of shadows and silence radiates from you, masking you and your companions from detection. For the duration, each creature you choose within 30 feet of you (including you) has a +10 bonus to Dexterity (Stealth) checks and can't be tracked except by magical means. A creature that receives this bonus leaves behind no tracks or other traces of its passage.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "default"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "A veil of shadows and silence radiates from you, masking you and your companions from detection. For the duration, each creature you choose within 30 feet of you (including you) has a +10 bonus to Dexterity (Stealth) checks and can't be tracked except by magical means. A creature that receives this bonus leaves behind no tracks or other traces of its passage.",
+    "duration": "1 hour",
+    "higher_level": "",
+    "key": "srd_pass-without-trace",
+    "level": 2,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "Ashes from a burned leaf of mistletoe and a sprig of spruce.",
+    "name": "Pass without Trace",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "abjuration",
+      "name": "Abjuration"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

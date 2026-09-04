@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:pig",
+  "type": "item",
+  "name": "Pig",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "One pig.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "3.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One pig.",
+    "key": "srd_pig",
+    "name": "Pig",
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "weapon": null,
+    "weight": "400.000",
+    "weight_unit": "lb"
+  }
+}

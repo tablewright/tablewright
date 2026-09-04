@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:chest",
+  "type": "item",
+  "name": "Chest",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A chest. Capacity: 12 cubic feet/300 pounds of gear.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A chest. Capacity: 12 cubic feet/300 pounds of gear.",
+    "key": "srd_chest",
+    "name": "Chest",
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "weapon": null,
+    "weight": "25.000",
+    "weight_unit": "lb"
+  }
+}

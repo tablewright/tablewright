@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:race-size",
+  "type": "rule",
+  "name": "Size",
+  "source": "5e-2014-srd",
+  "tags": [
+    "races"
+  ],
+  "body": "Characters of most races are Medium, a size category including creatures that are roughly 4 to 8 feet tall. Members of a few races are Small (between 2 and 4 feet tall), which means that certain rules of the game affect them differently. The most important of these rules is that Small characters have trouble wielding heavy weapons, as explained in \"Equipment.\"",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Characters of most races are Medium, a size category including creatures that are roughly 4 to 8 feet tall. Members of a few races are Small (between 2 and 4 feet tall), which means that certain rules of the game affect them differently. The most important of these rules is that Small characters have trouble wielding heavy weapons, as explained in \"Equipment.\"",
+    "index": 5,
+    "initialHeaderLevel": 3,
+    "key": "srd_race_size",
+    "name": "Size",
+    "ruleset": "srd_races"
+  }
+}

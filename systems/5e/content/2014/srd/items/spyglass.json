@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:spyglass",
+  "type": "item",
+  "name": "Spyglass",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "Objects viewed through a spyglass are magnified to twice their size.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1000.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Objects viewed through a spyglass are magnified to twice their size.",
+    "key": "srd_spyglass",
+    "name": "Spyglass",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

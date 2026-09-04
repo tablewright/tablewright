@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:coins-exchange-rates",
+  "type": "rule",
+  "name": "Training",
+  "source": "5e-2014-srd",
+  "tags": [
+    "coins"
+  ],
+  "body": "| Coin          | CP    | SP   | EP   | GP    | PP      |\n|---------------|-------|------|------|-------|---------|\n| Copper (cp)   | 1     | 1/10 | 1/50 | 1/100 | 1/1,000 |\n| Silver (sp)   | 10    | 1    | 1/5  | 1/10  | 1/100   |\n| Electrum (ep) | 50    | 5    | 1    | 1/2   | 1/20    |\n| Gold (gp)     | 100   | 10   | 2    | 1     | 1/10    |\n| Platinum (pp) | 1,000 | 100  | 20   | 10    | 1       |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "| Coin          | CP    | SP   | EP   | GP    | PP      |\n|---------------|-------|------|------|-------|---------|\n| Copper (cp)   | 1     | 1/10 | 1/50 | 1/100 | 1/1,000 |\n| Silver (sp)   | 10    | 1    | 1/5  | 1/10  | 1/100   |\n| Electrum (ep) | 50    | 5    | 1    | 1/2   | 1/20    |\n| Gold (gp)     | 100   | 10   | 2    | 1     | 1/10    |\n| Platinum (pp) | 1,000 | 100  | 20   | 10    | 1       |",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_coins_exchange-rates",
+    "name": "Training",
+    "ruleset": "srd_coins"
+  }
+}

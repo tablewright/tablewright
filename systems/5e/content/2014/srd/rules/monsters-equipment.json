@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-equipment",
+  "type": "rule",
+  "name": "Equipment",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "A stat block rarely refers to equipment, other than armor or weapons used by a monster. A creature that customarily wears clothes, such as a humanoid, is assumed to be dressed appropriately.\n\nYou can equip monsters with additional gear and trinkets however you like, and you decide how much of a monster’s equipment is recoverable after the creature is slain and whether any of that equipment is still usable. A battered suit of armor made for a monster is rarely usable by someone else, for instance.\n\nIf a spellcasting monster needs material components to cast its spells, assume that it has the material components it needs to cast the spells in its stat block.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A stat block rarely refers to equipment, other than armor or weapons used by a monster. A creature that customarily wears clothes, such as a humanoid, is assumed to be dressed appropriately.\n\nYou can equip monsters with additional gear and trinkets however you like, and you decide how much of a monster’s equipment is recoverable after the creature is slain and whether any of that equipment is still usable. A battered suit of armor made for a monster is rarely usable by someone else, for instance.\n\nIf a spellcasting monster needs material components to cast its spells, assume that it has the material components it needs to cast the spells in its stat block.",
+    "index": 32,
+    "initialHeaderLevel": 3,
+    "key": "srd_monsters_equipment",
+    "name": "Equipment",
+    "ruleset": "srd_monsters"
+  }
+}

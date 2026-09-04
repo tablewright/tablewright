@@ -1,0 +1,1027 @@
+{
+  "id": "5e-2014-srd:class:bard",
+  "type": "class",
+  "name": "Bard",
+  "source": "5e-2014-srd",
+  "tags": [],
+  "body": "",
+  "data": {
+    "caster_type": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 16
+          },
+          {
+            "detail": null,
+            "level": 19
+          },
+          {
+            "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 8
+          }
+        ],
+        "key": "srd_bard_ability-score-improvement",
+        "name": "Ability Score Improvement"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 3rd level, you delve into the advanced techniques of a bard college of your choice: the College of Lore or the College of Valor, both detailed at the end of the class description. Your choice grants you features at 3rd level and again at 6th and 14th level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_bard_bard-college",
+        "name": "Bard College"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6.\r\n\r\nOnce within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait until after it rolls the d20 before deciding to use the Bardic Inspiration die, but must decide before the GM says whether the roll succeeds or fails. Once the Bardic Inspiration die is rolled, it is lost. A creature can have only one Bardic Inspiration die at a time.\r\n\r\nYou can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses when you finish a long rest.\r\n\r\nYour Bardic Inspiration die changes when you reach certain levels in this class. The die becomes a d8 at 5th level, a d10 at 10th level, and a d12 at 15th level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": "d6",
+            "level": 1
+          },
+          {
+            "detail": "d10",
+            "level": 10
+          },
+          {
+            "detail": "d12",
+            "level": 15
+          },
+          {
+            "detail": "d8",
+            "level": 5
+          }
+        ],
+        "key": "srd_bard_bardic-inspiration",
+        "name": "Bardic Inspiration"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 1
+          },
+          {
+            "column_value": "4",
+            "level": 10
+          },
+          {
+            "column_value": "4",
+            "level": 11
+          },
+          {
+            "column_value": "4",
+            "level": 12
+          },
+          {
+            "column_value": "4",
+            "level": 13
+          },
+          {
+            "column_value": "4",
+            "level": 14
+          },
+          {
+            "column_value": "4",
+            "level": 15
+          },
+          {
+            "column_value": "4",
+            "level": 16
+          },
+          {
+            "column_value": "4",
+            "level": 17
+          },
+          {
+            "column_value": "4",
+            "level": 18
+          },
+          {
+            "column_value": "4",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 2
+          },
+          {
+            "column_value": "4",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 3
+          },
+          {
+            "column_value": "3",
+            "level": 4
+          },
+          {
+            "column_value": "3",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_TABLE_DATA",
+        "gained_at": [],
+        "key": "srd_bard_cantrips-known",
+        "name": "Cantrips Known"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 6th level, you gain the ability to use musical notes or words of power to disrupt mind-influencing effects. As an action, you can start a performance that lasts until the end of your next turn. During that time, you and any friendly creatures within 30 feet of you have advantage on saving throws against being frightened or charmed. A creature must be able to hear you to gain this benefit. The performance ends early if you are incapacitated or silenced or if you voluntarily end it (no action required).",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 6
+          }
+        ],
+        "key": "srd_bard_countercharm",
+        "name": "Countercharm"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You start with the following equipment, in addition to the equipment granted by your background:\r\n* (*a*) a rapier, (*b*) a longsword, or (*c*) any simple weapon\r\n* (*a*) a diplomat’s pack or (*b*) an entertainer’s pack\r\n* (*a*) a lute or (*b*) any other musical instrument\r\n* Leather armor and a dagger",
+        "feature_type": "STARTING_EQUIPMENT",
+        "gained_at": [],
+        "key": "srd_bard_equipment",
+        "name": "Equipment"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 3rd level, choose two of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.\r\n\r\nAt 10th level, you can choose another two skill proficiencies to gain this benefit.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 10
+          },
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_bard_expertise",
+        "name": "Expertise"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning when you reach 5th level, you regain all of your expended uses of Bardic Inspiration when you finish a short or long rest.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 5
+          }
+        ],
+        "key": "srd_bard_font-of-inspiration",
+        "name": "Font of Inspiration"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 2nd level, you can add half your proficiency bonus, rounded down, to any ability check you make that doesn't already include your proficiency bonus.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd_bard_jack-of-all-trades",
+        "name": "Jack of All Trades"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "By 10th level, you have plundered magical knowledge from a wide spectrum of disciplines. Choose two spells from any class, including this one. A spell you choose must be of a level you can cast, as shown on the Bard table, or a cantrip.\r\n\r\nThe chosen spells count as bard spells for you and are included in the number in the Spells Known column of the Bard table.\r\n\r\nYou learn two additional spells from any class at 14th level and again at 18th level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 10
+          },
+          {
+            "detail": null,
+            "level": 14
+          },
+          {
+            "detail": null,
+            "level": 18
+          }
+        ],
+        "key": "srd_bard_magical-secrets",
+        "name": "Magical Secrets"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "**Armor:** Light armor\r\n**Weapons:** Simple weapons, hand crossbows, longswords, rapiers, shortswords\r\n**Tools:** Three musical instruments of your choice\r\n**Saving Throws:** Dexterity, Charisma\r\n**Skills:** Choose any three",
+        "feature_type": "PROFICIENCIES",
+        "gained_at": [],
+        "key": "srd_bard_proficiencies",
+        "name": "Proficiencies"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "+2",
+            "level": 1
+          },
+          {
+            "column_value": "+4",
+            "level": 10
+          },
+          {
+            "column_value": "+4",
+            "level": 11
+          },
+          {
+            "column_value": "+4",
+            "level": 12
+          },
+          {
+            "column_value": "+5",
+            "level": 13
+          },
+          {
+            "column_value": "+5",
+            "level": 14
+          },
+          {
+            "column_value": "+5",
+            "level": 15
+          },
+          {
+            "column_value": "+5",
+            "level": 16
+          },
+          {
+            "column_value": "+6",
+            "level": 17
+          },
+          {
+            "column_value": "+6",
+            "level": 18
+          },
+          {
+            "column_value": "+6",
+            "level": 19
+          },
+          {
+            "column_value": "+2",
+            "level": 2
+          },
+          {
+            "column_value": "+6",
+            "level": 20
+          },
+          {
+            "column_value": "+2",
+            "level": 3
+          },
+          {
+            "column_value": "+2",
+            "level": 4
+          },
+          {
+            "column_value": "+3",
+            "level": 5
+          },
+          {
+            "column_value": "+3",
+            "level": 6
+          },
+          {
+            "column_value": "+3",
+            "level": 7
+          },
+          {
+            "column_value": "+3",
+            "level": 8
+          },
+          {
+            "column_value": "+4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "PROFICIENCY_BONUS",
+        "gained_at": [],
+        "key": "srd_bard_proficiency-bonus",
+        "name": "Proficiency Bonus"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 1
+          },
+          {
+            "column_value": "4",
+            "level": 10
+          },
+          {
+            "column_value": "4",
+            "level": 11
+          },
+          {
+            "column_value": "4",
+            "level": 12
+          },
+          {
+            "column_value": "4",
+            "level": 13
+          },
+          {
+            "column_value": "4",
+            "level": 14
+          },
+          {
+            "column_value": "4",
+            "level": 15
+          },
+          {
+            "column_value": "4",
+            "level": 16
+          },
+          {
+            "column_value": "4",
+            "level": 17
+          },
+          {
+            "column_value": "4",
+            "level": 18
+          },
+          {
+            "column_value": "4",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 2
+          },
+          {
+            "column_value": "4",
+            "level": 20
+          },
+          {
+            "column_value": "4",
+            "level": 3
+          },
+          {
+            "column_value": "4",
+            "level": 4
+          },
+          {
+            "column_value": "4",
+            "level": 5
+          },
+          {
+            "column_value": "4",
+            "level": 6
+          },
+          {
+            "column_value": "4",
+            "level": 7
+          },
+          {
+            "column_value": "4",
+            "level": 8
+          },
+          {
+            "column_value": "4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-1st",
+        "name": "1st"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 4
+          },
+          {
+            "column_value": "3",
+            "level": 4
+          },
+          {
+            "column_value": "3",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-2nd",
+        "name": "2nd"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-3rd",
+        "name": "3rd"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "1",
+            "level": 7
+          },
+          {
+            "column_value": "2",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-4th",
+        "name": "4th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 10
+          },
+          {
+            "column_value": "2",
+            "level": 11
+          },
+          {
+            "column_value": "2",
+            "level": 12
+          },
+          {
+            "column_value": "2",
+            "level": 13
+          },
+          {
+            "column_value": "2",
+            "level": 14
+          },
+          {
+            "column_value": "2",
+            "level": 15
+          },
+          {
+            "column_value": "2",
+            "level": 16
+          },
+          {
+            "column_value": "2",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "1",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-5th",
+        "name": "5th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 11
+          },
+          {
+            "column_value": "1",
+            "level": 12
+          },
+          {
+            "column_value": "1",
+            "level": 13
+          },
+          {
+            "column_value": "1",
+            "level": 14
+          },
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "2",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-6th",
+        "name": "6th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 13
+          },
+          {
+            "column_value": "1",
+            "level": 14
+          },
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-7th",
+        "name": "7th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "1",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-8th",
+        "name": "8th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "1",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_bard_slots-9th",
+        "name": "9th"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 2nd level, you can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points at the end of the short rest by spending one or more Hit Dice, each of those creatures regains an extra 1d6 hit points.\r\n\r\nThe extra hit points increase when you reach certain levels in this class: to 1d8 at 9th level, to 1d10 at 13th level, and to 1d12 at 17th level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": "d10",
+            "level": 13
+          },
+          {
+            "detail": "d12",
+            "level": 17
+          },
+          {
+            "detail": "d6",
+            "level": 2
+          },
+          {
+            "detail": "d8",
+            "level": 9
+          }
+        ],
+        "key": "srd_bard_song-of-rest",
+        "name": "Song of Rest"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You have learned to untangle and reshape the fabric of reality in harmony with your wishes and music.\r\n\r\nYour spells are part of your vast repertoire, magic that you can tune to different situations.\r\n\r\n###Cantrips\r\n\r\nYou know two cantrips of your choice from the bard spell list. You learn additional bard cantrips of your choice at higher levels, as shown in the Cantrips Known column of the Bard table.\r\n\r\n###Spell Slots\r\n\r\nThe Bard table shows how many spell slots you have to cast your spells of 1st level and higher. To cast one of these spells, you must expend a slot of the spell's level or higher. You regain all expended spell slots when you finish a long rest.\r\n\r\nFor example, if you know the 1st-level spell cure wounds and have a 1st-level and a 2nd-level spell slot available, you can cast cure wounds using either slot.\r\n\r\n###Spells Known of 1st Level and Higher\r\n\r\nYou know four 1st-level spells of your choice from the bard spell list.\r\n\r\nThe Spells Known column of the Bard table shows when you learn more bard spells of your choice. Each of these spells must be of a level for which you have spell slots, as shown on the table. For instance, when you reach 3rd level in this class, you can learn one new spell of 1st or 2nd level.\r\n\r\nAdditionally, when you gain a level in this class, you can choose one of the bard spells you know and replace it with another spell from the bard spell list, which also must be of a level for which you have spell slots.\r\n\r\n###Spellcasting Ability\r\n\r\nCharisma is your spellcasting ability for your bard spells. Your magic comes from the heart and soul you pour into the performance of your music or oration. You use your Charisma whenever a spell refers to your spellcasting ability. In addition, you use your Charisma modifier when setting the saving throw DC for a bard spell you cast and when making an attack roll with one.\r\n\r\n*Spell save DC* = 8 + your proficiency bonus + your Charisma modifier\r\n\r\n*Spell attack modifier* = your proficiency bonus + your Charisma modifier\r\n\r\n###Ritual Casting\r\n\r\nYou can cast any bard spell you know as a ritual if that spell has the ritual tag.\r\n\r\n###Spellcasting Focus\r\n\r\nYou can use a musical instrument (see chapter 5, “Equipment”) as a spellcasting focus for your bard spells.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_bard_spellcasting",
+        "name": "Spellcasting"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "4",
+            "level": 1
+          },
+          {
+            "column_value": "14",
+            "level": 10
+          },
+          {
+            "column_value": "15",
+            "level": 11
+          },
+          {
+            "column_value": "15",
+            "level": 12
+          },
+          {
+            "column_value": "16",
+            "level": 13
+          },
+          {
+            "column_value": "18",
+            "level": 14
+          },
+          {
+            "column_value": "19",
+            "level": 15
+          },
+          {
+            "column_value": "19",
+            "level": 16
+          },
+          {
+            "column_value": "20",
+            "level": 17
+          },
+          {
+            "column_value": "22",
+            "level": 18
+          },
+          {
+            "column_value": "22",
+            "level": 19
+          },
+          {
+            "column_value": "5",
+            "level": 2
+          },
+          {
+            "column_value": "22",
+            "level": 20
+          },
+          {
+            "column_value": "6",
+            "level": 3
+          },
+          {
+            "column_value": "7",
+            "level": 4
+          },
+          {
+            "column_value": "8",
+            "level": 5
+          },
+          {
+            "column_value": "9",
+            "level": 6
+          },
+          {
+            "column_value": "10",
+            "level": 7
+          },
+          {
+            "column_value": "11",
+            "level": 8
+          },
+          {
+            "column_value": "12",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [],
+        "key": "srd_bard_spells-known",
+        "name": "Spells Known"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 20th level, when you roll initiative and have no uses of Bardic Inspiration left, you regain one use.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 20
+          }
+        ],
+        "key": "srd_bard_superior-inspiration",
+        "name": "Superior Inspiration"
+      }
+    ],
+    "hit_dice": "D8",
+    "hit_points": {
+      "hit_dice": "D8",
+      "hit_dice_name": "1D8 per Bard level",
+      "hit_points_at_1st_level": "8 + your Constitution modifier",
+      "hit_points_at_higher_levels": "1D8 (or 5) + your Constitution modifier per bard level after 1st"
+    },
+    "key": "srd_bard",
+    "name": "Bard",
+    "primary_abilities": [],
+    "saving_throws": [
+      {
+        "name": "Charisma"
+      },
+      {
+        "name": "Dexterity"
+      }
+    ],
+    "subclass_of": null
+  }
+}

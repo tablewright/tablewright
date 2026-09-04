@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:wand-of-the-war-mage-1",
+  "type": "magic-item",
+  "name": "Wand of the War Mage (+1)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wand",
+    "uncommon",
+    "attunement"
+  ],
+  "body": "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity. In addition, you ignore half cover when making a spell attack.",
+  "data": {
+    "armor": null,
+    "attunement_detail": "requires attunement by a spellcaster",
+    "category": {
+      "key": "wand",
+      "name": "Wand"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity. In addition, you ignore half cover when making a spell attack.",
+    "key": "srd_wand-of-the-war-mage-1",
+    "name": "Wand of the War Mage (+1)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

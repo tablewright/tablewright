@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:canvas",
+  "type": "item",
+  "name": "Canvas",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "1 sq. yd. of canvas",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "0.10",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "1 sq. yd. of canvas",
+    "key": "srd_canvas",
+    "name": "Canvas",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

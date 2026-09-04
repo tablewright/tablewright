@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:longship",
+  "type": "item",
+  "name": "Longship",
+  "source": "5e-2014-srd",
+  "tags": [
+    "waterborne-vehicle"
+  ],
+  "body": "Waterborne vehicle. Speed 3mph.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "waterborne-vehicle",
+      "name": "Waterborne Vehicle"
+    },
+    "cost": "10000.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Waterborne vehicle. Speed 3mph.",
+    "key": "srd_longship",
+    "name": "Longship",
+    "size": {
+      "key": "gargantuan",
+      "name": "Gargantuan"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

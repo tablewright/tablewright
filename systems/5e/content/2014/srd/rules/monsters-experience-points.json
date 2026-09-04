@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-experience-points",
+  "type": "rule",
+  "name": "Experience Points",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "The number of experience points (XP) a monster is worth is based on its challenge rating. Typically, XP is awarded for defeating the monster, although the GM may also award XP for neutralizing the threat posed by the monster in some other manner.\n\nUnless something tells you otherwise, a monster summoned by a spell or other magical ability is worth the XP noted in its stat block.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The number of experience points (XP) a monster is worth is based on its challenge rating. Typically, XP is awarded for defeating the monster, although the GM may also award XP for neutralizing the threat posed by the monster in some other manner.\n\nUnless something tells you otherwise, a monster summoned by a spell or other magical ability is worth the XP noted in its stat block.",
+    "index": 19,
+    "initialHeaderLevel": 3,
+    "key": "srd_monsters_experience-points",
+    "name": "Experience Points",
+    "ruleset": "srd_monsters"
+  }
+}

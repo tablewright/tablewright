@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:candle",
+  "type": "item",
+  "name": "Candle",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.01",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet.",
+    "key": "srd_candle",
+    "name": "Candle",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

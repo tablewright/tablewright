@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:paper-one-sheet",
+  "type": "item",
+  "name": "Paper (one sheet)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A sheet of paper",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.20",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A sheet of paper",
+    "key": "srd_paper-one-sheet",
+    "name": "Paper (one sheet)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

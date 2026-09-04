@@ -1,0 +1,49 @@
+{
+  "id": "5e-2014-srd:magic-item:adamantine-armor-plate",
+  "type": "magic-item",
+  "name": "Adamantine Armor (Plate)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "uncommon"
+  ],
+  "body": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 18,
+      "ac_cap_dexmod": null,
+      "ac_display": "18",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_plate",
+      "name": "Plate",
+      "strength_score_required": 15
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+    "key": "srd_adamantine-armor-plate",
+    "name": "Adamantine Armor (Plate)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "65.000",
+    "weight_unit": "lb"
+  }
+}

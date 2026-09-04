@@ -1,0 +1,93 @@
+{
+  "id": "5e-2014-srd:spell:speak-with-animals",
+  "type": "spell",
+  "name": "Speak with Animals",
+  "source": "5e-2014-srd",
+  "tags": [
+    "divination",
+    "level-1",
+    "bard",
+    "cleric",
+    "druid",
+    "ranger",
+    "ritual"
+  ],
+  "body": "You gain the ability to comprehend and verbally communicate with beasts for the duration. The knowledge and awareness of many beasts is limited by their intelligence, but at a minimum, beasts can give you information about nearby locations and monsters, including whatever they can perceive or have perceived within the past day. You might be able to persuade a beast to perform a small favor for you, at the DM's discretion.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "default"
+      },
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "ritual"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd_bard",
+        "name": "Bard"
+      },
+      {
+        "key": "srd_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd_ranger",
+        "name": "Ranger"
+      }
+    ],
+    "concentration": false,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "You gain the ability to comprehend and verbally communicate with beasts for the duration. The knowledge and awareness of many beasts is limited by their intelligence, but at a minimum, beasts can give you information about nearby locations and monsters, including whatever they can perceive or have perceived within the past day. You might be able to persuade a beast to perform a small favor for you, at the DM's discretion.",
+    "duration": "10 minutes",
+    "higher_level": "",
+    "key": "srd_speak-with-animals",
+    "level": 1,
+    "material": false,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "",
+    "name": "Speak with Animals",
+    "range": 0,
+    "range_text": "Self",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": true,
+    "saving_throw_ability": "",
+    "school": {
+      "key": "divination",
+      "name": "Divination"
+    },
+    "shape_size": null,
+    "shape_size_unit": "feet",
+    "shape_type": null,
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "creature",
+    "verbal": true
+  }
+}

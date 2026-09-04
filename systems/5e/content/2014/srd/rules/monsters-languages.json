@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-languages",
+  "type": "rule",
+  "name": "Languages",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "The languages that a monster can speak are listed in alphabetical order. Sometimes a monster can understand a language but can’t speak it, and this is noted in its entry. A \"—\" indicates that a creature neither speaks nor understands any language.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The languages that a monster can speak are listed in alphabetical order. Sometimes a monster can understand a language but can’t speak it, and this is noted in its entry. A \"—\" indicates that a creature neither speaks nor understands any language.",
+    "index": 16,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_languages",
+    "name": "Languages",
+    "ruleset": "srd_monsters"
+  }
+}

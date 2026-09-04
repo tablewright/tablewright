@@ -1,0 +1,41 @@
+{
+  "id": "5e-2014-srd:item:breastplate",
+  "type": "item",
+  "name": "Breastplate",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "This armor consists of a fitted metal chest piece worn with supple leather. Although it leaves the legs and arms relatively unprotected, this armor provides good protection for the wearer's vital organs while leaving the wearer relatively unencumbered.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 14,
+      "ac_cap_dexmod": 2,
+      "ac_display": "14 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": false,
+      "key": "srd_breastplate",
+      "name": "Breastplate",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "400.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This armor consists of a fitted metal chest piece worn with supple leather. Although it leaves the legs and arms relatively unprotected, this armor provides good protection for the wearer's vital organs while leaving the wearer relatively unencumbered.",
+    "key": "srd_breastplate",
+    "name": "Breastplate",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "20.000",
+    "weight_unit": "lb"
+  }
+}

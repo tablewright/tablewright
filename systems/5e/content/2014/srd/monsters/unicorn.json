@@ -1,0 +1,314 @@
+{
+  "id": "5e-2014-srd:monster:unicorn",
+  "type": "monster",
+  "name": "Unicorn",
+  "source": "5e-2014-srd",
+  "tags": [
+    "celestial",
+    "large",
+    "cr-5"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 16,
+      "constitution": 15,
+      "dexterity": 14,
+      "intelligence": 11,
+      "strength": 18,
+      "wisdom": 17
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The unicorn magically regains 11 (2d8 + 2) hit points.",
+        "legendary_action_cost": 3,
+        "limited_to_form": null,
+        "name": "Heal Self",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The unicorn touches another creature with its horn. The target magically regains 11 (2d8 + 2) hit points. In addition, the touch removes all diseases and neutralizes all poisons afflicting the target.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Healing Touch",
+        "order_in_statblock": 3,
+        "usage_limits": {
+          "param": 3,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Hooves attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Hooves",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Horn attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Horn",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The unicorn makes one attack with its hooves.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Hooves",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The unicorn makes two attacks: one with its hooves and one with its horn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The unicorn creates a shimmering, magical field around itself or another creature it can see within 60 ft. of it. The target gains a +2 bonus to AC until the end of the unicorn's next turn.",
+        "legendary_action_cost": 2,
+        "limited_to_form": null,
+        "name": "Shimmering Shield",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The unicorn magically teleports itself and up to three willing creatures it can see within 5 ft. of it, along with any equipment they are wearing or carrying, to a location the unicorn is familiar with, up to 1 mile away.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Teleport",
+        "order_in_statblock": 4,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 12,
+    "armor_detail": "",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "srd_feywild",
+        "name": "Feywild"
+      }
+    ],
+    "experience_points": 1800,
+    "hit_dice": "9d10+18",
+    "hit_points": 67,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_unicorn",
+    "languages": {
+      "as_string": "Celestial, Elvish, Sylvan, telepathy 60 ft.",
+      "data": [
+        {
+          "desc": "Typical speakers are celestials",
+          "key": "celestial",
+          "name": "Celestial"
+        },
+        {
+          "desc": "Typical speakers are elves.",
+          "key": "elvish",
+          "name": "Elvish"
+        },
+        {
+          "desc": "Typical speakers are fey creatures.",
+          "key": "sylvan",
+          "name": "Sylvan"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 4,
+      "wisdom": 3
+    },
+    "name": "Unicorn",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, paralyzed, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 3,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 4,
+      "wisdom": 3
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 3,
+      "arcana": 0,
+      "athletics": 4,
+      "deception": 3,
+      "history": 0,
+      "insight": 3,
+      "intimidation": 3,
+      "investigation": 0,
+      "medicine": 3,
+      "nature": 0,
+      "perception": 3,
+      "performance": 3,
+      "persuasion": 3,
+      "religion": 0,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 3
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "If the unicorn moves at least 20 ft. straight toward a target and then hits it with a horn attack on the same turn, the target takes an extra 9 (2d8) piercing damage. If the target is a creature, it must succeed on a DC 15 Strength saving throw or be knocked prone.",
+        "name": "Charge"
+      },
+      {
+        "desc": "The unicorn's innate spellcasting ability is Charisma (spell save DC 14). The unicorn can innately cast the following spells, requiring no components:\n\nAt will: detect evil and good, druidcraft, pass without trace\n1/day each: calm emotions, dispel evil and good, entangle",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The unicorn has advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      },
+      {
+        "desc": "The unicorn's weapon attacks are magical.",
+        "name": "Magic Weapons"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}

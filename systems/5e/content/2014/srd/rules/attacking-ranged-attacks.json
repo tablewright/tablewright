@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:attacking-ranged-attacks",
+  "type": "rule",
+  "name": "Rnged Attacks",
+  "source": "5e-2014-srd",
+  "tags": [
+    "attacking"
+  ],
+  "body": "When you make a ranged attack, you fire a bow or a crossbow, hurl a handaxe, or otherwise send projectiles to strike a foe at a distance. A monster might shoot spines from its tail. Many spells also involve making a ranged attack.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you make a ranged attack, you fire a bow or a crossbow, hurl a handaxe, or otherwise send projectiles to strike a foe at a distance. A monster might shoot spines from its tail. Many spells also involve making a ranged attack.",
+    "index": 5,
+    "initialHeaderLevel": 2,
+    "key": "srd_attacking_ranged-attacks",
+    "name": "Rnged Attacks",
+    "ruleset": "srd_attacking"
+  }
+}

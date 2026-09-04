@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-vulnerabilities-resistances-immunities",
+  "type": "rule",
+  "name": "Vulnerabilities, Resistances, and Immunities",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "Some creatures have vulnerability, resistance, or immunity to certain types of damage. Particular creatures are even resistant or immune to damage from nonmagical attacks (a magical attack is an attack delivered by a spell, a magic item, or another magical source). In addition, some creatures are immune to certain conditions.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some creatures have vulnerability, resistance, or immunity to certain types of damage. Particular creatures are even resistant or immune to damage from nonmagical attacks (a magical attack is an attack delivered by a spell, a magic item, or another magical source). In addition, some creatures are immune to certain conditions.",
+    "index": 14,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_vulnerabilities-resistances-immunities",
+    "name": "Vulnerabilities, Resistances, and Immunities",
+    "ruleset": "srd_monsters"
+  }
+}

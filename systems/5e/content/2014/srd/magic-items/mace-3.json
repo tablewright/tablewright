@@ -1,0 +1,52 @@
+{
+  "id": "5e-2014-srd:magic-item:mace-3",
+  "type": "magic-item",
+  "name": "Mace (+3)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon",
+    "very-rare"
+  ],
+  "body": "You have a bonus to attack and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have a bonus to attack and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity.",
+    "key": "srd_mace-3",
+    "name": "Mace (+3)",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d6",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd_mace",
+      "name": "Mace",
+      "properties": []
+    },
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

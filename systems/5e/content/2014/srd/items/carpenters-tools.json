@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:carpenters-tools",
+  "type": "item",
+  "name": "Carpenter's Tools",
+  "source": "5e-2014-srd",
+  "tags": [
+    "tools"
+  ],
+  "body": "These special tools include the items needed to pursue a craft or trade.\\n\\n\r\nProficiency with a set of artisan’s tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan’s tools requires a separate proficiency.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "8.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "These special tools include the items needed to pursue a craft or trade.\\n\\n\r\nProficiency with a set of artisan’s tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan’s tools requires a separate proficiency.",
+    "key": "srd_carpenters-tools",
+    "name": "Carpenter's Tools",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

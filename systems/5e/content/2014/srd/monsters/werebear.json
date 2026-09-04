@@ -1,0 +1,283 @@
+{
+  "id": "5e-2014-srd:monster:werebear",
+  "type": "monster",
+  "name": "Werebear",
+  "source": "5e-2014-srd",
+  "tags": [
+    "humanoid",
+    "medium",
+    "cr-5"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 12,
+      "constitution": 17,
+      "dexterity": 10,
+      "intelligence": 11,
+      "strength": 19,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 15 (2d10 + 4) piercing damage. If the target is a humanoid, it must succeed on a DC 14 Constitution saving throw or be cursed with were bear lycanthropy.",
+        "legendary_action_cost": 1,
+        "limited_to_form": "Bear or Hybrid Form Only",
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": "Bear or Hybrid Form Only",
+        "name": "Claw",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D12",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Greataxe attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 10 (1d12 + 4) slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": "Humanoid or Hybrid Form Only",
+        "name": "Greataxe",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "In bear form, the werebear makes two claw attacks. In humanoid form, it makes two greataxe attacks. In hybrid form, it can attack like a bear or a humanoid.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral good",
+    "armor_class": 10,
+    "armor_detail": "10 in humanoid form, 11 (natural armor) in bear and hybrid form",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "arctic",
+        "name": "Arctic or Tundra"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "mountain",
+        "name": "Mountain"
+      },
+      {
+        "key": "shadowfell",
+        "name": "Shadowfell"
+      },
+      {
+        "key": "srd_feywild",
+        "name": "Feywild"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 1800,
+    "hit_dice": "18d8+54",
+    "hit_points": 135,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd_werebear",
+    "languages": {
+      "as_string": "Common (can't speak in bear form)",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 3,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 4,
+      "wisdom": 1
+    },
+    "name": "Werebear",
+    "normal_sight_range": 10560,
+    "passive_perception": 17,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_immunities_display": "bludgeoning, piercing, and slashing from nonmagical attacks not made with silvered weapons",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 3,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 4,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 1,
+      "arcana": 0,
+      "athletics": 4,
+      "deception": 1,
+      "history": 0,
+      "insight": 1,
+      "intimidation": 1,
+      "investigation": 0,
+      "medicine": 1,
+      "nature": 0,
+      "perception": 7,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": 0,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": "Lycanthropes",
+    "traits": [
+      {
+        "desc": "The werebear has advantage on Wisdom (Perception) checks that rely on smell.",
+        "name": "Keen Smell"
+      },
+      {
+        "desc": "The werebear can use its action to polymorph into a Large bear-humanoid hybrid or into a Large bear, or back into its true form, which is humanoid. Its statistics, other than its size and AC, are the same in each form. Any equipment it. is wearing or carrying isn't transformed. It reverts to its true form if it dies.",
+        "name": "Shapechanger"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

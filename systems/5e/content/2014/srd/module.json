@@ -1,0 +1,26 @@
+{
+  "id": "5e-2014-srd",
+  "name": "5e SRD 5.1",
+  "system": "5e",
+  "systemVersion": "2014",
+  "version": "2026-09-04",
+  "license": "CC-BY-4.0",
+  "attribution": "This work includes material from the System Reference Document 5.1 (\"SRD 5.1\") by Wizards of the Coast LLC, available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode. Transcribed to structured data by Open5e (https://open5e.com) and reshaped for Tablewright.",
+  "upstream": {
+    "name": "Open5e",
+    "api": "https://api.open5e.com/v2",
+    "document": "srd-2014",
+    "fetched": "2026-09-04T08:56:26.903Z"
+  },
+  "kinds": {
+    "monster": 325,
+    "spell": 319,
+    "item": 237,
+    "magic-item": 499,
+    "class": 24,
+    "race": 13,
+    "background": 1,
+    "feat": 1,
+    "rule": 227
+  }
+}

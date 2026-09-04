@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:assassins-blood",
+  "type": "item",
+  "name": "Assassin's Blood",
+  "source": "5e-2014-srd",
+  "tags": [
+    "poison"
+  ],
+  "body": "A creature subjected to this poison must make a DC 10 Constitution saving throw. On a failed save, it takes 6 (1d12) poison damage and is poisoned for 24 hours. On a successful save, the creature takes half damage and isn't poisoned.\\n\\n\r\n\r\n**_Ingested._** A creature must swallow an entire dose of ingested poison to suffer its effects. The dose can be delivered in food or a liquid. You may decide that a partial dose has a reduced effect, such as allowing advantage on the saving throw or dealing only half damage on a failed save.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "poison",
+      "name": "Poison"
+    },
+    "cost": "150.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A creature subjected to this poison must make a DC 10 Constitution saving throw. On a failed save, it takes 6 (1d12) poison damage and is poisoned for 24 hours. On a successful save, the creature takes half damage and isn't poisoned.\\n\\n\r\n\r\n**_Ingested._** A creature must swallow an entire dose of ingested poison to suffer its effects. The dose can be delivered in food or a liquid. You may decide that a partial dose has a reduced effect, such as allowing advantage on the saving throw or dealing only half damage on a failed save.",
+    "key": "srd_assassins-blood",
+    "name": "Assassin's Blood",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "5e-2014-srd:item:lance",
+  "type": "item",
+  "name": "Lance",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon"
+  ],
+  "body": "A lance.\r\n\r\nYou have disadvantage when you use a lance to attack a target within 5 feet of you. Also, a lance requires two hands to wield when you aren't mounted.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A lance.\r\n\r\nYou have disadvantage when you use a lance to attack a target within 5 feet of you. Also, a lance requires two hands to wield when you aren't mounted.",
+    "key": "srd_lance",
+    "name": "Lance",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d12",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd_lance",
+      "name": "Lance",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "You have disadvantage when you use alance to attack a target within 5 feet of you. Also, a lance requires two hands to wield when you aren’t mounted.",
+            "name": "Special (Lance)",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "This weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for opportunity attacks with it.",
+            "name": "Reach",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

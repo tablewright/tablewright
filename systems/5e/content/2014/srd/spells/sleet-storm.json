@@ -1,0 +1,83 @@
+{
+  "id": "5e-2014-srd:spell:sleet-storm",
+  "type": "spell",
+  "name": "Sleet Storm",
+  "source": "5e-2014-srd",
+  "tags": [
+    "conjuration",
+    "level-3",
+    "cleric",
+    "druid",
+    "sorcerer",
+    "wizard",
+    "concentration"
+  ],
+  "body": "Until the spell ends, freezing rain and sleet fall in a 20-foot-tall cylinder with a 40-foot radius centered on a point you choose within range. The area is heavily obscured, and exposed flames in the area are doused. The ground in the area is covered with slick ice, making it difficult terrain. When a creature enters the spell's area for the first time on a turn or starts its turn there, it must make a dexterity saving throw. On a failed save, it falls prone. If a creature is concentrating in the spell's area, the creature must make a successful constitution saving throw against your spell save DC or lose concentration.",
+  "data": {
+    "attack_roll": false,
+    "casting_options": [
+      {
+        "concentration": null,
+        "damage_roll": null,
+        "desc": null,
+        "duration": null,
+        "range": null,
+        "shape_size": null,
+        "target_count": null,
+        "type": "default"
+      }
+    ],
+    "casting_time": "action",
+    "classes": [
+      {
+        "key": "srd_cleric",
+        "name": "Cleric"
+      },
+      {
+        "key": "srd_druid",
+        "name": "Druid"
+      },
+      {
+        "key": "srd_sorcerer",
+        "name": "Sorcerer"
+      },
+      {
+        "key": "srd_wizard",
+        "name": "Wizard"
+      }
+    ],
+    "concentration": true,
+    "crossreferences": {
+      "to": []
+    },
+    "damage_roll": "",
+    "damage_types": [],
+    "desc": "Until the spell ends, freezing rain and sleet fall in a 20-foot-tall cylinder with a 40-foot radius centered on a point you choose within range. The area is heavily obscured, and exposed flames in the area are doused. The ground in the area is covered with slick ice, making it difficult terrain. When a creature enters the spell's area for the first time on a turn or starts its turn there, it must make a dexterity saving throw. On a failed save, it falls prone. If a creature is concentrating in the spell's area, the creature must make a successful constitution saving throw against your spell save DC or lose concentration.",
+    "duration": "1 minute",
+    "higher_level": "",
+    "key": "srd_sleet-storm",
+    "level": 3,
+    "material": true,
+    "material_consumed": false,
+    "material_cost": null,
+    "material_specified": "A pinch of dust and a few drops of water.",
+    "name": "Sleet Storm",
+    "range": 150,
+    "range_text": "150 feet",
+    "range_unit": "feet",
+    "reaction_condition": null,
+    "ritual": false,
+    "saving_throw_ability": "dexterity",
+    "school": {
+      "key": "conjuration",
+      "name": "Conjuration"
+    },
+    "shape_size": 40,
+    "shape_size_unit": "feet",
+    "shape_type": "cylinder",
+    "somatic": true,
+    "target_count": 1,
+    "target_type": "point",
+    "verbal": true
+  }
+}

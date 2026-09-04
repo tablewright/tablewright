@@ -1,0 +1,240 @@
+{
+  "id": "5e-2014-srd:monster:rakshasa",
+  "type": "monster",
+  "name": "Rakshasa",
+  "source": "5e-2014-srd",
+  "tags": [
+    "fiend",
+    "medium",
+    "cr-13"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 20,
+      "constitution": 18,
+      "dexterity": 17,
+      "intelligence": 13,
+      "strength": 14,
+      "wisdom": 16
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 7
+          }
+        ],
+        "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 9 (2d6 + 2) slashing damage, and the target is cursed if it is a creature. The magical curse takes effect whenever the target takes a short or long rest, filling the target's thoughts with horrible images and dreams. The cursed target gains no benefit from finishing a short or long rest. The curse lasts until it is lifted by a remove curse spell or similar magic.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The rakshasa makes two claw attacks",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 16,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 13,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "grassland",
+        "name": "Grassland or Plains"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "srd_abyss",
+        "name": "The Abyss"
+      },
+      {
+        "key": "srd_hell",
+        "name": "Hell"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 10000,
+    "hit_dice": "13d8+52",
+    "hit_points": 110,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd_rakshasa",
+    "languages": {
+      "as_string": "Common, Infernal",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers are devils.",
+          "key": "infernal",
+          "name": "Infernal"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 5,
+      "constitution": 4,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 3
+    },
+    "name": "Rakshasa",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_immunities_display": "bludgeoning, piercing, and slashing from nonmagical attacks",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        }
+      ],
+      "damage_vulnerabilities_display": "piercing from magic weapons wielded by good creatures"
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 5,
+      "constitution": 4,
+      "dexterity": 3,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 3
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "deception": 10,
+      "insight": 8
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": 3,
+      "arcana": 1,
+      "athletics": 2,
+      "deception": 10,
+      "history": 1,
+      "insight": 8,
+      "intimidation": 5,
+      "investigation": 1,
+      "medicine": 3,
+      "nature": 1,
+      "perception": 3,
+      "performance": 5,
+      "persuasion": 5,
+      "religion": 1,
+      "sleight_of_hand": 3,
+      "stealth": 3,
+      "survival": 3
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The rakshasa's innate spellcasting ability is Charisma (spell save DC 18, +10 to hit with spell attacks). The rakshasa can innately cast the following spells, requiring no material components:\n\nAt will: detect thoughts, disguise self, mage hand, minor illusion\n3/day each: charm person, detect magic, invisibility, major image, suggestion\n1/day each: dominate person, fly, plane shift, true seeing",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The rakshasa can't be affected or detected by spells of 6th level or lower unless it wishes to be. It has advantage on saving throws against all other spells and magical effects.",
+        "name": "Limited Magic Immunity"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fiend",
+      "name": "Fiend"
+    }
+  }
+}

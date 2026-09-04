@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:actions-in-combat-cast-a-spell",
+  "type": "rule",
+  "name": "Cast a Spell",
+  "source": "5e-2014-srd",
+  "tags": [
+    "actions-in-combat"
+  ],
+  "body": "Spellcasters such as wizards and clerics, as well as many monsters, have access to spells and can use them to great effect in combat. Each spell has a casting time, which specifies whether the caster must use an action, a reaction, minutes, or even hours to cast the spell. Casting a spell is, therefore, not necessarily an action. Most spells do have a casting time of 1 action, so a spellcaster often uses his or her action in combat to cast such a spell.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Spellcasters such as wizards and clerics, as well as many monsters, have access to spells and can use them to great effect in combat. Each spell has a casting time, which specifies whether the caster must use an action, a reaction, minutes, or even hours to cast the spell. Casting a spell is, therefore, not necessarily an action. Most spells do have a casting time of 1 action, so a spellcaster often uses his or her action in combat to cast such a spell.",
+    "index": 2,
+    "initialHeaderLevel": 3,
+    "key": "srd_actions-in-combat_cast-a-spell",
+    "name": "Cast a Spell",
+    "ruleset": "srd_actions-in-combat"
+  }
+}

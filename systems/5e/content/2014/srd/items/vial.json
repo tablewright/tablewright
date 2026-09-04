@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:vial",
+  "type": "item",
+  "name": "Vial",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "For holding liquids. Capacity: 4 ounces liquid.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "For holding liquids. Capacity: 4 ounces liquid.",
+    "key": "srd_vial",
+    "name": "Vial",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

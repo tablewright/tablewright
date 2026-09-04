@@ -1,0 +1,183 @@
+{
+  "id": "5e-2014-srd:monster:noble",
+  "type": "monster",
+  "name": "Noble",
+  "source": "5e-2014-srd",
+  "tags": [
+    "humanoid",
+    "medium",
+    "cr-1/8"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 16,
+      "constitution": 11,
+      "dexterity": 12,
+      "intelligence": 12,
+      "strength": 11,
+      "wisdom": 14
+    },
+    "actions": [
+      {
+        "action_type": "REACTION",
+        "attacks": [],
+        "desc": "The noble adds 2 to its AC against one melee attack that would hit it. To do so, the noble must see the attacker and be wielding a melee weapon.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Parry",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Rapier attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rapier",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "any alignment",
+    "armor_class": 15,
+    "armor_detail": "breastplate",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "grassland",
+        "name": "Grassland or Plains"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 25,
+    "hit_dice": "2d8",
+    "hit_points": 9,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd_noble",
+    "languages": {
+      "as_string": "any two languages",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": 1,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "name": "Noble",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 3,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": 1,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "deception": 5,
+      "insight": 4,
+      "persuasion": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 2,
+      "arcana": 1,
+      "athletics": 0,
+      "deception": 5,
+      "history": 1,
+      "insight": 4,
+      "intimidation": 3,
+      "investigation": 1,
+      "medicine": 2,
+      "nature": 1,
+      "perception": 2,
+      "performance": 3,
+      "persuasion": 5,
+      "religion": 1,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-ability-scores",
+  "type": "rule",
+  "name": "Ability Score",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "Every monster has six ability scores (Strength, Dexterity, Constitution, Intelligence, Wisdom, and Charisma) and corresponding modifiers. For more information on ability scores and how they’re used in play, see the *Player’s Handbook*.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Every monster has six ability scores (Strength, Dexterity, Constitution, Intelligence, Wisdom, and Charisma) and corresponding modifiers. For more information on ability scores and how they’re used in play, see the *Player’s Handbook*.",
+    "index": 9,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_ability-scores",
+    "name": "Ability Score",
+    "ruleset": "srd_monsters"
+  }
+}

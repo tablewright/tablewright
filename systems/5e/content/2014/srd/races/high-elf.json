@@ -1,0 +1,47 @@
+{
+  "id": "5e-2014-srd:race:high-elf",
+  "type": "race",
+  "name": "High Elf",
+  "source": "5e-2014-srd",
+  "tags": [
+    "subrace",
+    "elf"
+  ],
+  "body": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
+    "is_subspecies": true,
+    "key": "srd_high-elf",
+    "name": "High Elf",
+    "subspecies_of": "srd_elf",
+    "traits": [
+      {
+        "desc": "Your Intelligence score increases by 1.",
+        "name": "Ability Score Increase",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "You have proficiency with the longsword, shortsword, shortbow, and longbow.",
+        "name": "Elf Weapon Training",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it.",
+        "name": "Cantrip",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "You can speak, read, and write one extra language of your choice.",
+        "name": "Extra Language",
+        "order": null,
+        "type": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:environment-blindsight",
+  "type": "rule",
+  "name": "Blindsight",
+  "source": "5e-2014-srd",
+  "tags": [
+    "environment"
+  ],
+  "body": "A creature with blindsight can perceive its surroundings without relyingon sight, within a specific radius. Creatures without eyes, such asoozes, and creatures with echolocation or heightened senses, such asbats and true dragons, have this sense.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A creature with blindsight can perceive its surroundings without relyingon sight, within a specific radius. Creatures without eyes, such asoozes, and creatures with echolocation or heightened senses, such asbats and true dragons, have this sense.",
+    "index": 4,
+    "initialHeaderLevel": 3,
+    "key": "srd_environment_blindsight",
+    "name": "Blindsight",
+    "ruleset": "srd_environment"
+  }
+}

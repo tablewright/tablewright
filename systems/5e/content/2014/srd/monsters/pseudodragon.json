@@ -1,0 +1,238 @@
+{
+  "id": "5e-2014-srd:monster:pseudodragon",
+  "type": "monster",
+  "name": "Pseudodragon",
+  "source": "5e-2014-srd",
+  "tags": [
+    "dragon",
+    "tiny",
+    "cr-1/4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 10,
+      "constitution": 13,
+      "dexterity": 15,
+      "intelligence": 10,
+      "strength": 6,
+      "wisdom": 12
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Sting attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": true,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 4 (1d4 + 2) piercing damage, and the target must succeed on a DC 11 Constitution saving throw or become poisoned for 1 hour. If the saving throw fails by 5 or more, the target falls unconscious for the same duration, or until it takes damage or another creature uses an action to shake it awake.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Sting",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral good",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "coast",
+        "name": "Coast"
+      },
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "mountain",
+        "name": "Mountain"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 50,
+    "hit_dice": "2d4+2",
+    "hit_points": 7,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_pseudodragon",
+    "languages": {
+      "as_string": "understands Common and Draconic but can't speak",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": -2,
+      "wisdom": 1
+    },
+    "name": "Pseudodragon",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": -2,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "skill_bonuses": {
+      "perception": 3,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": 0,
+      "athletics": -2,
+      "deception": 0,
+      "history": 0,
+      "insight": 1,
+      "intimidation": 0,
+      "investigation": 0,
+      "medicine": 1,
+      "nature": 0,
+      "perception": 3,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 0,
+      "sleight_of_hand": 2,
+      "stealth": 4,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 15
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 7,
+      "crawl": 7,
+      "fly": 60,
+      "hover": false,
+      "swim": 7,
+      "unit": "feet",
+      "walk": 15
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The pseudodragon has advantage on Wisdom (Perception) checks that rely on sight, hearing, or smell.",
+        "name": "Keen Senses"
+      },
+      {
+        "desc": "The pseudodragon can magically communicate simple ideas, emotions, and images telepathically with any creature within 100 ft. of it that can understand a language.",
+        "name": "Limited Telepathy"
+      },
+      {
+        "desc": "The pseudodragon has advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      },
+      {
+        "desc": "The pseudodragon can serve another creature as a familiar, forming a magic, telepathic bond with that willing companion. While the two are bonded, the companion can sense what the pseudodragon senses as long as they are within 1 mile of each other. While the pseudodragon is within 10 feet of its companion, the companion shares the pseudodragon's Magic Resistance trait. At any time and for any reason, the pseudodragon can end its service as a familiar, ending the telepathic bond.",
+        "name": "Variant: Familiar"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

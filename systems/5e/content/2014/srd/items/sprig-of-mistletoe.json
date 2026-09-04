@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:sprig-of-mistletoe",
+  "type": "item",
+  "name": "Sprig of mistletoe",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A sprig of mistletoe that can be used as a druidic focus.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A sprig of mistletoe that can be used as a druidic focus.",
+    "key": "srd_sprig-of-mistletoe",
+    "name": "Sprig of mistletoe",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

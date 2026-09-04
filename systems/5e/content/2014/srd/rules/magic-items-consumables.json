@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:magic-items-consumables",
+  "type": "rule",
+  "name": "Consumables",
+  "source": "5e-2014-srd",
+  "tags": [
+    "magic-items"
+  ],
+  "body": "Some items are used up when they are activated. A potion or an elixir must be swallowed, or an oil applied to the body. The writing vanishes from a scroll when it is read. Once used, a consumable item loses its magic.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some items are used up when they are activated. A potion or an elixir must be swallowed, or an oil applied to the body. The writing vanishes from a scroll when it is read. Once used, a consumable item loses its magic.",
+    "index": 7,
+    "initialHeaderLevel": 3,
+    "key": "srd_magic-items_consumables",
+    "name": "Consumables",
+    "ruleset": "srd_magic-items"
+  }
+}

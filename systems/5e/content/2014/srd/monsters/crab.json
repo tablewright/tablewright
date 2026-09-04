@@ -1,0 +1,177 @@
+{
+  "id": "5e-2014-srd:monster:crab",
+  "type": "monster",
+  "name": "Crab",
+  "source": "5e-2014-srd",
+  "tags": [
+    "beast",
+    "tiny",
+    "cr-0"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 2,
+      "constitution": 10,
+      "dexterity": 11,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 0
+          }
+        ],
+        "desc": "Melee Weapon Attack: +0 to hit, reach 5 ft., one target. Hit: 1 bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "natural armor",
+    "blindsight_range": 30,
+    "category": "Monsters",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "coast",
+        "name": "Coast"
+      },
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "ocean",
+        "name": "Ocean"
+      }
+    ],
+    "experience_points": 0,
+    "hit_dice": "1d4",
+    "hit_points": 2,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd_crab",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": 0,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": -1
+    },
+    "name": "Crab",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": 0,
+      "dexterity": 0,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "skill_bonuses": {
+      "stealth": 2
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": -1,
+      "arcana": -5,
+      "athletics": -4,
+      "deception": -4,
+      "history": -5,
+      "insight": -1,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": -1,
+      "nature": -5,
+      "perception": -1,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": 0,
+      "stealth": 2,
+      "survival": -1
+    },
+    "speed": {
+      "swim": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The crab can breathe air and water.",
+        "name": "Amphibious"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

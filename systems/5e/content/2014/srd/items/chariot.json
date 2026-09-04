@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:chariot",
+  "type": "item",
+  "name": "Chariot",
+  "source": "5e-2014-srd",
+  "tags": [
+    "land-vehicle"
+  ],
+  "body": "Drawn vehicle.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "land-vehicle",
+      "name": "Land Vehicle"
+    },
+    "cost": "250.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Drawn vehicle.",
+    "key": "srd_chariot",
+    "name": "Chariot",
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "weapon": null,
+    "weight": "100.000",
+    "weight_unit": "lb"
+  }
+}

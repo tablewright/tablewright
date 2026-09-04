@@ -1,0 +1,142 @@
+{
+  "id": "5e-2014-srd:monster:sea-horse",
+  "type": "monster",
+  "name": "Sea Horse",
+  "source": "5e-2014-srd",
+  "tags": [
+    "beast",
+    "tiny",
+    "cr-0"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 2,
+      "constitution": 8,
+      "dexterity": 12,
+      "intelligence": 1,
+      "strength": 1,
+      "wisdom": 10
+    },
+    "actions": [],
+    "alignment": "unaligned",
+    "armor_class": 11,
+    "armor_detail": "",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "lake",
+        "name": "Lake"
+      },
+      {
+        "key": "ocean",
+        "name": "Ocean"
+      },
+      {
+        "key": "srd_plane-of-water",
+        "name": "Plane of Water"
+      }
+    ],
+    "experience_points": 0,
+    "hit_dice": "1d4-1",
+    "hit_points": 1,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd_sea-horse",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 1,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": 0
+    },
+    "name": "Sea Horse",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -4,
+      "constitution": -1,
+      "dexterity": 1,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 0,
+      "arcana": -5,
+      "athletics": -5,
+      "deception": -4,
+      "history": -5,
+      "insight": 0,
+      "intimidation": -4,
+      "investigation": -5,
+      "medicine": 0,
+      "nature": -5,
+      "perception": 0,
+      "performance": -4,
+      "persuasion": -4,
+      "religion": -5,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 0
+    },
+    "speed": {
+      "swim": 20,
+      "unit": "feet",
+      "walk": 0
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 0,
+      "crawl": 0,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 0
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The sea horse can breathe only underwater.",
+        "name": "Water Breathing"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

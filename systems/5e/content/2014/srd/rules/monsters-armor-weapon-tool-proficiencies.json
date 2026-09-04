@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-armor-weapon-tool-proficiencies",
+  "type": "rule",
+  "name": "Armor, Weapon and Tool Proficiency",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "Assume that a creature is proficient with its armor, weapons, and tools. If you swap them out, you decide whether the creature is proficient with its new equipment.\n\nFor example, a hill giant typically wears hide armor and wields a greatclub. You could equip a hill giant with chain mail and a greataxe instead, and assume the giant is proficient with both, one or the other, or neither.\n\nSee the *Player’s Handbook* for rules on using armor or weapons without proficiency.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Assume that a creature is proficient with its armor, weapons, and tools. If you swap them out, you decide whether the creature is proficient with its new equipment.\n\nFor example, a hill giant typically wears hide armor and wields a greatclub. You could equip a hill giant with chain mail and a greataxe instead, and assume the giant is proficient with both, one or the other, or neither.\n\nSee the *Player’s Handbook* for rules on using armor or weapons without proficiency.",
+    "index": 13,
+    "initialHeaderLevel": 3,
+    "key": "srd_monsters_armor-weapon-tool-proficiencies",
+    "name": "Armor, Weapon and Tool Proficiency",
+    "ruleset": "srd_monsters"
+  }
+}

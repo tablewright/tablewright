@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:multiclassing-proficiency-bonus",
+  "type": "rule",
+  "name": "Hit Points and Hit Dice",
+  "source": "5e-2014-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "Your proficiency bonus is always based on your total character level, as shown in the Character Advancement table in chapter 1, not your level in a particular class. For example, if you are a fighter 3/rogue 2, you have the proficiency bonus of a 5th- level character, which is +3.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Your proficiency bonus is always based on your total character level, as shown in the Character Advancement table in chapter 1, not your level in a particular class. For example, if you are a fighter 3/rogue 2, you have the proficiency bonus of a 5th- level character, which is +3.",
+    "index": 4,
+    "initialHeaderLevel": 2,
+    "key": "srd_multiclassing_proficiency-bonus",
+    "name": "Hit Points and Hit Dice",
+    "ruleset": "srd_multiclassing"
+  }
+}

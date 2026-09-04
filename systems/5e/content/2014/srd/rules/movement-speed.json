@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:movement-speed",
+  "type": "rule",
+  "name": "Speed",
+  "source": "5e-2014-srd",
+  "tags": [
+    "movement"
+  ],
+  "body": "Every character and monster has a speed, which is the distance in feetthat the character or monster can walk in 1 round. This number assumesshort bursts of energetic movement in the midst of a life-threatening situation.\n\nThe following rules determine how far a character or monster can move in a minute, an hour, or a day.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Every character and monster has a speed, which is the distance in feetthat the character or monster can walk in 1 round. This number assumesshort bursts of energetic movement in the midst of a life-threatening situation.\n\nThe following rules determine how far a character or monster can move in a minute, an hour, or a day.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_movement_speed",
+    "name": "Speed",
+    "ruleset": "srd_movement"
+  }
+}

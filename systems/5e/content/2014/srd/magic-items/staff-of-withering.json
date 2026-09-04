@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:staff-of-withering",
+  "type": "magic-item",
+  "name": "Staff of Withering",
+  "source": "5e-2014-srd",
+  "tags": [
+    "staff",
+    "rare",
+    "attunement"
+  ],
+  "body": "This staff has 3 charges and regains 1d3 expended charges daily at dawn.\n\nThe staff can be wielded as a magic quarterstaff. On a hit, it deals damage as a normal quarterstaff, and you can expend 1 charge to deal an extra 2d10 necrotic damage to the target. In addition, the target must succeed on a DC 15 Constitution saving throw or have disadvantage for 1 hour on any ability check or saving throw that uses Strength or Constitution.",
+  "data": {
+    "armor": null,
+    "attunement_detail": "requires attunement by a cleric, druid, or warlock",
+    "category": {
+      "key": "staff",
+      "name": "Staff"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This staff has 3 charges and regains 1d3 expended charges daily at dawn.\n\nThe staff can be wielded as a magic quarterstaff. On a hit, it deals damage as a normal quarterstaff, and you can expend 1 charge to deal an extra 2d10 necrotic damage to the target. In addition, the target must succeed on a DC 15 Constitution saving throw or have disadvantage for 1 hour on any ability check or saving throw that uses Strength or Constitution.",
+    "key": "srd_staff-of-withering",
+    "name": "Staff of Withering",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

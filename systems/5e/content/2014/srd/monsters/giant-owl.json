@@ -1,0 +1,192 @@
+{
+  "id": "5e-2014-srd:monster:giant-owl",
+  "type": "monster",
+  "name": "Giant Owl",
+  "source": "5e-2014-srd",
+  "tags": [
+    "beast",
+    "large",
+    "cr-1/4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 10,
+      "constitution": 12,
+      "dexterity": 15,
+      "intelligence": 8,
+      "strength": 13,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Talons attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 8 (2d6 + 1) slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Talons",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 12,
+    "armor_detail": "",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [
+      {
+        "key": "arctic",
+        "name": "Arctic or Tundra"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "srd_feywild",
+        "name": "Feywild"
+      }
+    ],
+    "experience_points": 50,
+    "hit_dice": "3d10+3",
+    "hit_points": 19,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_giant-owl",
+    "languages": {
+      "as_string": "Giant Owl, understands Common, Elvish, and Sylvan but can't speak",
+      "data": [
+        {
+          "desc": "Typical speakers are elves.",
+          "key": "elvish",
+          "name": "Elvish"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": 1,
+      "wisdom": 1
+    },
+    "name": "Giant Owl",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "strength": 1,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 5,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 1,
+      "arcana": -1,
+      "athletics": 1,
+      "deception": 0,
+      "history": -1,
+      "insight": 1,
+      "intimidation": 0,
+      "investigation": -1,
+      "medicine": 1,
+      "nature": -1,
+      "perception": 5,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": -1,
+      "sleight_of_hand": 2,
+      "stealth": 4,
+      "survival": 1
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 60,
+      "hover": false,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The owl doesn't provoke opportunity attacks when it flies out of an enemy's reach.",
+        "name": "Flyby"
+      },
+      {
+        "desc": "The owl has advantage on Wisdom (Perception) checks that rely on hearing or sight.",
+        "name": "Keen Hearing and Sight"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

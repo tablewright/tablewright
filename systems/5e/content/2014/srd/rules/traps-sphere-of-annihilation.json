@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:traps-sphere-of-annihilation",
+  "type": "rule",
+  "name": "Sphere of Annihilation",
+  "source": "5e-2014-srd",
+  "tags": [
+    "traps"
+  ],
+  "body": "_Magic trap_\n\nMagical, impenetrable darkness fills the gaping mouth of a stone face carved into a wall. The mouth is 2 feet in diameter and roughly circular. No sound issues from it, no light can illuminate the inside of it, and any matter that enters it is instantly obliterated.\n\nA successful DC 20 Intelligence (Arcana) check reveals that the mouth contains a _sphere of annihilation_ that can't be controlled or moved. It is otherwise identical to a normal _sphere of annihilation_.\n\nSome versions of the trap include an enchantment placed on the stone face, such that specified creatures feel an overwhelming urge to approach it and crawl inside its mouth. This effect is otherwise like the _sympathy_ aspect of the _antipathy/sympathy_ spell. A successful _dispel magic_ (DC 18) removes this enchantment.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "_Magic trap_\n\nMagical, impenetrable darkness fills the gaping mouth of a stone face carved into a wall. The mouth is 2 feet in diameter and roughly circular. No sound issues from it, no light can illuminate the inside of it, and any matter that enters it is instantly obliterated.\n\nA successful DC 20 Intelligence (Arcana) check reveals that the mouth contains a _sphere of annihilation_ that can't be controlled or moved. It is otherwise identical to a normal _sphere of annihilation_.\n\nSome versions of the trap include an enchantment placed on the stone face, such that specified creatures feel an overwhelming urge to approach it and crawl inside its mouth. This effect is otherwise like the _sympathy_ aspect of the _antipathy/sympathy_ spell. A successful _dispel magic_ (DC 18) removes this enchantment.",
+    "index": 14,
+    "initialHeaderLevel": 3,
+    "key": "srd_traps_sphere-of-annihilation",
+    "name": "Sphere of Annihilation",
+    "ruleset": "srd_traps"
+  }
+}

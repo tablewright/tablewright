@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:abilities-group-checks",
+  "type": "rule",
+  "name": "Group Checks",
+  "source": "5e-2014-srd",
+  "tags": [
+    "abilities"
+  ],
+  "body": "When a number of individuals are trying to accomplish something as a group, the GM might ask for a group ability check. In such a situation, the characters who are skilled at a particular task help cover those who aren't.\n\nTo make a group ability check, everyone in the group makes the ability check. If at least half the group succeeds, the whole group succeeds.\nOtherwise, the group fails.\n\nGroup checks don't come up very often, and they're most useful when all the characters succeed or fail as a group. For example, when adventurers are navigating a swamp, the GM might call for a group Wisdom (Survival) check to see if the characters can avoid the quicksand, sinkholes, and other natural hazards of the environment. If at least half the group succeeds, the successful characters are able to guide their companions out of danger. Otherwise, the group stumbles into one of these hazards.\n\nEvery task that a character or monster might attempt in the game is covered by one of the six abilities. This section explains in more detail what those abilities mean and the ways they are used in the game.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When a number of individuals are trying to accomplish something as a group, the GM might ask for a group ability check. In such a situation, the characters who are skilled at a particular task help cover those who aren't.\n\nTo make a group ability check, everyone in the group makes the ability check. If at least half the group succeeds, the whole group succeeds.\nOtherwise, the group fails.\n\nGroup checks don't come up very often, and they're most useful when all the characters succeed or fail as a group. For example, when adventurers are navigating a swamp, the GM might call for a group Wisdom (Survival) check to see if the characters can avoid the quicksand, sinkholes, and other natural hazards of the environment. If at least half the group succeeds, the successful characters are able to guide their companions out of danger. Otherwise, the group stumbles into one of these hazards.\n\nEvery task that a character or monster might attempt in the game is covered by one of the six abilities. This section explains in more detail what those abilities mean and the ways they are used in the game.",
+    "index": 10,
+    "initialHeaderLevel": 4,
+    "key": "srd_abilities_group-checks",
+    "name": "Group Checks",
+    "ruleset": "srd_abilities"
+  }
+}

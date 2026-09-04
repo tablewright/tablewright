@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:magic-items-charges",
+  "type": "rule",
+  "name": "Charges",
+  "source": "5e-2014-srd",
+  "tags": [
+    "magic-items"
+  ],
+  "body": "Some magic items have charges that must be expended to activate their properties. The number of charges an item has remaining is revealed when an identify spell is cast on it, as well as when a creature attunes to it. Additionally, when an item regains charges, the creature attuned to it learns how many charges it regained.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some magic items have charges that must be expended to activate their properties. The number of charges an item has remaining is revealed when an identify spell is cast on it, as well as when a creature attunes to it. Additionally, when an item regains charges, the creature attuned to it learns how many charges it regained.",
+    "index": 9,
+    "initialHeaderLevel": 3,
+    "key": "srd_magic-items_charges",
+    "name": "Charges",
+    "ruleset": "srd_magic-items"
+  }
+}

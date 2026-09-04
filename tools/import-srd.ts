@@ -1,26 +1,28 @@
-// Imports the 5e SRD 5.2 (2024 rules) from Open5e into the house module
-// format at systems/5e/content/2024/srd. Network glue and file shaping
+// Imports the 5e SRDs from Open5e into the house module format: SRD 5.2
+// (the 2024 rules) to systems/5e/content/2024/srd, SRD 5.1 (the 2014
+// rules) to systems/5e/content/2014/srd, and the 5.1 conditions, which
+// Open5e keeps in a document of its own, to
+// systems/5e/content/2014/core-conditions. Network glue and file shaping
 // only: this tool knows nothing about the compendium store, which the Rust
-// seeder owns. Design: docs/design.md §3 "Systems and modules".
+// seeder owns. Design: docs/design.md §3 "Systems and modules" and "Two
+// rule versions, one compendium".
 //
-// Usage: bun run import:srd [--refresh]
+// Usage: bun run import:srd [--refresh] [--only=<document>]
 // Upstream pages are cached under data/srd/open5e (gitignored); --refresh
-// fetches them again. The committed module directory is the pin: re-running
-// the import after an upstream change shows the drift as a diff.
+// fetches them again, and --only limits the run to one upstream document
+// when the origin is slow. The committed module directories are the pin:
+// re-running the import after an upstream change shows the drift as a diff.
 
 import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 
 const API = "https://api.open5e.com/v2";
-const DOCUMENT = "srd-2024";
-const KEY_PREFIX = `${DOCUMENT}_`;
-const MODULE_ID = "5e-2024-srd";
 // Pages of 1000 time out at the origin; 200 is comfortably served.
 const PAGE_SIZE = 200;
 const ATTEMPTS = 4;
 const ROOT = join(import.meta.dir, "..");
 const CACHE_DIR = join(ROOT, "data", "srd", "open5e");
-const OUT_DIR = join(ROOT, "systems", "5e", "content", "2024", "srd");
+const CONTENT_DIR = join(ROOT, "systems", "5e", "content");
 
 // The envelope as the Rust core defines it (crates/core/src/compendium.rs),
 // less the visibility fields: who may see an entry is the kind default the
@@ -55,11 +57,27 @@ interface Cache {
   results: Upstream[];
 }
 
+type Shaped = Omit<Entry, "id" | "source" | "data">;
+
 interface Kind {
   endpoint: string;
   type: string;
   directory: string;
-  shape: (record: Upstream) => Omit<Entry, "id" | "source" | "data">;
+  shape: (record: Upstream) => Shaped;
+}
+
+// One upstream document becomes one module of one rule version.
+interface Source {
+  document: string;
+  version: string;
+  moduleId: string;
+  name: string;
+  /** Which SRD the text is, for the attribution notice. */
+  srd: "5.1" | "5.2";
+  /** How Open5e carries it, for the attribution notice. */
+  via: string;
+  outDir: string;
+  kinds: Kind[];
 }
 
 const KINDS: Kind[] = [
@@ -74,137 +92,137 @@ const KINDS: Kind[] = [
   { endpoint: "backgrounds", type: "background", directory: "backgrounds", shape: shapeBackground },
   { endpoint: "feats", type: "feat", directory: "feats", shape: shapeFeat },
   { endpoint: "rules", type: "rule", directory: "rules", shape: shapeRule },
-  // Conditions: Open5e carries none under srd-2024; the 2014 text ships
-  // as a module of its own below, until the 5.2 glossary lands upstream.
+  // Conditions: Open5e carries none under either SRD document; the 5.1
+  // text ships from its core document as a module of its own, below.
 ];
 
-// Open5e's "5e Core Concepts" document: the SRD 5.1 text, CC-BY-4.0, by
-// the SRD's own authors. Its fifteen conditions become a second module,
-// named for what they are, so a search for "frightened" has a page to
-// open while the 2024 wording is not published in structured form.
-const CORE = {
-  document: "core",
-  moduleId: "5e-2014-core-conditions",
-  outDir: join(ROOT, "systems", "5e", "content", "2014", "core-conditions"),
-};
+const SOURCES: Source[] = [
+  {
+    document: "srd-2024",
+    version: "2024",
+    moduleId: "5e-2024-srd",
+    name: "5e SRD 5.2",
+    srd: "5.2",
+    via: "",
+    outDir: join(CONTENT_DIR, "2024", "srd"),
+    kinds: KINDS,
+  },
+  {
+    document: "srd-2014",
+    version: "2014",
+    moduleId: "5e-2014-srd",
+    name: "5e SRD 5.1",
+    srd: "5.1",
+    via: "",
+    outDir: join(CONTENT_DIR, "2014", "srd"),
+    kinds: KINDS,
+  },
+  // Open5e's "5e Core Concepts" document: the SRD 5.1 text, CC-BY-4.0, by
+  // the SRD's own authors. Its fifteen conditions are a module named for
+  // what they are, so a search for "frightened" has a page to open in both
+  // versions while the 2024 wording is not published in structured form.
+  {
+    document: "core",
+    version: "2014",
+    moduleId: "5e-2014-core-conditions",
+    name: "5e conditions (SRD 5.1 text)",
+    srd: "5.1",
+    via: " as its 5e Core Concepts document",
+    outDir: join(CONTENT_DIR, "2014", "core-conditions"),
+    kinds: [
+      { endpoint: "conditions", type: "condition", directory: "conditions", shape: shapeCondition },
+    ],
+  },
+];
 
 const refresh = process.argv.includes("--refresh");
+const only = process.argv.find((argument) => argument.startsWith("--only="))?.slice(7);
 const started = performance.now();
-const counts: Record<string, number> = {};
-let fetched = "";
 
-for (const kind of KINDS) {
-  const cache = await load(kind.endpoint);
-  fetched = cache.fetched > fetched ? cache.fetched : fetched;
-  const directory = join(OUT_DIR, kind.directory);
-  await rm(directory, { recursive: true, force: true });
-  await mkdir(directory, { recursive: true });
-  // The API's document filter leaks other documents' records into some
-  // lists (items carried the 2014 SRD too), so the document is checked here.
-  const records = cache.results.filter((record) => keyOf(record.document) === DOCUMENT);
-  const leaked = cache.results.length - records.length;
-  if (leaked > 0) {
-    console.log(`${kind.endpoint}: dropped ${leaked} records from other documents`);
+for (const source of SOURCES) {
+  if (only !== undefined && source.document !== only) {
+    continue;
   }
-  const seen = new Set<string>();
-  for (const record of records) {
-    const slug = slugOf(record.key);
-    if (seen.has(slug)) {
-      throw new Error(`${kind.endpoint}: duplicate slug ${slug}`);
+  await importSource(source);
+}
+console.log(`done in ${Math.round(performance.now() - started)} ms`);
+
+async function importSource(source: Source): Promise<void> {
+  const counts: Record<string, number> = {};
+  let fetched = "";
+  for (const kind of source.kinds) {
+    const cache = await load(kind.endpoint, source.document);
+    fetched = cache.fetched > fetched ? cache.fetched : fetched;
+    const directory = join(source.outDir, kind.directory);
+    await rm(directory, { recursive: true, force: true });
+    // The API's document filter leaks other documents' records into some
+    // lists (items carried the 2014 SRD too), so the document is checked here.
+    const records = cache.results.filter((record) => keyOf(record.document) === source.document);
+    const leaked = cache.results.length - records.length;
+    if (leaked > 0) {
+      console.log(`${source.document} ${kind.endpoint}: dropped ${leaked} from other documents`);
     }
-    seen.add(slug);
-    const shaped = kind.shape(record);
-    const entry: Entry = {
-      id: `${MODULE_ID}:${kind.type}:${slug}`,
-      type: shaped.type,
-      name: shaped.name,
-      source: MODULE_ID,
-      tags: shaped.tags,
-      body: shaped.body,
-      data: sorted(withoutDocument(record)),
-    };
-    await Bun.write(join(directory, `${slug}.json`), `${JSON.stringify(entry, null, 2)}\n`);
+    if (records.length === 0) {
+      continue;
+    }
+    await mkdir(directory, { recursive: true });
+    const seen = new Set<string>();
+    for (const record of records) {
+      const slug = slugOf(record.key, `${source.document}_`);
+      if (seen.has(slug)) {
+        throw new Error(`${source.document} ${kind.endpoint}: duplicate slug ${slug}`);
+      }
+      seen.add(slug);
+      const shaped = kind.shape(record);
+      const entry: Entry = {
+        id: `${source.moduleId}:${kind.type}:${slug}`,
+        type: shaped.type,
+        name: shaped.name,
+        source: source.moduleId,
+        tags: shaped.tags,
+        body: shaped.body,
+        data: sorted(withoutDocument(record)),
+      };
+      await Bun.write(join(directory, `${slug}.json`), `${JSON.stringify(entry, null, 2)}\n`);
+    }
+    counts[kind.type] = records.length;
   }
-  counts[kind.type] = records.length;
+
+  const manifest = {
+    id: source.moduleId,
+    name: source.name,
+    system: "5e",
+    systemVersion: source.version,
+    version: fetched.slice(0, 10),
+    license: "CC-BY-4.0",
+    attribution: attribution(source.srd, source.via),
+    upstream: { name: "Open5e", api: API, document: source.document, fetched },
+    kinds: counts,
+  };
+  await Bun.write(join(source.outDir, "module.json"), `${JSON.stringify(manifest, null, 2)}\n`);
+
+  const summary = Object.entries(counts)
+    .map(([type, count]) => `${count} ${type.endsWith("s") ? `${type}es` : `${type}s`}`)
+    .join(", ");
+  console.log(`${source.moduleId}: ${summary} (upstream fetched ${fetched})`);
 }
 
-const manifest = {
-  id: MODULE_ID,
-  name: "5e SRD 5.2",
-  system: "5e",
-  systemVersion: "2024",
-  version: fetched.slice(0, 10),
-  license: "CC-BY-4.0",
-  attribution:
-    'This work includes material from the System Reference Document 5.2 ("SRD 5.2") by ' +
+// The notice CC-BY-4.0 asks for, as Wizards words it for each SRD.
+function attribution(srd: "5.1" | "5.2", via: string): string {
+  return (
+    `This work includes material from the System Reference Document ${srd} ("SRD ${srd}") by ` +
     "Wizards of the Coast LLC, available at " +
-    "https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.2 is licensed " +
+    `https://dnd.wizards.com/resources/systems-reference-document. The SRD ${srd} is licensed ` +
     "under the Creative Commons Attribution 4.0 International License, available at " +
     "https://creativecommons.org/licenses/by/4.0/legalcode. Transcribed to structured data " +
-    "by Open5e (https://open5e.com) and reshaped for Tablewright.",
-  upstream: { name: "Open5e", api: API, document: DOCUMENT, fetched },
-  kinds: counts,
-};
-await Bun.write(join(OUT_DIR, "module.json"), `${JSON.stringify(manifest, null, 2)}\n`);
-
-const elapsed = Math.round(performance.now() - started);
-const summary = Object.entries(counts)
-  .map(([type, count]) => `${count} ${type.endsWith("s") ? `${type}es` : `${type}s`}`)
-  .join(", ");
-console.log(`${MODULE_ID}: ${summary} in ${elapsed} ms (upstream fetched ${fetched})`);
-
-{
-  const cache = await load("conditions", CORE.document);
-  const directory = join(CORE.outDir, "conditions");
-  await rm(directory, { recursive: true, force: true });
-  await mkdir(directory, { recursive: true });
-  const records = cache.results.filter((record) => keyOf(record.document) === CORE.document);
-  let count = 0;
-  for (const record of records) {
-    const slug = slugOf(record.key, `${CORE.document}_`);
-    const descriptions = Array.isArray(record.descriptions) ? record.descriptions : [];
-    const body = compact(
-      descriptions.map((description) => text((description as { desc?: unknown }).desc))
-    ).join("\n\n");
-    const entry: Entry = {
-      id: `${CORE.moduleId}:condition:${slug}`,
-      type: "condition",
-      name: record.name,
-      source: CORE.moduleId,
-      tags: ["2014"],
-      body,
-      data: sorted(withoutDocument(record)),
-    };
-    await Bun.write(join(directory, `${slug}.json`), `${JSON.stringify(entry, null, 2)}\n`);
-    count += 1;
-  }
-  const coreManifest = {
-    id: CORE.moduleId,
-    name: "5e conditions (SRD 5.1 text)",
-    system: "5e",
-    systemVersion: "2014",
-    version: cache.fetched.slice(0, 10),
-    license: "CC-BY-4.0",
-    attribution:
-      'This work includes material from the System Reference Document 5.1 ("SRD 5.1") by ' +
-      "Wizards of the Coast LLC, available at " +
-      "https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed " +
-      "under the Creative Commons Attribution 4.0 International License, available at " +
-      "https://creativecommons.org/licenses/by/4.0/legalcode. Transcribed to structured data " +
-      "by Open5e (https://open5e.com) as its 5e Core Concepts document and reshaped for " +
-      "Tablewright.",
-    upstream: { name: "Open5e", api: API, document: CORE.document, fetched: cache.fetched },
-    kinds: { condition: count },
-  };
-  await Bun.write(join(CORE.outDir, "module.json"), `${JSON.stringify(coreManifest, null, 2)}\n`);
-  console.log(`${CORE.moduleId}: ${count} conditions (upstream fetched ${cache.fetched})`);
+    `by Open5e (https://open5e.com)${via} and reshaped for Tablewright.`
+  );
 }
 
-// Reads the cached upstream list for an endpoint, fetching it when absent or
-// when --refresh was given.
-async function load(endpoint: string, document = DOCUMENT): Promise<Cache> {
-  const name = document === DOCUMENT ? endpoint : `${document}-${endpoint}`;
-  const file = Bun.file(join(CACHE_DIR, `${name}.json`));
+// Reads the cached upstream list for an endpoint of a document, fetching it
+// when absent or when --refresh was given.
+async function load(endpoint: string, document: string): Promise<Cache> {
+  const file = Bun.file(join(CACHE_DIR, `${document}-${endpoint}.json`));
   if (!refresh && (await file.exists())) {
     return (await file.json()) as Cache;
   }
@@ -233,7 +251,7 @@ async function fetchPage(url: string): Promise<Page> {
     try {
       const response = await fetch(url, {
         headers: { "user-agent": "tablewright-import-srd" },
-        signal: AbortSignal.timeout(60_000),
+        signal: AbortSignal.timeout(120_000),
       });
       if (response.ok) {
         return (await response.json()) as Page;
@@ -251,7 +269,7 @@ async function fetchPage(url: string): Promise<Page> {
   throw new Error(`${url}: ${failure} after ${ATTEMPTS} attempts`);
 }
 
-function shapeCreature(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeCreature(record: Upstream): Shaped {
   const tags = compact([
     keyOf(record.type),
     keyOf(record.size),
@@ -266,7 +284,7 @@ function shapeCreature(record: Upstream): Omit<Entry, "id" | "source" | "data"> 
   };
 }
 
-function shapeSpell(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeSpell(record: Upstream): Shaped {
   const level = typeof record.level === "number" ? record.level : undefined;
   const classes = Array.isArray(record.classes)
     ? record.classes.map((entry) => slugOf(keyOf(entry) ?? ""))
@@ -291,7 +309,7 @@ function shapeSpell(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
   };
 }
 
-function shapeItem(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeItem(record: Upstream): Shaped {
   const tags = compact([
     keyOf(record.category),
     keyOf(record.rarity),
@@ -305,7 +323,7 @@ function shapeItem(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
   };
 }
 
-function shapeMagicItem(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeMagicItem(record: Upstream): Shaped {
   const tags = compact([
     keyOf(record.category) ?? keyOf(record.type),
     keyOf(record.rarity),
@@ -322,7 +340,7 @@ function shapeMagicItem(record: Upstream): Omit<Entry, "id" | "source" | "data">
 // A class, species or background is one file, with its subclasses,
 // subspecies and the like as entries of their own; a rule's key carries
 // its section too, joined by an underscore, which becomes a dash.
-function shapeClass(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeClass(record: Upstream): Shaped {
   const parent = keyOf(record.subclass_of);
   const tags = compact([
     parent === undefined ? undefined : "subclass",
@@ -332,7 +350,7 @@ function shapeClass(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
   return { type: "class", name: record.name, tags, body: text(record.desc) };
 }
 
-function shapeRace(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeRace(record: Upstream): Shaped {
   const parent = keyOf(record.subspecies_of);
   const tags = compact([
     parent === undefined ? undefined : "subrace",
@@ -341,12 +359,12 @@ function shapeRace(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
   return { type: "race", name: record.name, tags, body: text(record.desc) };
 }
 
-function shapeBackground(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeBackground(record: Upstream): Shaped {
   return { type: "background", name: record.name, tags: [], body: text(record.desc) };
 }
 
 // A feat's benefits carry text but no names, so they are the body.
-function shapeFeat(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeFeat(record: Upstream): Shaped {
   const benefits = Array.isArray(record.benefits)
     ? record.benefits.map((benefit) => text((benefit as { desc?: unknown }).desc))
     : [];
@@ -355,17 +373,30 @@ function shapeFeat(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
   return { type: "feat", name: record.name, tags, body };
 }
 
-function shapeRule(record: Upstream): Omit<Entry, "id" | "source" | "data"> {
+function shapeRule(record: Upstream): Shaped {
   const ruleset = keyOf(record.ruleset);
   const tags = compact([ruleset === undefined ? undefined : slugOf(ruleset)]);
   return { type: "rule", name: record.name, tags, body: text(record.desc) };
 }
 
+// A condition's text comes as a list of descriptions, one paragraph each.
+function shapeCondition(record: Upstream): Shaped {
+  const descriptions = Array.isArray(record.descriptions) ? record.descriptions : [];
+  const body = compact(
+    descriptions.map((description) => text((description as { desc?: unknown }).desc))
+  ).join("\n\n");
+  return { type: "condition", name: record.name, tags: [], body };
+}
+
 // Upstream keys look like `srd-2024_goblin-warrior`; the slug is the rest.
 // A rule's key nests its section with a second underscore, which becomes a
-// dash so the id stays one word.
-function slugOf(key: string, prefix = KEY_PREFIX): string {
-  const rest = key.startsWith(prefix) ? key.slice(prefix.length) : key;
+// dash so the id stays one word. Keys from other documents are taken whole,
+// less their own prefix: a spell's class list names `srd-2024_wizard`.
+function slugOf(key: string, prefix?: string): string {
+  const rest =
+    prefix !== undefined && key.startsWith(prefix)
+      ? key.slice(prefix.length)
+      : key.replace(/^[a-z0-9-]+_/, "");
   const slug = rest.replace(/_/g, "-");
   if (!/^[a-z0-9-]+$/.test(slug)) {
     throw new Error(`unusable slug in key ${key}`);

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:magic-items-activating-an-item",
+  "type": "rule",
+  "name": "Activating an Item",
+  "source": "5e-2014-srd",
+  "tags": [
+    "magic-items"
+  ],
+  "body": "Activating some magic items requires a user to do something special, such as holding the item and uttering a command word. The description of each item category or individual item details how an item is activated. Certain items use the following rules for their activation.\n\nIf an item requires an action to activate, that action isn’t a function of the Use an Item action, so a feature such as the rogue’s Fast Hands can’t be used to activate the item.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Activating some magic items requires a user to do something special, such as holding the item and uttering a command word. The description of each item category or individual item details how an item is activated. Certain items use the following rules for their activation.\n\nIf an item requires an action to activate, that action isn’t a function of the Use an Item action, so a feature such as the rogue’s Fast Hands can’t be used to activate the item.",
+    "index": 5,
+    "initialHeaderLevel": 2,
+    "key": "srd_magic-items_activating-an-item",
+    "name": "Activating an Item",
+    "ruleset": "srd_magic-items"
+  }
+}

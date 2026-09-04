@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:backgrounds-languages",
+  "type": "rule",
+  "name": "Languages",
+  "source": "5e-2014-srd",
+  "tags": [
+    "backgrounds"
+  ],
+  "body": "Some backgrounds also allow characters to learn additional languages beyond those given by race. See “Languages.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some backgrounds also allow characters to learn additional languages beyond those given by race. See “Languages.",
+    "index": 2,
+    "initialHeaderLevel": 2,
+    "key": "srd_backgrounds_languages",
+    "name": "Languages",
+    "ruleset": "srd_backgrounds"
+  }
+}

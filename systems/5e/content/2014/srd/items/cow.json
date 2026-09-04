@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:cow",
+  "type": "item",
+  "name": "Cow",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "One cow.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One cow.",
+    "key": "srd_cow",
+    "name": "Cow",
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "weapon": null,
+    "weight": "1000.000",
+    "weight_unit": "lb"
+  }
+}

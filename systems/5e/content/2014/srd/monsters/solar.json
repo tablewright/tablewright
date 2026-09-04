@@ -1,0 +1,333 @@
+{
+  "id": "5e-2014-srd:monster:solar",
+  "type": "monster",
+  "name": "Solar",
+  "source": "5e-2014-srd",
+  "tags": [
+    "celestial",
+    "large",
+    "cr-21"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 30,
+      "constitution": 26,
+      "dexterity": 22,
+      "intelligence": 25,
+      "strength": 26,
+      "wisdom": 25
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The solar targets one creature it can see within 30 ft. of it. If the target can see it, the target must succeed on a DC 15 Constitution saving throw or be blinded until magic such as the lesser restoration spell removes the blindness.",
+        "legendary_action_cost": 3,
+        "limited_to_form": null,
+        "name": "Blinding Gaze",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The solar releases its greatsword to hover magically in an unoccupied space within 5 ft. of it. If the solar can see the sword, the solar can mentally command it as a bonus action to fly up to 50 ft. and either make one attack against a target or return to the solar's hands. If the hovering sword is targeted by any effect, the solar is considered to be holding it. The hovering sword falls if the solar dies.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Flying Sword",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 4,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Greatsword attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 15
+          }
+        ],
+        "desc": "Melee Weapon Attack: +15 to hit, reach 5 ft., one target. Hit: 22 (4d6 + 8) slashing damage plus 27 (6d8) radiant damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Greatsword",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The solar touches another creature. The target magically regains 40 (8d8 + 4) hit points and is freed from any curse, disease, poison, blindness, or deafness.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Healing Touch",
+        "order_in_statblock": 4,
+        "usage_limits": {
+          "param": 4,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The solar makes two greatsword attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The solar emits magical, divine energy. Each creature of its choice in a 10 -foot radius must make a DC 23 Dexterity saving throw, taking 14 (4d6) fire damage plus 14 (4d6) radiant damage on a failed save, or half as much damage on a successful one.",
+        "legendary_action_cost": 2,
+        "limited_to_form": null,
+        "name": "Searing Burst",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": 600,
+            "name": "Slaying Longbow attack",
+            "range": 150,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 13
+          }
+        ],
+        "desc": "Ranged Weapon Attack: +13 to hit, range 150/600 ft., one target. Hit: 15 (2d8 + 6) piercing damage plus 27 (6d8) radiant damage. If the target is a creature that has 190 hit points or fewer, it must succeed on a DC 15 Constitution saving throw or die.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slaying Longbow",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The solar magically teleports, along with any equipment it is wearing or carrying, up to 120 ft. to an unoccupied space it can see.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Teleport",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 21,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 21,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "srd_astral-plane",
+        "name": "Astral Plane"
+      },
+      {
+        "key": "temple",
+        "name": "Temple"
+      }
+    ],
+    "experience_points": 33000,
+    "hit_dice": "18d10+144",
+    "hit_points": 243,
+    "illustration": null,
+    "initiative_bonus": 6,
+    "key": "srd_solar",
+    "languages": {
+      "as_string": "all, telepathy 120 ft.",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 10,
+      "constitution": 8,
+      "dexterity": 6,
+      "intelligence": 7,
+      "strength": 8,
+      "wisdom": 7
+    },
+    "name": "Solar",
+    "normal_sight_range": 10560,
+    "passive_perception": 24,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened, poisoned",
+      "damage_immunities": [
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "necrotic, poison",
+      "damage_resistances": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "radiant",
+          "name": "Radiant"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_resistances_display": "radiant; bludgeoning, piercing, and slashing from nonmagical attacks",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 17,
+      "intelligence": 14,
+      "wisdom": 14
+    },
+    "saving_throws_all": {
+      "charisma": 17,
+      "constitution": 8,
+      "dexterity": 6,
+      "intelligence": 14,
+      "strength": 8,
+      "wisdom": 14
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 14
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 6,
+      "animal_handling": 7,
+      "arcana": 7,
+      "athletics": 8,
+      "deception": 10,
+      "history": 7,
+      "insight": 7,
+      "intimidation": 10,
+      "investigation": 7,
+      "medicine": 7,
+      "nature": 7,
+      "perception": 14,
+      "performance": 10,
+      "persuasion": 10,
+      "religion": 7,
+      "sleight_of_hand": 6,
+      "stealth": 6,
+      "survival": 7
+    },
+    "speed": {
+      "fly": 150,
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 150,
+      "hover": false,
+      "swim": 25,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": "Angels",
+    "traits": [
+      {
+        "desc": "The solar's weapon attacks are magical. When the solar hits with any weapon, the weapon deals an extra 6d8 radiant damage (included in the attack).",
+        "name": "Angelic Weapons"
+      },
+      {
+        "desc": "The solar knows if it hears a lie.",
+        "name": "Divine Awareness"
+      },
+      {
+        "desc": "The solar's spell casting ability is Charisma (spell save DC 25). It can innately cast the following spells, requiring no material components:\nAt will: detect evil and good, invisibility (self only)\n3/day each: blade barrier, dispel evil and good, resurrection\n1/day each: commune, control weather",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The solar has advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}

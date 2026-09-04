@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:wand-of-web",
+  "type": "magic-item",
+  "name": "Wand of Web",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wand",
+    "uncommon",
+    "attunement"
+  ],
+  "body": "This wand has 7 charges. While holding it, you can use an action to expend 1 of its charges to cast the _web_ spell (save DC 15) from it.\n\nThe wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed.",
+  "data": {
+    "armor": null,
+    "attunement_detail": "requires attunement by a spellcaster",
+    "category": {
+      "key": "wand",
+      "name": "Wand"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This wand has 7 charges. While holding it, you can use an action to expend 1 of its charges to cast the _web_ spell (save DC 15) from it.\n\nThe wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand crumbles into ashes and is destroyed.",
+    "key": "srd_wand-of-web",
+    "name": "Wand of Web",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

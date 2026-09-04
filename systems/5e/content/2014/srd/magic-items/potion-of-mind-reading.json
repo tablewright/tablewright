@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:potion-of-mind-reading",
+  "type": "magic-item",
+  "name": "Potion of Mind Reading",
+  "source": "5e-2014-srd",
+  "tags": [
+    "potion",
+    "rare"
+  ],
+  "body": "When you drink this potion, you gain the effect of the _detect thoughts_ spell (save DC 13). The potion's dense, purple liquid has an ovoid cloud of pink floating in it.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you drink this potion, you gain the effect of the _detect thoughts_ spell (save DC 13). The potion's dense, purple liquid has an ovoid cloud of pink floating in it.",
+    "key": "srd_potion-of-mind-reading",
+    "name": "Potion of Mind Reading",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

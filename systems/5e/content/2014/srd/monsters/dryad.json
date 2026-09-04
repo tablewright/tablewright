@@ -1,0 +1,202 @@
+{
+  "id": "5e-2014-srd:monster:dryad",
+  "type": "monster",
+  "name": "Dryad",
+  "source": "5e-2014-srd",
+  "tags": [
+    "fey",
+    "medium",
+    "cr-1"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 11,
+      "dexterity": 12,
+      "intelligence": 14,
+      "strength": 10,
+      "wisdom": 15
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Club attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 2
+          }
+        ],
+        "desc": "Melee Weapon Attack: +2 to hit (+6 to hit with shillelagh), reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage, or 8 (1d8 + 4) bludgeoning damage with shillelagh.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Club",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dryad targets one humanoid or beast that she can see within 30 feet of her. If the target can see the dryad, it must succeed on a DC 14 Wisdom saving throw or be magically charmed. The charmed creature regards the dryad as a trusted friend to be heeded and protected. Although the target isn't under the dryad's control, it takes the dryad's requests or actions in the most favorable way it can.\nEach time the dryad or its allies do anything harmful to the target, it can repeat the saving throw, ending the effect on itself on a success. Otherwise, the effect lasts 24 hours or until the dryad dies, is on a different plane of existence from the target, or ends the effect as a bonus action. If a target's saving throw is successful, the target is immune to the dryad's Fey Charm for the next 24 hours.\nThe dryad can have no more than one humanoid and up to three beasts charmed at a time.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Fey Charm",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 11,
+    "armor_detail": "16 with _barkskin_",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 1,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      }
+    ],
+    "experience_points": 200,
+    "hit_dice": "5d8",
+    "hit_points": 22,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd_dryad",
+    "languages": {
+      "as_string": "Elvish, Sylvan",
+      "data": [
+        {
+          "desc": "Typical speakers are elves.",
+          "key": "elvish",
+          "name": "Elvish"
+        },
+        {
+          "desc": "Typical speakers are fey creatures.",
+          "key": "sylvan",
+          "name": "Sylvan"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": 2,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "name": "Dryad",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 4,
+      "constitution": 0,
+      "dexterity": 1,
+      "intelligence": 2,
+      "strength": 0,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 2,
+      "arcana": 2,
+      "athletics": 0,
+      "deception": 4,
+      "history": 2,
+      "insight": 2,
+      "intimidation": 4,
+      "investigation": 2,
+      "medicine": 2,
+      "nature": 2,
+      "perception": 4,
+      "performance": 4,
+      "persuasion": 4,
+      "religion": 2,
+      "sleight_of_hand": 1,
+      "stealth": 5,
+      "survival": 2
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The dryad's innate spellcasting ability is Charisma (spell save DC 14). The dryad can innately cast the following spells, requiring no material components:\n\nAt will: druidcraft\n3/day each: entangle, goodberry\n1/day each: barkskin, pass without trace, shillelagh",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The dryad has advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      },
+      {
+        "desc": "The dryad can communicate with beasts and plants as if they shared a language.",
+        "name": "Speak with Beasts and Plants"
+      },
+      {
+        "desc": "Once on her turn, the dryad can use 10 ft. of her movement to step magically into one living tree within her reach and emerge from a second living tree within 60 ft. of the first tree, appearing in an unoccupied space within 5 ft. of the second tree. Both trees must be large or bigger.",
+        "name": "Tree Stride"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "fey",
+      "name": "Fey"
+    }
+  }
+}

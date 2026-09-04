@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:mantle-of-spell-resistance",
+  "type": "magic-item",
+  "name": "Mantle of Spell Resistance",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "rare",
+    "attunement"
+  ],
+  "body": "You have advantage on saving throws against spells while you wear this cloak.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have advantage on saving throws against spells while you wear this cloak.",
+    "key": "srd_mantle-of-spell-resistance",
+    "name": "Mantle of Spell Resistance",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

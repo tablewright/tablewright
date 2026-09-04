@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:sealing-wax",
+  "type": "item",
+  "name": "Sealing wax",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "For sealing written letters.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.50",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "For sealing written letters.",
+    "key": "srd_sealing-wax",
+    "name": "Sealing wax",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:mounts-and-vehicles-mounts",
+  "type": "rule",
+  "name": "Mounts and Other Animals",
+  "source": "5e-2014-srd",
+  "tags": [
+    "mounts-and-vehicles"
+  ],
+  "body": "| Item           | Cost   | Speed  | Carrying Capacity |\n|----------------|--------|--------|-------------------|\n| Camel          | 50 gp  | 50 ft. | 480 lb.           |\n| Donkey or mule | 8 gp   | 40 ft. | 420 lb.           |\n| Elephant       | 200 gp | 40 ft. | 1,320 lb.         |\n| Horse, draft   | 50 gp  | 40 ft. | 540 lb.           |\n| Horse, riding  | 75 gp  | 60 ft. | 480 lb.           |\n| Mastiff        | 25 gp  | 40 ft. | 195 lb.           |\n| Pony           | 30 gp  | 40 ft. | 225 lb.           |\n| Warhorse       | 400 gp | 60 ft. | 540 lb.           |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "| Item           | Cost   | Speed  | Carrying Capacity |\n|----------------|--------|--------|-------------------|\n| Camel          | 50 gp  | 50 ft. | 480 lb.           |\n| Donkey or mule | 8 gp   | 40 ft. | 420 lb.           |\n| Elephant       | 200 gp | 40 ft. | 1,320 lb.         |\n| Horse, draft   | 50 gp  | 40 ft. | 540 lb.           |\n| Horse, riding  | 75 gp  | 60 ft. | 480 lb.           |\n| Mastiff        | 25 gp  | 40 ft. | 195 lb.           |\n| Pony           | 30 gp  | 40 ft. | 225 lb.           |\n| Warhorse       | 400 gp | 60 ft. | 540 lb.           |",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_mounts-and-vehicles_mounts",
+    "name": "Mounts and Other Animals",
+    "ruleset": "srd_mounts-and-vehicles"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:attacking-ranged-attacks-in-close-combat",
+  "type": "rule",
+  "name": "Ranged Attacks in Close Combat",
+  "source": "5e-2014-srd",
+  "tags": [
+    "attacking"
+  ],
+  "body": "Aiming a ranged attack is more difficult when a foe is next to you. When you make a ranged attack with a weapon, a spell, or some other means, you have disadvantage on the attack roll if you are within 5 feet of a hostile creature who can see you and who isn't incapacitated.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Aiming a ranged attack is more difficult when a foe is next to you. When you make a ranged attack with a weapon, a spell, or some other means, you have disadvantage on the attack roll if you are within 5 feet of a hostile creature who can see you and who isn't incapacitated.",
+    "index": 7,
+    "initialHeaderLevel": 3,
+    "key": "srd_attacking_ranged-attacks-in-close-combat",
+    "name": "Ranged Attacks in Close Combat",
+    "ruleset": "srd_attacking"
+  }
+}

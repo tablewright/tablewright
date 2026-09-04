@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:ox",
+  "type": "item",
+  "name": "Ox",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "One ox.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One ox.",
+    "key": "srd_ox",
+    "name": "Ox",
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "weapon": null,
+    "weight": "1500.000",
+    "weight_unit": "lb"
+  }
+}

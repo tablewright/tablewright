@@ -1,0 +1,61 @@
+{
+  "id": "5e-2014-srd:magic-item:vicious-weapon-quarterstaff",
+  "type": "magic-item",
+  "name": "Vicious Weapon (Quarterstaff)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon",
+    "rare"
+  ],
+  "body": "When you roll a 20 on your attack roll with this magic weapon, your critical hit deals an extra 2d6 damage of the weapon's type.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you roll a 20 on your attack roll with this magic weapon, your critical hit deals an extra 2d6 damage of the weapon's type.",
+    "key": "srd_vicious-weapon-quarterstaff",
+    "name": "Vicious Weapon (Quarterstaff)",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d6",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd_quarterstaff",
+      "name": "Quarterstaff",
+      "properties": [
+        {
+          "detail": "1d8",
+          "property": {
+            "desc": "This weapon can be used with one or two hands. A damage value in parentheses appears with the property—the damage when the weapon is used with two hands to make a melee attack.",
+            "name": "Versatile",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

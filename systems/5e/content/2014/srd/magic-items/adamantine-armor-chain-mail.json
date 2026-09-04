@@ -1,0 +1,49 @@
+{
+  "id": "5e-2014-srd:magic-item:adamantine-armor-chain-mail",
+  "type": "magic-item",
+  "name": "Adamantine Armor (Chain-Mail)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "uncommon"
+  ],
+  "body": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 16,
+      "ac_cap_dexmod": null,
+      "ac_display": "16",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_chain-mail",
+      "name": "Chain mail",
+      "strength_score_required": 13
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+    "key": "srd_adamantine-armor-chain-mail",
+    "name": "Adamantine Armor (Chain-Mail)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "55.000",
+    "weight_unit": "lb"
+  }
+}

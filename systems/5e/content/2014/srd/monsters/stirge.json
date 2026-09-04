@@ -1,0 +1,198 @@
+{
+  "id": "5e-2014-srd:monster:stirge",
+  "type": "monster",
+  "name": "Stirge",
+  "source": "5e-2014-srd",
+  "tags": [
+    "beast",
+    "tiny",
+    "cr-1/8"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 6,
+      "constitution": 11,
+      "dexterity": 16,
+      "intelligence": 2,
+      "strength": 4,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D4",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Blood Drain attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": true,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 5 (1d4 + 3) piercing damage, and the stirge attaches to the target. While attached, the stirge doesn't attack. Instead, at the start of each of the stirge's turns, the target loses 5 (1d4 + 3) hit points due to blood loss.\nThe stirge can detach itself by spending 5 feet of its movement. It does so after it drains 10 hit points of blood from the target or the target dies. A creature, including the target, can use its action to detach the stirge.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Blood Drain",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.125,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "coast",
+        "name": "Coast"
+      },
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "grassland",
+        "name": "Grassland or Plains"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "mountain",
+        "name": "Mountain"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 25,
+    "hit_dice": "1d4",
+    "hit_points": 2,
+    "illustration": null,
+    "initiative_bonus": 3,
+    "key": "srd_stirge",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": -1
+    },
+    "name": "Stirge",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 0,
+      "dexterity": 3,
+      "intelligence": -4,
+      "strength": -3,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 3,
+      "animal_handling": -1,
+      "arcana": -4,
+      "athletics": -3,
+      "deception": -2,
+      "history": -4,
+      "insight": -1,
+      "intimidation": -2,
+      "investigation": -4,
+      "medicine": -1,
+      "nature": -4,
+      "perception": -1,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": -4,
+      "sleight_of_hand": 3,
+      "stealth": 3,
+      "survival": -1
+    },
+    "speed": {
+      "fly": 40,
+      "unit": "feet",
+      "walk": 10
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 5,
+      "crawl": 5,
+      "fly": 40,
+      "hover": false,
+      "swim": 5,
+      "unit": "feet",
+      "walk": 10
+    },
+    "subcategory": null,
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "beast",
+      "name": "Beast"
+    }
+  }
+}

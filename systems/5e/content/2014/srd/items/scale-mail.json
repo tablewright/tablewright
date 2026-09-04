@@ -1,0 +1,41 @@
+{
+  "id": "5e-2014-srd:item:scale-mail",
+  "type": "item",
+  "name": "Scale mail",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. The suit includes gauntlets.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 14,
+      "ac_cap_dexmod": 2,
+      "ac_display": "14 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_scale-mail",
+      "name": "Scale mail",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. The suit includes gauntlets.",
+    "key": "srd_scale-mail",
+    "name": "Scale mail",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "45.000",
+    "weight_unit": "lb"
+  }
+}

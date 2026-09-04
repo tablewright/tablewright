@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:galley",
+  "type": "item",
+  "name": "Galley",
+  "source": "5e-2014-srd",
+  "tags": [
+    "waterborne-vehicle"
+  ],
+  "body": "A waterborne vehicle. Speed 4 mph",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "waterborne-vehicle",
+      "name": "Waterborne Vehicle"
+    },
+    "cost": "30000.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A waterborne vehicle. Speed 4 mph",
+    "key": "srd_galley",
+    "name": "Galley",
+    "size": {
+      "key": "gargantuan",
+      "name": "Gargantuan"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

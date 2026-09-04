@@ -1,0 +1,61 @@
+{
+  "id": "5e-2014-srd:magic-item:vicious-weapon-maul",
+  "type": "magic-item",
+  "name": "Vicious Weapon (Maul)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon",
+    "rare"
+  ],
+  "body": "When you roll a 20 on your attack roll with this magic weapon, your critical hit deals an extra 2d6 damage of the weapon's type.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you roll a 20 on your attack roll with this magic weapon, your critical hit deals an extra 2d6 damage of the weapon's type.",
+    "key": "srd_vicious-weapon-maul",
+    "name": "Vicious Weapon (Maul)",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "2d6",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd_maul",
+      "name": "Maul",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "This weapon requires two hands when you attack with it.",
+            "name": "Two-Handed",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

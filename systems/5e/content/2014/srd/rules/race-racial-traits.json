@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:race-racial-traits",
+  "type": "rule",
+  "name": "Racial Traits",
+  "source": "5e-2014-srd",
+  "tags": [
+    "races"
+  ],
+  "body": "The description of each race includes racial traits that are common to members of that race. The following entries appear among the traits of most races.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The description of each race includes racial traits that are common to members of that race. The following entries appear among the traits of most races.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_race_racial-traits",
+    "name": "Racial Traits",
+    "ruleset": "srd_races"
+  }
+}

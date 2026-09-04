@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:tent",
+  "type": "item",
+  "name": "Tent",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A simple and portable canvas shelter, a tent sleeps two.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A simple and portable canvas shelter, a tent sleeps two.",
+    "key": "srd_tent",
+    "name": "Tent",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "20.000",
+    "weight_unit": "lb"
+  }
+}

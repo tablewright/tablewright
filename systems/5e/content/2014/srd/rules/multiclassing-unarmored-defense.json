@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:multiclassing-unarmored-defense",
+  "type": "rule",
+  "name": "Unarmored Defense",
+  "source": "5e-2014-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "If you already have the Unarmored Defense feature, you can't gain it again from another class.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "If you already have the Unarmored Defense feature, you can't gain it again from another class.",
+    "index": 9,
+    "initialHeaderLevel": 2,
+    "key": "srd_multiclassing_unarmored-defense",
+    "name": "Unarmored Defense",
+    "ruleset": "srd_multiclassing"
+  }
+}

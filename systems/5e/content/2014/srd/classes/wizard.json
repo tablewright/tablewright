@@ -1,0 +1,837 @@
+{
+  "id": "5e-2014-srd:class:wizard",
+  "type": "class",
+  "name": "Wizard",
+  "source": "5e-2014-srd",
+  "tags": [],
+  "body": "",
+  "data": {
+    "caster_type": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 16
+          },
+          {
+            "detail": null,
+            "level": 19
+          },
+          {
+            "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 8
+          }
+        ],
+        "key": "srd_wizard_ability-score-improvement",
+        "name": "Ability Score Improvement"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You have learned to regain some of your magical energy by studying your spellbook. Once per day when you finish a short rest, you can choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your wizard level (rounded up), and none of the slots can be 6th level or higher.\r\n\r\nFor example, if you're a 4th-level wizard, you can recover up to two levels worth of spell slots. You can recover either a 2nd-level spell slot or two 1st-level spell slots.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_wizard_arcane-recovery",
+        "name": "Arcane Recovery"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you reach 2nd level, you choose an arcane tradition, shaping your practice of magic through one of eight schools: Abjuration, Conjuration, Divination, Enchantment, Evocation, Illusion, Necromancy, or Transmutation, all detailed at the end of the class description.\r\n\r\nYour choice grants you features at 2nd level and again at 6th, 10th, and 14th level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd_wizard_arcane-tradition",
+        "name": "Arcane Tradition"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 1
+          },
+          {
+            "column_value": "5",
+            "level": 10
+          },
+          {
+            "column_value": "5",
+            "level": 11
+          },
+          {
+            "column_value": "5",
+            "level": 12
+          },
+          {
+            "column_value": "5",
+            "level": 13
+          },
+          {
+            "column_value": "5",
+            "level": 14
+          },
+          {
+            "column_value": "5",
+            "level": 15
+          },
+          {
+            "column_value": "5",
+            "level": 16
+          },
+          {
+            "column_value": "5",
+            "level": 17
+          },
+          {
+            "column_value": "5",
+            "level": 18
+          },
+          {
+            "column_value": "5",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 2
+          },
+          {
+            "column_value": "5",
+            "level": 20
+          },
+          {
+            "column_value": "3",
+            "level": 3
+          },
+          {
+            "column_value": "4",
+            "level": 4
+          },
+          {
+            "column_value": "4",
+            "level": 5
+          },
+          {
+            "column_value": "4",
+            "level": 6
+          },
+          {
+            "column_value": "4",
+            "level": 7
+          },
+          {
+            "column_value": "4",
+            "level": 8
+          },
+          {
+            "column_value": "4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_TABLE_DATA",
+        "gained_at": [],
+        "key": "srd_wizard_cantrips-known",
+        "name": "Cantrips Known"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You start with the following equipment, in addition to the equipment granted by your background:\r\n* (*a*) a quarterstaff or (*b*) a dagger\r\n* (*a*) a component pouch or (*b*) an arcane focus\r\n* (*a*) a scholar’s pack or (*b*) an explorer’s pack\r\n* A spellbook",
+        "feature_type": "STARTING_EQUIPMENT",
+        "gained_at": [],
+        "key": "srd_wizard_equipment",
+        "name": "Equipment"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "**Armor:** None\r\n**Weapons:** Daggers, darts, slings, quarterstaffs, light crossbows\r\n**Tools:** None\r\n**Saving Throws:** Intelligence, Wisdom\r\n**Skills:** Choose two from Arcana, History, Insight, Investigation, Medicine, and Religion",
+        "feature_type": "PROFICIENCIES",
+        "gained_at": [],
+        "key": "srd_wizard_proficiencies",
+        "name": "Proficiencies"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "+2",
+            "level": 1
+          },
+          {
+            "column_value": "+4",
+            "level": 10
+          },
+          {
+            "column_value": "+4",
+            "level": 11
+          },
+          {
+            "column_value": "+4",
+            "level": 12
+          },
+          {
+            "column_value": "+5",
+            "level": 13
+          },
+          {
+            "column_value": "+5",
+            "level": 14
+          },
+          {
+            "column_value": "+5",
+            "level": 15
+          },
+          {
+            "column_value": "+5",
+            "level": 16
+          },
+          {
+            "column_value": "+6",
+            "level": 17
+          },
+          {
+            "column_value": "+6",
+            "level": 18
+          },
+          {
+            "column_value": "+6",
+            "level": 19
+          },
+          {
+            "column_value": "+2",
+            "level": 2
+          },
+          {
+            "column_value": "+6",
+            "level": 20
+          },
+          {
+            "column_value": "+2",
+            "level": 3
+          },
+          {
+            "column_value": "+2",
+            "level": 4
+          },
+          {
+            "column_value": "+3",
+            "level": 5
+          },
+          {
+            "column_value": "+3",
+            "level": 6
+          },
+          {
+            "column_value": "+3",
+            "level": 7
+          },
+          {
+            "column_value": "+3",
+            "level": 8
+          },
+          {
+            "column_value": "+4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "PROFICIENCY_BONUS",
+        "gained_at": [],
+        "key": "srd_wizard_proficiency-bonus",
+        "name": "Proficiency Bonus"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you reach 20th level, you gain mastery over two powerful spells and can cast them with little effort. Choose two 3rd-level wizard spells in your spellbook as your signature spells. You always have these spells prepared, they don't count against the number of spells you have prepared, and you can cast each of them once at 3rd level without expending a spell slot. When you do so, you can't do so again until you finish a short or long rest.\r\n\r\nIf you want to cast either spell at a higher level, you must expend a spell slot as normal.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 20
+          }
+        ],
+        "key": "srd_wizard_signature-spells",
+        "name": "Signature Spells"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 1
+          },
+          {
+            "column_value": "4",
+            "level": 10
+          },
+          {
+            "column_value": "4",
+            "level": 11
+          },
+          {
+            "column_value": "4",
+            "level": 12
+          },
+          {
+            "column_value": "4",
+            "level": 13
+          },
+          {
+            "column_value": "4",
+            "level": 14
+          },
+          {
+            "column_value": "4",
+            "level": 15
+          },
+          {
+            "column_value": "4",
+            "level": 16
+          },
+          {
+            "column_value": "4",
+            "level": 17
+          },
+          {
+            "column_value": "4",
+            "level": 18
+          },
+          {
+            "column_value": "4",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 2
+          },
+          {
+            "column_value": "4",
+            "level": 20
+          },
+          {
+            "column_value": "4",
+            "level": 3
+          },
+          {
+            "column_value": "4",
+            "level": 4
+          },
+          {
+            "column_value": "4",
+            "level": 5
+          },
+          {
+            "column_value": "4",
+            "level": 6
+          },
+          {
+            "column_value": "4",
+            "level": 7
+          },
+          {
+            "column_value": "4",
+            "level": 8
+          },
+          {
+            "column_value": "4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-1st",
+        "name": "1st"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 4
+          },
+          {
+            "column_value": "3",
+            "level": 4
+          },
+          {
+            "column_value": "3",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-2nd",
+        "name": "2nd"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 5
+          },
+          {
+            "column_value": "3",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-3rd",
+        "name": "3rd"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "1",
+            "level": 7
+          },
+          {
+            "column_value": "2",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-4th",
+        "name": "4th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 10
+          },
+          {
+            "column_value": "2",
+            "level": 11
+          },
+          {
+            "column_value": "2",
+            "level": 12
+          },
+          {
+            "column_value": "2",
+            "level": 13
+          },
+          {
+            "column_value": "2",
+            "level": 14
+          },
+          {
+            "column_value": "2",
+            "level": 15
+          },
+          {
+            "column_value": "2",
+            "level": 16
+          },
+          {
+            "column_value": "2",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "1",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-5th",
+        "name": "5th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 11
+          },
+          {
+            "column_value": "1",
+            "level": 12
+          },
+          {
+            "column_value": "1",
+            "level": 13
+          },
+          {
+            "column_value": "1",
+            "level": 14
+          },
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "2",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-6th",
+        "name": "6th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 13
+          },
+          {
+            "column_value": "1",
+            "level": 14
+          },
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-7th",
+        "name": "7th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 15
+          },
+          {
+            "column_value": "1",
+            "level": 16
+          },
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "1",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-8th",
+        "name": "8th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "1",
+            "level": 19
+          },
+          {
+            "column_value": "1",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_wizard_slots-9th",
+        "name": "9th"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 18th level, you have achieved such mastery over certain spells that you can cast them at will. Choose a 1st-level wizard spell and a 2nd-level wizard spell that are in your spellbook. You can cast those spells at their lowest level without expending a spell slot when you have them prepared. If you want to cast either spell at a higher level, you must expend a spell slot as normal.\r\n\r\nBy spending 8 hours in study, you can exchange one or both of the spells you chose for different spells of the same levels.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 18
+          }
+        ],
+        "key": "srd_wizard_spell-mastery",
+        "name": "Spell Mastery"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "As a student of arcane magic, you have a spellbook containing spells that show the first glimmerings of your true power.\r\n\r\n### Cantrips\r\n\r\nAt 1st level, you know three cantrips of your choice from the wizard spell list. You learn additional wizard cantrips of your choice at higher levels, as shown in the Cantrips Known column of the Wizard table.\r\n\r\n### Spellbook\r\n\r\nAt 1st level, you have a spellbook containing six 1st- level wizard spells of your choice. Your spellbook is the repository of the wizard spells you know, except your cantrips, which are fixed in your mind.\r\n\r\n### Preparing and Casting Spells\r\n\r\nThe Wizard table shows how many spell slots you have to cast your spells of 1st level and higher. To cast one of these spells, you must expend a slot of the spell's level or higher. You regain all expended spell slots when you finish a long rest.\r\n\r\nYou prepare the list of wizard spells that are available for you to cast. To do so, choose a number of wizard spells from your spellbook equal to your Intelligence modifier + your wizard level (minimum of one spell). The spells must be of a level for which you have spell slots.\r\n\r\nFor example, if you're a 3rd-level wizard, you have four 1st-level and two 2nd-level spell slots. With an Intelligence of 16, your list of prepared spells can include six spells of 1st or 2nd level, in any combination, chosen from your spellbook. If you prepare the 1st-level spell magic missile, you can cast it using a 1st-level or a 2nd-level slot. Casting the spell doesn't remove it from your list of prepared spells.\r\n\r\nYou can change your list of prepared spells when you finish a long rest. Preparing a new list of wizard spells requires time spent studying your spellbook and memorizing the incantations and gestures you must make to cast the spell: at least 1 minute per spell level for each spell on your list.\r\n\r\n### Spellcasting Ability\r\n\r\nIntelligence is your spellcasting ability for your wizard spells, since you learn your spells through dedicated study and memorization. You use your Intelligence whenever a spell refers to your spellcasting ability. In addition, you use your Intelligence modifier when setting the saving throw DC for a wizard spell you cast and when making an attack roll with one.\r\n\r\n**Spell save DC** = 8 + your proficiency bonus + your Intelligence modifier\r\n\r\n**Spell attack modifier** = your proficiency bonus + your Intelligence modifier\r\n\r\n### Ritual Casting\r\n\r\nYou can cast a wizard spell as a ritual if that spell has the ritual tag and you have the spell in your spellbook. You don't need to have the spell prepared.\r\n\r\n### Spellcasting Focus\r\n\r\nYou can use an arcane focus as a spellcasting focus for your wizard spells.\r\n\r\n### Learning Spells of 1st Level and Higher\r\n\r\nEach time you gain a wizard level, you can add two wizard spells of your choice to your spellbook for free. Each of these spells must be of a level for which you have spell slots, as shown on the Wizard table. On your adventures, you might find other spells that you can add to your spellbook (see the “Your Spellbook” sidebar).",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_wizard_spellcasting",
+        "name": "Spellcasting"
+      }
+    ],
+    "hit_dice": "D6",
+    "hit_points": {
+      "hit_dice": "D6",
+      "hit_dice_name": "1D6 per Wizard level",
+      "hit_points_at_1st_level": "6 + your Constitution modifier",
+      "hit_points_at_higher_levels": "1D6 (or 4) + your Constitution modifier per wizard level after 1st"
+    },
+    "key": "srd_wizard",
+    "name": "Wizard",
+    "primary_abilities": [],
+    "saving_throws": [
+      {
+        "name": "Intelligence"
+      },
+      {
+        "name": "Wisdom"
+      }
+    ],
+    "subclass_of": null
+  }
+}

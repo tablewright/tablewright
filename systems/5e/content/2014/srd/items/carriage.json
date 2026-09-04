@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:carriage",
+  "type": "item",
+  "name": "Carriage",
+  "source": "5e-2014-srd",
+  "tags": [
+    "land-vehicle"
+  ],
+  "body": "Drawn vehicle.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "land-vehicle",
+      "name": "Land Vehicle"
+    },
+    "cost": "100.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Drawn vehicle.",
+    "key": "srd_carriage",
+    "name": "Carriage",
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "weapon": null,
+    "weight": "600.000",
+    "weight_unit": "lb"
+  }
+}

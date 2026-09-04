@@ -1,0 +1,231 @@
+{
+  "id": "5e-2014-srd:monster:steam-mephit",
+  "type": "monster",
+  "name": "Steam Mephit",
+  "source": "5e-2014-srd",
+  "tags": [
+    "elemental",
+    "small",
+    "cr-1/4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 12,
+      "constitution": 10,
+      "dexterity": 11,
+      "intelligence": 11,
+      "strength": 5,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Claws attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": true,
+            "to_hit_mod": 2
+          }
+        ],
+        "desc": "Melee Weapon Attack: +2 to hit, reach 5 ft., one creature. Hit: 2 (1d4) slashing damage plus 2 (1d4) fire damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claws",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The mephit exhales a 15-foot cone of scalding steam. Each creature in that area must succeed on a DC 10 Dexterity saving throw, taking 4 (1d8) fire damage on a failed save, or half as much damage on a successful one.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Steam Breath",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The mephit has a 25 percent chance of summoning 1d4 mephits of its kind. A summoned mephit appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other mephits. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Variant: Summon Mephits",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      }
+    ],
+    "alignment": "neutral evil",
+    "armor_class": 10,
+    "armor_detail": "",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "ocean",
+        "name": "Ocean"
+      },
+      {
+        "key": "srd_plane-of-fire",
+        "name": "Plane of Fire"
+      },
+      {
+        "key": "srd_plane-of-water",
+        "name": "Plane of Water"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 50,
+    "hit_dice": "6d6",
+    "hit_points": 21,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd_steam-mephit",
+    "languages": {
+      "as_string": "Aquan, Ignan",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 0,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": -3,
+      "wisdom": 0
+    },
+    "name": "Steam Mephit",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "fire, poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 0,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": -3,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 0,
+      "arcana": 0,
+      "athletics": -3,
+      "deception": 1,
+      "history": 0,
+      "insight": 0,
+      "intimidation": 1,
+      "investigation": 0,
+      "medicine": 0,
+      "nature": 0,
+      "perception": 0,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": 0,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 30,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": "Mephits",
+    "traits": [
+      {
+        "desc": "When the mephit dies, it explodes in a cloud of steam. Each creature within 5 ft. of the mephit must succeed on a DC 10 Dexterity saving throw or take 4 (1d8) fire damage.",
+        "name": "Death Burst"
+      },
+      {
+        "desc": "The mephit can innately cast _blur_, requiring no material components. Its innate spellcasting ability is Charisma.",
+        "name": "Innate Spellcasting (1/Day)"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "elemental",
+      "name": "Elemental"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:rod",
+  "type": "item",
+  "name": "Rod",
+  "source": "5e-2014-srd",
+  "tags": [
+    "rod"
+  ],
+  "body": "Can be used as an arcane focus.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "rod",
+      "name": "Rod"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Can be used as an arcane focus.",
+    "key": "srd_rod",
+    "name": "Rod",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:movement-climbing-swimming-crawling",
+  "type": "rule",
+  "name": "Climbing, Swimming and Crawling",
+  "source": "5e-2014-srd",
+  "tags": [
+    "movement"
+  ],
+  "body": "While climbing or swimming, each foot of movement costs 1 extra foot (2extra feet in difficult terrain), unless a creature has a climbing orswimming speed. At the GM's option, climbing a slippery vertical surfaceor one with few handholds requires a successful Strength (Athletics) check. Similarly, gaining any distance in rough water might require asuccessful Strength (Athletics) check.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While climbing or swimming, each foot of movement costs 1 extra foot (2extra feet in difficult terrain), unless a creature has a climbing orswimming speed. At the GM's option, climbing a slippery vertical surfaceor one with few handholds requires a successful Strength (Athletics) check. Similarly, gaining any distance in rough water might require asuccessful Strength (Athletics) check.",
+    "index": 5,
+    "initialHeaderLevel": 3,
+    "key": "srd_movement_climbing-swimming-crawling",
+    "name": "Climbing, Swimming and Crawling",
+    "ruleset": "srd_movement"
+  }
+}

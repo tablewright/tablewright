@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:objects-damage-threshold",
+  "type": "rule",
+  "name": "Damage Threshold",
+  "source": "5e-2014-srd",
+  "tags": [
+    "objects"
+  ],
+  "body": "Big objects such as castle walls often have extra resilience represented by a damage threshold. An object with a damage threshold has immunity to all damage unless it takes an amount of damage from a single attack or effect equal to or greater than its damage threshold, in which case it takes damage as normal. Any damage that fails to meet or exceed the object's damage threshold is considered superficial and doesn't reduce the object's hit points.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Big objects such as castle walls often have extra resilience represented by a damage threshold. An object with a damage threshold has immunity to all damage unless it takes an amount of damage from a single attack or effect equal to or greater than its damage threshold, in which case it takes damage as normal. Any damage that fails to meet or exceed the object's damage threshold is considered superficial and doesn't reduce the object's hit points.",
+    "index": 4,
+    "initialHeaderLevel": 2,
+    "key": "srd_objects_damage-threshold",
+    "name": "Damage Threshold",
+    "ruleset": "srd_objects"
+  }
+}

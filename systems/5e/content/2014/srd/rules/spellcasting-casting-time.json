@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:spellcasting-casting-time",
+  "type": "rule",
+  "name": "Casting Time",
+  "source": "5e-2014-srd",
+  "tags": [
+    "spellcasting"
+  ],
+  "body": "Most spells require a single action to cast, but some spells require a bonus action, a reaction, or much more time to cast.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Most spells require a single action to cast, but some spells require a bonus action, a reaction, or much more time to cast.",
+    "index": 10,
+    "initialHeaderLevel": 2,
+    "key": "srd_spellcasting_casting-time",
+    "name": "Casting Time",
+    "ruleset": "srd_spellcasting"
+  }
+}

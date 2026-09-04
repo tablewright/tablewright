@@ -1,0 +1,278 @@
+{
+  "id": "5e-2014-srd:monster:storm-giant",
+  "type": "monster",
+  "name": "Storm Giant",
+  "source": "5e-2014-srd",
+  "tags": [
+    "giant",
+    "huge",
+    "cr-13"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 20,
+      "dexterity": 14,
+      "intelligence": 16,
+      "strength": 29,
+      "wisdom": 18
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 6,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Greatsword attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Melee Weapon Attack: +14 to hit, reach 10 ft., one target. Hit: 30 (6d6 + 9) slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Greatsword",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The giant hurls a magical lightning bolt at a point it can see within 500 feet of it. Each creature within 10 feet of that point must make a DC 17 Dexterity saving throw, taking 54 (12d8) lightning damage on a failed save, or half as much damage on a successful one.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Lightning Strike",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The giant makes two greatsword attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 4,
+            "damage_die_type": "D12",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": 240,
+            "name": "Rock attack",
+            "range": 60,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 14
+          }
+        ],
+        "desc": "Ranged Weapon Attack: +14 to hit, range 60/240 ft., one target. Hit: 35 (4d12 + 9) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rock",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic good",
+    "armor_class": 16,
+    "armor_detail": "scale mail",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 13,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "coast",
+        "name": "Coast"
+      },
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "mountain",
+        "name": "Mountain"
+      },
+      {
+        "key": "ocean",
+        "name": "Ocean"
+      },
+      {
+        "key": "srd_plane-of-air",
+        "name": "Plane of Air"
+      },
+      {
+        "key": "srd_plane-of-water",
+        "name": "Plane of Water"
+      }
+    ],
+    "experience_points": 10000,
+    "hit_dice": "20d12+100",
+    "hit_points": 230,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_storm-giant",
+    "languages": {
+      "as_string": "Common, Giant",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include ogres, and giants.",
+          "key": "giant",
+          "name": "Giant"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 5,
+      "dexterity": 2,
+      "intelligence": 3,
+      "strength": 9,
+      "wisdom": 4
+    },
+    "name": "Storm Giant",
+    "normal_sight_range": 10560,
+    "passive_perception": 19,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "lightning",
+          "name": "Lightning"
+        },
+        {
+          "key": "thunder",
+          "name": "Thunder"
+        }
+      ],
+      "damage_immunities_display": "lightning, thunder",
+      "damage_resistances": [
+        {
+          "key": "cold",
+          "name": "Cold"
+        }
+      ],
+      "damage_resistances_display": "cold",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 9,
+      "constitution": 10,
+      "strength": 14,
+      "wisdom": 9
+    },
+    "saving_throws_all": {
+      "charisma": 9,
+      "constitution": 10,
+      "dexterity": 2,
+      "intelligence": 3,
+      "strength": 14,
+      "wisdom": 9
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "arcana": 8,
+      "athletics": 14,
+      "history": 8,
+      "perception": 9
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 4,
+      "arcana": 8,
+      "athletics": 14,
+      "deception": 4,
+      "history": 8,
+      "insight": 4,
+      "intimidation": 4,
+      "investigation": 3,
+      "medicine": 4,
+      "nature": 3,
+      "perception": 9,
+      "performance": 4,
+      "persuasion": 4,
+      "religion": 3,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 4
+    },
+    "speed": {
+      "swim": 50,
+      "unit": "feet",
+      "walk": 50
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 25,
+      "crawl": 25,
+      "fly": 0,
+      "hover": false,
+      "swim": 50,
+      "unit": "feet",
+      "walk": 50
+    },
+    "subcategory": "Giants",
+    "traits": [
+      {
+        "desc": "The giant can breathe air and water.",
+        "name": "Amphibious"
+      },
+      {
+        "desc": "The giant's innate spellcasting ability is Charisma (spell save DC 17). It can innately cast the following spells, requiring no material components:\n\nAt will: detect magic, feather fall, levitate, light\n3/day each: control weather, water breathing",
+        "name": "Innate Spellcasting"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "giant",
+      "name": "Giant"
+    }
+  }
+}

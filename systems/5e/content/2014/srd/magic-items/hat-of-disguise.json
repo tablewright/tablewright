@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:hat-of-disguise",
+  "type": "magic-item",
+  "name": "Hat of Disguise",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon",
+    "attunement"
+  ],
+  "body": "While wearing this hat, you can use an action to cast the _disguise self_ spell from it at will. The spell ends if the hat is removed.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this hat, you can use an action to cast the _disguise self_ spell from it at will. The spell ends if the hat is removed.",
+    "key": "srd_hat-of-disguise",
+    "name": "Hat of Disguise",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

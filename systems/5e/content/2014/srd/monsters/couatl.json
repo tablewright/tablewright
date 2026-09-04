@@ -1,0 +1,265 @@
+{
+  "id": "5e-2014-srd:monster:couatl",
+  "type": "monster",
+  "name": "Couatl",
+  "source": "5e-2014-srd",
+  "tags": [
+    "celestial",
+    "medium",
+    "cr-4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 17,
+      "dexterity": 20,
+      "intelligence": 18,
+      "strength": 16,
+      "wisdom": 20
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": true,
+            "to_hit_mod": 8
+          }
+        ],
+        "desc": "Melee Weapon Attack: +8 to hit, reach 5 ft., one creature. Hit: 8 (1d6 + 5) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 24 hours. Until this poison ends, the target is unconscious. Another creature can use an action to shake the target awake.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The couatl magically polymorphs into a humanoid or beast that has a challenge rating equal to or less than its own, or back into its true form. It reverts to its true form if it dies. Any equipment it is wearing or carrying is absorbed or borne by the new form (the couatl's choice).\nIn a new form, the couatl retains its game statistics and ability to speak, but its AC, movement modes, Strength, Dexterity, and other actions are replaced by those of the new form, and it gains any statistics and capabilities (except class features, legendary actions, and lair actions) that the new form has but that it lacks. If the new form has a bite attack, the couatl can use its bite in that form.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Change Shape",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Constrict attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": true,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Weapon Attack: +6 to hit, reach 10 ft., one Medium or smaller creature. Hit: 10 (2d6 + 3) bludgeoning damage, and the target is grappled (escape DC 15). Until this grapple ends, the target is restrained, and the couatl can't constrict another target.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Constrict",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 19,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 4,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "grassland",
+        "name": "Grassland or Plains"
+      },
+      {
+        "key": "srd_astral-plane",
+        "name": "Astral Plane"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 1100,
+    "hit_dice": "13d8+39",
+    "hit_points": 97,
+    "illustration": {
+      "alt_text": "",
+      "attribution": "",
+      "file_url": "/static/img/object_illustrations/open5e-illustrations/monsters/couatl.png",
+      "key": "open5e_couatl",
+      "name": "Couatl"
+    },
+    "initiative_bonus": 5,
+    "key": "srd_couatl",
+    "languages": {
+      "as_string": "all, telepathy 120 ft.",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 3,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 3,
+      "wisdom": 5
+    },
+    "name": "Couatl",
+    "normal_sight_range": 10560,
+    "passive_perception": 15,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_immunities_display": "psychic; bludgeoning, piercing, and slashing from nonmagical attacks",
+      "damage_resistances": [
+        {
+          "key": "radiant",
+          "name": "Radiant"
+        }
+      ],
+      "damage_resistances_display": "radiant",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 6,
+      "constitution": 5,
+      "wisdom": 7
+    },
+    "saving_throws_all": {
+      "charisma": 6,
+      "constitution": 5,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 3,
+      "wisdom": 7
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 5,
+      "animal_handling": 5,
+      "arcana": 4,
+      "athletics": 3,
+      "deception": 4,
+      "history": 4,
+      "insight": 5,
+      "intimidation": 4,
+      "investigation": 4,
+      "medicine": 5,
+      "nature": 4,
+      "perception": 5,
+      "performance": 4,
+      "persuasion": 4,
+      "religion": 4,
+      "sleight_of_hand": 5,
+      "stealth": 5,
+      "survival": 5
+    },
+    "speed": {
+      "fly": 90,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 90,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The couatl's spellcasting ability is Charisma (spell save DC 14). It can innately cast the following spells, requiring only verbal components:\n\nAt will: detect evil and good, detect magic, detect thoughts\n3/day each: bless, create food and water, cure wounds, lesser restoration, protection from poison, sanctuary, shield\n1/day each: dream, greater restoration, scrying",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The couatl's weapon attacks are magical.",
+        "name": "Magic Weapons"
+      },
+      {
+        "desc": "The couatl is immune to scrying and to any effect that would sense its emotions, read its thoughts, or detect its location.",
+        "name": "Shielded Mind"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}

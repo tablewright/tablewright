@@ -1,0 +1,228 @@
+{
+  "id": "5e-2014-srd:monster:skeleton",
+  "type": "monster",
+  "name": "Skeleton",
+  "source": "5e-2014-srd",
+  "tags": [
+    "undead",
+    "medium",
+    "cr-1/4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 5,
+      "constitution": 15,
+      "dexterity": 14,
+      "intelligence": 6,
+      "strength": 10,
+      "wisdom": 8
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": 320,
+            "name": "Shortbow attack",
+            "range": 80,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Shortbow",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Shortsword attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Shortsword",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 13,
+    "armor_detail": "armor scraps",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "ruins",
+        "name": "Ruins"
+      },
+      {
+        "key": "shadowfell",
+        "name": "Shadowfell"
+      },
+      {
+        "key": "temple",
+        "name": "Temple"
+      },
+      {
+        "key": "tomb",
+        "name": "Tomb"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 50,
+    "hit_dice": "2d8+4",
+    "hit_points": 13,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_skeleton",
+    "languages": {
+      "as_string": "understands the languages it knew in life but can't speak",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -2,
+      "strength": 0,
+      "wisdom": -1
+    },
+    "name": "Skeleton",
+    "normal_sight_range": 10560,
+    "passive_perception": 9,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "exhaustion, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        }
+      ],
+      "damage_vulnerabilities_display": "bludgeoning"
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -3,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": -2,
+      "strength": 0,
+      "wisdom": -1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": -1,
+      "arcana": -2,
+      "athletics": 0,
+      "deception": -3,
+      "history": -2,
+      "insight": -1,
+      "intimidation": -3,
+      "investigation": -2,
+      "medicine": -1,
+      "nature": -2,
+      "perception": -1,
+      "performance": -3,
+      "persuasion": -3,
+      "religion": -2,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": -1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": "Skeletons",
+    "traits": [],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "5e-2014-srd:magic-item:elven-chain",
+  "type": "magic-item",
+  "name": "Elven Chain",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "rare"
+  ],
+  "body": "You gain a +1 bonus to AC while you wear this armor. You are considered proficient with this armor even if you lack proficiency with medium armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 13,
+      "ac_cap_dexmod": 2,
+      "ac_display": "13 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": false,
+      "key": "srd_chain-shirt",
+      "name": "Chain shirt",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to AC while you wear this armor. You are considered proficient with this armor even if you lack proficiency with medium armor.",
+    "key": "srd_elven-chain",
+    "name": "Elven Chain",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "20.000",
+    "weight_unit": "lb"
+  }
+}

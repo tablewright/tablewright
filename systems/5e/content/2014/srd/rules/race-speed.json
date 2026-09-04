@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:race-speed",
+  "type": "rule",
+  "name": "Speed",
+  "source": "5e-2014-srd",
+  "tags": [
+    "races"
+  ],
+  "body": "Your speed determines how far you can move when traveling ( \"Adventuring\") and fighting (\"Combat\").",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Your speed determines how far you can move when traveling ( \"Adventuring\") and fighting (\"Combat\").",
+    "index": 6,
+    "initialHeaderLevel": 3,
+    "key": "srd_race_speed",
+    "name": "Speed",
+    "ruleset": "srd_races"
+  }
+}

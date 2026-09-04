@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:efficient-quiver",
+  "type": "magic-item",
+  "name": "Efficient Quiver",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon"
+  ],
+  "body": "Each of the quiver's three compartments connects to an extradimensional space that allows the quiver to hold numerous items while never weighing more than 2 pounds. The shortest compartment can hold up to sixty arrows, bolts, or similar objects. The midsize compartment holds up to eighteen javelins or similar objects. The longest compartment holds up to six long objects, such as bows, quarterstaffs, or spears.\r\n\r\nYou can draw any item the quiver contains as if doing so from a regular quiver or scabbard.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Each of the quiver's three compartments connects to an extradimensional space that allows the quiver to hold numerous items while never weighing more than 2 pounds. The shortest compartment can hold up to sixty arrows, bolts, or similar objects. The midsize compartment holds up to eighteen javelins or similar objects. The longest compartment holds up to six long objects, such as bows, quarterstaffs, or spears.\r\n\r\nYou can draw any item the quiver contains as if doing so from a regular quiver or scabbard.",
+    "key": "srd_efficient-quiver",
+    "name": "Efficient Quiver",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:expenses-food-drink-lodging",
+  "type": "rule",
+  "name": "Food, Drink, and Lodging",
+  "source": "5e-2014-srd",
+  "tags": [
+    "expenses"
+  ],
+  "body": "The Food, Drink, and Lodging table gives prices for individual food items and a single night's lodging. These prices are included in your total lifestyle expenses.\n\n**Food, Drink, and Lodging (table)**\n\n| Item                     | Cost  |\n|--------------------------|-------|\n| **_Ale_**                |       |\n| - Gallon                 | 2 sp  |\n| - Mug                    | 4 cp  |\n| Banquet (per person)     | 10 gp |\n| Bread, loaf              | 2 cp  |\n| Cheese, hunk             | 1 sp  |\n| **_Inn stay (per day)_** |       |\n| - Squalid                | 7 cp  |\n| - Poor                   | 1 sp  |\n| - Modest                 | 5 sp  |\n| - Comfortable            | 8 sp  |\n| - Wealthy                | 2 gp  |\n| - Aristocratic           | 4 gp  |\n| **_Meals (per day)_**    |       |\n| - Squalid                | 3 cp  |\n| - Poor                   | 6 cp  |\n| - Modest                 | 3 sp  |\n| - Comfortable            | 5 sp  |\n| - Wealthy                | 8 sp  |\n| - Aristocratic           | 2 gp  |\n| Meat, chunk              | 3 sp  |\n| **_Wine_**               |       |\n| - Common (pitcher)       | 2 sp  |\n| - Fine (bottle)          | 10 gp |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The Food, Drink, and Lodging table gives prices for individual food items and a single night's lodging. These prices are included in your total lifestyle expenses.\n\n**Food, Drink, and Lodging (table)**\n\n| Item                     | Cost  |\n|--------------------------|-------|\n| **_Ale_**                |       |\n| - Gallon                 | 2 sp  |\n| - Mug                    | 4 cp  |\n| Banquet (per person)     | 10 gp |\n| Bread, loaf              | 2 cp  |\n| Cheese, hunk             | 1 sp  |\n| **_Inn stay (per day)_** |       |\n| - Squalid                | 7 cp  |\n| - Poor                   | 1 sp  |\n| - Modest                 | 5 sp  |\n| - Comfortable            | 8 sp  |\n| - Wealthy                | 2 gp  |\n| - Aristocratic           | 4 gp  |\n| **_Meals (per day)_**    |       |\n| - Squalid                | 3 cp  |\n| - Poor                   | 6 cp  |\n| - Modest                 | 3 sp  |\n| - Comfortable            | 5 sp  |\n| - Wealthy                | 8 sp  |\n| - Aristocratic           | 2 gp  |\n| Meat, chunk              | 3 sp  |\n| **_Wine_**               |       |\n| - Common (pitcher)       | 2 sp  |\n| - Fine (bottle)          | 10 gp |",
+    "index": 3,
+    "initialHeaderLevel": 3,
+    "key": "srd_expenses_food-drink-lodging",
+    "name": "Food, Drink, and Lodging",
+    "ruleset": "srd_expenses"
+  }
+}

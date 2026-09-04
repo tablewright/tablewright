@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:ring-of-invisibility",
+  "type": "magic-item",
+  "name": "Ring of Invisibility",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring",
+    "legendary",
+    "attunement"
+  ],
+  "body": "While wearing this ring, you can turn invisible as an action. Anything you are wearing or carrying is invisible with you. You remain invisible until the ring is removed, until you attack or cast a spell, or until you use a bonus action to become visible again.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this ring, you can turn invisible as an action. Anything you are wearing or carrying is invisible with you. You remain invisible until the ring is removed, until you attack or cast a spell, or until you use a bonus action to become visible again.",
+    "key": "srd_ring-of-invisibility",
+    "name": "Ring of Invisibility",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

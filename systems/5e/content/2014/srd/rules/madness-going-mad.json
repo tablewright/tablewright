@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:madness-going-mad",
+  "type": "rule",
+  "name": "Going Mad",
+  "source": "5e-2014-srd",
+  "tags": [
+    "madness"
+  ],
+  "body": "Various magical effects can inflict madness on an otherwise stable mind. Certain spells, such as _contact other plane_ and _symbol_, can cause insanity, and you can use the madness rules here instead of the spell effects of those spells*.* Diseases, poisons, and planar effects such as psychic wind or the howling winds of Pandemonium can all inflict madness. Some artifacts can also break the psyche of a character who uses or becomes attuned to them.\n\nResisting a madness-inducing effect usually requires a Wisdom or Charisma saving throw.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Various magical effects can inflict madness on an otherwise stable mind. Certain spells, such as _contact other plane_ and _symbol_, can cause insanity, and you can use the madness rules here instead of the spell effects of those spells*.* Diseases, poisons, and planar effects such as psychic wind or the howling winds of Pandemonium can all inflict madness. Some artifacts can also break the psyche of a character who uses or becomes attuned to them.\n\nResisting a madness-inducing effect usually requires a Wisdom or Charisma saving throw.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_madness_going-mad",
+    "name": "Going Mad",
+    "ruleset": "srd_madness"
+  }
+}

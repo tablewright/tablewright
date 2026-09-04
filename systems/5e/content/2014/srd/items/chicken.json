@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:chicken",
+  "type": "item",
+  "name": "Chicken",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "One chicken",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "0.02",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One chicken",
+    "key": "srd_chicken",
+    "name": "Chicken",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "3.000",
+    "weight_unit": "lb"
+  }
+}

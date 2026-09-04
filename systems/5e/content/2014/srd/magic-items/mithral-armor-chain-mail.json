@@ -1,0 +1,49 @@
+{
+  "id": "5e-2014-srd:magic-item:mithral-armor-chain-mail",
+  "type": "magic-item",
+  "name": "Mithral Armor (Chain-Mail)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "uncommon"
+  ],
+  "body": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 16,
+      "ac_cap_dexmod": null,
+      "ac_display": "16",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_chain-mail",
+      "name": "Chain mail",
+      "strength_score_required": 13
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "key": "srd_mithral-armor-chain-mail",
+    "name": "Mithral Armor (Chain-Mail)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "55.000",
+    "weight_unit": "lb"
+  }
+}

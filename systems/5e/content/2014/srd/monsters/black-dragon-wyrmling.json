@@ -1,0 +1,203 @@
+{
+  "id": "5e-2014-srd:monster:black-dragon-wyrmling",
+  "type": "monster",
+  "name": "Black Dragon Wyrmling",
+  "source": "5e-2014-srd",
+  "tags": [
+    "dragon",
+    "medium",
+    "cr-2"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 13,
+      "constitution": 13,
+      "dexterity": 14,
+      "intelligence": 10,
+      "strength": 15,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The dragon exhales acid in a 15-foot line that is 5 feet wide. Each creature in that line must make a DC 11 Dexterity saving throw, taking 22 (5d8) acid damage on a failed save, or half as much damage on a successful one.",
+        "legendary_action_cost": null,
+        "limited_to_form": null,
+        "name": "Acid Breath",
+        "order_in_statblock": 1,
+        "usage_limits": {
+          "param": 5,
+          "type": "RECHARGE_ON_ROLL"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (1d10 + 2) piercing damage plus 2 (1d4) acid damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": 10,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      }
+    ],
+    "experience_points": 450,
+    "hit_dice": "6d8+6",
+    "hit_points": 33,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_black-dragon-wyrmling",
+    "languages": {
+      "as_string": "Draconic",
+      "data": [
+        {
+          "desc": "Typical speakers include dragons and dragonborn.",
+          "key": "draconic",
+          "name": "Draconic"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 1,
+      "dexterity": 2,
+      "intelligence": 0,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "name": "Black Dragon Wyrmling",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        }
+      ],
+      "damage_immunities_display": "acid",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 3,
+      "constitution": 3,
+      "dexterity": 4,
+      "wisdom": 2
+    },
+    "saving_throws_all": {
+      "charisma": 3,
+      "constitution": 3,
+      "dexterity": 4,
+      "intelligence": 0,
+      "strength": 2,
+      "wisdom": 2
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "perception": 4,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": 0,
+      "athletics": 2,
+      "deception": 1,
+      "history": 0,
+      "insight": 0,
+      "intimidation": 1,
+      "investigation": 0,
+      "medicine": 0,
+      "nature": 0,
+      "perception": 4,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": 0,
+      "sleight_of_hand": 2,
+      "stealth": 4,
+      "survival": 0
+    },
+    "speed": {
+      "fly": 60,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 60,
+      "hover": false,
+      "swim": 30,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": "Dragons, Chromatic",
+    "traits": [
+      {
+        "desc": "The dragon can breathe air and water.",
+        "name": "Amphibious"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "dragon",
+      "name": "Dragon"
+    }
+  }
+}

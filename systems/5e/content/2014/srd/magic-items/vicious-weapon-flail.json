@@ -1,0 +1,52 @@
+{
+  "id": "5e-2014-srd:magic-item:vicious-weapon-flail",
+  "type": "magic-item",
+  "name": "Vicious Weapon (Flail)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon",
+    "rare"
+  ],
+  "body": "When you roll a 20 on your attack roll with this magic weapon, your critical hit deals an extra 2d6 damage of the weapon's type.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you roll a 20 on your attack roll with this magic weapon, your critical hit deals an extra 2d6 damage of the weapon's type.",
+    "key": "srd_vicious-weapon-flail",
+    "name": "Vicious Weapon (Flail)",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd_flail",
+      "name": "Flail",
+      "properties": []
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

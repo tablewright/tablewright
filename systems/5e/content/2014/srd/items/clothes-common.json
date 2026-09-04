@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:clothes-common",
+  "type": "item",
+  "name": "Clothes, Common",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "Common clothes.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.50",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Common clothes.",
+    "key": "srd_clothes-common",
+    "name": "Clothes, Common",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "3.000",
+    "weight_unit": "lb"
+  }
+}

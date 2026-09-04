@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:alchemists-supplies",
+  "type": "item",
+  "name": "Alchemist's Supplies",
+  "source": "5e-2014-srd",
+  "tags": [
+    "tools"
+  ],
+  "body": "These special tools include the items needed to pursue a craft or trade.\\n\\n\r\nProficiency with a set of artisan’s tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan’s tools requires a separate proficiency.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "These special tools include the items needed to pursue a craft or trade.\\n\\n\r\nProficiency with a set of artisan’s tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan’s tools requires a separate proficiency.",
+    "key": "srd_alchemists-supplies",
+    "name": "Alchemist's Supplies",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "8.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-speed",
+  "type": "rule",
+  "name": "Speed",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "A monster’s speed tells you how far it can move on its turn. For more information on speed, see the *Player’s Handbook*.\n\nAll creatures have a walking speed, simply called the monster’s speed. Creatures that have no form of ground-based locomotion have a walking speed of 0 feet.\n\nSome creatures have one or more of the following additional movement modes.\n\n## Burrow\n\nA monster that has a burrowing speed can use that speed to move through sand, earth, mud, or ice. A monster can’t burrow through solid rock unless it has a special trait that allows it to do so.\n\n## Climb\n\nA monster that has a climbing speed can use all or part of its movement to move on vertical surfaces. The monster doesn’t need to spend extra movement to climb.\n\n## Fly\n\nA monster that has a flying speed can use all or part of its movement to fly. Some monsters have the ability to hover, which makes them hard to knock out of the air (as explained in the rules on flying in the *Player’s Handbook*). Such a monster stops hovering when it dies.\n\n## Swim\n\nA monster that has a swimming speed doesn’t need to spend extra movement to swim.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A monster’s speed tells you how far it can move on its turn. For more information on speed, see the *Player’s Handbook*.\n\nAll creatures have a walking speed, simply called the monster’s speed. Creatures that have no form of ground-based locomotion have a walking speed of 0 feet.\n\nSome creatures have one or more of the following additional movement modes.\n\n## Burrow\n\nA monster that has a burrowing speed can use that speed to move through sand, earth, mud, or ice. A monster can’t burrow through solid rock unless it has a special trait that allows it to do so.\n\n## Climb\n\nA monster that has a climbing speed can use all or part of its movement to move on vertical surfaces. The monster doesn’t need to spend extra movement to climb.\n\n## Fly\n\nA monster that has a flying speed can use all or part of its movement to fly. Some monsters have the ability to hover, which makes them hard to knock out of the air (as explained in the rules on flying in the *Player’s Handbook*). Such a monster stops hovering when it dies.\n\n## Swim\n\nA monster that has a swimming speed doesn’t need to spend extra movement to swim.",
+    "index": 8,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_speed",
+    "name": "Speed",
+    "ruleset": "srd_monsters"
+  }
+}

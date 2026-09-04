@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:shield",
+  "type": "item",
+  "name": "Shield",
+  "source": "5e-2014-srd",
+  "tags": [
+    "shield"
+  ],
+  "body": "A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "shield",
+      "name": "Shield"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",
+    "key": "srd_shield",
+    "name": "Shield",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

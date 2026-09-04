@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:horseshoes-of-speed",
+  "type": "magic-item",
+  "name": "Horseshoes of Speed",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "rare"
+  ],
+  "body": "These iron horseshoes come in a set of four. While all four shoes are affixed to the hooves of a horse or similar creature, they increase the creature's walking speed by 30 feet.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "These iron horseshoes come in a set of four. While all four shoes are affixed to the hooves of a horse or similar creature, they increase the creature's walking speed by 30 feet.",
+    "key": "srd_horseshoes-of-speed",
+    "name": "Horseshoes of Speed",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

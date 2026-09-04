@@ -1,0 +1,50 @@
+{
+  "id": "5e-2014-srd:magic-item:dragon-scale-mail",
+  "type": "magic-item",
+  "name": "Dragon Scale Mail",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "very-rare",
+    "attunement"
+  ],
+  "body": "Dragon scale mail is made of the scales of one kind of dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.\r\n\r\nWhile wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to one damage type that is determined by the kind of dragon that provided the scales (see the table).\r\n\r\nAdditionally, you can focus your senses as an action to magically discern the distance and direction to the closest dragon within 30 miles of you that is of the same type as the armor. This special action can't be used again until the next dawn.\r\n\r\n| Dragon | Resistance |\r\n|--------|------------|\r\n| Black  | Acid       |\r\n| Blue   | Lightning  |\r\n| Brass  | Fire       |\r\n| Bronze | Lightning  |\r\n| Copper | Acid       |\r\n| Gold   | Fire       |\r\n| Green  | Poison     |\r\n| Red    | Fire       |\r\n| Silver | Cold       |\r\n| White  | Cold       |",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 14,
+      "ac_cap_dexmod": 2,
+      "ac_display": "14 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_scale-mail",
+      "name": "Scale mail",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Dragon scale mail is made of the scales of one kind of dragon. Sometimes dragons collect their cast-off scales and gift them to humanoids. Other times, hunters carefully skin and preserve the hide of a dead dragon. In either case, dragon scale mail is highly valued.\r\n\r\nWhile wearing this armor, you gain a +1 bonus to AC, you have advantage on saving throws against the Frightful Presence and breath weapons of dragons, and you have resistance to one damage type that is determined by the kind of dragon that provided the scales (see the table).\r\n\r\nAdditionally, you can focus your senses as an action to magically discern the distance and direction to the closest dragon within 30 miles of you that is of the same type as the armor. This special action can't be used again until the next dawn.\r\n\r\n| Dragon | Resistance |\r\n|--------|------------|\r\n| Black  | Acid       |\r\n| Blue   | Lightning  |\r\n| Brass  | Fire       |\r\n| Bronze | Lightning  |\r\n| Copper | Acid       |\r\n| Gold   | Fire       |\r\n| Green  | Poison     |\r\n| Red    | Fire       |\r\n| Silver | Cold       |\r\n| White  | Cold       |",
+    "key": "srd_dragon-scale-mail",
+    "name": "Dragon Scale Mail",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "45.000",
+    "weight_unit": "lb"
+  }
+}

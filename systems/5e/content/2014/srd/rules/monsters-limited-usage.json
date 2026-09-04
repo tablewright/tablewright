@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-limited-usage",
+  "type": "rule",
+  "name": "Limited Usage",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "Some special abilities have restrictions on the number of times they can be used.\n\n***X/Day.*** The notation \"X/Day\" means a special ability can be used X number of times and that a monster must finish a long rest to regain expended uses. For example, \"1/Day\" means a special ability can be used once and that the monster must finish a long rest to use it again.\n\n***Recharge X–Y.*** The notation \"Recharge X–Y\" means a monster can use a special ability once and that the ability then has a random chance of recharging during each subsequent round of combat. At the start of each of the monster’s turns, roll a d6. If the roll is one of the numbers in the recharge notation, the monster regains the use of the special ability. The ability also recharges when the monster finishes a short or long rest.\n\nFor example, \"Recharge 5–6\" means a monster can use the special ability once. Then, at the start of the monster’s turn, it regains the use of that ability if it rolls a 5 or 6 on a d6.\n\n***Recharge after a Short or Long Rest.*** This notation means that a monster can use a special ability once and then must finish a short or long rest to use it again.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some special abilities have restrictions on the number of times they can be used.\n\n***X/Day.*** The notation \"X/Day\" means a special ability can be used X number of times and that a monster must finish a long rest to regain expended uses. For example, \"1/Day\" means a special ability can be used once and that the monster must finish a long rest to use it again.\n\n***Recharge X–Y.*** The notation \"Recharge X–Y\" means a monster can use a special ability once and that the ability then has a random chance of recharging during each subsequent round of combat. At the start of each of the monster’s turns, roll a d6. If the roll is one of the numbers in the recharge notation, the monster regains the use of the special ability. The ability also recharges when the monster finishes a short or long rest.\n\nFor example, \"Recharge 5–6\" means a monster can use the special ability once. Then, at the start of the monster’s turn, it regains the use of that ability if it rolls a 5 or 6 on a d6.\n\n***Recharge after a Short or Long Rest.*** This notation means that a monster can use a special ability once and then must finish a short or long rest to use it again.",
+    "index": 30,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_limited-usage",
+    "name": "Limited Usage",
+    "ruleset": "srd_monsters"
+  }
+}

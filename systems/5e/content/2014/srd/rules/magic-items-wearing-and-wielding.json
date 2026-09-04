@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:magic-items-wearing-and-wielding",
+  "type": "rule",
+  "name": "Wearing and Wielding Items",
+  "source": "5e-2014-srd",
+  "tags": [
+    "magic-items"
+  ],
+  "body": "Using a magic item’s properties might mean wearing or wielding it. A magic item meant to be worn must be donned in the intended fashion: boots go on the feet, gloves on the hands, hats and helmets on the head, and rings on the finger. Magic armor must be donned, a shield strapped to the arm, a cloak fastened about the shoulders. A weapon must be held.\n\nIn most cases, a magic item that’s meant to be worn can fit a creature regardless of size or build. Many magic garments are made to be easily adjustable, or they magically adjust themselves to the wearer. Rare exceptions exist. If the story suggests a good reason for an item to fit only creatures of a certain size or shape, you can rule that it doesn’t adjust. For example, drow-made armor might fit elves only. Dwarves might make items usable only by dwarf-sized and dwarf-shaped folk.\n\nWhen a nonhumanoid tries to wear an item, use your discretion as to whether the item functions as intended. A ring placed on a tentacle might work, but a yuan-ti with a snakelike tail instead of legs can’t wear boots.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Using a magic item’s properties might mean wearing or wielding it. A magic item meant to be worn must be donned in the intended fashion: boots go on the feet, gloves on the hands, hats and helmets on the head, and rings on the finger. Magic armor must be donned, a shield strapped to the arm, a cloak fastened about the shoulders. A weapon must be held.\n\nIn most cases, a magic item that’s meant to be worn can fit a creature regardless of size or build. Many magic garments are made to be easily adjustable, or they magically adjust themselves to the wearer. Rare exceptions exist. If the story suggests a good reason for an item to fit only creatures of a certain size or shape, you can rule that it doesn’t adjust. For example, drow-made armor might fit elves only. Dwarves might make items usable only by dwarf-sized and dwarf-shaped folk.\n\nWhen a nonhumanoid tries to wear an item, use your discretion as to whether the item functions as intended. A ring placed on a tentacle might work, but a yuan-ti with a snakelike tail instead of legs can’t wear boots.",
+    "index": 2,
+    "initialHeaderLevel": 2,
+    "key": "srd_magic-items_wearing-and-wielding",
+    "name": "Wearing and Wielding Items",
+    "ruleset": "srd_magic-items"
+  }
+}

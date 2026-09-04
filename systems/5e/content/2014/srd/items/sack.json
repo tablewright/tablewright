@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:sack",
+  "type": "item",
+  "name": "Sack",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A sack. Capacity: 1 cubic foot/30 pounds of gear.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.01",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A sack. Capacity: 1 cubic foot/30 pounds of gear.",
+    "key": "srd_sack",
+    "name": "Sack",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.500",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "5e-2014-srd:magic-item:demon-armor",
+  "type": "magic-item",
+  "name": "Demon Armor",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "very-rare",
+    "attunement"
+  ],
+  "body": "While wearing this armor, you gain a +1 bonus to AC, and you can understand and speak Abyssal. In addition, the armor's clawed gauntlets turn unarmed strikes with your hands into magic weapons that deal slashing damage, with a +1 bonus to attack rolls and damage rolls and a damage die of 1d8.\n\n**_Curse_**. Once you don this cursed armor, you can't doff it unless you are targeted by the _remove curse_ spell or similar magic. While wearing the armor, you have disadvantage on attack rolls against demons and on saving throws against their spells and special abilities.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 18,
+      "ac_cap_dexmod": null,
+      "ac_display": "18",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_plate",
+      "name": "Plate",
+      "strength_score_required": 15
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this armor, you gain a +1 bonus to AC, and you can understand and speak Abyssal. In addition, the armor's clawed gauntlets turn unarmed strikes with your hands into magic weapons that deal slashing damage, with a +1 bonus to attack rolls and damage rolls and a damage die of 1d8.\n\n**_Curse_**. Once you don this cursed armor, you can't doff it unless you are targeted by the _remove curse_ spell or similar magic. While wearing the armor, you have disadvantage on attack rolls against demons and on saving throws against their spells and special abilities.",
+    "key": "srd_demon-armor",
+    "name": "Demon Armor",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "65.000",
+    "weight_unit": "lb"
+  }
+}

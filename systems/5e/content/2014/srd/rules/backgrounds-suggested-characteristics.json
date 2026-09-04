@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:backgrounds-suggested-characteristics",
+  "type": "rule",
+  "name": "Suggested Characteristics",
+  "source": "5e-2014-srd",
+  "tags": [
+    "backgrounds"
+  ],
+  "body": "A background contains suggested personal characteristics based on your background. You can pick characteristics, roll dice to determine them randomly, or use the suggestions as inspiration for characteristics of your own creation.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A background contains suggested personal characteristics based on your background. You can pick characteristics, roll dice to determine them randomly, or use the suggestions as inspiration for characteristics of your own creation.",
+    "index": 4,
+    "initialHeaderLevel": 2,
+    "key": "srd_backgrounds_suggested-characteristics",
+    "name": "Suggested Characteristics",
+    "ruleset": "srd_backgrounds"
+  }
+}

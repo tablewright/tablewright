@@ -3,9 +3,7 @@
   "type": "condition",
   "name": "Frightened",
   "source": "5e-2014-core-conditions",
-  "tags": [
-    "2014"
-  ],
+  "tags": [],
   "body": "* A frightened creature has disadvantage on ability checks and attack rolls while it is able to see the source of its fear.\n\n* A frightened creature can’t willingly move closer to the source of its fear.\n\n* A frightened creature has disadvantage on ability checks and attack rolls while the source of its fear is within line of sight.\r\n* The creature can’t willingly move closer to the source of its fear.\n\nWhile you have the Frightened condition, you experience the following effects. \n* Ability Checks and Attacks Affected. You have Disadvantage on ability checks and attack rolls while the source of fear is within line of sight. \n * Can’t Approach. You can’t willingly move closer to the source of fear.",
   "data": {
     "descriptions": [

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:abilities-working-together",
+  "type": "rule",
+  "name": "Working Together",
+  "source": "5e-2014-srd",
+  "tags": [
+    "abilities"
+  ],
+  "body": "Sometimes two or more characters team up to attempt a task. The character who's leading the effort---or the one with the highest ability modifier---can make an ability check with advantage, reflecting the help provided by the other characters. In combat, this requires the Help action.\n\nA character can only provide help if the task is one that he or she could attempt alone. For example, trying to open a lock requires proficiency with thieves' tools, so a character who lacks that proficiency can't help another character in that task. Moreover, a character can help only when two or more individuals working together would actually be productive. Some tasks, such as threading a needle, are no easier with help.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Sometimes two or more characters team up to attempt a task. The character who's leading the effort---or the one with the highest ability modifier---can make an ability check with advantage, reflecting the help provided by the other characters. In combat, this requires the Help action.\n\nA character can only provide help if the task is one that he or she could attempt alone. For example, trying to open a lock requires proficiency with thieves' tools, so a character who lacks that proficiency can't help another character in that task. Moreover, a character can help only when two or more individuals working together would actually be productive. Some tasks, such as threading a needle, are no easier with help.",
+    "index": 9,
+    "initialHeaderLevel": 3,
+    "key": "srd_abilities_working-together",
+    "name": "Working Together",
+    "ruleset": "srd_abilities"
+  }
+}

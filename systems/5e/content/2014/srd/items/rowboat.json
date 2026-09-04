@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:rowboat",
+  "type": "item",
+  "name": "Rowboat",
+  "source": "5e-2014-srd",
+  "tags": [
+    "waterborne-vehicle"
+  ],
+  "body": "Waterborne vehicle. Speed 1.5mph",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "waterborne-vehicle",
+      "name": "Waterborne Vehicle"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Waterborne vehicle. Speed 1.5mph",
+    "key": "srd_rowboat",
+    "name": "Rowboat",
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "weapon": null,
+    "weight": "100.000",
+    "weight_unit": "lb"
+  }
+}

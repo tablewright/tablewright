@@ -1,0 +1,35 @@
+{
+  "id": "5e-2014-srd:race:hill-dwarf",
+  "type": "race",
+  "name": "Hill Dwarf",
+  "source": "5e-2014-srd",
+  "tags": [
+    "subrace",
+    "dwarf"
+  ],
+  "body": "As a hill dwarf, you have keen senses, deep intuition, and remarkable resilience.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "As a hill dwarf, you have keen senses, deep intuition, and remarkable resilience.",
+    "is_subspecies": true,
+    "key": "srd_hill-dwarf",
+    "name": "Hill Dwarf",
+    "subspecies_of": "srd_dwarf",
+    "traits": [
+      {
+        "desc": "Your Wisdom score increases by 1.",
+        "name": "Ability Score Increase",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
+        "name": "Dwarven Toughness",
+        "order": null,
+        "type": null
+      }
+    ]
+  }
+}

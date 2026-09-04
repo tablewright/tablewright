@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:spellcasting-reactions",
+  "type": "rule",
+  "name": "Bonus Action",
+  "source": "5e-2014-srd",
+  "tags": [
+    "spellcasting"
+  ],
+  "body": "Some spells can be cast as reactions. These spells take a fraction of a second to bring about and are cast in response to some event. If a spell can be cast as a reaction, the spell description tells you exactly when you can do so.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Some spells can be cast as reactions. These spells take a fraction of a second to bring about and are cast in response to some event. If a spell can be cast as a reaction, the spell description tells you exactly when you can do so.",
+    "index": 12,
+    "initialHeaderLevel": 3,
+    "key": "srd_spellcasting_reactions",
+    "name": "Bonus Action",
+    "ruleset": "srd_spellcasting"
+  }
+}

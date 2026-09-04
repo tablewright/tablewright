@@ -1,0 +1,169 @@
+{
+  "id": "5e-2014-srd:monster:shrieker",
+  "type": "monster",
+  "name": "Shrieker",
+  "source": "5e-2014-srd",
+  "tags": [
+    "plant",
+    "medium",
+    "cr-0"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 10,
+      "dexterity": 1,
+      "intelligence": 1,
+      "strength": 1,
+      "wisdom": 3
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "When bright light or a creature is within 30 feet of the shrieker, it emits a shriek audible within 300 feet of it. The shrieker continues to shriek until the disturbance moves out of range and for 1d4 of the shrieker's turns afterward",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Shriek",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 5,
+    "armor_detail": "",
+    "blindsight_range": 30,
+    "category": "Monsters",
+    "challenge_rating": 0,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      }
+    ],
+    "experience_points": 0,
+    "hit_dice": "3d8",
+    "hit_points": 13,
+    "illustration": null,
+    "initiative_bonus": -5,
+    "key": "srd_shrieker",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": -5,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": -4
+    },
+    "name": "Shrieker",
+    "normal_sight_range": null,
+    "passive_perception": 6,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "blinded",
+          "name": "Blinded"
+        },
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        }
+      ],
+      "condition_immunities_display": "blinded, deafened, frightened",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": -5,
+      "intelligence": -5,
+      "strength": -5,
+      "wisdom": -4
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -5,
+      "animal_handling": -4,
+      "arcana": -5,
+      "athletics": -5,
+      "deception": -5,
+      "history": -5,
+      "insight": -4,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -4,
+      "nature": -5,
+      "perception": -4,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": -5,
+      "stealth": -5,
+      "survival": -4
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 0
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 0,
+      "crawl": 0,
+      "fly": 0,
+      "hover": false,
+      "swim": 0,
+      "unit": "feet",
+      "walk": 0
+    },
+    "subcategory": "Fungi",
+    "traits": [
+      {
+        "desc": "While the shrieker remains motionless, it is indistinguishable from an ordinary fungus.",
+        "name": "False Appearance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "plant",
+      "name": "Plant"
+    }
+  }
+}

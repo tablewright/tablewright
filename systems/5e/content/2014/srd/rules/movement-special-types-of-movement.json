@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:movement-special-types-of-movement",
+  "type": "rule",
+  "name": "Special Types of Movement",
+  "source": "5e-2014-srd",
+  "tags": [
+    "movement"
+  ],
+  "body": "Movement through dangerous dungeons or wilderness areas often involves more than simply walking. Adventurers might have to climb, crawl, swim,or jump to get where they need to go.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Movement through dangerous dungeons or wilderness areas often involves more than simply walking. Adventurers might have to climb, crawl, swim,or jump to get where they need to go.",
+    "index": 4,
+    "initialHeaderLevel": 2,
+    "key": "srd_movement_special-types-of-movement",
+    "name": "Special Types of Movement",
+    "ruleset": "srd_movement"
+  }
+}

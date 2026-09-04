@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-grapple-rules",
+  "type": "rule",
+  "name": "Grapple Rules for Monsters",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "Many monsters have special attacks that allow them to quickly grapple prey. When a monster hits with such an attack, it doesn’t need to make an additional ability check to determine whether the grapple succeeds, unless the attack says otherwise.\n\nA creature grappled by the monster can use its action to try to escape. To do so, it must succeed on a Strength (Athletics) or Dexterity (Acrobatics) check against the escape DC in the monster’s stat block. If no escape DC is given, assume the DC is 10 + the monster’s Strength (Athletics) modifier.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Many monsters have special attacks that allow them to quickly grapple prey. When a monster hits with such an attack, it doesn’t need to make an additional ability check to determine whether the grapple succeeds, unless the attack says otherwise.\n\nA creature grappled by the monster can use its action to try to escape. To do so, it must succeed on a Strength (Athletics) or Dexterity (Acrobatics) check against the escape DC in the monster’s stat block. If no escape DC is given, assume the DC is 10 + the monster’s Strength (Athletics) modifier.",
+    "index": 31,
+    "initialHeaderLevel": 3,
+    "key": "srd_monsters_grapple-rules",
+    "name": "Grapple Rules for Monsters",
+    "ruleset": "srd_monsters"
+  }
+}

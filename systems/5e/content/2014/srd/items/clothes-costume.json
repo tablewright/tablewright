@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:clothes-costume",
+  "type": "item",
+  "name": "Clothes, costume",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A costume.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A costume.",
+    "key": "srd_clothes-costume",
+    "name": "Clothes, costume",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

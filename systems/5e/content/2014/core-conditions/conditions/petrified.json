@@ -3,9 +3,7 @@
   "type": "condition",
   "name": "Petrified",
   "source": "5e-2014-core-conditions",
-  "tags": [
-    "2014"
-  ],
+  "tags": [],
   "body": "* A petrified creature (and all of its mundane possessions) is transformed into a solid inanimate substance (usually stone). \n\n* A petrified creature’s weight is increased by a factor of ten and it ceases aging.\n\n* A petrified creature is incapacitated, can’t move or speak, and is unaware of its surroundings.\n\n* A petrified creature automatically fails Strength and Dexterity saving throws. \n\n* A petrified creature has resistance to all damage.\n\n* A petrified creature is immune to poison and disease (time spent petrified does not affect the duration of a poison or disease already in its system).\n\n* A petrified creature is transformed, along with any nonmagical object it is wearing or carrying, into a solid inanimate substance (usually stone). Its weight increases by a factor of ten, and it ceases aging.\r\n* The creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings.\r\n* Attack rolls against the creature have advantage.\r\n* The creature automatically fails Strength and Dexterity saving throws.\r\n* The creature has resistance to all damage.\r\n* The creature is immune to poison and disease, although a poison or disease already in its system is suspended, not neutralized.\n\nWhile you have the Petrified condition, you experience the following effects. \n* Turned to Inanimate Substance. You are transformed, along with any nonmagical objects you are wearing and carrying, into a solid inanimate substance (usually stone). Your weight increases by a factor of ten, and you cease aging. \n* Incapacitated. You have the Incapacitated condition. \n* Speed 0. Your Speed is 0 and can’t increase.\n* Attacks Affected. Attack rolls against you have Advantage. \n* Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. \n* Resist Damage. You have Resistance to all damage. \n* Poison Immunity. You have Immunity to the Poisoned condition.",
   "data": {
     "descriptions": [

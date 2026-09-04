@@ -1,0 +1,197 @@
+{
+  "id": "5e-2014-srd:monster:azer",
+  "type": "monster",
+  "name": "Azer",
+  "source": "5e-2014-srd",
+  "tags": [
+    "elemental",
+    "medium",
+    "cr-2"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 10,
+      "constitution": 15,
+      "dexterity": 12,
+      "intelligence": 12,
+      "strength": 17,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Warhammer attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage, or 8 (1d10 + 3) bludgeoning damage if used with two hands to make a melee attack, plus 3 (1d6) fire damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Warhammer",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful neutral",
+    "armor_class": 17,
+    "armor_detail": "natural armor, shield",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "srd_plane-of-fire",
+        "name": "Plane of Fire"
+      }
+    ],
+    "experience_points": 450,
+    "hit_dice": "6d8+12",
+    "hit_points": 39,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd_azer",
+    "languages": {
+      "as_string": "Ignan",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 0,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Azer",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "poisoned",
+      "damage_immunities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        }
+      ],
+      "damage_immunities_display": "fire, poison",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "constitution": 4
+    },
+    "saving_throws_all": {
+      "charisma": 0,
+      "constitution": 4,
+      "dexterity": 1,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 1,
+      "arcana": 1,
+      "athletics": 3,
+      "deception": 0,
+      "history": 1,
+      "insight": 1,
+      "intimidation": 0,
+      "investigation": 1,
+      "medicine": 1,
+      "nature": 1,
+      "perception": 1,
+      "performance": 0,
+      "persuasion": 0,
+      "religion": 1,
+      "sleight_of_hand": 1,
+      "stealth": 1,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "A creature that touches the azer or hits it with a melee attack while within 5 ft. of it takes 5 (1d10) fire damage.",
+        "name": "Heated Body"
+      },
+      {
+        "desc": "When the azer hits with a metal melee weapon, it deals an extra 3 (1d6) fire damage (included in the attack).",
+        "name": "Heated Weapons"
+      },
+      {
+        "desc": "The azer sheds bright light in a 10-foot radius and dim light for an additional 10 ft..",
+        "name": "Illumination"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "elemental",
+      "name": "Elemental"
+    }
+  }
+}

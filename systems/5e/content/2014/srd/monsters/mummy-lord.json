@@ -1,0 +1,318 @@
+{
+  "id": "5e-2014-srd:monster:mummy-lord",
+  "type": "monster",
+  "name": "Mummy Lord",
+  "source": "5e-2014-srd",
+  "tags": [
+    "undead",
+    "medium",
+    "cr-15"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 16,
+      "constitution": 17,
+      "dexterity": 10,
+      "intelligence": 11,
+      "strength": 18,
+      "wisdom": 18
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The mummy lord makes one attack with its rotting fist or uses its Dreadful Glare.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Attack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The mummy lord utters a blasphemous word. Each non-undead creature within 10 feet of the mummy lord that can hear the magical utterance must succeed on a DC 16 Constitution saving throw or be stunned until the end of the mummy lord's next turn.",
+        "legendary_action_cost": 2,
+        "limited_to_form": null,
+        "name": "Blasphemous Word",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "Blinding dust and sand swirls magically around the mummy lord. Each creature within 5 feet of the mummy lord must succeed on a DC 16 Constitution saving throw or be blinded until the end of the creature's next turn.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Blinding Dust",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The mummy lord magically unleashes negative energy. Creatures within 60 feet of the mummy lord, including ones behind barriers and around corners, can't regain hit points until the end of the mummy lord's next turn.",
+        "legendary_action_cost": 2,
+        "limited_to_form": null,
+        "name": "Channel Negative Energy",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The mummy lord targets one creature it can see within 60 feet of it. If the target can see the mummy lord, it must succeed on a DC 16 Wisdom saving throw against this magic or become frightened until the end of the mummy's next turn. If the target fails the saving throw by 5 or more, it is also paralyzed for the same duration. A target that succeeds on the saving throw is immune to the Dreadful Glare of all mummies and mummy lords for the next 24 hours.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Dreadful Glare",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The mummy can use its Dreadful Glare and makes one attack with its rotting fist.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Rotting Fist attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 9
+          }
+        ],
+        "desc": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 14 (3d6 + 4) bludgeoning damage plus 21 (6d6) necrotic damage. If the target is a creature, it must succeed on a DC 16 Constitution saving throw or be cursed with mummy rot. The cursed target can't regain hit points, and its hit point maximum decreases by 10 (3d6) for every 24 hours that elapse. If the curse reduces the target's hit point maximum to 0, the target dies, and its body turns to dust. The curse lasts until removed by the remove curse spell or other magic.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rotting Fist",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The mummy lord magically transforms into a whirlwind of sand, moves up to 60 feet, and reverts to its normal form. While in whirlwind form, the mummy lord is immune to all damage, and it can't be grappled, petrified, knocked prone, restrained, or stunned. Equipment worn or carried by the mummy lord remain in its possession.",
+        "legendary_action_cost": 2,
+        "limited_to_form": null,
+        "name": "Whirlwind of Sand",
+        "order_in_statblock": 4,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful evil",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 15,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "ruins",
+        "name": "Ruins"
+      },
+      {
+        "key": "shadowfell",
+        "name": "Shadowfell"
+      },
+      {
+        "key": "temple",
+        "name": "Temple"
+      },
+      {
+        "key": "tomb",
+        "name": "Tomb"
+      }
+    ],
+    "experience_points": 13000,
+    "hit_dice": "13d8+39",
+    "hit_points": 97,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd_mummy-lord",
+    "languages": {
+      "as_string": "the languages it knew in life",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 3,
+      "dexterity": 0,
+      "intelligence": 0,
+      "strength": 4,
+      "wisdom": 4
+    },
+    "name": "Mummy Lord",
+    "normal_sight_range": 10560,
+    "passive_perception": 14,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened, paralyzed, poisoned",
+      "damage_immunities": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "necrotic",
+          "name": "Necrotic"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_immunities_display": "necrotic, poison; bludgeoning, piercing, and slashing from nonmagical attacks",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        }
+      ],
+      "damage_vulnerabilities_display": "bludgeoning"
+    },
+    "saving_throws": {
+      "charisma": 8,
+      "constitution": 8,
+      "intelligence": 5,
+      "wisdom": 9
+    },
+    "saving_throws_all": {
+      "charisma": 8,
+      "constitution": 8,
+      "dexterity": 0,
+      "intelligence": 5,
+      "strength": 4,
+      "wisdom": 9
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "history": 5,
+      "religion": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 4,
+      "arcana": 0,
+      "athletics": 4,
+      "deception": 3,
+      "history": 5,
+      "insight": 4,
+      "intimidation": 3,
+      "investigation": 0,
+      "medicine": 4,
+      "nature": 0,
+      "perception": 4,
+      "performance": 3,
+      "persuasion": 3,
+      "religion": 5,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 4
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": "Mummies",
+    "traits": [
+      {
+        "desc": "The mummy lord has advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      },
+      {
+        "desc": "A destroyed mummy lord gains a new body in 24 hours if its heart is intact, regaining all its hit points and becoming active again. The new body appears within 5 feet of the mummy lord's heart.",
+        "name": "Rejuvenation"
+      },
+      {
+        "desc": "The mummy lord is a 10th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 17, +9 to hit with spell attacks). The mummy lord has the following cleric spells prepared:\n\n* Cantrips (at will): sacred flame, thaumaturgy\n* 1st level (4 slots): command, guiding bolt, shield of faith\n* 2nd level (3 slots): hold person, silence, spiritual weapon\n* 3rd level (3 slots): animate dead, dispel magic\n* 4th level (3 slots): divination, guardian of faith\n* 5th level (2 slots): contagion, insect plague\n* 6th level (1 slot): harm",
+        "name": "Spellcasting"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "undead",
+      "name": "Undead"
+    }
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "id": "5e-2014-srd:monster:deep-gnome-svirfneblin",
+  "type": "monster",
+  "name": "Deep Gnome (Svirfneblin)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "humanoid",
+    "small",
+    "cr-1/2"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 9,
+      "constitution": 14,
+      "dexterity": 14,
+      "intelligence": 12,
+      "strength": 15,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": 120,
+            "name": "Poisoned Dart attack",
+            "range": 30,
+            "reach": null,
+            "target_creature_only": true,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Ranged Weapon Attack: +4 to hit, range 30/120 ft., one creature. Hit: 4 (1d4 + 2) piercing damage, and the target must succeed on a DC 12 Constitution saving throw or be poisoned for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Poisoned Dart",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "War Pick attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 4
+          }
+        ],
+        "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "War Pick",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral good",
+    "armor_class": 15,
+    "armor_detail": "chain shirt",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 0.5,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      }
+    ],
+    "experience_points": 100,
+    "hit_dice": "3d6+6",
+    "hit_points": 16,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_deep-gnome-svirfneblin",
+    "languages": {
+      "as_string": "Gnomish, Terran, Undercommon",
+      "data": [
+        {
+          "desc": "Typical speakers are gnomes.",
+          "key": "gnomish",
+          "name": "Gnomish"
+        },
+        {
+          "desc": "Typical speakers are underworld traders.",
+          "key": "undercommon",
+          "name": "Undercommon"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "name": "Deep Gnome (Svirfneblin)",
+    "normal_sight_range": 10560,
+    "passive_perception": 12,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": 2,
+      "dexterity": 2,
+      "intelligence": 1,
+      "strength": 2,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {
+      "investigation": 3,
+      "perception": 2,
+      "stealth": 4
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 0,
+      "arcana": 1,
+      "athletics": 2,
+      "deception": -1,
+      "history": 1,
+      "insight": 0,
+      "intimidation": -1,
+      "investigation": 3,
+      "medicine": 0,
+      "nature": 1,
+      "perception": 2,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": 1,
+      "sleight_of_hand": 2,
+      "stealth": 4,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The gnome has advantage on Intelligence, Wisdom, and Charisma saving throws against magic.",
+        "name": "Gnome Cunning"
+      },
+      {
+        "desc": "The gnome's innate spellcasting ability is Intelligence (spell save DC 11). It can innately cast the following spells, requiring no material components:\nAt will: nondetection (self only)\n1/day each: blindness/deafness, blur, disguise self",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The gnome has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.",
+        "name": "Stone Camouflage"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "humanoid",
+      "name": "Humanoid"
+    }
+  }
+}

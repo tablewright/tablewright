@@ -1,0 +1,49 @@
+{
+  "id": "5e-2014-srd:magic-item:adamantine-armor-half-plate",
+  "type": "magic-item",
+  "name": "Adamantine Armor (Half-Plate)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "uncommon"
+  ],
+  "body": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 15,
+      "ac_cap_dexmod": 2,
+      "ac_display": "15 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_half-plate",
+      "name": "Half plate",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+    "key": "srd_adamantine-armor-half-plate",
+    "name": "Adamantine Armor (Half-Plate)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "40.000",
+    "weight_unit": "lb"
+  }
+}

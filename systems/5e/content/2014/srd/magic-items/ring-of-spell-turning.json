@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:ring-of-spell-turning",
+  "type": "magic-item",
+  "name": "Ring of Spell Turning",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring",
+    "legendary",
+    "attunement"
+  ],
+  "body": "While wearing this ring, you have advantage on saving throws against any spell that targets only you (not in an area of effect). In addition, if you roll a 20 for the save and the spell is 7th level or lower, the spell has no effect on you and instead targets the caster, using the slot level, spell save DC, attack bonus, and spellcasting ability of the caster.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this ring, you have advantage on saving throws against any spell that targets only you (not in an area of effect). In addition, if you roll a 20 for the save and the spell is 7th level or lower, the spell has no effect on you and instead targets the caster, using the slot level, spell save DC, attack bonus, and spellcasting ability of the caster.",
+    "key": "srd_ring-of-spell-turning",
+    "name": "Ring of Spell Turning",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

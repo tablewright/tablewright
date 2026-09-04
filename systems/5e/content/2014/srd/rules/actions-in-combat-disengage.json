@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:actions-in-combat-disengage",
+  "type": "rule",
+  "name": "Disengage",
+  "source": "5e-2014-srd",
+  "tags": [
+    "actions-in-combat"
+  ],
+  "body": "If you take the Disengage action, your movement doesn't provoke opportunity attacks for the rest of the turn.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "If you take the Disengage action, your movement doesn't provoke opportunity attacks for the rest of the turn.",
+    "index": 4,
+    "initialHeaderLevel": 3,
+    "key": "srd_actions-in-combat_disengage",
+    "name": "Disengage",
+    "ruleset": "srd_actions-in-combat"
+  }
+}

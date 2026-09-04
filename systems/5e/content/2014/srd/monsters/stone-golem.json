@@ -1,0 +1,360 @@
+{
+  "id": "5e-2014-srd:monster:stone-golem",
+  "type": "monster",
+  "name": "Stone Golem",
+  "source": "5e-2014-srd",
+  "tags": [
+    "construct",
+    "large",
+    "cr-10"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 20,
+      "dexterity": 9,
+      "intelligence": 3,
+      "strength": 22,
+      "wisdom": 11
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The golem makes two slam attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 3,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Slam attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 19 (3d8 + 6) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The golem targets one or more creatures it can see within 10 ft. of it. Each target must make a DC 17 Wisdom saving throw against this magic. On a failed save, a target can't use reactions, its speed is halved, and it can't make more than one attack on its turn. In addition, the target can take either an action or a bonus action on its turn, not both. These effects last for 1 minute. A target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slow",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 10,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [
+      {
+        "key": "arctic",
+        "name": "Arctic or Tundra"
+      },
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "coast",
+        "name": "Coast"
+      },
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "grassland",
+        "name": "Grassland or Plains"
+      },
+      {
+        "key": "hills",
+        "name": "Hills"
+      },
+      {
+        "key": "laboratory",
+        "name": "Laboratory"
+      },
+      {
+        "key": "lake",
+        "name": "Lake"
+      },
+      {
+        "key": "mountain",
+        "name": "Mountain"
+      },
+      {
+        "key": "ocean",
+        "name": "Ocean"
+      },
+      {
+        "key": "ruins",
+        "name": "Ruins"
+      },
+      {
+        "key": "sewer",
+        "name": "Sewer"
+      },
+      {
+        "key": "shadowfell",
+        "name": "Shadowfell"
+      },
+      {
+        "key": "srd_abyss",
+        "name": "The Abyss"
+      },
+      {
+        "key": "srd_astral-plane",
+        "name": "Astral Plane"
+      },
+      {
+        "key": "srd_elysium",
+        "name": "Elysium"
+      },
+      {
+        "key": "srd_ethereal-plane",
+        "name": "Ethereal Plane"
+      },
+      {
+        "key": "srd_feywild",
+        "name": "Feywild"
+      },
+      {
+        "key": "srd_hell",
+        "name": "Hell"
+      },
+      {
+        "key": "srd_material-plane",
+        "name": "Material Plane"
+      },
+      {
+        "key": "srd_plane-of-air",
+        "name": "Plane of Air"
+      },
+      {
+        "key": "srd_plane-of-earth",
+        "name": "Plane of Earth"
+      },
+      {
+        "key": "srd_plane-of-fire",
+        "name": "Plane of Fire"
+      },
+      {
+        "key": "srd_plane-of-water",
+        "name": "Plane of Water"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      },
+      {
+        "key": "temple",
+        "name": "Temple"
+      },
+      {
+        "key": "tob_badlands",
+        "name": "Badlands"
+      },
+      {
+        "key": "tomb",
+        "name": "Tomb"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 5900,
+    "hit_dice": "17d10+85",
+    "hit_points": 178,
+    "illustration": null,
+    "initiative_bonus": -1,
+    "key": "srd_stone-golem",
+    "languages": {
+      "as_string": "understands the languages of its creator but can't speak",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 5,
+      "dexterity": -1,
+      "intelligence": -4,
+      "strength": 6,
+      "wisdom": 0
+    },
+    "name": "Stone Golem",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+      "damage_immunities": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "poison",
+          "name": "Poison"
+        },
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_immunities_display": "poison, psychic; bludgeoning, piercing, and slashing from nonmagical attacks not made with adamantine weapons",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 5,
+      "dexterity": -1,
+      "intelligence": -4,
+      "strength": 6,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 0,
+      "arcana": -4,
+      "athletics": 6,
+      "deception": -5,
+      "history": -4,
+      "insight": 0,
+      "intimidation": -5,
+      "investigation": -4,
+      "medicine": 0,
+      "nature": -4,
+      "perception": 0,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -4,
+      "sleight_of_hand": -1,
+      "stealth": -1,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": "Golems",
+    "traits": [
+      {
+        "desc": "The golem is immune to any spell or effect that would alter its form.",
+        "name": "Immutable Form"
+      },
+      {
+        "desc": "The golem has advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      },
+      {
+        "desc": "The golem's weapon attacks are magical.",
+        "name": "Magic Weapons"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "construct",
+      "name": "Construct"
+    }
+  }
+}

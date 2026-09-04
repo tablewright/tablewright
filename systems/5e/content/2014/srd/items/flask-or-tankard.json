@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:flask-or-tankard",
+  "type": "item",
+  "name": "Flask or tankard",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "For drinking. Capacity: 1 pint liquid.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.02",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "For drinking. Capacity: 1 pint liquid.",
+    "key": "srd_flask-or-tankard",
+    "name": "Flask or tankard",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

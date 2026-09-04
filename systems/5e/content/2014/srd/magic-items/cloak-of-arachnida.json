@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:cloak-of-arachnida",
+  "type": "magic-item",
+  "name": "Cloak of Arachnida",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "very-rare",
+    "attunement"
+  ],
+  "body": "This fine garment is made of black silk interwoven with faint silvery threads. While wearing it, you gain the following benefits:\r\n\r\n* You have resistance to poison damage.\r\n* You have a climbing speed equal to your walking speed.\r\n* You can move up, down, and across vertical surfaces and upside down along ceilings, while leaving your hands free.\r\n* You can't be caught in webs of any sort and can move through webs as if they were difficult terrain.\r\n* You can use an action to cast the _web_ spell (save DC 13). The web created by the spell fills twice its normal area. Once used, this property of the cloak can't be used again until the next dawn.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This fine garment is made of black silk interwoven with faint silvery threads. While wearing it, you gain the following benefits:\r\n\r\n* You have resistance to poison damage.\r\n* You have a climbing speed equal to your walking speed.\r\n* You can move up, down, and across vertical surfaces and upside down along ceilings, while leaving your hands free.\r\n* You can't be caught in webs of any sort and can move through webs as if they were difficult terrain.\r\n* You can use an action to cast the _web_ spell (save DC 13). The web created by the spell fills twice its normal area. Once used, this property of the cloak can't be used again until the next dawn.",
+    "key": "srd_cloak-of-arachnida",
+    "name": "Cloak of Arachnida",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

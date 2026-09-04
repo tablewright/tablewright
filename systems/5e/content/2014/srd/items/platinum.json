@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:platinum",
+  "type": "item",
+  "name": "Platinum",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "1 lb. of platinum.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "500.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "1 lb. of platinum.",
+    "key": "srd_platinum",
+    "name": "Platinum",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

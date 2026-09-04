@@ -1,0 +1,647 @@
+{
+  "id": "5e-2014-srd:class:monk",
+  "type": "class",
+  "name": "Monk",
+  "source": "5e-2014-srd",
+  "tags": [],
+  "body": "",
+  "data": {
+    "caster_type": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 16
+          },
+          {
+            "detail": null,
+            "level": 19
+          },
+          {
+            "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 8
+          }
+        ],
+        "key": "srd_monk_ability-score-improvement",
+        "name": "Ability Score Improvement"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 3rd level, you can use your reaction to deflect or catch the missile when you are hit by a ranged weapon attack. When you do so, the damage you take from the attack is reduced by 1d10 + your Dexterity modifier + your monk level.\r\n\r\nIf you reduce the damage to 0, you can catch the missile if it is small enough for you to hold in one hand and you have at least one hand free. If you catch a missile in this way, you can spend 1 ki point to make a ranged attack with the weapon or piece of ammunition you just caught, as part of the same reaction. You make this attack with proficiency, regardless of your weapon proficiencies, and the missile counts as a monk weapon for the attack, which has a normal range of 20 feet and a long range of 60 feet.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_monk_deflect-missiles",
+        "name": "Deflect Missiles"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 14th level, your mastery of ki grants you proficiency in all saving throws.\r\n\r\nAdditionally, whenever you make a saving throw and fail, you can spend 1 ki point to reroll it and take the second result.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 14
+          }
+        ],
+        "key": "srd_monk_diamond-soul",
+        "name": "Diamond Soul"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 18th level, you can use your action to spend 4 ki points to become invisible for 1 minute. During that time, you also have resistance to all damage but force damage.\r\n\r\nAdditionally, you can spend 8 ki points to cast the astral projection spell, without needing material components. When you do so, you can't take any other creatures with you.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 18
+          }
+        ],
+        "key": "srd_monk_empty-body",
+        "name": "Empty Body"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You start with the following equipment, in addition to the equipment granted by your background:\r\n* (*a*) a shortsword or (*b*) any simple weapon\r\n* (*a*) a dungeoneer’s pack or (*b*) an explorer’s pack\r\n* 10 darts",
+        "feature_type": "STARTING_EQUIPMENT",
+        "gained_at": [],
+        "key": "srd_monk_equipment",
+        "name": "Equipment"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 7th level, your instinctive agility lets you dodge out of the way of certain area effects, such as a blue dragon's lightning breath or a fireball spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 7
+          }
+        ],
+        "key": "srd_monk_evasion",
+        "name": "Evasion"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 5
+          }
+        ],
+        "key": "srd_monk_extra-attack",
+        "name": "Extra Attack"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 2nd level, your training allows you to harness the mystic energy of ki. Your access to this energy is represented by a number of ki points. Your monk level determines the number of points you have, as shown in the Ki Points column of the Monk table.\r\n\r\nYou can spend these points to fuel various ki features. You start knowing three such features: Flurry of Blows, Patient Defense, and Step of the Wind. You learn more ki features as you gain levels in this class.\r\n\r\nWhen you spend a ki point, it is unavailable until you finish a short or long rest, at the end of which you draw all of your expended ki back into yourself. You must spend at least 30 minutes of the rest meditating to regain your ki points.\r\n\r\nSome of your ki features require your target to make a saving throw to resist the feature's effects. The saving throw DC is calculated as follows:\r\n\r\n*Ki save DC* = 8 + your proficiency bonus + your Wisdom modifier\r\n\r\n### Flurry of Blows\r\n\r\nImmediately after you take the Attack action on your turn, you can spend 1 ki point to make two unarmed strikes as a bonus action. \r\n\r\n### Patient Defense\r\n\r\nYou can spend 1 ki point to take the Dodge action as a bonus action on your turn.\r\n\r\n### Step of the Wind\r\n\r\nYou can spend 1 ki point to take the Disengage or Dash action as a bonus action on your turn, and your jump distance is doubled for the turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd_monk_ki",
+        "name": "Ki"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 6th level, your unarmed strikes count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 6
+          }
+        ],
+        "key": "srd_monk_ki-empowered-strikes",
+        "name": "Ki-Empowered Strikes"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "10",
+            "level": 10
+          },
+          {
+            "column_value": "11",
+            "level": 11
+          },
+          {
+            "column_value": "12",
+            "level": 12
+          },
+          {
+            "column_value": "13",
+            "level": 13
+          },
+          {
+            "column_value": "14",
+            "level": 14
+          },
+          {
+            "column_value": "15",
+            "level": 15
+          },
+          {
+            "column_value": "16",
+            "level": 16
+          },
+          {
+            "column_value": "17",
+            "level": 17
+          },
+          {
+            "column_value": "18",
+            "level": 18
+          },
+          {
+            "column_value": "19",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 2
+          },
+          {
+            "column_value": "20",
+            "level": 20
+          },
+          {
+            "column_value": "3",
+            "level": 3
+          },
+          {
+            "column_value": "4",
+            "level": 4
+          },
+          {
+            "column_value": "5",
+            "level": 5
+          },
+          {
+            "column_value": "6",
+            "level": 6
+          },
+          {
+            "column_value": "7",
+            "level": 7
+          },
+          {
+            "column_value": "8",
+            "level": 8
+          },
+          {
+            "column_value": "9",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [],
+        "key": "srd_monk_ki-points",
+        "name": "Ki Points"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1d4",
+            "level": 1
+          },
+          {
+            "column_value": "1d6",
+            "level": 10
+          },
+          {
+            "column_value": "1d8",
+            "level": 11
+          },
+          {
+            "column_value": "1d8",
+            "level": 12
+          },
+          {
+            "column_value": "1d8",
+            "level": 13
+          },
+          {
+            "column_value": "1d8",
+            "level": 14
+          },
+          {
+            "column_value": "1d8",
+            "level": 15
+          },
+          {
+            "column_value": "1d8",
+            "level": 16
+          },
+          {
+            "column_value": "1d10",
+            "level": 17
+          },
+          {
+            "column_value": "1d10",
+            "level": 18
+          },
+          {
+            "column_value": "1d10",
+            "level": 19
+          },
+          {
+            "column_value": "1d4",
+            "level": 2
+          },
+          {
+            "column_value": "1d10",
+            "level": 20
+          },
+          {
+            "column_value": "1d4",
+            "level": 3
+          },
+          {
+            "column_value": "1d4",
+            "level": 4
+          },
+          {
+            "column_value": "1d6",
+            "level": 5
+          },
+          {
+            "column_value": "1d6",
+            "level": 6
+          },
+          {
+            "column_value": "1d6",
+            "level": 7
+          },
+          {
+            "column_value": "1d6",
+            "level": 8
+          },
+          {
+            "column_value": "1d6",
+            "level": 9
+          }
+        ],
+        "desc": "At 1st level, your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don't have the two- handed or heavy property.\r\n\r\nYou gain the following benefits while you are unarmed or wielding only monk weapons and you aren't wearing armor or wielding a shield:\r\n\r\n* You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons.\r\n* You can roll a d4 in place of the normal damage of your unarmed strike or monk weapon. This die changes as you gain monk levels, as shown in the Martial Arts column of the Monk table.\r\n* When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action. For example, if you take the Attack action and attack with a quarterstaff, you can also make an unarmed strike as a bonus action, assuming you haven't already taken a bonus action this turn. \r\n\r\nCertain monasteries use specialized forms of the monk weapons. For example, you might use a club that is two lengths of wood connected by a short chain (called a nunchaku) or a sickle with a shorter, straighter blade (called a kama). Whatever name you use for a monk weapon, you can use the game statistics provided for the weapon.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_monk_martial-arts",
+        "name": "Martial Arts"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you reach 3rd level, you commit yourself to a monastic tradition such as the Way of the Open Hand. Your tradition grants you features at 3rd level and again at 6th, 11th, and 17th level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_monk_monastic-tradition",
+        "name": "Monastic Tradition"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 20th level, when you roll for initiative and have no ki points remaining, you regain 4 ki points.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 20
+          }
+        ],
+        "key": "srd_monk_perfect-self",
+        "name": "Perfect Self"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "**Armor:** None\r\n**Weapons:** Simple weapons, shortswords\r\n**Tools:** Choose one type of artisan’s tools or one musical instrument\r\n**Saving Throws:** Strength, Dexterity\r\n**Skills:** Choose two from Acrobatics, Athletics, History, Insight, Religion, and Stealth",
+        "feature_type": "PROFICIENCIES",
+        "gained_at": [],
+        "key": "srd_monk_proficiencies",
+        "name": "Proficiencies"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "+2",
+            "level": 1
+          },
+          {
+            "column_value": "+4",
+            "level": 10
+          },
+          {
+            "column_value": "+4",
+            "level": 11
+          },
+          {
+            "column_value": "+4",
+            "level": 12
+          },
+          {
+            "column_value": "+5",
+            "level": 13
+          },
+          {
+            "column_value": "+5",
+            "level": 14
+          },
+          {
+            "column_value": "+5",
+            "level": 15
+          },
+          {
+            "column_value": "+5",
+            "level": 16
+          },
+          {
+            "column_value": "+6",
+            "level": 17
+          },
+          {
+            "column_value": "+6",
+            "level": 18
+          },
+          {
+            "column_value": "+6",
+            "level": 19
+          },
+          {
+            "column_value": "+2",
+            "level": 2
+          },
+          {
+            "column_value": "+6",
+            "level": 20
+          },
+          {
+            "column_value": "+2",
+            "level": 3
+          },
+          {
+            "column_value": "+2",
+            "level": 4
+          },
+          {
+            "column_value": "+3",
+            "level": 5
+          },
+          {
+            "column_value": "+3",
+            "level": 6
+          },
+          {
+            "column_value": "+3",
+            "level": 7
+          },
+          {
+            "column_value": "+3",
+            "level": 8
+          },
+          {
+            "column_value": "+4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "PROFICIENCY_BONUS",
+        "gained_at": [],
+        "key": "srd_monk_proficiency-bonus",
+        "name": "Proficiency Bonus"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 10th level, your mastery of the ki flowing through you makes you immune to disease and poison.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 10
+          }
+        ],
+        "key": "srd_monk_purity-of-body",
+        "name": "Purity of Body"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 4th level, you can use your reaction when you fall to reduce any falling damage you take by an amount equal to five times your monk level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 4
+          }
+        ],
+        "key": "srd_monk_slow-fall",
+        "name": "Slow Fall"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 7th level, you can use your action to end one effect on yourself that is causing you to be charmed or frightened.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 7
+          }
+        ],
+        "key": "srd_monk_stillness-of-mind",
+        "name": "Stillness of Mind"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 5th level, you can interfere with the flow of ki in an opponent's body. When you hit another creature with a melee weapon attack, you can spend 1 ki point to attempt a stunning strike. The target must succeed on a Constitution saving throw or be stunned until the end of your next turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 5
+          }
+        ],
+        "key": "srd_monk_stunning-strike",
+        "name": "Stunning Strike"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 15th level, your ki sustains you so that you suffer none of the frailty of old age, and you can't be aged magically. You can still die of old age, however. In addition, you no longer need food or water.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 15
+          }
+        ],
+        "key": "srd_monk_timeless-body",
+        "name": "Timeless Body"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 13th level, you learn to touch the ki of other minds so that you understand all spoken languages. Moreover, any creature that can understand a language can understand what you say.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 13
+          }
+        ],
+        "key": "srd_monk_tongue-of-the-sun-and-moon",
+        "name": "Tongue of the Sun and Moon"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 1st level, while you are wearing no armor and not wielding a shield, your AC equals 10 + your Dexterity modifier + your Wisdom modifier.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_monk_unarmored-defense",
+        "name": "Unarmored Defense"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "+20 ft.",
+            "level": 10
+          },
+          {
+            "column_value": "+20 ft.",
+            "level": 11
+          },
+          {
+            "column_value": "+20 ft.",
+            "level": 12
+          },
+          {
+            "column_value": "+20 ft.",
+            "level": 13
+          },
+          {
+            "column_value": "+25 ft.",
+            "level": 14
+          },
+          {
+            "column_value": "+25 ft.",
+            "level": 15
+          },
+          {
+            "column_value": "+25 ft.",
+            "level": 16
+          },
+          {
+            "column_value": "+25 ft.",
+            "level": 17
+          },
+          {
+            "column_value": "+30 ft.",
+            "level": 18
+          },
+          {
+            "column_value": "+30 ft.",
+            "level": 19
+          },
+          {
+            "column_value": "+10 ft.",
+            "level": 2
+          },
+          {
+            "column_value": "+30 ft.",
+            "level": 20
+          },
+          {
+            "column_value": "+10 ft.",
+            "level": 3
+          },
+          {
+            "column_value": "+10 ft.",
+            "level": 4
+          },
+          {
+            "column_value": "+10 ft.",
+            "level": 5
+          },
+          {
+            "column_value": "+15 ft.",
+            "level": 6
+          },
+          {
+            "column_value": "+15 ft.",
+            "level": 7
+          },
+          {
+            "column_value": "+15 ft.",
+            "level": 8
+          },
+          {
+            "column_value": "+15 ft.",
+            "level": 9
+          }
+        ],
+        "desc": "Starting at 2nd level, your speed increases by 10 feet while you are not wearing armor or wielding a shield. This bonus increases when you reach certain monk levels, as shown in the Monk table.\r\n\r\nAt 9th level, you gain the ability to move along vertical surfaces and across liquids on your turn without falling during the move.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd_monk_unarmored-movement",
+        "name": "Unarmored Movement"
+      }
+    ],
+    "hit_dice": "D8",
+    "hit_points": {
+      "hit_dice": "D8",
+      "hit_dice_name": "1D8 per Monk level",
+      "hit_points_at_1st_level": "8 + your Constitution modifier",
+      "hit_points_at_higher_levels": "1D8 (or 5) + your Constitution modifier per monk level after 1st"
+    },
+    "key": "srd_monk",
+    "name": "Monk",
+    "primary_abilities": [],
+    "saving_throws": [
+      {
+        "name": "Dexterity"
+      },
+      {
+        "name": "Strength"
+      }
+    ],
+    "subclass_of": null
+  }
+}

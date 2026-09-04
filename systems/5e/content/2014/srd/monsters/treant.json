@@ -1,0 +1,264 @@
+{
+  "id": "5e-2014-srd:monster:treant",
+  "type": "monster",
+  "name": "Treant",
+  "source": "5e-2014-srd",
+  "tags": [
+    "plant",
+    "huge",
+    "cr-9"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 12,
+      "constitution": 21,
+      "dexterity": 8,
+      "intelligence": 12,
+      "strength": 23,
+      "wisdom": 16
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The treant magically animates one or two trees it can see within 60 feet of it. These trees have the same statistics as a treant, except they have Intelligence and Charisma scores of 1, they can't speak, and they have only the Slam action option. An animated tree acts as an ally of the treant. The tree remains animate for 1 day or until it dies; until the treant dies or is more than 120 feet from the tree; or until the treant takes a bonus action to turn it back into an inanimate tree. The tree then takes root if possible.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Animate Trees",
+        "order_in_statblock": 3,
+        "usage_limits": {
+          "param": 1,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The treant makes two slam attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 4,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": 180,
+            "name": "Rock attack",
+            "range": 60,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Ranged Weapon Attack: +10 to hit, range 60/180 ft., one target. Hit: 28 (4d10 + 6) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rock",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Slam attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 10
+          }
+        ],
+        "desc": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 16 (3d6 + 6) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "chaotic good",
+    "armor_class": 16,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 9,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      }
+    ],
+    "experience_points": 5000,
+    "hit_dice": "12d12+60",
+    "hit_points": 138,
+    "illustration": null,
+    "initiative_bonus": -1,
+    "key": "srd_treant",
+    "languages": {
+      "as_string": "Common, Druidic, Elvish, Sylvan",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "The secret language of druids. Those who know it can speak the language and use it to leave hidden messages. Those who know this language automatically spot such a message. Others spot the message’s presence with a successful DC 15 Wisdom (Perception) check but can’t decipher it without magic.",
+          "key": "druidic",
+          "name": "Druidic"
+        },
+        {
+          "desc": "Typical speakers are elves.",
+          "key": "elvish",
+          "name": "Elvish"
+        },
+        {
+          "desc": "Typical speakers are fey creatures.",
+          "key": "sylvan",
+          "name": "Sylvan"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 1,
+      "constitution": 5,
+      "dexterity": -1,
+      "intelligence": 1,
+      "strength": 6,
+      "wisdom": 3
+    },
+    "name": "Treant",
+    "normal_sight_range": 10560,
+    "passive_perception": 13,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        }
+      ],
+      "damage_resistances_display": "bludgeoning, piercing",
+      "damage_vulnerabilities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_vulnerabilities_display": "fire"
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 1,
+      "constitution": 5,
+      "dexterity": -1,
+      "intelligence": 1,
+      "strength": 6,
+      "wisdom": 3
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -1,
+      "animal_handling": 3,
+      "arcana": 1,
+      "athletics": 6,
+      "deception": 1,
+      "history": 1,
+      "insight": 3,
+      "intimidation": 1,
+      "investigation": 1,
+      "medicine": 3,
+      "nature": 1,
+      "perception": 3,
+      "performance": 1,
+      "persuasion": 1,
+      "religion": 1,
+      "sleight_of_hand": -1,
+      "stealth": -1,
+      "survival": 3
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 0,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "While the treant remains motionless, it is indistinguishable from a normal tree.",
+        "name": "False Appearance"
+      },
+      {
+        "desc": "The treant deals double damage to objects and structures.",
+        "name": "Siege Monster"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "plant",
+      "name": "Plant"
+    }
+  }
+}

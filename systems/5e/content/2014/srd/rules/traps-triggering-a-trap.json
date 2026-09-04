@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:traps-triggering-a-trap",
+  "type": "rule",
+  "name": "Triggering a Trap",
+  "source": "5e-2014-srd",
+  "tags": [
+    "traps"
+  ],
+  "body": "Most traps are triggered when a creature goes somewhere or touches something that the trap's creator wanted to protect. Common triggers include stepping on a pressure plate or a false section of floor, pulling a trip wire, turning a doorknob, and using the wrong key in a lock. Magic traps are often set to go off when a creature enters an area or touches an object. Some magic traps (such as the _glyph of warding_ spell) have more complicated trigger conditions, including a password that prevents the trap from activating.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Most traps are triggered when a creature goes somewhere or touches something that the trap's creator wanted to protect. Common triggers include stepping on a pressure plate or a false section of floor, pulling a trip wire, turning a doorknob, and using the wrong key in a lock. Magic traps are often set to go off when a creature enters an area or touches an object. Some magic traps (such as the _glyph of warding_ spell) have more complicated trigger conditions, including a password that prevents the trap from activating.",
+    "index": 2,
+    "initialHeaderLevel": 3,
+    "key": "srd_traps_triggering-a-trap",
+    "name": "Triggering a Trap",
+    "ruleset": "srd_traps"
+  }
+}

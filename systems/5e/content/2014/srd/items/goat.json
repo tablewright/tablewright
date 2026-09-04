@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:goat",
+  "type": "item",
+  "name": "Goat",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "One goat.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One goat.",
+    "key": "srd_goat",
+    "name": "Goat",
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "weapon": null,
+    "weight": "75.000",
+    "weight_unit": "lb"
+  }
+}

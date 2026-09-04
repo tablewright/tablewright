@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:barrel",
+  "type": "item",
+  "name": "Barrel",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A barrel. Capacity: 40 gallons liquid, 4 cubic feet solid.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A barrel. Capacity: 40 gallons liquid, 4 cubic feet solid.",
+    "key": "srd_barrel",
+    "name": "Barrel",
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "weapon": null,
+    "weight": "70.000",
+    "weight_unit": "lb"
+  }
+}

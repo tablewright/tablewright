@@ -1,0 +1,56 @@
+{
+  "id": "5e-2014-srd:race:human",
+  "type": "race",
+  "name": "Human",
+  "source": "5e-2014-srd",
+  "tags": [],
+  "body": "It’s hard to make generalizations about humans, but your human character has these traits.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "It’s hard to make generalizations about humans, but your human character has these traits.",
+    "is_subspecies": false,
+    "key": "srd_human",
+    "name": "Human",
+    "subspecies_of": null,
+    "traits": [
+      {
+        "desc": "Your ability scores each increase by 1.",
+        "name": "Ability Score Increase",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "Your base walking speed is 30 feet.",
+        "name": "Speed",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "Humans reach adulthood in their late teens and live less than a century.",
+        "name": "Age",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "Humans tend toward no particular alignment. The best and the worst are found among them.",
+        "name": "Alignment",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "Humans vary widely in height and build, from barely 5 feet to well over 6 feet tall. Regardless of your position in that range, your size is Medium.",
+        "name": "Size",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "You can speak, read, and write Common and one extra language of your choice. Humans typically learn the languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish military phrases, and so on.",
+        "name": "Languages",
+        "order": null,
+        "type": null
+      }
+    ]
+  }
+}

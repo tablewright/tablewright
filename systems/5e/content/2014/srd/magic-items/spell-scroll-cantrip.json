@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:spell-scroll-cantrip",
+  "type": "magic-item",
+  "name": "Spell Scroll (Cantrip)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "scroll",
+    "common"
+  ],
+  "body": "A _spell scroll_ bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can use an action to read the scroll and cast its spell without having to provide any of the spell's components. Otherwise, the scroll is unintelligible.\\n\\nIf the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect. Once the spell is cast, the words on the scroll fade, and the scroll itself crumbles to dust.\\n\\nThe level of the spell on the scroll determines the spell's saving throw DC and attack bonus, as well as the scroll's rarity, as shown in the Spell Scroll table.\\n\\n**Spell Scroll (table)**\\n\\n| Spell Level | Rarity    | Save DC | Attack Bonus |\\n|-------------|-----------|---------|--------------|\\n| Cantrip     | Common    | 13      | +5           |\\n| 1st         | Common    | 13      | +5           |\\n| 2nd         | Uncommon  | 13      | +5           |\\n| 3rd         | Uncommon  | 15      | +7           |\\n| 4th         | Rare      | 15      | +7           |\\n| 5th         | Rare      | 17      | +9           |\\n| 6th         | Very rare | 17      | +9           |\\n| 7th         | Very rare | 18      | +10          |\\n| 8th         | Very rare | 18      | +10          |\\n| 9th         | Legendary | 19      | +11          |\\n\\nA wizard spell on a _spell scroll_ can be copied just as spells in spellbooks can be copied. When a spell is copied from a the copier must succeed on an Intelligence (Arcana) check with a DC equal to 10 + the spell's level. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the _spell scroll_ is destroyed.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "scroll",
+      "name": "Scroll"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A _spell scroll_ bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can use an action to read the scroll and cast its spell without having to provide any of the spell's components. Otherwise, the scroll is unintelligible.\\n\\nIf the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect. Once the spell is cast, the words on the scroll fade, and the scroll itself crumbles to dust.\\n\\nThe level of the spell on the scroll determines the spell's saving throw DC and attack bonus, as well as the scroll's rarity, as shown in the Spell Scroll table.\\n\\n**Spell Scroll (table)**\\n\\n| Spell Level | Rarity    | Save DC | Attack Bonus |\\n|-------------|-----------|---------|--------------|\\n| Cantrip     | Common    | 13      | +5           |\\n| 1st         | Common    | 13      | +5           |\\n| 2nd         | Uncommon  | 13      | +5           |\\n| 3rd         | Uncommon  | 15      | +7           |\\n| 4th         | Rare      | 15      | +7           |\\n| 5th         | Rare      | 17      | +9           |\\n| 6th         | Very rare | 17      | +9           |\\n| 7th         | Very rare | 18      | +10          |\\n| 8th         | Very rare | 18      | +10          |\\n| 9th         | Legendary | 19      | +11          |\\n\\nA wizard spell on a _spell scroll_ can be copied just as spells in spellbooks can be copied. When a spell is copied from a the copier must succeed on an Intelligence (Arcana) check with a DC equal to 10 + the spell's level. If the check succeeds, the spell is successfully copied. Whether the check succeeds or fails, the _spell scroll_ is destroyed.",
+    "key": "srd_spell-scroll-cantrip",
+    "name": "Spell Scroll (Cantrip)",
+    "rarity": {
+      "key": "common",
+      "name": "Common",
+      "rank": 1
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

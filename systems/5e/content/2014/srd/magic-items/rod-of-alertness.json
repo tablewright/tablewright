@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:rod-of-alertness",
+  "type": "magic-item",
+  "name": "Rod of Alertness",
+  "source": "5e-2014-srd",
+  "tags": [
+    "rod",
+    "very-rare",
+    "attunement"
+  ],
+  "body": "This rod has a flanged head and the following properties.\n\n**_Alertness_**. While holding the rod, you have advantage on Wisdom (Perception) checks and on rolls for initiative.\n\n**_Spells_**. While holding the rod, you can use an action to cast one of the following spells from it: _detect evil and good_, _detect magic_, _detect poison and disease_, or _see invisibility._\n\n**_Protective Aura_**. As an action, you can plant the haft end of the rod in the ground, whereupon the rod's head sheds bright light in a 60-foot radius and dim light for an additional 60 feet. While in that bright light, you and any creature that is friendly to you gain a +1 bonus to AC and saving throws and can sense the location of any invisible hostile creature that is also in the bright light.\n\nThe rod's head stops glowing and the effect ends after 10 minutes, or when a creature uses an action to pull the rod from the ground. This property can't be used again until the next dawn.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "rod",
+      "name": "Rod"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This rod has a flanged head and the following properties.\n\n**_Alertness_**. While holding the rod, you have advantage on Wisdom (Perception) checks and on rolls for initiative.\n\n**_Spells_**. While holding the rod, you can use an action to cast one of the following spells from it: _detect evil and good_, _detect magic_, _detect poison and disease_, or _see invisibility._\n\n**_Protective Aura_**. As an action, you can plant the haft end of the rod in the ground, whereupon the rod's head sheds bright light in a 60-foot radius and dim light for an additional 60 feet. While in that bright light, you and any creature that is friendly to you gain a +1 bonus to AC and saving throws and can sense the location of any invisible hostile creature that is also in the bright light.\n\nThe rod's head stops glowing and the effect ends after 10 minutes, or when a creature uses an action to pull the rod from the ground. This property can't be used again until the next dawn.",
+    "key": "srd_rod-of-alertness",
+    "name": "Rod of Alertness",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

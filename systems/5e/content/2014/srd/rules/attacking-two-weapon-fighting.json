@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:attacking-two-weapon-fighting",
+  "type": "rule",
+  "name": "Two-Weapon Fighting",
+  "source": "5e-2014-srd",
+  "tags": [
+    "attacking"
+  ],
+  "body": "When you take the Attack action and attack with a light melee weapon that you're holding in one hand, you can use a bonus action to attack with a different light melee weapon that you're holding in the other hand. You don't add your ability modifier to the damage of the bonus attack, unless that modifier is negative.\n\nIf either weapon has the thrown property, you can throw the weapon, instead of making a melee attack with it.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you take the Attack action and attack with a light melee weapon that you're holding in one hand, you can use a bonus action to attack with a different light melee weapon that you're holding in the other hand. You don't add your ability modifier to the damage of the bonus attack, unless that modifier is negative.\n\nIf either weapon has the thrown property, you can throw the weapon, instead of making a melee attack with it.",
+    "index": 10,
+    "initialHeaderLevel": 3,
+    "key": "srd_attacking_two-weapon-fighting",
+    "name": "Two-Weapon Fighting",
+    "ruleset": "srd_attacking"
+  }
+}

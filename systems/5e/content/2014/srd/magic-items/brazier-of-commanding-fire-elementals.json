@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:brazier-of-commanding-fire-elementals",
+  "type": "magic-item",
+  "name": "Brazier of Commanding Fire Elementals",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "rare"
+  ],
+  "body": "While a fire burns in this brass brazier, you can use an action to speak the brazier's command word and summon a fire elemental, as if you had cast the _conjure elemental_ spell. The brazier can't be used this way again until the next dawn.\r\n\r\nThe brazier weighs 5 pounds.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While a fire burns in this brass brazier, you can use an action to speak the brazier's command word and summon a fire elemental, as if you had cast the _conjure elemental_ spell. The brazier can't be used this way again until the next dawn.\r\n\r\nThe brazier weighs 5 pounds.",
+    "key": "srd_brazier-of-commanding-fire-elementals",
+    "name": "Brazier of Commanding Fire Elementals",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

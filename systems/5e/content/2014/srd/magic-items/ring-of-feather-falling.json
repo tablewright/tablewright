@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:ring-of-feather-falling",
+  "type": "magic-item",
+  "name": "Ring of Feather Falling",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring",
+    "rare",
+    "attunement"
+  ],
+  "body": "When you fall while wearing this ring, you descend 60 feet per round and take no damage from falling.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you fall while wearing this ring, you descend 60 feet per round and take no damage from falling.",
+    "key": "srd_ring-of-feather-falling",
+    "name": "Ring of Feather Falling",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

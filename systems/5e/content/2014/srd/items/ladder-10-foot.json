@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:ladder-10-foot",
+  "type": "item",
+  "name": "Ladder (10-foot)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A 10 foot ladder.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.10",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A 10 foot ladder.",
+    "key": "srd_ladder-10-foot",
+    "name": "Ladder (10-foot)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "25.000",
+    "weight_unit": "lb"
+  }
+}

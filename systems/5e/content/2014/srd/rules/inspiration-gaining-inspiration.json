@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:inspiration-gaining-inspiration",
+  "type": "rule",
+  "name": "Gaining Inspiration",
+  "source": "5e-2014-srd",
+  "tags": [
+    "inspiration"
+  ],
+  "body": "Your GM can choose to give you inspiration for a variety of reasons. Typically, GMs award it when you play out your personality traits, give in to the drawbacks presented by a flaw or bond, and otherwise portray your character in a compelling way. Your GM will tell you how you can earn inspiration in the game.\n\nYou either have inspiration or you don't - you can't stockpile multiple “inspirations” for later use.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Your GM can choose to give you inspiration for a variety of reasons. Typically, GMs award it when you play out your personality traits, give in to the drawbacks presented by a flaw or bond, and otherwise portray your character in a compelling way. Your GM will tell you how you can earn inspiration in the game.\n\nYou either have inspiration or you don't - you can't stockpile multiple “inspirations” for later use.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_inspiration_gaining-inspiration",
+    "name": "Gaining Inspiration",
+    "ruleset": "srd_inspiration"
+  }
+}

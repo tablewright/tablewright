@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:armor-armor-table",
+  "type": "rule",
+  "name": "Armor Table",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "| Armor              | Cost     | Armor Class (AC)          | Strength | Stealth      | Weight |\n|--------------------|----------|---------------------------|----------|--------------|--------|\n| **_Light Armor_**  |          |                           |          |              |        |\n| Padded             | 5 gp     | 11 + Dex modifier         | -        | Disadvantage | 8 lb.  |\n| Leather            | 10 gp    | 11 + Dex modifier         | -        | -            | 10 lb. |\n| Studded leather    | 45 gp    | 12 + Dex modifier         | -        | -            | 13 lb. |\n| **_Medium Armor_** |          |                           |          |              |        |\n| Hide               | 10 gp    | 12 + Dex modifier (max 2) | -        | -            | 12 lb. |\n| Chain shirt        | 50 gp    | 13 + Dex modifier (max 2) | -        | -            | 20 lb. |\n| Scale mail         | 50 gp    | 14 + Dex modifier (max 2) | -        | Disadvantage | 45 lb. |\n| Breastplate        | 400 gp   | 14 + Dex modifier (max 2) | -        | -            | 20 lb. |\n| Half plate         | 750 gp   | 15 + Dex modifier (max 2) | -        | Disadvantage | 40 lb. |\n| **_Heavy Armor_**  |          |                           |          |              |        |\n| Ring mail          | 30 gp    | 14                        | -        | Disadvantage | 40 lb. |\n| Chain mail         | 75 gp    | 16                        | Str 13   | Disadvantage | 55 lb. |\n| Splint             | 200 gp   | 17                        | Str 15   | Disadvantage | 60 lb. |\n| Plate              | 1,500 gp | 18                        | Str 15   | Disadvantage | 65 lb. |\n| **_Shield_**       |          |                           |          |              |        |\n| Shield             | 10 gp    | +2                        | -        | -            | 6 lb.  |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "| Armor              | Cost     | Armor Class (AC)          | Strength | Stealth      | Weight |\n|--------------------|----------|---------------------------|----------|--------------|--------|\n| **_Light Armor_**  |          |                           |          |              |        |\n| Padded             | 5 gp     | 11 + Dex modifier         | -        | Disadvantage | 8 lb.  |\n| Leather            | 10 gp    | 11 + Dex modifier         | -        | -            | 10 lb. |\n| Studded leather    | 45 gp    | 12 + Dex modifier         | -        | -            | 13 lb. |\n| **_Medium Armor_** |          |                           |          |              |        |\n| Hide               | 10 gp    | 12 + Dex modifier (max 2) | -        | -            | 12 lb. |\n| Chain shirt        | 50 gp    | 13 + Dex modifier (max 2) | -        | -            | 20 lb. |\n| Scale mail         | 50 gp    | 14 + Dex modifier (max 2) | -        | Disadvantage | 45 lb. |\n| Breastplate        | 400 gp   | 14 + Dex modifier (max 2) | -        | -            | 20 lb. |\n| Half plate         | 750 gp   | 15 + Dex modifier (max 2) | -        | Disadvantage | 40 lb. |\n| **_Heavy Armor_**  |          |                           |          |              |        |\n| Ring mail          | 30 gp    | 14                        | -        | Disadvantage | 40 lb. |\n| Chain mail         | 75 gp    | 16                        | Str 13   | Disadvantage | 55 lb. |\n| Splint             | 200 gp   | 17                        | Str 15   | Disadvantage | 60 lb. |\n| Plate              | 1,500 gp | 18                        | Str 15   | Disadvantage | 65 lb. |\n| **_Shield_**       |          |                           |          |              |        |\n| Shield             | 10 gp    | +2                        | -        | -            | 6 lb.  |",
+    "index": 4,
+    "initialHeaderLevel": 2,
+    "key": "srd_armor_armor-table",
+    "name": "Armor Table",
+    "ruleset": "srd_armor"
+  }
+}

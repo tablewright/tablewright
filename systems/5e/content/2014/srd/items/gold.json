@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:gold",
+  "type": "item",
+  "name": "Gold",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "1lb of gold.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "1lb of gold.",
+    "key": "srd_gold",
+    "name": "Gold",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

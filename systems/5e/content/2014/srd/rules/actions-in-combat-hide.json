@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:actions-in-combat-hide",
+  "type": "rule",
+  "name": "Hide",
+  "source": "5e-2014-srd",
+  "tags": [
+    "actions-in-combat"
+  ],
+  "body": "When you take the Hide action, you make a Dexterity (Stealth) check in an attempt to hide, following the rules for hiding. If you succeed, you gain certain benefits, as described in srd:unseen-attackers-and-targets.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you take the Hide action, you make a Dexterity (Stealth) check in an attempt to hide, following the rules for hiding. If you succeed, you gain certain benefits, as described in srd:unseen-attackers-and-targets.",
+    "index": 7,
+    "initialHeaderLevel": 3,
+    "key": "srd_actions-in-combat_hide",
+    "name": "Hide",
+    "ruleset": "srd_actions-in-combat"
+  }
+}

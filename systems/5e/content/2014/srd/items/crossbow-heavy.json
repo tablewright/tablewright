@@ -1,0 +1,61 @@
+{
+  "id": "5e-2014-srd:item:crossbow-heavy",
+  "type": "item",
+  "name": "Crossbow, heavy",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon"
+  ],
+  "body": "A heavy crossbow",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "50.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A heavy crossbow",
+    "key": "srd_crossbow-heavy",
+    "name": "Crossbow, heavy",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d10",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd_crossbow-heavy",
+      "name": "Crossbow, heavy",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "Because of the time required to load this weapon, you can fire only one piece of ammunition from it when you use an action, bonus action, or reaction to fire it, regardless of the number of attacks you can normally make.",
+            "name": "Loading",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "This weapon requires two hands when you attack with it.",
+            "name": "Two-Handed",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "18.000",
+    "weight_unit": "lb"
+  }
+}

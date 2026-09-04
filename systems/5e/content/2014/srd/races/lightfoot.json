@@ -1,0 +1,35 @@
+{
+  "id": "5e-2014-srd:race:lightfoot",
+  "type": "race",
+  "name": "Lightfoot",
+  "source": "5e-2014-srd",
+  "tags": [
+    "subrace",
+    "halfling"
+  ],
+  "body": "As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You're inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You're inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
+    "is_subspecies": true,
+    "key": "srd_lightfoot",
+    "name": "Lightfoot",
+    "subspecies_of": "srd_halfling",
+    "traits": [
+      {
+        "desc": "Your Charisma score increases by 1.",
+        "name": "Ability Score Increase",
+        "order": null,
+        "type": null
+      },
+      {
+        "desc": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.",
+        "name": "Naturally Stealthy",
+        "order": null,
+        "type": null
+      }
+    ]
+  }
+}

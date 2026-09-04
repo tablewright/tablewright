@@ -1,0 +1,53 @@
+{
+  "id": "5e-2014-srd:item:club",
+  "type": "item",
+  "name": "Club",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon"
+  ],
+  "body": "A club",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "0.10",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A club",
+    "key": "srd_club",
+    "name": "Club",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d4",
+      "damage_type": {
+        "key": "bludgeoning",
+        "name": "Bludgeoning"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd_club",
+      "name": "Club",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "A light weapon is small and easy to handle, making it ideal for use when fighting with two weapons.",
+            "name": "Light",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:spellcasting-longer-casting-times",
+  "type": "rule",
+  "name": "Longer Casting Times",
+  "source": "5e-2014-srd",
+  "tags": [
+    "spellcasting"
+  ],
+  "body": "Certain spells (including spells cast as rituals) require more time to cast: minutes or even hours. When you cast a spell with a casting time longer than a single action or reaction, you must spend your action each turn casting the spell, and you must maintain your concentration while you do so (see “Concentration” below). If your concentration is broken, the spell fails, but you don't expend a spell slot. If you want to try casting the spell again, you must start over.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Certain spells (including spells cast as rituals) require more time to cast: minutes or even hours. When you cast a spell with a casting time longer than a single action or reaction, you must spend your action each turn casting the spell, and you must maintain your concentration while you do so (see “Concentration” below). If your concentration is broken, the spell fails, but you don't expend a spell slot. If you want to try casting the spell again, you must start over.",
+    "index": 13,
+    "initialHeaderLevel": 3,
+    "key": "srd_spellcasting_longer-casting-times",
+    "name": "Longer Casting Times",
+    "ruleset": "srd_spellcasting"
+  }
+}

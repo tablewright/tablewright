@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:traps-trap-effects",
+  "type": "rule",
+  "name": "Trap Effects",
+  "source": "5e-2014-srd",
+  "tags": [
+    "traps"
+  ],
+  "body": "The effects of traps can range from inconvenient to deadly, making use of elements such as arrows, spikes, blades, poison, toxic gas, blasts of fire, and deep pits. The deadliest traps combine multiple elements to kill, injure, contain, or drive off any creature unfortunate enough to trigger them. A trap's description specifies what happens when it is triggered.\n\nThe attack bonus of a trap, the save DC to resist its effects, and the damage it deals can vary depending on the trap's severity. Use the Trap Save DCs and Attack Bonuses table and the Damage Severity by Level table for suggestions based on three levels of trap severity.\n\nA trap intended to be a **setback** is unlikely to kill or seriously harm characters of the indicated levels, whereas a **dangerous** trap is likely to seriously injure (and potentially kill) characters of the indicated levels. A **deadly** trap is likely to kill characters of the indicated levels.\n\n**Trap Save DCs and Attack Bonuses (table)**\n| Trap Danger | Save DC | Attack Bonus |\n|-------------|---------|--------------|\n| Setback     | 10-11   | +3 to +5     |\n| Dangerous   | 12-15   | +6 to +8     |\n| Deadly      | 16-20   | +9 to +12    |\n\n**Damage Severity by Level (table)**\n| Character Level | Setback | Dangerous | Deadly |\n|-----------------|---------|-----------|--------|\n| 1st-4th         | 1d10    | 2d10      | 4d10   |\n| 5th-10th        | 2d10    | 4d10      | 10d10  |\n| 11th-16th       | 4d10    | 10d10     | 18d10  |\n| 17th-20th       | 10d10   | 18d10     | 24d10  |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The effects of traps can range from inconvenient to deadly, making use of elements such as arrows, spikes, blades, poison, toxic gas, blasts of fire, and deep pits. The deadliest traps combine multiple elements to kill, injure, contain, or drive off any creature unfortunate enough to trigger them. A trap's description specifies what happens when it is triggered.\n\nThe attack bonus of a trap, the save DC to resist its effects, and the damage it deals can vary depending on the trap's severity. Use the Trap Save DCs and Attack Bonuses table and the Damage Severity by Level table for suggestions based on three levels of trap severity.\n\nA trap intended to be a **setback** is unlikely to kill or seriously harm characters of the indicated levels, whereas a **dangerous** trap is likely to seriously injure (and potentially kill) characters of the indicated levels. A **deadly** trap is likely to kill characters of the indicated levels.\n\n**Trap Save DCs and Attack Bonuses (table)**\n| Trap Danger | Save DC | Attack Bonus |\n|-------------|---------|--------------|\n| Setback     | 10-11   | +3 to +5     |\n| Dangerous   | 12-15   | +6 to +8     |\n| Deadly      | 16-20   | +9 to +12    |\n\n**Damage Severity by Level (table)**\n| Character Level | Setback | Dangerous | Deadly |\n|-----------------|---------|-----------|--------|\n| 1st-4th         | 1d10    | 2d10      | 4d10   |\n| 5th-10th        | 2d10    | 4d10      | 10d10  |\n| 11th-16th       | 4d10    | 10d10     | 18d10  |\n| 17th-20th       | 10d10   | 18d10     | 24d10  |",
+    "index": 4,
+    "initialHeaderLevel": 3,
+    "key": "srd_traps_trap-effects",
+    "name": "Trap Effects",
+    "ruleset": "srd_traps"
+  }
+}

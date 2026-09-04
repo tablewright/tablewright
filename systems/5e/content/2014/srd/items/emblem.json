@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:emblem",
+  "type": "item",
+  "name": "Emblem",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "Can be used as a holy symbol.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Can be used as a holy symbol.",
+    "key": "srd_emblem",
+    "name": "Emblem",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

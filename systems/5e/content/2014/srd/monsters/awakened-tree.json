@@ -1,0 +1,184 @@
+{
+  "id": "5e-2014-srd:monster:awakened-tree",
+  "type": "monster",
+  "name": "Awakened Tree",
+  "source": "5e-2014-srd",
+  "tags": [
+    "plant",
+    "huge",
+    "cr-2"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 7,
+      "constitution": 15,
+      "dexterity": 6,
+      "intelligence": 10,
+      "strength": 19,
+      "wisdom": 10
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 3,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Slam attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 6
+          }
+        ],
+        "desc": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 14 (3d6 + 4) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Slam",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      }
+    ],
+    "experience_points": 450,
+    "hit_dice": "7d12+14",
+    "hit_points": 59,
+    "illustration": null,
+    "initiative_bonus": -2,
+    "key": "srd_awakened-tree",
+    "languages": {
+      "as_string": "one language known by its creator",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": -2,
+      "intelligence": 0,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "name": "Awakened Tree",
+    "normal_sight_range": 10560,
+    "passive_perception": 10,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        }
+      ],
+      "damage_resistances_display": "bludgeoning, piercing",
+      "damage_vulnerabilities": [
+        {
+          "key": "fire",
+          "name": "Fire"
+        }
+      ],
+      "damage_vulnerabilities_display": "fire"
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -2,
+      "constitution": 2,
+      "dexterity": -2,
+      "intelligence": 0,
+      "strength": 4,
+      "wisdom": 0
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -2,
+      "animal_handling": 0,
+      "arcana": 0,
+      "athletics": 4,
+      "deception": -2,
+      "history": 0,
+      "insight": 0,
+      "intimidation": -2,
+      "investigation": 0,
+      "medicine": 0,
+      "nature": 0,
+      "perception": 0,
+      "performance": -2,
+      "persuasion": -2,
+      "religion": 0,
+      "sleight_of_hand": -2,
+      "stealth": -2,
+      "survival": 0
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 20
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 10,
+      "crawl": 10,
+      "fly": 0,
+      "hover": false,
+      "swim": 10,
+      "unit": "feet",
+      "walk": 20
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "While the tree remains motionless, it is indistinguishable from a normal tree.",
+        "name": "False Appearance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "plant",
+      "name": "Plant"
+    }
+  }
+}

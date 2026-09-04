@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:between-adventures-training",
+  "type": "rule",
+  "name": "Training",
+  "source": "5e-2014-srd",
+  "tags": [
+    "between-adventures"
+  ],
+  "body": "You can spend time between adventures learning a new language or training with a set of tools. Your GM might allow additional training options.\n\nFirst, you must find an instructor willing to teach you. The GM determines how long it takes, and whether one or more ability checks are required.\n\nThe training lasts for 250 days and costs 1 gp per day. After you spend the requisite amount of time and money, you learn the new language or gain proficiency with the new tool.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You can spend time between adventures learning a new language or training with a set of tools. Your GM might allow additional training options.\n\nFirst, you must find an instructor willing to teach you. The GM determines how long it takes, and whether one or more ability checks are required.\n\nThe training lasts for 250 days and costs 1 gp per day. After you spend the requisite amount of time and money, you learn the new language or gain proficiency with the new tool.",
+    "index": 7,
+    "initialHeaderLevel": 3,
+    "key": "srd_between-adventures_training",
+    "name": "Training",
+    "ruleset": "srd_between-adventures"
+  }
+}

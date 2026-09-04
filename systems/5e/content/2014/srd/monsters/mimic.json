@@ -1,0 +1,245 @@
+{
+  "id": "5e-2014-srd:monster:mimic",
+  "type": "monster",
+  "name": "Mimic",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monstrosity",
+    "medium",
+    "cr-2"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 8,
+      "constitution": 15,
+      "dexterity": 12,
+      "intelligence": 5,
+      "strength": 17,
+      "wisdom": 13
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Bite attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) piercing damage plus 4 (1d8) acid damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Bite",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Pseudopod attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 5
+          }
+        ],
+        "desc": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage. If the mimic is in object form, the target is subjected to its Adhesive trait.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Pseudopod",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral",
+    "armor_class": 12,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 2,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 60,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "laboratory",
+        "name": "Laboratory"
+      },
+      {
+        "key": "ruins",
+        "name": "Ruins"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      },
+      {
+        "key": "urban",
+        "name": "Urban"
+      }
+    ],
+    "experience_points": 450,
+    "hit_dice": "9d8+18",
+    "hit_points": 58,
+    "illustration": null,
+    "initiative_bonus": 1,
+    "key": "srd_mimic",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -1,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -3,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "name": "Mimic",
+    "normal_sight_range": 10560,
+    "passive_perception": 11,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "prone",
+          "name": "Prone"
+        }
+      ],
+      "condition_immunities_display": "prone",
+      "damage_immunities": [
+        {
+          "key": "acid",
+          "name": "Acid"
+        }
+      ],
+      "damage_immunities_display": "acid",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -1,
+      "constitution": 2,
+      "dexterity": 1,
+      "intelligence": -3,
+      "strength": 3,
+      "wisdom": 1
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "stealth": 5
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 1,
+      "animal_handling": 1,
+      "arcana": -3,
+      "athletics": 3,
+      "deception": -1,
+      "history": -3,
+      "insight": 1,
+      "intimidation": -1,
+      "investigation": -3,
+      "medicine": 1,
+      "nature": -3,
+      "perception": 1,
+      "performance": -1,
+      "persuasion": -1,
+      "religion": -3,
+      "sleight_of_hand": 1,
+      "stealth": 5,
+      "survival": 1
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 15
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 7,
+      "crawl": 7,
+      "fly": 0,
+      "hover": false,
+      "swim": 7,
+      "unit": "feet",
+      "walk": 15
+    },
+    "subcategory": null,
+    "traits": [
+      {
+        "desc": "The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic is also grappled by it (escape DC 13). Ability checks made to escape this grapple have disadvantage.",
+        "name": "Adhesive (Object Form Only)"
+      },
+      {
+        "desc": "While the mimic remains motionless, it is indistinguishable from an ordinary object.",
+        "name": "False Appearance (Object Form Only)"
+      },
+      {
+        "desc": "The mimic has advantage on attack rolls against any creature grappled by it.",
+        "name": "Grappler"
+      },
+      {
+        "desc": "The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its true form if it dies.",
+        "name": "Shapechanger"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

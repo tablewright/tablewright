@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:objects-statistics-for-objects",
+  "type": "rule",
+  "name": "Statistics for Objects",
+  "source": "5e-2014-srd",
+  "tags": [
+    "objects"
+  ],
+  "body": "When time is a factor, you can assign an Armor Class and hit points to a destructible object. You can also give it immunities, resistances, and vulnerabilities to specific types of damage.\n\n**_Armor Class_**. An object's Armor Class is a measure of how difficult it is to deal damage to the object when striking it (because the object has no chance of dodging out of the way). The Object Armor Class table provides suggested AC values for various substances.\n\n**Object Armor Class (table)**\n| Substance           | AC |\n|---------------------|----|\n| Cloth, paper, rope  | 11 |\n| Crystal, glass, ice | 13 |\n| Wood, bone          | 15 |\n| Stone               | 17 |\n| Iron, steel         | 19 |\n| Mithral             | 21 |\n| Adamantine          | 23 |\n\n**_Hit Points_**. An object's hit points measure how much damage it can take before losing its structural integrity. Resilient objects have more hit points than fragile ones. Large objects also tend to have more hit points than small ones, unless breaking a small part of the object is just as effective as breaking the whole thing. The Object Hit Points table provides suggested hit points for fragile and resilient objects that are Large or smaller.\n\n**Object Hit Points (table)**\n\n| Size                                  | Fragile  | Resilient |\n|---------------------------------------|----------|-----------|\n| Tiny (bottle, lock)                   | 2 (1d4)  | 5 (2d4)   |\n| Small (chest, lute)                   | 3 (1d6)  | 10 (3d6)  |\n| Medium (barrel, chandelier)           | 4 (1d8)  | 18 (4d8)  |\n| Large (cart, 10-ft.-by-10-ft. window) | 5 (1d10) | 27 (5d10) |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When time is a factor, you can assign an Armor Class and hit points to a destructible object. You can also give it immunities, resistances, and vulnerabilities to specific types of damage.\n\n**_Armor Class_**. An object's Armor Class is a measure of how difficult it is to deal damage to the object when striking it (because the object has no chance of dodging out of the way). The Object Armor Class table provides suggested AC values for various substances.\n\n**Object Armor Class (table)**\n| Substance           | AC |\n|---------------------|----|\n| Cloth, paper, rope  | 11 |\n| Crystal, glass, ice | 13 |\n| Wood, bone          | 15 |\n| Stone               | 17 |\n| Iron, steel         | 19 |\n| Mithral             | 21 |\n| Adamantine          | 23 |\n\n**_Hit Points_**. An object's hit points measure how much damage it can take before losing its structural integrity. Resilient objects have more hit points than fragile ones. Large objects also tend to have more hit points than small ones, unless breaking a small part of the object is just as effective as breaking the whole thing. The Object Hit Points table provides suggested hit points for fragile and resilient objects that are Large or smaller.\n\n**Object Hit Points (table)**\n\n| Size                                  | Fragile  | Resilient |\n|---------------------------------------|----------|-----------|\n| Tiny (bottle, lock)                   | 2 (1d4)  | 5 (2d4)   |\n| Small (chest, lute)                   | 3 (1d6)  | 10 (3d6)  |\n| Medium (barrel, chandelier)           | 4 (1d8)  | 18 (4d8)  |\n| Large (cart, 10-ft.-by-10-ft. window) | 5 (1d10) | 27 (5d10) |",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_objects_statistics-for-objects",
+    "name": "Statistics for Objects",
+    "ruleset": "srd_objects"
+  }
+}

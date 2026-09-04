@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:yew-wand",
+  "type": "item",
+  "name": "Yew wand",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wand"
+  ],
+  "body": "Can be used as a druidic focus.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "wand",
+      "name": "Wand"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Can be used as a druidic focus.",
+    "key": "srd_yew-wand",
+    "name": "Yew wand",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

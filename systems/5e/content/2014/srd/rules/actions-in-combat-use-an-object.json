@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:actions-in-combat-use-an-object",
+  "type": "rule",
+  "name": "Search",
+  "source": "5e-2014-srd",
+  "tags": [
+    "actions-in-combat"
+  ],
+  "body": "You normally interact with an object while doing something else, such as when you draw a sword as part of an attack. When an object requires your action for its use, you take the Use an Object action. This action is also useful when you want to interact with more than one object on your turn.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You normally interact with an object while doing something else, such as when you draw a sword as part of an attack. When an object requires your action for its use, you take the Use an Object action. This action is also useful when you want to interact with more than one object on your turn.",
+    "index": 9,
+    "initialHeaderLevel": 3,
+    "key": "srd_actions-in-combat_use-an-object",
+    "name": "Search",
+    "ruleset": "srd_actions-in-combat"
+  }
+}

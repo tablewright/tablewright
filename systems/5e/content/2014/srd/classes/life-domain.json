@@ -1,0 +1,120 @@
+{
+  "id": "5e-2014-srd:class:life-domain",
+  "type": "class",
+  "name": "Life Domain",
+  "source": "5e-2014-srd",
+  "tags": [
+    "subclass",
+    "cleric"
+  ],
+  "body": "",
+  "data": {
+    "caster_type": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 6th level, the healing spells you cast on others heal you as well. When you cast a spell of 1st level or higher that restores hit points to a creature other than you, you regain hit points equal to 2 + the spell's level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 6
+          }
+        ],
+        "key": "srd_life-domain_blessed-healer",
+        "name": "Blessed Healer"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you choose this domain at 1st level, you gain proficiency with heavy armor.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_life-domain_bonus-proficiency",
+        "name": "Bonus Proficiency"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 2nd level, you can use your Channel Divinity to heal the badly injured.\r\n\r\nAs an action, you present your holy symbol and evoke healing energy that can restore a number of hit points equal to five times your cleric level. Choose any creatures within 30 feet of you, and divide those hit points among them. This feature can restore a creature to no more than half of its hit point maximum. You can't use this feature on an undead or a construct.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd_life-domain_channel-divinity-preserve-life",
+        "name": "Channel Divinity: Preserve Life"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Also starting at 1st level, your healing spells are more effective. Whenever you use a spell of 1st level or higher to restore hit points to a creature, the creature regains additional hit points equal to 2 + the spell's level.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_life-domain_disciple-of-life",
+        "name": "Disciple of Life"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 8th level, you gain the ability to infuse your weapon strikes with divine energy. Once on each of your turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 1d8 radiant damage to the target. When you reach 14th level, the extra damage increases to 2d8.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 8
+          }
+        ],
+        "key": "srd_life-domain_divine-strike",
+        "name": "Divine Strike"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Cleric Level | Spells |\r\n|---|---|\r\n| 1st | bless, cure wounds | \r\n| 3rd | lesser restoration, spiritual weapon |\r\n| 5th | beacon of hope, revivify |\r\n| 7th | death ward, guardian of faith |\r\n| 9th | mass cure wounds, raise dead |",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_life-domain_life-domain-spells-table",
+        "name": "Life Domain Spells (table)"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 17th level, when you would normally roll one or more dice to restore hit points with a spell, you instead use the highest number possible for each die. For example, instead of restoring 2d6 hit points to a creature, you restore 12.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 17
+          }
+        ],
+        "key": "srd_life-domain_supreme-healing",
+        "name": "Supreme Healing"
+      }
+    ],
+    "hit_dice": null,
+    "key": "srd_life-domain",
+    "name": "Life Domain",
+    "primary_abilities": [],
+    "saving_throws": [],
+    "subclass_of": {
+      "key": "srd_cleric",
+      "name": "Cleric"
+    }
+  }
+}

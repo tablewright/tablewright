@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:ink-1-ounce-bottle",
+  "type": "item",
+  "name": "Ink (1 ounce bottle)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A bottle of ink.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A bottle of ink.",
+    "key": "srd_ink-1-ounce-bottle",
+    "name": "Ink (1 ounce bottle)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

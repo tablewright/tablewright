@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:cart",
+  "type": "item",
+  "name": "Cart",
+  "source": "5e-2014-srd",
+  "tags": [
+    "land-vehicle"
+  ],
+  "body": "Drawn vehicle",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "land-vehicle",
+      "name": "Land Vehicle"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Drawn vehicle",
+    "key": "srd_cart",
+    "name": "Cart",
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "weapon": null,
+    "weight": "200.000",
+    "weight_unit": "lb"
+  }
+}

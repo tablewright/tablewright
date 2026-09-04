@@ -1,0 +1,53 @@
+{
+  "id": "5e-2014-srd:item:sickle",
+  "type": "item",
+  "name": "Sickle",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon"
+  ],
+  "body": "A sickle.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A sickle.",
+    "key": "srd_sickle",
+    "name": "Sickle",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d4",
+      "damage_type": {
+        "key": "slashing",
+        "name": "Slashing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": false,
+      "is_simple": true,
+      "key": "srd_sickle",
+      "name": "Sickle",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "A light weapon is small and easy to handle, making it ideal for use when fighting with two weapons.",
+            "name": "Light",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:multiclassing-class-features",
+  "type": "rule",
+  "name": "Class Features",
+  "source": "5e-2014-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "When you gain a new level in a class, you get its features for that level. You don't, however, receive the class's starting equipment, and a few features have additional rules when you're multiclassing: Channel Divinity, Extra Attack, Unarmored Defense, and Spellcasting.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you gain a new level in a class, you get its features for that level. You don't, however, receive the class's starting equipment, and a few features have additional rules when you're multiclassing: Channel Divinity, Extra Attack, Unarmored Defense, and Spellcasting.",
+    "index": 6,
+    "initialHeaderLevel": 2,
+    "key": "srd_multiclassing_class-features",
+    "name": "Class Features",
+    "ruleset": "srd_multiclassing"
+  }
+}

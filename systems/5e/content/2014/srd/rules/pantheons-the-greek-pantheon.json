@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:pantheons-the-greek-pantheon",
+  "type": "rule",
+  "name": "The Greek Pantheon",
+  "source": "5e-2014-srd",
+  "tags": [
+    "pantheons"
+  ],
+  "body": "The gods of Olympus make themselves known with the gentle lap of waves against the shores and the crash of the thunder among the cloud-enshrouded peaks. The thick boar-infested woods and the sere, olive-covered hillsides hold evidence of their passing. Every aspect of nature echoes with their presence, and they've made a place for themselves inside the human heart, too.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The gods of Olympus make themselves known with the gentle lap of waves against the shores and the crash of the thunder among the cloud-enshrouded peaks. The thick boar-infested woods and the sere, olive-covered hillsides hold evidence of their passing. Every aspect of nature echoes with their presence, and they've made a place for themselves inside the human heart, too.",
+    "index": 3,
+    "initialHeaderLevel": 2,
+    "key": "srd_pantheons_the-greek-pantheon",
+    "name": "The Greek Pantheon",
+    "ruleset": "srd_pantheons"
+  }
+}

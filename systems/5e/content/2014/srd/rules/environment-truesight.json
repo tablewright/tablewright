@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:environment-truesight",
+  "type": "rule",
+  "name": "Truesight",
+  "source": "5e-2014-srd",
+  "tags": [
+    "environment"
+  ],
+  "body": "A creature with truesight can, out to a specific range, see in normal and magical darkness, see invisible creatures and objects,automatically detect visual illusions and succeed on saving throwsagainst them, and perceives the original form of a shapechanger or acreature that is transformed by magic. Furthermore, the creature can see into the Ethereal Plane.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A creature with truesight can, out to a specific range, see in normal and magical darkness, see invisible creatures and objects,automatically detect visual illusions and succeed on saving throwsagainst them, and perceives the original form of a shapechanger or acreature that is transformed by magic. Furthermore, the creature can see into the Ethereal Plane.",
+    "index": 6,
+    "initialHeaderLevel": 3,
+    "key": "srd_environment_truesight",
+    "name": "Truesight",
+    "ruleset": "srd_environment"
+  }
+}

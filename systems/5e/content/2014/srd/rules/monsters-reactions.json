@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-reactions",
+  "type": "rule",
+  "name": "Ammunition",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "If a monster can do something special with its reaction, that information is contained here. If a creature has no special reaction, this section is absent.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "If a monster can do something special with its reaction, that information is contained here. If a creature has no special reaction, this section is absent.",
+    "index": 29,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_reactions",
+    "name": "Ammunition",
+    "ruleset": "srd_monsters"
+  }
+}

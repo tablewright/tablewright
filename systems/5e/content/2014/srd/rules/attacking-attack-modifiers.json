@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:attacking-attack-modifiers",
+  "type": "rule",
+  "name": "Modifiers to the Roll",
+  "source": "5e-2014-srd",
+  "tags": [
+    "attacking"
+  ],
+  "body": "When a character makes an attack roll, the two most common modifiers to the roll are an ability modifier and the character's proficiency bonus. When a monster makes an attack roll, it uses whatever modifier is provided in its stat block.\n\n**Ability Modifier.** The ability modifier used for a melee weapon attack is Strength, and the ability modifier used for a ranged weapon attack is Dexterity. Weapons that have the finesse or thrown property break this rule.\n\nSome spells also require an attack roll. The ability modifier used for a spell attack depends on the spellcasting ability of the spellcaster.\n\n**Proficiency Bonus.** You add your proficiency bonus to your attack roll when you attack using a weapon with which you have proficiency, as well as when you attack with a spell.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When a character makes an attack roll, the two most common modifiers to the roll are an ability modifier and the character's proficiency bonus. When a monster makes an attack roll, it uses whatever modifier is provided in its stat block.\n\n**Ability Modifier.** The ability modifier used for a melee weapon attack is Strength, and the ability modifier used for a ranged weapon attack is Dexterity. Weapons that have the finesse or thrown property break this rule.\n\nSome spells also require an attack roll. The ability modifier used for a spell attack depends on the spellcasting ability of the spellcaster.\n\n**Proficiency Bonus.** You add your proficiency bonus to your attack roll when you attack using a weapon with which you have proficiency, as well as when you attack with a spell.",
+    "index": 2,
+    "initialHeaderLevel": 3,
+    "key": "srd_attacking_attack-modifiers",
+    "name": "Modifiers to the Roll",
+    "ruleset": "srd_attacking"
+  }
+}

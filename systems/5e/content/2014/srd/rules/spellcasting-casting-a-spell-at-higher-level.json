@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:spellcasting-casting-a-spell-at-higher-level",
+  "type": "rule",
+  "name": "Casting a Spell at a Higher Level",
+  "source": "5e-2014-srd",
+  "tags": [
+    "spellcasting"
+  ],
+  "body": "When a spellcaster casts a spell using a slot that is of a higher level than the spell, the spell assumes the higher level for that casting. For instance, if Umara casts _magic missile_ using one of her 2nd-level slots, that _magic missile_ is 2nd level. Effectively, the spell expands to fill the slot it is put into.\n\nSome spells, such as _magic missile_ and _cure wounds_, have more powerful effects when cast at a higher level, as detailed in a spell's description.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When a spellcaster casts a spell using a slot that is of a higher level than the spell, the spell assumes the higher level for that casting. For instance, if Umara casts _magic missile_ using one of her 2nd-level slots, that _magic missile_ is 2nd level. Effectively, the spell expands to fill the slot it is put into.\n\nSome spells, such as _magic missile_ and _cure wounds_, have more powerful effects when cast at a higher level, as detailed in a spell's description.",
+    "index": 5,
+    "initialHeaderLevel": 3,
+    "key": "srd_spellcasting_casting-a-spell-at-higher-level",
+    "name": "Casting a Spell at a Higher Level",
+    "ruleset": "srd_spellcasting"
+  }
+}

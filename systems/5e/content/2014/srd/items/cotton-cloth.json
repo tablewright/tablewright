@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:cotton-cloth",
+  "type": "item",
+  "name": "Cotton Cloth",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "1 sq. yd. of cotton cloth.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "0.50",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "1 sq. yd. of cotton cloth.",
+    "key": "srd_cotton-cloth",
+    "name": "Cotton Cloth",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

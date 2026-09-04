@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:crystal-ball",
+  "type": "magic-item",
+  "name": "Crystal Ball",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "very-rare",
+    "attunement"
+  ],
+  "body": "The typical crystal ball, a very rare item, is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The typical crystal ball, a very rare item, is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.",
+    "key": "srd_crystal-ball",
+    "name": "Crystal Ball",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

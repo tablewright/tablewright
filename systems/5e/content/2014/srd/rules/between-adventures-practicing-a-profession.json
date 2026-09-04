@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:between-adventures-practicing-a-profession",
+  "type": "rule",
+  "name": "Practicing a Profession",
+  "source": "5e-2014-srd",
+  "tags": [
+    "between-adventures"
+  ],
+  "body": "You can work between adventures, allowing you to maintain a modest lifestyle without having to pay 1 gp per day. This benefit lasts as long you continue to practice your profession.\n\nIf you are a member of an organization that can provide gainful employment, such as a temple or a thieves' guild, you earn enough to support a comfortable lifestyle instead.\n\nIf you have proficiency in the Performance skill and put your performance skill to use during your downtime, you earn enough to support a wealthy lifestyle instead.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You can work between adventures, allowing you to maintain a modest lifestyle without having to pay 1 gp per day. This benefit lasts as long you continue to practice your profession.\n\nIf you are a member of an organization that can provide gainful employment, such as a temple or a thieves' guild, you earn enough to support a comfortable lifestyle instead.\n\nIf you have proficiency in the Performance skill and put your performance skill to use during your downtime, you earn enough to support a wealthy lifestyle instead.",
+    "index": 4,
+    "initialHeaderLevel": 3,
+    "key": "srd_between-adventures_practicing-a-profession",
+    "name": "Practicing a Profession",
+    "ruleset": "srd_between-adventures"
+  }
+}

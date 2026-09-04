@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:race-ability-score-increases",
+  "type": "rule",
+  "name": "Ability Score Increases",
+  "source": "5e-2014-srd",
+  "tags": [
+    "races"
+  ],
+  "body": "Every race increases one or more of a character’s ability scores.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Every race increases one or more of a character’s ability scores.",
+    "index": 2,
+    "initialHeaderLevel": 3,
+    "key": "srd_race_ability-score-increases",
+    "name": "Ability Score Increases",
+    "ruleset": "srd_races"
+  }
+}

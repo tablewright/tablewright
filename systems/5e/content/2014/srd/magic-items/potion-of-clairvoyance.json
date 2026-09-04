@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:potion-of-clairvoyance",
+  "type": "magic-item",
+  "name": "Potion of Clairvoyance",
+  "source": "5e-2014-srd",
+  "tags": [
+    "potion",
+    "rare"
+  ],
+  "body": "When you drink this potion, you gain the effect of the _clairvoyance_ spell. An eyeball bobs in this yellowish liquid but vanishes when the potion is opened.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you drink this potion, you gain the effect of the _clairvoyance_ spell. An eyeball bobs in this yellowish liquid but vanishes when the potion is opened.",
+    "key": "srd_potion-of-clairvoyance",
+    "name": "Potion of Clairvoyance",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:forgery-kit",
+  "type": "item",
+  "name": "Forgery kit",
+  "source": "5e-2014-srd",
+  "tags": [
+    "tools"
+  ],
+  "body": "This small box contains a variety of papers and parchments, pens and inks, seals and sealing wax, gold and silver leaf, and other supplies necessary to create convincing forgeries of physical documents. \\n\\nProficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a physical forgery of a document.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "tools",
+      "name": "Tools"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This small box contains a variety of papers and parchments, pens and inks, seals and sealing wax, gold and silver leaf, and other supplies necessary to create convincing forgeries of physical documents. \\n\\nProficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a physical forgery of a document.",
+    "key": "srd_forgery-kit",
+    "name": "Forgery kit",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

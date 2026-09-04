@@ -1,0 +1,41 @@
+{
+  "id": "5e-2014-srd:item:chain-mail",
+  "type": "item",
+  "name": "Chain mail",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impact of blows. The suit includes gauntlets.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 16,
+      "ac_cap_dexmod": null,
+      "ac_display": "16",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_chain-mail",
+      "name": "Chain mail",
+      "strength_score_required": 13
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "75.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impact of blows. The suit includes gauntlets.",
+    "key": "srd_chain-mail",
+    "name": "Chain mail",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "55.000",
+    "weight_unit": "lb"
+  }
+}

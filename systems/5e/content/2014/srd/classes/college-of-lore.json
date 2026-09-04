@@ -1,0 +1,81 @@
+{
+  "id": "5e-2014-srd:class:college-of-lore",
+  "type": "class",
+  "name": "College of Lore",
+  "source": "5e-2014-srd",
+  "tags": [
+    "subclass",
+    "bard"
+  ],
+  "body": "",
+  "data": {
+    "caster_type": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "At 6th level, you learn two spells of your choice from any class. A spell you choose must be of a level you can cast, as shown on the Bard table, or a cantrip. The chosen spells count as bard spells for you but don't count against the number of bard spells you know.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 6
+          }
+        ],
+        "key": "srd_college-of-lore_additional-magical-secrets",
+        "name": "Additional Magical Secrets"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you join the College of Lore at 3rd level, you gain proficiency with three skills of your choice.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_college-of-lore_bonus-proficiencies",
+        "name": "Bonus Proficiencies"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Also at 3rd level, you learn how to use your wit to distract, confuse, and otherwise sap the confidence and competence of others. When a creature that you can see within 60 feet of you makes an attack roll, an ability check, or a damage roll, you can use your reaction to expend one of your uses of Bardic Inspiration, rolling a Bardic Inspiration die and subtracting the number rolled from the creature's roll. You can choose to use this feature after the creature makes its roll, but before the GM determines whether the attack roll or ability check succeeds or fails, or before the creature deals its damage. The creature is immune if it can't hear you or if it's immune to being charmed.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_college-of-lore_cutting-words",
+        "name": "Cutting Words"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 14th level, when you make an ability check, you can expend one use of Bardic Inspiration. Roll a Bardic Inspiration die and add the number rolled to your ability check. You can choose to do so after you roll the die for the ability check, but before the GM tells you whether you succeed or fail.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 14
+          }
+        ],
+        "key": "srd_college-of-lore_peerless-skill",
+        "name": "Peerless Skill"
+      }
+    ],
+    "hit_dice": null,
+    "key": "srd_college-of-lore",
+    "name": "College of Lore",
+    "primary_abilities": [],
+    "saving_throws": [],
+    "subclass_of": {
+      "key": "srd_bard",
+      "name": "Bard"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "5e-2014-srd:magic-item:luck-blade-shortsword",
+  "type": "magic-item",
+  "name": "Luck Blade (Shortsword)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon",
+    "legendary",
+    "attunement"
+  ],
+  "body": "You gain a +1 bonus to attack and damage rolls made with this magic weapon. While the sword is on your person, you also gain a +1 bonus to saving throws.\n\n**_Luck_**. If the sword is on your person, you can call on its luck (no action required) to reroll one attack roll, ability check, or saving throw you dislike. You must use the second roll. This property can't be used again until the next dawn.\n\n**_Wish_**. The sword has 1d4 - 1 charges. While holding it, you can use an action to expend 1 charge and cast the _wish_ spell from it. This property can't be used again until the next dawn. The sword loses this property if it has no charges.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to attack and damage rolls made with this magic weapon. While the sword is on your person, you also gain a +1 bonus to saving throws.\n\n**_Luck_**. If the sword is on your person, you can call on its luck (no action required) to reroll one attack roll, ability check, or saving throw you dislike. You must use the second roll. This property can't be used again until the next dawn.\n\n**_Wish_**. The sword has 1d4 - 1 charges. While holding it, you can use an action to expend 1 charge and cast the _wish_ spell from it. This property can't be used again until the next dawn. The sword loses this property if it has no charges.",
+    "key": "srd_luck-blade-shortsword",
+    "name": "Luck Blade (Shortsword)",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d6",
+      "damage_type": {
+        "key": "slashing",
+        "name": "Slashing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd_shortsword",
+      "name": "Shortsword",
+      "properties": [
+        {
+          "detail": null,
+          "property": {
+            "desc": "When making an attack with a finesse weapon, you use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.",
+            "name": "Finesse",
+            "type": null
+          }
+        },
+        {
+          "detail": null,
+          "property": {
+            "desc": "A light weapon is small and easy to handle, making it ideal for use when fighting with two weapons.",
+            "name": "Light",
+            "type": null
+          }
+        }
+      ]
+    },
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

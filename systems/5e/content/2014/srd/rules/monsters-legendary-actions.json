@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-legendary-actions",
+  "type": "rule",
+  "name": "Legendary Actions",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "A legendary creature can take a certain number of special actions—called legendary actions—outside its turn. Only one legendary action option can be used at a time and only at the end of another creature’s turn. A creature regains its spent legendary actions at the start of its turn. It can forgo using them, and it can’t use them while incapacitated or otherwise unable to take actions. If surprised, it can’t use them until after its first turn in the combat.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A legendary creature can take a certain number of special actions—called legendary actions—outside its turn. Only one legendary action option can be used at a time and only at the end of another creature’s turn. A creature regains its spent legendary actions at the start of its turn. It can forgo using them, and it can’t use them while incapacitated or otherwise unable to take actions. If surprised, it can’t use them until after its first turn in the combat.",
+    "index": 34,
+    "initialHeaderLevel": 3,
+    "key": "srd_monsters_legendary-actions",
+    "name": "Legendary Actions",
+    "ruleset": "srd_monsters"
+  }
+}

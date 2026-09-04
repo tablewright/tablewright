@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-legendary-creatures",
+  "type": "rule",
+  "name": "Legendary Creature",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "A legendary creature can do things that ordinary creatures can’t. It can take special actions outside its turn, and it might exert magical influence for miles around.\n\nIf a creature assumes the form of a legendary creature, such as through a spell, it doesn’t gain that form’s legendary actions, lair actions, or regional effects.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A legendary creature can do things that ordinary creatures can’t. It can take special actions outside its turn, and it might exert magical influence for miles around.\n\nIf a creature assumes the form of a legendary creature, such as through a spell, it doesn’t gain that form’s legendary actions, lair actions, or regional effects.",
+    "index": 33,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_legendary-creatures",
+    "name": "Legendary Creature",
+    "ruleset": "srd_monsters"
+  }
+}

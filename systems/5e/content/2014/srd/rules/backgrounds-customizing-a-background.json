@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:backgrounds-customizing-a-background",
+  "type": "rule",
+  "name": "Customizing a Background",
+  "source": "5e-2014-srd",
+  "tags": [
+    "backgrounds"
+  ],
+  "body": "You might want to tweak some of the features of a background so it better fits your character or the campaign setting. To customize a background, you can replace one feature with any other one, choose any two skills, and choose a total of two tool proficiencies or languages from the sample backgrounds. You can either use the equipment package from your background or spend coin on gear as described in the equipment section. (If you spend coin, you can't also take the equipment package suggested for your class.) Finally, choose two personality traits, one ideal, one bond, and one flaw. If you can't find a feature that matches your desired background, work with your GM to create one.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You might want to tweak some of the features of a background so it better fits your character or the campaign setting. To customize a background, you can replace one feature with any other one, choose any two skills, and choose a total of two tool proficiencies or languages from the sample backgrounds. You can either use the equipment package from your background or spend coin on gear as described in the equipment section. (If you spend coin, you can't also take the equipment package suggested for your class.) Finally, choose two personality traits, one ideal, one bond, and one flaw. If you can't find a feature that matches your desired background, work with your GM to create one.",
+    "index": 5,
+    "initialHeaderLevel": 2,
+    "key": "srd_backgrounds_customizing-a-background",
+    "name": "Customizing a Background",
+    "ruleset": "srd_backgrounds"
+  }
+}

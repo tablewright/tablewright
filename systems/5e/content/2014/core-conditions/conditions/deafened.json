@@ -3,9 +3,7 @@
   "type": "condition",
   "name": "Deafened",
   "source": "5e-2014-core-conditions",
-  "tags": [
-    "2014"
-  ],
+  "tags": [],
   "body": "* A deafened creature can’t hear and automatically fails ability checks that require hearing.\n\n* A deafened creature can’t hear and automatically fails any ability check that requires hearing.\n\nWhile you have the Deafened condition, you experience the following effect.\n* Can’t Hear. You can’t hear and automatically fail any ability check that requires hearing.",
   "data": {
     "descriptions": [

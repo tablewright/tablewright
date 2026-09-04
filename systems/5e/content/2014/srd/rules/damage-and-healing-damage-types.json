@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:damage-and-healing-damage-types",
+  "type": "rule",
+  "name": "Damage Types",
+  "source": "5e-2014-srd",
+  "tags": [
+    "damage-and-healing"
+  ],
+  "body": "Different attacks, damaging spells, and other harmful effects deal different types of damage. Damage types have no rules of their own, but other rules, such as damage resistance, rely on the types.\n\nThe damage types follow, with examples to help a GM assign a damage type to a new effect.\n\n**Acid.** The corrosive spray of a black dragon's breath and the dissolving enzymes secreted by a black pudding deal acid damage.\n\n**Bludgeoning.** Blunt force attacks---hammers, falling, constriction, and the like---deal bludgeoning damage.\n\n**Cold.** The infernal chill radiating from an ice devil's spear and the frigid blast of a white dragon's breath deal cold damage.\n\n**Fire.** Red dragons breathe fire, and many spells conjure flames to deal fire damage.\n\n**Force.** Force is pure magical energy focused into a damaging form. Most effects that deal force damage are spells, including _magic missile_ and _spiritual weapon_.\n\n**Lightning.** A _lightning bolt_ spell and a blue dragon's breath deal lightning damage.\n\n**Necrotic.** Necrotic damage, dealt by certain undead and a spell such as _chill touch_, withers matter and even the soul.\n\n**Piercing.** Puncturing and impaling attacks, including spears and monsters' bites, deal piercing damage.\n\n**Poison.** Venomous stings and the toxic gas of a green dragon's breath deal poison damage.\n\n**Psychic.** Mental abilities such as a mind flayer's psionic blast deal psychic damage.\n\n**Radiant.** Radiant damage, dealt by a cleric's _flame strike_ spell or an angel's smiting weapon, sears the flesh like fire and overloads the spirit with power.\n\n**Slashing.** Swords, axes, and monsters' claws deal slashing damage.\n\n**Thunder.** A concussive burst of sound, such as the effect of the srd:thunderwave spell, deals thunder damage.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Different attacks, damaging spells, and other harmful effects deal different types of damage. Damage types have no rules of their own, but other rules, such as damage resistance, rely on the types.\n\nThe damage types follow, with examples to help a GM assign a damage type to a new effect.\n\n**Acid.** The corrosive spray of a black dragon's breath and the dissolving enzymes secreted by a black pudding deal acid damage.\n\n**Bludgeoning.** Blunt force attacks---hammers, falling, constriction, and the like---deal bludgeoning damage.\n\n**Cold.** The infernal chill radiating from an ice devil's spear and the frigid blast of a white dragon's breath deal cold damage.\n\n**Fire.** Red dragons breathe fire, and many spells conjure flames to deal fire damage.\n\n**Force.** Force is pure magical energy focused into a damaging form. Most effects that deal force damage are spells, including _magic missile_ and _spiritual weapon_.\n\n**Lightning.** A _lightning bolt_ spell and a blue dragon's breath deal lightning damage.\n\n**Necrotic.** Necrotic damage, dealt by certain undead and a spell such as _chill touch_, withers matter and even the soul.\n\n**Piercing.** Puncturing and impaling attacks, including spears and monsters' bites, deal piercing damage.\n\n**Poison.** Venomous stings and the toxic gas of a green dragon's breath deal poison damage.\n\n**Psychic.** Mental abilities such as a mind flayer's psionic blast deal psychic damage.\n\n**Radiant.** Radiant damage, dealt by a cleric's _flame strike_ spell or an angel's smiting weapon, sears the flesh like fire and overloads the spirit with power.\n\n**Slashing.** Swords, axes, and monsters' claws deal slashing damage.\n\n**Thunder.** A concussive burst of sound, such as the effect of the srd:thunderwave spell, deals thunder damage.",
+    "index": 5,
+    "initialHeaderLevel": 3,
+    "key": "srd_damage-and-healing_damage-types",
+    "name": "Damage Types",
+    "ruleset": "srd_damage-and-healing"
+  }
+}

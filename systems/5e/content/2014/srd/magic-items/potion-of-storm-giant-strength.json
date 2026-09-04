@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:potion-of-storm-giant-strength",
+  "type": "magic-item",
+  "name": "Potion of Storm Giant Strength",
+  "source": "5e-2014-srd",
+  "tags": [
+    "potion",
+    "legendary"
+  ],
+  "body": "When you drink this potion, your Strength score changes for 1 hour. The type of giant determines the score (see the table below). The potion has no effect on you if your Strength is equal to or greater than that score.\\n\\nThis potion's transparent liquid has floating in it a sliver of fingernail from a giant of the appropriate type. The _potion of frost giant strength_ and the _potion of stone giant strength_ have the same effect.\\n\\n| Type of Giant     | Strength | Rarity    |\\n|-------------------|----------|-----------|\\n| Hill giant        | 21       | Uncommon  |\\n| Frost/stone giant | 23       | Rare      |\\n| Fire giant        | 25       | Rare      |\\n| Cloud giant       | 27       | Very rare |\\n| Storm giant       | 29       | Legendary |",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "potion",
+      "name": "Potion"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you drink this potion, your Strength score changes for 1 hour. The type of giant determines the score (see the table below). The potion has no effect on you if your Strength is equal to or greater than that score.\\n\\nThis potion's transparent liquid has floating in it a sliver of fingernail from a giant of the appropriate type. The _potion of frost giant strength_ and the _potion of stone giant strength_ have the same effect.\\n\\n| Type of Giant     | Strength | Rarity    |\\n|-------------------|----------|-----------|\\n| Hill giant        | 21       | Uncommon  |\\n| Frost/stone giant | 23       | Rare      |\\n| Fire giant        | 25       | Rare      |\\n| Cloud giant       | 27       | Very rare |\\n| Storm giant       | 29       | Legendary |",
+    "key": "srd_potion-of-storm-giant-strength",
+    "name": "Potion of Storm Giant Strength",
+    "rarity": {
+      "key": "legendary",
+      "name": "Legendary",
+      "rank": 5
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

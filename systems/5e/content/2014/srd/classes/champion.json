@@ -1,0 +1,94 @@
+{
+  "id": "5e-2014-srd:class:champion",
+  "type": "class",
+  "name": "Champion",
+  "source": "5e-2014-srd",
+  "tags": [
+    "subclass",
+    "fighter"
+  ],
+  "body": "",
+  "data": {
+    "caster_type": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "At 10th level, you can choose a second option from the Fighting Style class feature.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 10
+          }
+        ],
+        "key": "srd_champion_additional-fighting-style",
+        "name": "Additional Fighting Style"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning when you choose this archetype at 3rd level, your weapon attacks score a critical hit on a roll of 19 or 20.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_champion_improved-critical",
+        "name": "Improved Critical"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 7th level, you can add half your proficiency bonus (round up) to any Strength, Dexterity, or Constitution check you make that doesn't already use your proficiency bonus.\r\n\r\nIn addition, when you make a running long jump, the distance you can cover increases by a number of feet equal to your Strength modifier.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 7
+          }
+        ],
+        "key": "srd_champion_remarkable-athlete",
+        "name": "Remarkable Athlete"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 15th level, your weapon attacks score a critical hit on a roll of 18-20.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 15
+          }
+        ],
+        "key": "srd_champion_superior-critical",
+        "name": "Superior Critical"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 18th level, you attain the pinnacle of resilience in battle. At the start of each of your turns, you regain hit points equal to 5 + your Constitution modifier if you have no more than half of your hit points left. You don't gain this benefit if you have 0 hit points.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 18
+          }
+        ],
+        "key": "srd_champion_survivor",
+        "name": "Survivor"
+      }
+    ],
+    "hit_dice": null,
+    "key": "srd_champion",
+    "name": "Champion",
+    "primary_abilities": [],
+    "saving_throws": [],
+    "subclass_of": {
+      "key": "srd_fighter",
+      "name": "Fighter"
+    }
+  }
+}

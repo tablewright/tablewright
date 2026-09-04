@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-prof-bonus-by-cr",
+  "type": "rule",
+  "name": "Proficiency Bonus by Challenge Rating",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "| Challenge | Proficiency Bonus |\n|---------------|--------------------------|\n| 0 | +2 |\n| ⅛ | +2 |\n| ¼ | +2 |\n| ½ |+2 |\n| 1 | +2 |\n| 2 | +2 |\n| 3 | +2 |\n| 4 | +2 |\n| 5 | +3 |\n| 6 | +3 |\n| 7 | +3 |\n| 8 | +3 |\n| 9 | +4 |\n| 10 | +4 |\n| 11 | +4 |\n| 12 | +4 |\n| 13 | +5 |\n| 14 | +5 |\n| 15 | +5 |\n| 16 | +5 |\n| 17 | +6 |\n| 18 | +6 |\n| 19 | +6 |\n| 20 | +6 |\n| 21 | +7 |\n| 22 | +7 |\n| 23 | +7 |\n| 24 | +7 |\n| 25 | +8 |\n| 26 | +8 |\n| 27 | +8 |\n| 28 | +8 |\n| 29 | +9 |\n| 30 | +9 |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "| Challenge | Proficiency Bonus |\n|---------------|--------------------------|\n| 0 | +2 |\n| ⅛ | +2 |\n| ¼ | +2 |\n| ½ |+2 |\n| 1 | +2 |\n| 2 | +2 |\n| 3 | +2 |\n| 4 | +2 |\n| 5 | +3 |\n| 6 | +3 |\n| 7 | +3 |\n| 8 | +3 |\n| 9 | +4 |\n| 10 | +4 |\n| 11 | +4 |\n| 12 | +4 |\n| 13 | +5 |\n| 14 | +5 |\n| 15 | +5 |\n| 16 | +5 |\n| 17 | +6 |\n| 18 | +6 |\n| 19 | +6 |\n| 20 | +6 |\n| 21 | +7 |\n| 22 | +7 |\n| 23 | +7 |\n| 24 | +7 |\n| 25 | +8 |\n| 26 | +8 |\n| 27 | +8 |\n| 28 | +8 |\n| 29 | +9 |\n| 30 | +9 |\n\n",
+    "index": 11,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_prof-bonus-by-cr",
+    "name": "Proficiency Bonus by Challenge Rating",
+    "ruleset": "srd_monsters"
+  }
+}

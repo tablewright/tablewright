@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:blowgun-needles",
+  "type": "item",
+  "name": "Blowgun needles",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "body": "Needles to be fired with a blowgun.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "0.02",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Needles to be fired with a blowgun.",
+    "key": "srd_blowgun-needles",
+    "name": "Blowgun needles",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.020",
+    "weight_unit": "lb"
+  }
+}

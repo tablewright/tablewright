@@ -1,0 +1,50 @@
+{
+  "id": "5e-2014-srd:magic-item:armor-of-resistance-studded-leather",
+  "type": "magic-item",
+  "name": "Armor of Resistance (Studded-Leather)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "rare",
+    "attunement"
+  ],
+  "body": "You have resistance to one type of damage while you wear this armor. The GM chooses the type or determines it randomly from the options below.\n\n| d10 | Damage Type |\n|-----|-------------|\n| 1   | Acid        |\n| 2   | Cold        |\n| 3   | Fire        |\n| 4   | Force       |\n| 5   | Lightning   |\n| 6   | Necrotic    |\n| 7   | Poison      |\n| 8   | Psychic     |\n| 9   | Radiant     |\n| 10  | Thunder     |",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 12,
+      "ac_cap_dexmod": null,
+      "ac_display": "12 + Dex modifier",
+      "category": "light",
+      "grants_stealth_disadvantage": false,
+      "key": "srd_studded-leather",
+      "name": "Studded leather",
+      "strength_score_required": null
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have resistance to one type of damage while you wear this armor. The GM chooses the type or determines it randomly from the options below.\n\n| d10 | Damage Type |\n|-----|-------------|\n| 1   | Acid        |\n| 2   | Cold        |\n| 3   | Fire        |\n| 4   | Force       |\n| 5   | Lightning   |\n| 6   | Necrotic    |\n| 7   | Poison      |\n| 8   | Psychic     |\n| 9   | Radiant     |\n| 10  | Thunder     |",
+    "key": "srd_armor-of-resistance-studded-leather",
+    "name": "Armor of Resistance (Studded-Leather)",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "13.000",
+    "weight_unit": "lb"
+  }
+}

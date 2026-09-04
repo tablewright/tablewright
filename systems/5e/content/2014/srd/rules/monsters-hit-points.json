@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-hit-points",
+  "type": "rule",
+  "name": "Hit Points",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "A monster usually dies or is destroyed when it drops to 0 hit points. For more on hit points, see the *Player’s Handbook*.\n\nA monster’s hit points are presented both as a die expression and as an average number. For example, a monster with 2d8 hit points has 9 hit points on average (2 × 4½).\n\nA monster’s size determines the die used to calculate its hit points, as shown in the Hit Dice by Size table.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A monster usually dies or is destroyed when it drops to 0 hit points. For more on hit points, see the *Player’s Handbook*.\n\nA monster’s hit points are presented both as a die expression and as an average number. For example, a monster with 2d8 hit points has 9 hit points on average (2 × 4½).\n\nA monster’s size determines the die used to calculate its hit points, as shown in the Hit Dice by Size table.",
+    "index": 6,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_hit-points",
+    "name": "Hit Points",
+    "ruleset": "srd_monsters"
+  }
+}

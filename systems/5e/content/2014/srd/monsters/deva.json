@@ -1,0 +1,251 @@
+{
+  "id": "5e-2014-srd:monster:deva",
+  "type": "monster",
+  "name": "Deva",
+  "source": "5e-2014-srd",
+  "tags": [
+    "celestial",
+    "medium",
+    "cr-10"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 20,
+      "constitution": 18,
+      "dexterity": 18,
+      "intelligence": 17,
+      "strength": 18,
+      "wisdom": 20
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The deva magically polymorphs into a humanoid or beast that has a challenge rating equal to or less than its own, or back into its true form. It reverts to its true form if it dies. Any equipment it is wearing or carrying is absorbed or borne by the new form (the deva's choice).\nIn a new form, the deva retains its game statistics and ability to speak, but its AC, movement modes, Strength, Dexterity, and special senses are replaced by those of the new form, and it gains any statistics and capabilities (except class features, legendary actions, and lair actions) that the new form has but that it lacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Change Shape",
+        "order_in_statblock": 3,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The deva touches another creature. The target magically regains 20 (4d8 + 2) hit points and is freed from any curse, disease, poison, blindness, or deafness.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Healing Touch",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 3,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Mace attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 8
+          }
+        ],
+        "desc": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) bludgeoning damage plus 18 (4d8) radiant damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Mace",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The deva makes two melee attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 10,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": 120,
+    "environments": [
+      {
+        "key": "srd_astral-plane",
+        "name": "Astral Plane"
+      },
+      {
+        "key": "temple",
+        "name": "Temple"
+      }
+    ],
+    "experience_points": 5900,
+    "hit_dice": "16d8+64",
+    "hit_points": 136,
+    "illustration": null,
+    "initiative_bonus": 4,
+    "key": "srd_deva",
+    "languages": {
+      "as_string": "all, telepathy 120 ft.",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 5,
+      "constitution": 4,
+      "dexterity": 4,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 5
+    },
+    "name": "Deva",
+    "normal_sight_range": 10560,
+    "passive_perception": 19,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "radiant",
+          "name": "Radiant"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_resistances_display": "radiant; bludgeoning, piercing, and slashing from nonmagical attacks",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 9,
+      "wisdom": 9
+    },
+    "saving_throws_all": {
+      "charisma": 9,
+      "constitution": 4,
+      "dexterity": 4,
+      "intelligence": 3,
+      "strength": 4,
+      "wisdom": 9
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {
+      "insight": 9,
+      "perception": 9
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 4,
+      "animal_handling": 5,
+      "arcana": 3,
+      "athletics": 4,
+      "deception": 5,
+      "history": 3,
+      "insight": 9,
+      "intimidation": 5,
+      "investigation": 3,
+      "medicine": 5,
+      "nature": 3,
+      "perception": 9,
+      "performance": 5,
+      "persuasion": 5,
+      "religion": 3,
+      "sleight_of_hand": 4,
+      "stealth": 4,
+      "survival": 5
+    },
+    "speed": {
+      "fly": 90,
+      "unit": "feet",
+      "walk": 30
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 15,
+      "crawl": 15,
+      "fly": 90,
+      "hover": false,
+      "swim": 15,
+      "unit": "feet",
+      "walk": 30
+    },
+    "subcategory": "Angels",
+    "traits": [
+      {
+        "desc": "The deva's weapon attacks are magical. When the deva hits with any weapon, the weapon deals an extra 4d8 radiant damage (included in the attack).",
+        "name": "Angelic Weapons"
+      },
+      {
+        "desc": "The deva's spellcasting ability is Charisma (spell save DC 17). The deva can innately cast the following spells, requiring only verbal components:\nAt will: detect evil and good\n1/day each: commune, raise dead",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The deva has advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}

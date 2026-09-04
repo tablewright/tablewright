@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:crowbar",
+  "type": "item",
+  "name": "Crowbar",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied.",
+    "key": "srd_crowbar",
+    "name": "Crowbar",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:pole-10-foot",
+  "type": "item",
+  "name": "Pole (10-foot)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A 10 foot pole.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.05",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A 10 foot pole.",
+    "key": "srd_pole-10-foot",
+    "name": "Pole (10-foot)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "7.000",
+    "weight_unit": "lb"
+  }
+}

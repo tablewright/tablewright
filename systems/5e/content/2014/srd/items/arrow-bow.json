@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:arrow-bow",
+  "type": "item",
+  "name": "Arrow (bow)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "body": "An arrow for a bow.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "0.05",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "An arrow for a bow.",
+    "key": "srd_arrow-bow",
+    "name": "Arrow (bow)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.050",
+    "weight_unit": "lb"
+  }
+}

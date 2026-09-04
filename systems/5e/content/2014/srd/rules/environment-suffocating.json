@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:environment-suffocating",
+  "type": "rule",
+  "name": "Suffocating",
+  "source": "5e-2014-srd",
+  "tags": [
+    "environment"
+  ],
+  "body": "A creature can hold its breath for a number of minutes equal to 1 + itsConstitution modifier (minimum of 30 seconds).\nWhen a creature runs out of breath or is choking, it can survive for anumber of rounds equal to its Constitution modifier (minimum of 1round). At the start of its next turn, it drops to 0 hit points and isdying, and it can't regain hit points or be stabilized until it canbreathe again.\nFor example, a creature with a Constitution of 14 can hold its breathfor 3 minutes. If it starts suffocating, it has 2 rounds to reach airbefore it drops to 0 hit points.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A creature can hold its breath for a number of minutes equal to 1 + itsConstitution modifier (minimum of 30 seconds).\nWhen a creature runs out of breath or is choking, it can survive for anumber of rounds equal to its Constitution modifier (minimum of 1round). At the start of its next turn, it drops to 0 hit points and isdying, and it can't regain hit points or be stabilized until it canbreathe again.\nFor example, a creature with a Constitution of 14 can hold its breathfor 3 minutes. If it starts suffocating, it has 2 rounds to reach airbefore it drops to 0 hit points.",
+    "index": 2,
+    "initialHeaderLevel": 2,
+    "key": "srd_environment_suffocating",
+    "name": "Suffocating",
+    "ruleset": "srd_environment"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:environment-falling",
+  "type": "rule",
+  "name": "Falling",
+  "source": "5e-2014-srd",
+  "tags": [
+    "environment"
+  ],
+  "body": "A fall from a great height is one of the most common hazards facing anadventurer. At the end of a fall, a creature takes 1d6 bludgeoningdamage for every 10 feet it fell, to a maximum of 20d6. The creaturelands prone, unless it avoids taking damage from the fall.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A fall from a great height is one of the most common hazards facing anadventurer. At the end of a fall, a creature takes 1d6 bludgeoningdamage for every 10 feet it fell, to a maximum of 20d6. The creaturelands prone, unless it avoids taking damage from the fall.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_environment_falling",
+    "name": "Falling",
+    "ruleset": "srd_environment"
+  }
+}

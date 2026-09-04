@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:wand-of-magic-detection",
+  "type": "magic-item",
+  "name": "Wand of Magic Detection",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wand",
+    "uncommon"
+  ],
+  "body": "This wand has 3 charges. While holding it, you can expend 1 charge as an action to cast the _detect magic_ spell from it. The wand regains 1d3 expended charges daily at dawn.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wand",
+      "name": "Wand"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This wand has 3 charges. While holding it, you can expend 1 charge as an action to cast the _detect magic_ spell from it. The wand regains 1d3 expended charges daily at dawn.",
+    "key": "srd_wand-of-magic-detection",
+    "name": "Wand of Magic Detection",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

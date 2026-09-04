@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:ring-of-protection",
+  "type": "magic-item",
+  "name": "Ring of Protection",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring",
+    "rare",
+    "attunement"
+  ],
+  "body": "You gain a +1 bonus to AC and saving throws while wearing this ring.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You gain a +1 bonus to AC and saving throws while wearing this ring.",
+    "key": "srd_ring-of-protection",
+    "name": "Ring of Protection",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

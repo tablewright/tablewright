@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:cloak-of-the-manta-ray",
+  "type": "magic-item",
+  "name": "Cloak of the Manta Ray",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon"
+  ],
+  "body": "While wearing this cloak with its hood up, you can breathe underwater, and you have a swimming speed of 60 feet. Pulling the hood up or down requires an action.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this cloak with its hood up, you can breathe underwater, and you have a swimming speed of 60 feet. Pulling the hood up or down requires an action.",
+    "key": "srd_cloak-of-the-manta-ray",
+    "name": "Cloak of the Manta Ray",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

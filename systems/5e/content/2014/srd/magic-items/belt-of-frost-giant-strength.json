@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:belt-of-frost-giant-strength",
+  "type": "magic-item",
+  "name": "Belt of Frost Giant Strength",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "very-rare",
+    "attunement"
+  ],
+  "body": "While wearing this belt, your Strength score changes to a score granted by the belt. If your Strength is already equal to or greater than the belt's score, the item has no effect on you.\\n\\nSix varieties of this belt exist, corresponding with and having rarity according to the six kinds of true giants. The _belt of stone giant strength_ and the _belt of frost giant strength_ look different, but they have the same effect.\\n\\n| Type              | Strength | Rarity    |\\n|-------------------|----------|-----------|\\n| Hill giant        | 21       | Rare      |\\n| Stone/frost giant | 23       | Very rare |\\n| Fire giant        | 25       | Very rare |\\n| Cloud giant       | 27       | Legendary |\\n| Storm giant       | 29       | Legendary |\"",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this belt, your Strength score changes to a score granted by the belt. If your Strength is already equal to or greater than the belt's score, the item has no effect on you.\\n\\nSix varieties of this belt exist, corresponding with and having rarity according to the six kinds of true giants. The _belt of stone giant strength_ and the _belt of frost giant strength_ look different, but they have the same effect.\\n\\n| Type              | Strength | Rarity    |\\n|-------------------|----------|-----------|\\n| Hill giant        | 21       | Rare      |\\n| Stone/frost giant | 23       | Very rare |\\n| Fire giant        | 25       | Very rare |\\n| Cloud giant       | 27       | Legendary |\\n| Storm giant       | 29       | Legendary |\"",
+    "key": "srd_belt-of-frost-giant-strength",
+    "name": "Belt of Frost Giant Strength",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

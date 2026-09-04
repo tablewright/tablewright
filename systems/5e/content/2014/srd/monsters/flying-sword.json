@@ -1,0 +1,216 @@
+{
+  "id": "5e-2014-srd:monster:flying-sword",
+  "type": "monster",
+  "name": "Flying Sword",
+  "source": "5e-2014-srd",
+  "tags": [
+    "construct",
+    "small",
+    "cr-1/4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 11,
+      "dexterity": 15,
+      "intelligence": 1,
+      "strength": 12,
+      "wisdom": 5
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 1,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Longsword attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 3
+          }
+        ],
+        "desc": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Longsword",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": 60,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "laboratory",
+        "name": "Laboratory"
+      },
+      {
+        "key": "ruins",
+        "name": "Ruins"
+      }
+    ],
+    "experience_points": 50,
+    "hit_dice": "5d6",
+    "hit_points": 17,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_flying-sword",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": 2,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -3
+    },
+    "name": "Flying Sword",
+    "normal_sight_range": null,
+    "passive_perception": 7,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "blinded",
+          "name": "Blinded"
+        },
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        },
+        {
+          "key": "paralyzed",
+          "name": "Paralyzed"
+        },
+        {
+          "key": "petrified",
+          "name": "Petrified"
+        },
+        {
+          "key": "poisoned",
+          "name": "Poisoned"
+        }
+      ],
+      "condition_immunities_display": "blinded, charmed, deafened, frightened, paralyzed, petrified, poisoned",
+      "damage_immunities": [
+        {
+          "key": "poison",
+          "name": "Poison"
+        },
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        }
+      ],
+      "damage_immunities_display": "poison, psychic",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "dexterity": 4
+    },
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": 4,
+      "intelligence": -5,
+      "strength": 1,
+      "wisdom": -3
+    },
+    "size": {
+      "key": "small",
+      "name": "Small"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": -3,
+      "arcana": -5,
+      "athletics": 1,
+      "deception": -5,
+      "history": -5,
+      "insight": -3,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -3,
+      "nature": -5,
+      "perception": -3,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": -3
+    },
+    "speed": {
+      "fly": 50,
+      "hover": true,
+      "unit": "feet",
+      "walk": 0
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 0,
+      "crawl": 0,
+      "fly": 50,
+      "hover": true,
+      "swim": 0,
+      "unit": "feet",
+      "walk": 0
+    },
+    "subcategory": "Animated Objects",
+    "traits": [
+      {
+        "desc": "The sword is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the sword must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute.",
+        "name": "Antimagic Susceptibility"
+      },
+      {
+        "desc": "While the sword remains motionless and isn't flying, it is indistinguishable from a normal sword.",
+        "name": "False Appearance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "construct",
+      "name": "Construct"
+    }
+  }
+}

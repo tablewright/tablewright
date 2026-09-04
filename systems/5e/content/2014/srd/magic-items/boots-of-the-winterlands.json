@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:boots-of-the-winterlands",
+  "type": "magic-item",
+  "name": "Boots of the Winterlands",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon",
+    "attunement"
+  ],
+  "body": "These furred boots are snug and feel quite warm. While you wear them, you gain the following benefits:\r\n\r\n* You have resistance to cold damage.\r\n* You ignore difficult terrain created by ice or snow.\r\n* You can tolerate temperatures as low as -50 degrees Fahrenheit without any additional protection. If you wear heavy clothes, you can tolerate temperatures as low as -100 degrees Fahrenheit.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "These furred boots are snug and feel quite warm. While you wear them, you gain the following benefits:\r\n\r\n* You have resistance to cold damage.\r\n* You ignore difficult terrain created by ice or snow.\r\n* You can tolerate temperatures as low as -50 degrees Fahrenheit without any additional protection. If you wear heavy clothes, you can tolerate temperatures as low as -100 degrees Fahrenheit.",
+    "key": "srd_boots-of-the-winterlands",
+    "name": "Boots of the Winterlands",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:waterskin",
+  "type": "item",
+  "name": "Waterskin",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "For drinking. 5lb is the full weight. Capacity: 4 pints liquid.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.20",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "For drinking. 5lb is the full weight. Capacity: 4 pints liquid.",
+    "key": "srd_waterskin",
+    "name": "Waterskin",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

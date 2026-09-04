@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:oil-of-taggit",
+  "type": "item",
+  "name": "Oil of taggit",
+  "source": "5e-2014-srd",
+  "tags": [
+    "poison"
+  ],
+  "body": "A creature subjected to this poison must succeed on a DC 13 Constitution saving throw or become poisoned for 24 hours. The poisoned creature is unconscious. The creature wakes up if it takes damage.\\n\\n **_Contact._** Contact poison can be smeared on an object and remains potent until it is touched or washed off. A creature that touches contact poison with exposed skin suffers its effects.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "poison",
+      "name": "Poison"
+    },
+    "cost": "400.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A creature subjected to this poison must succeed on a DC 13 Constitution saving throw or become poisoned for 24 hours. The poisoned creature is unconscious. The creature wakes up if it takes damage.\\n\\n **_Contact._** Contact poison can be smeared on an object and remains potent until it is touched or washed off. A creature that touches contact poison with exposed skin suffers its effects.",
+    "key": "srd_oil-of-taggit",
+    "name": "Oil of taggit",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

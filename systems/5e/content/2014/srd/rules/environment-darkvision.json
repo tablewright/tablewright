@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:environment-darkvision",
+  "type": "rule",
+  "name": "Blindsight",
+  "source": "5e-2014-srd",
+  "tags": [
+    "environment"
+  ],
+  "body": "Many creatures in fantasy gaming worlds, especially those that dwell underground, have darkvision. Within a specified range, a creature withdarkvision can see in darkness as if the darkness were dim light, soareas of darkness are only lightly obscured as far as that creature is concerned. However, the creature can't discern color in darkness, only shades of gray.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Many creatures in fantasy gaming worlds, especially those that dwell underground, have darkvision. Within a specified range, a creature withdarkvision can see in darkness as if the darkness were dim light, soareas of darkness are only lightly obscured as far as that creature is concerned. However, the creature can't discern color in darkness, only shades of gray.",
+    "index": 5,
+    "initialHeaderLevel": 3,
+    "key": "srd_environment_darkvision",
+    "name": "Blindsight",
+    "ruleset": "srd_environment"
+  }
+}

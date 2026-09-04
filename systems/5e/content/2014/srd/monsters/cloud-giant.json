@@ -1,0 +1,234 @@
+{
+  "id": "5e-2014-srd:monster:cloud-giant",
+  "type": "monster",
+  "name": "Cloud Giant",
+  "source": "5e-2014-srd",
+  "tags": [
+    "giant",
+    "huge",
+    "cr-9"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 16,
+      "constitution": 22,
+      "dexterity": 10,
+      "intelligence": 12,
+      "strength": 27,
+      "wisdom": 16
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 3,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Morningstar attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": false,
+            "to_hit_mod": 12
+          }
+        ],
+        "desc": "Melee Weapon Attack: +12 to hit, reach 10 ft., one target. Hit: 21 (3d8 + 8) piercing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Morningstar",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The giant makes two morningstar attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 4,
+            "damage_die_type": "D10",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": 240,
+            "name": "Rock attack",
+            "range": 60,
+            "reach": null,
+            "target_creature_only": false,
+            "to_hit_mod": 12
+          }
+        ],
+        "desc": "Ranged Weapon Attack: +12 to hit, range 60/240 ft., one target. Hit: 30 (4d10 + 8) bludgeoning damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rock",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "neutral good (50%) or neutral evil (50%)",
+    "armor_class": 14,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 9,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "mountain",
+        "name": "Mountain"
+      },
+      {
+        "key": "srd_plane-of-air",
+        "name": "Plane of Air"
+      }
+    ],
+    "experience_points": 5000,
+    "hit_dice": "16d12+96",
+    "hit_points": 200,
+    "illustration": null,
+    "initiative_bonus": 0,
+    "key": "srd_cloud-giant",
+    "languages": {
+      "as_string": "Common, Giant",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        },
+        {
+          "desc": "Typical speakers include ogres, and giants.",
+          "key": "giant",
+          "name": "Giant"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 3,
+      "constitution": 6,
+      "dexterity": 0,
+      "intelligence": 1,
+      "strength": 8,
+      "wisdom": 3
+    },
+    "name": "Cloud Giant",
+    "normal_sight_range": 10560,
+    "passive_perception": 17,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [],
+      "condition_immunities_display": "",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 7,
+      "constitution": 10,
+      "wisdom": 7
+    },
+    "saving_throws_all": {
+      "charisma": 7,
+      "constitution": 10,
+      "dexterity": 0,
+      "intelligence": 1,
+      "strength": 8,
+      "wisdom": 7
+    },
+    "size": {
+      "key": "huge",
+      "name": "Huge"
+    },
+    "skill_bonuses": {
+      "insight": 7,
+      "perception": 7
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 0,
+      "animal_handling": 3,
+      "arcana": 1,
+      "athletics": 8,
+      "deception": 3,
+      "history": 1,
+      "insight": 7,
+      "intimidation": 3,
+      "investigation": 1,
+      "medicine": 3,
+      "nature": 1,
+      "perception": 7,
+      "performance": 3,
+      "persuasion": 3,
+      "religion": 1,
+      "sleight_of_hand": 0,
+      "stealth": 0,
+      "survival": 3
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 0,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": "Giants",
+    "traits": [
+      {
+        "desc": "The giant's innate spellcasting ability is Charisma. It can innately cast the following spells, requiring no material components:\n\nAt will: detect magic, fog cloud, light\n3/day each: feather fall, fly, misty step, telekinesis\n1/day each: control weather, gaseous form",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The giant has advantage on Wisdom (Perception) checks that rely on smell.",
+        "name": "Keen Smell"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "giant",
+      "name": "Giant"
+    }
+  }
+}

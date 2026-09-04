@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:attacking-attack-rolls",
+  "type": "rule",
+  "name": "Attack Rolls",
+  "source": "5e-2014-srd",
+  "tags": [
+    "attacking"
+  ],
+  "body": "When you make an attack, your attack roll determines whether the attack hits or misses. To make an attack roll, roll a d20 and add the appropriate modifiers. If the total of the roll plus modifiers equals or exceeds the target's Armor Class (AC), the attack hits. The AC of a character is determined at character creation, whereas the AC of a monster is in its stat block.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you make an attack, your attack roll determines whether the attack hits or misses. To make an attack roll, roll a d20 and add the appropriate modifiers. If the total of the roll plus modifiers equals or exceeds the target's Armor Class (AC), the attack hits. The AC of a character is determined at character creation, whereas the AC of a monster is in its stat block.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_attacking_attack-rolls",
+    "name": "Attack Rolls",
+    "ruleset": "srd_attacking"
+  }
+}

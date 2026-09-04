@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:whetstone",
+  "type": "item",
+  "name": "Whetstone",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "For sharpening.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.01",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "For sharpening.",
+    "key": "srd_whetstone",
+    "name": "Whetstone",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

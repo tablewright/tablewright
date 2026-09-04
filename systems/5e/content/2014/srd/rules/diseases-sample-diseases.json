@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:diseases-sample-diseases",
+  "type": "rule",
+  "name": "Sample Diseases",
+  "source": "5e-2014-srd",
+  "tags": [
+    "diseases"
+  ],
+  "body": "The diseases here illustrate the variety of ways disease can work in the game. Feel free to alter the saving throw DCs, incubation times, symptoms, and other characteristics of these diseases to suit your campaign.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The diseases here illustrate the variety of ways disease can work in the game. Feel free to alter the saving throw DCs, incubation times, symptoms, and other characteristics of these diseases to suit your campaign.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_diseases_sample-diseases",
+    "name": "Sample Diseases",
+    "ruleset": "srd_diseases"
+  }
+}

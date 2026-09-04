@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:environment-interacting-with-objects",
+  "type": "rule",
+  "name": "Interacting with Objects",
+  "source": "5e-2014-srd",
+  "tags": [
+    "environment"
+  ],
+  "body": "A character's interaction with objects in an environment is often simple to resolve in the game. The player tells the GM that his or hercharacter is doing something, such as moving a lever, and the GM describes what, if anything, happens.\nFor example, a character might decide to pull a lever, which might, inturn, raise a portcullis, cause a room to flood with water, or open asecret door in a nearby wall. If the lever is rusted in position,though, a character might need to force it. In such a situation, the GM might call for a Strength check to see whether the character can wrench the lever into place. The GM sets the DC for any such check based on the difficulty of the task.\nCharacters can also damage objects with their weapons and spells.\nObjects are immune to poison and psychic damage, but otherwise they canbe affected by physical and magical attacks much like creatures can. TheGM determines an object's Armor Class and hit points, and might decidethat certain objects have resistance or immunity to certain kinds ofattacks. (It's hard to cut a rope with a club, for example.) Objectsalways fail Strength and Dexterity saving throws, and they are immune toeffects that require other saves. When an object drops to 0 hit points,it breaks.\nA character can also attempt a Strength check to break an object. The GM sets the DC for any such check.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A character's interaction with objects in an environment is often simple to resolve in the game. The player tells the GM that his or hercharacter is doing something, such as moving a lever, and the GM describes what, if anything, happens.\nFor example, a character might decide to pull a lever, which might, inturn, raise a portcullis, cause a room to flood with water, or open asecret door in a nearby wall. If the lever is rusted in position,though, a character might need to force it. In such a situation, the GM might call for a Strength check to see whether the character can wrench the lever into place. The GM sets the DC for any such check based on the difficulty of the task.\nCharacters can also damage objects with their weapons and spells.\nObjects are immune to poison and psychic damage, but otherwise they canbe affected by physical and magical attacks much like creatures can. TheGM determines an object's Armor Class and hit points, and might decidethat certain objects have resistance or immunity to certain kinds ofattacks. (It's hard to cut a rope with a club, for example.) Objectsalways fail Strength and Dexterity saving throws, and they are immune toeffects that require other saves. When an object drops to 0 hit points,it breaks.\nA character can also attempt a Strength check to break an object. The GM sets the DC for any such check.",
+    "index": 9,
+    "initialHeaderLevel": 2,
+    "key": "srd_environment_interacting-with-objects",
+    "name": "Interacting with Objects",
+    "ruleset": "srd_environment"
+  }
+}

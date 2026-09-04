@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-regional-effects",
+  "type": "rule",
+  "name": "Regional Effects",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "The mere presence of a legendary creature can have strange and wondrous effects on its environment, as noted in this section. Regional effects end abruptly or dissipate over time when the legendary creature dies.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The mere presence of a legendary creature can have strange and wondrous effects on its environment, as noted in this section. Regional effects end abruptly or dissipate over time when the legendary creature dies.",
+    "index": 37,
+    "initialHeaderLevel": 3,
+    "key": "srd_monsters_regional-effects",
+    "name": "Regional Effects",
+    "ruleset": "srd_monsters"
+  }
+}

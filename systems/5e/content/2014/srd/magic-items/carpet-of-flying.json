@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:carpet-of-flying",
+  "type": "magic-item",
+  "name": "Carpet of Flying",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "very-rare"
+  ],
+  "body": "You can speak the carpet's command word as an action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.\r\n\r\nFour sizes of _carpet of flying_ exist. The GM chooses the size of a given carpet or determines it randomly.\r\n\r\n| d100   | Size          | Capacity | Flying Speed |\r\n|--------|---------------|----------|--------------|\r\n| 01-20  | 3 ft. × 5 ft. | 200 lb.  | 80 feet      |\r\n| 21-55  | 4 ft. × 6 ft. | 400 lb.  | 60 feet      |\r\n| 56-80  | 5 ft. × 7 ft. | 600 lb.  | 40 feet      |\r\n| 81-100 | 6 ft. × 9 ft. | 800 lb.  | 30 feet      |\r\n\r\nA carpet can carry up to twice the weight shown on the table, but it flies at half speed if it carries more than its normal capacity.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You can speak the carpet's command word as an action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.\r\n\r\nFour sizes of _carpet of flying_ exist. The GM chooses the size of a given carpet or determines it randomly.\r\n\r\n| d100   | Size          | Capacity | Flying Speed |\r\n|--------|---------------|----------|--------------|\r\n| 01-20  | 3 ft. × 5 ft. | 200 lb.  | 80 feet      |\r\n| 21-55  | 4 ft. × 6 ft. | 400 lb.  | 60 feet      |\r\n| 56-80  | 5 ft. × 7 ft. | 600 lb.  | 40 feet      |\r\n| 81-100 | 6 ft. × 9 ft. | 800 lb.  | 30 feet      |\r\n\r\nA carpet can carry up to twice the weight shown on the table, but it flies at half speed if it carries more than its normal capacity.",
+    "key": "srd_carpet-of-flying",
+    "name": "Carpet of Flying",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

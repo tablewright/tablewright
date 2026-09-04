@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:traps-fire-breating-statue",
+  "type": "rule",
+  "name": "Fire-Breathing Statue",
+  "source": "5e-2014-srd",
+  "tags": [
+    "traps"
+  ],
+  "body": "_Magic trap_\n\nThis trap is activated when an intruder steps on a hidden pressure plate, releasing a magical gout of flame from a nearby statue. The statue can be of anything, including a dragon or a wizard casting a spell.\n\nThe DC is 15 to spot the pressure plate, as well as faint scorch marks on the floor and walls. A spell or other effect that can sense the presence of magic, such as _detect magic_, reveals an aura of evocation magic around the statue.\n\nThe trap activates when more than 20 pounds of weight is placed on the pressure plate, causing the statue to release a 30-foot cone of fire. Each creature in the fire must make a DC 13 Dexterity saving throw, taking 22 (4d10) fire damage on a failed save, or half as much damage on a successful one.\n\nWedging an iron spike or other object under the pressure plate prevents the trap from activating. A successful _dispel magic_ (DC 13) cast on the statue destroys the trap.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "_Magic trap_\n\nThis trap is activated when an intruder steps on a hidden pressure plate, releasing a magical gout of flame from a nearby statue. The statue can be of anything, including a dragon or a wizard casting a spell.\n\nThe DC is 15 to spot the pressure plate, as well as faint scorch marks on the floor and walls. A spell or other effect that can sense the presence of magic, such as _detect magic_, reveals an aura of evocation magic around the statue.\n\nThe trap activates when more than 20 pounds of weight is placed on the pressure plate, causing the statue to release a 30-foot cone of fire. Each creature in the fire must make a DC 13 Dexterity saving throw, taking 22 (4d10) fire damage on a failed save, or half as much damage on a successful one.\n\nWedging an iron spike or other object under the pressure plate prevents the trap from activating. A successful _dispel magic_ (DC 13) cast on the statue destroys the trap.",
+    "index": 9,
+    "initialHeaderLevel": 3,
+    "key": "srd_traps_fire-breating-statue",
+    "name": "Fire-Breathing Statue",
+    "ruleset": "srd_traps"
+  }
+}

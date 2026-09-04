@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:actions-in-combat-attack",
+  "type": "rule",
+  "name": "Attack",
+  "source": "5e-2014-srd",
+  "tags": [
+    "actions-in-combat"
+  ],
+  "body": "The most common action to take in combat is the Attack action, whether you are swinging a sword, firing an arrow from a bow, or brawling with your fists.\n\nWith this action, you make one melee or ranged attack. See the Making an Attack section for the rules that govern attacks. Certain features, such as the Extra Attack feature of the fighter, allow you to make more than one attack with this action.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The most common action to take in combat is the Attack action, whether you are swinging a sword, firing an arrow from a bow, or brawling with your fists.\n\nWith this action, you make one melee or ranged attack. See the Making an Attack section for the rules that govern attacks. Certain features, such as the Extra Attack feature of the fighter, allow you to make more than one attack with this action.",
+    "index": 1,
+    "initialHeaderLevel": 3,
+    "key": "srd_actions-in-combat_attack",
+    "name": "Attack",
+    "ruleset": "srd_actions-in-combat"
+  }
+}

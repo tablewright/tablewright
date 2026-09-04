@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:bottle-glass",
+  "type": "item",
+  "name": "Bottle, glass",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A glass bottle. Capacity: 1.5 pints liquid.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A glass bottle. Capacity: 1.5 pints liquid.",
+    "key": "srd_bottle-glass",
+    "name": "Bottle, glass",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

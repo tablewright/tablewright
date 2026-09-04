@@ -1,0 +1,41 @@
+{
+  "id": "5e-2014-srd:item:hide-armor",
+  "type": "item",
+  "name": "Hide Armor",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "This crude armor consists of thick furs and pelts. It is commonly worn by barbarian tribes, evil humanoids, and other folk who lack access to the tools and materials needed to create better armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 12,
+      "ac_cap_dexmod": 2,
+      "ac_display": "12 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": false,
+      "key": "srd_hide",
+      "name": "Hide",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This crude armor consists of thick furs and pelts. It is commonly worn by barbarian tribes, evil humanoids, and other folk who lack access to the tools and materials needed to create better armor.",
+    "key": "srd_hide-armor",
+    "name": "Hide Armor",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "12.000",
+    "weight_unit": "lb"
+  }
+}

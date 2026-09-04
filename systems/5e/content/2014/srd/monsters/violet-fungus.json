@@ -1,0 +1,201 @@
+{
+  "id": "5e-2014-srd:monster:violet-fungus",
+  "type": "monster",
+  "name": "Violet Fungus",
+  "source": "5e-2014-srd",
+  "tags": [
+    "plant",
+    "medium",
+    "cr-1/4"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 1,
+      "constitution": 10,
+      "dexterity": 1,
+      "intelligence": 1,
+      "strength": 3,
+      "wisdom": 3
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The fungus makes 1d4 Rotting Touch attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": null,
+            "damage_die_type": null,
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Rotting Touch attack",
+            "range": null,
+            "reach": 10,
+            "target_creature_only": true,
+            "to_hit_mod": 2
+          }
+        ],
+        "desc": "Melee Weapon Attack: +2 to hit, reach 10 ft., one creature. Hit: 4 (1d8) necrotic damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Rotting Touch",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "unaligned",
+    "armor_class": 5,
+    "armor_detail": "",
+    "blindsight_range": 30,
+    "category": "Monsters",
+    "challenge_rating": 0.25,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "caves",
+        "name": "Caves"
+      },
+      {
+        "key": "forest",
+        "name": "Forest or Jungle"
+      },
+      {
+        "key": "swamp",
+        "name": "Swamp or Marsh"
+      },
+      {
+        "key": "underworld",
+        "name": "Underworld"
+      }
+    ],
+    "experience_points": 50,
+    "hit_dice": "4d8",
+    "hit_points": 18,
+    "illustration": null,
+    "initiative_bonus": -5,
+    "key": "srd_violet-fungus",
+    "languages": {
+      "as_string": "",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": -5,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": -4
+    },
+    "name": "Violet Fungus",
+    "normal_sight_range": null,
+    "passive_perception": 6,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "blinded",
+          "name": "Blinded"
+        },
+        {
+          "key": "deafened",
+          "name": "Deafened"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        }
+      ],
+      "condition_immunities_display": "blinded, deafened, frightened",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [],
+      "damage_resistances_display": "",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": -5,
+      "constitution": 0,
+      "dexterity": -5,
+      "intelligence": -5,
+      "strength": -4,
+      "wisdom": -4
+    },
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "skill_bonuses": {},
+    "skill_bonuses_all": {
+      "acrobatics": -5,
+      "animal_handling": -4,
+      "arcana": -5,
+      "athletics": -4,
+      "deception": -5,
+      "history": -5,
+      "insight": -4,
+      "intimidation": -5,
+      "investigation": -5,
+      "medicine": -4,
+      "nature": -5,
+      "perception": -4,
+      "performance": -5,
+      "persuasion": -5,
+      "religion": -5,
+      "sleight_of_hand": -5,
+      "stealth": -5,
+      "survival": -4
+    },
+    "speed": {
+      "unit": "feet",
+      "walk": 5
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 2,
+      "crawl": 2,
+      "fly": 0,
+      "hover": false,
+      "swim": 2,
+      "unit": "feet",
+      "walk": 5
+    },
+    "subcategory": "Fungi",
+    "traits": [
+      {
+        "desc": "While the violet fungus remains motionless, it is indistinguishable from an ordinary fungus.",
+        "name": "False Appearance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": null,
+    "type": {
+      "key": "plant",
+      "name": "Plant"
+    }
+  }
+}

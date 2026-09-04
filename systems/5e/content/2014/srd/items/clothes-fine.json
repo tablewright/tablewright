@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:clothes-fine",
+  "type": "item",
+  "name": "Clothes, fine",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "Fine clothing.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Fine clothing.",
+    "key": "srd_clothes-fine",
+    "name": "Clothes, fine",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "6.000",
+    "weight_unit": "lb"
+  }
+}

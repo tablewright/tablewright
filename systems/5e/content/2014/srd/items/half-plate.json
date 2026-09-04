@@ -1,0 +1,41 @@
+{
+  "id": "5e-2014-srd:item:half-plate",
+  "type": "item",
+  "name": "Half plate",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "Half plate consists of shaped metal plates that cover most of the wearer's body. It does not include leg protection beyond simple greaves that are attached with leather straps.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 15,
+      "ac_cap_dexmod": 2,
+      "ac_display": "15 + Dex modifier (max 2)",
+      "category": "medium",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_half-plate",
+      "name": "Half plate",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "750.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Half plate consists of shaped metal plates that cover most of the wearer's body. It does not include leg protection beyond simple greaves that are attached with leather straps.",
+    "key": "srd_half-plate",
+    "name": "Half plate",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "40.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:warship",
+  "type": "item",
+  "name": "Warship",
+  "source": "5e-2014-srd",
+  "tags": [
+    "waterborne-vehicle"
+  ],
+  "body": "Waterborne vehicle. Speed 2.5mph",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "waterborne-vehicle",
+      "name": "Waterborne Vehicle"
+    },
+    "cost": "25000.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Waterborne vehicle. Speed 2.5mph",
+    "key": "srd_warship",
+    "name": "Warship",
+    "size": {
+      "key": "gargantuan",
+      "name": "Gargantuan"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

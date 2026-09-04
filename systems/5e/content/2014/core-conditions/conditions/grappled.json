@@ -3,9 +3,7 @@
   "type": "condition",
   "name": "Grappled",
   "source": "5e-2014-core-conditions",
-  "tags": [
-    "2014"
-  ],
+  "tags": [],
   "body": "* A grappled creature’s Speed becomes 0, and it can’t benefit from bonuses to movement speeds.\n\n* If the grappler becomes incapacitated the condition ends. \n\n* If an effect removes the grappled creature from the reach of the grappler or grappling effect (such as when a creature is shoved away by the Doubleteam combat maneuver) the condition ends.\n\n* A grappled creature’s speed becomes 0, and it can’t benefit from any bonus to its speed. \r\n* The condition ends if the grappler is incapacitated (see the condition).\r\n* The condition also ends if an effect removes the grappled creature from the reach of the grappler or grappling effect, such as when a creature is hurled away by the *thunder-­wave* spell.\n\nWhile you have the Grappled condition, you experience the following effects. \n* Speed 0. Your Speed is 0 and can’t increase. \n* Attacks Affected. You have Disadvantage on attack rolls against any target other than the grappler. \n* Movable. The grappler can drag or carry you when it moves, but every foot of movement costs it 1 extra foot unless you are Tiny or two or more sizes smaller than it.",
   "data": {
     "descriptions": [

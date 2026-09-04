@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:backpack",
+  "type": "item",
+  "name": "Backpack",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A backpack. Capacity: 1 cubic foot/30 pounds of gear.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A backpack. Capacity: 1 cubic foot/30 pounds of gear.",
+    "key": "srd_backpack",
+    "name": "Backpack",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "5.000",
+    "weight_unit": "lb"
+  }
+}

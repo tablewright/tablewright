@@ -1,0 +1,41 @@
+{
+  "id": "5e-2014-srd:item:studded-leather-armor",
+  "type": "item",
+  "name": "Studded Leather Armor",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": true,
+      "ac_base": 12,
+      "ac_cap_dexmod": null,
+      "ac_display": "12 + Dex modifier",
+      "category": "light",
+      "grants_stealth_disadvantage": false,
+      "key": "srd_studded-leather",
+      "name": "Studded leather",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "45.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes.",
+    "key": "srd_studded-leather-armor",
+    "name": "Studded Leather Armor",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "13.000",
+    "weight_unit": "lb"
+  }
+}

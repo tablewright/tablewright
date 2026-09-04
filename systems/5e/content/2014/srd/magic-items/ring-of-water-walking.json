@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:ring-of-water-walking",
+  "type": "magic-item",
+  "name": "Ring of Water Walking",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring",
+    "uncommon"
+  ],
+  "body": "While wearing this ring, you can stand on and move across any liquid surface as if it were solid ground.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this ring, you can stand on and move across any liquid surface as if it were solid ground.",
+    "key": "srd_ring-of-water-walking",
+    "name": "Ring of Water Walking",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

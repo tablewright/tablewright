@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:mounted-combat-mounting-and-dismounting",
+  "type": "rule",
+  "name": "Mounting and Dismounting",
+  "source": "5e-2014-srd",
+  "tags": [
+    "mounted-combat"
+  ],
+  "body": "Once during your move, you can mount a creature that is within 5 feet of you or dismount. Doing so costs an amount of movement equal to half your speed. For example, if your speed is 30 feet, you must spend 15 feet of movement to mount a horse. Therefore, you can't mount it if you don't have 15 feet of movement left or if your speed is 0.\n\nIf an effect moves your mount against its will while you're on it, you must succeed on a DC 10 Dexterity saving throw or fall off the mount, landing srd:prone in a space within 5 feet of it. If you're knocked srd:prone while mounted, you must make the same saving throw.\n\nIf your mount is knocked srd:prone, you can use your reaction to dismount it as it falls and land on your feet. Otherwise, you are dismounted and fall srd:prone in a space within 5 feet it.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Once during your move, you can mount a creature that is within 5 feet of you or dismount. Doing so costs an amount of movement equal to half your speed. For example, if your speed is 30 feet, you must spend 15 feet of movement to mount a horse. Therefore, you can't mount it if you don't have 15 feet of movement left or if your speed is 0.\n\nIf an effect moves your mount against its will while you're on it, you must succeed on a DC 10 Dexterity saving throw or fall off the mount, landing srd:prone in a space within 5 feet of it. If you're knocked srd:prone while mounted, you must make the same saving throw.\n\nIf your mount is knocked srd:prone, you can use your reaction to dismount it as it falls and land on your feet. Otherwise, you are dismounted and fall srd:prone in a space within 5 feet it.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_mounted-combat_mounting-and-dismounting",
+    "name": "Mounting and Dismounting",
+    "ruleset": "srd_mounted-combat"
+  }
+}

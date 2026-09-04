@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:sling-bullets",
+  "type": "item",
+  "name": "Sling bullets",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "body": "Technically their cost is 20 for 4cp.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "0.01",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Technically their cost is 20 for 4cp.",
+    "key": "srd_sling-bullets",
+    "name": "Sling bullets",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.075",
+    "weight_unit": "lb"
+  }
+}

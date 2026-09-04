@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:bracers-of-defense",
+  "type": "magic-item",
+  "name": "Bracers of Defense",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "rare",
+    "attunement"
+  ],
+  "body": "While wearing these bracers, you gain a +2 bonus to AC if you are wearing no armor and using no shield.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing these bracers, you gain a +2 bonus to AC if you are wearing no armor and using no shield.",
+    "key": "srd_bracers-of-defense",
+    "name": "Bracers of Defense",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

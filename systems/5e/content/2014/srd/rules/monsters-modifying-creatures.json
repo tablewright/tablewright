@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-modifying-creatures",
+  "type": "rule",
+  "name": "Modifying Creatures",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "Despite the versatile collection of monsters in this book, you might be at a loss when it comes to finding the perfect creature for part of an adventure. Feel free to tweak an existing creature to make it into something more useful for you, perhaps by borrowing a trait or two from a different monster or by using a variant or template, such as the ones in this book. Keep in mind that modifying a monster, including when you apply a template to it, might change its challenge rating.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Despite the versatile collection of monsters in this book, you might be at a loss when it comes to finding the perfect creature for part of an adventure. Feel free to tweak an existing creature to make it into something more useful for you, perhaps by borrowing a trait or two from a different monster or by using a variant or template, such as the ones in this book. Keep in mind that modifying a monster, including when you apply a template to it, might change its challenge rating.",
+    "index": 2,
+    "initialHeaderLevel": 4,
+    "key": "srd_monsters_modifying-creatures",
+    "name": "Modifying Creatures",
+    "ruleset": "srd_monsters"
+  }
+}

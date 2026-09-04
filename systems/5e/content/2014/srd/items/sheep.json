@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:sheep",
+  "type": "item",
+  "name": "Sheep",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "One sheep.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "One sheep.",
+    "key": "srd_sheep",
+    "name": "Sheep",
+    "size": {
+      "key": "medium",
+      "name": "Medium"
+    },
+    "weapon": null,
+    "weight": "75.000",
+    "weight_unit": "lb"
+  }
+}

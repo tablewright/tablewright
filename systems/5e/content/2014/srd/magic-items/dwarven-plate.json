@@ -1,0 +1,49 @@
+{
+  "id": "5e-2014-srd:magic-item:dwarven-plate",
+  "type": "magic-item",
+  "name": "Dwarven Plate",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "very-rare"
+  ],
+  "body": "While wearing this armor, you gain a +2 bonus to AC. In addition, if an effect moves you against your will along the ground, you can use your reaction to reduce the distance you are moved by up to 10 feet.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 18,
+      "ac_cap_dexmod": null,
+      "ac_display": "18",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_plate",
+      "name": "Plate",
+      "strength_score_required": 15
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this armor, you gain a +2 bonus to AC. In addition, if an effect moves you against your will along the ground, you can use your reaction to reduce the distance you are moved by up to 10 feet.",
+    "key": "srd_dwarven-plate",
+    "name": "Dwarven Plate",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "65.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:planes-beyond-the-material",
+  "type": "rule",
+  "name": "Beyond the Material",
+  "source": "5e-2014-srd",
+  "tags": [
+    "planes"
+  ],
+  "body": "Beyond the Material Plane, the various planes of existence are realms of myth and mystery. They're not simply other worlds, but different qualities of being, formed and governed by spiritual and elemental principles abstracted from the ordinary world.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Beyond the Material Plane, the various planes of existence are realms of myth and mystery. They're not simply other worlds, but different qualities of being, formed and governed by spiritual and elemental principles abstracted from the ordinary world.",
+    "index": 2,
+    "initialHeaderLevel": 2,
+    "key": "srd_planes_beyond-the-material",
+    "name": "Beyond the Material",
+    "ruleset": "srd_planes"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-size",
+  "type": "rule",
+  "name": "Size",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "A monster can be Tiny, Small, Medium, Large, Huge, or Gargantuan. The Size Categories table shows how much space a creature of a particular size controls in combat. See the *Player’s Handbook* for more information on creature size and space.\n\n### Size Categories\n\n| Size | Space | Examples |\n|--------|----------|---------------|\n| Tiny | 2½ by 2½ ft. | Imp, sprite |\n| Small | 5 b 5 ft. | Giant rat, goblin |\n| Medium | 5 b 5 ft. | Orc, werewolf |\n| Large | 10 b 10 ft. | Hippogriff, ogre |\n| Huge | 15 b 15 ft. | Fire giant, treant |\n| Gargantuan | 20 b 20 ft. or larger | Kraken, purple worm",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A monster can be Tiny, Small, Medium, Large, Huge, or Gargantuan. The Size Categories table shows how much space a creature of a particular size controls in combat. See the *Player’s Handbook* for more information on creature size and space.\n\n### Size Categories\n\n| Size | Space | Examples |\n|--------|----------|---------------|\n| Tiny | 2½ by 2½ ft. | Imp, sprite |\n| Small | 5 b 5 ft. | Giant rat, goblin |\n| Medium | 5 b 5 ft. | Orc, werewolf |\n| Large | 10 b 10 ft. | Hippogriff, ogre |\n| Huge | 15 b 15 ft. | Fire giant, treant |\n| Gargantuan | 20 b 20 ft. or larger | Kraken, purple worm ",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_size",
+    "name": "Size",
+    "ruleset": "srd_monsters"
+  }
+}

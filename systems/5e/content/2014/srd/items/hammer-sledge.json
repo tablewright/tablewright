@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:hammer-sledge",
+  "type": "item",
+  "name": "Hammer, sledge",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A sledgehammer",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A sledgehammer",
+    "key": "srd_hammer-sledge",
+    "name": "Hammer, sledge",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

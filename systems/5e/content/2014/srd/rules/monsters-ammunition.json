@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-ammunition",
+  "type": "rule",
+  "name": "Ammunition",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "A monster carries enough ammunition to make its ranged attacks. You can assume that a monster has 2d4 pieces of ammunition for a thrown weapon attack, and 2d10 pieces of ammunition for a projectile weapon such as a bow or crossbow.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A monster carries enough ammunition to make its ranged attacks. You can assume that a monster has 2d4 pieces of ammunition for a thrown weapon attack, and 2d10 pieces of ammunition for a projectile weapon such as a bow or crossbow.",
+    "index": 28,
+    "initialHeaderLevel": 3,
+    "key": "srd_monsters_ammunition",
+    "name": "Ammunition",
+    "ruleset": "srd_monsters"
+  }
+}

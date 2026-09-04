@@ -1,0 +1,615 @@
+{
+  "id": "5e-2014-srd:class:paladin",
+  "type": "class",
+  "name": "Paladin",
+  "source": "5e-2014-srd",
+  "tags": [],
+  "body": "",
+  "data": {
+    "caster_type": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "",
+    "features": [
+      {
+        "data_for_class_table": [],
+        "desc": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 16
+          },
+          {
+            "detail": null,
+            "level": 19
+          },
+          {
+            "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 8
+          }
+        ],
+        "key": "srd_paladin_ability-score-improvement",
+        "name": "Ability Score Improvement"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 10th level, you and friendly creatures within 10 feet of you can't be frightened while you are conscious.\r\n\r\nAt 18th level, the range of this aura increases to 30 feet.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 10
+          },
+          {
+            "detail": null,
+            "level": 18
+          }
+        ],
+        "key": "srd_paladin_aura-of-courage",
+        "name": "Aura of Courage"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 6th level, whenever you or a friendly creature within 10 feet of you must make a saving throw, the creature gains a bonus to the saving throw equal to your Charisma modifier (with a minimum bonus of +1). You must be conscious to grant this bonus.\r\n\r\nAt 18th level, the range of this aura increases to 30 feet.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 18
+          },
+          {
+            "detail": null,
+            "level": 6
+          }
+        ],
+        "key": "srd_paladin_aura-of-protection",
+        "name": "Aura of Protection"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 14th level, you can use your action to end one spell on yourself or on one willing creature that you touch.\r\n\r\nYou can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain expended uses when you finish a long rest.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 14
+          }
+        ],
+        "key": "srd_paladin_cleansing-touch",
+        "name": "Cleansing Touch"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "By 3rd level, the divine magic flowing through you makes you immune to disease.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_paladin_divine-health",
+        "name": "Divine Health"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "The presence of strong evil registers on your senses like a noxious odor, and powerful good rings like heavenly music in your ears. As an action, you can open your awareness to detect such forces. Until the end of your next turn, you know the location of any celestial, fiend, or undead within 60 feet of you that is not behind total cover. You know the type (celestial, fiend, or undead) of any being whose presence you sense, but not its identity (the vampire Count Strahd von Zarovich, for instance). Within the same radius, you also detect the presence of any place or object that has been consecrated or desecrated, as with the hallow spell.\r\n\r\nYou can use this feature a number of times equal to 1 + your Charisma modifier. When you finish a long rest, you regain all expended uses.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_paladin_divine-sense",
+        "name": "Divine Sense"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Starting at 2nd level, when you hit a creature with a melee weapon attack, you can expend one spell slot to deal radiant damage to the target, in addition to the weapon's damage. The extra damage is 2d8 for a 1st-level spell slot, plus 1d8 for each spell level higher than 1st, to a maximum of 5d8. The damage increases by 1d8 if the target is an undead or a fiend.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd_paladin_divine-smite",
+        "name": "Divine Smite"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "You start with the following equipment, in addition to the equipment granted by your background:\r\n* (*a*) a martial weapon and a shield or (*b*) two martial weapons\r\n* (*a*) five javelins or (*b*) any simple melee weapon\r\n* (*a*) a priest’s pack or (*b*) an explorer’s pack\r\n* Chain mail and a holy symbol",
+        "feature_type": "STARTING_EQUIPMENT",
+        "gained_at": [],
+        "key": "srd_paladin_equipment",
+        "name": "Equipment"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 5
+          }
+        ],
+        "key": "srd_paladin_extra-attack",
+        "name": "Extra Attack"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "At 2nd level, you adopt a style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again.\r\n\r\n### Defense\r\n\r\nWhile you are wearing armor, you gain a +1 bonus to AC.\r\n\r\n### Dueling\r\n\r\nWhen you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.\r\n\r\n### Great Weapon Fighting\r\n\r\nWhen you roll a 1 or 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll. The weapon must have the two-handed or versatile property for you to gain this benefit.\r\n\r\n### Protection\r\n\r\nWhen a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to impose disadvantage on the attack roll. You must be wielding a shield.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd_paladin_fighting-style",
+        "name": "Fighting Style"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "By 11th level, you are so suffused with righteous might that all your melee weapon strikes carry divine power with them. Whenever you hit a creature with a melee weapon, the creature takes an extra 1d8 radiant damage. If you also use your Divine Smite with an attack, you add this damage to the extra damage of your Divine Smite.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 11
+          }
+        ],
+        "key": "srd_paladin_improved-divine-smite",
+        "name": "Improved Divine Smite"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "Your blessed touch can heal wounds. You have a pool of healing power that replenishes when you take a long rest. With that pool, you can restore a total number of hit points equal to your paladin level × 5.\r\n\r\nAs an action, you can touch a creature and draw power from the pool to restore a number of hit points to that creature, up to the maximum amount remaining in your pool.\r\n\r\nAlternatively, you can expend 5 hit points from your pool of healing to cure the target of one disease or neutralize one poison affecting it. You can cure multiple diseases and neutralize multiple poisons with a single use of Lay on Hands, expending hit points separately for each one.\r\n\r\nThis feature has no effect on undead and constructs.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 1
+          }
+        ],
+        "key": "srd_paladin_lay-on-hands",
+        "name": "Lay on Hands"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "**Armor:** All armor, shields\r\n**Weapons:** Simple weapons, martial weapons\r\n**Tools:** None\r\n**Saving Throws:** Wisdom, Charisma\r\n**Skills:** Choose two from Athletics, Insight, Intimidation, Medicine, Persuasion, and Religion",
+        "feature_type": "PROFICIENCIES",
+        "gained_at": [],
+        "key": "srd_paladin_proficiencies",
+        "name": "Proficiencies"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "+2",
+            "level": 1
+          },
+          {
+            "column_value": "+4",
+            "level": 10
+          },
+          {
+            "column_value": "+4",
+            "level": 11
+          },
+          {
+            "column_value": "+4",
+            "level": 12
+          },
+          {
+            "column_value": "+5",
+            "level": 13
+          },
+          {
+            "column_value": "+5",
+            "level": 14
+          },
+          {
+            "column_value": "+5",
+            "level": 15
+          },
+          {
+            "column_value": "+5",
+            "level": 16
+          },
+          {
+            "column_value": "+6",
+            "level": 17
+          },
+          {
+            "column_value": "+6",
+            "level": 18
+          },
+          {
+            "column_value": "+6",
+            "level": 19
+          },
+          {
+            "column_value": "+2",
+            "level": 2
+          },
+          {
+            "column_value": "+6",
+            "level": 20
+          },
+          {
+            "column_value": "+2",
+            "level": 3
+          },
+          {
+            "column_value": "+2",
+            "level": 4
+          },
+          {
+            "column_value": "+3",
+            "level": 5
+          },
+          {
+            "column_value": "+3",
+            "level": 6
+          },
+          {
+            "column_value": "+3",
+            "level": 7
+          },
+          {
+            "column_value": "+3",
+            "level": 8
+          },
+          {
+            "column_value": "+4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "PROFICIENCY_BONUS",
+        "gained_at": [],
+        "key": "srd_paladin_proficiency-bonus",
+        "name": "Proficiency Bonus"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "When you reach 3rd level, you swear the oath that binds you as a paladin forever. Up to this time you have been in a preparatory stage, committed to the path but not yet sworn to it. Now you choose the Oath of Devotion, the Oath of the Ancients, or the Oath of Vengeance, all detailed at the end of the class description.\r\n\r\nYour choice grants you features at 3rd level and again at 7th, 15th, and 20th level. Those features include oath spells and the Channel Divinity feature.\r\n\r\n### Oath Spells\r\n\r\nEach oath has a list of associated spells. You gain access to these spells at the levels specified in the oath description. Once you gain access to an oath spell, you always have it prepared. Oath spells don't count against the number of spells you can prepare each day.\r\n\r\nIf you gain an oath spell that doesn't appear on the paladin spell list, the spell is nonetheless a paladin spell for you.\r\n\r\n### Channel Divinity\r\n\r\nYour oath allows you to channel divine energy to fuel magical effects. Each Channel Divinity option provided by your oath explains how to use it.\r\n\r\nWhen you use your Channel Divinity, you choose which option to use. You must then finish a short or long rest to use your Channel Divinity again.\r\n\r\nSome Channel Divinity effects require saving throws. When you use such an effect from this class, the DC equals your paladin spell save DC.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 3
+          }
+        ],
+        "key": "srd_paladin_sacred-oath",
+        "name": "Sacred Oath"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "4",
+            "level": 10
+          },
+          {
+            "column_value": "4",
+            "level": 11
+          },
+          {
+            "column_value": "4",
+            "level": 12
+          },
+          {
+            "column_value": "4",
+            "level": 13
+          },
+          {
+            "column_value": "4",
+            "level": 14
+          },
+          {
+            "column_value": "4",
+            "level": 15
+          },
+          {
+            "column_value": "4",
+            "level": 16
+          },
+          {
+            "column_value": "4",
+            "level": 17
+          },
+          {
+            "column_value": "4",
+            "level": 18
+          },
+          {
+            "column_value": "4",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 2
+          },
+          {
+            "column_value": "4",
+            "level": 20
+          },
+          {
+            "column_value": "3",
+            "level": 3
+          },
+          {
+            "column_value": "3",
+            "level": 4
+          },
+          {
+            "column_value": "4",
+            "level": 5
+          },
+          {
+            "column_value": "4",
+            "level": 6
+          },
+          {
+            "column_value": "4",
+            "level": 7
+          },
+          {
+            "column_value": "4",
+            "level": 8
+          },
+          {
+            "column_value": "4",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_paladin_slots-1st",
+        "name": "1st"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "3",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 5
+          },
+          {
+            "column_value": "2",
+            "level": 6
+          },
+          {
+            "column_value": "3",
+            "level": 7
+          },
+          {
+            "column_value": "3",
+            "level": 8
+          },
+          {
+            "column_value": "3",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_paladin_slots-2nd",
+        "name": "2nd"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "2",
+            "level": 10
+          },
+          {
+            "column_value": "3",
+            "level": 11
+          },
+          {
+            "column_value": "3",
+            "level": 12
+          },
+          {
+            "column_value": "3",
+            "level": 13
+          },
+          {
+            "column_value": "3",
+            "level": 14
+          },
+          {
+            "column_value": "3",
+            "level": 15
+          },
+          {
+            "column_value": "3",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          },
+          {
+            "column_value": "2",
+            "level": 9
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_paladin_slots-3rd",
+        "name": "3rd"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 13
+          },
+          {
+            "column_value": "1",
+            "level": 14
+          },
+          {
+            "column_value": "2",
+            "level": 15
+          },
+          {
+            "column_value": "2",
+            "level": 16
+          },
+          {
+            "column_value": "3",
+            "level": 17
+          },
+          {
+            "column_value": "3",
+            "level": 18
+          },
+          {
+            "column_value": "3",
+            "level": 19
+          },
+          {
+            "column_value": "3",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_paladin_slots-4th",
+        "name": "4th"
+      },
+      {
+        "data_for_class_table": [
+          {
+            "column_value": "1",
+            "level": 17
+          },
+          {
+            "column_value": "1",
+            "level": 18
+          },
+          {
+            "column_value": "2",
+            "level": 19
+          },
+          {
+            "column_value": "2",
+            "level": 20
+          }
+        ],
+        "desc": "[Column data]",
+        "feature_type": "SPELL_SLOTS",
+        "gained_at": [],
+        "key": "srd_paladin_slots-5th",
+        "name": "5th"
+      },
+      {
+        "data_for_class_table": [],
+        "desc": "By 2nd level, you have learned to draw on divine magic through meditation and prayer to cast spells as a cleric does.\r\n\r\n### Preparing and Casting Spells\r\n\r\nThe Paladin table shows how many spell slots you have to cast your spells. To cast one of your paladin spells of 1st level or higher, you must expend a slot of the spell's level or higher. You regain all expended spell slots when you finish a long rest.\r\n\r\nYou prepare the list of paladin spells that are available for you to cast, choosing from the paladin spell list. When you do so, choose a number of paladin spells equal to your Charisma modifier + half your paladin level, rounded down (minimum of one spell). The spells must be of a level for which you have spell slots.\r\n\r\nFor example, if you are a 5th-level paladin, you have four 1st-level and two 2nd-level spell slots. With a Charisma of 14, your list of prepared spells can include four spells of 1st or 2nd level, in any combination. If you prepare the 1st-level spell cure wounds, you can cast it using a 1st-level or a 2nd- level slot. Casting the spell doesn't remove it from your list of prepared spells.\r\n\r\nYou can change your list of prepared spells when you finish a long rest. Preparing a new list of paladin spells requires time spent in prayer and meditation: at least 1 minute per spell level for each spell on your list.\r\n\r\n### Spellcasting Ability\r\n\r\nCharisma is your spellcasting ability for your paladin spells, since their power derives from the strength of your convictions. You use your Charisma whenever a spell refers to your spellcasting ability. In addition, you use your Charisma modifier when setting the saving throw DC for a paladin spell you cast and when making an attack roll with one.\r\n\r\n**Spell save DC** = 8 + your proficiency bonus + your Charisma modifier\r\n\r\n**Spell attack modifier** = your proficiency bonus + your Charisma modifier\r\nSpellcasting Focus\r\n\r\nYou can use a holy symbol as a spellcasting focus for your paladin spells.",
+        "feature_type": "CLASS_LEVEL_FEATURE",
+        "gained_at": [
+          {
+            "detail": null,
+            "level": 2
+          }
+        ],
+        "key": "srd_paladin_spellcasting",
+        "name": "Spellcasting"
+      }
+    ],
+    "hit_dice": "D10",
+    "hit_points": {
+      "hit_dice": "D10",
+      "hit_dice_name": "1D10 per Paladin level",
+      "hit_points_at_1st_level": "10 + your Constitution modifier",
+      "hit_points_at_higher_levels": "1D10 (or 6) + your Constitution modifier per paladin level after 1st"
+    },
+    "key": "srd_paladin",
+    "name": "Paladin",
+    "primary_abilities": [],
+    "saving_throws": [
+      {
+        "name": "Charisma"
+      },
+      {
+        "name": "Wisdom"
+      }
+    ],
+    "subclass_of": null
+  }
+}

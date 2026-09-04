@@ -1,0 +1,40 @@
+{
+  "id": "5e-2014-srd:magic-item:ring-of-telekinesis",
+  "type": "magic-item",
+  "name": "Ring of Telekinesis",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring",
+    "very-rare",
+    "attunement"
+  ],
+  "body": "While wearing this ring, you can cast the _telekinesis_ spell at will, but you can target only objects that aren't being worn or carried.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "While wearing this ring, you can cast the _telekinesis_ spell at will, but you can target only objects that aren't being worn or carried.",
+    "key": "srd_ring-of-telekinesis",
+    "name": "Ring of Telekinesis",
+    "rarity": {
+      "key": "very-rare",
+      "name": "Very Rare",
+      "rank": 4
+    },
+    "requires_attunement": true,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

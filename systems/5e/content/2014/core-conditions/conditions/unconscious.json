@@ -3,9 +3,7 @@
   "type": "condition",
   "name": "Unconscious",
   "source": "5e-2014-core-conditions",
-  "tags": [
-    "2014"
-  ],
+  "tags": [],
   "body": "* An unconscious creature is incapacitated, can’t move or speak, and is unaware of its surroundings. \n\n* An unconscious creature drops whatever it’s holding and falls prone.\n\n* An unconscious creature automatically fails Strength and Dexterity saving throws. \n\n* Attack rolls against an unconscious creature are made with advantage.\n\n* Any attack that hits an unconscious creature is a critical hit if the attacker is within 5 feet.\n\n* An unconscious creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings\r\n* The creature drops whatever it’s holding and falls prone.\r\n* The creature automatically fails Strength and Dexterity saving throws.\r\n* Attack rolls against the creature have advantage.\r\n* Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.\n\nWhile you have the Unconscious condition, you experience the following effects. \n* Inert. You have the Incapacitated and Prone conditions, and you drop whatever you’re holding. When this condition ends, you remain Prone. \n* Speed 0. Your Speed is 0 and can’t increase.\n* Attacks Affected. Attack rolls against you have Advantage. \n* Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. \n* Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you. Unaware. You’re unaware of your surroundings.",
   "data": {
     "descriptions": [

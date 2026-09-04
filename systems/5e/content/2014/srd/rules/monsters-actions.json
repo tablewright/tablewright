@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-actions",
+  "type": "rule",
+  "name": "Actions",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "When a monster takes its action, it can choose from the options in the Actions section of its stat block or use one of the actions available to all creatures, such as the Dash or Hide action, as described in the *Player’s Handbook*.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When a monster takes its action, it can choose from the options in the Actions section of its stat block or use one of the actions available to all creatures, such as the Dash or Hide action, as described in the *Player’s Handbook*.",
+    "index": 25,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_actions",
+    "name": "Actions",
+    "ruleset": "srd_monsters"
+  }
+}

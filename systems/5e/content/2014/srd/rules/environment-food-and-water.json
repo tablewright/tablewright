@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:environment-food-and-water",
+  "type": "rule",
+  "name": "Food and Water",
+  "source": "5e-2014-srd",
+  "tags": [
+    "environment"
+  ],
+  "body": "Characters who don't eat or drink suffer the effects of exhaustion. Exhaustion caused by lack of food or water can't beremoved until the character eats and drinks the full required amount.\n## Food\nA character needs one pound of food per day and can make food last longer by subsisting on half rations. Eating half a pound of food in aday counts as half a day without food.\n\nA character can go without food for a number of days equal to 3 + his orher Constitution modifier (minimum 1). At the end of each day beyondthat limit, a character automatically suffers one level of exhaustion.\n\nA normal day of eating resets the count of days without food to zero.## Water\n\nA character needs one gallon of water per day, or two gallons per day ifthe weather is hot. A character who drinks only half that much watermust succeed on a DC 15 Constitution saving throw or suffer one level of exhaustion at the end of the day. A character with access to evenless water automatically suffers one level of exhaustion at the end of the day.\n\nIf the character already has one or more levels of exhaustion, the character takes two levels in either case.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Characters who don't eat or drink suffer the effects of exhaustion. Exhaustion caused by lack of food or water can't beremoved until the character eats and drinks the full required amount.\n## Food\nA character needs one pound of food per day and can make food last longer by subsisting on half rations. Eating half a pound of food in aday counts as half a day without food.\n\nA character can go without food for a number of days equal to 3 + his orher Constitution modifier (minimum 1). At the end of each day beyondthat limit, a character automatically suffers one level of exhaustion.\n\nA normal day of eating resets the count of days without food to zero.## Water\n\nA character needs one gallon of water per day, or two gallons per day ifthe weather is hot. A character who drinks only half that much watermust succeed on a DC 15 Constitution saving throw or suffer one level of exhaustion at the end of the day. A character with access to evenless water automatically suffers one level of exhaustion at the end of the day.\n\nIf the character already has one or more levels of exhaustion, the character takes two levels in either case.",
+    "index": 8,
+    "initialHeaderLevel": 2,
+    "key": "srd_environment_food-and-water",
+    "name": "Food and Water",
+    "ruleset": "srd_environment"
+  }
+}

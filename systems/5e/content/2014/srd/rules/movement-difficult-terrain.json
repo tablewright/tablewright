@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:movement-difficult-terrain",
+  "type": "rule",
+  "name": "Difficult Terrain",
+  "source": "5e-2014-srd",
+  "tags": [
+    "movement"
+  ],
+  "body": "The travel speeds given in the Travel Pace table assume relativelysimple terrain: roads, open plains, or clear dungeon corridors. But adventurers often face dense forests, deep swamps, rubble-filled ruins, steep mountains, and ice-covered ground---all considered difficult terrain.\n\nYou move at half speed in difficult terrain---moving 1 foot in difficult terrain costs 2 feet of speed---so you can cover only half the normal distance in a minute, an hour, or a day.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The travel speeds given in the Travel Pace table assume relativelysimple terrain: roads, open plains, or clear dungeon corridors. But adventurers often face dense forests, deep swamps, rubble-filled ruins, steep mountains, and ice-covered ground---all considered difficult terrain.\n\nYou move at half speed in difficult terrain---moving 1 foot in difficult terrain costs 2 feet of speed---so you can cover only half the normal distance in a minute, an hour, or a day.",
+    "index": 3,
+    "initialHeaderLevel": 3,
+    "key": "srd_movement_difficult-terrain",
+    "name": "Difficult Terrain",
+    "ruleset": "srd_movement"
+  }
+}

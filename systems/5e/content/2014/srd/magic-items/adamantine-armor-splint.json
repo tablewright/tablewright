@@ -1,0 +1,49 @@
+{
+  "id": "5e-2014-srd:magic-item:adamantine-armor-splint",
+  "type": "magic-item",
+  "name": "Adamantine Armor (Splint)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor",
+    "uncommon"
+  ],
+  "body": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 17,
+      "ac_cap_dexmod": null,
+      "ac_display": "17",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_splint",
+      "name": "Splint",
+      "strength_score_required": 15
+    },
+    "attunement_detail": null,
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+    "key": "srd_adamantine-armor-splint",
+    "name": "Adamantine Armor (Splint)",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "60.000",
+    "weight_unit": "lb"
+  }
+}

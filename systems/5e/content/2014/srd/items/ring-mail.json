@@ -1,0 +1,41 @@
+{
+  "id": "5e-2014-srd:item:ring-mail",
+  "type": "item",
+  "name": "Ring mail",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "This armor is leather armor with heavy rings sewn into it. The rings help reinforce the armor against blows from swords and axes. Ring mail is inferior to chain mail, and it's usually worn only by those who can't afford better armor.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 14,
+      "ac_cap_dexmod": null,
+      "ac_display": "14",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_ring-mail",
+      "name": "Ring mail",
+      "strength_score_required": null
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "30.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This armor is leather armor with heavy rings sewn into it. The rings help reinforce the armor against blows from swords and axes. Ring mail is inferior to chain mail, and it's usually worn only by those who can't afford better armor.",
+    "key": "srd_ring-mail",
+    "name": "Ring mail",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "40.000",
+    "weight_unit": "lb"
+  }
+}

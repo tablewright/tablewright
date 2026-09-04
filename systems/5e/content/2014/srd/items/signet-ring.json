@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:signet-ring",
+  "type": "item",
+  "name": "Signet Ring",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring"
+  ],
+  "body": "A ring with a signet on it.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": "5.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A ring with a signet on it.",
+    "key": "srd_signet-ring",
+    "name": "Signet Ring",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

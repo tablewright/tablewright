@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:combat-sequence-reactions",
+  "type": "rule",
+  "name": "Reactions",
+  "source": "5e-2014-srd",
+  "tags": [
+    "combat-sequence"
+  ],
+  "body": "Certain special abilities, spells, and situations allow you to take a special action called a reaction. A reaction is an instant response to a trigger of some kind, which can occur on your turn or on someone else's. The opportunity attack is the most common type of reaction.\n\nWhen you take a reaction, you can't take another one until the start of your next turn. If the reaction interrupts another creature's turn, that creature can continue its turn right after the reaction.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Certain special abilities, spells, and situations allow you to take a special action called a reaction. A reaction is an instant response to a trigger of some kind, which can occur on your turn or on someone else's. The opportunity attack is the most common type of reaction.\n\nWhen you take a reaction, you can't take another one until the start of your next turn. If the reaction interrupts another creature's turn, that creature can continue its turn right after the reaction.",
+    "index": 5,
+    "initialHeaderLevel": 2,
+    "key": "srd_combat-sequence_reactions",
+    "name": "Reactions",
+    "ruleset": "srd_combat-sequence"
+  }
+}

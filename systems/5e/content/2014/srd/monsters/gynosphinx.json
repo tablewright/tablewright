@@ -1,0 +1,257 @@
+{
+  "id": "5e-2014-srd:monster:gynosphinx",
+  "type": "monster",
+  "name": "Gynosphinx",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monstrosity",
+    "large",
+    "cr-11"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 18,
+      "constitution": 16,
+      "dexterity": 15,
+      "intelligence": 18,
+      "strength": 18,
+      "wisdom": 18
+    },
+    "actions": [
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The sphinx casts a spell from its list of prepared spells, using a spell slot as normal.",
+        "legendary_action_cost": 3,
+        "limited_to_form": null,
+        "name": "Cast a Spell",
+        "order_in_statblock": 2,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 2,
+            "damage_die_type": "D8",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": null,
+            "long_range": null,
+            "name": "Claw attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 8
+          }
+        ],
+        "desc": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) slashing damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The sphinx makes one claw attack.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Claw Attack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The sphinx makes two claw attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      },
+      {
+        "action_type": "LEGENDARY_ACTION",
+        "attacks": [],
+        "desc": "The sphinx magically teleports, along with any equipment it is wearing or carrying, up to 120 feet to an unoccupied space it can see.",
+        "legendary_action_cost": 2,
+        "limited_to_form": null,
+        "name": "Teleport",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful neutral",
+    "armor_class": 17,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 11,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "desert",
+        "name": "Desert"
+      },
+      {
+        "key": "ruins",
+        "name": "Ruins"
+      }
+    ],
+    "experience_points": 7200,
+    "hit_dice": "16d10+48",
+    "hit_points": 136,
+    "illustration": null,
+    "initiative_bonus": 2,
+    "key": "srd_gynosphinx",
+    "languages": {
+      "as_string": "Common, Sphinx",
+      "data": [
+        {
+          "desc": "Typical speakers are Humans.",
+          "key": "common",
+          "name": "Common"
+        }
+      ]
+    },
+    "modifiers": {
+      "charisma": 4,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 4,
+      "strength": 4,
+      "wisdom": 4
+    },
+    "name": "Gynosphinx",
+    "normal_sight_range": 10560,
+    "passive_perception": 18,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        }
+      ],
+      "condition_immunities_display": "charmed, frightened",
+      "damage_immunities": [
+        {
+          "key": "psychic",
+          "name": "Psychic"
+        }
+      ],
+      "damage_immunities_display": "psychic",
+      "damage_resistances": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_resistances_display": "bludgeoning, piercing, and slashing from nonmagical attacks",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {},
+    "saving_throws_all": {
+      "charisma": 4,
+      "constitution": 3,
+      "dexterity": 2,
+      "intelligence": 4,
+      "strength": 4,
+      "wisdom": 4
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "arcana": 12,
+      "history": 12,
+      "perception": 8,
+      "religion": 8
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 2,
+      "animal_handling": 4,
+      "arcana": 12,
+      "athletics": 4,
+      "deception": 4,
+      "history": 12,
+      "insight": 4,
+      "intimidation": 4,
+      "investigation": 4,
+      "medicine": 4,
+      "nature": 4,
+      "perception": 8,
+      "performance": 4,
+      "persuasion": 4,
+      "religion": 8,
+      "sleight_of_hand": 2,
+      "stealth": 2,
+      "survival": 4
+    },
+    "speed": {
+      "fly": 60,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 60,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": "Sphinxes",
+    "traits": [
+      {
+        "desc": "The sphinx is immune to any effect that would sense its emotions or read its thoughts, as well as any divination spell that it refuses. Wisdom (Insight) checks made to ascertain the sphinx's intentions or sincerity have disadvantage.",
+        "name": "Inscrutable"
+      },
+      {
+        "desc": "The sphinx's weapon attacks are magical.",
+        "name": "Magic Weapons"
+      },
+      {
+        "desc": "The sphinx is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 16, +8 to hit with spell attacks). It requires no material components to cast its spells. The sphinx has the following wizard spells prepared:\n\n* Cantrips (at will): mage hand, minor illusion, prestidigitation\n* 1st level (4 slots): detect magic, identify, shield\n* 2nd level (3 slots): darkness, locate object, suggestion\n* 3rd level (3 slots): dispel magic, remove curse, tongues\n* 4th level (3 slots): banishment, greater invisibility\n* 5th level (1 slot): legend lore",
+        "name": "Spellcasting"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "monstrosity",
+      "name": "Monstrosity"
+    }
+  }
+}

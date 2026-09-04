@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:wagon",
+  "type": "item",
+  "name": "Wagon",
+  "source": "5e-2014-srd",
+  "tags": [
+    "land-vehicle"
+  ],
+  "body": "Drawn vehicle.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "land-vehicle",
+      "name": "Land Vehicle"
+    },
+    "cost": "35.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Drawn vehicle.",
+    "key": "srd_wagon",
+    "name": "Wagon",
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "weapon": null,
+    "weight": "400.000",
+    "weight_unit": "lb"
+  }
+}

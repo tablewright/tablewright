@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:multiclassing-proficiencies",
+  "type": "rule",
+  "name": "Proficiencies",
+  "source": "5e-2014-srd",
+  "tags": [
+    "multiclassing"
+  ],
+  "body": "When you gain your first level in a class other than your initial class, you gain only some of new class's starting proficiencies, as shown in the Multiclassing Proficiencies table.\n\n**Multiclassing Proficiencies (table)**\n\n| Class     | Proficiencies Gained                                                                                       |\n|-----------|------------------------------------------------------------------------------------------------------------|\n| Barbarian | Shields, simple weapons, martial weapons                                                                   |\n| Bard      | Light armor, one skill of your choice, one musical instrument of your choice                               |\n| Cleric    | Light armor, medium armor, shields                                                                         |\n| Druid     | Light armor, medium armor, shields (druids will not wear armor or use shields made of metal)               |\n| Fighter   | Light armor, medium armor, shields, simple weapons, martial weapons                                        |\n| Monk      | Simple weapons, shortswords                                                                                |\n| Paladin   | Light armor, medium armor, shields, simple weapons, martial weapons                                        |\n| Ranger    | Light armor, medium armor, shields, simple weapons, martial weapons, one skill from the class's skill list |\n| Rogue     | Light armor, one skill from the class's skill list, thieves' tools                                         |\n| Sorcerer  | -                                                                                                          |\n| Warlock   | Light armor, simple weapons                                                                                |\n| Wizard    | -                                                                                                          |",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When you gain your first level in a class other than your initial class, you gain only some of new class's starting proficiencies, as shown in the Multiclassing Proficiencies table.\n\n**Multiclassing Proficiencies (table)**\n\n| Class     | Proficiencies Gained                                                                                       |\n|-----------|------------------------------------------------------------------------------------------------------------|\n| Barbarian | Shields, simple weapons, martial weapons                                                                   |\n| Bard      | Light armor, one skill of your choice, one musical instrument of your choice                               |\n| Cleric    | Light armor, medium armor, shields                                                                         |\n| Druid     | Light armor, medium armor, shields (druids will not wear armor or use shields made of metal)               |\n| Fighter   | Light armor, medium armor, shields, simple weapons, martial weapons                                        |\n| Monk      | Simple weapons, shortswords                                                                                |\n| Paladin   | Light armor, medium armor, shields, simple weapons, martial weapons                                        |\n| Ranger    | Light armor, medium armor, shields, simple weapons, martial weapons, one skill from the class's skill list |\n| Rogue     | Light armor, one skill from the class's skill list, thieves' tools                                         |\n| Sorcerer  | -                                                                                                          |\n| Warlock   | Light armor, simple weapons                                                                                |\n| Wizard    | -                                                                                                          |",
+    "index": 5,
+    "initialHeaderLevel": 2,
+    "key": "srd_multiclassing_proficiencies",
+    "name": "Proficiencies",
+    "ruleset": "srd_multiclassing"
+  }
+}

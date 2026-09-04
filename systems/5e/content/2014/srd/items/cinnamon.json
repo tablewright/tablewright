@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:cinnamon",
+  "type": "item",
+  "name": "Cinnamon",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "1lb of cinnamon",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "2.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "1lb of cinnamon",
+    "key": "srd_cinnamon",
+    "name": "Cinnamon",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

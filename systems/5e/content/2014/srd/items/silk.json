@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:silk",
+  "type": "item",
+  "name": "Silk",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "1 sq. yd. of silk.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "10.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "1 sq. yd. of silk.",
+    "key": "srd_silk",
+    "name": "Silk",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

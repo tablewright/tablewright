@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:elemental-gem",
+  "type": "magic-item",
+  "name": "Elemental Gem",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "uncommon"
+  ],
+  "body": "This gem contains a mote of elemental energy. When you use an action to break the gem, an elemental is summoned as if you had cast the _conjure elemental_ spell, and the gem's magic is lost. The type of gem determines the elemental summoned by the spell.\r\n\r\n| Gem            | Summoned Elemental |\r\n|----------------|--------------------|\r\n| Blue sapphire  | Air elemental      |\r\n| Yellow diamond | Earth elemental    |\r\n| Red corundum   | Fire elemental     |\r\n| Emerald        | Water elemental    |",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This gem contains a mote of elemental energy. When you use an action to break the gem, an elemental is summoned as if you had cast the _conjure elemental_ spell, and the gem's magic is lost. The type of gem determines the elemental summoned by the spell.\r\n\r\n| Gem            | Summoned Elemental |\r\n|----------------|--------------------|\r\n| Blue sapphire  | Air elemental      |\r\n| Yellow diamond | Earth elemental    |\r\n| Red corundum   | Fire elemental     |\r\n| Emerald        | Water elemental    |",
+    "key": "srd_elemental-gem",
+    "name": "Elemental Gem",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

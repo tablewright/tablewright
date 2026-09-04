@@ -1,0 +1,44 @@
+{
+  "id": "5e-2014-srd:item:morningstar",
+  "type": "item",
+  "name": "Morningstar",
+  "source": "5e-2014-srd",
+  "tags": [
+    "weapon"
+  ],
+  "body": "A morningstar",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "weapon",
+      "name": "Weapon"
+    },
+    "cost": "15.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A morningstar",
+    "key": "srd_morningstar",
+    "name": "Morningstar",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": {
+      "damage_dice": "1d8",
+      "damage_type": {
+        "key": "piercing",
+        "name": "Piercing"
+      },
+      "distance_unit": "feet",
+      "is_improvised": false,
+      "is_martial": true,
+      "is_simple": false,
+      "key": "srd_morningstar",
+      "name": "Morningstar",
+      "properties": []
+    },
+    "weight": "4.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:backgrounds-proficiencies",
+  "type": "rule",
+  "name": "Proficiencies",
+  "source": "5e-2014-srd",
+  "tags": [
+    "backgrounds"
+  ],
+  "body": "Each background gives a character proficiency in two skills (described in “Using Ability Scores”).\n\nIn addition, most backgrounds give a character proficiency with one or more tools (detailed in “Equipment”).\n\nIf a character would gain the same proficiency from two different sources, he or she can choose a different proficiency of the same kind (skill or tool) instead.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Each background gives a character proficiency in two skills (described in “Using Ability Scores”).\n\nIn addition, most backgrounds give a character proficiency with one or more tools (detailed in “Equipment”).\n\nIf a character would gain the same proficiency from two different sources, he or she can choose a different proficiency of the same kind (skill or tool) instead.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_backgrounds_proficiencies",
+    "name": "Proficiencies",
+    "ruleset": "srd_backgrounds"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:sled",
+  "type": "item",
+  "name": "Sled",
+  "source": "5e-2014-srd",
+  "tags": [
+    "land-vehicle"
+  ],
+  "body": "Drawn vehicle",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "land-vehicle",
+      "name": "Land Vehicle"
+    },
+    "cost": "20.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Drawn vehicle",
+    "key": "srd_sled",
+    "name": "Sled",
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "weapon": null,
+    "weight": "300.000",
+    "weight_unit": "lb"
+  }
+}

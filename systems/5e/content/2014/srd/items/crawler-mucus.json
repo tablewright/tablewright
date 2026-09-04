@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:crawler-mucus",
+  "type": "item",
+  "name": "Crawler mucus",
+  "source": "5e-2014-srd",
+  "tags": [
+    "poison"
+  ],
+  "body": "This poison must be harvested from a dead or incapacitated crawler. A creature subjected to this poison must succeed on a DC 13 Constitution saving throw or be poisoned for 1 minute. The poisoned creature is paralyzed. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.\\n\\n\r\n**_Contact._** Contact poison can be smeared on an object and remains potent until it is touched or washed off. A creature that touches contact poison with exposed skin suffers its effects.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "poison",
+      "name": "Poison"
+    },
+    "cost": "200.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This poison must be harvested from a dead or incapacitated crawler. A creature subjected to this poison must succeed on a DC 13 Constitution saving throw or be poisoned for 1 minute. The poisoned creature is paralyzed. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.\\n\\n\r\n**_Contact._** Contact poison can be smeared on an object and remains potent until it is touched or washed off. A creature that touches contact poison with exposed skin suffers its effects.",
+    "key": "srd_crawler-mucus",
+    "name": "Crawler mucus",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:backgrounds-equipment",
+  "type": "rule",
+  "name": "Equipment",
+  "source": "5e-2014-srd",
+  "tags": [
+    "backgrounds"
+  ],
+  "body": "Each background provides a package of starting equipment. If you use the optional rule to spend coin on gear, you do not receive the starting equipment from your background.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Each background provides a package of starting equipment. If you use the optional rule to spend coin on gear, you do not receive the starting equipment from your background.",
+    "index": 3,
+    "initialHeaderLevel": 2,
+    "key": "srd_backgrounds_equipment",
+    "name": "Equipment",
+    "ruleset": "srd_backgrounds"
+  }
+}

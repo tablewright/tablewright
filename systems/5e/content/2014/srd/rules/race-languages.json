@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:race-languages",
+  "type": "rule",
+  "name": "Languages",
+  "source": "5e-2014-srd",
+  "tags": [
+    "races"
+  ],
+  "body": "By virtue of your race, your character can speak, read, and write certain languages.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "By virtue of your race, your character can speak, read, and write certain languages.",
+    "index": 7,
+    "initialHeaderLevel": 3,
+    "key": "srd_race_languages",
+    "name": "Languages",
+    "ruleset": "srd_races"
+  }
+}

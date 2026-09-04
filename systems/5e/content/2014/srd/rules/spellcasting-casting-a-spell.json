@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:spellcasting-casting-a-spell",
+  "type": "rule",
+  "name": "Casting a Spell",
+  "source": "5e-2014-srd",
+  "tags": [
+    "spellcasting"
+  ],
+  "body": "When a character casts any spell, the same basic rules are followed, regardless of the character's class or the spell's effects.\n\nEach spell description begins with a block of information, including the spell's name, level, school of magic, casting time, range, components, and duration. The rest of a spell entry describes the spell's effect.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "When a character casts any spell, the same basic rules are followed, regardless of the character's class or the spell's effects.\n\nEach spell description begins with a block of information, including the spell's name, level, school of magic, casting time, range, components, and duration. The rest of a spell entry describes the spell's effect.",
+    "index": 9,
+    "initialHeaderLevel": 2,
+    "key": "srd_spellcasting_casting-a-spell",
+    "name": "Casting a Spell",
+    "ruleset": "srd_spellcasting"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:attacking-rolling-1-or-20",
+  "type": "rule",
+  "name": "Rolling 1 or 20",
+  "source": "5e-2014-srd",
+  "tags": [
+    "attacking"
+  ],
+  "body": "Sometimes fate blesses or curses a combatant, causing the novice to hit and the veteran to miss.\n\n> **Sage Advice**\n\n> Spell attacks can score critical hits, just like any other attack.\n\n> \n\n> Source: [Sage Advice > Compendium](http://media.wizards.com/2015/downloads/dnd/SA_Compendium_1.01.pdf)\n\nIf the d20 roll for an attack is a 20, the attack hits regardless of any modifiers or the target's AC. This is called a critical hit.\n\nIf the d20 roll for an attack is a 1, the attack misses regardless of any modifiers or the target's AC.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Sometimes fate blesses or curses a combatant, causing the novice to hit and the veteran to miss.\n\n> **Sage Advice**\n\n> Spell attacks can score critical hits, just like any other attack.\n\n> \n\n> Source: [Sage Advice > Compendium](http://media.wizards.com/2015/downloads/dnd/SA_Compendium_1.01.pdf)\n\nIf the d20 roll for an attack is a 20, the attack hits regardless of any modifiers or the target's AC. This is called a critical hit.\n\nIf the d20 roll for an attack is a 1, the attack misses regardless of any modifiers or the target's AC.",
+    "index": 3,
+    "initialHeaderLevel": 3,
+    "key": "srd_attacking_rolling-1-or-20",
+    "name": "Rolling 1 or 20",
+    "ruleset": "srd_attacking"
+  }
+}

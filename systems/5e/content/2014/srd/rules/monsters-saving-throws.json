@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-saving-throws",
+  "type": "rule",
+  "name": "Saving Throws",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "The Saving Throws entry is reserved for creatures that are adept at resisting certain kinds of effects. For example, a creature that isn’t easily charmed or frightened might gain a bonus on its Wisdom saving throws. Most creatures don’t have special saving throw bonuses, in which case this section is absent.\n\nA saving throw bonus is the sum of a monster’s relevant ability modifier and its proficiency bonus, which is determined by the monster’s challenge rating (as shown in the Proficiency Bonus by Challenge Rating table).",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The Saving Throws entry is reserved for creatures that are adept at resisting certain kinds of effects. For example, a creature that isn’t easily charmed or frightened might gain a bonus on its Wisdom saving throws. Most creatures don’t have special saving throw bonuses, in which case this section is absent.\n\nA saving throw bonus is the sum of a monster’s relevant ability modifier and its proficiency bonus, which is determined by the monster’s challenge rating (as shown in the Proficiency Bonus by Challenge Rating table).",
+    "index": 10,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_saving-throws",
+    "name": "Saving Throws",
+    "ruleset": "srd_monsters"
+  }
+}

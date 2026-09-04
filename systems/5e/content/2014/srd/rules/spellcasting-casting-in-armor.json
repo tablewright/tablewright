@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:spellcasting-casting-in-armor",
+  "type": "rule",
+  "name": "Casting in Armor",
+  "source": "5e-2014-srd",
+  "tags": [
+    "spellcasting"
+  ],
+  "body": "Because of the mental focus and precise gestures required for spellcasting, you must be proficient with the armor you are wearing to cast a spell. You are otherwise too distracted and physically hampered by your armor for spellcasting.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Because of the mental focus and precise gestures required for spellcasting, you must be proficient with the armor you are wearing to cast a spell. You are otherwise too distracted and physically hampered by your armor for spellcasting.",
+    "index": 6,
+    "initialHeaderLevel": 2,
+    "key": "srd_spellcasting_casting-in-armor",
+    "name": "Casting in Armor",
+    "ruleset": "srd_spellcasting"
+  }
+}

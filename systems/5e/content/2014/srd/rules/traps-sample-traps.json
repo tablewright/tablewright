@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:traps-sample-traps",
+  "type": "rule",
+  "name": "Sample Traps",
+  "source": "5e-2014-srd",
+  "tags": [
+    "traps"
+  ],
+  "body": "The magical and mechanical traps presented here vary in deadliness and are presented in alphabetical order.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "The magical and mechanical traps presented here vary in deadliness and are presented in alphabetical order.",
+    "index": 6,
+    "initialHeaderLevel": 2,
+    "key": "srd_traps_sample-traps",
+    "name": "Sample Traps",
+    "ruleset": "srd_traps"
+  }
+}

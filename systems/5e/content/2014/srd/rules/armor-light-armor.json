@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:armor-light-armor",
+  "type": "rule",
+  "name": "Light Armor",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "Made from supple and thin materials, light armor favors agile adventurers since it offers some protection without sacrificing mobility. If you wear light armor, you add your Dexterity modifier to the base number from your armor type to determine your Armor Class.\n\n**_Padded._** Padded armor consists of quilted layers of cloth and batting.\n\n**_Leather._** The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.\n\n**_Studded Leather._** Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Made from supple and thin materials, light armor favors agile adventurers since it offers some protection without sacrificing mobility. If you wear light armor, you add your Dexterity modifier to the base number from your armor type to determine your Armor Class.\n\n**_Padded._** Padded armor consists of quilted layers of cloth and batting.\n\n**_Leather._** The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.\n\n**_Studded Leather._** Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes.",
+    "index": 1,
+    "initialHeaderLevel": 2,
+    "key": "srd_armor_light-armor",
+    "name": "Light Armor",
+    "ruleset": "srd_armor"
+  }
+}

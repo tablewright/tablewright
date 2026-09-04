@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:magic-items-paired-items",
+  "type": "rule",
+  "name": "Paired Items",
+  "source": "5e-2014-srd",
+  "tags": [
+    "magic-items"
+  ],
+  "body": "Items that come in pairs—such as boots, bracers, gauntlets, and gloves—impart their benefits only if both items of the pair are worn. For example, a character wearing a boot of striding and springing on one foot and a boot of elvenkind on the other foot gains no benefit from either.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Items that come in pairs—such as boots, bracers, gauntlets, and gloves—impart their benefits only if both items of the pair are worn. For example, a character wearing a boot of striding and springing on one foot and a boot of elvenkind on the other foot gains no benefit from either.",
+    "index": 4,
+    "initialHeaderLevel": 3,
+    "key": "srd_magic-items_paired-items",
+    "name": "Paired Items",
+    "ruleset": "srd_magic-items"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:wheat",
+  "type": "item",
+  "name": "Wheat",
+  "source": "5e-2014-srd",
+  "tags": [
+    "trade-good"
+  ],
+  "body": "1 pound of wheat.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "trade-good",
+      "name": "Trade Good"
+    },
+    "cost": "0.01",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "1 pound of wheat.",
+    "key": "srd_wheat",
+    "name": "Wheat",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

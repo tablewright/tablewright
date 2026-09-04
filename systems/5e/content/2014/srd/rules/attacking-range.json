@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:attacking-range",
+  "type": "rule",
+  "name": "Range",
+  "source": "5e-2014-srd",
+  "tags": [
+    "attacking"
+  ],
+  "body": "You can make ranged attacks only against targets within a specified range. If a ranged attack, such as one made with a spell, has a single range, you can't attack a target beyond this range.\n\nSome ranged attacks, such as those made with a longbow or a shortbow, have two ranges. The smaller number is the normal range, and the larger number is the long range. Your attack roll has disadvantage when your target is beyond normal range, and you can't attack a target beyond the long range.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You can make ranged attacks only against targets within a specified range. If a ranged attack, such as one made with a spell, has a single range, you can't attack a target beyond this range.\n\nSome ranged attacks, such as those made with a longbow or a shortbow, have two ranges. The smaller number is the normal range, and the larger number is the long range. Your attack roll has disadvantage when your target is beyond normal range, and you can't attack a target beyond the long range.",
+    "index": 6,
+    "initialHeaderLevel": 3,
+    "key": "srd_attacking_range",
+    "name": "Range",
+    "ruleset": "srd_attacking"
+  }
+}

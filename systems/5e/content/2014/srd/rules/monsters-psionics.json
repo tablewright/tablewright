@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-psionics",
+  "type": "rule",
+  "name": "Psionics",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "A monster that casts spells using only the power of its mind has the psionics tag added to its Spellcasting or Innate Spellcasting special trait. This tag carries no special rules of its own, but other parts of the game might refer to it. A monster that has this tag typically doesn’t require any components to cast its spells.",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A monster that casts spells using only the power of its mind has the psionics tag added to its Spellcasting or Innate Spellcasting special trait. This tag carries no special rules of its own, but other parts of the game might refer to it. A monster that has this tag typically doesn’t require any components to cast its spells.",
+    "index": 24,
+    "initialHeaderLevel": 3,
+    "key": "srd_monsters_psionics",
+    "name": "Psionics",
+    "ruleset": "srd_monsters"
+  }
+}

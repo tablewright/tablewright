@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:rope-hempen-50-feet",
+  "type": "item",
+  "name": "Rope, hempen (50 feet)",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.",
+    "key": "srd_rope-hempen-50-feet",
+    "name": "Rope, hempen (50 feet)",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "10.000",
+    "weight_unit": "lb"
+  }
+}

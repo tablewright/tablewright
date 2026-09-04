@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:chime-of-opening",
+  "type": "magic-item",
+  "name": "Chime of Opening",
+  "source": "5e-2014-srd",
+  "tags": [
+    "wondrous-item",
+    "rare"
+  ],
+  "body": "This hollow metal tube measures about 1 foot long and weighs 1 pound. You can strike it as an action, pointing it at an object within 120 feet of you that can be opened, such as a door, lid, or lock. The chime issues a clear tone, and one lock or latch on the object opens unless the sound can't reach the object. If no locks or latches remain, the object itself opens.\r\n\r\nThe chime can be used ten times. After the tenth time, it cracks and becomes useless.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "wondrous-item",
+      "name": "Wondrous Item"
+    },
+    "cost": "0.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This hollow metal tube measures about 1 foot long and weighs 1 pound. You can strike it as an action, pointing it at an object within 120 feet of you that can be opened, such as a door, lid, or lock. The chime issues a clear tone, and one lock or latch on the object opens unless the sound can't reach the object. If no locks or latches remain, the object itself opens.\r\n\r\nThe chime can be used ten times. After the tenth time, it cracks and becomes useless.",
+    "key": "srd_chime-of-opening",
+    "name": "Chime of Opening",
+    "rarity": {
+      "key": "rare",
+      "name": "Rare",
+      "rank": 3
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

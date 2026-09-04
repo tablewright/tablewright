@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:basket",
+  "type": "item",
+  "name": "Basket",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "A basket. Capacity: 2 cubic feet/40 pounds of gear.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "0.40",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "A basket. Capacity: 2 cubic feet/40 pounds of gear.",
+    "key": "srd_basket",
+    "name": "Basket",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "2.000",
+    "weight_unit": "lb"
+  }
+}

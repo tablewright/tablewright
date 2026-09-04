@@ -1,0 +1,39 @@
+{
+  "id": "5e-2014-srd:magic-item:ring-of-swimming",
+  "type": "magic-item",
+  "name": "Ring of Swimming",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ring",
+    "uncommon"
+  ],
+  "body": "You have a swimming speed of 40 feet while wearing this ring.",
+  "data": {
+    "armor": null,
+    "attunement_detail": null,
+    "category": {
+      "key": "ring",
+      "name": "Ring"
+    },
+    "cost": null,
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "You have a swimming speed of 40 feet while wearing this ring.",
+    "key": "srd_ring-of-swimming",
+    "name": "Ring of Swimming",
+    "rarity": {
+      "key": "uncommon",
+      "name": "Uncommon",
+      "rank": 2
+    },
+    "requires_attunement": false,
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.000",
+    "weight_unit": "lb"
+  }
+}

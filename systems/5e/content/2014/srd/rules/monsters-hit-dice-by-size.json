@@ -1,0 +1,21 @@
+{
+  "id": "5e-2014-srd:rule:monsters-hit-dice-by-size",
+  "type": "rule",
+  "name": "Hit Dice by Size",
+  "source": "5e-2014-srd",
+  "tags": [
+    "monsters"
+  ],
+  "body": "| Monster Size | Hit Die | Average HP per Die |\n|-------------------|-----------|----------------------------|\n| Tiny | d4 | 2½ |\n| Small | d6 | 3½ |\n| Medium | d8 | 4½ |\n| Large | d10 | 5½ |\n| Huge | d12 | 6½ |\n| Gargantuan | d20 | 10½ |\n\nA monster’s Constitution modifier also affects the number of hit points it has. Its Constitution modifier is multiplied by the number of Hit Dice it possesses, and the result is added to its hit points. For example, if a monster has a Constitution of 12 (+1 modifier) and 2d8 Hit Dice, it has 2d8 + 2 hit points (average 11).",
+  "data": {
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "| Monster Size | Hit Die | Average HP per Die |\n|-------------------|-----------|----------------------------|\n| Tiny | d4 | 2½ |\n| Small | d6 | 3½ |\n| Medium | d8 | 4½ |\n| Large | d10 | 5½ |\n| Huge | d12 | 6½ |\n| Gargantuan | d20 | 10½ |\n\nA monster’s Constitution modifier also affects the number of hit points it has. Its Constitution modifier is multiplied by the number of Hit Dice it possesses, and the result is added to its hit points. For example, if a monster has a Constitution of 12 (+1 modifier) and 2d8 Hit Dice, it has 2d8 + 2 hit points (average 11).",
+    "index": 7,
+    "initialHeaderLevel": 2,
+    "key": "srd_monsters_hit-dice-by-size",
+    "name": "Hit Dice by Size",
+    "ruleset": "srd_monsters"
+  }
+}

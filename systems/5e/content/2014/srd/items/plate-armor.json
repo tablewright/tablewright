@@ -1,0 +1,41 @@
+{
+  "id": "5e-2014-srd:item:plate-armor",
+  "type": "item",
+  "name": "Plate Armor",
+  "source": "5e-2014-srd",
+  "tags": [
+    "armor"
+  ],
+  "body": "Plate consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body.",
+  "data": {
+    "armor": {
+      "ac_add_dexmod": false,
+      "ac_base": 18,
+      "ac_cap_dexmod": null,
+      "ac_display": "18",
+      "category": "heavy",
+      "grants_stealth_disadvantage": true,
+      "key": "srd_plate",
+      "name": "Plate",
+      "strength_score_required": 15
+    },
+    "category": {
+      "key": "armor",
+      "name": "Armor"
+    },
+    "cost": "1500.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Plate consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body.",
+    "key": "srd_plate-armor",
+    "name": "Plate Armor",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "65.000",
+    "weight_unit": "lb"
+  }
+}

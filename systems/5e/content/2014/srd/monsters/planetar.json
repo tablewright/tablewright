@@ -1,0 +1,245 @@
+{
+  "id": "5e-2014-srd:monster:planetar",
+  "type": "monster",
+  "name": "Planetar",
+  "source": "5e-2014-srd",
+  "tags": [
+    "celestial",
+    "large",
+    "cr-16"
+  ],
+  "body": "",
+  "data": {
+    "ability_scores": {
+      "charisma": 25,
+      "constitution": 24,
+      "dexterity": 20,
+      "intelligence": 19,
+      "strength": 24,
+      "wisdom": 22
+    },
+    "actions": [
+      {
+        "action_type": "ACTION",
+        "attacks": [
+          {
+            "attack_type": "WEAPON",
+            "damage_bonus": null,
+            "damage_die_count": 4,
+            "damage_die_type": "D6",
+            "damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "distance_unit": "feet",
+            "extra_damage_bonus": null,
+            "extra_damage_die_count": null,
+            "extra_damage_die_type": null,
+            "extra_damage_type": {
+              "key": "thunder",
+              "name": "Thunder"
+            },
+            "long_range": null,
+            "name": "Greatsword attack",
+            "range": null,
+            "reach": 5,
+            "target_creature_only": false,
+            "to_hit_mod": 12
+          }
+        ],
+        "desc": "Melee Weapon Attack: +12 to hit, reach 5 ft., one target. Hit: 21 (4d6 + 7) slashing damage plus 22 (5d8) radiant damage.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Greatsword",
+        "order_in_statblock": 1,
+        "usage_limits": null
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The planetar touches another creature. The target magically regains 30 (6d8 + 3) hit points and is freed from any curse, disease, poison, blindness, or deafness.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Healing Touch",
+        "order_in_statblock": 2,
+        "usage_limits": {
+          "param": 4,
+          "type": "PER_DAY"
+        }
+      },
+      {
+        "action_type": "ACTION",
+        "attacks": [],
+        "desc": "The planetar makes two melee attacks.",
+        "legendary_action_cost": 1,
+        "limited_to_form": null,
+        "name": "Multiattack",
+        "order_in_statblock": 0,
+        "usage_limits": null
+      }
+    ],
+    "alignment": "lawful good",
+    "armor_class": 19,
+    "armor_detail": "natural armor",
+    "blindsight_range": null,
+    "category": "Monsters",
+    "challenge_rating": 16,
+    "creaturesets": [],
+    "crossreferences": {
+      "to": []
+    },
+    "darkvision_range": null,
+    "environments": [
+      {
+        "key": "srd_astral-plane",
+        "name": "Astral Plane"
+      },
+      {
+        "key": "temple",
+        "name": "Temple"
+      }
+    ],
+    "experience_points": 15000,
+    "hit_dice": "16d10+112",
+    "hit_points": 200,
+    "illustration": null,
+    "initiative_bonus": 5,
+    "key": "srd_planetar",
+    "languages": {
+      "as_string": "all, telepathy 120 ft.",
+      "data": []
+    },
+    "modifiers": {
+      "charisma": 7,
+      "constitution": 7,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 7,
+      "wisdom": 6
+    },
+    "name": "Planetar",
+    "normal_sight_range": 10560,
+    "passive_perception": 21,
+    "proficiency_bonus": null,
+    "resistances_and_immunities": {
+      "condition_immunities": [
+        {
+          "key": "charmed",
+          "name": "Charmed"
+        },
+        {
+          "key": "exhaustion",
+          "name": "Exhaustion"
+        },
+        {
+          "key": "frightened",
+          "name": "Frightened"
+        }
+      ],
+      "condition_immunities_display": "charmed, exhaustion, frightened",
+      "damage_immunities": [],
+      "damage_immunities_display": "",
+      "damage_resistances": [
+        {
+          "key": "bludgeoning",
+          "name": "Bludgeoning"
+        },
+        {
+          "key": "piercing",
+          "name": "Piercing"
+        },
+        {
+          "key": "radiant",
+          "name": "Radiant"
+        },
+        {
+          "key": "slashing",
+          "name": "Slashing"
+        }
+      ],
+      "damage_resistances_display": "radiant; bludgeoning, piercing, and slashing from nonmagical attacks",
+      "damage_vulnerabilities": [],
+      "damage_vulnerabilities_display": ""
+    },
+    "saving_throws": {
+      "charisma": 12,
+      "constitution": 12,
+      "wisdom": 11
+    },
+    "saving_throws_all": {
+      "charisma": 12,
+      "constitution": 12,
+      "dexterity": 5,
+      "intelligence": 4,
+      "strength": 7,
+      "wisdom": 11
+    },
+    "size": {
+      "key": "large",
+      "name": "Large"
+    },
+    "skill_bonuses": {
+      "perception": 11
+    },
+    "skill_bonuses_all": {
+      "acrobatics": 5,
+      "animal_handling": 6,
+      "arcana": 4,
+      "athletics": 7,
+      "deception": 7,
+      "history": 4,
+      "insight": 6,
+      "intimidation": 7,
+      "investigation": 4,
+      "medicine": 6,
+      "nature": 4,
+      "perception": 11,
+      "performance": 7,
+      "persuasion": 7,
+      "religion": 4,
+      "sleight_of_hand": 5,
+      "stealth": 5,
+      "survival": 6
+    },
+    "speed": {
+      "fly": 120,
+      "unit": "feet",
+      "walk": 40
+    },
+    "speed_all": {
+      "burrow": 0,
+      "climb": 20,
+      "crawl": 20,
+      "fly": 120,
+      "hover": false,
+      "swim": 20,
+      "unit": "feet",
+      "walk": 40
+    },
+    "subcategory": "Angels",
+    "traits": [
+      {
+        "desc": "The planetar's weapon attacks are magical. When the planetar hits with any weapon, the weapon deals an extra 5d8 radiant damage (included in the attack).",
+        "name": "Angelic Weapons"
+      },
+      {
+        "desc": "The planetar knows if it hears a lie.",
+        "name": "Divine Awareness"
+      },
+      {
+        "desc": "The planetar's spellcasting ability is Charisma (spell save DC 20). The planetar can innately cast the following spells, requiring no material components:\nAt will: detect evil and good, invisibility (self only)\n3/day each: blade barrier, dispel evil and good, flame strike, raise dead\n1/day each: commune, control weather, insect plague",
+        "name": "Innate Spellcasting"
+      },
+      {
+        "desc": "The planetar has advantage on saving throws against spells and other magical effects.",
+        "name": "Magic Resistance"
+      }
+    ],
+    "tremorsense_range": null,
+    "truesight_range": 120,
+    "type": {
+      "key": "celestial",
+      "name": "Celestial"
+    }
+  }
+}

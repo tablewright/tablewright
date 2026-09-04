@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:crossbow-bolt",
+  "type": "item",
+  "name": "Crossbow bolt",
+  "source": "5e-2014-srd",
+  "tags": [
+    "ammunition"
+  ],
+  "body": "Bolts to be used in a crossbow.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "ammunition",
+      "name": "Ammunition"
+    },
+    "cost": "0.05",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "Bolts to be used in a crossbow.",
+    "key": "srd_crossbow-bolt",
+    "name": "Crossbow bolt",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "0.080",
+    "weight_unit": "lb"
+  }
+}

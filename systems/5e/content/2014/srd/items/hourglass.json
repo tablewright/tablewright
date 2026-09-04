@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:hourglass",
+  "type": "item",
+  "name": "Hourglass",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "An hourglass.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "25.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "An hourglass.",
+    "key": "srd_hourglass",
+    "name": "Hourglass",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}

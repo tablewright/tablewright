@@ -1,0 +1,31 @@
+{
+  "id": "5e-2014-srd:item:case-crossbow-bolt",
+  "type": "item",
+  "name": "Case, Crossbow Bolt",
+  "source": "5e-2014-srd",
+  "tags": [
+    "adventuring-gear"
+  ],
+  "body": "This wooden case can hold up to twenty crossbow bolts.",
+  "data": {
+    "armor": null,
+    "category": {
+      "key": "adventuring-gear",
+      "name": "Adventuring Gear"
+    },
+    "cost": "1.00",
+    "crossreferences": {
+      "to": []
+    },
+    "desc": "This wooden case can hold up to twenty crossbow bolts.",
+    "key": "srd_case-crossbow-bolt",
+    "name": "Case, Crossbow Bolt",
+    "size": {
+      "key": "tiny",
+      "name": "Tiny"
+    },
+    "weapon": null,
+    "weight": "1.000",
+    "weight_unit": "lb"
+  }
+}
