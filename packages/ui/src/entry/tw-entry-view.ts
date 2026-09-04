@@ -9,7 +9,9 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import type { Section } from "@tablewright/schema";
 import { previewOf } from "../spotlight/preview.js";
+import { groups } from "./sections.js";
 
 /** What the page shows: the envelope without the system data. */
 export interface EntryDocument {
@@ -26,6 +28,12 @@ export interface EntryDocument {
    * write itself (design.md §3 "One renderer, two surfaces").
    */
   html: string;
+  /**
+   * The named parts of the entry's data, each rendered by the core: a
+   * creature's traits and actions, a class's features. In the order the
+   * system manifest gave them; consecutive labels share a heading.
+   */
+  sections: Section[];
 }
 
 export class TwEntryView extends LitElement {
@@ -201,6 +209,36 @@ export class TwEntryView extends LitElement {
     .body td[align="right"] {
       text-align: right;
     }
+    .parts {
+      display: flex;
+      flex-direction: column;
+      gap: var(--tw-space-md);
+    }
+    .parts h2 {
+      margin: var(--tw-space-sm) 0 0;
+      padding-bottom: var(--tw-space-xs);
+      border-bottom: 1px solid var(--tw-paper-shade);
+      color: var(--tw-ink-soft);
+      font-family: var(--tw-typo-document-label-font-family);
+      font-size: var(--tw-typo-document-label-font-size);
+      font-weight: var(--tw-typo-document-label-font-weight);
+      line-height: var(--tw-typo-document-label-line-height);
+      letter-spacing: var(--tw-typo-document-label-letter-spacing);
+      text-transform: uppercase;
+    }
+    .part {
+      display: flex;
+      flex-direction: column;
+      gap: var(--tw-space-xs);
+    }
+    .part h3 {
+      margin: 0;
+      color: var(--tw-ink);
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+    }
     .tags {
       display: flex;
       flex-wrap: wrap;
@@ -291,6 +329,25 @@ export class TwEntryView extends LitElement {
       </header>
       <article>
         ${entry.html === "" ? nothing : html`<div class="body">${unsafeHTML(entry.html)}</div>`}
+        ${groups(entry.sections).map(
+          (group) => html`
+            <section class="parts">
+              <h2>${group.label}</h2>
+              ${group.items.map(
+                (section) => html`
+                  <div class="part">
+                    <h3>${section.name}</h3>
+                    ${
+                      section.html === ""
+                        ? nothing
+                        : html`<div class="body">${unsafeHTML(section.html)}</div>`
+                    }
+                  </div>
+                `
+              )}
+            </section>
+          `
+        )}
         ${
           entry.tags.length === 0
             ? nothing

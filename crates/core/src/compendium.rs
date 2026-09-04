@@ -85,6 +85,18 @@ pub enum JsonValue {
     Object(std::collections::HashMap<String, JsonValue>),
 }
 
+/// A named part of an entry as the page shows it: one trait, action or
+/// feature out of `data`, its text rendered. Read out by the system manifest
+/// as the entry leaves the store; never stored.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
+pub struct Section {
+    /// The heading the section sits under: "Traits", "Actions", "Features".
+    pub label: String,
+    pub name: String,
+    /// The section's text as HTML, from the core's one renderer.
+    pub html: String,
+}
+
 /// One compendium entry: the system-agnostic envelope plus the system's data.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 pub struct Entry {
@@ -107,6 +119,12 @@ pub struct Entry {
     /// the markdown is the record, the HTML is derived from it.
     #[serde(default)]
     pub html: String,
+    /// The named parts of `data` as the page shows them, rendered as the
+    /// entry leaves the store from the lists the system manifest names.
+    /// Empty on the way in and never stored; empty whenever `data` is
+    /// hidden from the viewer, since they are read out of it.
+    #[serde(default)]
+    pub sections: Vec<Section>,
     /// The per-system structured blob; its schema belongs to the game system, not the envelope.
     #[specta(type = JsonValue)]
     pub data: serde_json::Value,
@@ -129,6 +147,7 @@ impl Entry {
         let mut seen = self.clone();
         if !self.data_visibility.is_visible_to(viewer) {
             seen.data = serde_json::Value::Null;
+            seen.sections = Vec::new();
         }
         Some(seen)
     }
@@ -204,6 +223,7 @@ mod tests {
             data_visibility: Visibility::Dm,
             body: "A small, black-hearted humanoid.".into(),
             html: String::new(),
+            sections: Vec::new(),
             data: serde_json::json!({ "armor_class": 15, "hit_points": 7 }),
             facets: BTreeMap::new(),
             parts: Vec::new(),

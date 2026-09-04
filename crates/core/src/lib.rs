@@ -12,7 +12,9 @@ pub mod search;
 pub mod store;
 pub mod system;
 
-pub use compendium::{Entry, EntryId, EntrySummary, FacetValue, JsonValue, Part, Visibility};
+pub use compendium::{
+    Entry, EntryId, EntrySummary, FacetValue, JsonValue, Part, Section, Visibility,
+};
 pub use module::{Manifest, Module, ModuleError, read_module};
 pub use render::render;
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};

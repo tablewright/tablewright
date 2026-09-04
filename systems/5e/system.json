@@ -127,12 +127,35 @@
   },
   "parts": {
     "monster": [
-      { "path": "traits", "label": "Trait" },
-      { "path": "actions", "label": "Action" }
+      { "path": "traits", "label": "Traits" },
+      {
+        "path": "actions",
+        "label": "Actions",
+        "when": { "action_type": "ACTION" },
+        "order": "order_in_statblock"
+      },
+      {
+        "path": "actions",
+        "label": "Bonus actions",
+        "when": { "action_type": "BONUS_ACTION" },
+        "order": "order_in_statblock"
+      },
+      {
+        "path": "actions",
+        "label": "Reactions",
+        "when": { "action_type": "REACTION" },
+        "order": "order_in_statblock"
+      },
+      {
+        "path": "actions",
+        "label": "Legendary actions",
+        "when": { "action_type": "LEGENDARY_ACTION" },
+        "order": "order_in_statblock"
+      }
     ],
-    "class": [{ "path": "features", "label": "Feature" }],
-    "race": [{ "path": "traits", "label": "Trait" }],
-    "background": [{ "path": "benefits", "label": "Benefit" }]
+    "class": [{ "path": "features", "label": "Features", "order": "gained_at.0.level" }],
+    "race": [{ "path": "traits", "label": "Traits", "order": "order" }],
+    "background": [{ "path": "benefits", "label": "Benefits" }]
   },
   "controls": {
     "spell": [

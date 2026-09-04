@@ -101,6 +101,7 @@ impl EntryFile {
             data_visibility: self.data_visibility.unwrap_or(data_visibility),
             body: self.body,
             html: String::new(),
+            sections: Vec::new(),
             data: self.data,
             facets: self.facets,
             parts: self.parts,

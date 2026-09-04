@@ -111,6 +111,19 @@ test("the page shows the body as the core rendered it: a table is a table", asyn
   await expect(page.locator(`${page_} article`)).not.toContainText("**");
 });
 
+test("the page shows an entry's parts under their headings", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("goblin");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Goblin Warrior");
+  const parts = page.locator(`${page_} article .parts`);
+  await expect(parts.locator("h2")).toHaveText(["Traits", "Actions"]);
+  await expect(parts.nth(1).locator("h3")).toHaveText(["Scimitar", "Shortbow"]);
+  await expect(parts.nth(1).locator(".part").first().locator("em").first()).toHaveText(
+    "Melee Attack Roll:"
+  );
+});
+
 test("Tab walks tile, share, tile, share, and lands on the selected tile first", async ({
   page,
 }) => {

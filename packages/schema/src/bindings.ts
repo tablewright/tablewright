@@ -118,6 +118,13 @@ export type Entry = {
 	 *  the markdown is the record, the HTML is derived from it.
 	 */
 	html?: string,
+	/**
+	 *  The named parts of `data` as the page shows them, rendered as the
+	 *  entry leaves the store from the lists the system manifest names.
+	 *  Empty on the way in and never stored; empty whenever `data` is
+	 *  hidden from the viewer, since they are read out of it.
+	 */
+	sections?: Section[],
 	/**  The per-system structured blob; its schema belongs to the game system, not the envelope. */
 	data: JsonValue,
 	/**  Filterable facts read from `data` by the system manifest at seed time. */
@@ -264,16 +271,31 @@ export type Part = {
 };
 
 /**
- *  A list inside `data` whose items carry a name: `traits`, `actions`,
- *  a class's `features`. Each item becomes a searchable part.
+ *  A list inside `data` whose items carry a name and a text: `traits`,
+ *  `actions`, a class's `features`. Each item is a searchable part and a
+ *  section of the page.
  */
 export type PartSpec = {
 	/**  Dotted path to the list. */
 	path: string,
-	/**  What the parts are called: "Trait", "Action", "Feature". */
+	/**  The heading the parts sit under: "Traits", "Actions", "Features". */
 	label: string,
 	/**  The item field holding the name. */
 	key?: string,
+	/**  The item field holding the text, markdown. */
+	text?: string,
+	/**
+	 *  Fields an item must match to belong, when given: a creature's one
+	 *  `actions` list holds its legendary actions too, told apart by
+	 *  `action_type`, so one list can feed several headings.
+	 */
+	when?: { [key in string]: string },
+	/**
+	 *  Dotted path to a number the items are sorted by, when given: a
+	 *  class feature by the level it is gained at. Items without one keep
+	 *  their order, after the rest.
+	 */
+	order?: string | null,
 };
 
 /**  A scene as the board shows it. */
@@ -299,6 +321,19 @@ export type SearchResponse = {
 	 *  filters, and those set aside as meaning nothing here.
 	 */
 	understood: Understood[],
+};
+
+/**
+ *  A named part of an entry as the page shows it: one trait, action or
+ *  feature out of `data`, its text rendered. Read out by the system manifest
+ *  as the entry leaves the store; never stored.
+ */
+export type Section = {
+	/**  The heading the section sits under: "Traits", "Actions", "Features". */
+	label: string,
+	name: string,
+	/**  The section's text as HTML, from the core's one renderer. */
+	html: string,
 };
 
 /**  Words at `path` that stand for a number. */

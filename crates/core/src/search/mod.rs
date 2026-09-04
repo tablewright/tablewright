@@ -557,6 +557,7 @@ mod tests {
                 data_visibility: Visibility::World,
                 body: String::new(),
                 html: String::new(),
+                sections: Vec::new(),
                 data: serde_json::Value::Null,
                 facets: BTreeMap::new(),
                 parts: Vec::new(),

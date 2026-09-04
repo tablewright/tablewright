@@ -203,9 +203,10 @@ impl Store {
             )
             .optional()?
             .transpose()?;
-        entry
+        let seen = entry
             .and_then(|entry| entry.as_seen_by(viewer))
-            .ok_or_else(|| StoreError::NotFound(id.clone()))
+            .ok_or_else(|| StoreError::NotFound(id.clone()))?;
+        Ok(dress(seen, self.system()?.as_ref()))
     }
 
     /// Every entry `viewer` may see, optionally of one `kind`, ordered by name.
@@ -221,11 +222,12 @@ impl Store {
              ORDER BY name, id",
         )?;
         let rows = statement.query_map(params![viewer.code(), kind], read_entry)?;
+        let system = self.system()?;
         let mut entries = Vec::new();
         for row in rows {
             let entry = row??;
             if let Some(seen) = entry.as_seen_by(viewer) {
-                entries.push(seen);
+                entries.push(dress(seen, system.as_ref()));
             }
         }
         Ok(entries)
@@ -402,7 +404,6 @@ fn build_entry(
     facets: &str,
     parts: &str,
 ) -> Result<Entry, StoreError> {
-    let html = render(&body);
     Ok(Entry {
         id: EntryId::new(id),
         kind,
@@ -414,11 +415,23 @@ fn build_entry(
         data_visibility: Visibility::from_code(data_visibility)
             .ok_or(StoreError::UnknownVisibility(data_visibility))?,
         body,
-        html,
+        html: String::new(),
+        sections: Vec::new(),
         data: serde_json::from_str(data)?,
         facets: serde_json::from_str(facets)?,
         parts: serde_json::from_str(parts)?,
     })
+}
+
+// What an entry carries only on the way out, after the viewer's tier has
+// been applied: its body as HTML, and its parts as sections read out of
+// whatever `data` the viewer may see. Rendered now, never stored.
+fn dress(mut entry: Entry, system: Option<&SystemManifest>) -> Entry {
+    entry.html = render(&entry.body);
+    if let Some(system) = system {
+        entry.sections = system.sections_for(&entry.kind, &entry.data);
+    }
+    entry
 }
 
 #[cfg(test)]
@@ -449,6 +462,7 @@ mod tests {
             data_visibility: Visibility::Dm,
             body: format!("About {name}."),
             html: String::new(),
+            sections: Vec::new(),
             data: serde_json::json!({ "name": name }),
             facets: std::collections::BTreeMap::new(),
             parts: Vec::new(),
@@ -489,6 +503,39 @@ mod tests {
         assert_eq!(goblin.data["name"], "Goblin");
         assert_eq!(goblin.body, "About Goblin.");
         assert_eq!(goblin.html, "<p>About Goblin.</p>\n");
+        assert!(goblin.sections.is_empty(), "no manifest, no sections");
+    }
+
+    #[test]
+    fn sections_come_from_the_manifest_and_only_with_the_data() {
+        let store = seeded();
+        let system: SystemManifest = serde_json::from_str(
+            r#"{"id":"5e","name":"5e",
+                "parts":{"monster":[{"path":"actions","label":"Actions"}]}}"#,
+        )
+        .expect("manifest");
+        store.put_system(&system).expect("write");
+        let mut goblin = entry("m:goblin", "monster", "Goblin", Visibility::Party);
+        goblin.data = serde_json::json!({ "actions": [
+            { "name": "Scimitar", "desc": "*Melee Attack Roll:* +4, reach 5 ft." }
+        ] });
+        store.upsert(&goblin).expect("replace");
+        let id = EntryId::new("m:goblin");
+        let dm = store.get(&id, Visibility::Dm).expect("dm");
+        assert_eq!(dm.sections.len(), 1);
+        assert_eq!(dm.sections[0].label, "Actions");
+        assert_eq!(dm.sections[0].name, "Scimitar");
+        assert_eq!(
+            dm.sections[0].html,
+            "<p><em>Melee Attack Roll:</em> +4, reach 5 ft.</p>\n"
+        );
+        // The party may know the goblin but not its statblock: no data, no
+        // sections read out of it.
+        let party = store.get(&id, Visibility::Party).expect("party");
+        assert_eq!(party.data, serde_json::Value::Null);
+        assert!(party.sections.is_empty());
+        let listed = store.list(Some("monster"), Visibility::Dm).expect("list");
+        assert_eq!(listed[0].sections.len(), 1);
     }
 
     #[test]

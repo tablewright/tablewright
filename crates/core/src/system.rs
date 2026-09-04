@@ -17,7 +17,8 @@ use serde::{Deserialize, Deserializer, Serialize};
 use specta::Type;
 use thiserror::Error;
 
-use crate::compendium::{FacetValue, Part, Visibility};
+use crate::compendium::{FacetValue, Part, Section, Visibility};
+use crate::render::render;
 use crate::search::normalize;
 
 /// The system manifest.
@@ -42,21 +43,39 @@ pub struct SystemManifest {
     pub parts: BTreeMap<String, Vec<PartSpec>>,
 }
 
-/// A list inside `data` whose items carry a name: `traits`, `actions`,
-/// a class's `features`. Each item becomes a searchable part.
+/// A list inside `data` whose items carry a name and a text: `traits`,
+/// `actions`, a class's `features`. Each item is a searchable part and a
+/// section of the page.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 pub struct PartSpec {
     /// Dotted path to the list.
     pub path: String,
-    /// What the parts are called: "Trait", "Action", "Feature".
+    /// The heading the parts sit under: "Traits", "Actions", "Features".
     pub label: String,
     /// The item field holding the name.
     #[serde(default = "name_key")]
     pub key: String,
+    /// The item field holding the text, markdown.
+    #[serde(default = "text_key")]
+    pub text: String,
+    /// Fields an item must match to belong, when given: a creature's one
+    /// `actions` list holds its legendary actions too, told apart by
+    /// `action_type`, so one list can feed several headings.
+    #[serde(default)]
+    pub when: BTreeMap<String, String>,
+    /// Dotted path to a number the items are sorted by, when given: a
+    /// class feature by the level it is gained at. Items without one keep
+    /// their order, after the rest.
+    #[serde(default)]
+    pub order: Option<String>,
 }
 
 fn name_key() -> String {
     "name".into()
+}
+
+fn text_key() -> String {
+    "desc".into()
 }
 
 /// What a kind is called, where the box groups it, which words mean it,
@@ -260,21 +279,43 @@ impl SystemManifest {
         };
         let mut parts = Vec::new();
         for spec in specs {
-            let Some(items) = at(data, &spec.path).and_then(serde_json::Value::as_array) else {
-                continue;
-            };
-            for item in items {
-                if let Some(name) = item.get(&spec.key).and_then(serde_json::Value::as_str)
-                    && !name.trim().is_empty()
-                {
+            for item in items_of(spec, data) {
+                if let Some(name) = name_of(item, &spec.key) {
                     parts.push(Part {
                         label: spec.label.clone(),
-                        name: name.trim().to_owned(),
+                        name,
                     });
                 }
             }
         }
         parts
+    }
+
+    /// The parts of an entry of `kind` as the page shows them: the same
+    /// items `parts_for` names, in the same order, each with its text
+    /// rendered. Read as the entry leaves the store, never at seed time.
+    pub fn sections_for(&self, kind: &str, data: &serde_json::Value) -> Vec<Section> {
+        let Some(specs) = self.parts.get(kind) else {
+            return Vec::new();
+        };
+        let mut sections = Vec::new();
+        for spec in specs {
+            for item in items_of(spec, data) {
+                let Some(name) = name_of(item, &spec.key) else {
+                    continue;
+                };
+                let text = item
+                    .get(&spec.text)
+                    .and_then(serde_json::Value::as_str)
+                    .unwrap_or("");
+                sections.push(Section {
+                    label: spec.label.clone(),
+                    name,
+                    html: render(text),
+                });
+            }
+        }
+        sections
     }
 
     /// What an entry of `kind` may be seen by when the entry does not say:
@@ -333,12 +374,46 @@ impl FacetSpec {
     }
 }
 
+// A step into an array is its index: `gained_at.0.level`.
 fn at<'a>(data: &'a serde_json::Value, path: &str) -> Option<&'a serde_json::Value> {
     let mut value = data;
     for step in path.split('.') {
-        value = value.get(step)?;
+        value = match value {
+            serde_json::Value::Array(items) => items.get(step.parse::<usize>().ok()?)?,
+            _ => value.get(step)?,
+        };
     }
     (!value.is_null()).then_some(value)
+}
+
+// The items of a part list that belong to `spec`, in the order it asks for.
+fn items_of<'a>(spec: &PartSpec, data: &'a serde_json::Value) -> Vec<&'a serde_json::Value> {
+    let Some(items) = at(data, &spec.path).and_then(serde_json::Value::as_array) else {
+        return Vec::new();
+    };
+    let mut chosen: Vec<&serde_json::Value> = items
+        .iter()
+        .filter(|item| {
+            spec.when
+                .iter()
+                .all(|(field, want)| at(item, field).and_then(text_of).as_ref() == Some(want))
+        })
+        .collect();
+    if let Some(order) = &spec.order {
+        let rank = |item: &serde_json::Value| at(item, order).and_then(serde_json::Value::as_f64);
+        chosen.sort_by(|a, b| match (rank(a), rank(b)) {
+            (Some(a), Some(b)) => a.partial_cmp(&b).unwrap_or(std::cmp::Ordering::Equal),
+            (Some(_), None) => std::cmp::Ordering::Less,
+            (None, Some(_)) => std::cmp::Ordering::Greater,
+            (None, None) => std::cmp::Ordering::Equal,
+        });
+    }
+    chosen
+}
+
+fn name_of(item: &serde_json::Value, key: &str) -> Option<String> {
+    let name = item.get(key)?.as_str()?.trim();
+    (!name.is_empty()).then(|| name.to_owned())
 }
 
 fn number_of(value: &serde_json::Value) -> Option<FacetValue> {
@@ -483,6 +558,112 @@ mod tests {
         assert!(
             manifest
                 .parts_for("spell", &serde_json::json!({}))
+                .is_empty()
+        );
+    }
+
+    #[test]
+    fn when_and_order_pick_the_items_and_sort_them() {
+        let manifest: SystemManifest = serde_json::from_value(serde_json::json!({
+            "id": "5e", "name": "5e",
+            "parts": {
+                "monster": [
+                    { "path": "actions", "label": "Actions",
+                      "when": { "action_type": "ACTION" }, "order": "order_in_statblock" },
+                    { "path": "actions", "label": "Legendary actions",
+                      "when": { "action_type": "LEGENDARY_ACTION" }, "order": "order_in_statblock" }
+                ],
+                "class": [{ "path": "features", "label": "Features", "order": "gained_at.0.level" }]
+            }
+        }))
+        .expect("manifest");
+        let dragon = serde_json::json!({ "actions": [
+            { "name": "Fiery Rays", "action_type": "LEGENDARY_ACTION", "order_in_statblock": 1 },
+            { "name": "Fire Breath", "action_type": "ACTION", "order_in_statblock": 2 },
+            { "name": "Multiattack", "action_type": "ACTION", "order_in_statblock": 0 },
+            { "name": "Pounce", "action_type": "LEGENDARY_ACTION", "order_in_statblock": 2 },
+            { "name": "Rend", "action_type": "ACTION", "order_in_statblock": 1 },
+            { "name": "Commanding Presence", "action_type": "LEGENDARY_ACTION", "order_in_statblock": 0 }
+        ] });
+        let names: Vec<String> = manifest
+            .parts_for("monster", &dragon)
+            .into_iter()
+            .map(|part| format!("{}: {}", part.label, part.name))
+            .collect();
+        assert_eq!(
+            names,
+            vec![
+                "Actions: Multiattack",
+                "Actions: Rend",
+                "Actions: Fire Breath",
+                "Legendary actions: Commanding Presence",
+                "Legendary actions: Fiery Rays",
+                "Legendary actions: Pounce",
+            ]
+        );
+        let wizard = serde_json::json!({ "features": [
+            { "name": "Ability Score Improvement", "gained_at": [{ "level": 4 }] },
+            { "name": "Arcane Recovery", "gained_at": [{ "level": 1 }] },
+            { "name": "Unlevelled" },
+            { "name": "Spell Mastery", "gained_at": [{ "level": 18 }] },
+            { "name": "Spellcasting", "gained_at": [{ "level": 1 }] }
+        ] });
+        let names: Vec<String> = manifest
+            .parts_for("class", &wizard)
+            .into_iter()
+            .map(|part| part.name)
+            .collect();
+        assert_eq!(
+            names,
+            vec![
+                "Arcane Recovery",
+                "Spellcasting",
+                "Ability Score Improvement",
+                "Spell Mastery",
+                "Unlevelled"
+            ]
+        );
+    }
+
+    #[test]
+    fn sections_carry_the_rendered_text() {
+        let manifest: SystemManifest = serde_json::from_value(serde_json::json!({
+            "id": "5e", "name": "5e",
+            "parts": { "race": [{ "path": "traits", "label": "Traits", "order": "order" }] }
+        }))
+        .expect("manifest");
+        let sections = manifest.sections_for(
+            "race",
+            &serde_json::json!({ "traits": [
+                { "name": "Trance", "desc": "You **do not sleep**.", "order": 7 },
+                { "name": "Darkvision", "desc": "You see in the dark.", "order": 3 },
+                { "name": "Unwritten" },
+                { "desc": "no name, no section" }
+            ] }),
+        );
+        let seen: Vec<(String, String, String)> = sections
+            .into_iter()
+            .map(|section| (section.label, section.name, section.html))
+            .collect();
+        assert_eq!(
+            seen,
+            vec![
+                (
+                    "Traits".into(),
+                    "Darkvision".into(),
+                    "<p>You see in the dark.</p>\n".into()
+                ),
+                (
+                    "Traits".into(),
+                    "Trance".into(),
+                    "<p>You <strong>do not sleep</strong>.</p>\n".into()
+                ),
+                ("Traits".into(), "Unwritten".into(), String::new()),
+            ]
+        );
+        assert!(
+            manifest
+                .sections_for("monster", &serde_json::json!({}))
                 .is_empty()
         );
     }
