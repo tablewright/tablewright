@@ -5,8 +5,8 @@ Local-first virtual tabletop + worldbuilding suite. Two Tauri apps —
 sharing a **Compendium** of structured game content and one unified
 search. Bun + Turborepo (TS) alongside a Cargo workspace (Rust).
 Design doc: [docs/design.md](../docs/design.md) (tracked; source of
-truth for plans). **Local-only:** no remote, no deploys, no publishing;
-never create a GitHub repo or push unprompted.
+truth for plans). **Private remote** at `tablewright/tablewright`: no
+deploys, no publishing; never push unprompted.
 
 ## Workflow
 
