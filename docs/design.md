@@ -176,8 +176,8 @@ One search spans Vault and Compendium; results are labeled by origin.
   Parts are a way in, never a filter: no facet, no control. Searching
   inside a part's wording waits for FTS5, which moves out of the PoC
   to the Vault stage with lore, where body text matters.
-- **Body text is markdown, rendered by the core (researched
-  2026-09-04; crate, moment and order open).** What the bundled data
+- **Body text is markdown, rendered by the core (decided
+  2026-09-04; crate and order open).** What the bundled data
   holds: 825 of 3401 entries carry markdown, all of it GFM: bold,
   italics in both spellings, 156 tables with alignment rows, headings
   inside rules, a few lists, seven blockquotes, two links, hard breaks
@@ -188,11 +188,12 @@ One search spans Vault and Compendium; results are labeled by origin.
   markdown living inside `data` (a trait's text, once the statblock
   view exists) and later the Vault's editor preview all call. The
   page inserts HTML it never builds: no TS parser, no work at open.
-  *When:* at seed time the HTML is stored beside the markdown as
-  derived data, like the index; the markdown stays the store of record
-  for FTS5 and editing. At read time the store renders on the way out,
-  microseconds an entry, and a renderer change needs no reseed. Either
-  is cheap: 1.5 MB renders in well under a second in any crate below.
+  *When:* rendering on demand in the core is the primary API, since
+  the Vault renders as one types and a trait's text lives inside
+  `data`; the bundled compendium may also store the HTML beside the
+  markdown at seed time as a cache, derived data like the index. The
+  markdown stays the store of record for FTS5 and editing. Either is
+  cheap: 1.5 MB renders in well under a second in any crate below.
   *Which crate:* comrak (0.54, BSD-2-Clause; crates.io, docs.rs,
   GitLab, Reddit) parses to an arena tree that is walked and mutated,
   then formatted, and `create_formatter!` overrides rendering per node
@@ -218,6 +219,54 @@ One search spans Vault and Compendium; results are labeled by origin.
   Higher-Level Spell Slot.") as a run-in heading; blockquote callouts;
   external links opening outside. None exist yet; the first cut
   renders plain GFM and each transform is a step of its own.
+- **One renderer, two surfaces (decided 2026-09-04).** The Table's
+  pages and the Vault's notes feel like different uses of markdown,
+  but the grammar is the same; what differs is when a render happens
+  and what a link resolves to, and both are parameters of one
+  renderer: a render-on-demand call, and a resolver the host passes
+  in. The house dialect is Obsidian's, for modules and notes alike, so
+  a Vault page can become a module entry without translation and a
+  module author can draft in Obsidian: CommonMark and GFM, wikilinks,
+  callouts with any name and a title, embeds, tags, highlights,
+  footnotes, front matter. comrak covers most natively; the rest are
+  Tablewright transforms on the tree, never a second parser. The Vault
+  will still hold a second parser by job, not by app: the editor's own
+  syntax layer (CodeMirror's, incremental, keystroke rate) decorates
+  the text being edited and never produces HTML anyone else sees;
+  every piece of HTML in the product comes out of the core. A player
+  in the browser receives HTML the DM's core rendered, so the player
+  view carries no parser and sanitising happens once, in Rust. The
+  editor is a Vault-stage decision.
+- **Custom syntax has one source (decided 2026-09-04).** Additions
+  such as `[!name key:value]` on a blockquote or heading (the callouts
+  plugin from izelya.me is the model), dice, wikilinks and embeds are
+  implemented once, in the core, which already feeds both apps. The
+  only other consumer is the Vault editor's live preview, which does
+  not exist yet; when it does, it is fed from the same declaration,
+  not rewritten: the syntax rules are a table in Rust (node type,
+  marker pattern, attribute to set) and a generator emits the TS copy
+  into `packages/schema` as tauri-specta emits types, Rust the source
+  of truth as the house rule says. If an addition ever needs a real
+  parse in the editor, the core's markdown module compiles to WASM as
+  a second build target of the one implementation (comrak is pure
+  Rust with its default features off, and ships as WASM inside Deno's
+  documentation tooling). Syntax that belongs to a system rather than
+  the product, dice notation above all, is declared in the system
+  manifest beside facets and parts, which both apps already read from
+  the compendium. Recognising `[[frightened]]` is a shared rule;
+  resolving it to a compendium id, a Vault note or a broken-link
+  marker is the host's resolver, which is what keeps the two uses from
+  bleeding into one implementation.
+- **Modules need no code.** A content module for Tablewright is JSON
+  plus markdown in the module format; markdown is the formatting a
+  module author reaches for, and the manifest keeps facets, parts and
+  controls declarative. Rust, or a scripting language such as Lua,
+  enters only for a coded system, where rules become logic. That
+  language is chosen when the first coded need appears, against a
+  real case, on two criteria: sandboxing, since a module runs on the
+  DM's machine and reaches players, and whether it also runs in the
+  browser player view, which favours JavaScript or WASM over a native
+  Lua unless Lua itself ships as WASM.
 - **Typing.** For the PoC the `data` blob is untyped JSON. Typed
   system data (Rust structs, generated TS) comes after; its shape is
   undecided.
