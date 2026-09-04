@@ -4,7 +4,7 @@
   "name": "Charmed",
   "source": "5e-2014-core-conditions",
   "tags": [],
-  "body": "* A charmed creature can’t take any hostile action against the charmer.\n\n* Ability checks the charmer makes to socially interact with the charmed creature have advantage.\n\n* A charmed creature can’t attack the charmer or target the charmer with harmful abilities or magical effects.\r\n* The charmer has advantage on any ability check to interact socially with the creature.\n\nWhile you have the Charmed condition, you experience the following effects. \n* Can’t Harm the Charmer. You can’t attack the charmer or target the charmer with damaging abilities or magical effects. \n* Social Advantage. The charmer has Advantage on any ability check to interact with you socially.",
+  "body": "* A charmed creature can’t take any hostile action against the charmer.\n\n* Ability checks the charmer makes to socially interact with the charmed creature have advantage.\n\n* A charmed creature can’t attack the charmer or target the charmer with harmful abilities or magical effects.\n* The charmer has advantage on any ability check to interact socially with the creature.\n\nWhile you have the Charmed condition, you experience the following effects. \n* Can’t Harm the Charmer. You can’t attack the charmer or target the charmer with damaging abilities or magical effects. \n* Social Advantage. The charmer has Advantage on any ability check to interact with you socially.",
   "data": {
     "descriptions": [
       {

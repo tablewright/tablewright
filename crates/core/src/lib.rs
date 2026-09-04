@@ -21,6 +21,6 @@ pub use scene::{Grid, MapImage, Scene, SceneError, Token};
 pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood};
 pub use store::{Store, StoreError};
 pub use system::{
-    Cell, ControlKind, ControlSpec, FacetSpec, FacetType, KindSpec, PartSpec, Sentinels, Stop,
-    SystemError, SystemManifest,
+    Cell, ControlKind, ControlSpec, FacetSpec, FacetType, KindSpec, NoteSpec, PartSpec, Sentinels,
+    Stop, SystemError, SystemManifest,
 };

@@ -259,6 +259,16 @@ export type MapImage = {
 };
 
 /**
+ *  The note beside a part's name: a label and a path to what follows it,
+ *  which may cross a list with `*` and reads every match: "Level" over
+ *  `gained_at.*.level` gives "Level 4, 8, 12, 16".
+ */
+export type NoteSpec = {
+	path: string,
+	label: string,
+};
+
+/**
  *  A named part of an entry's data: a creature's trait or action, a
  *  class's feature. The manifest names the lists that carry them, the
  *  seeder stores their names, and search matches them as a field, so
@@ -296,6 +306,8 @@ export type PartSpec = {
 	 *  their order, after the rest.
 	 */
 	order?: string | null,
+	/**  A word to show beside each part's name, read from the item. */
+	note?: NoteSpec | null,
 };
 
 /**  A scene as the board shows it. */
@@ -332,6 +344,11 @@ export type Section = {
 	/**  The heading the section sits under: "Traits", "Actions", "Features". */
 	label: string,
 	name: string,
+	/**
+	 *  A word beside the name, when the manifest asks for one: the level a
+	 *  class feature is gained at. Empty otherwise.
+	 */
+	note: string,
 	/**  The section's text as HTML, from the core's one renderer. */
 	html: string,
 };

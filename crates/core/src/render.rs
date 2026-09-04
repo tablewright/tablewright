@@ -5,9 +5,11 @@
 //! and the page only ever inserts what it wrote.
 //!
 //! The dialect is Obsidian's, grown one transform at a time; this first
-//! cut is plain GFM: tables, strikethrough, task lists, bare links. Raw
-//! HTML in a body is dropped, not passed through, so the output holds
-//! nothing this renderer did not write and the page may insert it as is.
+//! cut is plain GFM: tables, strikethrough, task lists, bare links, and a
+//! newline is a line break, as Obsidian reads one and as a statblock's
+//! lines or a class's hit point block are written. Raw HTML in a body is
+//! dropped, not passed through, so the output holds nothing this renderer
+//! did not write and the page may insert it as is.
 
 use comrak::{Options, markdown_to_html};
 
@@ -26,6 +28,7 @@ fn options() -> Options<'static> {
     options.extension.strikethrough = true;
     options.extension.tasklist = true;
     options.extension.autolink = true;
+    options.render.hardbreaks = true;
     // `render.unsafe` stays false: raw HTML and unsafe link schemes are
     // omitted, which is what keeps the output insertable without a second
     // sanitiser on the page.
@@ -54,14 +57,18 @@ mod tests {
     }
 
     #[test]
-    fn headings_lists_and_hard_breaks_render() {
-        let html = render("## Cover\n\n- one\n- two\n\nline one  \nline two");
+    fn headings_lists_and_line_breaks_render() {
+        let html = render("## Cover\n\n- one\n- two\n\nline one  \nline two\nline three");
         assert!(html.contains("<h2>Cover</h2>"), "{html}");
         assert!(
             html.contains("<ul>\n<li>one</li>\n<li>two</li>\n</ul>"),
             "{html}"
         );
-        assert!(html.contains("line one<br />\nline two"), "{html}");
+        // A trailing double space and a bare newline both break the line.
+        assert!(
+            html.contains("line one<br />\nline two<br />\nline three"),
+            "{html}"
+        );
     }
 
     #[test]

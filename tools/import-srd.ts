@@ -340,6 +340,14 @@ function shapeMagicItem(record: Upstream): Shaped {
 // A class, species or background is one file, with its subclasses,
 // subspecies and the like as entries of their own; a rule's key carries
 // its section too, joined by an underscore, which becomes a dash.
+//
+// A class page reads in the order a player expects, the Aetherblade
+// write-up being the model: the prose, the class table, then hit points,
+// proficiencies and equipment; the features follow as the page's own
+// sections, by level. Open5e files the table's columns and those blocks
+// among the features, typed, so the transformer builds the body from them
+// here. The rows stay in `data` untouched: the real features for the
+// page, the column data for the character builder later.
 function shapeClass(record: Upstream): Shaped {
   const parent = keyOf(record.subclass_of);
   const tags = compact([
@@ -347,7 +355,134 @@ function shapeClass(record: Upstream): Shaped {
     parent === undefined ? undefined : slugOf(parent),
     keyOf(record.caster_type)?.toLowerCase(),
   ]);
-  return { type: "class", name: record.name, tags, body: text(record.desc) };
+  const rows = classRows(record);
+  const body =
+    parent === undefined
+      ? compact([text(record.desc), classTable(record.name, rows), coreTraits(record, rows)]).join(
+          "\n\n"
+        )
+      : text(record.desc);
+  return { type: "class", name: record.name, tags, body };
+}
+
+interface ClassRow {
+  name: string;
+  feature_type: string;
+  desc: string;
+  gained_at: { level: number }[];
+  data_for_class_table: { level: number; column_value: string }[];
+}
+
+function classRows(record: Upstream): ClassRow[] {
+  const features = Array.isArray(record.features) ? record.features : [];
+  return features.map((feature) => {
+    const row = feature as Record<string, unknown>;
+    if (Array.isArray(row.gained_at)) {
+      // Upstream lists the levels a feature is gained at in text order
+      // (12, 16, 4, 8); the page sorts sections by the first, so the
+      // record itself is put in order before it is written.
+      (row.gained_at as { level: number }[]).sort((a, b) => a.level - b.level);
+    }
+    return {
+      name: text(row.name),
+      feature_type: text(row.feature_type),
+      desc: text(row.desc),
+      gained_at: Array.isArray(row.gained_at)
+        ? (row.gained_at as { level: number }[]).filter((at) => typeof at.level === "number")
+        : [],
+      data_for_class_table: Array.isArray(row.data_for_class_table)
+        ? (row.data_for_class_table as { level: number; column_value: string }[])
+        : [],
+    };
+  });
+}
+
+// The class table: a level a row; proficiency bonus, the features gained
+// at that level, the class's own columns, then the spell slots by rank.
+function classTable(name: string, rows: ClassRow[]): string {
+  const bonus = rows.find((row) => row.feature_type === "PROFICIENCY_BONUS");
+  const own = rows.filter((row) => row.feature_type === "CLASS_TABLE_DATA");
+  const slots = rows
+    .filter((row) => row.feature_type === "SPELL_SLOTS")
+    .sort((a, b) => Number.parseInt(a.name, 10) - Number.parseInt(b.name, 10));
+  const features = rows.filter((row) => row.feature_type === "CLASS_LEVEL_FEATURE");
+  const top = Math.max(
+    20,
+    ...rows.flatMap((row) => row.data_for_class_table.map((cell) => cell.level)),
+    ...features.flatMap((row) => row.gained_at.map((at) => at.level))
+  );
+  if (bonus === undefined && own.length === 0 && slots.length === 0) {
+    return "";
+  }
+  const cellOf = (row: ClassRow | undefined, level: number): string =>
+    row?.data_for_class_table.find((cell) => cell.level === level)?.column_value.trim() || "—";
+  const columns = [
+    { name: "Proficiency Bonus", align: ":---:", at: (level: number) => cellOf(bonus, level) },
+    {
+      name: "Features",
+      align: "---",
+      at: (level: number) =>
+        features
+          .filter((row) => row.gained_at.some((at) => at.level === level))
+          .map((row) => row.name)
+          .join(", ") || "—",
+    },
+    ...own.map((row) => ({
+      name: row.name,
+      align: ":---:",
+      at: (level: number) => cellOf(row, level),
+    })),
+    ...slots.map((row) => ({
+      name: row.name,
+      align: ":---:",
+      at: (level: number) => cellOf(row, level),
+    })),
+  ];
+  const lines = [
+    `## The ${name} Table`,
+    "",
+    `| Level | ${columns.map((column) => column.name).join(" | ")} |`,
+    `| --- | ${columns.map((column) => column.align).join(" | ")} |`,
+  ];
+  for (let level = 1; level <= top; level += 1) {
+    lines.push(`| ${ordinal(level)} | ${columns.map((column) => column.at(level)).join(" | ")} |`);
+  }
+  return lines.join("\n");
+}
+
+// Hit points, proficiencies and equipment. The 2024 text carries them as
+// one core traits table with an empty header, which takes the row's name;
+// the 2014 text carries hit points as fields and the other two as rows,
+// which become the blocks a class write-up has always had.
+function coreTraits(record: Upstream, rows: ClassRow[]): string {
+  const core = rows.find((row) => row.feature_type === "CORE_TRAITS_TABLE");
+  if (core !== undefined) {
+    return core.desc.replace(/^\|\|\|\s*$/m, `| ${core.name} | |`);
+  }
+  const points = (record.hit_points ?? {}) as Record<string, unknown>;
+  const hitPoints = compact([
+    text(points.hit_dice_name) === "" ? undefined : `**Hit Dice:** ${text(points.hit_dice_name)}`,
+    text(points.hit_points_at_1st_level) === ""
+      ? undefined
+      : `**Hit Points at 1st Level:** ${text(points.hit_points_at_1st_level)}`,
+    text(points.hit_points_at_higher_levels) === ""
+      ? undefined
+      : `**Hit Points at Higher Levels:** ${text(points.hit_points_at_higher_levels)}`,
+  ]);
+  const proficiencies = rows.find((row) => row.feature_type === "PROFICIENCIES");
+  const equipment = rows.find((row) => row.feature_type === "STARTING_EQUIPMENT");
+  return compact([
+    hitPoints.length === 0 ? undefined : `## Hit Points\n${hitPoints.join("\n")}`,
+    proficiencies === undefined ? undefined : `## Proficiencies\n${proficiencies.desc}`,
+    equipment === undefined ? undefined : `## Equipment\n${equipment.desc}`,
+  ]).join("\n\n");
+}
+
+function ordinal(level: number): string {
+  const rest = level % 100;
+  const suffixes: Record<number, string> = { 1: "st", 2: "nd", 3: "rd" };
+  const suffix = rest >= 11 && rest <= 13 ? "th" : (suffixes[level % 10] ?? "th");
+  return `${level}${suffix}`;
 }
 
 function shapeRace(record: Upstream): Shaped {
@@ -423,8 +558,9 @@ function challengeTag(value: unknown): string | undefined {
   return `cr-${fractions[value] ?? String(value)}`;
 }
 
+// Upstream text arrives with either line ending; the module keeps one.
 function text(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === "string" ? value.replace(/\r\n?/g, "\n").trim() : "";
 }
 
 function compact(values: (string | undefined)[]): string[] {

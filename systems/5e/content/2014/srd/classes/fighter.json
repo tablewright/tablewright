@@ -4,7 +4,7 @@
   "name": "Fighter",
   "source": "5e-2014-srd",
   "tags": [],
-  "body": "",
+  "body": "## The Fighter Table\n\n| Level | Proficiency Bonus | Features |\n| --- | :---: | --- |\n| 1st | +2 | Fighting Style, Second Wind |\n| 2nd | +2 | Action Surge |\n| 3rd | +2 | Martial Archetype |\n| 4th | +2 | Ability Score Improvement |\n| 5th | +3 | Extra Attack |\n| 6th | +3 | Ability Score Improvement |\n| 7th | +3 | — |\n| 8th | +3 | Ability Score Improvement |\n| 9th | +4 | Indomitable |\n| 10th | +4 | — |\n| 11th | +4 | Extra Attack |\n| 12th | +4 | Ability Score Improvement |\n| 13th | +5 | Indomitable |\n| 14th | +5 | Ability Score Improvement |\n| 15th | +5 | — |\n| 16th | +5 | Ability Score Improvement |\n| 17th | +6 | Action Surge, Indomitable |\n| 18th | +6 | — |\n| 19th | +6 | Ability Score Improvement |\n| 20th | +6 | Extra Attack |\n\n## Hit Points\n**Hit Dice:** 1D10 per Fighter level\n**Hit Points at 1st Level:** 10 + your Constitution modifier\n**Hit Points at Higher Levels:** 1D10 (or 6) + your Constitution modifier per fighter level after 1st\n\n## Proficiencies\n**Armor:** All armor, shields\n**Weapons:** Simple weapons, martial weapons\n**Tools:** None\n**Saving Throws:** Strength, Constitution\n**Skills:** Choose two skills from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival\n\n## Equipment\nYou start with the following equipment, in addition to the equipment granted by your background:\n* (*a*) chain mail or (*b*) leather armor, longbow, and 20 arrows\n* (*a*) a martial weapon and a shield or (*b*) two martial weapons\n* (*a*) a light crossbow and 20 bolts or (*b*) two handaxes\n* (*a*) a dungeoneer’s pack or (*b*) an explorer’s pack",
   "data": {
     "caster_type": null,
     "crossreferences": {
@@ -17,6 +17,18 @@
         "desc": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
         "feature_type": "CLASS_LEVEL_FEATURE",
         "gained_at": [
+          {
+            "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 6
+          },
+          {
+            "detail": null,
+            "level": 8
+          },
           {
             "detail": null,
             "level": 12
@@ -32,18 +44,6 @@
           {
             "detail": null,
             "level": 19
-          },
-          {
-            "detail": null,
-            "level": 4
-          },
-          {
-            "detail": null,
-            "level": 6
-          },
-          {
-            "detail": null,
-            "level": 8
           }
         ],
         "key": "srd_fighter_ability-score-improvement",
@@ -55,12 +55,12 @@
         "feature_type": "CLASS_LEVEL_FEATURE",
         "gained_at": [
           {
-            "detail": "two uses",
-            "level": 17
-          },
-          {
             "detail": "one use",
             "level": 2
+          },
+          {
+            "detail": "two uses",
+            "level": 17
           }
         ],
         "key": "srd_fighter_action-surge",
@@ -80,16 +80,16 @@
         "feature_type": "CLASS_LEVEL_FEATURE",
         "gained_at": [
           {
+            "detail": "1",
+            "level": 5
+          },
+          {
             "detail": "2",
             "level": 11
           },
           {
             "detail": "3",
             "level": 20
-          },
-          {
-            "detail": "1",
-            "level": 5
           }
         ],
         "key": "srd_fighter_extra-attack",
@@ -114,16 +114,16 @@
         "feature_type": "CLASS_LEVEL_FEATURE",
         "gained_at": [
           {
+            "detail": "one use",
+            "level": 9
+          },
+          {
             "detail": "two uses",
             "level": 13
           },
           {
             "detail": "three uses",
             "level": 17
-          },
-          {
-            "detail": "one use",
-            "level": 9
           }
         ],
         "key": "srd_fighter_indomitable",

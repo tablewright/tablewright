@@ -68,6 +68,18 @@ pub struct PartSpec {
     /// their order, after the rest.
     #[serde(default)]
     pub order: Option<String>,
+    /// A word to show beside each part's name, read from the item.
+    #[serde(default)]
+    pub note: Option<NoteSpec>,
+}
+
+/// The note beside a part's name: a label and a path to what follows it,
+/// which may cross a list with `*` and reads every match: "Level" over
+/// `gained_at.*.level` gives "Level 4, 8, 12, 16".
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
+pub struct NoteSpec {
+    pub path: String,
+    pub label: String,
 }
 
 fn name_key() -> String {
@@ -311,6 +323,10 @@ impl SystemManifest {
                 sections.push(Section {
                     label: spec.label.clone(),
                     name,
+                    note: spec
+                        .note
+                        .as_ref()
+                        .map_or_else(String::new, |note| note_of(item, note)),
                     html: render(text),
                 });
             }
@@ -409,6 +425,43 @@ fn items_of<'a>(spec: &PartSpec, data: &'a serde_json::Value) -> Vec<&'a serde_j
         });
     }
     chosen
+}
+
+// "Level 4, 8, 12" from every value the note's path reaches; nothing when
+// it reaches none.
+fn note_of(item: &serde_json::Value, note: &NoteSpec) -> String {
+    let values: Vec<String> = all(item, &note.path)
+        .into_iter()
+        .filter_map(text_of)
+        .collect();
+    if values.is_empty() {
+        String::new()
+    } else {
+        format!("{} {}", note.label, values.join(", "))
+    }
+}
+
+// Every value a path reaches, where a `*` step visits each element of a
+// list: `gained_at.*.level`.
+fn all<'a>(data: &'a serde_json::Value, path: &str) -> Vec<&'a serde_json::Value> {
+    let mut found = vec![data];
+    for step in path.split('.') {
+        found = found
+            .into_iter()
+            .flat_map(|value| match (value, step) {
+                (serde_json::Value::Array(items), "*") => items.iter().collect::<Vec<_>>(),
+                (serde_json::Value::Array(items), index) => index
+                    .parse::<usize>()
+                    .ok()
+                    .and_then(|index| items.get(index))
+                    .into_iter()
+                    .collect(),
+                (value, key) => value.get(key).into_iter().collect(),
+            })
+            .filter(|value| !value.is_null())
+            .collect();
+    }
+    found
 }
 
 fn name_of(item: &serde_json::Value, key: &str) -> Option<String> {
@@ -665,6 +718,44 @@ mod tests {
             manifest
                 .sections_for("monster", &serde_json::json!({}))
                 .is_empty()
+        );
+    }
+
+    #[test]
+    fn a_note_reads_every_level_a_feature_is_gained_at() {
+        let manifest: SystemManifest = serde_json::from_value(serde_json::json!({
+            "id": "5e", "name": "5e",
+            "parts": { "class": [{
+                "path": "features", "label": "Features",
+                "when": { "feature_type": "CLASS_LEVEL_FEATURE" },
+                "order": "gained_at.0.level",
+                "note": { "path": "gained_at.*.level", "label": "Level" }
+            }] }
+        }))
+        .expect("manifest");
+        let notes: Vec<(String, String)> = manifest
+            .sections_for(
+                "class",
+                &serde_json::json!({ "features": [
+                    { "name": "Ability Score Improvement", "feature_type": "CLASS_LEVEL_FEATURE",
+                      "gained_at": [{ "level": 4 }, { "level": 8 }, { "level": 12 }] },
+                    { "name": "Spellcasting", "feature_type": "CLASS_LEVEL_FEATURE",
+                      "gained_at": [{ "level": 1 }] },
+                    { "name": "Wizard Spell List", "feature_type": "CLASS_LEVEL_FEATURE",
+                      "gained_at": [] },
+                    { "name": "Cantrips", "feature_type": "CLASS_TABLE_DATA", "desc": "[Column data]" }
+                ] }),
+            )
+            .into_iter()
+            .map(|section| (section.name, section.note))
+            .collect();
+        assert_eq!(
+            notes,
+            vec![
+                ("Spellcasting".into(), "Level 1".into()),
+                ("Ability Score Improvement".into(), "Level 4, 8, 12".into()),
+                ("Wizard Spell List".into(), String::new()),
+            ]
         );
     }
 

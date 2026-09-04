@@ -8,7 +8,7 @@
     "legendary",
     "attunement"
   ],
-  "body": "This elegant garment is made from exquisite cloth of white, gray, or black and adorned with silvery runes. The robe's color corresponds to the alignment for which the item was created. A white robe was made for good, gray for neutral, and black for evil. You can't attune to a _robe of the archmagi_ that doesn't correspond to your alignment.\r\n\r\nYou gain these benefits while wearing the robe:\r\n\r\n* If you aren't wearing armor, your base Armor Class is 15 + your Dexterity modifier.\r\n* You have advantage on saving throws against spells and other magical effects.\r\n* Your spell save DC and spell attack bonus each increase by 2.",
+  "body": "This elegant garment is made from exquisite cloth of white, gray, or black and adorned with silvery runes. The robe's color corresponds to the alignment for which the item was created. A white robe was made for good, gray for neutral, and black for evil. You can't attune to a _robe of the archmagi_ that doesn't correspond to your alignment.\n\nYou gain these benefits while wearing the robe:\n\n* If you aren't wearing armor, your base Armor Class is 15 + your Dexterity modifier.\n* You have advantage on saving throws against spells and other magical effects.\n* Your spell save DC and spell attack bonus each increase by 2.",
   "data": {
     "armor": null,
     "attunement_detail": "requires attunement by a sorcerer, warlock, or wizard",

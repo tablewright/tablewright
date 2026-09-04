@@ -69,16 +69,19 @@ const ENTRIES: FixtureEntry[] = [
       {
         label: "Traits",
         name: "Nimble Escape",
+        note: "",
         html: "<p>The goblin can take the Disengage or Hide action as a Bonus Action on each of its turns.</p>\n",
       },
       {
         label: "Actions",
         name: "Scimitar",
+        note: "",
         html: "<p><em>Melee Attack Roll:</em> +4, reach 5 ft. <em>Hit:</em> 5 (1d6 + 2) Slashing damage.</p>\n",
       },
       {
         label: "Actions",
         name: "Shortbow",
+        note: "",
         html: "<p><em>Ranged Attack Roll:</em> +4, range 80/320 ft. <em>Hit:</em> 5 (1d6 + 2) Piercing damage.</p>\n",
       },
     ],

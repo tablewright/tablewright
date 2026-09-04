@@ -7,7 +7,7 @@
     "wondrous-item",
     "rare"
   ],
-  "body": "While a fire burns in this brass brazier, you can use an action to speak the brazier's command word and summon a fire elemental, as if you had cast the _conjure elemental_ spell. The brazier can't be used this way again until the next dawn.\r\n\r\nThe brazier weighs 5 pounds.",
+  "body": "While a fire burns in this brass brazier, you can use an action to speak the brazier's command word and summon a fire elemental, as if you had cast the _conjure elemental_ spell. The brazier can't be used this way again until the next dawn.\n\nThe brazier weighs 5 pounds.",
   "data": {
     "armor": null,
     "attunement_detail": null,

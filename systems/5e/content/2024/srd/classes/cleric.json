@@ -6,7 +6,7 @@
   "tags": [
     "full"
   ],
-  "body": "",
+  "body": "## The Cleric Table\n\n| Level | Proficiency Bonus | Features | Cantrips | Channel Divinity | Prepared Spells | 1st | 2nd | 3rd | 4th | 5th | 6th | 7th | 8th | 9th |\n| --- | :---: | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n| 1st | +2 | Divine Order, Spellcasting | 3 | — | 4 | 2 | — | — | — | — | — | — | — | — |\n| 2nd | +2 | Channel Divinity | 3 | 2 | 5 | 3 | — | — | — | — | — | — | — | — |\n| 3rd | +2 | Cleric Subclasses | 3 | 2 | 6 | 4 | 2 | — | — | — | — | — | — | — |\n| 4th | +2 | Ability Score Improvement | 4 | 2 | 7 | 4 | 3 | — | — | — | — | — | — | — |\n| 5th | +3 | Sear Undead | 4 | 2 | 9 | 4 | 3 | 2 | — | — | — | — | — | — |\n| 6th | +3 | — | 4 | 3 | 10 | 4 | 3 | 3 | — | — | — | — | — | — |\n| 7th | +3 | Blessed Strikes | 4 | 3 | 11 | 4 | 3 | 3 | 1 | — | — | — | — | — |\n| 8th | +3 | Ability Score Improvement | 4 | 3 | 12 | 4 | 3 | 3 | 2 | — | — | — | — | — |\n| 9th | +4 | — | 4 | 3 | 14 | 4 | 3 | 3 | 3 | 1 | — | — | — | — |\n| 10th | +4 | Divine Intervention | 5 | 3 | 15 | 4 | 3 | 3 | 3 | 2 | — | — | — | — |\n| 11th | +4 | — | 5 | 3 | 16 | 4 | 3 | 3 | 3 | 2 | 1 | — | — | — |\n| 12th | +4 | Ability Score Improvement | 5 | 3 | 16 | 4 | 3 | 3 | 3 | 2 | 1 | — | — | — |\n| 13th | +5 | — | 5 | 3 | 17 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | — | — |\n| 14th | +5 | Improved Blessed Strikes | 5 | 3 | 17 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | — | — |\n| 15th | +5 | — | 5 | 3 | 18 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | 1 | — |\n| 16th | +5 | Ability Score Improvement | 5 | 3 | 18 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | 1 | — |\n| 17th | +6 | — | 5 | 3 | 19 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | 1 | 1 |\n| 18th | +6 | — | 5 | 4 | 20 | 4 | 3 | 3 | 3 | 3 | 1 | 1 | 1 | 1 |\n| 19th | +6 | Epic Boon | 5 | 4 | 21 | 4 | 3 | 3 | 3 | 3 | 2 | 1 | 1 | 1 |\n| 20th | +6 | Greater Divine Intervention | 5 | 4 | 22 | 4 | 3 | 3 | 3 | 3 | 2 | 2 | 1 | 1 |\n\n| Cleric Subclasses | |\n|---|---|\n|Primary Ability|Wisdom|\n|Hit Point Die|D8 per Cleric level|\n|Saving Throw Proficiencies|Wisdom and Charisma|\n|Skill Proficiencies|Choose 2: History, Insight, Medicine, Persuasion, or Religion|\n|Weapon Proficiencies|Simple weapons|\n|Armor Training|Light and Medium armor and Shields|\n|Starting Equipment|Choose A or B: (A) Chain Shirt, Shield, Mace, Holy Symbol, Priest's Pack, and 7 GP; or (B) 110 GP|",
   "data": {
     "caster_type": "FULL",
     "crossreferences": {
@@ -21,19 +21,19 @@
         "gained_at": [
           {
             "detail": null,
-            "level": 12
-          },
-          {
-            "detail": null,
-            "level": 16
-          },
-          {
-            "detail": null,
             "level": 4
           },
           {
             "detail": null,
             "level": 8
+          },
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 16
           }
         ],
         "key": "srd-2024_cleric_ability-score-improvement",

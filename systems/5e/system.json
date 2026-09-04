@@ -153,7 +153,20 @@
         "order": "order_in_statblock"
       }
     ],
-    "class": [{ "path": "features", "label": "Features", "order": "gained_at.0.level" }],
+    "class": [
+      {
+        "path": "features",
+        "label": "Features",
+        "when": { "feature_type": "CLASS_LEVEL_FEATURE" },
+        "order": "gained_at.0.level",
+        "note": { "path": "gained_at.*.level", "label": "Level" }
+      },
+      {
+        "path": "features",
+        "label": "Options",
+        "when": { "feature_type": "CLASS_FEATURE_OPTION_LIST" }
+      }
+    ],
     "race": [{ "path": "traits", "label": "Traits", "order": "order" }],
     "background": [{ "path": "benefits", "label": "Benefits" }]
   },

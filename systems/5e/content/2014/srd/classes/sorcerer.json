@@ -4,7 +4,7 @@
   "name": "Sorcerer",
   "source": "5e-2014-srd",
   "tags": [],
-  "body": "",
+  "body": "## The Sorcerer Table\n\n| Level | Proficiency Bonus | Features | Cantrips Known | 1st | 2nd | 3rd | 4th | 5th | 6th | 7th | 8th | 9th |\n| --- | :---: | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n| 1st | +2 | Sorcerous Origin, Spellcasting | 4 | 2 | — | — | — | — | — | — | — | — |\n| 2nd | +2 | Font of Magic | 4 | 3 | — | — | — | — | — | — | — | — |\n| 3rd | +2 | Metamagic | 4 | 4 | — | — | — | — | — | — | — | — |\n| 4th | +2 | Ability Score Improvement | 5 | 4 | 2 | — | — | — | — | — | — | — |\n| 5th | +3 | — | 5 | 4 | 3 | 2 | — | — | — | — | — | — |\n| 6th | +3 | — | 5 | 4 | 3 | 3 | — | — | — | — | — | — |\n| 7th | +3 | — | 5 | 4 | 3 | 3 | 1 | — | — | — | — | — |\n| 8th | +3 | Ability Score Improvement | 5 | 4 | 3 | 3 | 2 | — | — | — | — | — |\n| 9th | +4 | — | 5 | 4 | 3 | 3 | 3 | 1 | — | — | — | — |\n| 10th | +4 | Metamagic | 6 | 4 | 3 | 3 | 3 | 2 | — | — | — | — |\n| 11th | +4 | — | 6 | 4 | 3 | 3 | 3 | 2 | 1 | — | — | — |\n| 12th | +4 | Ability Score Improvement | 6 | 4 | 3 | 3 | 3 | 2 | 1 | — | — | — |\n| 13th | +5 | — | 6 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | — | — |\n| 14th | +5 | — | 6 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | — | — |\n| 15th | +5 | — | 6 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | 1 | — |\n| 16th | +5 | Ability Score Improvement | 6 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | 1 | — |\n| 17th | +6 | Metamagic | 6 | 4 | 3 | 3 | 3 | 2 | 1 | 1 | 1 | 1 |\n| 18th | +6 | — | 6 | 4 | 3 | 3 | 3 | 3 | 1 | 1 | 1 | 1 |\n| 19th | +6 | Ability Score Improvement | 6 | 4 | 3 | 3 | 3 | 3 | 2 | 1 | 1 | 1 |\n| 20th | +6 | Sorcerous Restoration | 6 | 4 | 3 | 3 | 3 | 3 | 2 | 2 | 1 | 1 |\n\n## Hit Points\n**Hit Dice:** 1D6 per Sorcerer level\n**Hit Points at 1st Level:** 6 + your Constitution modifier\n**Hit Points at Higher Levels:** 1D6 (or 4) + your Constitution modifier per sorcerer level after 1st\n\n## Proficiencies\n**Armor:** None\n**Weapons:** Daggers, darts, slings, quarterstaffs, light crossbows\n**Tools:** None\n**Saving Throws:** Constitution, Charisma\n**Skills:** Choose two from Arcana, Deception, Insight, Intimidation, Persuasion, and Religion\n\n## Equipment\nYou start with the following equipment, in addition to the equipment granted by your background:\n* (*a*) a light crossbow and 20 bolts or (*b*) any simple weapon\n* (*a*) a component pouch or (*b*) an arcane focus\n* (*a*) a dungeoneer’s pack or (*b*) an explorer’s pack\n* Two daggers",
   "data": {
     "caster_type": null,
     "crossreferences": {
@@ -19,6 +19,14 @@
         "gained_at": [
           {
             "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 8
+          },
+          {
+            "detail": null,
             "level": 12
           },
           {
@@ -28,14 +36,6 @@
           {
             "detail": null,
             "level": 19
-          },
-          {
-            "detail": null,
-            "level": 4
-          },
-          {
-            "detail": null,
-            "level": 8
           }
         ],
         "key": "srd_sorcerer_ability-score-improvement",
@@ -158,15 +158,15 @@
         "gained_at": [
           {
             "detail": null,
+            "level": 3
+          },
+          {
+            "detail": null,
             "level": 10
           },
           {
             "detail": null,
             "level": 17
-          },
-          {
-            "detail": null,
-            "level": 3
           }
         ],
         "key": "srd_sorcerer_metamagic",

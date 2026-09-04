@@ -93,6 +93,9 @@ pub struct Section {
     /// The heading the section sits under: "Traits", "Actions", "Features".
     pub label: String,
     pub name: String,
+    /// A word beside the name, when the manifest asks for one: the level a
+    /// class feature is gained at. Empty otherwise.
+    pub note: String,
     /// The section's text as HTML, from the core's one renderer.
     pub html: String,
 }

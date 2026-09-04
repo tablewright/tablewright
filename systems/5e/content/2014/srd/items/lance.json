@@ -6,7 +6,7 @@
   "tags": [
     "weapon"
   ],
-  "body": "A lance.\r\n\r\nYou have disadvantage when you use a lance to attack a target within 5 feet of you. Also, a lance requires two hands to wield when you aren't mounted.",
+  "body": "A lance.\n\nYou have disadvantage when you use a lance to attack a target within 5 feet of you. Also, a lance requires two hands to wield when you aren't mounted.",
   "data": {
     "armor": null,
     "category": {

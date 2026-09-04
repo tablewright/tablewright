@@ -232,12 +232,24 @@ export class TwEntryView extends LitElement {
       gap: var(--tw-space-xs);
     }
     .part h3 {
+      display: flex;
+      align-items: baseline;
+      gap: var(--tw-space-sm);
       margin: 0;
       color: var(--tw-ink);
       font-family: inherit;
       font-size: inherit;
       font-weight: 600;
       line-height: inherit;
+    }
+    .part .note {
+      color: var(--tw-ink-faint);
+      font-family: var(--tw-typo-document-label-font-family);
+      font-size: var(--tw-typo-document-label-font-size);
+      font-weight: var(--tw-typo-document-label-font-weight);
+      letter-spacing: var(--tw-typo-document-label-letter-spacing);
+      text-transform: uppercase;
+      white-space: nowrap;
     }
     .tags {
       display: flex;
@@ -336,7 +348,10 @@ export class TwEntryView extends LitElement {
               ${group.items.map(
                 (section) => html`
                   <div class="part">
-                    <h3>${section.name}</h3>
+                    <h3>
+                      ${section.name}
+                      ${section.note === "" ? nothing : html`<span class="note">${section.note}</span>`}
+                    </h3>
                     ${
                       section.html === ""
                         ? nothing

@@ -8,7 +8,7 @@
     "legendary",
     "attunement"
   ],
-  "body": "The typical crystal ball, a very rare item, is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.\r\n\r\nWhile scrying with the crystal ball, you have truesight with a radius of 120 feet centered on the spell's sensor.",
+  "body": "The typical crystal ball, a very rare item, is about 6 inches in diameter. While touching it, you can cast the scrying spell (save DC 17) with it.\n\nWhile scrying with the crystal ball, you have truesight with a radius of 120 feet centered on the spell's sensor.",
   "data": {
     "armor": null,
     "attunement_detail": null,

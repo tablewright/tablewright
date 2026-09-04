@@ -6,7 +6,7 @@
   "tags": [
     "none"
   ],
-  "body": "",
+  "body": "## The Barbarian Table\n\n| Level | Proficiency Bonus | Features | Rage Damage | Rages | Weapon Mastery |\n| --- | :---: | --- | :---: | :---: | :---: |\n| 1st | +2 | Rage, Unarmored Defense, Weapon Mastery | +2 | 2 | 2 |\n| 2nd | +2 | Danger Sense, Reckless Attack | +2 | 2 | 2 |\n| 3rd | +2 | Barbarian Subclass, Primal Knowledge | +2 | 3 | 2 |\n| 4th | +2 | Ability Score Improvement | +2 | 3 | 3 |\n| 5th | +3 | Extra Attack, Fast Movement | +2 | 3 | 3 |\n| 6th | +3 | — | +2 | 4 | 3 |\n| 7th | +3 | Feral Instinct, Instinctive Pounce | +2 | 4 | 3 |\n| 8th | +3 | Ability Score Improvement | +2 | 4 | 3 |\n| 9th | +4 | Brutal Strike | +3 | 4 | 3 |\n| 10th | +4 | — | +3 | 4 | 4 |\n| 11th | +4 | Relentless Rage | +3 | 4 | 4 |\n| 12th | +4 | Ability Score Improvement | +3 | 5 | 4 |\n| 13th | +5 | Improved Brutal Strike | +3 | 5 | 4 |\n| 14th | +5 | — | +3 | 5 | 4 |\n| 15th | +5 | Persistent Rage | +3 | 5 | 4 |\n| 16th | +5 | Ability Score Improvement | +4 | 5 | 4 |\n| 17th | +6 | Improved Brutal Strike (Enhanced) | +4 | 6 | 4 |\n| 18th | +6 | Indomitable Might | +4 | 6 | 4 |\n| 19th | +6 | Epic Boon | +4 | 6 | 4 |\n| 20th | +6 | Primal Champion | +4 | 6 | 4 |\n\n| Core Barbarian Traits | |\n|---|---|\n|Primary Ability|Strength|\n|Hit Point Die|D12 per Barbarian level|\n|Saving Throw Proficiencies|Strength and Constitution|\n|Skill Proficiencies|Choose 2: Animal Handling, Athletics, Intimidation, Nature, Perception, or Survival|\n|Weapon Proficiencies|Simple and Martial weapons|\n|Armor Training|Light and Medium armor and Shields|\n|Starting Equipment|Choose A or B: (A) Greataxe, 4 Handaxes, Explorer's Pack, and 15 GP; or (B) 75 GP|",
   "data": {
     "caster_type": "NONE",
     "crossreferences": {
@@ -21,19 +21,19 @@
         "gained_at": [
           {
             "detail": null,
-            "level": 12
-          },
-          {
-            "detail": null,
-            "level": 16
-          },
-          {
-            "detail": null,
             "level": 4
           },
           {
             "detail": null,
             "level": 8
+          },
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 16
           }
         ],
         "key": "srd-2024_barbarian_ability-score-improvement",

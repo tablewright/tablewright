@@ -4,7 +4,7 @@
   "name": "Paladin",
   "source": "5e-2014-srd",
   "tags": [],
-  "body": "",
+  "body": "## The Paladin Table\n\n| Level | Proficiency Bonus | Features | 1st | 2nd | 3rd | 4th | 5th |\n| --- | :---: | --- | :---: | :---: | :---: | :---: | :---: |\n| 1st | +2 | Divine Sense, Lay on Hands | — | — | — | — | — |\n| 2nd | +2 | Divine Smite, Fighting Style, Spellcasting | 2 | — | — | — | — |\n| 3rd | +2 | Divine Health, Sacred Oath | 3 | — | — | — | — |\n| 4th | +2 | Ability Score Improvement | 3 | — | — | — | — |\n| 5th | +3 | Extra Attack | 4 | 2 | — | — | — |\n| 6th | +3 | Aura of Protection | 4 | 2 | — | — | — |\n| 7th | +3 | — | 4 | 3 | — | — | — |\n| 8th | +3 | Ability Score Improvement | 4 | 3 | — | — | — |\n| 9th | +4 | — | 4 | 3 | 2 | — | — |\n| 10th | +4 | Aura of Courage | 4 | 3 | 2 | — | — |\n| 11th | +4 | Improved Divine Smite | 4 | 3 | 3 | — | — |\n| 12th | +4 | Ability Score Improvement | 4 | 3 | 3 | — | — |\n| 13th | +5 | — | 4 | 3 | 3 | 1 | — |\n| 14th | +5 | Cleansing Touch | 4 | 3 | 3 | 1 | — |\n| 15th | +5 | — | 4 | 3 | 3 | 2 | — |\n| 16th | +5 | Ability Score Improvement | 4 | 3 | 3 | 2 | — |\n| 17th | +6 | — | 4 | 3 | 3 | 3 | 1 |\n| 18th | +6 | Aura of Courage, Aura of Protection | 4 | 3 | 3 | 3 | 1 |\n| 19th | +6 | Ability Score Improvement | 4 | 3 | 3 | 3 | 2 |\n| 20th | +6 | — | 4 | 3 | 3 | 3 | 2 |\n\n## Hit Points\n**Hit Dice:** 1D10 per Paladin level\n**Hit Points at 1st Level:** 10 + your Constitution modifier\n**Hit Points at Higher Levels:** 1D10 (or 6) + your Constitution modifier per paladin level after 1st\n\n## Proficiencies\n**Armor:** All armor, shields\n**Weapons:** Simple weapons, martial weapons\n**Tools:** None\n**Saving Throws:** Wisdom, Charisma\n**Skills:** Choose two from Athletics, Insight, Intimidation, Medicine, Persuasion, and Religion\n\n## Equipment\nYou start with the following equipment, in addition to the equipment granted by your background:\n* (*a*) a martial weapon and a shield or (*b*) two martial weapons\n* (*a*) five javelins or (*b*) any simple melee weapon\n* (*a*) a priest’s pack or (*b*) an explorer’s pack\n* Chain mail and a holy symbol",
   "data": {
     "caster_type": null,
     "crossreferences": {
@@ -19,6 +19,14 @@
         "gained_at": [
           {
             "detail": null,
+            "level": 4
+          },
+          {
+            "detail": null,
+            "level": 8
+          },
+          {
+            "detail": null,
             "level": 12
           },
           {
@@ -28,14 +36,6 @@
           {
             "detail": null,
             "level": 19
-          },
-          {
-            "detail": null,
-            "level": 4
-          },
-          {
-            "detail": null,
-            "level": 8
           }
         ],
         "key": "srd_paladin_ability-score-improvement",
@@ -65,11 +65,11 @@
         "gained_at": [
           {
             "detail": null,
-            "level": 18
+            "level": 6
           },
           {
             "detail": null,
-            "level": 6
+            "level": 18
           }
         ],
         "key": "srd_paladin_aura-of-protection",

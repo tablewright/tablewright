@@ -6,7 +6,7 @@
   "tags": [
     "none"
   ],
-  "body": "",
+  "body": "## The Rogue Table\n\n| Level | Proficiency Bonus | Features | Sneak Attack |\n| --- | :---: | --- | :---: |\n| 1st | +2 | Expertise, Sneak Attack, Thieves' Cant, Weapon Mastery | 1d6 |\n| 2nd | +2 | Cunning Action | 1d6 |\n| 3rd | +2 | Rogue Subclass, Steady Aim | 2d6 |\n| 4th | +2 | Ability Score Improvement | 2d6 |\n| 5th | +3 | Cunning Strike, Uncanny Dodge | 3d6 |\n| 6th | +3 | Expertise | 3d6 |\n| 7th | +3 | Evasion, Reliable Talent | 4d6 |\n| 8th | +3 | Ability Score Improvement | 4d6 |\n| 9th | +4 | — | 5d6 |\n| 10th | +4 | — | 5d6 |\n| 11th | +4 | Improved Cunning Strike | 6d6 |\n| 12th | +4 | Ability Score Improvement | 6d6 |\n| 13th | +5 | — | 7d6 |\n| 14th | +5 | Devious Strikes | 7d6 |\n| 15th | +5 | Slippery Mind | 8d6 |\n| 16th | +5 | Ability Score Improvement | 8d6 |\n| 17th | +6 | — | 9d6 |\n| 18th | +6 | Elusive | 9d6 |\n| 19th | +6 | Epic Boon | 10d6 |\n| 20th | +6 | Stroke of Luck | 10d6 |\n\n| Core Rogue Traits | |\n|---|---|\n|Primary Ability|Dexterity|\n|Hit Point Die|D8 per Rogue level|\n|Saving Throw Proficiencies|Dexterity and Intelligence|\n|Skill Proficiencies|Choose 4: Acrobatics, Athletics, Deception, Insight, Intimidation, Investigation, Perception, Persuasion, Sleight of Hand, or Stealth|\n|Weapon Proficiencies|Simple weapons and Martial weapons that have the Finesse or Light property|\n|Tool Proficiencies|Thieves' Tools|\n|Armor Training|Light armor|\n|Starting Equipment|Choose A or B: (A) Leather Armor, 2 Daggers, Shortsword, Shortbow, 20 Arrows, Quiver, Thieves' Tools, Burglar's Pack, and 8 GP; or (B) 100 GP|",
   "data": {
     "caster_type": "NONE",
     "crossreferences": {
@@ -21,19 +21,19 @@
         "gained_at": [
           {
             "detail": null,
-            "level": 12
-          },
-          {
-            "detail": null,
-            "level": 16
-          },
-          {
-            "detail": null,
             "level": 4
           },
           {
             "detail": null,
             "level": 8
+          },
+          {
+            "detail": null,
+            "level": 12
+          },
+          {
+            "detail": null,
+            "level": 16
           }
         ],
         "key": "srd-2024_rogue_ability-score-improvement",
