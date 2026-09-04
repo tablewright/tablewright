@@ -1,0 +1,285 @@
+# The house CI shape (snecko, hexpunk, warrior-of-keyboard, izelya.me):
+# one stage per node, artifacts as the handoffs, so a job can be re-run on
+# its own without redoing the work before it. Tablewright has two toolchains,
+# so it has two roots — one per install — a Rust node, a Playwright node,
+# and nothing to deploy.
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  install:
+    name: Install (bun)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v5
+        id: bun-cache
+        with:
+          # Bun hoists to the root but still writes a node_modules per
+          # workspace package; all five travel downstream together.
+          path: |
+            node_modules
+            apps/table/node_modules
+            packages/board/node_modules
+            packages/schema/node_modules
+            packages/ui/node_modules
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+      - if: steps.bun-cache.outputs.cache-hit != 'true'
+        run: bun install --frozen-lockfile
+      - run: >
+          tar --zstd -cf node_modules.tar.zst
+          node_modules
+          apps/table/node_modules
+          packages/board/node_modules
+          packages/schema/node_modules
+          packages/ui/node_modules
+      - uses: actions/upload-artifact@v7
+        with:
+          name: node-modules-${{ github.sha }}
+          retention-days: 1
+          if-no-files-found: error
+          path: node_modules.tar.zst
+
+  install-rust:
+    name: Install (rust, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      # Windows bills at 2x on a private repo and is most of the spend, so
+      # day-to-day work on develop proves Linux only, and a merge to main
+      # also proves Windows. Gated on the push rather than the pull request:
+      # a merged pull request lands as a push to main as well, so this runs
+      # once per merge either way you merge. The Rust job below repeats this
+      # matrix so the two cache keys line up.
+      matrix:
+        os: ${{ github.ref_name == 'main' && fromJSON('["ubuntu-latest", "windows-latest"]') || fromJSON('["ubuntu-latest"]') }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      # A Cargo target directory does not tar and travel the way
+      # node_modules does, so the Rust half of the graph hands off through
+      # a cache rather than an artifact. This node populates it; the one
+      # consumer restores it read-only.
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fetch --locked
+
+  build:
+    name: Check & Build
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: node-modules-${{ github.sha }}
+      - run: tar --zstd -xf node_modules.tar.zst
+      - run: bun run typecheck:tools
+      # `turbo run check` typechecks each package and builds it. The
+      # frontend bundle it leaves is not spare output: the Rust job cannot
+      # compile without it, so it is a real edge of this graph.
+      - run: bunx turbo run check
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist-${{ github.sha }}
+          retention-days: 1
+          if-no-files-found: error
+          path: apps/table/dist
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: node-modules-${{ github.sha }}
+      - run: tar --zstd -xf node_modules.tar.zst
+      - run: bun run lint
+      - run: bun run lint:design
+
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: node-modules-${{ github.sha }}
+      - run: tar --zstd -xf node_modules.tar.zst
+      - run: bun run format:check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: node-modules-${{ github.sha }}
+      - run: tar --zstd -xf node_modules.tar.zst
+      - run: bun run test
+
+  generated:
+    name: Generated
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: node-modules-${{ github.sha }}
+      - run: tar --zstd -xf node_modules.tar.zst
+      # The design tokens are generated and committed; this proves the
+      # committed copy still matches what the generator writes. The
+      # TypeScript bindings are the same kind of check, but they need a
+      # compiled crate, so they live in the Rust job instead.
+      - run: bun run tokens:check
+
+  rust:
+    name: Rust (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: [install-rust, build]
+    strategy:
+      fail-fast: false
+      # Kept identical to install-rust, so each OS restores its own cache.
+      matrix:
+        os: ${{ github.ref_name == 'main' && fromJSON('["ubuntu-latest", "windows-latest"]') || fromJSON('["ubuntu-latest"]') }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Tauri Linux prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+      # Restore only: install-rust owns the key, so this job never races it.
+      - uses: Swatinem/rust-cache@v2
+        with:
+          save-if: "false"
+      # `tauri::generate_context!` embeds the frontend at compile time, so
+      # the table crate cannot build until the build job's bundle arrives.
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist-${{ github.sha }}
+          path: apps/table/dist
+      - run: bun run check:rust
+      # Rust is the source of truth for the boundary types, and the
+      # generated TypeScript is committed. Prove the two still agree.
+      - if: runner.os == 'Linux'
+        run: |
+          bun run schema
+          git diff --exit-code packages/schema/src/bindings.ts
+
+  e2e:
+    name: E2E ${{ matrix.project }} ${{ matrix.shard }}/2
+    runs-on: ubuntu-latest
+    # The expensive stage. It runs only on a merge to main, and only once
+    # every cheap check is green, so a broken commit never spends Playwright
+    # minutes. Gated on the push for the same reason as the Rust matrix.
+    if: github.ref_name == 'main'
+    needs: [lint, format, test, generated, rust]
+    strategy:
+      fail-fast: false
+      matrix:
+        # The perf project stays out: hosted runners render in software, so
+        # its frame times say nothing. Real numbers come from a GPU machine.
+        project: [chromium, webkit]
+        # Two shards is what three spec files justify. Raise this list and
+        # the divisor in the command below together when the suite grows.
+        shard: [1, 2]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: node-modules-${{ github.sha }}
+      - run: tar --zstd -xf node_modules.tar.zst
+      # Only the browser this shard runs; installing both would double the
+      # slowest step of the job for nothing.
+      - run: bunx playwright install --with-deps ${{ matrix.project }}
+      # Parameterised, so this is the one job that reaches for Playwright
+      # directly instead of going through a bun run script.
+      - run: bunx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shard }}/2 --reporter=blob
+        working-directory: apps/table
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: blob-${{ matrix.project }}-${{ matrix.shard }}
+          retention-days: 1
+          if-no-files-found: error
+          path: apps/table/blob-report
+
+  e2e-report:
+    name: E2E report
+    runs-on: ubuntu-latest
+    needs: e2e
+    # Runs even when a shard failed: a red run is exactly when the merged
+    # report is worth reading.
+    if: always() && needs.e2e.result != 'skipped'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: node-modules-${{ github.sha }}
+      - run: tar --zstd -xf node_modules.tar.zst
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: blob-*
+          merge-multiple: true
+          path: apps/table/all-blob-reports
+      - run: bunx playwright merge-reports --reporter html ./all-blob-reports
+        working-directory: apps/table
+      - uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          retention-days: 7
+          if-no-files-found: error
+          path: apps/table/playwright-report
