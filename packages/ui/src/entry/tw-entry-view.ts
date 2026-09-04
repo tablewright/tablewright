@@ -12,7 +12,7 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import type { Section } from "@tablewright/schema";
+import type { Section, Visibility } from "@tablewright/schema";
 import { previewOf } from "../spotlight/preview.js";
 import { groups } from "./sections.js";
 
@@ -48,6 +48,7 @@ export class TwEntryView extends LitElement {
     open: { type: Boolean, reflect: true },
     entry: { attribute: false },
     versions: { attribute: false },
+    viewer: { type: String },
   };
 
   declare open: boolean;
@@ -57,12 +58,18 @@ export class TwEntryView extends LitElement {
    * each, lit for the one shown, dimmed where the thing does not exist.
    */
   declare versions: string[];
+  /**
+   * Whose page this is: the DM's carries the table's controls (Place on
+   * board); a player's does not. The party tier unless the host says.
+   */
+  declare viewer: Visibility;
 
   constructor() {
     super();
     this.open = false;
     this.entry = undefined;
     this.versions = [];
+    this.viewer = "party";
   }
 
   static override styles = css`
@@ -372,7 +379,7 @@ export class TwEntryView extends LitElement {
         </div>
         <span class="actions">
           ${
-            entry.type === "monster"
+            entry.type === "monster" && this.viewer === "dm"
               ? html`<button type="button" @click=${this.#place}>Place on board</button>`
               : nothing
           }

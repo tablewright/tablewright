@@ -12,7 +12,14 @@ export const fixtureSystem: SystemManifest = {
   categories: { spells: "Spells", bestiary: "Bestiary", items: "Items" },
   kinds: {
     spell: { name: "Spell", category: "spells", words: ["spell", "spells"] },
-    monster: { name: "Creature", category: "bestiary", words: ["creature", "creatures"] },
+    monster: {
+      name: "Creature",
+      category: "bestiary",
+      words: ["creature", "creatures"],
+      // The bestiary is DM material, as in the shipped manifest.
+      visibility: "dm",
+      data_visibility: "dm",
+    },
     item: { name: "Item", category: "items", words: ["item", "items"] },
     "magic-item": { name: "Magic item", category: "items", words: ["magic item"] },
   },

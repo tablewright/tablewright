@@ -9,7 +9,8 @@ const card = "tw-share-tray tw-share-card";
 const page_ = "tw-entry-view";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  // The box as the DM sees it; the player view has its own file.
+  await page.goto("/?role=dm");
   await page.waitForFunction(() => window.__tablewright !== undefined);
 });
 

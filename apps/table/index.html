@@ -32,6 +32,21 @@
         display: flex;
         gap: var(--tw-space-sm);
       }
+      .chrome[hidden] {
+        display: none;
+      }
+      .chrome .role {
+        padding: var(--tw-comp-button-quiet-padding) var(--tw-space-md);
+        border: 1px dashed var(--tw-outline-variant);
+        border-radius: var(--tw-comp-button-quiet-rounded);
+        color: var(--tw-on-surface-variant);
+        font-family: var(--tw-typo-label-md-font-family);
+        font-size: var(--tw-typo-label-md-font-size);
+        font-weight: var(--tw-typo-label-md-font-weight);
+        line-height: var(--tw-typo-label-md-line-height);
+        letter-spacing: var(--tw-typo-label-md-letter-spacing);
+        text-transform: uppercase;
+      }
       .chrome .scene {
         display: inline-flex;
         align-items: center;
@@ -116,6 +131,8 @@
           <path d="M6 2v10.5M10 3.5V14"></path></svg
         ><span class="scene-name">Scene</span></span
       >
+      <!-- Whose view this is; only a player's says so, the DM's is the default. -->
+      <span id="role" class="role" hidden>Player view</span>
       <button id="search" type="button" aria-label="Search" title="Search (Ctrl+Space)">
         <svg
           width="16"
@@ -133,7 +150,7 @@
       </button>
     </div>
     <!-- Scene controls, the DM side: opening a map changes the scene under everyone. -->
-    <div class="chrome chrome-right">
+    <div id="dm-chrome" class="chrome chrome-right">
       <button id="open-map" type="button">Open map</button>
     </div>
     <!-- Mounted once and hidden, so Ctrl+Space costs nothing but a class change. -->

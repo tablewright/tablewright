@@ -3,8 +3,9 @@
 // ranking (name matches first, then tags, then type), and a lookup by id.
 // Enough to drive the panel, the share cards, and the entry page.
 
-import type { Filter, Understood } from "@tablewright/schema";
+import type { Filter, Understood, Visibility } from "@tablewright/schema";
 import type { EntryDocument, SearchAnswer, SpotlightHit } from "@tablewright/ui";
+import { fixtureSystem } from "./system-fixture.js";
 
 /** A fixture entry carries the facets the seeder would have read. */
 interface FixtureEntry extends Omit<EntryDocument, "versions"> {
@@ -146,7 +147,8 @@ const ENTRIES: FixtureEntry[] = [
 export const fixtureSearcher = async (
   query: string,
   filters: Filter[],
-  version = ""
+  version = "",
+  viewer: Visibility = "dm"
 ): Promise<SearchAnswer> => {
   const started = performance.now();
   // The operator syntax only, with where each stretch sat in the text:
@@ -176,7 +178,7 @@ export const fixtureSearcher = async (
     ...filters,
   ];
   const scored = ENTRIES.flatMap((entry) => {
-    if (!applied.every((filter) => passes(entry, filter))) {
+    if (!seenBy(entry, viewer) || !applied.every((filter) => passes(entry, filter))) {
       return [];
     }
     let score = 0;
@@ -311,14 +313,34 @@ function numberOf(value: string): number | undefined {
  * same thing in that version when there is one, each with every version
  * the thing exists in.
  */
-export function fixtureEntry(id: string, version?: string): EntryDocument | undefined {
+export function fixtureEntry(
+  id: string,
+  version?: string,
+  viewer: Visibility = "dm"
+): EntryDocument | undefined {
   const asked = ENTRIES.find((entry) => entry.id === id);
-  if (asked === undefined) {
+  if (asked === undefined || !seenBy(asked, viewer)) {
     return undefined;
   }
   const siblings = ENTRIES.filter((entry) => thingOf(entry) === thingOf(asked));
   const found = siblings.find((entry) => entry.version === version) ?? asked;
-  return { ...found, versions: siblings.map((entry) => entry.version).sort() };
+  // Data the viewer may not see yields no sections, as the core's store does.
+  const sections = dataSeenBy(found, viewer) ? found.sections : [];
+  return { ...found, sections, versions: siblings.map((entry) => entry.version).sort() };
+}
+
+// Visibility as the seeder would have set it: the kind's defaults from the
+// system manifest, else the world (design.md §3 "Who sees what").
+function seenBy(entry: FixtureEntry, viewer: Visibility): boolean {
+  return rank(viewer) >= rank(fixtureSystem.kinds?.[entry.type]?.visibility ?? "world");
+}
+
+function dataSeenBy(entry: FixtureEntry, viewer: Visibility): boolean {
+  return rank(viewer) >= rank(fixtureSystem.kinds?.[entry.type]?.data_visibility ?? "world");
+}
+
+function rank(tier: Visibility): number {
+  return tier === "dm" ? 2 : tier === "party" ? 1 : 0;
 }
 
 // `<kind>:<slug>`, the thing an entry is a version of.

@@ -11,6 +11,8 @@ import { BoardHost } from "./board-host.js";
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
+const dmChrome = document.getElementById("dm-chrome");
+const roleLabel = document.getElementById("role");
 const searchButton = document.getElementById("search");
 const spotlight = document.querySelector("tw-spotlight");
 const shares = document.querySelector("tw-share-tray");
@@ -19,6 +21,8 @@ const sceneName = document.querySelector("#scene .scene-name");
 if (
   host === null ||
   openButton === null ||
+  dmChrome === null ||
+  roleLabel === null ||
   searchButton === null ||
   spotlight === null ||
   shares === null ||
@@ -26,7 +30,7 @@ if (
   sceneName === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #search, #scene, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #dm-chrome, #role, #search, #scene, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
   );
 }
 
@@ -91,10 +95,26 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
 // The core behind the panels. In a Tauri window it is one typed call away;
 // under plain Vite it is the dev fixture, so everything can be driven in a
 // browser and by Playwright without a core.
-// The rule version this window reads, until the switch in the chrome makes
-// it each person's own and remembers it (plan 2.9c). 2024 is what shipped
-// first, not a preference; the design names no default by fiat.
+// The rule version the box folds to, until character sheets bring each
+// person their own (design.md §3 "Two rule versions"). 2024 is what shipped
+// first, not a preference; the page's own rail turns any thing to the other.
 const VERSION = "2024";
+
+// Whose view this page is (design.md §6): the Tauri window is the DM's; the
+// same page served without Tauri is the player view, at the party tier with
+// no DM chrome. Under plain Vite, `?role=dm` keeps the DM's view reachable
+// for Playwright and for looking at it in a browser.
+const VIEWER: Visibility = whoseView();
+
+function whoseView(): Visibility {
+  if ("__TAURI_INTERNALS__" in window) {
+    return "dm";
+  }
+  if (__DEV_BUILD__ && new URLSearchParams(window.location.search).get("role") === "dm") {
+    return "dm";
+  }
+  return "party";
+}
 
 interface Core {
   search: Searcher;
@@ -118,11 +138,12 @@ function connectCore(): Core {
       const scenes = import("./dev/scene-fixture.js");
       const system = import("./dev/system-fixture.js");
       return {
-        search: async (query, filters) => (await fixture).fixtureSearcher(query, filters, VERSION),
+        search: async (query, filters) =>
+          (await fixture).fixtureSearcher(query, filters, VERSION, VIEWER),
         system: async () => (await system).fixtureSystem,
         facetValues: async () => (await system).fixtureFacetValues,
         entry: async (id, version) => {
-          const found = (await fixture).fixtureEntry(id, version);
+          const found = (await fixture).fixtureEntry(id, version, VIEWER);
           if (found === undefined) {
             throw new Error(`No entry ${id} in the fixture.`);
           }
@@ -157,7 +178,7 @@ function connectCore(): Core {
   };
   return {
     search: async (query, filters) => {
-      const data = unwrap(await commands.search(query, "dm", null, filters, VERSION));
+      const data = unwrap(await commands.search(query, VIEWER, null, filters, VERSION));
       return {
         hits: data.hits,
         elapsedUs: data.elapsed_us,
@@ -169,7 +190,7 @@ function connectCore(): Core {
     facetValues: async () => unwrap(await commands.facetValues()),
     entry: async (id, version) => {
       const { type, name, source, tags, body, html, sections, ...rest } = unwrap(
-        await commands.getEntry(id, "dm", version ?? null)
+        await commands.getEntry(id, VIEWER, version ?? null)
       );
       return {
         id: rest.id,
@@ -282,6 +303,13 @@ try {
     })();
   });
   openButton.addEventListener("click", () => void openMap(board));
+  // A player's page has no DM chrome and says whose view it is.
+  dmChrome.hidden = VIEWER !== "dm";
+  roleLabel.hidden = VIEWER === "dm";
+  if (VIEWER !== "dm") {
+    document.title = `${document.title} · Player view`;
+  }
+  entryView.viewer = VIEWER;
   spotlight.searcher = core.search;
   spotlight.version = VERSION;
   // The box groups by the system's categories and builds its tray from the
