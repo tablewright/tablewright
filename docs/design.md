@@ -176,6 +176,48 @@ One search spans Vault and Compendium; results are labeled by origin.
   Parts are a way in, never a filter: no facet, no control. Searching
   inside a part's wording waits for FTS5, which moves out of the PoC
   to the Vault stage with lore, where body text matters.
+- **Body text is markdown, rendered by the core (researched
+  2026-09-04; crate, moment and order open).** What the bundled data
+  holds: 825 of 3401 entries carry markdown, all of it GFM: bold,
+  italics in both spellings, 156 tables with alignment rows, headings
+  inside rules, a few lists, seven blockquotes, two links, hard breaks
+  in item text; no raw HTML. 1.5 MB of body in all, the longest entry
+  14 KB. The page hand-renders paragraphs and bold today, so tables
+  and headings show raw. Rendering belongs to the core, in Rust: one
+  function that the seeder, a DM's module import, a command for
+  markdown living inside `data` (a trait's text, once the statblock
+  view exists) and later the Vault's editor preview all call. The
+  page inserts HTML it never builds: no TS parser, no work at open.
+  *When:* at seed time the HTML is stored beside the markdown as
+  derived data, like the index; the markdown stays the store of record
+  for FTS5 and editing. At read time the store renders on the way out,
+  microseconds an entry, and a renderer change needs no reseed. Either
+  is cheap: 1.5 MB renders in well under a second in any crate below.
+  *Which crate:* comrak (0.54, BSD-2-Clause; crates.io, docs.rs,
+  GitLab, Reddit) parses to an arena tree that is walked and mutated,
+  then formatted, and `create_formatter!` overrides rendering per node
+  type: the parse, transform, stringify shape of remark and rehype, so
+  the callouts plugin from izelya.me ports nearly line for line.
+  Extensions: table, strikethrough, tasklist, autolink, header IDs,
+  footnotes, description lists, wikilinks, GitHub alerts, multiline
+  block quotes, math, underline, spoiler. Raw HTML is escaped by
+  default. It must be taken with `default-features = false`: the
+  defaults pull clap and syntect with oniguruma, a C build, into every
+  rebuild. pulldown-cmark (0.13, MIT; rustdoc, mdBook) is the fast pull
+  parser: an iterator of events mapped and filtered before the HTML
+  writer, with tables, footnotes, strikethrough, tasklists, heading
+  attributes, wikilinks and the GitHub alert kinds; no tree, so a
+  transform that reads a block's first line, as the callout marker
+  does, buffers events instead of touching a node. markdown-rs (1.0,
+  by remark's author) yields remark's own mdast but cannot render a
+  tree back to HTML, which rules it out. *Transforms Tablewright will
+  want*, the reason a tree matters: dice expressions to a rollable
+  span; wikilinks `[[condition:frightened]]` to in-app links, the
+  Vault's lore; tables wrapped to scroll; headings demoted under the
+  page's own title; the bold lead-in sentence of a spell ("Using a
+  Higher-Level Spell Slot.") as a run-in heading; blockquote callouts;
+  external links opening outside. None exist yet; the first cut
+  renders plain GFM and each transform is a step of its own.
 - **Typing.** For the PoC the `data` blob is untyped JSON. Typed
   system data (Rust structs, generated TS) comes after; its shape is
   undecided.
