@@ -9,6 +9,11 @@ export interface SpotlightHit {
   type: string;
   name: string;
   source: string;
+  /**
+   * The rule version of the entry shown: one hit per thing, the viewer's
+   * version when it has one, else another standing in. Empty when unversioned.
+   */
+  version?: string;
   tags: string[];
   /** The part the search found this entry by: a trait, an action, a feature. */
   part?: { label: string; name: string } | null;

@@ -14,7 +14,7 @@
     "e2e": "playwright test",
     "e2e:perf": "playwright test tests/perf.e2e.ts --project=chromium",
     "tauri": "tauri",
-    "seed": "cargo run -p tablewright-core --bin seed -- src-tauri/resources/compendium/5e-2024-srd.sqlite ../../systems/5e/system.json ../../systems/5e/content/2024/srd ../../systems/5e/content/2014/core-conditions"
+    "seed": "cargo run -p tablewright-core --bin seed -- src-tauri/resources/compendium/5e-srd.sqlite ../../systems/5e/system.json ../../systems/5e/content/2024/srd ../../systems/5e/content/2014/srd ../../systems/5e/content/2014/core-conditions"
   },
   "dependencies": {
     "@tablewright/board": "workspace:*",

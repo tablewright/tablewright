@@ -91,6 +91,11 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
 // The core behind the panels. In a Tauri window it is one typed call away;
 // under plain Vite it is the dev fixture, so everything can be driven in a
 // browser and by Playwright without a core.
+// The rule version this window reads, until the switch in the chrome makes
+// it each person's own and remembers it (plan 2.9c). 2024 is what shipped
+// first, not a preference; the design names no default by fiat.
+const VERSION = "2024";
+
 interface Core {
   search: Searcher;
   /** The system the compendium was seeded for, or null when the seeder had none. */
@@ -151,7 +156,7 @@ function connectCore(): Core {
   };
   return {
     search: async (query, filters) => {
-      const data = unwrap(await commands.search(query, "dm", null, filters));
+      const data = unwrap(await commands.search(query, "dm", null, filters, VERSION));
       return {
         hits: data.hits,
         elapsedUs: data.elapsed_us,
@@ -203,7 +208,7 @@ function describe(error: { kind: string }): string {
 function exposeSearchProbe(): void {
   window.__tablewrightSearch = async (query: string, viewer: Visibility = "dm", limit = null) => {
     const started = performance.now();
-    const result = await commands.search(query, viewer, limit, null);
+    const result = await commands.search(query, viewer, limit, null, VERSION);
     const roundTripMs = performance.now() - started;
     if (result.status === "error") {
       throw new Error(`search failed: ${JSON.stringify(result.error)}`);
@@ -263,6 +268,7 @@ try {
   });
   openButton.addEventListener("click", () => void openMap(board));
   spotlight.searcher = core.search;
+  spotlight.version = VERSION;
   // The box groups by the system's categories and builds its tray from the
   // system's controls; without a system every kind is its own group and
   // there is no tray, which still reads.

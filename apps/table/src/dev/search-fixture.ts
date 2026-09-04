@@ -9,6 +9,8 @@ import type { EntryDocument, SearchAnswer, Searcher, SpotlightHit } from "@table
 /** A fixture entry carries the facets the seeder would have read. */
 interface FixtureEntry extends EntryDocument {
   facets: Record<string, string | number | boolean>;
+  /** The rule version, as the module would give it. */
+  version: string;
 }
 
 const ENTRIES: FixtureEntry[] = [
@@ -17,6 +19,7 @@ const ENTRIES: FixtureEntry[] = [
     type: "spell",
     name: "Fire Bolt",
     source: "fixture",
+    version: "2024",
     tags: ["evocation", "cantrip"],
     facets: { level: 0, school: "evocation", ritual: false, concentration: false },
     body: "You hurl a mote of fire at a creature or an object within range.\n\n**Cantrip Upgrade.** The damage increases by 1d10 at levels 5, 11, and 17.",
@@ -28,6 +31,7 @@ const ENTRIES: FixtureEntry[] = [
     type: "spell",
     name: "Fireball",
     source: "fixture",
+    version: "2024",
     tags: ["evocation", "level-3"],
     facets: { level: 3, school: "evocation", ritual: false, concentration: false },
     body: "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion.",
@@ -39,6 +43,7 @@ const ENTRIES: FixtureEntry[] = [
     type: "spell",
     name: "Wall of Fire",
     source: "fixture",
+    version: "2024",
     tags: ["evocation", "level-4"],
     facets: { level: 4, school: "evocation", ritual: false, concentration: true },
     body: "You create a wall of fire on a solid surface within range.",
@@ -50,6 +55,7 @@ const ENTRIES: FixtureEntry[] = [
     type: "monster",
     name: "Fire Elemental",
     source: "fixture",
+    version: "2024",
     tags: ["elemental", "large", "cr-5"],
     facets: { cr: 5, size: "large" },
     body: "",
@@ -61,6 +67,7 @@ const ENTRIES: FixtureEntry[] = [
     type: "monster",
     name: "Goblin Warrior",
     source: "fixture",
+    version: "2024",
     tags: ["fey", "small", "cr-1/4"],
     facets: { cr: 0.25, size: "small" },
     body: "",
@@ -91,6 +98,7 @@ const ENTRIES: FixtureEntry[] = [
     type: "item",
     name: "Longsword",
     source: "fixture",
+    version: "2024",
     tags: ["weapon"],
     facets: { category: "weapon" },
     body: "A longsword.\n\n| Cost | Weight |\n|---|---|\n| 15 gp | 3 lb |",
@@ -98,10 +106,24 @@ const ENTRIES: FixtureEntry[] = [
     sections: [],
   },
   {
+    // A 2014 spell the 2024 rules dropped: for a 2024 reader it stands in.
+    id: "fx:spell:feeblemind",
+    type: "spell",
+    name: "Feeblemind",
+    source: "fixture",
+    version: "2014",
+    tags: ["enchantment", "level-8"],
+    facets: { level: 8, school: "enchantment", ritual: false, concentration: false },
+    body: "You blast the mind of a creature that you can see within range.",
+    html: "<p>You blast the mind of a creature that you can see within range.</p>\n",
+    sections: [],
+  },
+  {
     id: "fx:magic-item:flame-tongue",
     type: "magic-item",
     name: "Flame Tongue",
     source: "fixture",
+    version: "2024",
     tags: ["weapon", "fire", "rare", "attunement"],
     facets: { category: "weapon", rarity: "rare", attunement: true },
     body: "While holding this magic weapon, you can take a Bonus Action to cause flames to sheathe its blade.",
@@ -267,7 +289,7 @@ export function fixtureEntry(id: string): EntryDocument | undefined {
   return ENTRIES.find((entry) => entry.id === id);
 }
 
-function summaryOf(entry: EntryDocument): SpotlightHit {
-  const { id, type, name, source, tags } = entry;
-  return { id, type, name, source, tags };
+function summaryOf(entry: FixtureEntry): SpotlightHit {
+  const { id, type, name, source, tags, version } = entry;
+  return { id, type, name, source, tags, version };
 }

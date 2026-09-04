@@ -223,6 +223,7 @@ mod tests {
             kind: "monster".into(),
             name: "Goblin Warrior".into(),
             source: "5e-2024-srd".into(),
+            version: "2024".into(),
             tags: vec!["fey".into()],
             visibility: Visibility::Party,
             facets: std::collections::BTreeMap::new(),

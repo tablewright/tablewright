@@ -15,7 +15,7 @@ use crate::render;
 use crate::system::SystemManifest;
 
 /// Schema version this build writes and reads; bumped with every migration.
-const SCHEMA_VERSION: i64 = 4;
+const SCHEMA_VERSION: i64 = 5;
 
 /// Failures of the compendium store.
 #[derive(Debug, Error)]
@@ -115,6 +115,13 @@ impl Store {
                 "ALTER TABLE entries ADD COLUMN parts TEXT NOT NULL DEFAULT '[]';",
             )?;
         }
+        if found < 5 {
+            // Version 5: the rule version each entry belongs to, its
+            // module's, so one file holds the 2014 and 2024 text side by side.
+            connection.execute_batch(
+                "ALTER TABLE entries ADD COLUMN version TEXT NOT NULL DEFAULT '';",
+            )?;
+        }
         if found < SCHEMA_VERSION {
             connection.pragma_update(None, "user_version", SCHEMA_VERSION)?;
         }
@@ -129,8 +136,9 @@ impl Store {
     pub fn upsert(&self, entry: &Entry) -> Result<(), StoreError> {
         self.connection.execute(
             "INSERT OR REPLACE INTO entries
-                (id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
+                (id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts,
+                 version)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)",
             params![
                 entry.id.as_str(),
                 entry.kind,
@@ -143,6 +151,7 @@ impl Store {
                 serde_json::to_string(&entry.data)?,
                 serde_json::to_string(&entry.facets)?,
                 serde_json::to_string(&entry.parts)?,
+                entry.version,
             ],
         )?;
         Ok(())
@@ -162,8 +171,9 @@ impl Store {
         {
             let mut statement = transaction.prepare(
                 "INSERT OR REPLACE INTO entries
-                    (id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts)
-                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
+                    (id, kind, name, source, tags, visibility, data_visibility, body, data, facets,
+                     parts, version)
+                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)",
             )?;
             for entry in entries {
                 statement.execute(params![
@@ -178,6 +188,7 @@ impl Store {
                     serde_json::to_string(&entry.data)?,
                     serde_json::to_string(&entry.facets)?,
                     serde_json::to_string(&entry.parts)?,
+                    entry.version,
                 ])?;
                 count += 1;
             }
@@ -196,7 +207,8 @@ impl Store {
         let entry = self
             .connection
             .query_row(
-                "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts
+                "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets,
+                        parts, version
                  FROM entries WHERE id = ?1",
                 params![id.as_str()],
                 read_entry,
@@ -216,7 +228,8 @@ impl Store {
     /// Fails if the read fails or a stored row is corrupt.
     pub fn list(&self, kind: Option<&str>, viewer: Visibility) -> Result<Vec<Entry>, StoreError> {
         let mut statement = self.connection.prepare(
-            "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets, parts
+            "SELECT id, kind, name, source, tags, visibility, data_visibility, body, data, facets,
+                    parts, version
              FROM entries
              WHERE visibility <= ?1 AND (?2 IS NULL OR kind = ?2)
              ORDER BY name, id",
@@ -242,7 +255,8 @@ impl Store {
     /// Fails if the read fails or a stored row is corrupt.
     pub fn summaries(&self) -> Result<Vec<EntrySummary>, StoreError> {
         let mut statement = self.connection.prepare(
-            "SELECT id, kind, name, source, tags, visibility, facets, parts FROM entries ORDER BY id",
+            "SELECT id, kind, name, source, tags, visibility, facets, parts, version
+             FROM entries ORDER BY id",
         )?;
         let rows = statement.query_map([], |row| {
             Ok((
@@ -254,16 +268,18 @@ impl Store {
                 row.get::<_, i64>(5)?,
                 row.get::<_, String>(6)?,
                 row.get::<_, String>(7)?,
+                row.get::<_, String>(8)?,
             ))
         })?;
         let mut summaries = Vec::new();
         for row in rows {
-            let (id, kind, name, source, tags, visibility, facets, parts) = row?;
+            let (id, kind, name, source, tags, visibility, facets, parts, version) = row?;
             summaries.push(EntrySummary {
                 id: EntryId::new(id),
                 kind,
                 name,
                 source,
+                version,
                 tags: serde_json::from_str(&tags)?,
                 visibility: Visibility::from_code(visibility)
                     .ok_or(StoreError::UnknownVisibility(visibility))?,
@@ -375,6 +391,7 @@ fn read_entry(row: &Row<'_>) -> rusqlite::Result<Result<Entry, StoreError>> {
     let data: String = row.get(8)?;
     let facets: String = row.get(9)?;
     let parts: String = row.get(10)?;
+    let version: String = row.get(11)?;
     Ok(build_entry(
         id,
         kind,
@@ -387,6 +404,7 @@ fn read_entry(row: &Row<'_>) -> rusqlite::Result<Result<Entry, StoreError>> {
         &data,
         &facets,
         &parts,
+        version,
     ))
 }
 
@@ -403,12 +421,14 @@ fn build_entry(
     data: &str,
     facets: &str,
     parts: &str,
+    version: String,
 ) -> Result<Entry, StoreError> {
     Ok(Entry {
         id: EntryId::new(id),
         kind,
         name,
         source,
+        version,
         tags: serde_json::from_str(tags)?,
         visibility: Visibility::from_code(visibility)
             .ok_or(StoreError::UnknownVisibility(visibility))?,
@@ -457,6 +477,7 @@ mod tests {
             kind: kind.into(),
             name: name.into(),
             source: "srd-5e".into(),
+            version: "2024".into(),
             tags: vec!["test".into()],
             visibility,
             data_visibility: Visibility::Dm,
@@ -502,6 +523,7 @@ mod tests {
         assert_eq!(goblin.tags, vec!["test".to_string()]);
         assert_eq!(goblin.data["name"], "Goblin");
         assert_eq!(goblin.body, "About Goblin.");
+        assert_eq!(goblin.version, "2024");
         assert_eq!(goblin.html, "<p>About Goblin.</p>\n");
         assert!(goblin.sections.is_empty(), "no manifest, no sections");
     }

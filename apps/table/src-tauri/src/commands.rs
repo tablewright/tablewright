@@ -13,7 +13,7 @@ use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
     DEFAULT_LIMIT, Entry, EntryId, Filter, Hit, Manifest, Scene, SceneError, StoreError,
-    SystemManifest, Understood, Visibility,
+    SystemManifest, Understood, Viewer, Visibility,
 };
 use tauri::State;
 
@@ -69,7 +69,9 @@ fn compendium(state: &AppState) -> Result<&Compendium, CommandError> {
     state.compendium.as_ref().ok_or(CommandError::NoCompendium)
 }
 
-/// Rank the compendium against `query` for a viewer of `viewer` tier.
+/// Rank the compendium against `query` for a viewer of `viewer` tier who
+/// reads the rules of `version` (one hit per thing; the version's own entry
+/// when it has one, else another version's, which carries its version).
 #[tauri::command]
 #[specta::specta]
 pub fn search(
@@ -78,10 +80,15 @@ pub fn search(
     viewer: Visibility,
     limit: Option<u32>,
     filters: Option<Vec<Filter>>,
+    version: Option<String>,
 ) -> Result<SearchResponse, CommandError> {
     let compendium = compendium(&state)?;
     let started = Instant::now();
     let limit = limit.map_or(DEFAULT_LIMIT, |limit| limit as usize);
+    let viewer = Viewer {
+        tier: viewer,
+        version,
+    };
     let answer =
         compendium
             .catalogue

@@ -60,7 +60,7 @@ test("tiles arrive grouped by category as you type, and the readout reports timi
   await expect(tiles.nth(3).locator(".badge")).toHaveText("CR 5");
   await expect(tiles.nth(4).locator(".badge")).toHaveText("Rare");
   await expect(page.locator(`${box} footer`)).toContainText(
-    /5 hits of 7 · core [\d.]+ ms · to paint \d+ ms/
+    /5 hits of 8 · core [\d.]+ ms · to paint \d+ ms/
   );
   await page.keyboard.type(" bolt");
   await expect(tiles).toHaveCount(1);
@@ -109,6 +109,18 @@ test("the page shows the body as the core rendered it: a table is a table", asyn
   await page.keyboard.press("Enter");
   await expect(page.locator(`${page_} article strong`)).toHaveText("Cantrip Upgrade.");
   await expect(page.locator(`${page_} article`)).not.toContainText("**");
+});
+
+test("a hit from another rule version wears its year", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("feeblemind");
+  const tile = page.locator(`${box} li`).first();
+  await expect(tile.locator(".name")).toHaveText("Feeblemind");
+  await expect(tile.locator(".year")).toHaveText("2014");
+  await page.keyboard.press("Control+a");
+  await page.keyboard.type("fire bolt");
+  await expect(page.locator(`${box} li`).first().locator(".name")).toHaveText("Fire Bolt");
+  await expect(page.locator(`${box} li .year`)).toHaveCount(0);
 });
 
 test("the page shows an entry's parts under their headings", async ({ page }) => {

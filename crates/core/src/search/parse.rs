@@ -395,6 +395,7 @@ mod tests {
             kind: kind.into(),
             name: "Thing".into(),
             source: "t".into(),
+            version: String::new(),
             tags: Vec::new(),
             visibility: Visibility::World,
             facets: facets

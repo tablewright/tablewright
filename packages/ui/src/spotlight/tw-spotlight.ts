@@ -65,6 +65,7 @@ export class TwSpotlight extends LitElement {
     taxonomy: { attribute: false },
     system: { attribute: false },
     facetValues: { attribute: false },
+    version: { type: String },
     query: { state: true },
     hits: { state: true },
     understood: { state: true },
@@ -88,6 +89,11 @@ export class TwSpotlight extends LitElement {
   declare system: SystemManifest | undefined;
   /** Facet name to the values the data holds, for chips without stops. */
   declare facetValues: Record<string, string[]>;
+  /**
+   * The rule version this viewer reads. A hit of another version is a
+   * stand-in, badged with its own version so the reader knows.
+   */
+  declare version: string;
   declare query: string;
   declare hits: SpotlightHit[];
   /** What the parser made of the typed text on the last answer. */
@@ -125,6 +131,7 @@ export class TwSpotlight extends LitElement {
     this.taxonomy = undefined;
     this.system = undefined;
     this.facetValues = {};
+    this.version = "";
     this.query = "";
     this.hits = [];
     this.understood = [];
@@ -355,6 +362,18 @@ export class TwSpotlight extends LitElement {
     li[aria-selected="true"] .badge {
       background: var(--tw-primary);
       color: var(--tw-on-primary);
+    }
+    .year {
+      padding: 1px var(--tw-space-sm);
+      border: 1px dashed var(--tw-outline-variant);
+      border-radius: var(--tw-rounded-sm);
+      color: var(--tw-on-surface-variant);
+      font-family: var(--tw-typo-label-md-font-family);
+      font-size: var(--tw-typo-label-md-font-size);
+      font-weight: var(--tw-typo-label-md-font-weight);
+      line-height: var(--tw-typo-label-md-line-height);
+      letter-spacing: var(--tw-typo-label-md-letter-spacing);
+      white-space: nowrap;
     }
     .ring {
       display: inline-flex;
@@ -779,6 +798,13 @@ export class TwSpotlight extends LitElement {
         <span class="foot">
           ${preview.ring === undefined ? nothing : html`<span class="ring">${preview.ring}</span>`}
           ${preview.badge === undefined ? nothing : html`<span class="badge">${preview.badge}</span>`}
+          ${
+            this.#standsIn(hit)
+              ? html`<span class="year" title=${`From the ${hit.version} rules`}
+                  >${hit.version}</span
+                >`
+              : nothing
+          }
           <span class="actions">
             <button
               type="button"
@@ -795,6 +821,13 @@ export class TwSpotlight extends LitElement {
         </span>
       </li>
     `;
+  }
+
+  // A hit of another version than the viewer reads is standing in for a
+  // thing their version lacks.
+  #standsIn(hit: SpotlightHit): boolean {
+    const version = hit.version ?? "";
+    return version !== "" && this.version !== "" && version !== this.version;
   }
 
   #readout(): string {

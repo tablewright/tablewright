@@ -7,8 +7,12 @@ import { invoke as __TAURI_INVOKE } from "@tauri-apps/api/core";
 
 /** Commands */
 export const commands = {
-	/**  Rank the compendium against `query` for a viewer of `viewer` tier. */
-	search: (query: string, viewer: Visibility, limit: number | null, filters: Filter[] | null) => typedError<SearchResponse, CommandError>(__TAURI_INVOKE("search", { query, viewer, limit, filters })),
+	/**
+	 *  Rank the compendium against `query` for a viewer of `viewer` tier who
+	 *  reads the rules of `version` (one hit per thing; the version's own entry
+	 *  when it has one, else another version's, which carries its version).
+	 */
+	search: (query: string, viewer: Visibility, limit: number | null, filters: Filter[] | null, version: string | null) => typedError<SearchResponse, CommandError>(__TAURI_INVOKE("search", { query, viewer, limit, filters, version })),
 	/**  One entry as `viewer` may see it. */
 	getEntry: (id: EntryId, viewer: Visibility) => typedError<Entry, CommandError>(__TAURI_INVOKE("get_entry", { id, viewer })),
 	/**  The manifests of every module in the compendium, for the credits view. */
@@ -105,6 +109,13 @@ export type Entry = {
 	name: string,
 	/**  Provenance: the book, module, or homebrew collection the entry came from. */
 	source: string,
+	/**
+	 *  The rule version the entry belongs to, its module's: "2014", "2024".
+	 *  An entry is a version of a thing, and `<kind>:<slug>` is the thing's
+	 *  identity across versions (design.md §3 "Two rule versions"). Filled
+	 *  from the module manifest when the module is read; empty means unversioned.
+	 */
+	version?: string,
 	tags: string[],
 	/**  Who may see the entry at all: its name, tags, and body. */
 	visibility: Visibility,
@@ -199,6 +210,12 @@ export type Hit = {
 	type: string,
 	name: string,
 	source: string,
+	/**
+	 *  The rule version of the entry shown. One hit per thing: the viewer's
+	 *  version when the thing exists in it, else another version standing
+	 *  in, which the tile badges by comparing this with the viewer's.
+	 */
+	version: string,
 	tags: string[],
 	/**
 	 *  The part the query found this entry by, when its best match was a

@@ -14,7 +14,7 @@ mod parse;
 mod rank;
 mod vocabulary;
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::sync::Mutex;
 
 use serde::{Deserialize, Serialize};
@@ -50,6 +50,10 @@ pub struct Hit {
     pub kind: String,
     pub name: String,
     pub source: String,
+    /// The rule version of the entry shown. One hit per thing: the viewer's
+    /// version when the thing exists in it, else another version standing
+    /// in, which the tile badges by comparing this with the viewer's.
+    pub version: String,
     pub tags: Vec<String>,
     /// The part the query found this entry by, when its best match was a
     /// trait, an action or a feature rather than the entry itself.
@@ -61,9 +65,40 @@ pub struct Hit {
     pub penalty: u32,
 }
 
+/// Who is asking: their tier, and the rule version they read. Every search
+/// carries both (design.md §3 "Two rule versions, one compendium").
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Viewer {
+    pub tier: Visibility,
+    /// None reads every version alike: one hit per thing, whichever ranks first.
+    pub version: Option<String>,
+}
+
+impl Viewer {
+    #[must_use]
+    pub fn new(tier: Visibility, version: impl Into<String>) -> Self {
+        Self {
+            tier,
+            version: Some(version.into()),
+        }
+    }
+}
+
+impl From<Visibility> for Viewer {
+    fn from(tier: Visibility) -> Self {
+        Self {
+            tier,
+            version: None,
+        }
+    }
+}
+
 /// Every searchable entry, normalised once.
 pub struct Catalogue {
     entries: Vec<(EntrySummary, Candidate)>,
+    /// Each entry's thing, `<kind>:<slug>`, interned: entries that share one
+    /// are versions of the same thing.
+    identities: Vec<u32>,
     index: TrigramIndex,
     /// The system's words and the values the entries hold, for the parser.
     lexicon: Lexicon,
@@ -74,7 +109,7 @@ pub struct Catalogue {
 
 struct LastSearch {
     query: Query,
-    viewer: Visibility,
+    viewer: Viewer,
     matched: Vec<u32>,
 }
 
@@ -98,6 +133,14 @@ impl Catalogue {
     ) -> Self {
         let summaries: Vec<EntrySummary> = summaries.into_iter().collect();
         let lexicon = Lexicon::build(system, &summaries);
+        let mut interned: HashMap<String, u32> = HashMap::new();
+        let identities: Vec<u32> = summaries
+            .iter()
+            .map(|summary| {
+                let next = u32::try_from(interned.len()).expect("catalogue fits in u32");
+                *interned.entry(identity_of(summary)).or_insert(next)
+            })
+            .collect();
         let entries: Vec<(EntrySummary, Candidate)> = summaries
             .into_iter()
             .map(|summary| {
@@ -128,6 +171,7 @@ impl Catalogue {
         }));
         Self {
             entries,
+            identities,
             index,
             lexicon,
             last: Mutex::new(None),
@@ -162,12 +206,12 @@ impl Catalogue {
     /// Rank every entry `viewer` may see against `query` and return at most
     /// `limit` hits. An empty query finds nothing; a query of only filters
     /// lists everything that passes them.
-    pub fn search(&self, query: &str, viewer: Visibility, limit: usize) -> Vec<Hit> {
+    pub fn search(&self, query: &str, viewer: impl Into<Viewer>, limit: usize) -> Vec<Hit> {
         self.answer(query, viewer, limit).hits
     }
 
     /// [`search`](Self::search), with what the parser made of the text.
-    pub fn answer(&self, raw: &str, viewer: Visibility, limit: usize) -> Answer {
+    pub fn answer(&self, raw: &str, viewer: impl Into<Viewer>, limit: usize) -> Answer {
         self.answer_with(raw, viewer, limit, &[])
     }
 
@@ -177,10 +221,11 @@ impl Catalogue {
     pub fn answer_with(
         &self,
         raw: &str,
-        viewer: Visibility,
+        viewer: impl Into<Viewer>,
         limit: usize,
         extra: &[Filter],
     ) -> Answer {
+        let viewer = viewer.into();
         let mut query = self.prepare(raw);
         if !extra.is_empty() {
             let taken: BTreeSet<String> = extra.iter().flat_map(Filter::facets_named).collect();
@@ -209,8 +254,8 @@ impl Catalogue {
                 understood,
             };
         }
-        let pool = self.pool_for(&query, viewer);
-        let (hits, matched) = self.rank(&query, viewer, limit, pool);
+        let pool = self.pool_for(&query, &viewer);
+        let (hits, matched) = self.rank(&query, &viewer, limit, pool);
         if let Ok(mut last) = self.last.lock() {
             *last = Some(LastSearch {
                 query,
@@ -251,11 +296,11 @@ impl Catalogue {
     // The smallest set that is still a superset of the answer: what the index
     // allows, cut down by the previous match set when this query only narrows
     // it; everything only when neither can say anything.
-    fn pool_for(&self, query: &Query, viewer: Visibility) -> Pool {
+    fn pool_for(&self, query: &Query, viewer: &Viewer) -> Pool {
         let indexed = self.index.candidates(&query.tokens);
         if let Ok(last) = self.last.lock()
             && let Some(last) = last.as_ref()
-            && last.viewer == viewer
+            && last.viewer == *viewer
             && query.extends(&last.query)
         {
             return Pool::Ids(match indexed {
@@ -270,18 +315,19 @@ impl Catalogue {
     }
 
     // Scores the pool, keeps every id that matched (in id order, for the next
-    // narrowing), and returns the top `limit` in rule 6 order.
+    // narrowing), folds versions of one thing into one hit, and returns the
+    // top `limit` in rule 6 order.
     fn rank(
         &self,
         query: &Query,
-        viewer: Visibility,
+        viewer: &Viewer,
         limit: usize,
         pool: Pool,
     ) -> (Vec<Hit>, Vec<u32>) {
         let mut scored: Vec<(Score, u32)> = Vec::new();
         let mut consider = |id: u32| {
             let (summary, candidate) = &self.entries[id as usize];
-            if summary.visibility.is_visible_to(viewer)
+            if summary.visibility.is_visible_to(viewer.tier)
                 && let Some(score) = rank::score(candidate, query)
             {
                 scored.push((score, id));
@@ -300,6 +346,37 @@ impl Catalogue {
                 .then_with(|| left.1.name.cmp(&right.1.name))
                 .then_with(|| left.0.id.cmp(&right.0.id))
         };
+        // One hit per thing: the viewer's version when it matched, else the
+        // best-ranked other version standing in.
+        let is_own = |id: u32| {
+            viewer
+                .version
+                .as_deref()
+                .is_some_and(|version| self.entries[id as usize].0.version == version)
+        };
+        let mut chosen: HashMap<u32, usize> = HashMap::new();
+        let mut folded: Vec<(Score, u32)> = Vec::with_capacity(scored.len());
+        for candidate in scored {
+            let identity = self.identities[candidate.1 as usize];
+            match chosen.get(&identity) {
+                None => {
+                    chosen.insert(identity, folded.len());
+                    folded.push(candidate);
+                }
+                Some(&at) => {
+                    let kept = folded[at];
+                    let better = match (is_own(kept.1), is_own(candidate.1)) {
+                        (false, true) => true,
+                        (true, false) => false,
+                        _ => by_rule_6(&candidate, &kept) == std::cmp::Ordering::Less,
+                    };
+                    if better {
+                        folded[at] = candidate;
+                    }
+                }
+            }
+        }
+        let mut scored = folded;
         // Only the top `limit` need ordering: a broad query matches thousands
         // and shows fifty, so the rest are partitioned off, not sorted.
         if limit == 0 {
@@ -318,6 +395,7 @@ impl Catalogue {
                     kind: summary.kind.clone(),
                     name: summary.name.clone(),
                     source: summary.source.clone(),
+                    version: summary.version.clone(),
                     tags: summary.tags.clone(),
                     part: rank::matched_part(candidate, query)
                         .and_then(|at| summary.parts.get(at).cloned()),
@@ -332,13 +410,21 @@ impl Catalogue {
     /// The same search over every entry, with no index and no narrowing:
     /// the reference the aids are checked against.
     #[cfg(test)]
-    fn search_scanning(&self, query: &str, viewer: Visibility, limit: usize) -> Vec<Hit> {
+    fn search_scanning(&self, query: &str, viewer: impl Into<Viewer>, limit: usize) -> Vec<Hit> {
         let query = self.prepare(query);
         if query.is_empty() {
             return Vec::new();
         }
-        self.rank(&query, viewer, limit, Pool::All).0
+        self.rank(&query, &viewer.into(), limit, Pool::All).0
     }
+}
+
+// `<kind>:<slug>`: the thing an entry is a version of. Ids are
+// `<module>:<kind>:<slug>`, so the slug is the last segment.
+fn identity_of(summary: &EntrySummary) -> String {
+    let id = summary.id.as_str();
+    let slug = id.rsplit(':').next().unwrap_or(id);
+    format!("{}:{slug}", summary.kind)
 }
 
 #[cfg(test)]
@@ -354,11 +440,18 @@ mod tests {
             kind: kind.into(),
             name: name.into(),
             source: "srd-5e".into(),
+            version: String::new(),
             tags: Vec::new(),
             visibility,
             facets: BTreeMap::new(),
             parts: Vec::new(),
         }
+    }
+
+    fn versioned(id: &str, kind: &str, name: &str, version: &str) -> EntrySummary {
+        let mut entry = summary(id, kind, name, Visibility::World);
+        entry.version = version.into();
+        entry
     }
 
     fn spells(names: &[&str]) -> Catalogue {
@@ -552,6 +645,7 @@ mod tests {
                 kind: "spell".into(),
                 name: "Fire Bolt".into(),
                 source: "srd-5e".into(),
+                version: "2024".into(),
                 tags: vec!["evocation".into()],
                 visibility: Visibility::World,
                 data_visibility: Visibility::World,
@@ -694,5 +788,67 @@ mod tests {
             },
             &|| catalogue.search("fir", world, DEFAULT_LIMIT).len(),
         );
+    }
+
+    #[test]
+    fn one_hit_per_thing_and_the_viewers_version_wins() {
+        let catalogue = Catalogue::new([
+            versioned("5e-2014-srd:spell:fireball", "spell", "Fireball", "2014"),
+            versioned("5e-2024-srd:spell:fireball", "spell", "Fireball", "2024"),
+            versioned("5e-2014-srd:monster:bugbear", "monster", "Bugbear", "2014"),
+            versioned(
+                "5e-2024-srd:monster:bugbear-warrior",
+                "monster",
+                "Bugbear Warrior",
+                "2024",
+            ),
+        ]);
+        let ids = |hits: &[Hit]| -> Vec<String> {
+            hits.iter()
+                .map(|hit| format!("{} ({})", hit.id.as_str(), hit.version))
+                .collect()
+        };
+        let reading_2024 = Viewer::new(Visibility::World, "2024");
+        assert_eq!(
+            ids(&catalogue.search("fireball", reading_2024.clone(), DEFAULT_LIMIT)),
+            vec!["5e-2024-srd:spell:fireball (2024)"]
+        );
+        let reading_2014 = Viewer::new(Visibility::World, "2014");
+        assert_eq!(
+            ids(&catalogue.search("fireball", reading_2014, DEFAULT_LIMIT)),
+            vec!["5e-2014-srd:spell:fireball (2014)"]
+        );
+        // The 2024 rules renamed the bugbear: both things show, and the
+        // 2014 one stands in, marked with its version for the tile to badge.
+        assert_eq!(
+            ids(&catalogue.search("bugbear", reading_2024, DEFAULT_LIMIT)),
+            vec![
+                "5e-2014-srd:monster:bugbear (2014)",
+                "5e-2024-srd:monster:bugbear-warrior (2024)"
+            ]
+        );
+        // No version: still one hit per thing, whichever ranks first.
+        assert_eq!(
+            catalogue
+                .search("fireball", Visibility::World, DEFAULT_LIMIT)
+                .len(),
+            1
+        );
+    }
+
+    #[test]
+    fn the_fold_happens_before_the_limit_cuts() {
+        let catalogue = Catalogue::new([
+            versioned("a:spell:fire-bolt", "spell", "Fire Bolt", "2014"),
+            versioned("b:spell:fire-bolt", "spell", "Fire Bolt", "2024"),
+            versioned("a:spell:fireball", "spell", "Fireball", "2014"),
+            versioned("b:spell:fireball", "spell", "Fireball", "2024"),
+        ]);
+        let hits = catalogue.search("fire", Viewer::new(Visibility::World, "2024"), 2);
+        let names: Vec<String> = hits
+            .iter()
+            .map(|hit| format!("{} {}", hit.name, hit.version))
+            .collect();
+        assert_eq!(names, vec!["Fireball 2024", "Fire Bolt 2024"]);
     }
 }

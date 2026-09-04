@@ -18,7 +18,7 @@ pub use compendium::{
 pub use module::{Manifest, Module, ModuleError, read_module};
 pub use render::render;
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};
-pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood};
+pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood, Viewer};
 pub use store::{Store, StoreError};
 pub use system::{
     Cell, ControlKind, ControlSpec, FacetSpec, FacetType, KindSpec, NoteSpec, PartSpec, Sentinels,

@@ -86,7 +86,7 @@ struct EntryFile {
 }
 
 impl EntryFile {
-    fn into_entry(self, system: Option<&SystemManifest>) -> Entry {
+    fn into_entry(self, system: Option<&SystemManifest>, version: &str) -> Entry {
         let (visibility, data_visibility) = system
             .map_or((Visibility::World, Visibility::World), |system| {
                 system.kind_visibility(&self.kind)
@@ -96,6 +96,7 @@ impl EntryFile {
             kind: self.kind,
             name: self.name,
             source: self.source,
+            version: version.to_owned(),
             tags: self.tags,
             visibility: self.visibility.unwrap_or(visibility),
             data_visibility: self.data_visibility.unwrap_or(data_visibility),
@@ -134,7 +135,7 @@ pub fn read_module(root: &Path, system: Option<&SystemManifest>) -> Result<Modul
             path.extension()
                 .is_some_and(|extension| extension == "json")
         })? {
-            let entry = read_json::<EntryFile>(&file)?.into_entry(system);
+            let entry = read_json::<EntryFile>(&file)?.into_entry(system, &manifest.system_version);
             validate(&manifest, &file, &entry)?;
             if !seen.insert(entry.id.clone()) {
                 return Err(invalid(&file, &format!("duplicate id {}", entry.id)));

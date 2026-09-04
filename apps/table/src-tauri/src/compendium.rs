@@ -15,7 +15,7 @@ use std::io;
 use std::path::{Path, PathBuf};
 
 /// The bundled compendium, relative to the resource directory.
-pub const BUNDLED: &str = "resources/compendium/5e-2024-srd.sqlite";
+pub const BUNDLED: &str = "resources/compendium/5e-srd.sqlite";
 
 /// SQLite's sidecars: the write-ahead log and its shared-memory index.
 const SIDECARS: [&str; 2] = ["-wal", "-shm"];

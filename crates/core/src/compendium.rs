@@ -110,6 +110,12 @@ pub struct Entry {
     pub name: String,
     /// Provenance: the book, module, or homebrew collection the entry came from.
     pub source: String,
+    /// The rule version the entry belongs to, its module's: "2014", "2024".
+    /// An entry is a version of a thing, and `<kind>:<slug>` is the thing's
+    /// identity across versions (design.md §3 "Two rule versions"). Filled
+    /// from the module manifest when the module is read; empty means unversioned.
+    #[serde(default)]
+    pub version: String,
     pub tags: Vec<String>,
     /// Who may see the entry at all: its name, tags, and body.
     pub visibility: Visibility,
@@ -162,6 +168,7 @@ impl Entry {
             kind: self.kind.clone(),
             name: self.name.clone(),
             source: self.source.clone(),
+            version: self.version.clone(),
             tags: self.tags.clone(),
             visibility: self.visibility,
             facets: self.facets.clone(),
@@ -201,6 +208,9 @@ pub struct EntrySummary {
     pub kind: String,
     pub name: String,
     pub source: String,
+    /// The rule version, as on the entry.
+    #[serde(default)]
+    pub version: String,
     pub tags: Vec<String>,
     pub visibility: Visibility,
     #[serde(default)]
@@ -221,6 +231,7 @@ mod tests {
             kind: "monster".into(),
             name: "Goblin".into(),
             source: "srd-5e".into(),
+            version: "2024".into(),
             tags: vec!["humanoid".into(), "small".into()],
             visibility: Visibility::Party,
             data_visibility: Visibility::Dm,
