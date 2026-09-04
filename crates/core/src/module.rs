@@ -100,6 +100,7 @@ impl EntryFile {
             visibility: self.visibility.unwrap_or(visibility),
             data_visibility: self.data_visibility.unwrap_or(data_visibility),
             body: self.body,
+            html: String::new(),
             data: self.data,
             facets: self.facets,
             parts: self.parts,

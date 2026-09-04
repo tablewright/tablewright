@@ -162,8 +162,10 @@ function connectCore(): Core {
     system: async () => unwrap(await commands.system()),
     facetValues: async () => unwrap(await commands.facetValues()),
     entry: async (id) => {
-      const { type, name, source, tags, body, ...rest } = unwrap(await commands.getEntry(id, "dm"));
-      return { id: rest.id, type, name, source, tags, body };
+      const { type, name, source, tags, body, html, ...rest } = unwrap(
+        await commands.getEntry(id, "dm")
+      );
+      return { id: rest.id, type, name, source, tags, body, html: html ?? "" };
     },
     scene: async () => unwrap(await commands.getScene()),
     moveToken: async (id, col, row, facing) =>

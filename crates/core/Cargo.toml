@@ -20,3 +20,4 @@ pest = "2.9"
 pest_derive = "2.9"
 # Snowball stemming, so "wands" finds the value "wand".
 rust-stemmers = "1.2"
+comrak = { version = "0.54", default-features = false }

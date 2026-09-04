@@ -11,6 +11,7 @@ use thiserror::Error;
 
 use crate::compendium::{Entry, EntryId, EntrySummary, Visibility};
 use crate::module::Manifest;
+use crate::render;
 use crate::system::SystemManifest;
 
 /// Schema version this build writes and reads; bumped with every migration.
@@ -401,6 +402,7 @@ fn build_entry(
     facets: &str,
     parts: &str,
 ) -> Result<Entry, StoreError> {
+    let html = render(&body);
     Ok(Entry {
         id: EntryId::new(id),
         kind,
@@ -412,6 +414,7 @@ fn build_entry(
         data_visibility: Visibility::from_code(data_visibility)
             .ok_or(StoreError::UnknownVisibility(data_visibility))?,
         body,
+        html,
         data: serde_json::from_str(data)?,
         facets: serde_json::from_str(facets)?,
         parts: serde_json::from_str(parts)?,
@@ -445,6 +448,7 @@ mod tests {
             visibility,
             data_visibility: Visibility::Dm,
             body: format!("About {name}."),
+            html: String::new(),
             data: serde_json::json!({ "name": name }),
             facets: std::collections::BTreeMap::new(),
             parts: Vec::new(),
@@ -484,6 +488,7 @@ mod tests {
         assert_eq!(goblin.tags, vec!["test".to_string()]);
         assert_eq!(goblin.data["name"], "Goblin");
         assert_eq!(goblin.body, "About Goblin.");
+        assert_eq!(goblin.html, "<p>About Goblin.</p>\n");
     }
 
     #[test]

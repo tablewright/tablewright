@@ -20,6 +20,7 @@ const ENTRIES: FixtureEntry[] = [
     tags: ["evocation", "cantrip"],
     facets: { level: 0, school: "evocation", ritual: false, concentration: false },
     body: "You hurl a mote of fire at a creature or an object within range.\n\n**Cantrip Upgrade.** The damage increases by 1d10 at levels 5, 11, and 17.",
+    html: "<p>You hurl a mote of fire at a creature or an object within range.</p>\n<p><strong>Cantrip Upgrade.</strong> The damage increases by 1d10 at levels 5, 11, and 17.</p>\n",
   },
   {
     id: "fx:spell:fireball",
@@ -29,6 +30,7 @@ const ENTRIES: FixtureEntry[] = [
     tags: ["evocation", "level-3"],
     facets: { level: 3, school: "evocation", ritual: false, concentration: false },
     body: "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion.",
+    html: "<p>A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion.</p>\n",
   },
   {
     id: "fx:spell:wall-of-fire",
@@ -38,6 +40,7 @@ const ENTRIES: FixtureEntry[] = [
     tags: ["evocation", "level-4"],
     facets: { level: 4, school: "evocation", ritual: false, concentration: true },
     body: "You create a wall of fire on a solid surface within range.",
+    html: "<p>You create a wall of fire on a solid surface within range.</p>\n",
   },
   {
     id: "fx:monster:fire-elemental",
@@ -47,6 +50,7 @@ const ENTRIES: FixtureEntry[] = [
     tags: ["elemental", "large", "cr-5"],
     facets: { cr: 5, size: "large" },
     body: "",
+    html: "",
   },
   {
     id: "fx:monster:goblin-warrior",
@@ -56,6 +60,7 @@ const ENTRIES: FixtureEntry[] = [
     tags: ["fey", "small", "cr-1/4"],
     facets: { cr: 0.25, size: "small" },
     body: "",
+    html: "",
   },
   {
     id: "fx:item:longsword",
@@ -64,7 +69,8 @@ const ENTRIES: FixtureEntry[] = [
     source: "fixture",
     tags: ["weapon"],
     facets: { category: "weapon" },
-    body: "A longsword.",
+    body: "A longsword.\n\n| Cost | Weight |\n|---|---|\n| 15 gp | 3 lb |",
+    html: "<p>A longsword.</p>\n<table>\n<thead>\n<tr>\n<th>Cost</th>\n<th>Weight</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>15 gp</td>\n<td>3 lb</td>\n</tr>\n</tbody>\n</table>\n",
   },
   {
     id: "fx:magic-item:flame-tongue",
@@ -74,6 +80,7 @@ const ENTRIES: FixtureEntry[] = [
     tags: ["weapon", "fire", "rare", "attunement"],
     facets: { category: "weapon", rarity: "rare", attunement: true },
     body: "While holding this magic weapon, you can take a Bonus Action to cause flames to sheathe its blade.",
+    html: "<p>While holding this magic weapon, you can take a Bonus Action to cause flames to sheathe its blade.</p>\n",
   },
 ];
 

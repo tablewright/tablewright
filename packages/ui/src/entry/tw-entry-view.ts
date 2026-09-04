@@ -8,8 +8,8 @@
 // entry) when a creature's Place on board button is pressed.
 
 import { LitElement, css, html, nothing } from "lit";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { previewOf } from "../spotlight/preview.js";
-import { paragraphs, runs } from "./markdown-lite.js";
 
 /** What the page shows: the envelope without the system data. */
 export interface EntryDocument {
@@ -18,7 +18,14 @@ export interface EntryDocument {
   name: string;
   source: string;
   tags: string[];
+  /** The prose as written, markdown. */
   body: string;
+  /**
+   * The prose as the core rendered it. Inserted as is: the core's renderer
+   * is the only thing that ever writes HTML, and it drops what it did not
+   * write itself (design.md §3 "One renderer, two surfaces").
+   */
+  html: string;
 }
 
 export class TwEntryView extends LitElement {
@@ -118,8 +125,81 @@ export class TwEntryView extends LitElement {
       flex-direction: column;
       gap: var(--tw-space-md);
     }
-    p {
+    .body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--tw-space-md);
+    }
+    .body > * {
       margin: 0;
+    }
+    .body h2,
+    .body h3,
+    .body h4 {
+      margin-top: var(--tw-space-xs);
+      color: var(--tw-ink-soft);
+      font-family: var(--tw-typo-document-label-font-family);
+      font-size: var(--tw-typo-document-label-font-size);
+      font-weight: var(--tw-typo-document-label-font-weight);
+      line-height: var(--tw-typo-document-label-line-height);
+      letter-spacing: var(--tw-typo-document-label-letter-spacing);
+      text-transform: uppercase;
+    }
+    .body h2 {
+      font-size: calc(var(--tw-typo-document-label-font-size) + 1px);
+    }
+    .body ul,
+    .body ol {
+      padding-left: var(--tw-space-lg);
+    }
+    .body li + li {
+      margin-top: var(--tw-space-xs);
+    }
+    .body blockquote {
+      padding-left: var(--tw-space-md);
+      border-left: 2px solid var(--tw-paper-shade);
+      color: var(--tw-ink-soft);
+    }
+    .body hr {
+      height: 0;
+      border: 0;
+      border-top: 1px solid var(--tw-paper-shade);
+    }
+    .body a {
+      color: inherit;
+      text-decoration-color: var(--tw-ink-faint);
+    }
+    /* A wide table scrolls inside itself; the page never scrolls sideways. */
+    .body table {
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+      border-collapse: collapse;
+      font-size: var(--tw-typo-body-sm-font-size);
+      line-height: var(--tw-typo-body-sm-line-height);
+    }
+    .body th,
+    .body td {
+      padding: var(--tw-space-xs) var(--tw-space-sm);
+      border-bottom: 1px solid var(--tw-paper-shade);
+      text-align: left;
+      vertical-align: top;
+    }
+    .body th {
+      color: var(--tw-ink-soft);
+      font-family: var(--tw-typo-document-label-font-family);
+      font-size: var(--tw-typo-document-label-font-size);
+      font-weight: var(--tw-typo-document-label-font-weight);
+      letter-spacing: var(--tw-typo-document-label-letter-spacing);
+      text-transform: uppercase;
+    }
+    .body th[align="center"],
+    .body td[align="center"] {
+      text-align: center;
+    }
+    .body th[align="right"],
+    .body td[align="right"] {
+      text-align: right;
     }
     .tags {
       display: flex;
@@ -210,14 +290,7 @@ export class TwEntryView extends LitElement {
         </span>
       </header>
       <article>
-        ${paragraphs(entry.body).map(
-          (paragraph) =>
-            html`<p>
-              ${runs(paragraph).map((run) =>
-                run.bold ? html`<strong>${run.text}</strong>` : run.text
-              )}
-            </p>`
-        )}
+        ${entry.html === "" ? nothing : html`<div class="body">${unsafeHTML(entry.html)}</div>`}
         ${
           entry.tags.length === 0
             ? nothing

@@ -102,6 +102,11 @@ pub struct Entry {
     pub data_visibility: Visibility,
     /// Prose body, markdown.
     pub body: String,
+    /// The body as HTML, rendered by the core's one renderer as the entry
+    /// leaves the store (`render`). Empty on the way in and never stored:
+    /// the markdown is the record, the HTML is derived from it.
+    #[serde(default)]
+    pub html: String,
     /// The per-system structured blob; its schema belongs to the game system, not the envelope.
     #[specta(type = JsonValue)]
     pub data: serde_json::Value,
@@ -198,6 +203,7 @@ mod tests {
             visibility: Visibility::Party,
             data_visibility: Visibility::Dm,
             body: "A small, black-hearted humanoid.".into(),
+            html: String::new(),
             data: serde_json::json!({ "armor_class": 15, "hit_points": 7 }),
             facets: BTreeMap::new(),
             parts: Vec::new(),

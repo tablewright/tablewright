@@ -93,6 +93,24 @@ test("arrows move the selection with wrap-around, and Enter opens the entry with
   await expect(page.locator(box)).toHaveAttribute("open", "");
 });
 
+test("the page shows the body as the core rendered it: a table is a table", async ({ page }) => {
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("longsword");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} h1`)).toHaveText("Longsword");
+  const body = page.locator(`${page_} article .body`);
+  await expect(body.locator("p").first()).toHaveText("A longsword.");
+  await expect(body.locator("table th")).toHaveText(["Cost", "Weight"]);
+  await expect(body.locator("table td")).toHaveText(["15 gp", "3 lb"]);
+  // Bold reached the page as markup, not as the asterisks that wrote it.
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("Control+Space");
+  await page.keyboard.type("fire bolt");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`${page_} article strong`)).toHaveText("Cantrip Upgrade.");
+  await expect(page.locator(`${page_} article`)).not.toContainText("**");
+});
+
 test("Tab walks tile, share, tile, share, and lands on the selected tile first", async ({
   page,
 }) => {

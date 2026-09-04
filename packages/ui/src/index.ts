@@ -7,8 +7,6 @@ export { TwShareTray } from "./share/tw-share-tray.js";
 export type { Share } from "./share/tw-share-tray.js";
 export { TwEntryView } from "./entry/tw-entry-view.js";
 export type { EntryDocument } from "./entry/tw-entry-view.js";
-export { paragraphs, runs } from "./entry/markdown-lite.js";
-export type { Run } from "./entry/markdown-lite.js";
 export { TwFilterTray } from "./filters/tw-filter-tray.js";
 export {
   activeCount,

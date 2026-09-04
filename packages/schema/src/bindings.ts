@@ -112,6 +112,12 @@ export type Entry = {
 	data_visibility: Visibility,
 	/**  Prose body, markdown. */
 	body: string,
+	/**
+	 *  The body as HTML, rendered by the core's one renderer as the entry
+	 *  leaves the store (`render`). Empty on the way in and never stored:
+	 *  the markdown is the record, the HTML is derived from it.
+	 */
+	html?: string,
 	/**  The per-system structured blob; its schema belongs to the game system, not the envelope. */
 	data: JsonValue,
 	/**  Filterable facts read from `data` by the system manifest at seed time. */
