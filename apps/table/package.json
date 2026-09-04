@@ -7,7 +7,7 @@
     "dev": "tauri dev",
     "dev:web": "vite",
     "dev:tunnel": "vite --mode tunnel",
-    "demo": "cloudflared tunnel --url http://localhost:1420",
+    "demo": "cloudflared tunnel --protocol http2 --url http://localhost:1420",
     "build": "vite build",
     "typecheck": "tsc -p . && tsc -p tests",
     "check": "bun run typecheck && bun run build",

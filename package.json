@@ -12,6 +12,7 @@
     "dev:table": "bun run --filter @tablewright/table dev",
     "dev:tunnel": "bun run --filter @tablewright/table dev:tunnel",
     "demo": "bun run --filter @tablewright/table demo",
+    "stop": "bun run tools/stop.ts",
     "format": "oxfmt",
     "icon:table": "bun run tools/app-icon.ts",
     "format:check": "oxfmt --check",
