@@ -40,6 +40,18 @@ async function selectedId(page: Page) {
   return page.evaluate(() => window.__tablewright?.selectedId());
 }
 
+// A move goes through the core and comes back as a new scene, so the token
+// settles a moment after the input; on a software-rendered runner that
+// moment is long enough to read the old cell. Poll for the cell, then read.
+async function settledAt(
+  page: Page,
+  id: string,
+  cell: { col: number; row: number }
+): Promise<Awaited<ReturnType<typeof tokenById>>> {
+  await expect.poll(async () => (await tokenById(page, id))?.cell).toEqual(cell);
+  return tokenById(page, id);
+}
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
   await page.waitForFunction(
@@ -69,8 +81,7 @@ test("dragging a token drops it on the target cell facing its travel", async ({ 
   await page.mouse.down();
   await page.mouse.move(to.x, to.y, { steps: 12 });
   await page.mouse.up();
-  const after = await tokenById(page, token.id);
-  expect(after?.cell).toEqual(target);
+  const after = await settledAt(page, token.id, target);
   // Two cells east and one south is a heading of about 117 degrees.
   expect(after?.facing).toBeCloseTo(116.57, 0);
 });
@@ -82,8 +93,10 @@ test("a click selects, arrow keys step, and empty board deselects", async ({ pag
   await page.keyboard.press("ArrowRight");
   await page.keyboard.press("ArrowRight");
   await page.keyboard.press("ArrowUp");
-  const after = await tokenById(page, token.id);
-  expect(after?.cell).toEqual({ col: token.cell.col + 2, row: token.cell.row - 1 });
+  const after = await settledAt(page, token.id, {
+    col: token.cell.col + 2,
+    row: token.cell.row - 1,
+  });
   expect(after?.facing).toBe(0);
   const empty = await cellOnScreen(page, { col: 15, row: 12 });
   await page.mouse.click(empty.x, empty.y);
@@ -107,9 +120,10 @@ test("a press on the selected token's corner turns it in place", async ({ page }
   await page.mouse.down();
   await page.mouse.move(west.x, west.y, { steps: 8 });
   await page.mouse.up();
+  // A turn in place changes only the facing, so that is what settles.
+  await expect.poll(async () => (await tokenById(page, token.id))?.facing).toBeCloseTo(270, 0);
   const after = await tokenById(page, token.id);
   expect(after?.cell).toEqual(token.cell);
-  expect(after?.facing).toBeCloseTo(270, 0);
 });
 
 test("the wheel zooms about the cursor", async ({ page }) => {
