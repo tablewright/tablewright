@@ -23,6 +23,7 @@ import {
   type SquareGrid,
 } from "../grid/square-grid.js";
 import { facingBetween, facingToward } from "./facing.js";
+import { DRAG_THRESHOLD_PX, HOLD_MS, afterHold } from "./press.js";
 import { TokenSprite, type TokenStyle } from "./token-sprite.js";
 
 /** What the layer needs to show a token; the scene owns everything else. */
@@ -44,10 +45,6 @@ export interface TokenMove {
 export type TokenMoveListener = (move: TokenMove) => void;
 export type TokenSelectListener = (id: string | undefined) => void;
 
-// Pointer travel before a press becomes a drag rather than a click.
-const DRAG_THRESHOLD_PX = 4;
-// A press held still this long becomes a turn instead of a click.
-const HOLD_MS = 400;
 const GHOST_WIDTH = 2;
 const GHOST_ALPHA = 0.7;
 
@@ -90,6 +87,8 @@ interface PressState {
   readonly originFacing: number;
   mode: PressMode;
   holdTimer: number | undefined;
+  /** When the hold timer ran, until the next move has judged it; unset for a corner turn. */
+  holdStamp: number | undefined;
 }
 
 /** Renders `TokenView`s into a container and turns gestures into move and select events. */
@@ -242,6 +241,7 @@ export class TokenLayer {
       originFacing: sprite.facing,
       mode,
       holdTimer: undefined,
+      holdStamp: undefined,
     };
     if (mode === "turn") {
       this.enterTurn(sprite);
@@ -262,6 +262,7 @@ export class TokenLayer {
       return;
     }
     press.holdTimer = undefined;
+    press.holdStamp = performance.now();
     press.mode = "turn";
     this.enterTurn(sprite);
   }
@@ -296,13 +297,28 @@ export class TokenLayer {
       }
       window.clearTimeout(press.holdTimer);
       press.holdTimer = undefined;
-      press.mode = "drag";
-      sprite.setDragging(true);
-      this.container.addChild(sprite.view);
-      this.ghost.visible = true;
+      this.beginDrag(press, sprite);
+    } else if (press.mode === "turn" && press.holdStamp !== undefined) {
+      // The timer may have run before a move that was already on its way: the
+      // move's own clock decides whether this press was a drag all along.
+      const travel = Math.hypot(event.clientX - press.startX, event.clientY - press.startY);
+      const verdict = afterHold(event.timeStamp, press.holdStamp, travel);
+      press.holdStamp = undefined;
+      if (verdict === "drag") {
+        sprite.setRotating(false);
+        sprite.setFacing(press.originFacing);
+        this.beginDrag(press, sprite);
+      }
     }
     this.follow(press, sprite, event);
   };
+
+  private beginDrag(press: PressState, sprite: TokenSprite): void {
+    press.mode = "drag";
+    sprite.setDragging(true);
+    this.container.addChild(sprite.view);
+    this.ghost.visible = true;
+  }
 
   // Move the token or its facing to where the pointer is now.
   private follow(press: PressState, sprite: TokenSprite, event: PointerEvent): void {
