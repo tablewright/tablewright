@@ -65,6 +65,8 @@ function tavern(): Scene {
       token("seed-b", "B", 7, 6, 0),
       token("seed-c", "C", 11, 9, 315),
     ],
+    strokes: [],
+    display: { mode: "shaded", strength: 80 },
     next_token: 1,
   };
 }

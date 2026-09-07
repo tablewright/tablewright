@@ -58,6 +58,23 @@ export const commands = {
 	placeEntry: (id: EntryId, col: number, row: number) => typedError<Scene, CommandError>(__TAURI_INVOKE("place_entry", { id, col, row })),
 	/**  Take a token off the board. */
 	removeToken: (id: string) => typedError<Scene, CommandError>(__TAURI_INVOKE("remove_token", { id })),
+	/**
+	 *  Add a stroke to the end of the scene's record: the release of a Build
+	 *  mode gesture.
+	 */
+	addStroke: (stroke: Stroke) => typedError<Scene, CommandError>(__TAURI_INVOKE("add_stroke", { stroke })),
+	/**
+	 *  Take one stroke out of the record by its position; the rest keep
+	 *  their order.
+	 */
+	removeStroke: (index: number) => typedError<Scene, CommandError>(__TAURI_INVOKE("remove_stroke", { index })),
+	/**
+	 *  Take back the last stroke drawn. With nothing to take back the scene
+	 *  comes back unchanged.
+	 */
+	undoStroke: () => typedError<Scene, CommandError>(__TAURI_INVOKE("undo_stroke")),
+	/**  Choose how the scene shows height over its picture. */
+	setDisplay: (display: HeightDisplay) => typedError<Scene, CommandError>(__TAURI_INVOKE("set_display", { display })),
 };
 
 /* Types */
@@ -69,6 +86,14 @@ export type Cell = {
 	facet: string,
 	value?: FacetValue,
 	label: string,
+};
+
+/**  A block of cells, both corners inclusive. */
+export type CellRect = {
+	col0: number,
+	row0: number,
+	col1: number,
+	row1: number,
 };
 
 /**  Why a command could not answer. */
@@ -109,6 +134,13 @@ export type ControlSpec = {
 	cells?: Cell[][],
 	/**  A control shown beside this one (the switches beside a range slider). */
 	beside?: ControlSpec | null,
+};
+
+/**  One edge of a cell, named by the cell and the side. */
+export type Edge = {
+	col: number,
+	row: number,
+	side: Side,
 };
 
 /**  One compendium entry: the system-agnostic envelope plus the system's data. */
@@ -220,6 +252,28 @@ export type Grid = {
 	rows: number,
 };
 
+/**  What a cell of ground is for movement. */
+export type GroundState = "ground" | 
+/**  Double cost to cross. */
+"difficult" | 
+/**  Fliers only: the gap between islands, a floor a spell took. */
+"air" | 
+/**  Nobody: outside the scene. */
+"void";
+
+/**  How a scene shows height over its picture. */
+export type HeightDisplay = {
+	mode: HeightMode,
+	/**  The overlay's opacity, 0 to 100. */
+	strength: number,
+};
+
+/**
+ *  The ways height can show: a soft shadow on the low side, a tint per
+ *  band, a hairline with edge tags, or nothing but the numbers.
+ */
+export type HeightMode = "shaded" | "washed" | "marked" | "data";
+
 /**  One row of a search result. */
 export type Hit = {
 	id: EntryId,
@@ -302,6 +356,12 @@ export type NoteSpec = {
 };
 
 /**
+ *  A window's size: a large one is forcible in play, dived through open or
+ *  smashed shut; a small one is sight only.
+ */
+export type OpeningSize = "small" | "large";
+
+/**
  *  A named part of an entry's data: a creature's trait or action, a
  *  class's feature. The manifest names the lists that carry them, the
  *  seeder stores their names, and search matches them as a field, so
@@ -343,6 +403,15 @@ export type PartSpec = {
 	note?: NoteSpec | null,
 };
 
+/**
+ *  A point in cell units from the grid's origin: (1.5, 2.5) is the centre
+ *  of column 1, row 2.
+ */
+export type Point = {
+	x: number | null,
+	y: number | null,
+};
+
 /**  A scene as the board shows it. */
 export type Scene = {
 	id: string,
@@ -350,6 +419,14 @@ export type Scene = {
 	grid: Grid,
 	map: MapImage | null,
 	tokens: Token[],
+	/**
+	 *  What the DM drew over the picture, in the order drawn. This is the
+	 *  record; the board derives the ground, the edges and the field from
+	 *  it.
+	 */
+	strokes: Stroke[],
+	/**  How this scene shows height over its picture. */
+	display: HeightDisplay,
 	/**  Counter behind the ids this scene mints for new tokens. */
 	next_token: number,
 };
@@ -393,6 +470,22 @@ export type Sentinels = {
 };
 
 /**
+ *  An area drawn in cells: a block of cells, a free shape traced as a
+ *  polygon, or a brush's dabs.
+ */
+export type Shape = { kind: "rect"; rect: CellRect } | 
+/**  The polygon through these corners, in order. */
+{ kind: "free"; points: Point[] } | 
+/**  A disc of `radius` cells around each dab. */
+{ kind: "brush"; points: Point[]; radius: number | null };
+
+/**
+ *  The two sides that name every edge once: a cell's east edge is its
+ *  neighbour's west, its south edge the one below's north.
+ */
+export type Side = "east" | "south";
+
+/**
  *  One value on a rail, slider or select, with the label it shows when
  *  the value itself will not do.
  */
@@ -400,6 +493,27 @@ export type Stop = {
 	value: FacetValue,
 	label?: string | null,
 };
+
+/**  One addition to the map: an ink, its shape, and who may see it. */
+export type Stroke = 
+/**  What can be stood on, and by whom. */
+{ ink: "ground"; shape: Shape; state: GroundState; visibility: Visibility } | 
+/**  An opening in a cell edge: a door, an arch, a window. */
+{ ink: "threshold"; edge: Edge; kind: ThresholdKind; state: ThresholdState; size: OpeningSize; visibility: Visibility } | 
+/**  Solid edges. Nothing derives walls; the DM draws every one. */
+{ ink: "wall"; shape: WallShape; visibility: Visibility } | 
+/**
+ *  An amount written into the elevation field, in the system's
+ *  distance unit.
+ */
+{ ink: "height"; shape: Shape; value: number; visibility: Visibility } | 
+/**
+ *  Where a change of height is walked rather than climbed: stairs,
+ *  ramps, ladders, lifts.
+ */
+{ ink: "level-change"; shape: Shape; visibility: Visibility } | 
+/**  Ink with no rules meaning. */
+{ ink: "free"; shape: Shape; visibility: Visibility };
 
 /**  The system manifest. */
 export type SystemManifest = {
@@ -422,6 +536,15 @@ export type SystemManifest = {
 	/**  Per kind, the lists in `data` whose items are named parts. */
 	parts?: { [key in string]: PartSpec[] },
 };
+
+/**
+ *  What kind of opening a threshold is. Windows pass sight whatever their
+ *  state; a frosted one blurs it.
+ */
+export type ThresholdKind = "door" | "arch" | "window" | "frosted";
+
+/**  A threshold's state. A secret one is the DM's alone until it is found. */
+export type ThresholdState = "open" | "closed" | "locked" | "secret";
 
 /**  Something standing on a cell. */
 export type Token = {
@@ -471,6 +594,9 @@ export type Visibility =
 "party" | 
 /**  The DM only. */
 "dm";
+
+/**  A wall as drawn: along one run of edges, or the four sides of a rect. */
+export type WallShape = { kind: "line"; edges: Edge[] } | { kind: "rect"; rect: CellRect };
 
 /* Tauri Specta runtime */
 async function typedError<T, E>(result: Promise<T>): Promise<{ status: "ok"; data: T } | { status: "error"; error: E }> {

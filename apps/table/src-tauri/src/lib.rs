@@ -77,6 +77,10 @@ fn specta_builder() -> Builder<tauri::Wry> {
             commands::move_token,
             commands::place_entry,
             commands::remove_token,
+            commands::add_stroke,
+            commands::remove_stroke,
+            commands::undo_stroke,
+            commands::set_display,
         ])
 }
 

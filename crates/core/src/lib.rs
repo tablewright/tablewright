@@ -10,6 +10,7 @@ pub mod render;
 pub mod scene;
 pub mod search;
 pub mod store;
+pub mod stroke;
 pub mod system;
 
 pub use compendium::{
@@ -20,6 +21,10 @@ pub use render::render;
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};
 pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood, Viewer};
 pub use store::{Store, StoreError};
+pub use stroke::{
+    CellRect, Edge, GroundState, HeightDisplay, HeightMode, OpeningSize, Point, Shape, Side,
+    Stroke, ThresholdKind, ThresholdState, WallShape,
+};
 pub use system::{
     Cell, ControlKind, ControlSpec, FacetSpec, FacetType, KindSpec, NoteSpec, PartSpec, Sentinels,
     Stop, SystemError, SystemManifest, VersionSpec,

@@ -12,8 +12,8 @@ use std::time::Instant;
 use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
-    DEFAULT_LIMIT, Entry, EntryId, Filter, Hit, Manifest, Scene, SceneError, StoreError,
-    SystemManifest, Understood, Viewer, Visibility,
+    DEFAULT_LIMIT, Entry, EntryId, Filter, HeightDisplay, Hit, Manifest, Scene, SceneError,
+    StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility,
 };
 use tauri::State;
 
@@ -204,6 +204,53 @@ pub fn place_entry(
 pub fn remove_token(state: State<'_, AppState>, id: String) -> Result<Scene, CommandError> {
     let mut scene = state.scene.lock().map_err(|_| poisoned())?;
     scene.remove_token(&id)?;
+    scene.save(&state.scene_path)?;
+    Ok(scene.clone())
+}
+
+/// Add a stroke to the end of the scene's record: the release of a Build
+/// mode gesture.
+#[tauri::command]
+#[specta::specta]
+pub fn add_stroke(state: State<'_, AppState>, stroke: Stroke) -> Result<Scene, CommandError> {
+    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
+    scene.add_stroke(stroke);
+    scene.save(&state.scene_path)?;
+    Ok(scene.clone())
+}
+
+/// Take one stroke out of the record by its position; the rest keep
+/// their order.
+#[tauri::command]
+#[specta::specta]
+pub fn remove_stroke(state: State<'_, AppState>, index: u32) -> Result<Scene, CommandError> {
+    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
+    scene.remove_stroke(index as usize)?;
+    scene.save(&state.scene_path)?;
+    Ok(scene.clone())
+}
+
+/// Take back the last stroke drawn. With nothing to take back the scene
+/// comes back unchanged.
+#[tauri::command]
+#[specta::specta]
+pub fn undo_stroke(state: State<'_, AppState>) -> Result<Scene, CommandError> {
+    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
+    if scene.undo_stroke().is_some() {
+        scene.save(&state.scene_path)?;
+    }
+    Ok(scene.clone())
+}
+
+/// Choose how the scene shows height over its picture.
+#[tauri::command]
+#[specta::specta]
+pub fn set_display(
+    state: State<'_, AppState>,
+    display: HeightDisplay,
+) -> Result<Scene, CommandError> {
+    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
+    scene.set_display(display);
     scene.save(&state.scene_path)?;
     Ok(scene.clone())
 }

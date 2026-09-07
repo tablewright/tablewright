@@ -1,8 +1,8 @@
 //! The scene document: one map, its grid, and what stands on it
 //! (design.md §5). The board is a view of this document; every change
 //! goes through it, so the DM's process is the record and a player's
-//! client can only ask. Saved as JSON; walls, lights and emitters join
-//! this type in later stages.
+//! client can only ask. Saved as JSON; lights and emitters join this
+//! type in later stages.
 
 use std::path::{Path, PathBuf};
 
@@ -11,6 +11,7 @@ use specta::Type;
 use thiserror::Error;
 
 use crate::compendium::{EntryId, EntrySummary, Visibility};
+use crate::stroke::{HeightDisplay, Stroke, ThresholdState};
 
 /// A scene as the board shows it.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
@@ -20,6 +21,12 @@ pub struct Scene {
     pub grid: Grid,
     pub map: Option<MapImage>,
     pub tokens: Vec<Token>,
+    /// What the DM drew over the picture, in the order drawn. This is the
+    /// record; the board derives the ground, the edges and the field from
+    /// it.
+    pub strokes: Vec<Stroke>,
+    /// How this scene shows height over its picture.
+    pub display: HeightDisplay,
     /// Counter behind the ids this scene mints for new tokens.
     next_token: u32,
 }
@@ -63,6 +70,8 @@ pub struct Token {
 pub enum SceneError {
     #[error("no token {0} in the scene")]
     NoToken(String),
+    #[error("no stroke {0} in the scene")]
+    NoStroke(usize),
     #[error("{path}: {source}")]
     Io {
         path: PathBuf,
@@ -107,6 +116,8 @@ impl Scene {
                 token("seed-b", "B", 7, 6, 0),
                 token("seed-c", "C", 11, 9, 315),
             ],
+            strokes: Vec::new(),
+            display: HeightDisplay::default(),
             next_token: 1,
         }
     }
@@ -166,6 +177,43 @@ impl Scene {
         Ok(self.tokens.remove(index))
     }
 
+    /// Add a stroke to the end of the record. A secret threshold is the
+    /// DM's whatever it was drawn with: it stays unseen until it is found.
+    pub fn add_stroke(&mut self, mut stroke: Stroke) -> &Stroke {
+        if let Stroke::Threshold {
+            state: ThresholdState::Secret,
+            visibility,
+            ..
+        } = &mut stroke
+        {
+            *visibility = Visibility::Dm;
+        }
+        self.strokes.push(stroke);
+        self.strokes.last().expect("just pushed")
+    }
+
+    /// Take one stroke out of the record; the rest keep their order.
+    ///
+    /// # Errors
+    ///
+    /// `NoStroke` when the record has no stroke at `index`.
+    pub fn remove_stroke(&mut self, index: usize) -> Result<Stroke, SceneError> {
+        if index >= self.strokes.len() {
+            return Err(SceneError::NoStroke(index));
+        }
+        Ok(self.strokes.remove(index))
+    }
+
+    /// Take back the last stroke drawn, or `None` when there is none.
+    pub fn undo_stroke(&mut self) -> Option<Stroke> {
+        self.strokes.pop()
+    }
+
+    /// Choose how this scene shows height over its picture.
+    pub fn set_display(&mut self, display: HeightDisplay) {
+        self.display = display;
+    }
+
     /// Read a scene from its JSON file.
     ///
     /// # Errors
@@ -176,10 +224,13 @@ impl Scene {
             path: path.to_path_buf(),
             source,
         })?;
-        serde_json::from_str(&text).map_err(|source| SceneError::Json {
+        let json = |source| SceneError::Json {
             path: path.to_path_buf(),
             source,
-        })
+        };
+        let mut value: serde_json::Value = serde_json::from_str(&text).map_err(json)?;
+        fill_older_files(&mut value);
+        serde_json::from_value(value).map_err(json)
     }
 
     /// Write the scene as JSON, creating the directory if need be.
@@ -203,6 +254,23 @@ impl Scene {
     }
 }
 
+// A scene saved before there were strokes has none drawn and the default
+// display. Filled here rather than by serde defaults, so the type the
+// frontend is generated from keeps every field required.
+fn fill_older_files(value: &mut serde_json::Value) {
+    let Some(fields) = value.as_object_mut() else {
+        return;
+    };
+    fields
+        .entry("strokes")
+        .or_insert_with(|| serde_json::Value::Array(Vec::new()));
+    if !fields.contains_key("display") {
+        if let Ok(display) = serde_json::to_value(HeightDisplay::default()) {
+            fields.insert("display".into(), display);
+        }
+    }
+}
+
 // "Goblin Warrior" reads as GW on a disc; "Owl" as O.
 fn initials(name: &str) -> String {
     name.split_whitespace()
@@ -216,6 +284,10 @@ fn initials(name: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::stroke::{
+        CellRect, Edge, GroundState, HeightMode, OpeningSize, Point, Shape, Side, ThresholdKind,
+        WallShape,
+    };
 
     fn goblin() -> EntrySummary {
         EntrySummary {
@@ -298,6 +370,220 @@ mod tests {
         // The counter survives too, so ids never repeat after a reload.
         let mut back = back;
         assert_eq!(back.place(&goblin(), 0, 0).id, "tok-2");
+        std::fs::remove_dir_all(&dir).expect("cleanup");
+    }
+
+    fn rect(col0: i32, row0: i32, col1: i32, row1: i32) -> Shape {
+        Shape::Rect {
+            rect: CellRect {
+                col0,
+                row0,
+                col1,
+                row1,
+            },
+        }
+    }
+
+    fn door(col: i32, row: i32, state: ThresholdState) -> Stroke {
+        Stroke::Threshold {
+            edge: Edge {
+                col,
+                row,
+                side: Side::East,
+            },
+            kind: ThresholdKind::Door,
+            state,
+            size: OpeningSize::Small,
+            visibility: Visibility::Party,
+        }
+    }
+
+    // A stroke of every ink and shape, so the file format is tried whole.
+    fn drawing_room() -> Vec<Stroke> {
+        vec![
+            Stroke::Ground {
+                shape: rect(1, 1, 12, 13),
+                state: GroundState::Ground,
+                visibility: Visibility::Party,
+            },
+            Stroke::Ground {
+                shape: Shape::Free {
+                    points: vec![
+                        Point { x: 3.0, y: 3.0 },
+                        Point { x: 7.5, y: 2.5 },
+                        Point { x: 6.0, y: 8.0 },
+                    ],
+                },
+                state: GroundState::Difficult,
+                visibility: Visibility::Party,
+            },
+            Stroke::Wall {
+                shape: WallShape::Rect {
+                    rect: CellRect {
+                        col0: 1,
+                        row0: 1,
+                        col1: 10,
+                        row1: 2,
+                    },
+                },
+                visibility: Visibility::Party,
+            },
+            Stroke::Wall {
+                shape: WallShape::Line {
+                    edges: vec![
+                        Edge {
+                            col: 4,
+                            row: 4,
+                            side: Side::South,
+                        },
+                        Edge {
+                            col: 5,
+                            row: 4,
+                            side: Side::South,
+                        },
+                    ],
+                },
+                visibility: Visibility::Party,
+            },
+            door(10, 7, ThresholdState::Open),
+            Stroke::Height {
+                shape: Shape::Brush {
+                    points: vec![Point { x: 8.5, y: 9.5 }, Point { x: 9.0, y: 9.5 }],
+                    radius: 0.6,
+                },
+                value: 10,
+                visibility: Visibility::Party,
+            },
+            Stroke::LevelChange {
+                shape: Shape::Brush {
+                    points: vec![Point { x: 7.5, y: 9.5 }],
+                    radius: 0.6,
+                },
+                visibility: Visibility::Party,
+            },
+            Stroke::Free {
+                shape: Shape::Brush {
+                    points: vec![Point { x: 2.0, y: 2.0 }, Point { x: 2.2, y: 2.4 }],
+                    radius: 0.3,
+                },
+                visibility: Visibility::Dm,
+            },
+        ]
+    }
+
+    #[test]
+    fn strokes_join_the_record_in_the_order_drawn() {
+        let mut scene = Scene::tavern();
+        for stroke in drawing_room() {
+            scene.add_stroke(stroke);
+        }
+        assert_eq!(scene.strokes, drawing_room());
+    }
+
+    #[test]
+    fn a_secret_threshold_is_the_dms_whatever_it_was_drawn_with() {
+        let mut scene = Scene::tavern();
+        let added = scene.add_stroke(door(3, 3, ThresholdState::Secret));
+        assert_eq!(added.visibility(), Visibility::Dm);
+        let added = scene.add_stroke(door(3, 4, ThresholdState::Locked));
+        assert_eq!(added.visibility(), Visibility::Party);
+    }
+
+    #[test]
+    fn removing_a_stroke_keeps_the_others_in_order() {
+        let mut scene = Scene::tavern();
+        for stroke in drawing_room() {
+            scene.add_stroke(stroke);
+        }
+        let gone = scene.remove_stroke(4).expect("removed");
+        assert_eq!(gone, door(10, 7, ThresholdState::Open));
+        let mut expected = drawing_room();
+        expected.remove(4);
+        assert_eq!(scene.strokes, expected);
+        assert!(matches!(
+            scene.remove_stroke(7),
+            Err(SceneError::NoStroke(7))
+        ));
+    }
+
+    #[test]
+    fn undo_takes_the_last_stroke_until_there_is_none() {
+        let mut scene = Scene::tavern();
+        scene.add_stroke(door(1, 1, ThresholdState::Open));
+        scene.add_stroke(door(2, 2, ThresholdState::Closed));
+        assert_eq!(
+            scene.undo_stroke(),
+            Some(door(2, 2, ThresholdState::Closed))
+        );
+        assert_eq!(scene.undo_stroke(), Some(door(1, 1, ThresholdState::Open)));
+        assert_eq!(scene.undo_stroke(), None);
+    }
+
+    #[test]
+    fn the_display_is_shaded_until_the_dm_chooses() {
+        let mut scene = Scene::tavern();
+        assert_eq!(scene.display, HeightDisplay::default());
+        let washed = HeightDisplay {
+            mode: HeightMode::Washed,
+            strength: 45,
+        };
+        scene.set_display(washed);
+        assert_eq!(scene.display, washed);
+    }
+
+    #[test]
+    fn a_drawn_scene_round_trips_through_its_file() {
+        let dir = std::env::temp_dir().join(format!("tablewright-drawn-{}", std::process::id()));
+        let path = dir.join("current.json");
+        let mut scene = Scene::tavern();
+        for stroke in drawing_room() {
+            scene.add_stroke(stroke);
+        }
+        scene.set_display(HeightDisplay {
+            mode: HeightMode::Marked,
+            strength: 60,
+        });
+        scene.save(&path).expect("save");
+        assert_eq!(Scene::load(&path).expect("load"), scene);
+        std::fs::remove_dir_all(&dir).expect("cleanup");
+    }
+
+    #[test]
+    fn a_scene_saved_before_there_were_strokes_still_loads() {
+        let dir = std::env::temp_dir().join(format!("tablewright-older-{}", std::process::id()));
+        let path = dir.join("current.json");
+        let mut json = serde_json::to_value(Scene::tavern()).expect("json");
+        let fields = json.as_object_mut().expect("an object");
+        fields.remove("strokes");
+        fields.remove("display");
+        std::fs::create_dir_all(&dir).expect("dir");
+        std::fs::write(&path, json.to_string()).expect("write");
+        assert_eq!(Scene::load(&path).expect("loads"), Scene::tavern());
+        std::fs::remove_dir_all(&dir).expect("cleanup");
+    }
+
+    // The stage's target is 500 strokes saved and loaded in under 5 ms;
+    // the time is printed for `cargo test -- --nocapture`, not asserted,
+    // since a busy runner would make a flake of it.
+    #[test]
+    fn five_hundred_strokes_round_trip_through_their_file() {
+        let dir =
+            std::env::temp_dir().join(format!("tablewright-five-hundred-{}", std::process::id()));
+        let path = dir.join("current.json");
+        let mut scene = Scene::tavern();
+        let room = drawing_room();
+        for i in 0..500 {
+            scene.add_stroke(room[i % room.len()].clone());
+        }
+        assert_eq!(scene.strokes.len(), 500);
+        let started = std::time::Instant::now();
+        scene.save(&path).expect("save");
+        let saved = started.elapsed();
+        let started = std::time::Instant::now();
+        let back = Scene::load(&path).expect("load");
+        let loaded = started.elapsed();
+        println!("500 strokes saved in {saved:?} and loaded in {loaded:?}");
+        assert_eq!(back, scene);
         std::fs::remove_dir_all(&dir).expect("cleanup");
     }
 }
