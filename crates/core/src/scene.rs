@@ -224,13 +224,10 @@ impl Scene {
             path: path.to_path_buf(),
             source,
         })?;
-        let json = |source| SceneError::Json {
+        serde_json::from_str(&text).map_err(|source| SceneError::Json {
             path: path.to_path_buf(),
             source,
-        };
-        let mut value: serde_json::Value = serde_json::from_str(&text).map_err(json)?;
-        fill_older_files(&mut value);
-        serde_json::from_value(value).map_err(json)
+        })
     }
 
     /// Write the scene as JSON, creating the directory if need be.
@@ -251,23 +248,6 @@ impl Scene {
             source,
         })?;
         std::fs::write(path, text).map_err(io)
-    }
-}
-
-// A scene saved before there were strokes has none drawn and the default
-// display. Filled here rather than by serde defaults, so the type the
-// frontend is generated from keeps every field required.
-fn fill_older_files(value: &mut serde_json::Value) {
-    let Some(fields) = value.as_object_mut() else {
-        return;
-    };
-    fields
-        .entry("strokes")
-        .or_insert_with(|| serde_json::Value::Array(Vec::new()));
-    if !fields.contains_key("display") {
-        if let Ok(display) = serde_json::to_value(HeightDisplay::default()) {
-            fields.insert("display".into(), display);
-        }
     }
 }
 
@@ -545,20 +525,6 @@ mod tests {
         });
         scene.save(&path).expect("save");
         assert_eq!(Scene::load(&path).expect("load"), scene);
-        std::fs::remove_dir_all(&dir).expect("cleanup");
-    }
-
-    #[test]
-    fn a_scene_saved_before_there_were_strokes_still_loads() {
-        let dir = std::env::temp_dir().join(format!("tablewright-older-{}", std::process::id()));
-        let path = dir.join("current.json");
-        let mut json = serde_json::to_value(Scene::tavern()).expect("json");
-        let fields = json.as_object_mut().expect("an object");
-        fields.remove("strokes");
-        fields.remove("display");
-        std::fs::create_dir_all(&dir).expect("dir");
-        std::fs::write(&path, json.to_string()).expect("write");
-        assert_eq!(Scene::load(&path).expect("loads"), Scene::tavern());
         std::fs::remove_dir_all(&dir).expect("cleanup");
     }
 
