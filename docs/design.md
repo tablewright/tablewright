@@ -551,6 +551,107 @@ PixiJS (WebGL).
   button in the selection UI, and targeting another token to face
   it.
 
+### Topology and measurement
+
+The scene knows its space: what can be stood on, crossed and seen
+through, and how high it is. The DM adds that information to a map
+picture; the picture carries the look, and the data shows only where
+it adds something. Setting up a simple map from nothing is the same
+tool used quickly. Settled 2026-09-07 over four interactive mocks;
+the rounds are in the local research file.
+
+- **The record is strokes.** Every addition the DM makes is a
+  stroke: an undoable, editable operation with its own visibility.
+  The ground grid, the edges, the elevation field and the movement
+  graph are derived from the strokes in order; Undo drops the last,
+  removing any stroke rebuilds without it, and the scene keeps the
+  strokes as its history. Imports (Universal VTT walls *(later)*)
+  arrive as strokes. The scene document stores the strokes; the
+  derived rasters are rebuilt on load and on edit, cheap at map
+  scale.
+- **Six inks, one tool.** Build mode, DM only, holds one drawing
+  tool: a shape (brush, rect, free shape, line, click) and an ink
+  that names what the stroke means for movement and sight.
+  *Ground*, with a state: ground; difficult (double cost); air
+  (fliers only: the gap between floating islands, a floor a spell
+  took); void (nobody; outside the scene). *Threshold*, clicked onto
+  a cell edge: a kind (door, arch, window, frosted window that blurs
+  sight) and a state (open, closed, locked, secret); windows always
+  pass sight, and a large window is forcible, dived through open or
+  smashed shut by an action taken in play that the route never
+  plans, while a small one is sight only; walls are forcible the
+  same way by those strong enough. *Wall*, a line on the grid or a
+  rect that draws four at once; walls are explicit, nothing derives
+  them. *Height*, an amount written into the field. *Level change*
+  (placeholder name), where a change of height is walked rather
+  than climbed: stairs, ramps, ladders, lifts. *Free*, ink with no
+  rules meaning. Play mode holds Move and Ruler and reads what was
+  drawn.
+- **Elevation is a field.** Continuous and sub-cell, eight samples
+  to a cell (a fixed fraction of the cell, never the image's
+  pixels), painted or traced. Contours and shadows are its
+  iso-lines, so they follow the art's own curve and never a cell
+  edge: organic maps are the normal case. The rules read the field:
+  a cell's height is the field at its centre, a token's is the
+  field under it, gridless play reads it with no cells. Adjacent
+  cells more than a step (5 ft) apart are a climb up or a drop down
+  unless a level change is painted across them.
+- **Vertical edges have kinds**, priced by the mover and the
+  system's numbers: step (walked), climb (2:1 without a climb speed,
+  1:1 with), drop (free, 1d6 per 10 ft and prone, taken by choice),
+  vault, jump (Strength), fly, trapdoor *(later)*. The numbers are
+  manifest parameters; the diagonal rule is a campaign setting with
+  the manifest's default (5e: every square 5 ft).
+- **A measurement gives three answers.** Distance, in 3D under the
+  campaign's rule (the greatest of the three axes for 5/5/5; the
+  1.5 rule and exact extended the same way, as Fantasy Grounds
+  does); line of effect, the straight segment against walls and
+  shut thresholds; movement cost, the shortest route through the
+  graph priced for the mover. Entries declare which their range
+  uses. Distance between tokens is between the cells they occupy,
+  so big creatures measure right.
+- **Moving shows movement only.** Dragging a token shows one route
+  and one number, with a drop's dice when there is one. The route
+  is chosen in tiers: the safe way if this turn's movement covers
+  it, else the shortest if that fits, else the same two with a
+  dash, else refused; when both fit, the way the drag went picks,
+  recent motion counting most. A token only ever lands where it is
+  dropped: past the movement, the drop asks "Use dash?", yes moves
+  and spends the action, no cancels; beyond a dash it cancels; Esc
+  cancels a drag. Key steps (arrows, WASD) move one cell with no
+  pathfinding and are provisional: stepping back removes a step,
+  Esc retracts them, left-right-left-right is 0 ft, until an action
+  (Space; a sheet action at the table), a drag, or the end of the
+  turn commits them into the turn's history, drawn thin with a dot
+  at each commit, where a drop becomes real. Shift with a key plans
+  without moving. One Esc always cancels provisional movement.
+- **Measuring is its own tool.** The ruler (R or the toolbar)
+  measures from a token or the floor without moving anything and
+  shows the fuller answer: the route and its cost, the straight
+  distance with its height difference, and the line of effect
+  breaking red at the wall. Rulers are public by default; Alt makes
+  one private; a measure touching a hidden token is private whatever
+  the modifier.
+- **Height is displayed per scene.** A scene chooses how height
+  shows over its picture: Shaded (a soft shadow on the low side and
+  a hairline; the default), Washed (a tint per height band, for
+  cells-and-walls maps with no texture), Marked (hairline and small
+  edge tags, for art that draws its own cliffs), Data only. Token
+  height is a badge. A strength setting fades the whole overlay.
+  Hatching was tried twice and struck as too busy.
+- **Where it runs.** The board holds the queries that answer while
+  the pointer moves (no IPC between the pointer and the pixel); the
+  core holds the record and, with movement rules, the validation
+  twin (§3: once in Rust, once on the board). WebAssembly stays the
+  route to one implementation if the two drift.
+- **Open** *(later)*: levels, as floor tabs with a level change
+  linking two floors, open cells that see and fall through, and
+  possibly a side-view strip beside the plan; which sheet actions
+  commit provisional movement; whether a token's history shows to
+  other players; filling the field from the art with a wand;
+  templates as volumes (sphere, cylinder, cone in 3D) with the
+  system's cover rule.
+
 ### First-person view *(later)*
 
 Players may switch to a first- or third-person camera on their own
@@ -707,11 +808,16 @@ Build order (each stage demoable):
    store and FTS5 search; the SRD seed generated by script; a
    search-as-you-type panel with a latency readout; the Rust scene
    document. Search "goblin", drag it onto the board.
-3. **Measurement layer** — ruler plus cone/circle/rect templates,
-   bound to grid units.
-4. **Walls + dynamic lighting** — walls as line segments; visibility
-   polygons; darkness layer punched by light masks. The same wall
-   data later drives token vision.
+3. **Topology and measurement** — the scene's strokes (ground,
+   thresholds, walls, height, level changes, free ink) and what
+   derives from them: the elevation field, the edges, the movement
+   graph; Build mode with the drawing tool; the ruler's three
+   answers; moving with one route, the dash ask and provisional key
+   steps; height displayed per scene. Templates follow, bound to
+   the field.
+4. **Dynamic lighting** — visibility polygons against the walls and
+   shut thresholds stage 3 drew; darkness layer punched by light
+   masks. The same edges later drive token vision.
 5. **Dynamic sound** — ambient emitters with position/radius/falloff;
    Web Audio gain/pan by distance to a listener token.
 
@@ -722,10 +828,11 @@ stage carries a measured target.
 Seed data: **D&D 5e SRD** (CC-BY-4.0; machine-readable via the 5e SRD
 API / Open5e). The first compendium file is generated by script.
 
-**Acceptance scene:** load a tavern map, place walls, find a goblin
-by search and drop it in with two more tokens, measure a move, splash
-a fireball template, light a torch on a token, put crackling-fire
-ambience on the hearth.
+**Acceptance scene:** load a tavern map, trace its ground, walls and
+a door, raise a dais, find a goblin by search and drop it in with
+two more tokens, measure a move onto the dais, splash a fireball
+template, light a torch on a token, put crackling-fire ambience on
+the hearth.
 
 ## 9. Milestones
 
