@@ -57,6 +57,11 @@
   --tw-board-hover: #E4C57A;
   --tw-board-token: #B5683E;
   --tw-board-token-label: #F1E6D2;
+  --tw-board-wall: #F1E6D266;
+  --tw-board-threshold: #C9A24E;
+  --tw-board-sight: #5FA8BD;
+  --tw-board-difficult: #F1E6D21F;
+  --tw-board-air: #5FA8BD47;
 
   /* Spacing */
   --tw-space-xs: 4px;

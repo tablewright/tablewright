@@ -65,6 +65,11 @@ colors:
   board-hover: "#E4C57A"
   board-token: "#B5683E"
   board-token-label: "#F1E6D2"
+  board-wall: "#F1E6D266"
+  board-threshold: "#C9A24E"
+  board-sight: "#5FA8BD"
+  board-difficult: "#F1E6D21F"
+  board-air: "#5FA8BD47"
 
 typography:
   headline-md:
@@ -261,7 +266,12 @@ two-stop gradients, never flat fills.
 The board tokens stay neutral: `board-ground` is a cool dark step,
 `board-grid` carries its own alpha in eight-digit hex, and
 `board-selection` and `board-hover` are brass so the one accent is the
-same on the desk and on the map.
+same on the desk and on the map. What the DM draws over the map stays
+quiet under play: `board-wall` is paper at a low alpha, a hint over art
+that draws its own walls; `board-threshold` is brass, since doors and
+arches are what the data adds; `board-sight` is the secondary teal for
+what sight passes through, windows; `board-difficult` and `board-air`
+are faint tints carrying their own alpha.
 
 Colour never carries meaning alone. Every status colour is paired with
 an icon, a label, a shape, or a position.

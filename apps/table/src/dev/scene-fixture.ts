@@ -2,7 +2,7 @@
 // Tauri: the same tavern the core starts in, mutated in memory. The shape
 // is the generated `Scene`, so the app treats both alike.
 
-import type { Scene, Token } from "@tablewright/schema";
+import type { Scene, Stroke, Token } from "@tablewright/schema";
 import type { EntryDocument } from "@tablewright/ui";
 
 const scene: Scene = tavern();
@@ -41,6 +41,21 @@ export function fixturePlace(entry: EntryDocument, col: number, row: number): Sc
 
 export function fixtureRemoveToken(id: string): Scene {
   scene.tokens = scene.tokens.filter((token) => token.id !== id);
+  return fixtureScene();
+}
+
+export function fixtureAddStroke(stroke: Stroke): Scene {
+  // A secret threshold is the DM's, as the core makes it on adding.
+  const kept: Stroke =
+    stroke.ink === "threshold" && stroke.state === "secret"
+      ? { ...stroke, visibility: "dm" }
+      : stroke;
+  scene.strokes.push(kept);
+  return fixtureScene();
+}
+
+export function fixtureUndoStroke(): Scene {
+  scene.strokes.pop();
   return fixtureScene();
 }
 

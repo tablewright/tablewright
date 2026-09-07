@@ -19,6 +19,12 @@ export interface BoardTheme {
   readonly hover: PackedColor;
   readonly token: PackedColor;
   readonly tokenLabel: PackedColor;
+  /** What the DM drew over the map: walls, thresholds, what sight passes, tinted cells. */
+  readonly wall: PackedColor;
+  readonly threshold: PackedColor;
+  readonly sight: PackedColor;
+  readonly difficult: PackedColor;
+  readonly air: PackedColor;
 }
 
 // Used when a token is missing or unparseable, so a broken theme still shows a board.
@@ -29,6 +35,11 @@ const FALLBACK: BoardTheme = {
   hover: { rgb: 0xe4c57a, alpha: 1 },
   token: { rgb: 0xb5683e, alpha: 1 },
   tokenLabel: { rgb: 0xf1e6d2, alpha: 1 },
+  wall: { rgb: 0xf1e6d2, alpha: 0.4 },
+  threshold: { rgb: 0xc9a24e, alpha: 1 },
+  sight: { rgb: 0x5fa8bd, alpha: 1 },
+  difficult: { rgb: 0xf1e6d2, alpha: 0.12 },
+  air: { rgb: 0x5fa8bd, alpha: 0.28 },
 };
 
 /** Read the board tokens from `element`'s computed style. */
@@ -43,6 +54,11 @@ export function readBoardTheme(element: Element): BoardTheme {
     hover: token("hover", FALLBACK.hover),
     token: token("token", FALLBACK.token),
     tokenLabel: token("token-label", FALLBACK.tokenLabel),
+    wall: token("wall", FALLBACK.wall),
+    threshold: token("threshold", FALLBACK.threshold),
+    sight: token("sight", FALLBACK.sight),
+    difficult: token("difficult", FALLBACK.difficult),
+    air: token("air", FALLBACK.air),
   };
 }
 

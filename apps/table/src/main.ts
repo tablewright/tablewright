@@ -2,15 +2,17 @@ import "@tablewright/ui/theme.css";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
-import { BoardStage, readBoardTheme } from "@tablewright/board";
+import { BoardStage, mansionStrokes, readBoardTheme } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
-import type { CommandError, Scene, SystemManifest, Visibility } from "@tablewright/schema";
+import type { CommandError, Scene, Stroke, SystemManifest, Visibility } from "@tablewright/schema";
 import "@tablewright/ui";
 import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
 import { BoardHost } from "./board-host.js";
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
+const mansionButton = document.getElementById("draw-mansion");
+const undoButton = document.getElementById("undo-stroke");
 const dmChrome = document.getElementById("dm-chrome");
 const roleLabel = document.getElementById("role");
 const searchButton = document.getElementById("search");
@@ -21,6 +23,8 @@ const sceneName = document.querySelector("#scene .scene-name");
 if (
   host === null ||
   openButton === null ||
+  mansionButton === null ||
+  undoButton === null ||
   dmChrome === null ||
   roleLabel === null ||
   searchButton === null ||
@@ -30,7 +34,7 @@ if (
   sceneName === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #dm-chrome, #role, #search, #scene, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #draw-mansion, #undo-stroke, #dm-chrome, #role, #search, #scene, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
   );
 }
 
@@ -127,6 +131,8 @@ interface Core {
   scene: () => Promise<Scene>;
   moveToken: (id: string, col: number, row: number, facing: number) => Promise<Scene>;
   placeEntry: (entry: EntryDocument, col: number, row: number) => Promise<Scene>;
+  addStroke: (stroke: Stroke) => Promise<Scene>;
+  undoStroke: () => Promise<Scene>;
 }
 
 function connectCore(): Core {
@@ -153,6 +159,8 @@ function connectCore(): Core {
         moveToken: async (id, col, row, facing) =>
           (await scenes).fixtureMoveToken(id, col, row, facing),
         placeEntry: async (entry, col, row) => (await scenes).fixturePlace(entry, col, row),
+        addStroke: async (stroke) => (await scenes).fixtureAddStroke(stroke),
+        undoStroke: async () => (await scenes).fixtureUndoStroke(),
       };
     }
     const unconnected = async () => {
@@ -166,6 +174,8 @@ function connectCore(): Core {
       scene: unconnected,
       moveToken: unconnected,
       placeEntry: unconnected,
+      addStroke: unconnected,
+      undoStroke: unconnected,
     };
   }
   const unwrap = <T>(
@@ -209,6 +219,8 @@ function connectCore(): Core {
     moveToken: async (id, col, row, facing) =>
       unwrap(await commands.moveToken(id, col, row, facing)),
     placeEntry: async (entry, col, row) => unwrap(await commands.placeEntry(entry.id, col, row)),
+    addStroke: async (stroke) => unwrap(await commands.addStroke(stroke)),
+    undoStroke: async () => unwrap(await commands.undoStroke()),
   };
 }
 
@@ -245,7 +257,7 @@ function exposeSearchProbe(): void {
 // has rendered its first frame, so the user never sees an empty frame.
 try {
   const stage = await BoardStage.create(host, { background: readBoardTheme(host).ground });
-  const board = new BoardHost(stage, host);
+  const board = new BoardHost(stage, host, VIEWER);
   const core = connectCore();
   // Opening an entry is the same act from the box and from a shared card:
   // the page the desk turns to, until the surfaces exist.
@@ -303,6 +315,32 @@ try {
     })();
   });
   openButton.addEventListener("click", () => void openMap(board));
+  // The mansion is the reference drawing: one stroke at a time through the
+  // core, as the drawing tool will send them, so the record is real.
+  mansionButton.addEventListener("click", () => {
+    void (async () => {
+      try {
+        let scene = await core.scene();
+        for (const stroke of mansionStrokes()) {
+          scene = await core.addStroke(stroke);
+        }
+        showScene(scene);
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not draw the mansion: ${reason}`);
+      }
+    })();
+  });
+  undoButton.addEventListener("click", () => {
+    void (async () => {
+      try {
+        showScene(await core.undoStroke());
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not undo the stroke: ${reason}`);
+      }
+    })();
+  });
   // A player's page has no DM chrome and says whose view it is.
   dmChrome.hidden = VIEWER !== "dm";
   roleLabel.hidden = VIEWER === "dm";

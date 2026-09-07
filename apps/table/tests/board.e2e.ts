@@ -133,3 +133,37 @@ test("the wheel zooms about the cursor", async ({ page }) => {
   const after = await page.evaluate(() => window.__tablewright?.camera());
   expect(after?.zoom).toBeCloseTo((before?.zoom ?? 0) * 1.1 ** 3, 5);
 });
+
+// The DM chrome holds the reference drawing; its strokes go through the core
+// one by one, and what the board derives from them is readable here.
+test("drawing the mansion puts walls and doors on the board; undo takes the last stroke back", async ({
+  page,
+}) => {
+  await page.goto("/?role=dm");
+  await page.waitForFunction(
+    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
+  );
+  const read = () =>
+    page.evaluate(() => {
+      const topology = window.__tablewright?.topology();
+      if (topology === undefined) {
+        throw new Error("dev debug view missing");
+      }
+      const thresholds = [...topology.edges.values()].filter(
+        (data) => data.kind === "threshold"
+      ).length;
+      // Ground code of a cell in the north-east room: 3 is air, 1 is ground.
+      // The air there is the last stroke of the mansion.
+      const northEast = topology.ground[2 * topology.bounds.cols + 15];
+      return { edges: topology.edges.size, thresholds, northEast };
+    });
+  expect((await read()).edges).toBe(0);
+  await page.getByRole("button", { name: "Draw the mansion" }).click();
+  await expect.poll(async () => (await read()).edges).toBe(118);
+  const drawn = await read();
+  expect(drawn.thresholds).toBe(13);
+  expect(drawn.northEast).toBe(3);
+  await page.getByRole("button", { name: "Undo stroke" }).click();
+  await expect.poll(async () => (await read()).northEast).toBe(1);
+  expect((await read()).edges).toBe(118);
+});

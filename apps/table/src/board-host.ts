@@ -13,10 +13,13 @@ import {
   GridLayer,
   MapLayer,
   TokenLayer,
+  TopologyLayer,
   cellCenter,
+  derive,
   extentCovering,
   readBoardTheme,
   visibleExtent,
+  visibleTo,
   watchBoardTheme,
   worldToCell,
   type BoardStage,
@@ -29,8 +32,10 @@ import {
   type TokenMove,
   type TokenStyle,
   type TokenView,
+  type Topology,
+  type TopologyStyle,
 } from "@tablewright/board";
-import type { Scene } from "@tablewright/schema";
+import type { Scene, Stroke, Visibility } from "@tablewright/schema";
 
 /** What a dev build exposes on `window.__tablewright` for tests: reads only, no mutation. */
 export interface BoardDebug {
@@ -38,6 +43,8 @@ export interface BoardDebug {
   selectedId(): string | undefined;
   camera(): CameraState;
   bounds(): CellExtent;
+  /** What the strokes derived to, as this viewer sees it. */
+  topology(): Topology;
   /** Screen position of a cell's centre, for pointing a test's mouse at it. */
   cellToScreen(cell: Cell): Point;
 }
@@ -57,6 +64,17 @@ function tokenStyle(theme: BoardTheme): TokenStyle {
   };
 }
 
+function topologyStyle(theme: BoardTheme): TopologyStyle {
+  return {
+    ground: theme.ground,
+    wall: theme.wall,
+    threshold: theme.threshold,
+    sight: theme.sight,
+    difficult: theme.difficult,
+    air: theme.air,
+  };
+}
+
 function tokenViews(scene: Scene): TokenView[] {
   return scene.tokens.map((token) => ({
     id: token.id,
@@ -72,17 +90,24 @@ export class BoardHost {
   private readonly gridLayer: GridLayer;
   private readonly mapLayer: MapLayer;
   private readonly tokenLayer: TokenLayer;
+  private readonly topologyLayer: TopologyLayer;
   private readonly moveListeners = new Set<TokenMoveListener>();
+  /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
+  private readonly viewer: Visibility;
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
   private bounds: CellExtent = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
   private tokens: readonly TokenView[] = [];
+  private strokes: readonly Stroke[] = [];
+  private topology: Topology = derive([], this.bounds);
   private isGridStale = true;
 
-  constructor(stage: BoardStage, target: HTMLElement) {
+  constructor(stage: BoardStage, target: HTMLElement, viewer: Visibility = "dm") {
     this.stage = stage;
+    this.viewer = viewer;
     this.camera = new Camera(stage.world);
     this.gridLayer = new GridLayer(stage.layers.grid);
     this.mapLayer = new MapLayer(stage.layers.map);
+    this.topologyLayer = new TopologyLayer(stage.layers.topology);
     const theme = readBoardTheme(target);
     this.tokenLayer = new TokenLayer(stage.layers.tokens, this.grid, tokenStyle(theme));
     const input = new CameraInput(this.camera, target);
@@ -90,10 +115,12 @@ export class BoardHost {
     input.onTap(() => this.tokenLayer.select(undefined));
 
     this.gridLayer.setStyle(theme.grid);
+    this.topologyLayer.setStyle(topologyStyle(theme));
     watchBoardTheme(target, (next) => {
       stage.setBackground(next.ground);
       this.gridLayer.setStyle(next.grid);
       this.tokenLayer.setStyle(tokenStyle(next));
+      this.topologyLayer.setStyle(topologyStyle(next));
     });
 
     // A drop is the commit point. The layer has already snapped the token to
@@ -137,6 +164,8 @@ export class BoardHost {
       this.bounds = { colMin: 0, rowMin: 0, cols: scene.grid.cols, rows: scene.grid.rows };
       this.isGridStale = true;
     }
+    this.strokes = scene.strokes;
+    this.redrawTopology();
     this.setTokens(tokenViews(scene));
   }
 
@@ -165,6 +194,7 @@ export class BoardHost {
       selectedId: () => this.tokenLayer.selectedId,
       camera: () => this.camera.current,
       bounds: () => this.bounds,
+      topology: () => this.topology,
       cellToScreen: (cell) => this.camera.toScreen(cellCenter(this.grid, cell)),
     };
   }
@@ -190,11 +220,19 @@ export class BoardHost {
   async loadMap(url: string): Promise<void> {
     const size = await this.mapLayer.setImage(url);
     this.bounds = extentCovering(this.grid, size.width, size.height);
+    this.redrawTopology();
     this.camera.fit(
       this.stage.app.screen,
       { left: 0, top: 0, right: size.width, bottom: size.height },
       FIT_PADDING
     );
+  }
+
+  // The strokes are the record; what the board reads is derived from them
+  // afresh, cheap at map scale, whenever they, the bounds or the grid change.
+  private redrawTopology(): void {
+    this.topology = derive(visibleTo(this.strokes, this.viewer), this.bounds);
+    this.topologyLayer.draw(this.topology, this.grid);
   }
 
   private redrawGrid(): void {

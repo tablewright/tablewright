@@ -32,6 +32,7 @@
       "name": "@tablewright/board",
       "version": "0.0.0",
       "dependencies": {
+        "@tablewright/schema": "workspace:*",
         "pixi.js": "^8.20.1",
       },
     },
