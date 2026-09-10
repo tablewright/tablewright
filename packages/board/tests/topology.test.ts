@@ -150,20 +150,45 @@ describe("ground", () => {
     expect(pointInPolygon({ x: 5, y: 5 }, corners)).toBe(false);
   });
 
-  test("a brush dab covers the cells within its radius", () => {
+  test("a ground dab converts every cell its disc touches", () => {
     const dab = (radius: number): Stroke => ({
       ink: "ground",
       shape: { kind: "brush", points: [{ x: 3.5, y: 3.5 }], radius },
       state: "ground",
       visibility: "party",
     });
-    const narrow = derive([dab(0.6)], bounds);
+    // Within the cell: only that cell.
+    const narrow = derive([dab(0.4)], bounds);
     expect(groundAt(narrow, { col: 3, row: 3 })).toBe("ground");
     expect(groundAt(narrow, { col: 4, row: 3 })).toBe("void");
-    const wide = derive([dab(1.2)], bounds);
+    // Past the cell's edge by a tenth: the four neighbours, not the corners.
+    const wide = derive([dab(0.6)], bounds);
     expect(groundAt(wide, { col: 4, row: 3 })).toBe("ground");
     expect(groundAt(wide, { col: 2, row: 3 })).toBe("ground");
+    expect(groundAt(wide, { col: 3, row: 2 })).toBe("ground");
     expect(groundAt(wide, { col: 4, row: 4 })).toBe("void");
+  });
+
+  test("a ground sweep converts every cell along its path, however thin", () => {
+    const thin: Stroke = {
+      ink: "ground",
+      shape: {
+        kind: "brush",
+        points: [
+          { x: 1.2, y: 2.9 },
+          { x: 4.8, y: 2.9 },
+        ],
+        radius: 0.01,
+      },
+      state: "ground",
+      visibility: "party",
+    };
+    const topology = derive([thin], bounds);
+    for (let col = 1; col <= 4; col += 1) {
+      expect(groundAt(topology, { col, row: 2 })).toBe("ground");
+    }
+    expect(groundAt(topology, { col: 1, row: 3 })).toBe("void");
+    expect(groundAt(topology, { col: 5, row: 2 })).toBe("void");
   });
 });
 

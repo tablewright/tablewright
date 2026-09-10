@@ -1,23 +1,23 @@
 // The DM's tool rail: what the pointer does on the board. Move is the
 // rest; picking an ink is picking up a pen, and the palette beside the
-// rail holds the pen's shapes and options and the history. Putting the
-// pen down is Move, or Esc. There is no Build mode to enter: the rail
-// is on the desk the way pens are.
+// rail holds the pen's shapes and options. Putting the pen down is Move,
+// or Esc. The history of strokes is the rail's own, opened from its foot,
+// since it is the scene's and not any one ink's. There is no Build mode
+// to enter: the rail is on the desk the way pens are.
 //
 // `tw-tool` carries the draw tool held, or undefined once the pen is
-// down; `tw-undo` asks for the last stroke back; `tw-remove` names a
-// stroke by its place in the history.
+// down; `tw-undo` asks for the last stroke back; `tw-reset` for a reset
+// stroke; `tw-remove` names a stroke by its place in the history.
 
 import { LitElement, css, html, nothing } from "lit";
 import type { Stroke } from "@tablewright/schema";
-import "../chips/tw-chip-group.js";
+import "../strip/tw-strip.js";
 import {
   DEFAULT_TOOL,
   DRAW_SHAPES,
   GROUND_STATES,
   INKS,
   OPENING_SIZES,
-  RADIUS_RANGE,
   THRESHOLD_KINDS,
   THRESHOLD_STATES,
   describeStroke,
@@ -29,7 +29,8 @@ import {
   type Ink,
   type ThresholdChoice,
 } from "@tablewright/board";
-import { MOVE_ICON, inkIcon, shapeIcon } from "./icons.js";
+import { HISTORY_ICON, MOVE_ICON, UNDO_ICON, inkIcon, shapeIcon } from "./icons.js";
+import { thresholdSwatch } from "./swatches.js";
 
 const HINTS: Record<Ink, string> = {
   ground: "Paint or drag what can be stood on",
@@ -52,6 +53,8 @@ const NATURE: Record<Ink, string> = {
   free: "Texture",
 };
 
+// A brush's width on the map, in its pixels: a hairline up to a broad sweep.
+const SIZE_PX = { min: 1, max: 300, step: 1 } as const;
 // How much of the history shows until all of it is asked for.
 const RECENT = 3;
 
@@ -61,6 +64,8 @@ export class TwToolRail extends LitElement {
     held: { type: Boolean },
     strokes: { attribute: false },
     readout: { type: String },
+    cellSize: { attribute: false },
+    historyOpen: { state: true },
     showAll: { state: true },
   };
 
@@ -72,6 +77,9 @@ export class TwToolRail extends LitElement {
   declare strokes: Stroke[];
   /** What is under the pointer, in words. */
   declare readout: string;
+  /** The scene's cell in map pixels, so a brush can be sized in them. */
+  declare cellSize: number;
+  declare historyOpen: boolean;
   declare showAll: boolean;
 
   constructor() {
@@ -80,6 +88,8 @@ export class TwToolRail extends LitElement {
     this.held = false;
     this.strokes = [];
     this.readout = "";
+    this.cellSize = 50;
+    this.historyOpen = false;
     this.showAll = false;
   }
 
@@ -153,12 +163,38 @@ export class TwToolRail extends LitElement {
     .icon:focus-visible .tip {
       opacity: 1;
     }
+    .count {
+      padding: 1px 6px;
+      border-radius: var(--tw-rounded-full);
+      background: var(--tw-primary);
+      color: var(--tw-on-primary);
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: 0;
+    }
+    .icon .count {
+      position: absolute;
+      right: 1px;
+      bottom: 1px;
+      padding: 0 4px;
+      font-size: 9px;
+    }
+    .icon[aria-pressed="true"] .count {
+      background: var(--tw-on-primary);
+      color: var(--tw-primary);
+    }
     .divider {
       height: 1px;
       margin: 0 2px;
       background: var(--tw-outline);
     }
-    .palette {
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: var(--tw-space-sm);
+    }
+    .panel {
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -243,6 +279,22 @@ export class TwToolRail extends LitElement {
     .tile svg {
       display: block;
     }
+    .tile:hover {
+      background: var(--tw-surface-container-highest);
+    }
+    .tile[aria-pressed="true"] {
+      border-color: var(--tw-primary-container);
+      background: var(--tw-primary-container);
+      color: var(--tw-on-primary-container);
+    }
+    .swatch {
+      display: flex;
+      justify-content: center;
+      padding: var(--tw-space-xs) 0;
+      border: 1px solid var(--tw-outline-variant);
+      border-radius: var(--tw-rounded-sm);
+      background: var(--tw-board-ground);
+    }
     .field {
       display: flex;
       align-items: center;
@@ -266,37 +318,21 @@ export class TwToolRail extends LitElement {
       accent-color: var(--tw-primary);
     }
     .unit {
+      min-width: 5.5ch;
       color: var(--tw-on-surface-variant);
       font-size: var(--tw-typo-body-sm-font-size);
       font-weight: var(--tw-typo-body-sm-font-weight);
       letter-spacing: 0;
+      text-align: right;
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
     }
-    .tile:hover {
-      background: var(--tw-surface-container-highest);
-    }
-    .tile[aria-pressed="true"] {
-      border-color: var(--tw-primary-container);
-      background: var(--tw-primary-container);
-      color: var(--tw-on-primary-container);
-    }
-    .record-head {
+    .history-head {
       display: flex;
       align-items: center;
       gap: var(--tw-space-sm);
     }
-    .count {
-      padding: 1px 6px;
-      border-radius: var(--tw-rounded-full);
-      background: var(--tw-primary);
-      color: var(--tw-on-primary);
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1.4;
-      letter-spacing: 0;
-    }
-    .undo {
+    .reset {
       margin-left: auto;
       padding: var(--tw-space-xs) var(--tw-space-sm);
       border: 1px solid var(--tw-outline);
@@ -308,11 +344,8 @@ export class TwToolRail extends LitElement {
       letter-spacing: inherit;
       cursor: pointer;
     }
-    .undo:hover {
+    .reset:hover {
       background: var(--tw-surface-container-highest);
-    }
-    .reset {
-      margin-left: 0;
     }
     ol {
       display: flex;
@@ -458,8 +491,31 @@ export class TwToolRail extends LitElement {
               ${inkIcon(spec.ink)}<span class="tip">${spec.name}</span>
             </button>`
         )}
+        <div class="divider"></div>
+        <button class="icon" type="button" aria-label="Undo" @click=${this.#undo}>
+          ${UNDO_ICON}<span class="tip">Undo · Ctrl+Z</span>
+        </button>
+        <button
+          class="icon"
+          type="button"
+          aria-label="History"
+          aria-pressed=${this.historyOpen ? "true" : "false"}
+          @click=${() => {
+            this.historyOpen = !this.historyOpen;
+          }}
+        >
+          ${HISTORY_ICON}
+          ${this.strokes.length > 0 ? html`<span class="count">${this.strokes.length}</span>` : nothing}
+          <span class="tip">History</span>
+        </button>
       </div>
-      ${held ? this.#palette() : nothing}
+      ${
+        held || this.historyOpen
+          ? html`<div class="side">
+              ${held ? this.#palette() : nothing}${this.historyOpen ? this.#history() : nothing}
+            </div>`
+          : nothing
+      }
       ${this.readout === "" ? nothing : html`<div class="readout">${this.readout}</div>`}
     `;
   }
@@ -467,8 +523,7 @@ export class TwToolRail extends LitElement {
   #palette() {
     const { tool } = this;
     const spec = INKS.find((candidate) => candidate.ink === tool.ink);
-    const shapes = shapesOf(tool.ink);
-    return html`<div class="palette">
+    return html`<div class="panel">
       <header>
         <span class="badge">${inkIcon(tool.ink)}</span>
         <div class="title">
@@ -477,48 +532,64 @@ export class TwToolRail extends LitElement {
         </div>
         <span class="tag">${NATURE[tool.ink]}</span>
       </header>
-      <section>
-        <span class="cap">Shape</span>
-        <div class="tiles">
-          ${DRAW_SHAPES.filter((candidate) => shapes.includes(candidate.shape)).map(
-            (candidate) =>
-              html`<button
-                class="tile"
-                type="button"
-                aria-label=${candidate.name}
-                title=${candidate.name}
-                aria-pressed=${tool.shape === candidate.shape ? "true" : "false"}
-                @click=${() => this.#setShape(candidate.shape)}
-              >
-                ${shapeIcon(candidate.shape)}
-              </button>`
-          )}
-        </div>
-      </section>
-      ${
-        tool.shape === "brush"
-          ? html`<section>
-              <span class="cap">Radius</span>
-              <div class="field">
-                <input
-                  class="range"
-                  type="range"
-                  min=${RADIUS_RANGE.min}
-                  max=${RADIUS_RANGE.max}
-                  step=${RADIUS_RANGE.step}
-                  aria-label="Brush radius in cells"
-                  .value=${String(tool.radius)}
-                  @input=${this.#radiusInput}
-                />
-                <span class="unit">${tool.radius} cells</span>
-              </div>
-            </section>`
-          : nothing
-      }
+      ${tool.ink === "threshold" ? this.#thresholdPreview() : this.#shapes()}
+      ${tool.shape === "brush" && tool.ink !== "threshold" ? this.#size() : nothing}
       ${this.#options()}
-      <div class="divider"></div>
-      ${this.#history()}
     </div>`;
+  }
+
+  // A threshold has one shape, the click, so the palette shows what the
+  // click will leave instead: the kind, state and size chosen, drawn.
+  #thresholdPreview() {
+    return html`<section>
+      <span class="cap">Preview</span>
+      <div class="swatch">${thresholdSwatch(this.tool.threshold)}</div>
+    </section>`;
+  }
+
+  #shapes() {
+    const { tool } = this;
+    const shapes = shapesOf(tool.ink);
+    return html`<section>
+      <span class="cap">Shape</span>
+      <div class="tiles">
+        ${DRAW_SHAPES.filter((candidate) => shapes.includes(candidate.shape)).map(
+          (candidate) =>
+            html`<button
+              class="tile"
+              type="button"
+              aria-label=${candidate.name}
+              title=${candidate.name}
+              aria-pressed=${tool.shape === candidate.shape ? "true" : "false"}
+              @click=${() => this.#setShape(candidate.shape)}
+            >
+              ${shapeIcon(candidate.shape)}
+            </button>`
+        )}
+      </div>
+    </section>`;
+  }
+
+  // The brush is sized in map pixels, as a painter would; the record keeps
+  // the radius in cells so the stroke means the same on any grid.
+  #size() {
+    const px = Math.max(SIZE_PX.min, Math.round(this.tool.radius * 2 * this.cellSize));
+    return html`<section>
+      <span class="cap">Size</span>
+      <div class="field">
+        <input
+          class="range"
+          type="range"
+          min=${SIZE_PX.min}
+          max=${SIZE_PX.max}
+          step=${SIZE_PX.step}
+          aria-label="Brush size in pixels"
+          .value=${String(px)}
+          @input=${this.#sizeInput}
+        />
+        <span class="unit">${px} px</span>
+      </div>
+    </section>`;
   }
 
   #options() {
@@ -526,40 +597,40 @@ export class TwToolRail extends LitElement {
       case "ground":
         return html`<section>
           <span class="cap">State</span>
-          <tw-chip-group
+          <tw-strip
             label="Ground state"
             .values=${GROUND_STATES}
             .pressed=${[this.tool.ground]}
-            @tw-chip=${this.#choose(GROUND_STATES, (ground) => this.#update({ ground }))}
-          ></tw-chip-group>
+            @tw-cell=${this.#choose(GROUND_STATES, (ground) => this.#update({ ground }))}
+          ></tw-strip>
         </section>`;
       case "threshold":
         return html`<section>
             <span class="cap">Kind</span>
-            <tw-chip-group
+            <tw-strip
               label="Kind"
               .values=${THRESHOLD_KINDS}
               .pressed=${[this.tool.threshold.kind]}
-              @tw-chip=${this.#choose(THRESHOLD_KINDS, (kind) => this.#threshold({ kind }))}
-            ></tw-chip-group>
+              @tw-cell=${this.#choose(THRESHOLD_KINDS, (kind) => this.#threshold({ kind }))}
+            ></tw-strip>
           </section>
           <section>
             <span class="cap">State</span>
-            <tw-chip-group
+            <tw-strip
               label="State"
               .values=${THRESHOLD_STATES}
               .pressed=${[this.tool.threshold.state]}
-              @tw-chip=${this.#choose(THRESHOLD_STATES, (state) => this.#threshold({ state }))}
-            ></tw-chip-group>
+              @tw-cell=${this.#choose(THRESHOLD_STATES, (state) => this.#threshold({ state }))}
+            ></tw-strip>
           </section>
           <section>
             <span class="cap">Size · windows</span>
-            <tw-chip-group
+            <tw-strip
               label="Size"
               .values=${OPENING_SIZES}
               .pressed=${[this.tool.threshold.size]}
-              @tw-chip=${this.#choose(OPENING_SIZES, (size) => this.#threshold({ size }))}
-            ></tw-chip-group>
+              @tw-cell=${this.#choose(OPENING_SIZES, (size) => this.#threshold({ size }))}
+            ></tw-strip>
           </section>`;
       case "height":
         return html`<section>
@@ -581,35 +652,17 @@ export class TwToolRail extends LitElement {
     }
   }
 
-  // A chip group reports a value as a string; only one of the values it was
-  // given can come back, so the typed one is looked up rather than trusted.
-  #choose<T extends string>(values: readonly T[], apply: (value: T) => void) {
-    return (event: Event): void => {
-      const { value } = (event as CustomEvent<{ value: string }>).detail;
-      const chosen = values.find((candidate) => candidate === value);
-      if (chosen !== undefined) {
-        apply(chosen);
-      }
-    };
-  }
-
-  #threshold(change: Partial<ThresholdChoice>): void {
-    this.#update({ threshold: { ...this.tool.threshold, ...change } });
-  }
-
+  // Newest first: what was just drawn is what the DM wants back or gone.
   #history() {
     const total = this.strokes.length;
-    const first = this.showAll ? 0 : Math.max(0, total - RECENT);
-    const shown = this.strokes
-      .slice(first)
-      .map((stroke, offset) => ({ stroke, index: first + offset }));
-    return html`<section>
-      <div class="record-head">
+    const entries = this.strokes.map((stroke, index) => ({ stroke, index })).reverse();
+    const shown = this.showAll ? entries : entries.slice(0, RECENT);
+    return html`<div class="panel">
+      <div class="history-head">
         <span class="cap">History</span>
         <span class="count">${total}</span>
-        <button class="undo" type="button" title="Undo (Ctrl+Z)" @click=${this.#undo}>Undo</button>
         <button
-          class="undo reset"
+          class="reset"
           type="button"
           title="Clear everything drawn; the reset stays in the history"
           @click=${this.#reset}
@@ -653,7 +706,7 @@ export class TwToolRail extends LitElement {
             </button>`
           : nothing
       }
-    </section>`;
+    </div>`;
   }
 
   // The same ink again puts the pen down; another ink picks it up.
@@ -680,12 +733,28 @@ export class TwToolRail extends LitElement {
     }
   };
 
-  #radiusInput = (event: Event): void => {
-    const radius = Number((event.target as HTMLInputElement).value);
-    if (Number.isFinite(radius) && radius > 0) {
-      this.#update({ radius });
+  #sizeInput = (event: Event): void => {
+    const px = Number((event.target as HTMLInputElement).value);
+    if (Number.isFinite(px) && px > 0 && this.cellSize > 0) {
+      this.#update({ radius: px / 2 / this.cellSize });
     }
   };
+
+  // A strip reports a value as a string; only one of the values it was
+  // given can come back, so the typed one is looked up rather than trusted.
+  #choose<T extends string>(values: readonly T[], apply: (value: T) => void) {
+    return (event: Event): void => {
+      const { value } = (event as CustomEvent<{ value: string }>).detail;
+      const chosen = values.find((candidate) => candidate === value);
+      if (chosen !== undefined) {
+        apply(chosen);
+      }
+    };
+  }
+
+  #threshold(change: Partial<ThresholdChoice>): void {
+    this.#update({ threshold: { ...this.tool.threshold, ...change } });
+  }
 
   #update(change: Partial<DrawTool>): void {
     this.tool = { ...this.tool, ...change };

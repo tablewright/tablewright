@@ -109,6 +109,59 @@ export function radiusOf(radius: number | null): number {
   return radius ?? 0;
 }
 
+// A sweep is walked this finely, in cells, so no cell between two dabs is
+// skipped however thin the brush.
+const SWEEP_STEP = 0.1;
+
+/**
+ * Visit every cell within `bounds` that a brush's sweep touches: each dab
+ * and the path between dabs, `radius` wide, each cell once. Ground converts
+ * what it touches; the field's brushes cover samples instead.
+ */
+export function forCellsTouchedByBrush(
+  points: readonly Coordinate[],
+  radius: number,
+  bounds: CellExtent,
+  visit: CellVisitor
+): void {
+  const placed = placedPoints(points);
+  const seen = new Set<string>();
+  const touch = (p: Point): void => {
+    forCellsWhere(
+      discBox(p, radius),
+      bounds,
+      (centre) => cellTouches(centre, p, radius),
+      (col, row) => {
+        const key = `${col},${row}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          visit(col, row);
+        }
+      }
+    );
+  };
+  for (let i = 0; i < placed.length; i += 1) {
+    const a = placed[i];
+    if (a === undefined) {
+      continue;
+    }
+    const b = placed[i + 1] ?? a;
+    const steps = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / SWEEP_STEP));
+    for (let s = 0; s <= steps; s += 1) {
+      const t = s / steps;
+      touch({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
+    }
+  }
+}
+
+// Whether the cell around `centre` overlaps the disc: its nearest point to
+// the disc's centre is within the radius.
+function cellTouches(centre: Point, p: Point, radius: number): boolean {
+  const dx = Math.max(0, Math.abs(p.x - centre.x) - 0.5);
+  const dy = Math.max(0, Math.abs(p.y - centre.y) - 0.5);
+  return Math.hypot(dx, dy) <= radius;
+}
+
 /** The centre of sample (i, j), in cells. */
 export function sampleCentre(samples: SampleGrid, i: number, j: number): Point {
   return {

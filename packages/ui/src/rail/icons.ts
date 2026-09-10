@@ -15,6 +15,8 @@ export const UNDO_ICON = frame(
   svg`<path d="M7 5L4 8l3 3"></path><path d="M4 8h7.5a4.5 4.5 0 010 9H8"></path>`
 );
 
+export const HISTORY_ICON = frame(svg`<path d="M4 5.5h12M4 10h12M4 14.5h7"></path>`);
+
 const INK_ICONS: Record<Ink, TemplateResult> = {
   ground: frame(
     svg`<rect x="3" y="3" width="14" height="14" rx="1.5"></rect><path d="M3 10h14M10 3v14"></path>`

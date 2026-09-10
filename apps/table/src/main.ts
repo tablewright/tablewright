@@ -322,6 +322,7 @@ try {
     board.setScene(scene);
     scenesTab.current = scene.id;
     toolRail.strokes = scene.strokes;
+    toolRail.cellSize = scene.grid.cell_size;
   };
   const refreshScenes = async (): Promise<void> => {
     scenesTab.scenes = await core.listScenes();

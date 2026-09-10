@@ -25,7 +25,9 @@ import type { Cell } from "../grid/square-grid.js";
 import { edgeCells, edgeKey, rectEdges } from "./edges.js";
 import {
   forCellsInShape,
+  forCellsTouchedByBrush,
   forSamplesInShape,
+  radiusOf,
   sampleHeight,
   sampleWidth,
   type SampleGrid,
@@ -141,12 +143,24 @@ function apply(stroke: Stroke, topology: Mutable): void {
   switch (stroke.ink) {
     case "ground": {
       const code = GROUND_CODES[stroke.state];
-      forCellsInShape(stroke.shape, topology.bounds, (col, row) => {
+      const paint = (col: number, row: number): void => {
         const index = cellIndex(topology.bounds, { col, row });
         if (index !== undefined) {
           topology.ground[index] = code;
         }
-      });
+      };
+      // A ground brush converts every cell it touches, however thin; the
+      // field's brushes cover the samples under the disc instead.
+      if (stroke.shape.kind === "brush") {
+        forCellsTouchedByBrush(
+          stroke.shape.points,
+          radiusOf(stroke.shape.radius),
+          topology.bounds,
+          paint
+        );
+      } else {
+        forCellsInShape(stroke.shape, topology.bounds, paint);
+      }
       break;
     }
     case "wall": {
