@@ -8,10 +8,13 @@ import {
   readBoardTheme,
   signed,
   type DrawTool,
+  type ThresholdEdge,
 } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
 import type {
   CommandError,
+  Edge,
+  PlayState,
   Scene,
   SceneSummary,
   Stroke,
@@ -70,6 +73,36 @@ function describeCell(readout: CellReadout): string {
   }
   const height = readout.height === 0 ? "ground level" : `${signed(Math.round(readout.height))} ft`;
   return `${readout.ground} · ${height}${readout.isLevelChange ? " · level change" : ""}`;
+}
+
+// What a tap does to a threshold in Play: a door opens or shuts, a locked
+// one says so, a large window is smashed through (an action, not a step),
+// a small one is sight only, and a secret door worked is revealed, shut.
+// Either a state for the scene, or words for the DM.
+function workThreshold(threshold: ThresholdEdge): { state: PlayState } | { notice: string } {
+  if (threshold.threshold === "arch") {
+    return { notice: "An arch: always open." };
+  }
+  if (threshold.state === "secret") {
+    return { state: "closed" };
+  }
+  if (threshold.threshold === "window" || threshold.threshold === "frosted") {
+    if (threshold.state === "smashed") {
+      return { notice: "Smashed: the way through is open." };
+    }
+    if (threshold.size !== "large") {
+      return { notice: "Too small to pass: sight only." };
+    }
+    return { state: "smashed" };
+  }
+  switch (threshold.state) {
+    case "open":
+      return { state: "closed" };
+    case "locked":
+      return { notice: "Locked: a key, a spell, or the DM's word." };
+    default:
+      return { state: "open" };
+  }
 }
 
 async function openMap(board: BoardHost): Promise<void> {
@@ -155,6 +188,7 @@ interface Core {
   addStroke: (stroke: Stroke) => Promise<Scene>;
   undoStroke: () => Promise<Scene>;
   removeStroke: (index: number) => Promise<Scene>;
+  setThresholdState: (edge: Edge, state: PlayState) => Promise<Scene>;
   listScenes: () => Promise<SceneSummary[]>;
   openScene: (id: string) => Promise<Scene>;
   createScene: (name: string, strokes: Stroke[]) => Promise<Scene>;
@@ -187,6 +221,8 @@ function connectCore(): Core {
         addStroke: async (stroke) => (await scenes).fixtureAddStroke(stroke),
         undoStroke: async () => (await scenes).fixtureUndoStroke(),
         removeStroke: async (index) => (await scenes).fixtureRemoveStroke(index),
+        setThresholdState: async (edge, state) =>
+          (await scenes).fixtureSetThresholdState(edge, state),
         listScenes: async () => (await scenes).fixtureListScenes(),
         openScene: async (id) => (await scenes).fixtureOpenScene(id),
         createScene: async (name, strokes) => (await scenes).fixtureCreateScene(name, strokes),
@@ -206,6 +242,7 @@ function connectCore(): Core {
       addStroke: unconnected,
       undoStroke: unconnected,
       removeStroke: unconnected,
+      setThresholdState: unconnected,
       listScenes: unconnected,
       openScene: unconnected,
       createScene: unconnected,
@@ -255,6 +292,7 @@ function connectCore(): Core {
     addStroke: async (stroke) => unwrap(await commands.addStroke(stroke)),
     undoStroke: async () => unwrap(await commands.undoStroke()),
     removeStroke: async (index) => unwrap(await commands.removeStroke(index)),
+    setThresholdState: async (edge, state) => unwrap(await commands.setThresholdState(edge, state)),
     listScenes: async () => unwrap(await commands.listScenes()),
     openScene: async (id) => unwrap(await commands.openScene(id)),
     createScene: async (name, strokes) => unwrap(await commands.createScene(name, strokes)),
@@ -461,6 +499,22 @@ try {
   });
   board.onHover((readout) => {
     toolRail.readout = readout === undefined ? "" : describeCell(readout);
+  });
+  // A threshold worked in Play is a state of the scene, not a stroke.
+  board.onThreshold((threshold) => {
+    const outcome = workThreshold(threshold);
+    if ("notice" in outcome) {
+      showNotice(outcome.notice, "info");
+      return;
+    }
+    void (async () => {
+      try {
+        showScene(await core.setThresholdState(threshold.edge, outcome.state));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not work the threshold: ${reason}`);
+      }
+    })();
   });
   // A player's page has no DM chrome and says whose view it is.
   dmChrome.hidden = VIEWER !== "dm";

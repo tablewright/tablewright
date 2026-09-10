@@ -84,6 +84,11 @@ export const commands = {
 	undoStroke: () => typedError<Scene, CommandError>(__TAURI_INVOKE("undo_stroke")),
 	/**  Choose how the scene shows height over its picture. */
 	setDisplay: (display: HeightDisplay) => typedError<Scene, CommandError>(__TAURI_INVOKE("set_display", { display })),
+	/**
+	 *  Record what a threshold became in play: opened, shut, smashed, or a
+	 *  secret door revealed.
+	 */
+	setThresholdState: (edge: Edge, play: PlayState) => typedError<Scene, CommandError>(__TAURI_INVOKE("set_threshold_state", { edge, play })),
 };
 
 /* Types */
@@ -413,6 +418,15 @@ export type PartSpec = {
 };
 
 /**
+ *  What a threshold became in play: opened, shut, locked, or smashed
+ *  through. Play state is kept apart from the strokes; a stroke says what
+ *  was drawn, this says what the table did with it since.
+ */
+export type PlayState = "open" | "closed" | "locked" | 
+/**  A large window forced: glass gone, the way through open. */
+"smashed";
+
+/**
  *  A point in cell units from the grid's origin: (1.5, 2.5) is the centre
  *  of column 1, row 2.
  */
@@ -436,6 +450,8 @@ export type Scene = {
 	strokes: Stroke[],
 	/**  How this scene shows height over its picture. */
 	display: HeightDisplay,
+	/**  What changed in play and is not a stroke: thresholds worked, by edge. */
+	play: ThresholdPlay[],
 	/**  Counter behind the ids this scene mints for new tokens. */
 	next_token: number,
 };
@@ -562,6 +578,15 @@ export type SystemManifest = {
  *  state; a frosted one blurs it.
  */
 export type ThresholdKind = "door" | "arch" | "window" | "frosted";
+
+/**
+ *  A threshold's state in play, by the edge it sits on. A secret door with
+ *  one is revealed: everyone sees the door in that state.
+ */
+export type ThresholdPlay = {
+	edge: Edge,
+	state: PlayState,
+};
 
 /**  A threshold's state. A secret one is the DM's alone until it is found. */
 export type ThresholdState = "open" | "closed" | "locked" | "secret";

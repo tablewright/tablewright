@@ -9,6 +9,7 @@ export {
   visibleTo,
   type EdgeData,
   type FreeStroke,
+  type ThresholdEdge,
   type Topology,
 } from "./derive.js";
 export { edgeBetween, edgeCells, edgeKey, rectEdges } from "./edges.js";

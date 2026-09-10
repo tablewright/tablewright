@@ -323,3 +323,23 @@ describe("a reset", () => {
     expect(groundAt(topology, { col: 0, row: 0 })).toBe("ground");
   });
 });
+
+describe("play", () => {
+  test("a door worked in play takes its play state, and a secret door worked is revealed", () => {
+    const strokes = mansionStrokes();
+    const opened = { edge: { col: 15, row: 6, side: "south" as const }, state: "open" as const };
+    const revealed = {
+      edge: { col: 16, row: 11, side: "south" as const },
+      state: "closed" as const,
+    };
+    const play = [opened, revealed];
+    const dm = derive(visibleTo(strokes, "dm", play), bounds, play);
+    const door = edgeAt(dm, opened.edge);
+    expect(door?.kind === "threshold" ? door.state : undefined).toBe("open");
+    const party = derive(visibleTo(strokes, "party", play), bounds, play);
+    const secret = edgeAt(party, revealed.edge);
+    expect(secret?.kind === "threshold" ? secret.state : undefined).toBe("closed");
+    const hidden = derive(visibleTo(strokes, "party"), bounds);
+    expect(edgeAt(hidden, revealed.edge)?.kind).toBe("wall");
+  });
+});

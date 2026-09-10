@@ -22,8 +22,11 @@ const MIDDLE_BUTTON = 1;
 // Pointer travel under this is a tap on the board rather than a pan.
 const TAP_THRESHOLD_PX = 4;
 
-/** Called when a press on empty board ends without travelling: a click on nothing. */
-export type BoardTapListener = () => void;
+/**
+ * Called when a press on empty board ends without travelling: a click on
+ * nothing a layer claimed, at that point on the board element.
+ */
+export type BoardTapListener = (at: Point) => void;
 
 /** Binds camera gestures to `target` until `dispose` is called. */
 export class CameraInput {
@@ -127,8 +130,10 @@ export class CameraInput {
       this.pointers.size === 0 &&
       Math.hypot(event.clientX - origin.x, event.clientY - origin.y) < TAP_THRESHOLD_PX;
     if (isTap) {
+      const rect = this.target.getBoundingClientRect();
+      const at = { x: event.clientX - rect.left, y: event.clientY - rect.top };
       for (const listener of this.tapListeners) {
-        listener();
+        listener(at);
       }
     }
   };

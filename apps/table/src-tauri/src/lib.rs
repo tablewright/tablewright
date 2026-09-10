@@ -84,6 +84,7 @@ fn specta_builder() -> Builder<tauri::Wry> {
             commands::remove_stroke,
             commands::undo_stroke,
             commands::set_display,
+            commands::set_threshold_state,
         ])
 }
 

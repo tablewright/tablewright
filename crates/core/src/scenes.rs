@@ -151,12 +151,13 @@ impl Scenes {
     }
 
     // The pointer names the scene to come back to; without one, or with
-    // one naming a scene that is gone, the first by name; none if empty.
+    // one naming a scene that is gone or will not load, the first by name
+    // among those that do; none if there is no such scene. A file that
+    // will not load is not the library's problem: it is left where it is.
     fn last_open(&self) -> Result<Option<Scene>, SceneError> {
         if let Ok(id) = std::fs::read_to_string(self.dir.join(POINTER)) {
-            let path = self.path_of(id.trim());
-            if path.is_file() {
-                return Scene::load(&path).map(Some);
+            if let Ok(scene) = Scene::load(&self.path_of(id.trim())) {
+                return Ok(Some(scene));
             }
         }
         match self.list()?.first() {
@@ -284,6 +285,25 @@ mod tests {
         ));
         let reopened = Scenes::open(&dir).expect("reopen");
         assert_eq!(reopened.current().id, "terrace-hill");
+        std::fs::remove_dir_all(&dir).expect("cleanup");
+    }
+
+    #[test]
+    fn a_pointed_at_file_that_will_not_load_is_skipped_and_the_library_still_opens() {
+        let dir = library("stale");
+        std::fs::create_dir_all(&dir).expect("dir");
+        std::fs::write(dir.join("halloway-house.json"), "{ not a scene }").expect("stale");
+        std::fs::write(dir.join(POINTER), "halloway-house").expect("pointer");
+        let scenes = Scenes::open(&dir).expect("opens on the tavern");
+        assert_eq!(scenes.current().id, "tavern");
+        let ids: Vec<String> = scenes
+            .list()
+            .expect("list")
+            .into_iter()
+            .map(|s| s.id)
+            .collect();
+        assert_eq!(ids, ["tavern"]);
+        assert!(dir.join("halloway-house.json").is_file());
         std::fs::remove_dir_all(&dir).expect("cleanup");
     }
 

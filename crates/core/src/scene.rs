@@ -11,7 +11,7 @@ use specta::Type;
 use thiserror::Error;
 
 use crate::compendium::{EntryId, EntrySummary, Visibility};
-use crate::stroke::{HeightDisplay, Stroke, ThresholdState};
+use crate::stroke::{Edge, HeightDisplay, PlayState, Stroke, ThresholdPlay, ThresholdState};
 
 /// A scene as the board shows it.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
@@ -27,6 +27,8 @@ pub struct Scene {
     pub strokes: Vec<Stroke>,
     /// How this scene shows height over its picture.
     pub display: HeightDisplay,
+    /// What changed in play and is not a stroke: thresholds worked, by edge.
+    pub play: Vec<ThresholdPlay>,
     /// Counter behind the ids this scene mints for new tokens.
     next_token: u32,
 }
@@ -120,6 +122,7 @@ impl Scene {
             ],
             strokes: Vec::new(),
             display: HeightDisplay::default(),
+            play: Vec::new(),
             next_token: 1,
         }
     }
@@ -142,6 +145,7 @@ impl Scene {
             tokens: Vec::new(),
             strokes: Vec::with_capacity(strokes.len()),
             display: HeightDisplay::default(),
+            play: Vec::new(),
             next_token: 1,
         };
         for stroke in strokes {
@@ -240,6 +244,22 @@ impl Scene {
     /// Choose how this scene shows height over its picture.
     pub fn set_display(&mut self, display: HeightDisplay) {
         self.display = display;
+    }
+
+    /// Record what a threshold became in play: a door opened, a window
+    /// smashed, a secret door revealed. One state per edge, the latest.
+    pub fn set_threshold_state(&mut self, edge: Edge, state: PlayState) -> &ThresholdPlay {
+        let index = match self.play.iter().position(|entry| entry.edge == edge) {
+            Some(index) => {
+                self.play[index].state = state;
+                index
+            }
+            None => {
+                self.play.push(ThresholdPlay { edge, state });
+                self.play.len() - 1
+            }
+        };
+        &self.play[index]
     }
 
     /// Read a scene from its JSON file.
@@ -537,6 +557,43 @@ mod tests {
         };
         scene.set_display(washed);
         assert_eq!(scene.display, washed);
+    }
+
+    #[test]
+    fn a_threshold_keeps_one_play_state_per_edge_the_latest() {
+        let mut scene = Scene::tavern();
+        let door = Edge {
+            col: 15,
+            row: 6,
+            side: Side::South,
+        };
+        assert_eq!(
+            scene.set_threshold_state(door, PlayState::Open).state,
+            PlayState::Open
+        );
+        assert_eq!(
+            scene.set_threshold_state(door, PlayState::Closed).state,
+            PlayState::Closed
+        );
+        let window = Edge {
+            col: 18,
+            row: 2,
+            side: Side::East,
+        };
+        scene.set_threshold_state(window, PlayState::Smashed);
+        assert_eq!(
+            scene.play,
+            vec![
+                ThresholdPlay {
+                    edge: door,
+                    state: PlayState::Closed
+                },
+                ThresholdPlay {
+                    edge: window,
+                    state: PlayState::Smashed
+                },
+            ]
+        );
     }
 
     #[test]

@@ -17,6 +17,8 @@ import {
   TopologyLayer,
   cellCenter,
   derive,
+  edgeAt,
+  edgeNear,
   extentCovering,
   groundAt,
   heightAt,
@@ -36,13 +38,22 @@ import {
   type Point,
   type SquareGrid,
   type StrokeListener,
+  type ThresholdEdge,
   type TokenMove,
   type TokenStyle,
   type TokenView,
   type Topology,
   type TopologyStyle,
 } from "@tablewright/board";
-import type { GroundState, Scene, Stroke, Visibility } from "@tablewright/schema";
+import type { GroundState, Scene, Stroke, ThresholdPlay, Visibility } from "@tablewright/schema";
+
+/** A tap in Play landed on a threshold: what it is, and where. */
+export type ThresholdListener = (threshold: ThresholdEdge) => void;
+
+// How near a tap must be to an edge, in cells, to mean the threshold on it
+// rather than the cell; tighter than the pen's reach, since a tap on a cell
+// is also how a selection is cleared.
+const TAP_REACH = 0.25;
 
 /** What the topology says about the cell under the tool. */
 export interface CellReadout {
@@ -117,6 +128,8 @@ export class BoardHost {
   private readonly moveListeners = new Set<TokenMoveListener>();
   private readonly strokeListeners = new Set<StrokeListener>();
   private readonly hoverListeners = new Set<HoverListener>();
+  private readonly thresholdListeners = new Set<ThresholdListener>();
+  private play: readonly ThresholdPlay[] = [];
   /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
   private readonly viewer: Visibility;
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
@@ -140,8 +153,9 @@ export class BoardHost {
       this.camera.toWorld(screen)
     );
     const input = new CameraInput(this.camera, target);
-    // Clicking empty board clears the selection, the same as pressing Escape.
-    input.onTap(() => this.tokenLayer.select(undefined));
+    // A tap on a threshold works it; a tap on empty board clears the
+    // selection, the same as pressing Escape.
+    input.onTap((at) => this.tap(at));
 
     this.gridLayer.setStyle(theme.grid);
     this.topologyLayer.setStyle(topologyStyle(theme));
@@ -211,6 +225,7 @@ export class BoardHost {
       this.isGridStale = true;
     }
     this.strokes = scene.strokes;
+    this.play = scene.play;
     this.redrawTopology();
     this.setTokens(tokenViews(scene));
   }
@@ -248,6 +263,33 @@ export class BoardHost {
   onHover(listener: HoverListener): () => void {
     this.hoverListeners.add(listener);
     return () => this.hoverListeners.delete(listener);
+  }
+
+  /** Hear every threshold tapped in Play. Returns the unsubscribe. */
+  onThreshold(listener: ThresholdListener): () => void {
+    this.thresholdListeners.add(listener);
+    return () => this.thresholdListeners.delete(listener);
+  }
+
+  // A tap near a threshold's edge is for the threshold; anywhere else it
+  // is a tap on nothing, which clears the selection.
+  private tap(at: Point): void {
+    const world = this.camera.toWorld(at);
+    const edge = edgeNear(
+      {
+        x: (world.x - this.grid.originX) / this.grid.cellSize,
+        y: (world.y - this.grid.originY) / this.grid.cellSize,
+      },
+      TAP_REACH
+    );
+    const data = edge === undefined ? undefined : edgeAt(this.topology, edge);
+    if (data?.kind === "threshold") {
+      for (const listener of this.thresholdListeners) {
+        listener(data);
+      }
+      return;
+    }
+    this.tokenLayer.select(undefined);
   }
 
   /** The cell under the middle of the view: where a placed token lands. */
@@ -309,7 +351,7 @@ export class BoardHost {
   // The strokes are the record; what the board reads is derived from them
   // afresh, cheap at map scale, whenever they, the bounds or the grid change.
   private redrawTopology(): void {
-    this.topology = derive(visibleTo(this.strokes, this.viewer), this.bounds);
+    this.topology = derive(visibleTo(this.strokes, this.viewer, this.play), this.bounds, this.play);
     this.topologyLayer.draw(this.topology, this.grid);
   }
 

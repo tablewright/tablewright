@@ -207,3 +207,28 @@ test("with the wall pen held, a wall drawn down the corridor joins the record, a
   await expect.poll(edges).toBe(118);
   await expect(tools.getByRole("button", { name: "Show all 27" })).toBeVisible();
 });
+
+// In Play, a tap on a shut door opens it and a tap on an open one shuts it:
+// a state of the scene, not a stroke, so the history does not grow.
+test("a tap on a door works it", async ({ page }) => {
+  await page.goto("/?role=dm");
+  await page.waitForFunction(
+    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
+  );
+  const tab = page.locator("tw-scenes");
+  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
+  await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
+  const door = () =>
+    page.evaluate(() => {
+      const data = window.__tablewright?.topology().edges.get("south:15:6");
+      return data?.kind === "threshold" ? data.state : undefined;
+    });
+  await expect.poll(door).toBe("closed");
+  const above = await cellOnScreen(page, { col: 15, row: 6 });
+  const below = await cellOnScreen(page, { col: 15, row: 7 });
+  const at = { x: (above.x + below.x) / 2, y: (above.y + below.y) / 2 };
+  await page.mouse.click(at.x, at.y);
+  await expect.poll(door).toBe("open");
+  await page.mouse.click(at.x, at.y);
+  await expect.poll(door).toBe("closed");
+});

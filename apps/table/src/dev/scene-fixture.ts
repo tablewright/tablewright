@@ -3,7 +3,7 @@
 // held in memory. The shapes are the generated types, so the app treats
 // both alike.
 
-import type { Scene, SceneSummary, Stroke, Token } from "@tablewright/schema";
+import type { Edge, PlayState, Scene, SceneSummary, Stroke, Token } from "@tablewright/schema";
 import type { EntryDocument } from "@tablewright/ui";
 
 const scenes = new Map<string, Scene>([["tavern", tavern()]]);
@@ -90,6 +90,19 @@ export function fixtureUndoStroke(): Scene {
   return fixtureScene();
 }
 
+export function fixtureSetThresholdState(edge: Edge, state: PlayState): Scene {
+  const scene = open();
+  const same = (candidate: Edge): boolean =>
+    candidate.col === edge.col && candidate.row === edge.row && candidate.side === edge.side;
+  const entry = scene.play.find((candidate) => same(candidate.edge));
+  if (entry === undefined) {
+    scene.play.push({ edge, state });
+  } else {
+    entry.state = state;
+  }
+  return fixtureScene();
+}
+
 export function fixtureRemoveStroke(index: number): Scene {
   const scene = open();
   if (index < 0 || index >= scene.strokes.length) {
@@ -115,6 +128,7 @@ function blank(id: string, name: string): Scene {
     tokens: [],
     strokes: [],
     display: { mode: "shaded", strength: 80 },
+    play: [],
     next_token: 1,
   };
 }

@@ -166,6 +166,27 @@ pub enum ThresholdState {
     Secret,
 }
 
+/// What a threshold became in play: opened, shut, locked, or smashed
+/// through. Play state is kept apart from the strokes; a stroke says what
+/// was drawn, this says what the table did with it since.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "lowercase")]
+pub enum PlayState {
+    Open,
+    Closed,
+    Locked,
+    /// A large window forced: glass gone, the way through open.
+    Smashed,
+}
+
+/// A threshold's state in play, by the edge it sits on. A secret door with
+/// one is revealed: everyone sees the door in that state.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct ThresholdPlay {
+    pub edge: Edge,
+    pub state: PlayState,
+}
+
 /// A window's size: a large one is forcible in play, dived through open or
 /// smashed shut; a small one is sight only.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]

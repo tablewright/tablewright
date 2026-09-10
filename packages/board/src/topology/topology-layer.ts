@@ -220,6 +220,16 @@ export class TopologyLayer {
       case "window":
       case "frosted":
         line(cell * (data.size === "large" ? 0.1 : 0.07), wall);
+        if (data.state === "smashed") {
+          // The glass in two pieces at the ends; the way through is clear.
+          const shard = cell * 0.3;
+          g.moveTo(s.x0, s.y0)
+            .lineTo(s.x0 + ux * shard, s.y0 + uy * shard)
+            .moveTo(s.x1 - ux * shard, s.y1 - uy * shard)
+            .lineTo(s.x1, s.y1)
+            .stroke({ width: cell * 0.04, color: sight.rgb, alpha: sight.alpha });
+          return;
+        }
         if (data.threshold === "frosted") {
           dashed(g, s, cell * 0.1, cell * 0.1);
           g.stroke({ width: cell * 0.04, color: sight.rgb, alpha: sight.alpha });

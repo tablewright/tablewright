@@ -24,8 +24,8 @@ pub use scenes::{SceneSummary, Scenes, slug};
 pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood, Viewer};
 pub use store::{Store, StoreError};
 pub use stroke::{
-    CellRect, Edge, GroundState, HeightDisplay, HeightMode, OpeningSize, Point, Shape, Side,
-    Stroke, ThresholdKind, ThresholdState, WallShape,
+    CellRect, Edge, GroundState, HeightDisplay, HeightMode, OpeningSize, PlayState, Point, Shape,
+    Side, Stroke, ThresholdKind, ThresholdPlay, ThresholdState, WallShape,
 };
 pub use system::{
     Cell, ControlKind, ControlSpec, FacetSpec, FacetType, KindSpec, NoteSpec, PartSpec, Sentinels,

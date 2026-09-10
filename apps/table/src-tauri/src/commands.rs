@@ -12,8 +12,8 @@ use std::time::Instant;
 use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
-    DEFAULT_LIMIT, Entry, EntryId, Filter, HeightDisplay, Hit, Manifest, Scene, SceneError,
-    SceneSummary, StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility,
+    DEFAULT_LIMIT, Edge, Entry, EntryId, Filter, HeightDisplay, Hit, Manifest, PlayState, Scene,
+    SceneError, SceneSummary, StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility,
 };
 use tauri::State;
 
@@ -288,6 +288,21 @@ pub fn set_display(
 ) -> Result<Scene, CommandError> {
     edit_scene(&state, |scene| {
         scene.set_display(display);
+        Ok(())
+    })
+}
+
+/// Record what a threshold became in play: opened, shut, smashed, or a
+/// secret door revealed.
+#[tauri::command]
+#[specta::specta]
+pub fn set_threshold_state(
+    state: State<'_, AppState>,
+    edge: Edge,
+    play: PlayState,
+) -> Result<Scene, CommandError> {
+    edit_scene(&state, |scene| {
+        scene.set_threshold_state(edge, play);
         Ok(())
     })
 }

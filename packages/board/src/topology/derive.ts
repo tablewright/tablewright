@@ -14,9 +14,11 @@ import type {
   Edge,
   GroundState,
   OpeningSize,
+  PlayState,
   Shape,
   Stroke,
   ThresholdKind,
+  ThresholdPlay,
   ThresholdState,
   Visibility,
 } from "@tablewright/schema";
@@ -49,10 +51,13 @@ export type EdgeData = { readonly edge: Edge } & (
   | {
       readonly kind: "threshold";
       readonly threshold: ThresholdKind;
-      readonly state: ThresholdState;
+      /** As drawn, or as play left it. */
+      readonly state: ThresholdState | PlayState;
       readonly size: OpeningSize;
     }
 );
+
+export type ThresholdEdge = Extract<EdgeData, { kind: "threshold" }>;
 
 export type FreeStroke = Extract<Stroke, { ink: "free" }>;
 
@@ -71,8 +76,15 @@ export interface Topology {
   readonly free: readonly FreeStroke[];
 }
 
-/** Apply `strokes` in order over `bounds`. Cells outside the bounds are void. */
-export function derive(strokes: readonly Stroke[], bounds: CellExtent): Topology {
+/**
+ * Apply `strokes` in order over `bounds`, then what `play` did to the
+ * thresholds among them. Cells outside the bounds are void.
+ */
+export function derive(
+  strokes: readonly Stroke[],
+  bounds: CellExtent,
+  play: readonly ThresholdPlay[] = []
+): Topology {
   const samples: SampleGrid = { bounds, per: SAMPLES_PER_CELL };
   const field = new Float32Array(sampleWidth(samples) * sampleHeight(samples));
   const topology = {
@@ -87,12 +99,32 @@ export function derive(strokes: readonly Stroke[], bounds: CellExtent): Topology
   for (const stroke of strokes) {
     apply(stroke, topology);
   }
+  // Play state sits over the record: a door opened stays a door, opened.
+  for (const entry of play) {
+    const key = edgeKey(entry.edge);
+    const data = topology.edges.get(key);
+    if (data?.kind === "threshold") {
+      topology.edges.set(key, { ...data, state: entry.state });
+    }
+  }
   return topology;
 }
 
-/** The strokes a viewer of `viewer` tier may see. */
-export function visibleTo(strokes: readonly Stroke[], viewer: Visibility): Stroke[] {
-  return strokes.filter((stroke) => TIER[stroke.visibility] <= TIER[viewer]);
+/**
+ * The strokes a viewer of `viewer` tier may see. A secret threshold worked
+ * in play is revealed: everyone sees the door, in the state play left it.
+ */
+export function visibleTo(
+  strokes: readonly Stroke[],
+  viewer: Visibility,
+  play: readonly ThresholdPlay[] = []
+): Stroke[] {
+  const revealed = new Set(play.map((entry) => edgeKey(entry.edge)));
+  return strokes.filter(
+    (stroke) =>
+      TIER[stroke.visibility] <= TIER[viewer] ||
+      (stroke.ink === "threshold" && revealed.has(edgeKey(stroke.edge)))
+  );
 }
 
 /** A cell's place in the ground array, or undefined outside the bounds. */
