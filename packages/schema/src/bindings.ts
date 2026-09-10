@@ -52,6 +52,15 @@ export const commands = {
 	facetValues: () => typedError<{ [key in string]: string[] }, CommandError>(__TAURI_INVOKE("facet_values")),
 	/**  The scene the board shows. */
 	getScene: () => typedError<Scene, CommandError>(__TAURI_INVOKE("get_scene")),
+	/**  Every scene in the library, by name. */
+	listScenes: () => typedError<SceneSummary[], CommandError>(__TAURI_INVOKE("list_scenes")),
+	/**  Switch the table to the scene `id`. */
+	openScene: (id: string) => typedError<Scene, CommandError>(__TAURI_INVOKE("open_scene", { id })),
+	/**
+	 *  Create a scene with `strokes` drawn, and switch to it: blank, or a
+	 *  reference drawing, or later an import.
+	 */
+	createScene: (name: string, strokes: Stroke[]) => typedError<Scene, CommandError>(__TAURI_INVOKE("create_scene", { name, strokes })),
 	/**  Commit a token's move: the release of a drag, or a keyboard step. */
 	moveToken: (id: string, col: number, row: number, facing: number) => typedError<Scene, CommandError>(__TAURI_INVOKE("move_token", { id, col, row, facing })),
 	/**  Stand a compendium entry on a cell as a new token. */
@@ -429,6 +438,12 @@ export type Scene = {
 	display: HeightDisplay,
 	/**  Counter behind the ids this scene mints for new tokens. */
 	next_token: number,
+};
+
+/**  A scene as the list shows it. */
+export type SceneSummary = {
+	id: string,
+	name: string,
 };
 
 /**  A ranked search result with the time the core spent on it. */

@@ -12,6 +12,7 @@ import {
   mansionStrokes,
   pointInPolygon,
   rectEdges,
+  terraceHillStrokes,
   visibleTo,
 } from "../src/index.js";
 
@@ -260,5 +261,23 @@ describe("derivation at map scale", () => {
     console.log(`500 strokes on 60 x 40 derived in ${ms.toFixed(2)} ms`);
     expect(topology.edges.size).toBeGreaterThan(0);
     expect(ms).toBeLessThan(1000);
+  });
+});
+
+describe("the hill", () => {
+  test("rises to twenty at its crown, and its stairs are level changes", () => {
+    const topology = derive(terraceHillStrokes(), bounds);
+    expect(heightAt(topology, { col: 10, row: 7 })).toBe(20);
+    expect(heightAt(topology, { col: 0, row: 0 })).toBe(0);
+    expect(groundAt(topology, { col: 0, row: 0 })).toBe("ground");
+    let stairs = 0;
+    for (let row = 0; row < bounds.rows; row += 1) {
+      for (let col = 0; col < bounds.cols; col += 1) {
+        if (isLevelChangeAt(topology, { col, row })) {
+          stairs += 1;
+        }
+      }
+    }
+    expect(stairs).toBeGreaterThan(10);
   });
 });

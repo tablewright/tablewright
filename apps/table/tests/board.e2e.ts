@@ -62,7 +62,7 @@ test.beforeEach(async ({ page }) => {
 test("renders a WebGL board with the fixture map and its tokens", async ({ page }) => {
   await expect(page.locator("#board > canvas")).toHaveCount(1);
   await expect(page.locator(".notice")).toHaveCount(0);
-  await expect(page.locator("#scene .scene-name")).toHaveText("The Rusty Flagon");
+  await expect(page.locator("tw-scenes").getByText("The Rusty Flagon")).toBeVisible();
   const hasWebgl = await page.evaluate(() => {
     const canvas = document.querySelector("#board > canvas");
     return canvas instanceof HTMLCanvasElement && canvas.getContext("webgl2") !== null;
@@ -134,36 +134,34 @@ test("the wheel zooms about the cursor", async ({ page }) => {
   expect(after?.zoom).toBeCloseTo((before?.zoom ?? 0) * 1.1 ** 3, 5);
 });
 
-// The DM chrome holds the reference drawing; its strokes go through the core
-// one by one, and what the board derives from them is readable here.
-test("drawing the mansion puts walls and doors on the board; undo takes the last stroke back", async ({
-  page,
-}) => {
+// The scene tab is the DM's list until the Scenes leaf: a reference
+// drawing becomes a scene of its own, and the tab switches between them.
+test("a reference drawing becomes a scene, and the tab switches scenes", async ({ page }) => {
   await page.goto("/?role=dm");
   await page.waitForFunction(
     () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
   );
-  const read = () =>
+  const tab = page.locator("tw-scenes");
+  const edges = () => page.evaluate(() => window.__tablewright?.topology().edges.size);
+  const tokens = () => page.evaluate(() => window.__tablewright?.tokens().length);
+  // Ground code of a cell in the north-east room: 3 is air, 1 is ground.
+  // The air there is the last stroke of the mansion.
+  const northEast = () =>
     page.evaluate(() => {
       const topology = window.__tablewright?.topology();
-      if (topology === undefined) {
-        throw new Error("dev debug view missing");
-      }
-      const thresholds = [...topology.edges.values()].filter(
-        (data) => data.kind === "threshold"
-      ).length;
-      // Ground code of a cell in the north-east room: 3 is air, 1 is ground.
-      // The air there is the last stroke of the mansion.
-      const northEast = topology.ground[2 * topology.bounds.cols + 15];
-      return { edges: topology.edges.size, thresholds, northEast };
+      return topology === undefined ? undefined : topology.ground[2 * topology.bounds.cols + 15];
     });
-  expect((await read()).edges).toBe(0);
-  await page.getByRole("button", { name: "Draw the mansion" }).click();
-  await expect.poll(async () => (await read()).edges).toBe(118);
-  const drawn = await read();
-  expect(drawn.thresholds).toBe(13);
-  expect(drawn.northEast).toBe(3);
+  expect(await edges()).toBe(0);
+  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
+  await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
+  await expect.poll(edges).toBe(118);
+  await expect(tab.getByRole("button", { name: "Halloway House" })).toBeVisible();
+  expect(await tokens()).toBe(0);
+  expect(await northEast()).toBe(3);
   await page.getByRole("button", { name: "Undo stroke" }).click();
-  await expect.poll(async () => (await read()).northEast).toBe(1);
-  expect((await read()).edges).toBe(118);
+  await expect.poll(northEast).toBe(1);
+  await tab.getByRole("button", { name: "Halloway House" }).click();
+  await tab.getByRole("menuitem", { name: "The Rusty Flagon" }).click();
+  await expect.poll(edges).toBe(0);
+  await expect.poll(tokens).toBe(3);
 });

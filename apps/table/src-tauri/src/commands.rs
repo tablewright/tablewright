@@ -13,7 +13,7 @@ use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
     DEFAULT_LIMIT, Entry, EntryId, Filter, HeightDisplay, Hit, Manifest, Scene, SceneError,
-    StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility,
+    SceneSummary, StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility,
 };
 use tauri::State;
 
@@ -152,12 +152,55 @@ pub fn system(state: State<'_, AppState>) -> Result<Option<SystemManifest>, Comm
     Ok(compendium(&state)?.system.clone())
 }
 
+// ── The scene ──
+
+// Every change to the open scene: lock the library, change the scene,
+// save it, and answer with the scene as it now stands.
+fn edit_scene(
+    state: &AppState,
+    change: impl FnOnce(&mut Scene) -> Result<(), SceneError>,
+) -> Result<Scene, CommandError> {
+    let mut scenes = state.scenes.lock().map_err(|_| poisoned())?;
+    change(scenes.current_mut())?;
+    scenes.save()?;
+    Ok(scenes.current().clone())
+}
+
 /// The scene the board shows.
 #[tauri::command]
 #[specta::specta]
 pub fn get_scene(state: State<'_, AppState>) -> Result<Scene, CommandError> {
-    let scene = state.scene.lock().map_err(|_| poisoned())?;
-    Ok(scene.clone())
+    let scenes = state.scenes.lock().map_err(|_| poisoned())?;
+    Ok(scenes.current().clone())
+}
+
+/// Every scene in the library, by name.
+#[tauri::command]
+#[specta::specta]
+pub fn list_scenes(state: State<'_, AppState>) -> Result<Vec<SceneSummary>, CommandError> {
+    let scenes = state.scenes.lock().map_err(|_| poisoned())?;
+    Ok(scenes.list()?)
+}
+
+/// Switch the table to the scene `id`.
+#[tauri::command]
+#[specta::specta]
+pub fn open_scene(state: State<'_, AppState>, id: String) -> Result<Scene, CommandError> {
+    let mut scenes = state.scenes.lock().map_err(|_| poisoned())?;
+    Ok(scenes.open_scene(&id)?.clone())
+}
+
+/// Create a scene with `strokes` drawn, and switch to it: blank, or a
+/// reference drawing, or later an import.
+#[tauri::command]
+#[specta::specta]
+pub fn create_scene(
+    state: State<'_, AppState>,
+    name: String,
+    strokes: Vec<Stroke>,
+) -> Result<Scene, CommandError> {
+    let mut scenes = state.scenes.lock().map_err(|_| poisoned())?;
+    Ok(scenes.create(&name, strokes)?.clone())
 }
 
 /// Commit a token's move: the release of a drag, or a keyboard step.
@@ -170,10 +213,9 @@ pub fn move_token(
     row: i32,
     facing: u16,
 ) -> Result<Scene, CommandError> {
-    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
-    scene.move_token(&id, col, row, facing)?;
-    scene.save(&state.scene_path)?;
-    Ok(scene.clone())
+    edit_scene(&state, |scene| {
+        scene.move_token(&id, col, row, facing).map(|_| ())
+    })
 }
 
 /// Stand a compendium entry on a cell as a new token.
@@ -192,20 +234,17 @@ pub fn place_entry(
         })?;
         store.get(&id, Visibility::Dm)?.summary()
     };
-    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
-    scene.place(&summary, col, row);
-    scene.save(&state.scene_path)?;
-    Ok(scene.clone())
+    edit_scene(&state, |scene| {
+        scene.place(&summary, col, row);
+        Ok(())
+    })
 }
 
 /// Take a token off the board.
 #[tauri::command]
 #[specta::specta]
 pub fn remove_token(state: State<'_, AppState>, id: String) -> Result<Scene, CommandError> {
-    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
-    scene.remove_token(&id)?;
-    scene.save(&state.scene_path)?;
-    Ok(scene.clone())
+    edit_scene(&state, |scene| scene.remove_token(&id).map(|_| ()))
 }
 
 /// Add a stroke to the end of the scene's record: the release of a Build
@@ -213,10 +252,10 @@ pub fn remove_token(state: State<'_, AppState>, id: String) -> Result<Scene, Com
 #[tauri::command]
 #[specta::specta]
 pub fn add_stroke(state: State<'_, AppState>, stroke: Stroke) -> Result<Scene, CommandError> {
-    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
-    scene.add_stroke(stroke);
-    scene.save(&state.scene_path)?;
-    Ok(scene.clone())
+    edit_scene(&state, |scene| {
+        scene.add_stroke(stroke);
+        Ok(())
+    })
 }
 
 /// Take one stroke out of the record by its position; the rest keep
@@ -224,10 +263,9 @@ pub fn add_stroke(state: State<'_, AppState>, stroke: Stroke) -> Result<Scene, C
 #[tauri::command]
 #[specta::specta]
 pub fn remove_stroke(state: State<'_, AppState>, index: u32) -> Result<Scene, CommandError> {
-    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
-    scene.remove_stroke(index as usize)?;
-    scene.save(&state.scene_path)?;
-    Ok(scene.clone())
+    edit_scene(&state, |scene| {
+        scene.remove_stroke(index as usize).map(|_| ())
+    })
 }
 
 /// Take back the last stroke drawn. With nothing to take back the scene
@@ -235,11 +273,10 @@ pub fn remove_stroke(state: State<'_, AppState>, index: u32) -> Result<Scene, Co
 #[tauri::command]
 #[specta::specta]
 pub fn undo_stroke(state: State<'_, AppState>) -> Result<Scene, CommandError> {
-    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
-    if scene.undo_stroke().is_some() {
-        scene.save(&state.scene_path)?;
-    }
-    Ok(scene.clone())
+    edit_scene(&state, |scene| {
+        scene.undo_stroke();
+        Ok(())
+    })
 }
 
 /// Choose how the scene shows height over its picture.
@@ -249,10 +286,10 @@ pub fn set_display(
     state: State<'_, AppState>,
     display: HeightDisplay,
 ) -> Result<Scene, CommandError> {
-    let mut scene = state.scene.lock().map_err(|_| poisoned())?;
-    scene.set_display(display);
-    scene.save(&state.scene_path)?;
-    Ok(scene.clone())
+    edit_scene(&state, |scene| {
+        scene.set_display(display);
+        Ok(())
+    })
 }
 
 fn poisoned() -> CommandError {

@@ -2,16 +2,22 @@ import "@tablewright/ui/theme.css";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
-import { BoardStage, mansionStrokes, readBoardTheme } from "@tablewright/board";
+import { BoardStage, REFERENCE_SCENES, readBoardTheme } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
-import type { CommandError, Scene, Stroke, SystemManifest, Visibility } from "@tablewright/schema";
+import type {
+  CommandError,
+  Scene,
+  SceneSummary,
+  Stroke,
+  SystemManifest,
+  Visibility,
+} from "@tablewright/schema";
 import "@tablewright/ui";
 import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
 import { BoardHost } from "./board-host.js";
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
-const mansionButton = document.getElementById("draw-mansion");
 const undoButton = document.getElementById("undo-stroke");
 const dmChrome = document.getElementById("dm-chrome");
 const roleLabel = document.getElementById("role");
@@ -19,11 +25,10 @@ const searchButton = document.getElementById("search");
 const spotlight = document.querySelector("tw-spotlight");
 const shares = document.querySelector("tw-share-tray");
 const entryView = document.querySelector("tw-entry-view");
-const sceneName = document.querySelector("#scene .scene-name");
+const scenesTab = document.querySelector("tw-scenes");
 if (
   host === null ||
   openButton === null ||
-  mansionButton === null ||
   undoButton === null ||
   dmChrome === null ||
   roleLabel === null ||
@@ -31,10 +36,10 @@ if (
   spotlight === null ||
   shares === null ||
   entryView === null ||
-  sceneName === null
+  scenesTab === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #draw-mansion, #undo-stroke, #dm-chrome, #role, #search, #scene, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #undo-stroke, #dm-chrome, #role, #search, <tw-scenes>, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
   );
 }
 
@@ -133,6 +138,9 @@ interface Core {
   placeEntry: (entry: EntryDocument, col: number, row: number) => Promise<Scene>;
   addStroke: (stroke: Stroke) => Promise<Scene>;
   undoStroke: () => Promise<Scene>;
+  listScenes: () => Promise<SceneSummary[]>;
+  openScene: (id: string) => Promise<Scene>;
+  createScene: (name: string, strokes: Stroke[]) => Promise<Scene>;
 }
 
 function connectCore(): Core {
@@ -161,6 +169,9 @@ function connectCore(): Core {
         placeEntry: async (entry, col, row) => (await scenes).fixturePlace(entry, col, row),
         addStroke: async (stroke) => (await scenes).fixtureAddStroke(stroke),
         undoStroke: async () => (await scenes).fixtureUndoStroke(),
+        listScenes: async () => (await scenes).fixtureListScenes(),
+        openScene: async (id) => (await scenes).fixtureOpenScene(id),
+        createScene: async (name, strokes) => (await scenes).fixtureCreateScene(name, strokes),
       };
     }
     const unconnected = async () => {
@@ -176,6 +187,9 @@ function connectCore(): Core {
       placeEntry: unconnected,
       addStroke: unconnected,
       undoStroke: unconnected,
+      listScenes: unconnected,
+      openScene: unconnected,
+      createScene: unconnected,
     };
   }
   const unwrap = <T>(
@@ -221,6 +235,9 @@ function connectCore(): Core {
     placeEntry: async (entry, col, row) => unwrap(await commands.placeEntry(entry.id, col, row)),
     addStroke: async (stroke) => unwrap(await commands.addStroke(stroke)),
     undoStroke: async () => unwrap(await commands.undoStroke()),
+    listScenes: async () => unwrap(await commands.listScenes()),
+    openScene: async (id) => unwrap(await commands.openScene(id)),
+    createScene: async (name, strokes) => unwrap(await commands.createScene(name, strokes)),
   };
 }
 
@@ -271,12 +288,44 @@ try {
   };
   // The board shows the core's scene and asks it to record every gesture.
   // A move the scene refuses is undone by showing the scene as it stands.
-  // The scene tab names what is shown; the DM screen's list comes later.
+  // The scene tab names what is shown and, for the DM, lists the rest.
   const showScene = (scene: Scene): void => {
     board.setScene(scene);
-    sceneName.textContent = scene.name;
+    scenesTab.current = scene.id;
   };
+  const refreshScenes = async (): Promise<void> => {
+    scenesTab.scenes = await core.listScenes();
+  };
+  scenesTab.canManage = VIEWER === "dm";
+  scenesTab.references = REFERENCE_SCENES.map((reference) => reference.name);
+  await refreshScenes();
   showScene(await core.scene());
+  scenesTab.addEventListener("tw-scene-open", (event) => {
+    const { id } = (event as CustomEvent<{ id: string }>).detail;
+    void (async () => {
+      try {
+        showScene(await core.openScene(id));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not open the scene: ${reason}`);
+      }
+    })();
+  });
+  // A new scene is blank, or a reference drawing's strokes as the core
+  // would take them one by one; either way it opens at once.
+  scenesTab.addEventListener("tw-scene-create", (event) => {
+    const { name, reference } = (event as CustomEvent<{ name: string; reference?: string }>).detail;
+    void (async () => {
+      try {
+        const drawing = REFERENCE_SCENES.find((candidate) => candidate.name === reference);
+        showScene(await core.createScene(name, drawing?.strokes() ?? []));
+        await refreshScenes();
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not create ${name}: ${reason}`);
+      }
+    })();
+  });
   board.onTokenMove(({ id, cell, facing }) => {
     void (async () => {
       try {
@@ -315,22 +364,6 @@ try {
     })();
   });
   openButton.addEventListener("click", () => void openMap(board));
-  // The mansion is the reference drawing: one stroke at a time through the
-  // core, as the drawing tool will send them, so the record is real.
-  mansionButton.addEventListener("click", () => {
-    void (async () => {
-      try {
-        let scene = await core.scene();
-        for (const stroke of mansionStrokes()) {
-          scene = await core.addStroke(stroke);
-        }
-        showScene(scene);
-      } catch (error) {
-        const reason = error instanceof Error ? error.message : String(error);
-        showNotice(`Could not draw the mansion: ${reason}`);
-      }
-    })();
-  });
   undoButton.addEventListener("click", () => {
     void (async () => {
       try {

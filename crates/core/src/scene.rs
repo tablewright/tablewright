@@ -72,6 +72,8 @@ pub enum SceneError {
     NoToken(String),
     #[error("no stroke {0} in the scene")]
     NoStroke(usize),
+    #[error("no scene {0} in the library")]
+    NoScene(String),
     #[error("{path}: {source}")]
     Io {
         path: PathBuf,
@@ -120,6 +122,32 @@ impl Scene {
             display: HeightDisplay::default(),
             next_token: 1,
         }
+    }
+
+    /// A scene with nothing on it but `strokes`, drawn as if added one by
+    /// one, on the tavern's grid: what the DM creates from the scene tab,
+    /// or a reference drawing as a scene.
+    pub fn blank(id: &str, name: &str, strokes: Vec<Stroke>) -> Self {
+        let mut scene = Self {
+            id: id.into(),
+            name: name.into(),
+            grid: Grid {
+                cell_size: 50,
+                origin_x: 0,
+                origin_y: 0,
+                cols: 20,
+                rows: 15,
+            },
+            map: None,
+            tokens: Vec::new(),
+            strokes: Vec::with_capacity(strokes.len()),
+            display: HeightDisplay::default(),
+            next_token: 1,
+        };
+        for stroke in strokes {
+            scene.add_stroke(stroke);
+        }
+        scene
     }
 
     /// Move a token to a cell, facing `facing`. The commit point of a drag

@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
 use specta_typescript::Typescript;
-use tablewright_core::Scene;
+use tablewright_core::Scenes;
 use tauri::Manager;
 use tauri::path::BaseDirectory;
 use tauri_specta::{Builder, collect_commands};
@@ -74,6 +74,9 @@ fn specta_builder() -> Builder<tauri::Wry> {
             commands::system,
             commands::facet_values,
             commands::get_scene,
+            commands::list_scenes,
+            commands::open_scene,
+            commands::create_scene,
             commands::move_token,
             commands::place_entry,
             commands::remove_token,
@@ -85,29 +88,28 @@ fn specta_builder() -> Builder<tauri::Wry> {
 }
 
 // A missing or unreadable compendium is reported, not fatal: the app runs
-// without one and the commands say so. The scene is loaded from the app's
-// data directory, or is the tavern until something is saved.
+// without one and the commands say so. The scenes live in the app's data
+// directory, seeded with the tavern; a directory that cannot be used is
+// reported and the working directory stands in, and if that fails too the
+// shell has nowhere to keep a scene and exits with the reason.
 fn open_compendium(app: &tauri::App) -> AppState {
     let compendium = open_installed(app);
-    let scene_path = app
+    let dir = app
         .path()
         .app_data_dir()
-        .map(|dir| dir.join("scenes").join("current.json"))
-        .unwrap_or_else(|_| PathBuf::from("current.json"));
-    let scene = match Scene::load(&scene_path) {
-        Ok(scene) => {
-            eprintln!("scene: {} from {}", scene.name, scene_path.display());
-            scene
-        }
-        Err(error) => {
-            eprintln!("scene: starting in the tavern ({error})");
-            Scene::tavern()
-        }
-    };
+        .map(|dir| dir.join("scenes"))
+        .unwrap_or_else(|_| PathBuf::from("scenes"));
+    let scenes = Scenes::open(&dir).unwrap_or_else(|error| {
+        eprintln!(
+            "scenes: {} unusable ({error}); using ./scenes",
+            dir.display()
+        );
+        Scenes::open(Path::new("scenes")).expect("a writable scenes directory")
+    });
+    eprintln!("scene: {} from {}", scenes.current().name, dir.display());
     AppState {
         compendium,
-        scene: Mutex::new(scene),
-        scene_path,
+        scenes: Mutex::new(scenes),
     }
 }
 

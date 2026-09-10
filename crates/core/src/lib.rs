@@ -8,6 +8,7 @@ pub mod compendium;
 pub mod module;
 pub mod render;
 pub mod scene;
+pub mod scenes;
 pub mod search;
 pub mod store;
 pub mod stroke;
@@ -19,6 +20,7 @@ pub use compendium::{
 pub use module::{Manifest, Module, ModuleError, read_module};
 pub use render::render;
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};
+pub use scenes::{SceneSummary, Scenes, slug};
 pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood, Viewer};
 pub use store::{Store, StoreError};
 pub use stroke::{

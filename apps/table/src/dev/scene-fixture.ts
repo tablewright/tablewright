@@ -1,19 +1,54 @@
-// A stand-in for the core's scene document when the page runs without
-// Tauri: the same tavern the core starts in, mutated in memory. The shape
-// is the generated `Scene`, so the app treats both alike.
+// A stand-in for the core's scene library when the page runs without
+// Tauri: the same tavern the core starts in, and the scenes made since,
+// held in memory. The shapes are the generated types, so the app treats
+// both alike.
 
-import type { Scene, Stroke, Token } from "@tablewright/schema";
+import type { Scene, SceneSummary, Stroke, Token } from "@tablewright/schema";
 import type { EntryDocument } from "@tablewright/ui";
 
-const scene: Scene = tavern();
+const scenes = new Map<string, Scene>([["tavern", tavern()]]);
+let current = "tavern";
 let nextToken = 1;
 
+function open(): Scene {
+  const scene = scenes.get(current);
+  if (scene === undefined) {
+    throw new Error(`no scene ${current} in the fixture`);
+  }
+  return scene;
+}
+
 export function fixtureScene(): Scene {
-  return structuredClone(scene);
+  return structuredClone(open());
+}
+
+export function fixtureListScenes(): SceneSummary[] {
+  return [...scenes.values()]
+    .map(({ id, name }) => ({ id, name }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function fixtureOpenScene(id: string): Scene {
+  if (!scenes.has(id)) {
+    throw new Error(`no scene ${id} in the fixture`);
+  }
+  current = id;
+  return fixtureScene();
+}
+
+export function fixtureCreateScene(name: string, strokes: Stroke[]): Scene {
+  const base = slug(name);
+  let id = base;
+  for (let n = 2; scenes.has(id); n += 1) {
+    id = `${base}-${n}`;
+  }
+  scenes.set(id, { ...blank(id, name), strokes: strokes.map(asAdded) });
+  current = id;
+  return fixtureScene();
 }
 
 export function fixtureMoveToken(id: string, col: number, row: number, facing: number): Scene {
-  const token = scene.tokens.find((candidate) => candidate.id === id);
+  const token = open().tokens.find((candidate) => candidate.id === id);
   if (token === undefined) {
     throw new Error(`no token ${id} in the scene`);
   }
@@ -35,28 +70,44 @@ export function fixturePlace(entry: EntryDocument, col: number, row: number): Sc
     visibility: "party",
   };
   nextToken += 1;
-  scene.tokens.push(token);
+  open().tokens.push(token);
   return fixtureScene();
 }
 
 export function fixtureRemoveToken(id: string): Scene {
+  const scene = open();
   scene.tokens = scene.tokens.filter((token) => token.id !== id);
   return fixtureScene();
 }
 
 export function fixtureAddStroke(stroke: Stroke): Scene {
-  // A secret threshold is the DM's, as the core makes it on adding.
-  const kept: Stroke =
-    stroke.ink === "threshold" && stroke.state === "secret"
-      ? { ...stroke, visibility: "dm" }
-      : stroke;
-  scene.strokes.push(kept);
+  open().strokes.push(asAdded(stroke));
   return fixtureScene();
 }
 
 export function fixtureUndoStroke(): Scene {
-  scene.strokes.pop();
+  open().strokes.pop();
   return fixtureScene();
+}
+
+// A secret threshold is the DM's, as the core makes it on adding.
+function asAdded(stroke: Stroke): Stroke {
+  return stroke.ink === "threshold" && stroke.state === "secret"
+    ? { ...stroke, visibility: "dm" }
+    : stroke;
+}
+
+function blank(id: string, name: string): Scene {
+  return {
+    id,
+    name,
+    grid: { cell_size: 50, origin_x: 0, origin_y: 0, cols: 20, rows: 15 },
+    map: null,
+    tokens: [],
+    strokes: [],
+    display: { mode: "shaded", strength: 80 },
+    next_token: 1,
+  };
 }
 
 function tavern(): Scene {
@@ -71,19 +122,21 @@ function tavern(): Scene {
     visibility: "party",
   });
   return {
-    id: "tavern",
-    name: "The Rusty Flagon",
-    grid: { cell_size: 50, origin_x: 0, origin_y: 0, cols: 20, rows: 15 },
-    map: null,
+    ...blank("tavern", "The Rusty Flagon"),
     tokens: [
       token("seed-a", "A", 4, 5, 90),
       token("seed-b", "B", 7, 6, 0),
       token("seed-c", "C", 11, 9, 315),
     ],
-    strokes: [],
-    display: { mode: "shaded", strength: 80 },
-    next_token: 1,
   };
+}
+
+function slug(name: string): string {
+  const kept = name
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "");
+  return kept === "" ? "scene" : kept;
 }
 
 function initials(name: string): string {

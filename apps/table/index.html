@@ -47,24 +47,6 @@
         letter-spacing: var(--tw-typo-label-md-letter-spacing);
         text-transform: uppercase;
       }
-      .chrome .scene {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--tw-space-sm);
-        padding: var(--tw-comp-button-quiet-padding) var(--tw-space-md);
-        border: 1px solid var(--tw-outline);
-        border-radius: var(--tw-comp-button-quiet-rounded);
-        background: var(--tw-comp-panel-background-color);
-        color: var(--tw-on-surface);
-        font-family: var(--tw-typo-label-md-font-family);
-        font-size: var(--tw-typo-label-md-font-size);
-        font-weight: var(--tw-typo-label-md-font-weight);
-        line-height: var(--tw-typo-label-md-line-height);
-        letter-spacing: var(--tw-typo-label-md-letter-spacing);
-      }
-      .chrome .scene svg {
-        color: var(--tw-primary);
-      }
       .chrome-right {
         left: auto;
         right: var(--tw-space-md);
@@ -115,22 +97,8 @@
   <body>
     <div id="board"></div>
     <div class="chrome">
-      <!-- Which scene this is: the player-facing tab; the DM screen holds the full list later. -->
-      <span id="scene" class="scene" aria-label="Current scene"
-        ><svg
-          width="14"
-          height="14"
-          viewBox="0 0 16 16"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M1.5 3.5 6 2l4 1.5L14.5 2v10.5L10 14l-4-1.5L1.5 14z"></path>
-          <path d="M6 2v10.5M10 3.5V14"></path></svg
-        ><span class="scene-name">Scene</span></span
-      >
+      <!-- Which scene this is: the tab for everyone, the list for the DM until the Scenes leaf. -->
+      <tw-scenes></tw-scenes>
       <!-- Whose view this is; only a player's says so, the DM's is the default. -->
       <span id="role" class="role" hidden>Player view</span>
       <button id="search" type="button" aria-label="Search" title="Search (Ctrl+Space)">
@@ -152,8 +120,7 @@
     <!-- Scene controls, the DM side: opening a map changes the scene under everyone. -->
     <div id="dm-chrome" class="chrome chrome-right">
       <button id="open-map" type="button">Open map</button>
-      <!-- The reference drawing, until the drawing tool: strokes through the core, one by one. -->
-      <button id="draw-mansion" type="button">Draw the mansion</button>
+      <!-- Until the drawing tool has its own Undo. -->
       <button id="undo-stroke" type="button">Undo stroke</button>
     </div>
     <!-- Mounted once and hidden, so Ctrl+Space costs nothing but a class change. -->

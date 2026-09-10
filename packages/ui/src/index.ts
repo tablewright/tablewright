@@ -6,6 +6,7 @@ export { TwShareCard } from "./share/tw-share-card.js";
 export { TwShareTray } from "./share/tw-share-tray.js";
 export type { Share } from "./share/tw-share-tray.js";
 export { TwEntryView } from "./entry/tw-entry-view.js";
+export { TwScenes } from "./scenes/tw-scenes.js";
 export { groups } from "./entry/sections.js";
 export type { SectionGroup } from "./entry/sections.js";
 export type { EntryDocument } from "./entry/tw-entry-view.js";

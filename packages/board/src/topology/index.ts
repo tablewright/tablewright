@@ -13,6 +13,8 @@ export {
 } from "./derive.js";
 export { edgeBetween, edgeCells, edgeKey, rectEdges } from "./edges.js";
 export { mansionStrokes } from "./mansion.js";
+export { REFERENCE_SCENES, type ReferenceScene } from "./reference.js";
+export { terraceHillStrokes } from "./terrace-hill.js";
 export {
   forCellsInShape,
   forSamplesInShape,
