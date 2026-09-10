@@ -182,6 +182,13 @@ function apply(stroke: Stroke, topology: Mutable): void {
     case "free":
       topology.free.push(stroke);
       break;
+    case "clear":
+      topology.ground.fill(0);
+      topology.edges.clear();
+      topology.field.fill(0);
+      topology.levelChange.fill(0);
+      topology.free.length = 0;
+      break;
   }
 }
 

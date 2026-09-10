@@ -16,7 +16,8 @@ import type {
   ThresholdState,
 } from "@tablewright/schema";
 
-export type Ink = Stroke["ink"];
+/** The inks a pen draws with; a reset is a stroke too, but nothing draws it. */
+export type Ink = Exclude<Stroke["ink"], "clear">;
 export type DrawShape = "rect" | "free" | "brush" | "line" | "click";
 
 export interface InkSpec {
@@ -47,8 +48,8 @@ export const GROUND_STATES: readonly GroundState[] = ["ground", "difficult", "ai
 export const THRESHOLD_KINDS: readonly ThresholdKind[] = ["door", "arch", "window", "frosted"];
 export const THRESHOLD_STATES: readonly ThresholdState[] = ["open", "closed", "locked", "secret"];
 export const OPENING_SIZES: readonly OpeningSize[] = ["small", "large"];
-/** The heights on offer, in the system's distance unit. */
-export const HEIGHTS: readonly number[] = [20, 15, 10, 5, 0, -5, -10];
+/** How wide a brush may be, in cells: a dab within a cell up to a broad sweep. */
+export const RADIUS_RANGE = { min: 0.25, max: 3, step: 0.25 } as const;
 
 export interface ThresholdChoice {
   readonly kind: ThresholdKind;
@@ -108,6 +109,8 @@ export function describeStroke(stroke: Stroke): string {
       return `Level change, ${area(stroke.shape)}`;
     case "free":
       return `Free ink, ${area(stroke.shape)}`;
+    case "clear":
+      return "Reset: everything before it cleared";
   }
 }
 

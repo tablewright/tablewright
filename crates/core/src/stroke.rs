@@ -51,6 +51,9 @@ pub enum Stroke {
         shape: Shape,
         visibility: Visibility,
     },
+    /// Everything drawn before this is cleared: a reset that stays in the
+    /// history, so taking it back brings the rest back.
+    Clear { visibility: Visibility },
 }
 
 impl Stroke {
@@ -62,7 +65,8 @@ impl Stroke {
             | Self::Wall { visibility, .. }
             | Self::Height { visibility, .. }
             | Self::LevelChange { visibility, .. }
-            | Self::Free { visibility, .. } => *visibility,
+            | Self::Free { visibility, .. }
+            | Self::Clear { visibility } => *visibility,
         }
     }
 }
@@ -243,6 +247,14 @@ mod tests {
         assert_eq!(json["ink"], "level-change");
         assert_eq!(json["shape"]["kind"], "brush");
         assert_eq!(json["shape"]["radius"], 0.6_f32);
+        let reset = serde_json::to_value(Stroke::Clear {
+            visibility: Visibility::Party,
+        })
+        .expect("json");
+        assert_eq!(
+            reset,
+            serde_json::json!({ "ink": "clear", "visibility": "party" })
+        );
     }
 
     #[test]

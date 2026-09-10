@@ -10,13 +10,14 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { Stroke } from "@tablewright/schema";
+import "../chips/tw-chip-group.js";
 import {
   DEFAULT_TOOL,
   DRAW_SHAPES,
   GROUND_STATES,
-  HEIGHTS,
   INKS,
   OPENING_SIZES,
+  RADIUS_RANGE,
   THRESHOLD_KINDS,
   THRESHOLD_STATES,
   describeStroke,
@@ -221,8 +222,7 @@ export class TwToolRail extends LitElement {
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-    .tiles,
-    .pills {
+    .tiles {
       display: flex;
       flex-wrap: wrap;
       gap: var(--tw-space-xs);
@@ -243,23 +243,40 @@ export class TwToolRail extends LitElement {
     .tile svg {
       display: block;
     }
-    .pill {
-      padding: 5px 9px;
-      border: 1px solid var(--tw-outline-variant);
-      border-radius: var(--tw-rounded-sm);
-      background: transparent;
-      color: var(--tw-on-surface);
-      font: inherit;
-      letter-spacing: inherit;
-      white-space: nowrap;
-      cursor: pointer;
+    .field {
+      display: flex;
+      align-items: center;
+      gap: var(--tw-space-sm);
     }
-    .tile:hover,
-    .pill:hover {
+    .number {
+      width: 72px;
+      padding: var(--tw-comp-input-padding);
+      border: 1px solid var(--tw-outline);
+      border-radius: var(--tw-comp-input-rounded);
+      background: var(--tw-comp-input-background-color);
+      color: var(--tw-comp-input-text-color);
+      font: inherit;
+      letter-spacing: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .range {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+      accent-color: var(--tw-primary);
+    }
+    .unit {
+      color: var(--tw-on-surface-variant);
+      font-size: var(--tw-typo-body-sm-font-size);
+      font-weight: var(--tw-typo-body-sm-font-weight);
+      letter-spacing: 0;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .tile:hover {
       background: var(--tw-surface-container-highest);
     }
-    .tile[aria-pressed="true"],
-    .pill[aria-pressed="true"] {
+    .tile[aria-pressed="true"] {
       border-color: var(--tw-primary-container);
       background: var(--tw-primary-container);
       color: var(--tw-on-primary-container);
@@ -293,6 +310,9 @@ export class TwToolRail extends LitElement {
     }
     .undo:hover {
       background: var(--tw-surface-container-highest);
+    }
+    .reset {
+      margin-left: 0;
     }
     ol {
       display: flex;
@@ -475,6 +495,26 @@ export class TwToolRail extends LitElement {
           )}
         </div>
       </section>
+      ${
+        tool.shape === "brush"
+          ? html`<section>
+              <span class="cap">Radius</span>
+              <div class="field">
+                <input
+                  class="range"
+                  type="range"
+                  min=${RADIUS_RANGE.min}
+                  max=${RADIUS_RANGE.max}
+                  step=${RADIUS_RANGE.step}
+                  aria-label="Brush radius in cells"
+                  .value=${String(tool.radius)}
+                  @input=${this.#radiusInput}
+                />
+                <span class="unit">${tool.radius} cells</span>
+              </div>
+            </section>`
+          : nothing
+      }
       ${this.#options()}
       <div class="divider"></div>
       ${this.#history()}
@@ -486,54 +526,54 @@ export class TwToolRail extends LitElement {
       case "ground":
         return html`<section>
           <span class="cap">State</span>
-          <div class="pills">
-            ${GROUND_STATES.map(
-              (state) =>
-                html`<button
-                  class="pill"
-                  type="button"
-                  aria-pressed=${this.tool.ground === state ? "true" : "false"}
-                  @click=${() => this.#update({ ground: state })}
-                >
-                  ${state}
-                </button>`
-            )}
-          </div>
+          <tw-chip-group
+            label="Ground state"
+            .values=${GROUND_STATES}
+            .pressed=${[this.tool.ground]}
+            @tw-chip=${this.#choose(GROUND_STATES, (ground) => this.#update({ ground }))}
+          ></tw-chip-group>
         </section>`;
       case "threshold":
         return html`<section>
             <span class="cap">Kind</span>
-            <div class="pills">
-              ${THRESHOLD_KINDS.map((kind) => this.#thresholdPill({ kind }, this.tool.threshold.kind === kind, kind))}
-            </div>
+            <tw-chip-group
+              label="Kind"
+              .values=${THRESHOLD_KINDS}
+              .pressed=${[this.tool.threshold.kind]}
+              @tw-chip=${this.#choose(THRESHOLD_KINDS, (kind) => this.#threshold({ kind }))}
+            ></tw-chip-group>
           </section>
           <section>
             <span class="cap">State</span>
-            <div class="pills">
-              ${THRESHOLD_STATES.map((state) => this.#thresholdPill({ state }, this.tool.threshold.state === state, state))}
-            </div>
+            <tw-chip-group
+              label="State"
+              .values=${THRESHOLD_STATES}
+              .pressed=${[this.tool.threshold.state]}
+              @tw-chip=${this.#choose(THRESHOLD_STATES, (state) => this.#threshold({ state }))}
+            ></tw-chip-group>
           </section>
           <section>
             <span class="cap">Size · windows</span>
-            <div class="pills">
-              ${OPENING_SIZES.map((size) => this.#thresholdPill({ size }, this.tool.threshold.size === size, size))}
-            </div>
+            <tw-chip-group
+              label="Size"
+              .values=${OPENING_SIZES}
+              .pressed=${[this.tool.threshold.size]}
+              @tw-chip=${this.#choose(OPENING_SIZES, (size) => this.#threshold({ size }))}
+            ></tw-chip-group>
           </section>`;
       case "height":
         return html`<section>
           <span class="cap">Amount</span>
-          <div class="pills">
-            ${HEIGHTS.map(
-              (height) =>
-                html`<button
-                  class="pill"
-                  type="button"
-                  aria-pressed=${this.tool.height === height ? "true" : "false"}
-                  @click=${() => this.#update({ height })}
-                >
-                  ${signed(height)}
-                </button>`
-            )}
+          <div class="field">
+            <input
+              class="number"
+              type="number"
+              step="5"
+              aria-label="Height amount"
+              .value=${String(this.tool.height)}
+              @input=${this.#heightInput}
+            />
+            <span class="unit">ft · ${signed(this.tool.height)}</span>
           </div>
         </section>`;
       default:
@@ -541,15 +581,20 @@ export class TwToolRail extends LitElement {
     }
   }
 
-  #thresholdPill(change: Partial<ThresholdChoice>, pressed: boolean, name: string) {
-    return html`<button
-      class="pill"
-      type="button"
-      aria-pressed=${pressed ? "true" : "false"}
-      @click=${() => this.#update({ threshold: { ...this.tool.threshold, ...change } })}
-    >
-      ${name}
-    </button>`;
+  // A chip group reports a value as a string; only one of the values it was
+  // given can come back, so the typed one is looked up rather than trusted.
+  #choose<T extends string>(values: readonly T[], apply: (value: T) => void) {
+    return (event: Event): void => {
+      const { value } = (event as CustomEvent<{ value: string }>).detail;
+      const chosen = values.find((candidate) => candidate === value);
+      if (chosen !== undefined) {
+        apply(chosen);
+      }
+    };
+  }
+
+  #threshold(change: Partial<ThresholdChoice>): void {
+    this.#update({ threshold: { ...this.tool.threshold, ...change } });
   }
 
   #history() {
@@ -563,6 +608,14 @@ export class TwToolRail extends LitElement {
         <span class="cap">History</span>
         <span class="count">${total}</span>
         <button class="undo" type="button" title="Undo (Ctrl+Z)" @click=${this.#undo}>Undo</button>
+        <button
+          class="undo reset"
+          type="button"
+          title="Clear everything drawn; the reset stays in the history"
+          @click=${this.#reset}
+        >
+          Reset
+        </button>
       </div>
       ${
         total === 0
@@ -618,6 +671,22 @@ export class TwToolRail extends LitElement {
     this.#update({ shape });
   }
 
+  // A number typed is taken as it comes; a field emptied or half-typed
+  // changes nothing until it reads as a number again.
+  #heightInput = (event: Event): void => {
+    const height = Number((event.target as HTMLInputElement).value);
+    if (Number.isFinite(height)) {
+      this.#update({ height });
+    }
+  };
+
+  #radiusInput = (event: Event): void => {
+    const radius = Number((event.target as HTMLInputElement).value);
+    if (Number.isFinite(radius) && radius > 0) {
+      this.#update({ radius });
+    }
+  };
+
   #update(change: Partial<DrawTool>): void {
     this.tool = { ...this.tool, ...change };
     this.#emitTool();
@@ -635,6 +704,10 @@ export class TwToolRail extends LitElement {
 
   #undo = (): void => {
     this.dispatchEvent(new CustomEvent("tw-undo", { bubbles: true, composed: true }));
+  };
+
+  #reset = (): void => {
+    this.dispatchEvent(new CustomEvent("tw-reset", { bubbles: true, composed: true }));
   };
 
   #remove(index: number): void {

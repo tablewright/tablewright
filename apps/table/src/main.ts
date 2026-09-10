@@ -296,10 +296,19 @@ try {
   const stage = await BoardStage.create(host, { background: readBoardTheme(host).ground });
   const board = new BoardHost(stage, host, VIEWER);
   const core = connectCore();
+  // Whatever opened last sits on top: the search over the rail, the scene
+  // list over the palette. A stacking order is geometry, as the camera's
+  // transform is, so it is the one inline style the page writes.
+  let topLayer = 200;
+  const raise = (element: HTMLElement): void => {
+    topLayer += 1;
+    element.style.zIndex = String(topLayer);
+  };
   // Opening an entry is the same act from the box and from a shared card:
   // the page the desk turns to, until the surfaces exist.
   const openEntry = async (hit: SpotlightHit): Promise<void> => {
     try {
+      raise(entryView);
       entryView.show(await core.entry(hit.id));
     } catch (error) {
       const reason = error instanceof Error ? error.message : String(error);
@@ -319,6 +328,12 @@ try {
   };
   scenesTab.canManage = VIEWER === "dm";
   scenesTab.references = REFERENCE_SCENES.map((reference) => reference.name);
+  scenesTab.addEventListener("click", () => {
+    const chrome = scenesTab.parentElement;
+    if (chrome !== null) {
+      raise(chrome);
+    }
+  });
   await refreshScenes();
   showScene(await core.scene());
   scenesTab.addEventListener("tw-scene-open", (event) => {
@@ -363,6 +378,7 @@ try {
     const { id, version } = (event as CustomEvent<{ id: string; version: string }>).detail;
     void (async () => {
       try {
+        raise(entryView);
         entryView.show(await core.entry(id, version));
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
@@ -392,6 +408,9 @@ try {
   toolRail.hidden = VIEWER !== "dm";
   const applyTool = (event: Event): void => {
     const { tool } = (event as CustomEvent<{ tool: DrawTool | undefined }>).detail;
+    if (tool !== undefined) {
+      raise(toolRail);
+    }
     board.setBuildTool(tool);
   };
   const undo = (): void => {
@@ -406,6 +425,18 @@ try {
   };
   toolRail.addEventListener("tw-tool", applyTool);
   toolRail.addEventListener("tw-undo", undo);
+  // A reset is a stroke like any other: everything before it is cleared,
+  // and it sits in the history so that taking it back brings the rest back.
+  toolRail.addEventListener("tw-reset", () => {
+    void (async () => {
+      try {
+        showScene(await core.addStroke({ ink: "clear", visibility: "party" }));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not reset the drawing: ${reason}`);
+      }
+    })();
+  });
   toolRail.addEventListener("tw-remove", (event) => {
     const { index } = (event as CustomEvent<{ index: number }>).detail;
     void (async () => {
@@ -451,7 +482,10 @@ try {
       `Could not read the system: ${error instanceof Error ? error.message : String(error)}`
     );
   }
-  searchButton.addEventListener("click", () => spotlight.show());
+  searchButton.addEventListener("click", () => {
+    raise(spotlight);
+    spotlight.show();
+  });
   spotlight.addEventListener("tw-select", (event) => {
     void openEntry((event as CustomEvent<SpotlightHit>).detail);
   });
@@ -463,6 +497,7 @@ try {
     if (entryView.open && entryView.entry?.id === hit.id) {
       return;
     }
+    raise(shares);
     shares.push(hit, "you");
   });
   shares.addEventListener("tw-open", (event) => {
@@ -528,7 +563,12 @@ try {
     }
     if (event.code === "Space" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
-      spotlight.toggle();
+      if (spotlight.open) {
+        spotlight.hide();
+      } else {
+        raise(spotlight);
+        spotlight.show();
+      }
     }
     // Undo is the record's, so only while building; a field keeps its own.
     if (

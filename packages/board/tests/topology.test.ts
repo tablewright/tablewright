@@ -281,3 +281,20 @@ describe("the hill", () => {
     expect(stairs).toBeGreaterThan(10);
   });
 });
+
+describe("a reset", () => {
+  test("clears everything before it and leaves what comes after", () => {
+    const topology = derive(
+      [
+        ...mansionStrokes(),
+        { ink: "clear", visibility: "party" },
+        groundRect("ground", 0, 0, 1, 1),
+      ],
+      bounds
+    );
+    expect(topology.edges.size).toBe(0);
+    expect(heightAt(topology, { col: 4, row: 1 })).toBe(0);
+    expect(groundAt(topology, { col: 5, row: 5 })).toBe("void");
+    expect(groundAt(topology, { col: 0, row: 0 })).toBe("ground");
+  });
+});

@@ -17,7 +17,7 @@ import type { SquareGrid } from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
 import { edgeCells } from "./edges.js";
 import { groundAt, type EdgeData, type Topology } from "./derive.js";
-import { placedPoints, sampleCentre, sampleHeight, sampleWidth } from "./shapes.js";
+import { placedPoints, radiusOf, sampleCentre, sampleHeight, sampleWidth } from "./shapes.js";
 
 export interface TopologyStyle {
   /** The board's ground, for the dark centre of a lock mark. */
@@ -284,6 +284,8 @@ export class TopologyLayer {
         g.poly(points, true).stroke(style);
         continue;
       }
+      // A brush leaves a mark as wide as the disc that painted it; a single
+      // dab is a dot of that width.
       const [first, ...rest] = points;
       if (first === undefined) {
         continue;
@@ -292,7 +294,10 @@ export class TopologyLayer {
       for (const p of rest) {
         g.lineTo(p.x, p.y);
       }
-      g.stroke(style);
+      if (rest.length === 0) {
+        g.lineTo(first.x + 0.01, first.y);
+      }
+      g.stroke({ ...style, width: radiusOf(shape.radius) * 2 * cell });
     }
   }
 }

@@ -528,7 +528,12 @@ export type Stroke =
  */
 { ink: "level-change"; shape: Shape; visibility: Visibility } | 
 /**  Ink with no rules meaning. */
-{ ink: "free"; shape: Shape; visibility: Visibility };
+{ ink: "free"; shape: Shape; visibility: Visibility } | 
+/**
+ *  Everything drawn before this is cleared: a reset that stays in the
+ *  history, so taking it back brings the rest back.
+ */
+{ ink: "clear"; visibility: Visibility };
 
 /**  The system manifest. */
 export type SystemManifest = {

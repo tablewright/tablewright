@@ -8,6 +8,8 @@ export type { Share } from "./share/tw-share-tray.js";
 export { TwEntryView } from "./entry/tw-entry-view.js";
 export { TwScenes } from "./scenes/tw-scenes.js";
 export { TwToolRail } from "./rail/tw-tool-rail.js";
+export { TwChipGroup } from "./chips/tw-chip-group.js";
+export { titleCase } from "./text.js";
 export { groups } from "./entry/sections.js";
 export type { SectionGroup } from "./entry/sections.js";
 export type { EntryDocument } from "./entry/tw-entry-view.js";

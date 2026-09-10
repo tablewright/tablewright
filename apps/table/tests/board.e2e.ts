@@ -196,6 +196,12 @@ test("with the wall pen held, a wall drawn down the corridor joins the record, a
   await page.mouse.up();
   await expect.poll(edges).toBe(122);
   await expect(tools.getByRole("button", { name: "Show all 28" })).toBeVisible();
+  // A reset is a stroke: everything goes, and Undo brings it all back.
+  await tools.getByRole("button", { name: "Reset" }).click();
+  await expect.poll(edges).toBe(0);
+  await expect(tools.getByRole("button", { name: "Show all 29" })).toBeVisible();
+  await tools.getByRole("button", { name: "Undo" }).click();
+  await expect.poll(edges).toBe(122);
   await tools.getByRole("button", { name: "Undo" }).click();
   await expect.poll(edges).toBe(118);
   await expect(tools.getByRole("button", { name: "Show all 27" })).toBeVisible();

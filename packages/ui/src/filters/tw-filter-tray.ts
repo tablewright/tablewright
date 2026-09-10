@@ -11,6 +11,7 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { Cell, ControlSpec, Stop } from "@tablewright/schema";
+import { titleCase } from "../text.js";
 import { activeCount, besideIndex, cellKey, chipValues, valueText } from "./state.js";
 import type { ControlState, TrayState, Tri } from "./state.js";
 
@@ -741,15 +742,6 @@ function labelOf(stop: Stop | undefined): string {
     return "";
   }
   return stop.label ?? valueText(stop.value);
-}
-
-function titleCase(text: string): string {
-  return text
-    .split(/[-\s]+/)
-    .map((word, at) =>
-      at === 0 && word.length > 0 ? word[0]?.toUpperCase() + word.slice(1) : word
-    )
-    .join(" ");
 }
 
 export type { Cell };
