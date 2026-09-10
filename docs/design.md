@@ -488,6 +488,17 @@ crates/net        WebRTC sync + content-addressed assets (later)
   makes sense: the pan, the settle, and the return have to read as
   one desk. Not part of the PoC; the spotlight (§3) is the first
   thing that pans to a surface.
+- **A scene is one map and everything the table knows about it.** The
+  picture and its grid; the record of strokes and the height display;
+  the tokens standing on it; the play state, what changed in play and
+  is not a stroke: a door opened, a window smashed, later fog lifted
+  and lights lit; and the encounter *(later)*: initiative, whose turn
+  it is, the movement spent. What belongs to a viewer, a ruler,
+  provisional steps, private marks, is not the scene's. Each scene is
+  a file of its own under `scenes/`; the table has one open at a time
+  and remembers which. The DM creates a scene blank, from a picture,
+  or from a reference drawing, and imports *(later)* arrive as
+  strokes. Switching is the DM's act; players follow *(later)*.
 - **Which scene you are in.** A small scene tab at the top left of the
   board names the scene on show, for players and DM alike; when
   players are connected it carries a small mark per player viewing
@@ -497,7 +508,8 @@ crates/net        WebRTC sync + content-addressed assets (later)
   directory: folders (prepared, unfinished, old), a thumbnail per
   scene with its name over it, create and search on top, and the
   player-facing tab repeated for quick reference. The tab ships with
-  the PoC; the marks and the leaf come with players and the surfaces.
+  the PoC and, for the DM, opens the list until the leaf exists; the
+  marks and the leaf come with players and the surfaces.
 - **Platforms.** Windows is the target now (WebView2, the Chromium
   engine as a shared runtime; the default browser is irrelevant).
   Linux comes next and must at least be usable: the engine there is
