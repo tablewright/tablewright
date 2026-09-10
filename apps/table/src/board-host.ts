@@ -18,6 +18,7 @@ import {
   cellCenter,
   derive,
   edgeAt,
+  edgeKey,
   edgeNear,
   extentCovering,
   groundAt,
@@ -35,6 +36,7 @@ import {
   type CellExtent,
   type DrawStyle,
   type DrawTool,
+  type MapSize,
   type Point,
   type SquareGrid,
   type StrokeListener,
@@ -45,7 +47,14 @@ import {
   type Topology,
   type TopologyStyle,
 } from "@tablewright/board";
-import type { GroundState, Scene, Stroke, ThresholdPlay, Visibility } from "@tablewright/schema";
+import type {
+  Edge,
+  GroundState,
+  Scene,
+  Stroke,
+  ThresholdPlay,
+  Visibility,
+} from "@tablewright/schema";
 
 /** A tap in Play landed on a threshold: what it is, and where. */
 export type ThresholdListener = (threshold: ThresholdEdge) => void;
@@ -100,6 +109,7 @@ function topologyStyle(theme: BoardTheme): TopologyStyle {
     sight: theme.sight,
     difficult: theme.difficult,
     air: theme.air,
+    hover: theme.hover,
   };
 }
 
@@ -130,6 +140,10 @@ export class BoardHost {
   private readonly hoverListeners = new Set<HoverListener>();
   private readonly thresholdListeners = new Set<ThresholdListener>();
   private play: readonly ThresholdPlay[] = [];
+  /** The picture on the map layer, so a scene switch loads only a different one. */
+  private mapUrl: string | undefined;
+  private isToolHeld = false;
+  private highlighted: string | undefined;
   /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
   private readonly viewer: Visibility;
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
@@ -154,8 +168,11 @@ export class BoardHost {
     );
     const input = new CameraInput(this.camera, target);
     // A tap on a threshold works it; a tap on empty board clears the
-    // selection, the same as pressing Escape.
+    // selection, the same as pressing Escape. The pointer over a threshold
+    // brightens it first, so a door reads as something to work.
     input.onTap((at) => this.tap(at));
+    target.addEventListener("pointermove", this.onPointerMove);
+    target.addEventListener("pointerleave", this.onPointerLeave);
 
     this.gridLayer.setStyle(theme.grid);
     this.topologyLayer.setStyle(topologyStyle(theme));
@@ -206,8 +223,12 @@ export class BoardHost {
     });
   }
 
-  /** Show `scene`: its grid, its bounds, and its tokens. */
-  setScene(scene: Scene): void {
+  /**
+   * Show `scene`: its grid, its bounds, its picture and its tokens. `map` is
+   * the picture's URL as this page can load it, or nothing for a scene with
+   * no picture; the scene keeps the path, the page resolves it.
+   */
+  setScene(scene: Scene, map: string | undefined): void {
     const grid: SquareGrid = {
       cellSize: scene.grid.cell_size,
       originX: scene.grid.origin_x,
@@ -219,8 +240,17 @@ export class BoardHost {
       this.drawLayer.setGrid(grid);
       this.isGridStale = true;
     }
-    // A loaded map sets its own bounds; the scene's are the fallback.
-    if (scene.map === null) {
+    // A picture sets its own bounds once loaded; without one the scene's
+    // grid is the board.
+    if (map !== this.mapUrl) {
+      this.mapUrl = map;
+      if (map === undefined) {
+        this.mapLayer.clear();
+      } else {
+        void this.loadMap(map);
+      }
+    }
+    if (map === undefined) {
       this.bounds = { colMin: 0, rowMin: 0, cols: scene.grid.cols, rows: scene.grid.rows };
       this.isGridStale = true;
     }
@@ -244,6 +274,8 @@ export class BoardHost {
 
   /** Draw with `tool`, or with nothing: Play mode, where the tokens take presses. */
   setBuildTool(tool: DrawTool | undefined): void {
+    this.isToolHeld = tool !== undefined;
+    this.setHighlight(undefined);
     this.drawLayer.setTool(tool);
     this.tokenLayer.setInteractive(tool === undefined);
     if (tool === undefined) {
@@ -274,6 +306,19 @@ export class BoardHost {
   // A tap near a threshold's edge is for the threshold; anywhere else it
   // is a tap on nothing, which clears the selection.
   private tap(at: Point): void {
+    const threshold = this.thresholdNear(at);
+    if (threshold !== undefined) {
+      for (const listener of this.thresholdListeners) {
+        listener(threshold);
+      }
+      return;
+    }
+    this.tokenLayer.select(undefined);
+  }
+
+  // The threshold a point on the board is over, if it is one a tap can
+  // work: an arch is always open, so it is not offered.
+  private thresholdNear(at: Point): ThresholdEdge | undefined {
     const world = this.camera.toWorld(at);
     const edge = edgeNear(
       {
@@ -283,13 +328,37 @@ export class BoardHost {
       TAP_REACH
     );
     const data = edge === undefined ? undefined : edgeAt(this.topology, edge);
-    if (data?.kind === "threshold") {
-      for (const listener of this.thresholdListeners) {
-        listener(data);
-      }
+    return data?.kind === "threshold" && data.threshold !== "arch" ? data : undefined;
+  }
+
+  private readonly onPointerMove = (event: PointerEvent): void => {
+    if (this.isToolHeld) {
       return;
     }
-    this.tokenLayer.select(undefined);
+    const rect = this.target.getBoundingClientRect();
+    const threshold = this.thresholdNear({
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    });
+    this.setHighlight(threshold?.edge);
+  };
+
+  private readonly onPointerLeave = (): void => {
+    this.setHighlight(undefined);
+  };
+
+  private setHighlight(edge: Edge | undefined): void {
+    const key = edge === undefined ? undefined : edgeKey(edge);
+    if (key === this.highlighted) {
+      return;
+    }
+    this.highlighted = key;
+    this.topologyLayer.setHighlight(edge);
+    if (edge === undefined) {
+      delete this.target.dataset["threshold"];
+    } else {
+      this.target.dataset["threshold"] = "true";
+    }
   }
 
   /** The cell under the middle of the view: where a placed token lands. */
@@ -328,15 +397,18 @@ export class BoardHost {
   }
 
   /** Load a map image, size the grid to it, and frame it in the view. */
-  async loadMap(url: string): Promise<void> {
+  async loadMap(url: string): Promise<MapSize> {
+    this.mapUrl = url;
     const size = await this.mapLayer.setImage(url);
     this.bounds = extentCovering(this.grid, size.width, size.height);
+    this.isGridStale = true;
     this.redrawTopology();
     this.camera.fit(
       this.stage.app.screen,
       { left: 0, top: 0, right: size.width, bottom: size.height },
       FIT_PADDING
     );
+    return size;
   }
 
   private readout(cell: Cell): CellReadout {

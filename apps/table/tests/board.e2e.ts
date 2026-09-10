@@ -227,6 +227,9 @@ test("a tap on a door works it", async ({ page }) => {
   const above = await cellOnScreen(page, { col: 15, row: 6 });
   const below = await cellOnScreen(page, { col: 15, row: 7 });
   const at = { x: (above.x + below.x) / 2, y: (above.y + below.y) / 2 };
+  // Over the door the pointer lights it up and turns to a hand; a tap works it.
+  await page.mouse.move(at.x, at.y);
+  await expect(page.locator("#board")).toHaveAttribute("data-threshold", "true");
   await page.mouse.click(at.x, at.y);
   await expect.poll(door).toBe("open");
   await page.mouse.click(at.x, at.y);

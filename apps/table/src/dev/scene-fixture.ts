@@ -3,7 +3,15 @@
 // held in memory. The shapes are the generated types, so the app treats
 // both alike.
 
-import type { Edge, PlayState, Scene, SceneSummary, Stroke, Token } from "@tablewright/schema";
+import type {
+  Edge,
+  MapImage,
+  PlayState,
+  Scene,
+  SceneSummary,
+  Stroke,
+  Token,
+} from "@tablewright/schema";
 import type { EntryDocument } from "@tablewright/ui";
 
 const scenes = new Map<string, Scene>([["tavern", tavern()]]);
@@ -90,6 +98,11 @@ export function fixtureUndoStroke(): Scene {
   return fixtureScene();
 }
 
+export function fixtureSetMap(map: MapImage | null): Scene {
+  open().map = map;
+  return fixtureScene();
+}
+
 export function fixtureSetThresholdState(edge: Edge, state: PlayState): Scene {
   const scene = open();
   const same = (candidate: Edge): boolean =>
@@ -146,6 +159,8 @@ function tavern(): Scene {
   });
   return {
     ...blank("tavern", "The Rusty Flagon"),
+    // The dev tavern picture, twenty by fifteen cells at fifty pixels.
+    map: { url: new URL("../../dev/tavern.svg", import.meta.url).href, width: 1000, height: 750 },
     tokens: [
       token("seed-a", "A", 4, 5, 90),
       token("seed-b", "B", 7, 6, 0),

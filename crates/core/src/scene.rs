@@ -246,6 +246,12 @@ impl Scene {
         self.display = display;
     }
 
+    /// Give the scene its picture, or take it away. The url is kept as the
+    /// table gave it: a path on this machine, or an address the page loads.
+    pub fn set_map(&mut self, map: Option<MapImage>) {
+        self.map = map;
+    }
+
     /// Record what a threshold became in play: a door opened, a window
     /// smashed, a secret door revealed. One state per edge, the latest.
     pub fn set_threshold_state(&mut self, edge: Edge, state: PlayState) -> &ThresholdPlay {
@@ -557,6 +563,20 @@ mod tests {
         };
         scene.set_display(washed);
         assert_eq!(scene.display, washed);
+    }
+
+    #[test]
+    fn a_scene_takes_a_picture_and_gives_it_up() {
+        let mut scene = Scene::tavern();
+        let picture = MapImage {
+            url: "C:\\maps\\mansion.png".into(),
+            width: 1000,
+            height: 750,
+        };
+        scene.set_map(Some(picture.clone()));
+        assert_eq!(scene.map, Some(picture));
+        scene.set_map(None);
+        assert_eq!(scene.map, None);
     }
 
     #[test]

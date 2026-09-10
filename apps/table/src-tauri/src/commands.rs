@@ -12,8 +12,9 @@ use std::time::Instant;
 use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
-    DEFAULT_LIMIT, Edge, Entry, EntryId, Filter, HeightDisplay, Hit, Manifest, PlayState, Scene,
-    SceneError, SceneSummary, StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility,
+    DEFAULT_LIMIT, Edge, Entry, EntryId, Filter, HeightDisplay, Hit, Manifest, MapImage, PlayState,
+    Scene, SceneError, SceneSummary, StoreError, Stroke, SystemManifest, Understood, Viewer,
+    Visibility,
 };
 use tauri::State;
 
@@ -288,6 +289,16 @@ pub fn set_display(
 ) -> Result<Scene, CommandError> {
     edit_scene(&state, |scene| {
         scene.set_display(display);
+        Ok(())
+    })
+}
+
+/// Give the scene its picture, or take it away.
+#[tauri::command]
+#[specta::specta]
+pub fn set_map(state: State<'_, AppState>, map: Option<MapImage>) -> Result<Scene, CommandError> {
+    edit_scene(&state, |scene| {
+        scene.set_map(map);
         Ok(())
     })
 }

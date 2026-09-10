@@ -84,6 +84,12 @@ export const commands = {
 	undoStroke: () => typedError<Scene, CommandError>(__TAURI_INVOKE("undo_stroke")),
 	/**  Choose how the scene shows height over its picture. */
 	setDisplay: (display: HeightDisplay) => typedError<Scene, CommandError>(__TAURI_INVOKE("set_display", { display })),
+	/**  Give the scene its picture, or take it away. */
+	setMap: (map: {
+	url: string,
+	width: number,
+	height: number,
+} | null) => typedError<Scene, CommandError>(__TAURI_INVOKE("set_map", { map })),
 	/**
 	 *  Record what a threshold became in play: opened, shut, smashed, or a
 	 *  secret door revealed.

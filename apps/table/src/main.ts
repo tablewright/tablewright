@@ -14,6 +14,7 @@ import { commands } from "@tablewright/schema";
 import type {
   CommandError,
   Edge,
+  MapImage,
   PlayState,
   Scene,
   SceneSummary,
@@ -105,7 +106,22 @@ function workThreshold(threshold: ThresholdEdge): { state: PlayState } | { notic
   }
 }
 
-async function openMap(board: BoardHost): Promise<void> {
+// A scene keeps its picture as the table gave it: a path on this machine,
+// which the webview reaches through the asset protocol, or an address the
+// page loads as it is. Only a Tauri window has the protocol; the plain page
+// takes every url as it comes.
+function mapUrlOf(map: MapImage | null): string | undefined {
+  if (map === null) {
+    return undefined;
+  }
+  // A scheme of two letters or more: http, asset, data, file. One letter is
+  // a Windows drive, which is a path.
+  const isAddress = /^[a-z][a-z0-9+.-]+:/i.test(map.url);
+  return isAddress || !("__TAURI_INTERNALS__" in window) ? map.url : convertFileSrc(map.url);
+}
+
+// Opening a picture gives it to the scene on show, sized as it loaded.
+async function openMap(board: BoardHost, core: Core, show: (scene: Scene) => void): Promise<void> {
   const path = await open({
     multiple: false,
     directory: false,
@@ -115,16 +131,18 @@ async function openMap(board: BoardHost): Promise<void> {
     return;
   }
   try {
-    await board.loadMap(convertFileSrc(path));
+    const size = await board.loadMap(convertFileSrc(path));
+    show(await core.setMap({ url: path, width: size.width, height: size.height }));
   } catch (error) {
     const reason = error instanceof Error ? error.message : String(error);
     showNotice(`Could not load ${path}: ${reason}. Use a PNG, JPEG, WebP, or SVG image.`);
   }
 }
 
-// A fixture so the board has a map to show without hunting for one. The query
-// string can swap the map, seed tokens, and start a performance probe:
-// ?map=<url>&tokens=<count>&perf=<scenario>. A fixture that fails to load is a
+// The query string can put another map on the board for a look, seed
+// tokens, and start a performance probe: ?map=<url>&tokens=<count>&perf=
+// <scenario>. The scene's own picture is the fixture's business; a map
+// named here is shown over it and not kept. One that fails to load is a
 // notice, not a failure of the board.
 async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void> {
   const { SCENARIOS, runPerfProbe } = await import("./dev/perf-probe.js");
@@ -133,13 +151,14 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
   const scenario =
     perf !== null && perf in SCENARIOS ? (perf as keyof typeof SCENARIOS) : undefined;
   const preset = scenario === undefined ? undefined : SCENARIOS[scenario];
-  const url =
-    params.get("map") ?? preset?.map ?? new URL("../dev/tavern.svg", import.meta.url).href;
-  try {
-    await board.loadMap(url);
-  } catch (error) {
-    const reason = error instanceof Error ? error.message : String(error);
-    showNotice(`Could not load the dev map ${url}: ${reason}.`);
+  const url = params.get("map") ?? preset?.map;
+  if (url !== undefined) {
+    try {
+      await board.loadMap(url);
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      showNotice(`Could not load the dev map ${url}: ${reason}.`);
+    }
   }
   const count = Number(params.get("tokens") ?? preset?.tokens);
   if (Number.isInteger(count) && count > 0) {
@@ -189,6 +208,7 @@ interface Core {
   undoStroke: () => Promise<Scene>;
   removeStroke: (index: number) => Promise<Scene>;
   setThresholdState: (edge: Edge, state: PlayState) => Promise<Scene>;
+  setMap: (map: MapImage | null) => Promise<Scene>;
   listScenes: () => Promise<SceneSummary[]>;
   openScene: (id: string) => Promise<Scene>;
   createScene: (name: string, strokes: Stroke[]) => Promise<Scene>;
@@ -223,6 +243,7 @@ function connectCore(): Core {
         removeStroke: async (index) => (await scenes).fixtureRemoveStroke(index),
         setThresholdState: async (edge, state) =>
           (await scenes).fixtureSetThresholdState(edge, state),
+        setMap: async (map) => (await scenes).fixtureSetMap(map),
         listScenes: async () => (await scenes).fixtureListScenes(),
         openScene: async (id) => (await scenes).fixtureOpenScene(id),
         createScene: async (name, strokes) => (await scenes).fixtureCreateScene(name, strokes),
@@ -243,6 +264,7 @@ function connectCore(): Core {
       undoStroke: unconnected,
       removeStroke: unconnected,
       setThresholdState: unconnected,
+      setMap: unconnected,
       listScenes: unconnected,
       openScene: unconnected,
       createScene: unconnected,
@@ -293,6 +315,7 @@ function connectCore(): Core {
     undoStroke: async () => unwrap(await commands.undoStroke()),
     removeStroke: async (index) => unwrap(await commands.removeStroke(index)),
     setThresholdState: async (edge, state) => unwrap(await commands.setThresholdState(edge, state)),
+    setMap: async (map) => unwrap(await commands.setMap(map)),
     listScenes: async () => unwrap(await commands.listScenes()),
     openScene: async (id) => unwrap(await commands.openScene(id)),
     createScene: async (name, strokes) => unwrap(await commands.createScene(name, strokes)),
@@ -357,7 +380,7 @@ try {
   // A move the scene refuses is undone by showing the scene as it stands.
   // The scene tab names what is shown and, for the DM, lists the rest.
   const showScene = (scene: Scene): void => {
-    board.setScene(scene);
+    board.setScene(scene, mapUrlOf(scene.map));
     scenesTab.current = scene.id;
     toolRail.strokes = scene.strokes;
     toolRail.cellSize = scene.grid.cell_size;
@@ -439,7 +462,7 @@ try {
       }
     })();
   });
-  openButton.addEventListener("click", () => void openMap(board));
+  openButton.addEventListener("click", () => void openMap(board, core, showScene));
   // The rail is the DM's hand: an ink held is a pen held, the board draws
   // with it and the tokens go inert; the pen down, the pointer moves
   // tokens again. Every finished stroke is a command to the core, and the
@@ -614,7 +637,7 @@ try {
   window.addEventListener("keydown", (event) => {
     if (event.key === "o" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
-      void openMap(board);
+      void openMap(board, core, showScene);
     }
     if (event.code === "Space" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();

@@ -15,7 +15,7 @@ import type { Edge } from "@tablewright/schema";
 import type { Point } from "../geometry.js";
 import type { SquareGrid } from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
-import { edgeCells } from "./edges.js";
+import { edgeCells, edgeKey } from "./edges.js";
 import { groundAt, type EdgeData, type Topology } from "./derive.js";
 import { placedPoints, radiusOf, sampleCentre, sampleHeight, sampleWidth } from "./shapes.js";
 
@@ -28,6 +28,8 @@ export interface TopologyStyle {
   readonly sight: PackedColor;
   readonly difficult: PackedColor;
   readonly air: PackedColor;
+  /** A threshold under the pointer in Play: brighter, so it reads as workable. */
+  readonly hover: PackedColor;
 }
 
 interface Segment {
@@ -47,16 +49,20 @@ const DEFAULT_STYLE: TopologyStyle = {
   sight: { rgb: 0x5fa8bd, alpha: 1 },
   difficult: { rgb: 0xf1e6d2, alpha: 0.12 },
   air: { rgb: 0x5fa8bd, alpha: 0.28 },
+  hover: { rgb: 0xe4c57a, alpha: 1 },
 };
 
 /** The derived topology as one Graphics; call `draw` whenever it or the grid changes. */
 export class TopologyLayer {
   private readonly graphics = new Graphics();
+  // The threshold under the pointer, drawn again over everything, brighter.
+  private readonly glow = new Graphics();
   private style: TopologyStyle = DEFAULT_STYLE;
   private last: { topology: Topology; grid: SquareGrid } | undefined;
+  private highlighted: Edge | undefined;
 
   constructor(container: Container) {
-    container.addChild(this.graphics);
+    container.addChild(this.graphics, this.glow);
   }
 
   /** Rebuild the drawing for `topology` on `grid`. */
@@ -68,12 +74,14 @@ export class TopologyLayer {
     this.drawLevelChanges(g, topology, grid);
     this.drawEdges(g, topology, grid);
     this.drawFreeInk(g, topology, grid);
+    this.drawHighlight();
   }
 
   /** Remove everything drawn. */
   clear(): void {
     this.last = undefined;
     this.graphics.clear();
+    this.glow.clear();
   }
 
   /** Change the colours, redrawing if something has been drawn. */
@@ -84,8 +92,40 @@ export class TopologyLayer {
     }
   }
 
+  /** Brighten the threshold on `edge`, or none. */
+  setHighlight(edge: Edge | undefined): void {
+    this.highlighted = edge;
+    this.drawHighlight();
+  }
+
   destroy(): void {
     this.graphics.destroy();
+    this.glow.destroy();
+  }
+
+  private drawHighlight(): void {
+    const g = this.glow;
+    g.clear();
+    if (this.last === undefined || this.highlighted === undefined) {
+      return;
+    }
+    const { topology, grid } = this.last;
+    const data = topology.edges.get(edgeKey(this.highlighted));
+    if (data?.kind !== "threshold") {
+      return;
+    }
+    const cell = grid.cellSize;
+    const s = segment(grid, data.edge);
+    const { hover } = this.style;
+    g.moveTo(s.x0, s.y0)
+      .lineTo(s.x1, s.y1)
+      .stroke({ width: cell * 0.3, color: hover.rgb, alpha: 0.22, cap: "round" });
+    this.drawThreshold(g, s, data, cell, {
+      ...this.style,
+      wall: { rgb: hover.rgb, alpha: 0.9 },
+      threshold: hover,
+      sight: hover,
+    });
   }
 
   private drawStates(g: Graphics, topology: Topology, grid: SquareGrid): void {
@@ -176,12 +216,18 @@ export class TopologyLayer {
     }
   }
 
-  private drawThreshold(g: Graphics, s: Segment, data: Threshold, cell: number): void {
+  private drawThreshold(
+    g: Graphics,
+    s: Segment,
+    data: Threshold,
+    cell: number,
+    style: TopologyStyle = this.style
+  ): void {
     const ux = (s.x1 - s.x0) / cell;
     const uy = (s.y1 - s.y0) / cell;
     const nx = -uy;
     const ny = ux;
-    const { wall, threshold, sight } = this.style;
+    const { wall, threshold, sight } = style;
     const line = (width: number, color: PackedColor, alpha = color.alpha): void => {
       g.moveTo(s.x0, s.y0).lineTo(s.x1, s.y1).stroke({ width, color: color.rgb, alpha });
     };
@@ -204,7 +250,7 @@ export class TopologyLayer {
       const mx = (s.x0 + s.x1) / 2;
       const my = (s.y0 + s.y1) / 2;
       g.circle(mx, my, cell * 0.08).fill({ color: threshold.rgb, alpha: threshold.alpha });
-      g.circle(mx, my, cell * 0.03).fill({ color: this.style.ground });
+      g.circle(mx, my, cell * 0.03).fill({ color: style.ground });
     };
     if (data.state === "secret") {
       // A wall to everyone who may not see it; to the DM, a wall with a hint.
