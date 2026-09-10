@@ -90,6 +90,15 @@ export function fixtureUndoStroke(): Scene {
   return fixtureScene();
 }
 
+export function fixtureRemoveStroke(index: number): Scene {
+  const scene = open();
+  if (index < 0 || index >= scene.strokes.length) {
+    throw new Error(`no stroke ${index} in the scene`);
+  }
+  scene.strokes.splice(index, 1);
+  return fixtureScene();
+}
+
 // A secret threshold is the DM's, as the core makes it on adding.
 function asAdded(stroke: Stroke): Stroke {
   return stroke.ink === "threshold" && stroke.state === "secret"

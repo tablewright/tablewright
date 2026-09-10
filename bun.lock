@@ -47,6 +47,7 @@
       "name": "@tablewright/ui",
       "version": "0.0.0",
       "dependencies": {
+        "@tablewright/board": "workspace:*",
         "@tablewright/schema": "workspace:*",
         "lit": "^3.3.3",
       },

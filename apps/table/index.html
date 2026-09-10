@@ -25,6 +25,9 @@
       #board[data-camera="panning"] {
         cursor: grabbing;
       }
+      #board[data-tool] {
+        cursor: crosshair;
+      }
       .chrome {
         position: fixed;
         top: var(--tw-space-md);
@@ -120,9 +123,9 @@
     <!-- Scene controls, the DM side: opening a map changes the scene under everyone. -->
     <div id="dm-chrome" class="chrome chrome-right">
       <button id="open-map" type="button">Open map</button>
-      <!-- Until the drawing tool has its own Undo. -->
-      <button id="undo-stroke" type="button">Undo stroke</button>
     </div>
+    <!-- Play or Build, and Build's drawing tool: the DM's, shown once the viewer is known. -->
+    <tw-build-tools hidden></tw-build-tools>
     <!-- Mounted once and hidden, so Ctrl+Space costs nothing but a class change. -->
     <tw-spotlight></tw-spotlight>
     <!-- Shared entries queue here, one card at a time; an entry opens as a page. -->

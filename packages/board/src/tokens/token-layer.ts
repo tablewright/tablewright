@@ -112,6 +112,11 @@ export class TokenLayer {
     window.addEventListener("keydown", this.onKeyDown);
   }
 
+  /** Whether presses reach the tokens; off while Build mode draws over them. */
+  setInteractive(enabled: boolean): void {
+    this.container.eventMode = enabled ? "passive" : "none";
+  }
+
   /** Make the layer show exactly `tokens`, reusing sprites by id. */
   set(tokens: readonly TokenView[]): void {
     const seen = new Set<string>();

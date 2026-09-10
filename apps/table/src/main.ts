@@ -2,7 +2,7 @@ import "@tablewright/ui/theme.css";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
-import { BoardStage, REFERENCE_SCENES, readBoardTheme } from "@tablewright/board";
+import { BoardStage, REFERENCE_SCENES, readBoardTheme, signed } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
 import type {
   CommandError,
@@ -14,11 +14,11 @@ import type {
 } from "@tablewright/schema";
 import "@tablewright/ui";
 import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
-import { BoardHost } from "./board-host.js";
+import { BoardHost, type CellReadout } from "./board-host.js";
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
-const undoButton = document.getElementById("undo-stroke");
+const buildTools = document.querySelector("tw-build-tools");
 const dmChrome = document.getElementById("dm-chrome");
 const roleLabel = document.getElementById("role");
 const searchButton = document.getElementById("search");
@@ -29,7 +29,7 @@ const scenesTab = document.querySelector("tw-scenes");
 if (
   host === null ||
   openButton === null ||
-  undoButton === null ||
+  buildTools === null ||
   dmChrome === null ||
   roleLabel === null ||
   searchButton === null ||
@@ -39,7 +39,7 @@ if (
   scenesTab === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #undo-stroke, #dm-chrome, #role, #search, <tw-scenes>, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #dm-chrome, #role, #search, <tw-scenes>, <tw-build-tools>, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
   );
 }
 
@@ -54,6 +54,16 @@ function showNotice(message: string, level: "error" | "fatal" | "info" = "error"
     notice.addEventListener("click", () => notice.remove(), { once: true });
   }
   document.body.append(notice);
+}
+
+// What the tool is over, in words: the ground state, the height the rules
+// give the cell, and whether a level change was painted there.
+function describeCell(readout: CellReadout): string {
+  if (readout.ground === "void") {
+    return "Void: outside the scene";
+  }
+  const height = readout.height === 0 ? "ground level" : `${signed(Math.round(readout.height))} ft`;
+  return `${readout.ground} · ${height}${readout.isLevelChange ? " · level change" : ""}`;
 }
 
 async function openMap(board: BoardHost): Promise<void> {
@@ -138,6 +148,7 @@ interface Core {
   placeEntry: (entry: EntryDocument, col: number, row: number) => Promise<Scene>;
   addStroke: (stroke: Stroke) => Promise<Scene>;
   undoStroke: () => Promise<Scene>;
+  removeStroke: (index: number) => Promise<Scene>;
   listScenes: () => Promise<SceneSummary[]>;
   openScene: (id: string) => Promise<Scene>;
   createScene: (name: string, strokes: Stroke[]) => Promise<Scene>;
@@ -169,6 +180,7 @@ function connectCore(): Core {
         placeEntry: async (entry, col, row) => (await scenes).fixturePlace(entry, col, row),
         addStroke: async (stroke) => (await scenes).fixtureAddStroke(stroke),
         undoStroke: async () => (await scenes).fixtureUndoStroke(),
+        removeStroke: async (index) => (await scenes).fixtureRemoveStroke(index),
         listScenes: async () => (await scenes).fixtureListScenes(),
         openScene: async (id) => (await scenes).fixtureOpenScene(id),
         createScene: async (name, strokes) => (await scenes).fixtureCreateScene(name, strokes),
@@ -187,6 +199,7 @@ function connectCore(): Core {
       placeEntry: unconnected,
       addStroke: unconnected,
       undoStroke: unconnected,
+      removeStroke: unconnected,
       listScenes: unconnected,
       openScene: unconnected,
       createScene: unconnected,
@@ -235,6 +248,7 @@ function connectCore(): Core {
     placeEntry: async (entry, col, row) => unwrap(await commands.placeEntry(entry.id, col, row)),
     addStroke: async (stroke) => unwrap(await commands.addStroke(stroke)),
     undoStroke: async () => unwrap(await commands.undoStroke()),
+    removeStroke: async (index) => unwrap(await commands.removeStroke(index)),
     listScenes: async () => unwrap(await commands.listScenes()),
     openScene: async (id) => unwrap(await commands.openScene(id)),
     createScene: async (name, strokes) => unwrap(await commands.createScene(name, strokes)),
@@ -292,6 +306,7 @@ try {
   const showScene = (scene: Scene): void => {
     board.setScene(scene);
     scenesTab.current = scene.id;
+    buildTools.strokes = scene.strokes;
   };
   const refreshScenes = async (): Promise<void> => {
     scenesTab.scenes = await core.listScenes();
@@ -364,7 +379,14 @@ try {
     })();
   });
   openButton.addEventListener("click", () => void openMap(board));
-  undoButton.addEventListener("click", () => {
+  // Build mode is the DM's: the tool draws over the board, the tokens go
+  // inert, and every finished stroke is a command to the core. The record
+  // shown is the scene's own.
+  buildTools.hidden = VIEWER !== "dm";
+  const applyTool = (): void => {
+    board.setBuildTool(buildTools.mode === "build" ? buildTools.tool : undefined);
+  };
+  const undo = (): void => {
     void (async () => {
       try {
         showScene(await core.undoStroke());
@@ -373,6 +395,33 @@ try {
         showNotice(`Could not undo the stroke: ${reason}`);
       }
     })();
+  };
+  buildTools.addEventListener("tw-mode", applyTool);
+  buildTools.addEventListener("tw-tool", applyTool);
+  buildTools.addEventListener("tw-undo", undo);
+  buildTools.addEventListener("tw-remove", (event) => {
+    const { index } = (event as CustomEvent<{ index: number }>).detail;
+    void (async () => {
+      try {
+        showScene(await core.removeStroke(index));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not remove the stroke: ${reason}`);
+      }
+    })();
+  });
+  board.onStroke((stroke) => {
+    void (async () => {
+      try {
+        showScene(await core.addStroke(stroke));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not add the stroke: ${reason}`);
+      }
+    })();
+  });
+  board.onHover((readout) => {
+    buildTools.readout = readout === undefined ? "" : describeCell(readout);
   });
   // A player's page has no DM chrome and says whose view it is.
   dmChrome.hidden = VIEWER !== "dm";
@@ -473,6 +522,16 @@ try {
     if (event.code === "Space" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
       spotlight.toggle();
+    }
+    // Undo is the record's, so only while building; a field keeps its own.
+    if (
+      event.key === "z" &&
+      (event.ctrlKey || event.metaKey) &&
+      buildTools.mode === "build" &&
+      !(event.target instanceof HTMLElement && event.target.matches("input, textarea"))
+    ) {
+      event.preventDefault();
+      undo();
     }
   });
   if (__DEV_BUILD__) {

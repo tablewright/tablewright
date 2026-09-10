@@ -158,10 +158,46 @@ test("a reference drawing becomes a scene, and the tab switches scenes", async (
   await expect(tab.getByRole("button", { name: "Halloway House" })).toBeVisible();
   expect(await tokens()).toBe(0);
   expect(await northEast()).toBe(3);
-  await page.getByRole("button", { name: "Undo stroke" }).click();
+  await page.locator("tw-build-tools").getByRole("button", { name: "Build" }).click();
+  await page.locator("tw-build-tools").getByRole("button", { name: "Undo" }).click();
   await expect.poll(northEast).toBe(1);
   await tab.getByRole("button", { name: "Halloway House" }).click();
   await tab.getByRole("menuitem", { name: "The Rusty Flagon" }).click();
   await expect.poll(edges).toBe(0);
   await expect.poll(tokens).toBe(3);
+});
+
+// Build mode draws through the core: a wall down the corridor joins the
+// record, and Undo takes it back.
+test("in Build mode a wall drawn down the corridor joins the record, and Undo takes it back", async ({
+  page,
+}) => {
+  await page.goto("/?role=dm");
+  await page.waitForFunction(
+    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
+  );
+  const tab = page.locator("tw-scenes");
+  const edges = () => page.evaluate(() => window.__tablewright?.topology().edges.size);
+  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
+  await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
+  await expect.poll(edges).toBe(118);
+  const tools = page.locator("tw-build-tools");
+  await tools.getByRole("button", { name: "Build" }).click();
+  await tools.getByRole("button", { name: "Wall" }).click();
+  await tools.getByRole("button", { name: "Line" }).click();
+  // Vertices sit between cell centres: a line down x = 10 from row 4 to row 8,
+  // inside the corridor, where the mansion has no wall yet.
+  const a = await cellOnScreen(page, { col: 9, row: 3 });
+  const b = await cellOnScreen(page, { col: 10, row: 4 });
+  const c = await cellOnScreen(page, { col: 9, row: 7 });
+  const d = await cellOnScreen(page, { col: 10, row: 8 });
+  await page.mouse.move((a.x + b.x) / 2, (a.y + b.y) / 2);
+  await page.mouse.down();
+  await page.mouse.move((c.x + d.x) / 2, (c.y + d.y) / 2, { steps: 6 });
+  await page.mouse.up();
+  await expect.poll(edges).toBe(122);
+  await expect(tools.getByRole("button", { name: "Record 28" })).toBeVisible();
+  await tools.getByRole("button", { name: "Undo" }).click();
+  await expect.poll(edges).toBe(118);
+  await expect(tools.getByRole("button", { name: "Record 27" })).toBeVisible();
 });

@@ -10,6 +10,7 @@
 import {
   Camera,
   CameraInput,
+  DrawLayer,
   GridLayer,
   MapLayer,
   TokenLayer,
@@ -17,6 +18,9 @@ import {
   cellCenter,
   derive,
   extentCovering,
+  groundAt,
+  heightAt,
+  isLevelChangeAt,
   readBoardTheme,
   visibleExtent,
   visibleTo,
@@ -27,15 +31,28 @@ import {
   type CameraState,
   type Cell,
   type CellExtent,
+  type DrawStyle,
+  type DrawTool,
   type Point,
   type SquareGrid,
+  type StrokeListener,
   type TokenMove,
   type TokenStyle,
   type TokenView,
   type Topology,
   type TopologyStyle,
 } from "@tablewright/board";
-import type { Scene, Stroke, Visibility } from "@tablewright/schema";
+import type { GroundState, Scene, Stroke, Visibility } from "@tablewright/schema";
+
+/** What the topology says about the cell under the tool. */
+export interface CellReadout {
+  readonly cell: Cell;
+  readonly ground: GroundState;
+  readonly height: number;
+  readonly isLevelChange: boolean;
+}
+
+export type HoverListener = (readout: CellReadout | undefined) => void;
 
 /** What a dev build exposes on `window.__tablewright` for tests: reads only, no mutation. */
 export interface BoardDebug {
@@ -75,6 +92,10 @@ function topologyStyle(theme: BoardTheme): TopologyStyle {
   };
 }
 
+function drawStyle(theme: BoardTheme): DrawStyle {
+  return { hover: theme.hover, ink: theme.threshold };
+}
+
 function tokenViews(scene: Scene): TokenView[] {
   return scene.tokens.map((token) => ({
     id: token.id,
@@ -91,7 +112,11 @@ export class BoardHost {
   private readonly mapLayer: MapLayer;
   private readonly tokenLayer: TokenLayer;
   private readonly topologyLayer: TopologyLayer;
+  private readonly drawLayer: DrawLayer;
+  private readonly target: HTMLElement;
   private readonly moveListeners = new Set<TokenMoveListener>();
+  private readonly strokeListeners = new Set<StrokeListener>();
+  private readonly hoverListeners = new Set<HoverListener>();
   /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
   private readonly viewer: Visibility;
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
@@ -103,6 +128,7 @@ export class BoardHost {
 
   constructor(stage: BoardStage, target: HTMLElement, viewer: Visibility = "dm") {
     this.stage = stage;
+    this.target = target;
     this.viewer = viewer;
     this.camera = new Camera(stage.world);
     this.gridLayer = new GridLayer(stage.layers.grid);
@@ -110,17 +136,36 @@ export class BoardHost {
     this.topologyLayer = new TopologyLayer(stage.layers.topology);
     const theme = readBoardTheme(target);
     this.tokenLayer = new TokenLayer(stage.layers.tokens, this.grid, tokenStyle(theme));
+    this.drawLayer = new DrawLayer(stage.app.canvas, stage.layers.overlay, this.grid, (screen) =>
+      this.camera.toWorld(screen)
+    );
     const input = new CameraInput(this.camera, target);
     // Clicking empty board clears the selection, the same as pressing Escape.
     input.onTap(() => this.tokenLayer.select(undefined));
 
     this.gridLayer.setStyle(theme.grid);
     this.topologyLayer.setStyle(topologyStyle(theme));
+    this.drawLayer.setStyle(drawStyle(theme));
     watchBoardTheme(target, (next) => {
       stage.setBackground(next.ground);
       this.gridLayer.setStyle(next.grid);
       this.tokenLayer.setStyle(tokenStyle(next));
       this.topologyLayer.setStyle(topologyStyle(next));
+      this.drawLayer.setStyle(drawStyle(next));
+    });
+
+    // A finished stroke is the DM's to record; the hovered cell is read
+    // off the topology so the tool can say what it is over.
+    this.drawLayer.onStroke((stroke) => {
+      for (const listener of this.strokeListeners) {
+        listener(stroke);
+      }
+    });
+    this.drawLayer.onHover((cell) => {
+      const readout = cell === undefined ? undefined : this.readout(cell);
+      for (const listener of this.hoverListeners) {
+        listener(readout);
+      }
     });
 
     // A drop is the commit point. The layer has already snapped the token to
@@ -157,6 +202,7 @@ export class BoardHost {
     if (grid.cellSize !== this.grid.cellSize || grid.originX !== this.grid.originX) {
       this.grid = grid;
       this.tokenLayer.setGrid(grid, tokenViews(scene));
+      this.drawLayer.setGrid(grid);
       this.isGridStale = true;
     }
     // A loaded map sets its own bounds; the scene's are the fallback.
@@ -179,6 +225,29 @@ export class BoardHost {
   onTokenMove(listener: TokenMoveListener): () => void {
     this.moveListeners.add(listener);
     return () => this.moveListeners.delete(listener);
+  }
+
+  /** Draw with `tool`, or with nothing: Play mode, where the tokens take presses. */
+  setBuildTool(tool: DrawTool | undefined): void {
+    this.drawLayer.setTool(tool);
+    this.tokenLayer.setInteractive(tool === undefined);
+    if (tool === undefined) {
+      delete this.target.dataset["tool"];
+    } else {
+      this.target.dataset["tool"] = tool.shape;
+    }
+  }
+
+  /** Hear every stroke the tool finishes. Returns the unsubscribe. */
+  onStroke(listener: StrokeListener): () => void {
+    this.strokeListeners.add(listener);
+    return () => this.strokeListeners.delete(listener);
+  }
+
+  /** Hear what the tool is over as it moves. Returns the unsubscribe. */
+  onHover(listener: HoverListener): () => void {
+    this.hoverListeners.add(listener);
+    return () => this.hoverListeners.delete(listener);
   }
 
   /** The cell under the middle of the view: where a placed token lands. */
@@ -226,6 +295,15 @@ export class BoardHost {
       { left: 0, top: 0, right: size.width, bottom: size.height },
       FIT_PADDING
     );
+  }
+
+  private readout(cell: Cell): CellReadout {
+    return {
+      cell,
+      ground: groundAt(this.topology, cell),
+      height: heightAt(this.topology, cell),
+      isLevelChange: isLevelChangeAt(this.topology, cell),
+    };
   }
 
   // The strokes are the record; what the board reads is derived from them
