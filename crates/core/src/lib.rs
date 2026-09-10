@@ -4,6 +4,7 @@
 //! and every type that crosses to TypeScript is generated from these
 //! definitions, never hand-written. Design: docs/design.md §3, §4.
 
+pub mod campaign;
 pub mod compendium;
 pub mod module;
 pub mod render;
@@ -14,6 +15,7 @@ pub mod store;
 pub mod stroke;
 pub mod system;
 
+pub use campaign::{Campaign, CampaignError, CampaignManifest, CampaignSummary};
 pub use compendium::{
     Entry, EntryId, EntrySummary, FacetValue, JsonValue, Part, Section, Visibility,
 };

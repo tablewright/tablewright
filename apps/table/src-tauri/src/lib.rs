@@ -7,15 +7,13 @@ mod compendium;
 mod state;
 
 use std::path::{Path, PathBuf};
-use std::sync::Mutex;
 
 use specta_typescript::Typescript;
-use tablewright_core::Scenes;
 use tauri::Manager;
 use tauri::path::BaseDirectory;
 use tauri_specta::{Builder, collect_commands};
 
-use state::{AppState, Compendium};
+use state::AppState;
 
 /// Where the generated TypeScript bindings live, relative to this crate.
 pub const BINDINGS_PATH: &str = concat!(
@@ -43,7 +41,7 @@ pub fn run() {
         .invoke_handler(builder.invoke_handler())
         .setup(move |app| {
             builder.mount_events(app);
-            app.manage(open_compendium(app));
+            app.manage(boot(app));
             Ok(())
         })
         .run(tauri::generate_context!())
@@ -73,6 +71,11 @@ fn specta_builder() -> Builder<tauri::Wry> {
             commands::modules,
             commands::system,
             commands::facet_values,
+            commands::list_campaigns,
+            commands::current_campaign,
+            commands::open_campaign,
+            commands::create_campaign,
+            commands::close_campaign,
             commands::get_scene,
             commands::list_scenes,
             commands::open_scene,
@@ -89,83 +92,40 @@ fn specta_builder() -> Builder<tauri::Wry> {
         ])
 }
 
-// A missing or unreadable compendium is reported, not fatal: the app runs
-// without one and the commands say so. The scenes live in the app's data
-// directory, seeded with the tavern; a directory that cannot be used is
-// reported and the working directory stands in, and if that fails too the
-// shell has nowhere to keep a scene and exits with the reason.
-fn open_compendium(app: &tauri::App) -> AppState {
-    let compendium = open_installed(app);
-    let dir = app
-        .path()
-        .app_data_dir()
-        .map(|dir| dir.join("scenes"))
-        .unwrap_or_else(|_| PathBuf::from("scenes"));
-    let scenes = Scenes::open(&dir).unwrap_or_else(|error| {
-        eprintln!(
-            "scenes: {} unusable ({error}); using ./scenes",
-            dir.display()
-        );
-        Scenes::open(Path::new("scenes")).expect("a writable scenes directory")
-    });
-    eprintln!("scene: {} from {}", scenes.current().name, dir.display());
-    AppState {
-        compendium,
-        scenes: Mutex::new(scenes),
-    }
-}
-
-// The installed copy is replaced from the bundle when it is out of date, and
-// once more when it will not open (a crash mid-write, or a log another build
-// left beside it). Only then does the app give up on it.
-fn open_installed(app: &tauri::App) -> Option<Compendium> {
-    let (bundled, data_dir) = match (
-        app.path()
-            .resolve(compendium::BUNDLED, BaseDirectory::Resource),
-        app.path().app_data_dir(),
-    ) {
-        (Ok(bundled), Ok(data_dir)) => (bundled, data_dir),
-        (Err(error), _) | (_, Err(error)) => {
-            eprintln!("compendium: no path: {error}");
-            return None;
+// Where things live: campaigns under the Tablewright home in the user's
+// documents, the app's own memory in its data directory, the bundled
+// compendium among the resources. The campaign open when the app last
+// closed is opened again; otherwise the intro screen is where the table
+// starts. A missing path is reported and stood in for, never fatal.
+fn boot(app: &tauri::App) -> AppState {
+    let home = match app.path().document_dir() {
+        Ok(documents) => documents.join("Tablewright"),
+        Err(error) => {
+            eprintln!("home: no documents directory ({error}); using ./Tablewright");
+            PathBuf::from("Tablewright")
         }
     };
-    let installed = installed_or_report(compendium::install(&bundled, &data_dir), &bundled)?;
-    match Compendium::open(&installed) {
-        Ok(compendium) => return Some(announce(compendium, &installed)),
-        Err(error) => eprintln!(
-            "compendium: could not open {}: {error}; replacing it from the bundle",
-            installed.display()
-        ),
-    }
-    let installed = installed_or_report(compendium::reinstall(&bundled, &data_dir), &bundled)?;
-    match Compendium::open(&installed) {
-        Ok(compendium) => Some(announce(compendium, &installed)),
-        Err(error) => {
-            eprintln!(
-                "compendium: could not open {}: {error}",
-                installed.display()
-            );
-            None
-        }
-    }
-}
-
-fn installed_or_report(result: std::io::Result<PathBuf>, bundled: &Path) -> Option<PathBuf> {
-    match result {
+    let data_dir = app.path().app_data_dir().unwrap_or_else(|error| {
+        eprintln!("data: no app data directory ({error}); using ./data");
+        PathBuf::from("data")
+    });
+    let bundled = match app
+        .path()
+        .resolve(compendium::BUNDLED, BaseDirectory::Resource)
+    {
         Ok(path) => Some(path),
         Err(error) => {
-            eprintln!("compendium: not installed: {error} ({})", bundled.display());
+            eprintln!("compendium: no bundle path: {error}");
             None
         }
+    };
+    let state = AppState::new(home, data_dir, bundled);
+    eprintln!("home: {}", state.home.display());
+    if let Some(dir) = state.last_open() {
+        match state.open_campaign(&dir) {
+            Ok(summary) => eprintln!("campaign: {} from {}", summary.name, dir.display()),
+            Err(error) => eprintln!("campaign: could not reopen {}: {error}", dir.display()),
+        }
     }
-}
-
-fn announce(compendium: Compendium, path: &Path) -> Compendium {
-    eprintln!(
-        "compendium: {} entries from {}",
-        compendium.catalogue.len(),
-        path.display()
-    );
-    compendium
+    state
 }

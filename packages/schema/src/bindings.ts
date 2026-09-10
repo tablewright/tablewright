@@ -50,9 +50,31 @@ export const commands = {
 	 *  chips: schools, creature types, categories.
 	 */
 	facetValues: () => typedError<{ [key in string]: string[] }, CommandError>(__TAURI_INVOKE("facet_values")),
+	/**
+	 *  Every campaign the app knows: those under the home and those opened
+	 *  from elsewhere, by name.
+	 */
+	listCampaigns: () => typedError<CampaignSummary[], CommandError>(__TAURI_INVOKE("list_campaigns")),
+	/**  The campaign at the table, if one is open. */
+	currentCampaign: () => typedError<{
+	name: string,
+	system: string,
+	version: string,
+	/**  The folder, as the app opens it again. */
+	path: string,
+} | null, CommandError>(__TAURI_INVOKE("current_campaign")),
+	/**  Open the campaign folder at `path` and bring it to the table. */
+	openCampaign: (path: string) => typedError<CampaignSummary, CommandError>(__TAURI_INVOKE("open_campaign", { path })),
+	/**
+	 *  Make a campaign named `name` under the home, or under `location` when
+	 *  the DM chose a folder of their own, and bring it to the table.
+	 */
+	createCampaign: (name: string, location: string | null) => typedError<CampaignSummary, CommandError>(__TAURI_INVOKE("create_campaign", { name, location })),
+	/**  Back to the intro screen. */
+	closeCampaign: () => typedError<null, CommandError>(__TAURI_INVOKE("close_campaign")),
 	/**  The scene the board shows. */
 	getScene: () => typedError<Scene, CommandError>(__TAURI_INVOKE("get_scene")),
-	/**  Every scene in the library, by name. */
+	/**  Every scene in the campaign, by name. */
 	listScenes: () => typedError<SceneSummary[], CommandError>(__TAURI_INVOKE("list_scenes")),
 	/**  Switch the table to the scene `id`. */
 	openScene: (id: string) => typedError<Scene, CommandError>(__TAURI_INVOKE("open_scene", { id })),
@@ -84,7 +106,11 @@ export const commands = {
 	undoStroke: () => typedError<Scene, CommandError>(__TAURI_INVOKE("undo_stroke")),
 	/**  Choose how the scene shows height over its picture. */
 	setDisplay: (display: HeightDisplay) => typedError<Scene, CommandError>(__TAURI_INVOKE("set_display", { display })),
-	/**  Give the scene its picture, or take it away. */
+	/**
+	 *  Give the scene its picture, or take it away. A picture arrives as a
+	 *  path on this machine, is copied into the campaign, and is kept by its
+	 *  path within it.
+	 */
 	setMap: (map: {
 	url: string,
 	width: number,
@@ -98,6 +124,15 @@ export const commands = {
 };
 
 /* Types */
+/**  A campaign as the intro screen lists it. */
+export type CampaignSummary = {
+	name: string,
+	system: string,
+	version: string,
+	/**  The folder, as the app opens it again. */
+	path: string,
+};
+
 /**
  *  One cell of a switch rail: the facet and value it stands for. A cell
  *  without a value stands for a yes.
@@ -118,14 +153,18 @@ export type CellRect = {
 
 /**  Why a command could not answer. */
 export type CommandError = 
-/**  No compendium is installed; nothing to search. */
+/**  No campaign is open; the intro screen is where one is. */
+{ kind: "no-campaign" } | 
+/**  The campaign has no compendium; nothing to search. */
 { kind: "no-compendium" } | 
 /**  No entry with that id, or none the viewer may see. */
 { kind: "not-found"; id: string } | 
 /**  The store failed underneath. */
 { kind: "store"; message: string } | 
 /**  The scene refused the change, or could not be saved. */
-{ kind: "scene"; message: string };
+{ kind: "scene"; message: string } | 
+/**  The campaign folder refused: not a campaign, or could not be written. */
+{ kind: "campaign"; message: string };
 
 /**  How a facet filter compares. */
 export type Compare = "eq" | "lt" | "le" | "gt" | "ge";

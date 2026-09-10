@@ -116,6 +116,25 @@ One search spans Vault and Compendium; results are labeled by origin.
   multi-selects the modules to include, with the bundled SRD checked
   by default. One compendium serves both apps, so Vault lore can
   reference compendium entries and entries can reference lore.
+- **A campaign is a folder.** Everything a table needs for one
+  campaign lives in one directory: `campaign.json` (name, system,
+  version, the modules chosen); `compendium/`, the campaign's own
+  compendium SQLite, installed from the bundle and rebuilt from its
+  modules, derived and never the record; `modules/` *(later)* for
+  the campaign's own modules, a homebrew book among them; `scenes/`;
+  `assets/`, pictures opened into the campaign, copied in and named
+  by a path relative to the folder; `players/` *(later)*. Campaigns
+  live under the Tablewright home, `Documents/Tablewright/campaigns/`,
+  unless the DM puts one in a folder of their own, and the app
+  remembers each by path. A folder is copyable and hostable as one
+  thing: serve mode runs over a campaign folder wherever it sits.
+  The app's own data directory holds only what is no campaign's:
+  the list of campaigns and, later, the installed module library. An
+  intro screen lists the campaigns and opens one, as Foundry's setup
+  does; the first run makes the example campaign, the tavern with
+  the mansion and the hill. A shipped adventure must be
+  redistributable (CC-BY), which none of the free WotC ones are.
+  Data shared between campaigns is *(later)*. Decided 2026-09-10.
 - **What ships.** Only content Tablewright may redistribute: the SRD
   under CC-BY-4.0, and homebrew that is CC-BY-4.0 or licensed to
   Tablewright. Nothing else of 5e. The bundled SRD is the latest

@@ -235,3 +235,40 @@ test("a tap on a door works it", async ({ page }) => {
   await page.mouse.click(at.x, at.y);
   await expect.poll(door).toBe("closed");
 });
+
+// The intro is the whole window: leaving a campaign shows it, a new
+// campaign opens on a tavern of its own, and the example is there to come
+// back to with the mansion still among its scenes.
+test("leaving the campaign shows the intro, and a new campaign opens on its own tavern", async ({
+  page,
+}) => {
+  await page.goto("/?role=dm");
+  await page.waitForFunction(
+    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
+  );
+  const tokens = () => page.evaluate(() => window.__tablewright?.tokens().length);
+  const intro = page.locator("tw-campaigns");
+  const tab = page.locator("tw-scenes");
+  const leave = page.getByRole("button", { name: "Campaigns" });
+  await expect(intro).toBeHidden();
+  await leave.click();
+  await expect(intro).toBeVisible();
+  await expect(intro.getByRole("button", { name: "Open The Rusty Flagon" })).toBeVisible();
+  await expect(intro.getByText("5e · 2024")).toBeVisible();
+  await expect.poll(tokens).toBe(0);
+  await intro.getByLabel("New campaign name").fill("Winter's Reach");
+  await intro.getByRole("button", { name: "Create", exact: true }).click();
+  await expect(intro).toBeHidden();
+  await expect.poll(tokens).toBe(3);
+  await expect(page).toHaveTitle("Winter's Reach · Tablewright Table");
+  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
+  await expect(tab.getByRole("menuitem", { name: "Halloway House", exact: true })).toHaveCount(0);
+  await leave.click();
+  await expect(intro.getByRole("button", { name: "Open Winter's Reach" })).toBeVisible();
+  await intro.getByRole("button", { name: "Open The Rusty Flagon" }).click();
+  await expect(intro).toBeHidden();
+  await expect.poll(tokens).toBe(3);
+  await expect(page).toHaveTitle("The Rusty Flagon · Tablewright Table");
+  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
+  await expect(tab.getByRole("menuitem", { name: "Halloway House", exact: true })).toBeVisible();
+});

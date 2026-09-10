@@ -27,7 +27,7 @@
       "devCsp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: http://asset.localhost data: blob:; connect-src 'self' ipc: http://ipc.localhost ws://localhost:1420; font-src 'self' data:",
       "assetProtocol": {
         "enable": true,
-        "scope": []
+        "scope": ["**"]
       }
     }
   },
@@ -41,6 +41,6 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "resources": ["resources/compendium/*.sqlite"]
+    "resources": ["resources/compendium/*.sqlite", "resources/example/*"]
   }
 }

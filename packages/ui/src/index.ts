@@ -7,6 +7,7 @@ export { TwShareTray } from "./share/tw-share-tray.js";
 export type { Share } from "./share/tw-share-tray.js";
 export { TwEntryView } from "./entry/tw-entry-view.js";
 export { TwScenes } from "./scenes/tw-scenes.js";
+export { TwCampaigns } from "./campaigns/tw-campaigns.js";
 export { TwToolRail } from "./rail/tw-tool-rail.js";
 export { TwStrip } from "./strip/tw-strip.js";
 export { titleCase } from "./text.js";

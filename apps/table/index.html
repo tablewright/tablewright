@@ -40,7 +40,8 @@
         display: flex;
         gap: var(--tw-space-sm);
       }
-      .chrome[hidden] {
+      .chrome[hidden],
+      tw-campaigns[hidden] {
         display: none;
       }
       .chrome .role {
@@ -128,7 +129,10 @@
     <!-- Scene controls, the DM side: opening a map changes the scene under everyone. -->
     <div id="dm-chrome" class="chrome chrome-right">
       <button id="open-map" type="button">Open map</button>
+      <button id="campaigns" type="button" title="Back to the campaigns">Campaigns</button>
     </div>
+    <!-- The intro: the whole window until a campaign is open, and again when the DM leaves one. -->
+    <tw-campaigns hidden></tw-campaigns>
     <!-- The DM's tool rail: an ink held is a pen held; shown once the viewer is known. -->
     <tw-tool-rail hidden></tw-tool-rail>
     <!-- Mounted once and hidden, so Ctrl+Space costs nothing but a class change. -->

@@ -1,5 +1,6 @@
 import "@tablewright/ui/theme.css";
 import { convertFileSrc } from "@tauri-apps/api/core";
+import { resolveResource } from "@tauri-apps/api/path";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
 import {
@@ -12,6 +13,7 @@ import {
 } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
 import type {
+  CampaignSummary,
   CommandError,
   Edge,
   MapImage,
@@ -28,7 +30,9 @@ import { BoardHost, type CellReadout } from "./board-host.js";
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
+const campaignsButton = document.getElementById("campaigns");
 const toolRail = document.querySelector("tw-tool-rail");
+const sceneChrome = document.querySelector<HTMLElement>(".chrome");
 const dmChrome = document.getElementById("dm-chrome");
 const roleLabel = document.getElementById("role");
 const searchButton = document.getElementById("search");
@@ -36,22 +40,44 @@ const spotlight = document.querySelector("tw-spotlight");
 const shares = document.querySelector("tw-share-tray");
 const entryView = document.querySelector("tw-entry-view");
 const scenesTab = document.querySelector("tw-scenes");
+const intro = document.querySelector("tw-campaigns");
 if (
   host === null ||
   openButton === null ||
+  campaignsButton === null ||
   toolRail === null ||
+  sceneChrome === null ||
   dmChrome === null ||
   roleLabel === null ||
   searchButton === null ||
   spotlight === null ||
   shares === null ||
   entryView === null ||
-  scenesTab === null
+  scenesTab === null ||
+  intro === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #dm-chrome, #role, #search, <tw-scenes>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #role, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
   );
 }
+
+// The page's own title; the campaign's name goes before it, and a player's
+// page says whose view it is after.
+const TITLE = document.title;
+
+// What the board shows under the intro: nothing to select, so no key moves
+// anything while a campaign is being chosen.
+const NO_SCENE: Scene = {
+  id: "",
+  name: "",
+  grid: { cell_size: 50, origin_x: 0, origin_y: 0, cols: 20, rows: 15 },
+  map: null,
+  tokens: [],
+  strokes: [],
+  display: { mode: "shaded", strength: 80 },
+  play: [],
+  next_token: 1,
+};
 
 // Errors are named states on screen: what went wrong, and what to do.
 function showNotice(message: string, level: "error" | "fatal" | "info" = "error"): void {
@@ -106,18 +132,31 @@ function workThreshold(threshold: ThresholdEdge): { state: PlayState } | { notic
   }
 }
 
-// A scene keeps its picture as the table gave it: a path on this machine,
-// which the webview reaches through the asset protocol, or an address the
-// page loads as it is. Only a Tauri window has the protocol; the plain page
-// takes every url as it comes.
-function mapUrlOf(map: MapImage | null): string | undefined {
+// A scene keeps its picture by a path within the campaign, which the
+// webview reaches through the asset protocol from the campaign's folder, or
+// an address the page loads as it is. Only a Tauri window has the protocol;
+// the plain page takes every url as it comes.
+function mapUrlOf(map: MapImage | null, campaignPath: string | undefined): string | undefined {
   if (map === null) {
     return undefined;
   }
   // A scheme of two letters or more: http, asset, data, file. One letter is
   // a Windows drive, which is a path.
   const isAddress = /^[a-z][a-z0-9+.-]+:/i.test(map.url);
-  return isAddress || !("__TAURI_INTERNALS__" in window) ? map.url : convertFileSrc(map.url);
+  if (isAddress || campaignPath === undefined || !("__TAURI_INTERNALS__" in window)) {
+    return map.url;
+  }
+  return convertFileSrc(`${campaignPath}/${map.url}`);
+}
+
+// A folder the DM chooses: where a new campaign goes, or a campaign kept
+// elsewhere. Only the desktop shell has the dialog.
+async function pickFolder(title: string): Promise<string | null> {
+  if (!("__TAURI_INTERNALS__" in window)) {
+    throw new Error("choosing a folder needs the desktop app");
+  }
+  const picked = await open({ directory: true, multiple: false, title });
+  return typeof picked === "string" ? picked : null;
 }
 
 // Opening a picture gives it to the scene on show, sized as it loaded.
@@ -201,6 +240,14 @@ interface Core {
   facetValues: () => Promise<Record<string, string[]>>;
   /** One entry; with a version, the same thing in that rule version when it exists. */
   entry: (id: string, version?: string) => Promise<EntryDocument>;
+  /** Every campaign the app knows: under the home, and opened from elsewhere. */
+  listCampaigns: () => Promise<CampaignSummary[]>;
+  /** The campaign at the table, or null when the intro is where the table is. */
+  currentCampaign: () => Promise<CampaignSummary | null>;
+  openCampaign: (path: string) => Promise<CampaignSummary>;
+  /** A new campaign under the home, or under `location` when the DM chose a folder. */
+  createCampaign: (name: string, location: string | null) => Promise<CampaignSummary>;
+  closeCampaign: () => Promise<void>;
   scene: () => Promise<Scene>;
   moveToken: (id: string, col: number, row: number, facing: number) => Promise<Scene>;
   placeEntry: (entry: EntryDocument, col: number, row: number) => Promise<Scene>;
@@ -220,7 +267,7 @@ function connectCore(): Core {
       // Loaded now, not on the first keystroke, so the readout measures the
       // panel rather than the module import.
       const fixture = import("./dev/search-fixture.js");
-      const scenes = import("./dev/scene-fixture.js");
+      const scenes = import("./dev/campaign-fixture.js");
       const system = import("./dev/system-fixture.js");
       return {
         search: async (query, filters) =>
@@ -234,6 +281,12 @@ function connectCore(): Core {
           }
           return found;
         },
+        listCampaigns: async () => (await scenes).fixtureListCampaigns(),
+        currentCampaign: async () => (await scenes).fixtureCurrentCampaign(),
+        openCampaign: async (path) => (await scenes).fixtureOpenCampaign(path),
+        createCampaign: async (name, location) =>
+          (await scenes).fixtureCreateCampaign(name, location),
+        closeCampaign: async () => (await scenes).fixtureCloseCampaign(),
         scene: async () => (await scenes).fixtureScene(),
         moveToken: async (id, col, row, facing) =>
           (await scenes).fixtureMoveToken(id, col, row, facing),
@@ -257,6 +310,11 @@ function connectCore(): Core {
       system: unconnected,
       facetValues: unconnected,
       entry: unconnected,
+      listCampaigns: unconnected,
+      currentCampaign: unconnected,
+      openCampaign: unconnected,
+      createCampaign: unconnected,
+      closeCampaign: unconnected,
       scene: unconnected,
       moveToken: unconnected,
       placeEntry: unconnected,
@@ -307,6 +365,13 @@ function connectCore(): Core {
         sections: sections ?? [],
       };
     },
+    listCampaigns: async () => unwrap(await commands.listCampaigns()),
+    currentCampaign: async () => unwrap(await commands.currentCampaign()),
+    openCampaign: async (path) => unwrap(await commands.openCampaign(path)),
+    createCampaign: async (name, location) => unwrap(await commands.createCampaign(name, location)),
+    closeCampaign: async () => {
+      unwrap(await commands.closeCampaign());
+    },
     scene: async () => unwrap(await commands.getScene()),
     moveToken: async (id, col, row, facing) =>
       unwrap(await commands.moveToken(id, col, row, facing)),
@@ -324,8 +389,12 @@ function connectCore(): Core {
 
 function describe(error: { kind: string }): string {
   switch (error.kind) {
+    case "no-campaign":
+      return "No campaign is open.";
     case "no-compendium":
-      return "No compendium is installed.";
+      return "The campaign has no compendium.";
+    case "campaign":
+      return `The campaign folder refused: ${(error as { message?: string }).message ?? "unknown"}.`;
     case "not-found":
       return "That entry is not in the compendium.";
     case "scene":
@@ -376,11 +445,13 @@ try {
       showNotice(`Could not open ${hit.name}: ${reason}`);
     }
   };
+  // The campaign at the table, whose folder the scene's picture is within.
+  let campaign: CampaignSummary | undefined;
   // The board shows the core's scene and asks it to record every gesture.
   // A move the scene refuses is undone by showing the scene as it stands.
   // The scene tab names what is shown and, for the DM, lists the rest.
   const showScene = (scene: Scene): void => {
-    board.setScene(scene, mapUrlOf(scene.map));
+    board.setScene(scene, mapUrlOf(scene.map, campaign?.path));
     scenesTab.current = scene.id;
     toolRail.strokes = scene.strokes;
     toolRail.cellSize = scene.grid.cell_size;
@@ -396,8 +467,6 @@ try {
       raise(chrome);
     }
   });
-  await refreshScenes();
-  showScene(await core.scene());
   scenesTab.addEventListener("tw-scene-open", (event) => {
     const { id } = (event as CustomEvent<{ id: string }>).detail;
     void (async () => {
@@ -542,9 +611,6 @@ try {
   // A player's page has no DM chrome and says whose view it is.
   dmChrome.hidden = VIEWER !== "dm";
   roleLabel.hidden = VIEWER === "dm";
-  if (VIEWER !== "dm") {
-    document.title = `${document.title} · Player view`;
-  }
   entryView.viewer = VIEWER;
   spotlight.searcher = core.search;
   spotlight.version = VERSION;
@@ -615,7 +681,6 @@ try {
   // shut: while the box is open its scrim takes the click and the page
   // stays, so the layers still peel one at a time. The chrome is not
   // outside: its buttons open things.
-  const chrome = document.querySelector(".chrome");
   window.addEventListener(
     "click",
     (event) => {
@@ -623,11 +688,7 @@ try {
         return;
       }
       const path = event.composedPath();
-      if (
-        path.includes(entryView) ||
-        path.includes(shares) ||
-        (chrome !== null && path.includes(chrome))
-      ) {
+      if (path.includes(entryView) || path.includes(shares) || path.includes(sceneChrome)) {
         return;
       }
       entryView.hide();
@@ -659,6 +720,121 @@ try {
       undo();
     }
   });
+  // The campaign at the table. Entering one shows its scenes and the
+  // chrome; leaving closes it in the core and shows the intro over an empty
+  // board. The window's title says which is open.
+  const setTitle = (): void => {
+    document.title = [campaign?.name, TITLE, VIEWER === "dm" ? undefined : "Player view"]
+      .filter((part) => part !== undefined)
+      .join(" · ");
+  };
+  const showChrome = (shown: boolean): void => {
+    sceneChrome.hidden = !shown;
+    dmChrome.hidden = !shown || VIEWER !== "dm";
+    toolRail.hidden = !shown || VIEWER !== "dm";
+  };
+  const enterCampaign = async (opened: CampaignSummary): Promise<void> => {
+    campaign = opened;
+    intro.hidden = true;
+    await refreshScenes();
+    showScene(await core.scene());
+    showChrome(true);
+    setTitle();
+  };
+  const showIntro = async (): Promise<void> => {
+    campaign = undefined;
+    board.setScene(NO_SCENE, undefined);
+    scenesTab.scenes = [];
+    toolRail.strokes = [];
+    showChrome(false);
+    setTitle();
+    intro.campaigns = await core.listCampaigns();
+    raise(intro);
+    intro.hidden = false;
+  };
+  // The first run makes the example campaign: the tavern with its picture,
+  // and the mansion and the hill from their reference drawings, open on
+  // the tavern.
+  const makeExample = async (): Promise<CampaignSummary> => {
+    const made = await core.createCampaign("The Rusty Flagon", null);
+    for (const reference of REFERENCE_SCENES) {
+      await core.createScene(reference.name, reference.strokes());
+    }
+    await core.openScene("tavern");
+    if ("__TAURI_INTERNALS__" in window) {
+      const picture = await resolveResource("resources/example/tavern.svg");
+      await core.setMap({ url: picture, width: 1000, height: 750 });
+    }
+    return made;
+  };
+  intro.addEventListener("tw-campaign-open", (event) => {
+    const { path } = (event as CustomEvent<{ path: string }>).detail;
+    void (async () => {
+      try {
+        await enterCampaign(await core.openCampaign(path));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not open the campaign at ${path}: ${reason}`);
+      }
+    })();
+  });
+  // A new campaign goes under the home, or in a folder the DM picks, where
+  // it gets a folder of its own named after it.
+  intro.addEventListener("tw-campaign-create", (event) => {
+    const { name, elsewhere } = (event as CustomEvent<{ name: string; elsewhere: boolean }>).detail;
+    void (async () => {
+      try {
+        const location = elsewhere ? await pickFolder("Where the campaign's folder goes") : null;
+        if (elsewhere && location === null) {
+          return;
+        }
+        await enterCampaign(await core.createCampaign(name, location));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not create ${name}: ${reason}`);
+      }
+    })();
+  });
+  intro.addEventListener("tw-campaign-browse", () => {
+    void (async () => {
+      try {
+        const path = await pickFolder("Open a campaign folder");
+        if (path === null) {
+          return;
+        }
+        await enterCampaign(await core.openCampaign(path));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not open the folder: ${reason}`);
+      }
+    })();
+  });
+  campaignsButton.addEventListener("click", () => {
+    void (async () => {
+      try {
+        await core.closeCampaign();
+        await showIntro();
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not leave the campaign: ${reason}`);
+      }
+    })();
+  });
+  // The table starts on the campaign open when the app last closed, else
+  // on the intro; the first run makes the example. A player's page has no
+  // intro: it waits for the DM's campaign.
+  const current = await core.currentCampaign();
+  if (current !== null) {
+    await enterCampaign(current);
+  } else if (VIEWER !== "dm") {
+    showChrome(false);
+    setTitle();
+    showNotice("No campaign is at the table.", "info");
+  } else if ((await core.listCampaigns()).length === 0) {
+    await enterCampaign(await makeExample());
+  } else {
+    await showIntro();
+  }
   if (__DEV_BUILD__) {
     await loadDevFixture(board, host);
     // Exposed only once the fixture is in, so a test that sees it sees a settled scene.

@@ -7,18 +7,25 @@
 //! the DM may preview what a player sees. A remote transport sets it from
 //! the session, never from the caller.
 
+use std::path::{Path, PathBuf};
 use std::time::Instant;
 
 use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
-    DEFAULT_LIMIT, Edge, Entry, EntryId, Filter, HeightDisplay, Hit, Manifest, MapImage, PlayState,
-    Scene, SceneError, SceneSummary, StoreError, Stroke, SystemManifest, Understood, Viewer,
-    Visibility,
+    Campaign, CampaignError, CampaignManifest, CampaignSummary, DEFAULT_LIMIT, Edge, Entry,
+    EntryId, Filter, HeightDisplay, Hit, Manifest, MapImage, PlayState, Scene, SceneError,
+    SceneSummary, StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility, campaign,
 };
 use tauri::State;
 
-use crate::state::{AppState, Compendium};
+use crate::state::{AppState, Compendium, Session};
+
+// What a new campaign plays until the intro asks: the bundled system and
+// its two rule versions.
+const SYSTEM: &str = "5e";
+const VERSION: &str = "2024";
+const MODULES: [&str; 2] = ["5e-2024-srd", "5e-2014-srd"];
 
 /// A ranked search result with the time the core spent on it.
 #[derive(Debug, Clone, Serialize, Type)]
@@ -37,7 +44,9 @@ pub struct SearchResponse {
 #[derive(Debug, Clone, Serialize, Type)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum CommandError {
-    /// No compendium is installed; nothing to search.
+    /// No campaign is open; the intro screen is where one is.
+    NoCampaign,
+    /// The campaign has no compendium; nothing to search.
     NoCompendium,
     /// No entry with that id, or none the viewer may see.
     NotFound { id: String },
@@ -45,6 +54,8 @@ pub enum CommandError {
     Store { message: String },
     /// The scene refused the change, or could not be saved.
     Scene { message: String },
+    /// The campaign folder refused: not a campaign, or could not be written.
+    Campaign { message: String },
 }
 
 impl From<StoreError> for CommandError {
@@ -66,9 +77,33 @@ impl From<SceneError> for CommandError {
     }
 }
 
-fn compendium(state: &AppState) -> Result<&Compendium, CommandError> {
-    state.compendium.as_ref().ok_or(CommandError::NoCompendium)
+impl From<CampaignError> for CommandError {
+    fn from(error: CampaignError) -> Self {
+        Self::Campaign {
+            message: error.to_string(),
+        }
+    }
 }
+
+// Every command that needs a campaign: lock the session, and say so when
+// there is none.
+fn with_session<T>(
+    state: &AppState,
+    answer: impl FnOnce(&mut Session) -> Result<T, CommandError>,
+) -> Result<T, CommandError> {
+    let mut guard = state.session.lock().map_err(|_| poisoned())?;
+    let session = guard.as_mut().ok_or(CommandError::NoCampaign)?;
+    answer(session)
+}
+
+fn compendium(session: &Session) -> Result<&Compendium, CommandError> {
+    session
+        .compendium
+        .as_ref()
+        .ok_or(CommandError::NoCompendium)
+}
+
+// ── The compendium ──
 
 /// Rank the compendium against `query` for a viewer of `viewer` tier who
 /// reads the rules of `version` (one hit per thing; the version's own entry
@@ -83,22 +118,24 @@ pub fn search(
     filters: Option<Vec<Filter>>,
     version: Option<String>,
 ) -> Result<SearchResponse, CommandError> {
-    let compendium = compendium(&state)?;
-    let started = Instant::now();
-    let limit = limit.map_or(DEFAULT_LIMIT, |limit| limit as usize);
-    let viewer = Viewer {
-        tier: viewer,
-        version,
-    };
-    let answer =
-        compendium
-            .catalogue
-            .answer_with(&query, viewer, limit, &filters.unwrap_or_default());
-    Ok(SearchResponse {
-        hits: answer.hits,
-        elapsed_us: u32::try_from(started.elapsed().as_micros()).unwrap_or(u32::MAX),
-        catalogue_size: u32::try_from(compendium.catalogue.len()).unwrap_or(u32::MAX),
-        understood: answer.understood,
+    with_session(&state, |session| {
+        let compendium = compendium(session)?;
+        let started = Instant::now();
+        let limit = limit.map_or(DEFAULT_LIMIT, |limit| limit as usize);
+        let viewer = Viewer {
+            tier: viewer,
+            version,
+        };
+        let answer =
+            compendium
+                .catalogue
+                .answer_with(&query, viewer, limit, &filters.unwrap_or_default());
+        Ok(SearchResponse {
+            hits: answer.hits,
+            elapsed_us: u32::try_from(started.elapsed().as_micros()).unwrap_or(u32::MAX),
+            catalogue_size: u32::try_from(compendium.catalogue.len()).unwrap_or(u32::MAX),
+            understood: answer.understood,
+        })
     })
 }
 
@@ -113,26 +150,30 @@ pub fn get_entry(
     viewer: Visibility,
     version: Option<String>,
 ) -> Result<Entry, CommandError> {
-    let compendium = compendium(&state)?;
-    let store = compendium.store.lock().map_err(|_| CommandError::Store {
-        message: "the store lock is poisoned".into(),
-    })?;
-    let id = match version {
-        Some(version) => store.version_of(&id, &version)?.unwrap_or(id),
-        None => id,
-    };
-    Ok(store.get(&id, viewer)?)
+    with_session(&state, |session| {
+        let store = compendium(session)?
+            .store
+            .lock()
+            .map_err(|_| store_poisoned())?;
+        let id = match version {
+            Some(version) => store.version_of(&id, &version)?.unwrap_or(id),
+            None => id,
+        };
+        Ok(store.get(&id, viewer)?)
+    })
 }
 
 /// The manifests of every module in the compendium, for the credits view.
 #[tauri::command]
 #[specta::specta]
 pub fn modules(state: State<'_, AppState>) -> Result<Vec<Manifest>, CommandError> {
-    let compendium = compendium(&state)?;
-    let store = compendium.store.lock().map_err(|_| CommandError::Store {
-        message: "the store lock is poisoned".into(),
-    })?;
-    Ok(store.modules()?)
+    with_session(&state, |session| {
+        let store = compendium(session)?
+            .store
+            .lock()
+            .map_err(|_| store_poisoned())?;
+        Ok(store.modules()?)
+    })
 }
 
 /// The text values each facet holds across the compendium, for the tray's
@@ -142,7 +183,9 @@ pub fn modules(state: State<'_, AppState>) -> Result<Vec<Manifest>, CommandError
 pub fn facet_values(
     state: State<'_, AppState>,
 ) -> Result<std::collections::BTreeMap<String, Vec<String>>, CommandError> {
-    Ok(compendium(&state)?.catalogue.facet_values())
+    with_session(&state, |session| {
+        Ok(compendium(session)?.catalogue.facet_values())
+    })
 }
 
 /// The system the compendium was seeded for: its categories, kinds,
@@ -150,45 +193,110 @@ pub fn facet_values(
 #[tauri::command]
 #[specta::specta]
 pub fn system(state: State<'_, AppState>) -> Result<Option<SystemManifest>, CommandError> {
-    Ok(compendium(&state)?.system.clone())
+    with_session(&state, |session| Ok(compendium(session)?.system.clone()))
+}
+
+// ── Campaigns ──
+
+/// Every campaign the app knows: those under the home and those opened
+/// from elsewhere, by name.
+#[tauri::command]
+#[specta::specta]
+pub fn list_campaigns(state: State<'_, AppState>) -> Result<Vec<CampaignSummary>, CommandError> {
+    let known = state.known.lock().map_err(|_| poisoned())?;
+    Ok(campaign::list(&state.campaigns_dir(), &known))
+}
+
+/// The campaign at the table, if one is open.
+#[tauri::command]
+#[specta::specta]
+pub fn current_campaign(
+    state: State<'_, AppState>,
+) -> Result<Option<CampaignSummary>, CommandError> {
+    let guard = state.session.lock().map_err(|_| poisoned())?;
+    Ok(guard.as_ref().map(|session| session.campaign.summary()))
+}
+
+/// Open the campaign folder at `path` and bring it to the table.
+#[tauri::command]
+#[specta::specta]
+pub fn open_campaign(
+    state: State<'_, AppState>,
+    path: String,
+) -> Result<CampaignSummary, CommandError> {
+    Ok(state.open_campaign(Path::new(&path))?)
+}
+
+/// Make a campaign named `name` under the home, or under `location` when
+/// the DM chose a folder of their own, and bring it to the table.
+#[tauri::command]
+#[specta::specta]
+pub fn create_campaign(
+    state: State<'_, AppState>,
+    name: String,
+    location: Option<String>,
+) -> Result<CampaignSummary, CommandError> {
+    let root = location.map_or_else(|| state.campaigns_dir(), PathBuf::from);
+    let dir = Campaign::place(&root, &name);
+    Campaign::create(
+        &dir,
+        CampaignManifest {
+            name,
+            system: SYSTEM.into(),
+            version: VERSION.into(),
+            modules: MODULES.iter().map(|module| (*module).to_owned()).collect(),
+        },
+    )?;
+    Ok(state.open_campaign(&dir)?)
+}
+
+/// Back to the intro screen.
+#[tauri::command]
+#[specta::specta]
+pub fn close_campaign(state: State<'_, AppState>) -> Result<(), CommandError> {
+    state.close_campaign();
+    Ok(())
 }
 
 // ── The scene ──
 
-// Every change to the open scene: lock the library, change the scene,
-// save it, and answer with the scene as it now stands.
+// Every change to the open scene: change it, save it, and answer with the
+// scene as it now stands.
 fn edit_scene(
     state: &AppState,
     change: impl FnOnce(&mut Scene) -> Result<(), SceneError>,
 ) -> Result<Scene, CommandError> {
-    let mut scenes = state.scenes.lock().map_err(|_| poisoned())?;
-    change(scenes.current_mut())?;
-    scenes.save()?;
-    Ok(scenes.current().clone())
+    with_session(state, |session| {
+        let scenes = session.campaign.scenes_mut();
+        change(scenes.current_mut())?;
+        scenes.save()?;
+        Ok(scenes.current().clone())
+    })
 }
 
 /// The scene the board shows.
 #[tauri::command]
 #[specta::specta]
 pub fn get_scene(state: State<'_, AppState>) -> Result<Scene, CommandError> {
-    let scenes = state.scenes.lock().map_err(|_| poisoned())?;
-    Ok(scenes.current().clone())
+    with_session(&state, |session| {
+        Ok(session.campaign.scenes().current().clone())
+    })
 }
 
-/// Every scene in the library, by name.
+/// Every scene in the campaign, by name.
 #[tauri::command]
 #[specta::specta]
 pub fn list_scenes(state: State<'_, AppState>) -> Result<Vec<SceneSummary>, CommandError> {
-    let scenes = state.scenes.lock().map_err(|_| poisoned())?;
-    Ok(scenes.list()?)
+    with_session(&state, |session| Ok(session.campaign.scenes().list()?))
 }
 
 /// Switch the table to the scene `id`.
 #[tauri::command]
 #[specta::specta]
 pub fn open_scene(state: State<'_, AppState>, id: String) -> Result<Scene, CommandError> {
-    let mut scenes = state.scenes.lock().map_err(|_| poisoned())?;
-    Ok(scenes.open_scene(&id)?.clone())
+    with_session(&state, |session| {
+        Ok(session.campaign.scenes_mut().open_scene(&id)?.clone())
+    })
 }
 
 /// Create a scene with `strokes` drawn, and switch to it: blank, or a
@@ -200,8 +308,13 @@ pub fn create_scene(
     name: String,
     strokes: Vec<Stroke>,
 ) -> Result<Scene, CommandError> {
-    let mut scenes = state.scenes.lock().map_err(|_| poisoned())?;
-    Ok(scenes.create(&name, strokes)?.clone())
+    with_session(&state, |session| {
+        Ok(session
+            .campaign
+            .scenes_mut()
+            .create(&name, strokes)?
+            .clone())
+    })
 }
 
 /// Commit a token's move: the release of a drag, or a keyboard step.
@@ -228,16 +341,18 @@ pub fn place_entry(
     col: i32,
     row: i32,
 ) -> Result<Scene, CommandError> {
-    let compendium = compendium(&state)?;
-    let summary = {
-        let store = compendium.store.lock().map_err(|_| CommandError::Store {
-            message: "the store lock is poisoned".into(),
-        })?;
-        store.get(&id, Visibility::Dm)?.summary()
-    };
-    edit_scene(&state, |scene| {
-        scene.place(&summary, col, row);
-        Ok(())
+    with_session(&state, |session| {
+        let summary = {
+            let store = compendium(session)?
+                .store
+                .lock()
+                .map_err(|_| store_poisoned())?;
+            store.get(&id, Visibility::Dm)?.summary()
+        };
+        let scenes = session.campaign.scenes_mut();
+        scenes.current_mut().place(&summary, col, row);
+        scenes.save()?;
+        Ok(scenes.current().clone())
     })
 }
 
@@ -293,13 +408,25 @@ pub fn set_display(
     })
 }
 
-/// Give the scene its picture, or take it away.
+/// Give the scene its picture, or take it away. A picture arrives as a
+/// path on this machine, is copied into the campaign, and is kept by its
+/// path within it.
 #[tauri::command]
 #[specta::specta]
 pub fn set_map(state: State<'_, AppState>, map: Option<MapImage>) -> Result<Scene, CommandError> {
-    edit_scene(&state, |scene| {
-        scene.set_map(map);
-        Ok(())
+    with_session(&state, |session| {
+        let taken = match map {
+            Some(picture) => Some(MapImage {
+                url: session.campaign.take_asset(Path::new(&picture.url))?,
+                width: picture.width,
+                height: picture.height,
+            }),
+            None => None,
+        };
+        let scenes = session.campaign.scenes_mut();
+        scenes.current_mut().set_map(taken);
+        scenes.save()?;
+        Ok(scenes.current().clone())
     })
 }
 
@@ -319,7 +446,13 @@ pub fn set_threshold_state(
 }
 
 fn poisoned() -> CommandError {
-    CommandError::Scene {
-        message: "the scene lock is poisoned".into(),
+    CommandError::Campaign {
+        message: "the session lock is poisoned".into(),
+    }
+}
+
+fn store_poisoned() -> CommandError {
+    CommandError::Store {
+        message: "the store lock is poisoned".into(),
     }
 }
