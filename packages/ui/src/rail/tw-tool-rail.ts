@@ -1,12 +1,12 @@
 // The DM's tool rail: what the pointer does on the board. Move is the
 // rest; picking an ink is picking up a pen, and the palette beside the
-// rail holds the pen's shapes and options and the record. Putting the
+// rail holds the pen's shapes and options and the history. Putting the
 // pen down is Move, or Esc. There is no Build mode to enter: the rail
 // is on the desk the way pens are.
 //
 // `tw-tool` carries the draw tool held, or undefined once the pen is
 // down; `tw-undo` asks for the last stroke back; `tw-remove` names a
-// stroke by its place in the record.
+// stroke by its place in the history.
 
 import { LitElement, css, html, nothing } from "lit";
 import type { Stroke } from "@tablewright/schema";
@@ -51,7 +51,7 @@ const NATURE: Record<Ink, string> = {
   free: "Texture",
 };
 
-// How much of the record shows until all of it is asked for.
+// How much of the history shows until all of it is asked for.
 const RECENT = 3;
 
 export class TwToolRail extends LitElement {
@@ -67,7 +67,7 @@ export class TwToolRail extends LitElement {
   declare tool: DrawTool;
   /** Whether a pen is held: the pointer draws, and the tokens are inert. */
   declare held: boolean;
-  /** The scene's record, as it stands. */
+  /** The scene's history of strokes, as it stands. */
   declare strokes: Stroke[];
   /** What is under the pointer, in words. */
   declare readout: string;
@@ -477,7 +477,7 @@ export class TwToolRail extends LitElement {
       </section>
       ${this.#options()}
       <div class="divider"></div>
-      ${this.#record()}
+      ${this.#history()}
     </div>`;
   }
 
@@ -552,7 +552,7 @@ export class TwToolRail extends LitElement {
     </button>`;
   }
 
-  #record() {
+  #history() {
     const total = this.strokes.length;
     const first = this.showAll ? 0 : Math.max(0, total - RECENT);
     const shown = this.strokes
@@ -560,7 +560,7 @@ export class TwToolRail extends LitElement {
       .map((stroke, offset) => ({ stroke, index: first + offset }));
     return html`<section>
       <div class="record-head">
-        <span class="cap">Record</span>
+        <span class="cap">History</span>
         <span class="count">${total}</span>
         <button class="undo" type="button" title="Undo (Ctrl+Z)" @click=${this.#undo}>Undo</button>
       </div>
