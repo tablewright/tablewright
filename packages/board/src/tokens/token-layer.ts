@@ -22,7 +22,7 @@ import {
   type Cell,
   type SquareGrid,
 } from "../grid/square-grid.js";
-import { facingBetween, facingToward } from "./facing.js";
+import { facingBetween, facingToward, normalizeDegrees } from "./facing.js";
 import { DRAG_THRESHOLD_PX, HOLD_MS, afterHold } from "./press.js";
 import { TokenSprite, type TokenStyle } from "./token-sprite.js";
 
@@ -408,14 +408,16 @@ export class TokenLayer {
     this.commitMove(id, sprite, cell, facingBetween(from, cell));
   }
 
-  // A move faces the token along its travel; a move that went nowhere keeps its facing.
+  // A move faces the token along its travel; a move that went nowhere keeps
+  // its facing. The scene keeps whole degrees, so the commit rounds, and the
+  // sprite shows the same so the two agree.
   private commitMove(
     id: string,
     sprite: TokenSprite,
     cell: Cell,
     travelFacing: number | undefined
   ): void {
-    const facing = travelFacing ?? sprite.facing;
+    const facing = Math.round(normalizeDegrees(travelFacing ?? sprite.facing)) % 360;
     sprite.setPosition(cellCenter(this.grid, cell));
     sprite.setFacing(facing);
     for (const listener of this.moveListeners) {
