@@ -10,6 +10,8 @@
 import {
   Camera,
   CameraInput,
+  DEFAULT_MOVER,
+  DEFAULT_RULE,
   DrawLayer,
   GridLayer,
   MapLayer,
@@ -17,10 +19,12 @@ import {
   TopologyLayer,
   cellCenter,
   derive,
+  distance,
   edgeAt,
   edgeKey,
   edgeNear,
   extentCovering,
+  findRoute,
   groundAt,
   heightAt,
   isLevelChangeAt,
@@ -36,8 +40,11 @@ import {
   type CellExtent,
   type DrawStyle,
   type DrawTool,
+  type GridRule,
   type MapSize,
   type Point,
+  type Route,
+  type RouteOptions,
   type SquareGrid,
   type StrokeListener,
   type ThresholdEdge,
@@ -84,6 +91,12 @@ export interface BoardDebug {
   topology(): Topology;
   /** Screen position of a cell's centre, for pointing a test's mouse at it. */
   cellToScreen(cell: Cell): Point;
+  /** The grid rule the board measures by. */
+  rule(): GridRule;
+  /** The cheapest route for a person on foot, as the rules read this viewer's scene. */
+  route(from: Cell, to: Cell, options?: RouteOptions): Route | undefined;
+  /** The straight distance between two cells' centres at the field's heights. */
+  distance(from: Cell, to: Cell): number;
 }
 
 /** A finished gesture the scene should record: which token, where, facing what. */
@@ -147,6 +160,8 @@ export class BoardHost {
   /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
   private readonly viewer: Visibility;
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
+  /** What a cell measures and how diagonals count: the campaign's, from its system. */
+  private rule: GridRule = DEFAULT_RULE;
   private bounds: CellExtent = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
   private tokens: readonly TokenView[] = [];
   private strokes: readonly Stroke[] = [];
@@ -258,6 +273,11 @@ export class BoardHost {
     this.play = scene.play;
     this.redrawTopology();
     this.setTokens(tokenViews(scene));
+  }
+
+  /** Measure by `rule`: the campaign's setting, the system's default until then. */
+  setRule(rule: GridRule): void {
+    this.rule = rule;
   }
 
   /** Replace what stands on the board. */
@@ -376,6 +396,15 @@ export class BoardHost {
       bounds: () => this.bounds,
       topology: () => this.topology,
       cellToScreen: (cell) => this.camera.toScreen(cellCenter(this.grid, cell)),
+      rule: () => this.rule,
+      route: (from, to, options) =>
+        findRoute(this.topology, from, to, DEFAULT_MOVER, this.rule, options),
+      distance: (from, to) =>
+        distance(
+          { ...from, height: heightAt(this.topology, from) },
+          { ...to, height: heightAt(this.topology, to) },
+          this.rule
+        ),
     };
   }
 

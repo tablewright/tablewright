@@ -46,12 +46,49 @@ pub struct SystemManifest {
     /// Per kind, the lists in `data` whose items are named parts.
     #[serde(default)]
     pub parts: BTreeMap<String, Vec<PartSpec>>,
+    /// The grid the system plays on, the default for a campaign's setting
+    /// (design.md §5 "Vertical edges have kinds"). None means the board's
+    /// own default.
+    #[serde(default)]
+    pub grid: Option<GridSpec>,
 }
 
 /// One rule version of a system.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 pub struct VersionSpec {
     pub name: String,
+}
+
+/// The grid a system plays on: what a cell measures in the system's
+/// distance unit, and how a diagonal counts.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
+pub struct GridSpec {
+    #[serde(rename = "type")]
+    pub kind: GridKind,
+    /// One cell's width in `unit`: 5 for 5e's feet.
+    #[serde(rename = "cellSize")]
+    pub cell_size: f64,
+    /// The distance unit's short name, as the table shows it: "ft", "m".
+    pub unit: String,
+    pub diagonals: DiagonalRule,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "lowercase")]
+pub enum GridKind {
+    Square,
+    Hex,
+}
+
+/// How a diagonal counts against distance: every square the same
+/// (5e's default), every second one double (the 5/10/5 variant), or the
+/// exact length.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "lowercase")]
+pub enum DiagonalRule {
+    Equal,
+    Alternate,
+    Exact,
 }
 
 /// A list inside `data` whose items carry a name and a text: `traits`,

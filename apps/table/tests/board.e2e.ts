@@ -272,3 +272,33 @@ test("leaving the campaign shows the intro, and a new campaign opens on its own 
   await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
   await expect(tab.getByRole("menuitem", { name: "Halloway House", exact: true })).toBeVisible();
 });
+
+// The rules read the scene the board derived: a route to the corridor
+// through the open door, and none into the wing behind the locked one.
+test("the rules read the mansion: a route to the corridor, none into the locked wing", async ({
+  page,
+}) => {
+  await page.goto("/?role=dm");
+  await page.waitForFunction(
+    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
+  );
+  const tab = page.locator("tw-scenes");
+  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
+  await tab.getByRole("menuitem", { name: "Halloway House", exact: true }).click();
+  await expect
+    .poll(() => page.evaluate(() => window.__tablewright?.topology().edges.size))
+    .toBe(118);
+  const measured = await page.evaluate(() => {
+    const debug = window.__tablewright;
+    if (debug === undefined) {
+      throw new Error("dev debug view missing");
+    }
+    return {
+      corridor: debug.route({ col: 3, row: 8 }, { col: 9, row: 7 })?.cost,
+      wing: debug.route({ col: 3, row: 8 }, { col: 12, row: 3 })?.cost,
+      straight: debug.distance({ col: 3, row: 8 }, { col: 9, row: 7 }),
+      unit: debug.rule().unit,
+    };
+  });
+  expect(measured).toEqual({ corridor: 30, wing: undefined, straight: 30, unit: "ft" });
+});

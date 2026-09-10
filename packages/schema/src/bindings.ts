@@ -44,6 +44,12 @@ export const commands = {
 	controls?: { [key in string]: ControlSpec[] },
 	/**  Per kind, the lists in `data` whose items are named parts. */
 	parts?: { [key in string]: PartSpec[] },
+	/**
+	 *  The grid the system plays on, the default for a campaign's setting
+	 *  (design.md §5 "Vertical edges have kinds"). None means the board's
+	 *  own default.
+	 */
+	grid?: GridSpec | null,
 } | null, CommandError>(__TAURI_INVOKE("system")),
 	/**
 	 *  The text values each facet holds across the compendium, for the tray's
@@ -198,6 +204,13 @@ export type ControlSpec = {
 	beside?: ControlSpec | null,
 };
 
+/**
+ *  How a diagonal counts against distance: every square the same
+ *  (5e's default), every second one double (the 5/10/5 variant), or the
+ *  exact length.
+ */
+export type DiagonalRule = "equal" | "alternate" | "exact";
+
 /**  One edge of a cell, named by the cell and the side. */
 export type Edge = {
 	col: number,
@@ -312,6 +325,21 @@ export type Grid = {
 	origin_y: number,
 	cols: number,
 	rows: number,
+};
+
+export type GridKind = "square" | "hex";
+
+/**
+ *  The grid a system plays on: what a cell measures in the system's
+ *  distance unit, and how a diagonal counts.
+ */
+export type GridSpec = {
+	type: GridKind,
+	/**  One cell's width in `unit`: 5 for 5e's feet. */
+	cellSize: number | null,
+	/**  The distance unit's short name, as the table shows it: "ft", "m". */
+	unit: string,
+	diagonals: DiagonalRule,
 };
 
 /**  What a cell of ground is for movement. */
@@ -619,6 +647,12 @@ export type SystemManifest = {
 	controls?: { [key in string]: ControlSpec[] },
 	/**  Per kind, the lists in `data` whose items are named parts. */
 	parts?: { [key in string]: PartSpec[] },
+	/**
+	 *  The grid the system plays on, the default for a campaign's setting
+	 *  (design.md §5 "Vertical edges have kinds"). None means the board's
+	 *  own default.
+	 */
+	grid?: GridSpec | null,
 };
 
 /**

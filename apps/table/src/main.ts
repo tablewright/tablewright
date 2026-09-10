@@ -6,6 +6,7 @@ import { open } from "@tauri-apps/plugin-dialog";
 import {
   BoardStage,
   REFERENCE_SCENES,
+  gridRuleOf,
   readBoardTheme,
   signed,
   type DrawTool,
@@ -621,6 +622,7 @@ try {
     spotlight.system = (await core.system()) ?? undefined;
     spotlight.facetValues = await core.facetValues();
     entryView.versions = Object.keys(spotlight.system?.versions ?? {});
+    board.setRule(gridRuleOf(spotlight.system));
   } catch (error) {
     showNotice(
       `Could not read the system: ${error instanceof Error ? error.message : String(error)}`

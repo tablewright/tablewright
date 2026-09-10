@@ -12,7 +12,64 @@ export {
   type ThresholdEdge,
   type Topology,
 } from "./derive.js";
+export {
+  DEFAULT_MOVER,
+  isFlying,
+  jumpsAt,
+  jumpsFrom,
+  speedOf,
+  stepCost,
+  stepCostAt,
+  stepHeight,
+  type Jump,
+  type Mover,
+  type Step,
+  type StepKind,
+  type StepOptions,
+} from "./cost.js";
+export {
+  DEFAULT_RULE,
+  diagonalCost,
+  distance,
+  distanceBetween,
+  gridRuleOf,
+  type GridRule,
+  type Place,
+} from "./distance.js";
 export { edgeBetween, edgeCells, edgeKey, rectEdges } from "./edges.js";
+export {
+  AIR,
+  DIFFICULT,
+  GROUND,
+  VOID,
+  graphCell,
+  graphIndex,
+  movementGraph,
+  type MovementGraph,
+} from "./graph.js";
+export {
+  cellCentre,
+  firstBlock,
+  hasLineOfEffect,
+  hasLineOfSight,
+  passes,
+  type Crossing,
+  type Passage,
+} from "./effect.js";
+export { isoLines, type Segment } from "./iso.js";
+export {
+  chooseRoute,
+  findRoute,
+  reach,
+  routes,
+  type Budget,
+  type Choice,
+  type Phase,
+  type Route,
+  type RouteOptions,
+  type RouteStep,
+  type Routes,
+} from "./route.js";
 export { mansionStrokes } from "./mansion.js";
 export { REFERENCE_SCENES, type ReferenceScene } from "./reference.js";
 export { terraceHillStrokes } from "./terrace-hill.js";
