@@ -14,6 +14,7 @@ import {
   DEFAULT_RULE,
   DrawLayer,
   GridLayer,
+  HeightLayer,
   MapLayer,
   TokenLayer,
   TopologyLayer,
@@ -29,6 +30,7 @@ import {
   heightAt,
   isLevelChangeAt,
   readBoardTheme,
+  stepHeight,
   visibleExtent,
   visibleTo,
   watchBoardTheme,
@@ -41,6 +43,8 @@ import {
   type DrawStyle,
   type DrawTool,
   type GridRule,
+  type HeightDrawing,
+  type HeightStyle,
   type MapSize,
   type Point,
   type Route,
@@ -57,6 +61,7 @@ import {
 import type {
   Edge,
   GroundState,
+  HeightDisplay,
   Scene,
   Stroke,
   ThresholdPlay,
@@ -97,6 +102,8 @@ export interface BoardDebug {
   route(from: Cell, to: Cell, options?: RouteOptions): Route | undefined;
   /** The straight distance between two cells' centres at the field's heights. */
   distance(from: Cell, to: Cell): number;
+  /** What the height display last drew. */
+  heights(): HeightDrawing;
 }
 
 /** A finished gesture the scene should record: which token, where, facing what. */
@@ -130,6 +137,17 @@ function drawStyle(theme: BoardTheme): DrawStyle {
   return { hover: theme.hover, ink: theme.threshold };
 }
 
+function heightStyle(theme: BoardTheme): HeightStyle {
+  return {
+    ground: theme.ground,
+    shade: theme.heightShade,
+    line: theme.heightLine,
+    up: theme.heightUp,
+    down: theme.heightDown,
+    tag: theme.heightTag,
+  };
+}
+
 function tokenViews(scene: Scene): TokenView[] {
   return scene.tokens.map((token) => ({
     id: token.id,
@@ -146,6 +164,7 @@ export class BoardHost {
   private readonly mapLayer: MapLayer;
   private readonly tokenLayer: TokenLayer;
   private readonly topologyLayer: TopologyLayer;
+  private readonly heightLayer: HeightLayer;
   private readonly drawLayer: DrawLayer;
   private readonly target: HTMLElement;
   private readonly moveListeners = new Set<TokenMoveListener>();
@@ -153,6 +172,8 @@ export class BoardHost {
   private readonly hoverListeners = new Set<HoverListener>();
   private readonly thresholdListeners = new Set<ThresholdListener>();
   private play: readonly ThresholdPlay[] = [];
+  /** How the scene shows its heights. */
+  private display: HeightDisplay = { mode: "shaded", strength: 80 };
   /** The picture on the map layer, so a scene switch loads only a different one. */
   private mapUrl: string | undefined;
   private isToolHeld = false;
@@ -176,6 +197,7 @@ export class BoardHost {
     this.gridLayer = new GridLayer(stage.layers.grid);
     this.mapLayer = new MapLayer(stage.layers.map);
     this.topologyLayer = new TopologyLayer(stage.layers.topology);
+    this.heightLayer = new HeightLayer(stage.layers.height);
     const theme = readBoardTheme(target);
     this.tokenLayer = new TokenLayer(stage.layers.tokens, this.grid, tokenStyle(theme));
     this.drawLayer = new DrawLayer(stage.app.canvas, stage.layers.overlay, this.grid, (screen) =>
@@ -191,12 +213,14 @@ export class BoardHost {
 
     this.gridLayer.setStyle(theme.grid);
     this.topologyLayer.setStyle(topologyStyle(theme));
+    this.heightLayer.setStyle(heightStyle(theme));
     this.drawLayer.setStyle(drawStyle(theme));
     watchBoardTheme(target, (next) => {
       stage.setBackground(next.ground);
       this.gridLayer.setStyle(next.grid);
       this.tokenLayer.setStyle(tokenStyle(next));
       this.topologyLayer.setStyle(topologyStyle(next));
+      this.heightLayer.setStyle(heightStyle(next));
       this.drawLayer.setStyle(drawStyle(next));
     });
 
@@ -271,6 +295,7 @@ export class BoardHost {
     }
     this.strokes = scene.strokes;
     this.play = scene.play;
+    this.display = scene.display;
     this.redrawTopology();
     this.setTokens(tokenViews(scene));
   }
@@ -278,12 +303,22 @@ export class BoardHost {
   /** Measure by `rule`: the campaign's setting, the system's default until then. */
   setRule(rule: GridRule): void {
     this.rule = rule;
+    this.redrawHeights();
   }
 
   /** Replace what stands on the board. */
   setTokens(tokens: readonly TokenView[]): void {
     this.tokens = tokens;
-    this.tokenLayer.set(tokens);
+    this.showTokens();
+  }
+
+  // Every token wears the height of the ground under it.
+  private showTokens(): void {
+    this.tokenLayer.set(this.tokensWithHeights());
+  }
+
+  private tokensWithHeights(): TokenView[] {
+    return this.tokens.map((token) => ({ ...token, height: heightAt(this.topology, token.cell) }));
   }
 
   /** Hear every finished move gesture. Returns the unsubscribe. */
@@ -390,7 +425,7 @@ export class BoardHost {
   /** Read-only view of the scene for dev builds and end-to-end tests. */
   debug(): BoardDebug {
     return {
-      tokens: () => this.tokens,
+      tokens: () => this.tokensWithHeights(),
       selectedId: () => this.tokenLayer.selectedId,
       camera: () => this.camera.current,
       bounds: () => this.bounds,
@@ -405,6 +440,7 @@ export class BoardHost {
           { ...to, height: heightAt(this.topology, to) },
           this.rule
         ),
+      heights: () => this.heightLayer.drawing(),
     };
   }
 
@@ -454,6 +490,12 @@ export class BoardHost {
   private redrawTopology(): void {
     this.topology = derive(visibleTo(this.strokes, this.viewer, this.play), this.bounds, this.play);
     this.topologyLayer.draw(this.topology, this.grid);
+    this.redrawHeights();
+    this.showTokens();
+  }
+
+  private redrawHeights(): void {
+    this.heightLayer.draw(this.topology, this.grid, this.display, stepHeight(this.rule));
   }
 
   private redrawGrid(): void {

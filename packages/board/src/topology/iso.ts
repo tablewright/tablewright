@@ -82,3 +82,46 @@ export function isoLines(topology: Topology, threshold: number): Segment[] {
   }
   return segments;
 }
+
+/**
+ * The contour's segments grouped by connection: one group per closed ring
+ * or open run, so each rise can be named once. Endpoints are matched to a
+ * fine fraction of a cell, since neighbouring squares compute the same
+ * point by different arithmetic.
+ */
+export function contourGroups(segments: readonly Segment[]): Segment[][] {
+  const parent = segments.map((_, index) => index);
+  const find = (index: number): number => {
+    let at = index;
+    while ((parent[at] ?? at) !== at) {
+      const above = parent[at] ?? at;
+      parent[at] = parent[above] ?? above;
+      at = above;
+    }
+    return at;
+  };
+  const byPoint = new Map<string, number>();
+  const key = (point: Point): string =>
+    `${Math.round(point.x * 4096)}:${Math.round(point.y * 4096)}`;
+  segments.forEach((segment, index) => {
+    for (const point of [segment.from, segment.to]) {
+      const seen = byPoint.get(key(point));
+      if (seen === undefined) {
+        byPoint.set(key(point), index);
+      } else {
+        parent[find(index)] = find(seen);
+      }
+    }
+  });
+  const groups = new Map<number, Segment[]>();
+  segments.forEach((segment, index) => {
+    const root = find(index);
+    const group = groups.get(root);
+    if (group === undefined) {
+      groups.set(root, [segment]);
+    } else {
+      group.push(segment);
+    }
+  });
+  return [...groups.values()];
+}

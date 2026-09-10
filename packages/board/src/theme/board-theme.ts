@@ -25,6 +25,12 @@ export interface BoardTheme {
   readonly sight: PackedColor;
   readonly difficult: PackedColor;
   readonly air: PackedColor;
+  /** How height shows: the low-side shadow, the contour hairline, the washes, the tag text. */
+  readonly heightShade: PackedColor;
+  readonly heightLine: PackedColor;
+  readonly heightUp: PackedColor;
+  readonly heightDown: PackedColor;
+  readonly heightTag: PackedColor;
 }
 
 // Used when a token is missing or unparseable, so a broken theme still shows a board.
@@ -40,6 +46,11 @@ const FALLBACK: BoardTheme = {
   sight: { rgb: 0x5fa8bd, alpha: 1 },
   difficult: { rgb: 0xf1e6d2, alpha: 0.12 },
   air: { rgb: 0x5fa8bd, alpha: 0.28 },
+  heightShade: { rgb: 0x000000, alpha: 1 },
+  heightLine: { rgb: 0xf1e6d2, alpha: 0.6 },
+  heightUp: { rgb: 0xe4c57a, alpha: 1 },
+  heightDown: { rgb: 0x5fa8bd, alpha: 1 },
+  heightTag: { rgb: 0xf1e6d2, alpha: 1 },
 };
 
 /** Read the board tokens from `element`'s computed style. */
@@ -59,6 +70,11 @@ export function readBoardTheme(element: Element): BoardTheme {
     sight: token("sight", FALLBACK.sight),
     difficult: token("difficult", FALLBACK.difficult),
     air: token("air", FALLBACK.air),
+    heightShade: token("height-shade", FALLBACK.heightShade),
+    heightLine: token("height-line", FALLBACK.heightLine),
+    heightUp: token("height-up", FALLBACK.heightUp),
+    heightDown: token("height-down", FALLBACK.heightDown),
+    heightTag: token("height-tag", FALLBACK.heightTag),
   };
 }
 

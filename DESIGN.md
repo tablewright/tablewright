@@ -70,6 +70,11 @@ colors:
   board-sight: "#5FA8BD"
   board-difficult: "#F1E6D21F"
   board-air: "#5FA8BD47"
+  board-height-shade: "#000000"
+  board-height-line: "#F1E6D299"
+  board-height-up: "#E4C57A"
+  board-height-down: "#5FA8BD"
+  board-height-tag: "#F1E6D2"
 
 typography:
   headline-md:
@@ -271,7 +276,13 @@ quiet under play: `board-wall` is paper at a low alpha, a hint over art
 that draws its own walls; `board-threshold` is brass, since doors and
 arches are what the data adds; `board-sight` is the secondary teal for
 what sight passes through, windows; `board-difficult` and `board-air`
-are faint tints carrying their own alpha.
+are faint tints carrying their own alpha. Height is shown in the
+scene's chosen mode: `board-height-shade` is the shadow on the low
+side of a rise, black laid on soft; `board-height-line` the hairline
+along a contour, paper at a low alpha; `board-height-up` and
+`board-height-down` the warm and cool washes of ground above and
+below zero, their alpha set by the height; `board-height-tag` the
+small edge tag's text over a ground-coloured pill.
 
 Colour never carries meaning alone. Every status colour is paired with
 an icon, a label, a shape, or a position.

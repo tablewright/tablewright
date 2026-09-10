@@ -35,6 +35,9 @@ const ARROW_HALF_WIDTH = 0.22;
 // At rest the ring and its arrow are one quiet outline: the label colour
 // mixed this far toward the disc colour, opaque.
 const IDLE_MIX = 0.45;
+// The height badge under the disc: its text as a fraction of the cell, on a dark pill.
+const BADGE_FRACTION = 0.2;
+const BADGE_BACK_ALPHA = 0.6;
 // Corner brackets: arm length as a fraction of the cell.
 const HANDLE_ARM = 0.18;
 const HANDLE_WIDTH = 2;
@@ -52,6 +55,8 @@ export class TokenSprite {
   private readonly ring = new Graphics();
   private readonly brackets = new Graphics();
   private readonly text: Text;
+  private readonly badgeBack = new Graphics();
+  private readonly badge: Text;
   private cellSize: number;
   private style: TokenStyle;
   private currentFacing = 0;
@@ -66,8 +71,15 @@ export class TokenSprite {
       style: { fontFamily: "system-ui, sans-serif", fontWeight: "600", align: "center" },
     });
     this.text.anchor.set(0.5);
+    this.badge = new Text({
+      text: "",
+      style: { fontFamily: "system-ui, sans-serif", fontWeight: "600", align: "center" },
+    });
+    this.badge.anchor.set(0.5);
+    this.badge.visible = false;
+    this.badgeBack.visible = false;
     this.brackets.visible = false;
-    this.view.addChild(this.disc, this.ring, this.text, this.brackets);
+    this.view.addChild(this.disc, this.ring, this.text, this.badgeBack, this.badge, this.brackets);
     this.view.eventMode = "static";
     this.view.cursor = "grab";
     this.redraw();
@@ -88,6 +100,17 @@ export class TokenSprite {
 
   setLabel(label: string): void {
     this.text.text = label;
+  }
+
+  /** Wear `text` under the disc, or nothing. */
+  setBadge(text: string | undefined): void {
+    const shown = text !== undefined && text !== "";
+    this.badge.visible = shown;
+    this.badgeBack.visible = shown;
+    if (shown) {
+      this.badge.text = text;
+      this.redrawBadge();
+    }
   }
 
   /** Degrees clockwise from north. */
@@ -145,8 +168,27 @@ export class TokenSprite {
     this.text.style.fontSize = Math.max(10, Math.round(this.cellSize * LABEL_FRACTION));
     this.text.style.fill = this.style.label.rgb;
     this.text.alpha = this.style.label.alpha;
+    this.redrawBadge();
     this.redrawBrackets();
     this.redrawRing();
+  }
+
+  // The badge sits just under the ring, on a pill of the ground's darkness.
+  private redrawBadge(): void {
+    const size = Math.max(8, Math.round(this.cellSize * BADGE_FRACTION));
+    this.badge.style.fontSize = size;
+    this.badge.style.fill = this.style.label.rgb;
+    this.badge.alpha = this.style.label.alpha;
+    const y = this.discRadius + RING_WIDTH + size * 0.75;
+    this.badge.position.set(0, y);
+    const padX = size * 0.45;
+    const padY = size * 0.2;
+    const width = this.badge.width + padX * 2;
+    const height = this.badge.height + padY * 2;
+    this.badgeBack
+      .clear()
+      .roundRect(-width / 2, y - height / 2, width, height, size * 0.4)
+      .fill({ color: 0x000000, alpha: BADGE_BACK_ALPHA });
   }
 
   // Selected: the whole cell, so the corners are pressable. Otherwise just the disc.

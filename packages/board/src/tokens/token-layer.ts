@@ -33,6 +33,8 @@ export interface TokenView {
   readonly cell: Cell;
   /** Degrees clockwise from north. */
   readonly facing: number;
+  /** The height the field gives the token's cell, worn as a badge when not zero. */
+  readonly height?: number;
 }
 
 /** One committed move: where the token now stands and which way it faces. */
@@ -127,6 +129,7 @@ export class TokenLayer {
         this.add(token);
       } else {
         existing.setLabel(token.label);
+        existing.setBadge(badgeOf(token));
         if (this.press?.id !== token.id) {
           existing.setFacing(token.facing);
           existing.setPosition(cellCenter(this.grid, token.cell));
@@ -201,6 +204,7 @@ export class TokenLayer {
     const sprite = new TokenSprite(token.label, this.grid.cellSize, this.style);
     sprite.setPosition(cellCenter(this.grid, token.cell));
     sprite.setFacing(token.facing);
+    sprite.setBadge(badgeOf(token));
     sprite.view.on("pointerover", () => sprite.setHovered(true));
     sprite.view.on("pointerout", () => sprite.setHovered(false));
     sprite.view.on("pointerdown", (event: FederatedPointerEvent) => {
@@ -455,4 +459,10 @@ export class TokenLayer {
       .circle(centre.x, centre.y, radius)
       .stroke({ width: GHOST_WIDTH, color: this.style.hover.rgb, alpha: GHOST_ALPHA });
   }
+}
+
+// A token on raised or sunken ground says so; at ground level it says nothing.
+function badgeOf(token: TokenView): string | undefined {
+  const height = token.height ?? 0;
+  return height === 0 ? undefined : `${height > 0 ? "+" : "−"}${Math.abs(Math.round(height))}`;
 }

@@ -56,7 +56,14 @@ export {
   type Crossing,
   type Passage,
 } from "./effect.js";
-export { isoLines, type Segment } from "./iso.js";
+export {
+  HEIGHT_MODES,
+  HeightLayer,
+  thresholdsOf,
+  type HeightDrawing,
+  type HeightStyle,
+} from "./height-layer.js";
+export { contourGroups, isoLines, type Segment } from "./iso.js";
 export {
   chooseRoute,
   findRoute,

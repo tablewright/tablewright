@@ -7,6 +7,7 @@ import { REFERENCE_SCENES } from "@tablewright/board";
 import type {
   CampaignSummary,
   Edge,
+  HeightDisplay,
   MapImage,
   PlayState,
   Scene,
@@ -145,6 +146,11 @@ export function fixtureUndoStroke(): Scene {
 
 export function fixtureSetMap(map: MapImage | null): Scene {
   scene().map = map;
+  return fixtureScene();
+}
+
+export function fixtureSetDisplay(display: HeightDisplay): Scene {
+  scene().display = display;
   return fixtureScene();
 }
 

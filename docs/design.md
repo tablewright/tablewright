@@ -635,6 +635,15 @@ the rounds are in the local research file.
   than climbed: stairs, ramps, ladders, lifts. *Free*, ink with no
   rules meaning. Play mode holds Move and Ruler and reads what was
   drawn.
+- **Data, and texture too.** A rules ink is data the board reads,
+  and every one of them may also paint what it means onto the
+  picture, chosen per stroke: a wall drawn where the art has no
+  wall, difficult ground hatched where the art shows plain floor. A
+  map whose art already draws its walls keeps them as data only,
+  the quiet hint of Play; a map that does not gets the texture as
+  well. Free ink is texture and nothing else. Decided 2026-09-10
+  (user): some maps have the natural points for the walls and some
+  do not, so data and texture are each a choice.
 - **Elevation is a field.** Continuous and sub-cell, eight samples
   to a cell (a fixed fraction of the cell, never the image's
   pixels), painted or traced. Contours and shadows are its

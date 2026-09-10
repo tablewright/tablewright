@@ -1,5 +1,11 @@
 import { describe, expect, test } from "bun:test";
-import { derive, isoLines, mansionStrokes, terraceHillStrokes } from "../src/index.js";
+import {
+  contourGroups,
+  derive,
+  isoLines,
+  mansionStrokes,
+  terraceHillStrokes,
+} from "../src/index.js";
 
 const bounds = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
 
@@ -46,5 +52,34 @@ describe("iso-lines over the field", () => {
       }
       expect(Math.hypot(to.x - from.x, to.y - from.y)).toBeLessThanOrEqual(Math.SQRT2 / 8 + 1e-9);
     }
+  });
+});
+
+describe("contours grouped by connection", () => {
+  test("the mansion has two rises at 2.5 ft and one pit at -2.5 ft, each one ring", () => {
+    const house = derive(mansionStrokes(), bounds);
+    const groups = contourGroups(isoLines(house, 2.5));
+    // The gallery and the raised south row, plus a speck the stair slope
+    // leaves inside itself, a few samples across.
+    const rises = groups.filter((group) => group.length >= 16);
+    expect(rises.length).toBe(2);
+    expect(groups.length - rises.length).toBe(1);
+    expect(groups.find((group) => group.length < 16)?.length).toBeLessThan(8);
+    expect(contourGroups(isoLines(house, -2.5)).length).toBe(1);
+    // A ring is closed: every endpoint is shared by two segments.
+    for (const ring of rises) {
+      const ends = new Map<string, number>();
+      for (const { from, to } of ring) {
+        for (const point of [from, to]) {
+          const key = `${Math.round(point.x * 4096)}:${Math.round(point.y * 4096)}`;
+          ends.set(key, (ends.get(key) ?? 0) + 1);
+        }
+      }
+      expect([...ends.values()].every((count) => count === 2)).toBe(true);
+    }
+  });
+
+  test("the hill's outer ring is one contour", () => {
+    expect(contourGroups(isoLines(derive(terraceHillStrokes(), bounds), 2.5)).length).toBe(1);
   });
 });

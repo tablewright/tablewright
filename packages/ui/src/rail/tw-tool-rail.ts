@@ -7,15 +7,18 @@
 //
 // `tw-tool` carries the draw tool held, or undefined once the pen is
 // down; `tw-undo` asks for the last stroke back; `tw-reset` for a reset
-// stroke; `tw-remove` names a stroke by its place in the history.
+// stroke; `tw-remove` names a stroke by its place in the history;
+// `tw-display` carries a change to how the scene shows its heights,
+// chosen from the Height pen's palette since that is where heights are.
 
 import { LitElement, css, html, nothing } from "lit";
-import type { Stroke } from "@tablewright/schema";
+import type { HeightDisplay, Stroke } from "@tablewright/schema";
 import "../strip/tw-strip.js";
 import {
   DEFAULT_TOOL,
   DRAW_SHAPES,
   GROUND_STATES,
+  HEIGHT_MODES,
   INKS,
   OPENING_SIZES,
   THRESHOLD_KINDS,
@@ -65,8 +68,10 @@ export class TwToolRail extends LitElement {
     strokes: { attribute: false },
     readout: { type: String },
     cellSize: { attribute: false },
+    display: { attribute: false },
     historyOpen: { state: true },
     showAll: { state: true },
+    strength: { state: true },
   };
 
   /** The pen's settings, kept while it is down so it comes back as it was. */
@@ -79,8 +84,12 @@ export class TwToolRail extends LitElement {
   declare readout: string;
   /** The scene's cell in map pixels, so a brush can be sized in them. */
   declare cellSize: number;
+  /** How the scene shows its heights, as it stands. */
+  declare display: HeightDisplay;
   declare historyOpen: boolean;
   declare showAll: boolean;
+  /** The strength slider as it is dragged, before its release is sent. */
+  declare strength: number | undefined;
 
   constructor() {
     super();
@@ -89,8 +98,10 @@ export class TwToolRail extends LitElement {
     this.strokes = [];
     this.readout = "";
     this.cellSize = 50;
+    this.display = { mode: "shaded", strength: 80 };
     this.historyOpen = false;
     this.showAll = false;
+    this.strength = undefined;
   }
 
   static override styles = css`
@@ -621,19 +632,42 @@ export class TwToolRail extends LitElement {
           </section>`;
       case "height":
         return html`<section>
-          <span class="cap">Amount</span>
-          <div class="field">
-            <input
-              class="number"
-              type="number"
-              step="5"
-              aria-label="Height amount"
-              .value=${String(this.tool.height)}
-              @input=${this.#heightInput}
-            />
-            <span class="unit">ft · ${signed(this.tool.height)}</span>
-          </div>
-        </section>`;
+            <span class="cap">Amount</span>
+            <div class="field">
+              <input
+                class="number"
+                type="number"
+                step="5"
+                aria-label="Height amount"
+                .value=${String(this.tool.height)}
+                @input=${this.#heightInput}
+              />
+              <span class="unit">ft · ${signed(this.tool.height)}</span>
+            </div>
+          </section>
+          <section>
+            <span class="cap">Display · this scene</span>
+            <tw-strip
+              label="Height display"
+              .values=${HEIGHT_MODES}
+              .pressed=${[this.display.mode]}
+              @tw-cell=${this.#choose(HEIGHT_MODES, (mode) => this.#emitDisplay({ mode }))}
+            ></tw-strip>
+            <div class="field">
+              <input
+                class="range"
+                type="range"
+                min="0"
+                max="100"
+                step="5"
+                aria-label="Height display strength"
+                .value=${String(this.strength ?? this.display.strength)}
+                @input=${this.#strengthInput}
+                @change=${this.#strengthChange}
+              />
+              <span class="unit">${this.strength ?? this.display.strength}%</span>
+            </div>
+          </section>`;
       default:
         return nothing;
     }
@@ -719,6 +753,29 @@ export class TwToolRail extends LitElement {
       this.#update({ height });
     }
   };
+
+  // The slider's number follows the drag; the scene hears it on release,
+  // so a drag is one change to the scene and not a hundred.
+  #strengthInput = (event: Event): void => {
+    const strength = Number((event.target as HTMLInputElement).value);
+    if (Number.isFinite(strength)) {
+      this.strength = strength;
+    }
+  };
+
+  #strengthChange = (event: Event): void => {
+    const strength = Number((event.target as HTMLInputElement).value);
+    this.strength = undefined;
+    if (Number.isFinite(strength)) {
+      this.#emitDisplay({ strength });
+    }
+  };
+
+  #emitDisplay(change: Partial<HeightDisplay>): void {
+    this.dispatchEvent(
+      new CustomEvent("tw-display", { detail: change, bubbles: true, composed: true })
+    );
+  }
 
   #sizeInput = (event: Event): void => {
     const px = Number((event.target as HTMLInputElement).value);

@@ -17,6 +17,7 @@ import type {
   CampaignSummary,
   CommandError,
   Edge,
+  HeightDisplay,
   MapImage,
   PlayState,
   Scene,
@@ -257,6 +258,8 @@ interface Core {
   removeStroke: (index: number) => Promise<Scene>;
   setThresholdState: (edge: Edge, state: PlayState) => Promise<Scene>;
   setMap: (map: MapImage | null) => Promise<Scene>;
+  /** How the scene shows its heights: the mode and the overlay's strength. */
+  setDisplay: (display: HeightDisplay) => Promise<Scene>;
   listScenes: () => Promise<SceneSummary[]>;
   openScene: (id: string) => Promise<Scene>;
   createScene: (name: string, strokes: Stroke[]) => Promise<Scene>;
@@ -298,6 +301,7 @@ function connectCore(): Core {
         setThresholdState: async (edge, state) =>
           (await scenes).fixtureSetThresholdState(edge, state),
         setMap: async (map) => (await scenes).fixtureSetMap(map),
+        setDisplay: async (display) => (await scenes).fixtureSetDisplay(display),
         listScenes: async () => (await scenes).fixtureListScenes(),
         openScene: async (id) => (await scenes).fixtureOpenScene(id),
         createScene: async (name, strokes) => (await scenes).fixtureCreateScene(name, strokes),
@@ -324,6 +328,7 @@ function connectCore(): Core {
       removeStroke: unconnected,
       setThresholdState: unconnected,
       setMap: unconnected,
+      setDisplay: unconnected,
       listScenes: unconnected,
       openScene: unconnected,
       createScene: unconnected,
@@ -382,6 +387,7 @@ function connectCore(): Core {
     removeStroke: async (index) => unwrap(await commands.removeStroke(index)),
     setThresholdState: async (edge, state) => unwrap(await commands.setThresholdState(edge, state)),
     setMap: async (map) => unwrap(await commands.setMap(map)),
+    setDisplay: async (display) => unwrap(await commands.setDisplay(display)),
     listScenes: async () => unwrap(await commands.listScenes()),
     openScene: async (id) => unwrap(await commands.openScene(id)),
     createScene: async (name, strokes) => unwrap(await commands.createScene(name, strokes)),
@@ -451,11 +457,14 @@ try {
   // The board shows the core's scene and asks it to record every gesture.
   // A move the scene refuses is undone by showing the scene as it stands.
   // The scene tab names what is shown and, for the DM, lists the rest.
+  let display: HeightDisplay = { mode: "shaded", strength: 80 };
   const showScene = (scene: Scene): void => {
+    display = scene.display;
     board.setScene(scene, mapUrlOf(scene.map, campaign?.path));
     scenesTab.current = scene.id;
     toolRail.strokes = scene.strokes;
     toolRail.cellSize = scene.grid.cell_size;
+    toolRail.display = scene.display;
   };
   const refreshScenes = async (): Promise<void> => {
     scenesTab.scenes = await core.listScenes();
@@ -577,6 +586,18 @@ try {
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
         showNotice(`Could not remove the stroke: ${reason}`);
+      }
+    })();
+  });
+  // How the scene shows its heights is the scene's, kept with it.
+  toolRail.addEventListener("tw-display", (event) => {
+    const change = (event as CustomEvent<Partial<HeightDisplay>>).detail;
+    void (async () => {
+      try {
+        showScene(await core.setDisplay({ ...display, ...change }));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not change the height display: ${reason}`);
       }
     })();
   });

@@ -62,6 +62,11 @@
   --tw-board-sight: #5FA8BD;
   --tw-board-difficult: #F1E6D21F;
   --tw-board-air: #5FA8BD47;
+  --tw-board-height-shade: #000000;
+  --tw-board-height-line: #F1E6D299;
+  --tw-board-height-up: #E4C57A;
+  --tw-board-height-down: #5FA8BD;
+  --tw-board-height-tag: #F1E6D2;
 
   /* Spacing */
   --tw-space-xs: 4px;

@@ -302,3 +302,40 @@ test("the rules read the mansion: a route to the corridor, none into the locked 
   });
   expect(measured).toEqual({ corridor: 30, wing: undefined, straight: 30, unit: "ft" });
 });
+
+// The scene shows its heights as it chooses. The tavern is flat until the
+// Height pen paints a rise under a token, which then wears its height;
+// Marked tags the rise, Data draws nothing, and the strength is the
+// scene's too.
+test("the height display follows the scene's choice, and a token wears its height", async ({
+  page,
+}) => {
+  await page.goto("/?role=dm");
+  await page.waitForFunction(
+    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
+  );
+  const heights = () => page.evaluate(() => window.__tablewright?.heights());
+  const heightOfB = () =>
+    page.evaluate(() => window.__tablewright?.tokens().find((t) => t.id === "seed-b")?.height);
+  expect(await heights()).toEqual({ mode: "shaded", strength: 80, contours: 0, tags: 0 });
+  expect(await heightOfB()).toBe(0);
+  const tools = page.locator("tw-tool-rail");
+  await tools.getByRole("button", { name: "Height" }).click();
+  await tools.getByRole("button", { name: "Rect" }).click();
+  // Clear of the palette, which covers the west of the map on screen.
+  const from = await cellOnScreen(page, { col: 6, row: 5 });
+  const to = await cellOnScreen(page, { col: 8, row: 7 });
+  await page.mouse.move(from.x, from.y);
+  await page.mouse.down();
+  await page.mouse.move(to.x, to.y, { steps: 6 });
+  await page.mouse.up();
+  await expect.poll(heightOfB).toBe(5);
+  await expect.poll(async () => (await heights())?.contours).toBeGreaterThan(0);
+  await tools.getByRole("button", { name: "Marked" }).click();
+  await expect.poll(async () => (await heights())?.mode).toBe("marked");
+  expect((await heights())?.tags).toBe(1);
+  await tools.getByRole("button", { name: "Data", exact: true }).click();
+  await expect.poll(async () => (await heights())?.contours).toBe(0);
+  await tools.getByLabel("Height display strength").fill("40");
+  await expect.poll(async () => (await heights())?.strength).toBe(40);
+});

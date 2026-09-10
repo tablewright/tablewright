@@ -3,9 +3,9 @@
  *
  * Owns the Pixi application and the layer tree every other board module
  * draws into. The world container is the one thing the camera moves;
- * the layers inside it are ordered map, grid, topology, tokens, overlay,
- * so draw order is a fact of the tree rather than a convention each
- * layer has to remember.
+ * the layers inside it are ordered map, grid, height, topology, tokens,
+ * overlay, so draw order is a fact of the tree rather than a convention
+ * each layer has to remember.
  * Design: docs/design.md §5, hybrid rendering.
  */
 
@@ -20,6 +20,8 @@ export interface BoardStageOptions {
 export interface BoardLayers {
   readonly map: Container;
   readonly grid: Container;
+  /** How the scene shows its heights over the picture, under what the DM drew. */
+  readonly height: Container;
   /** What the DM drew: ground states, walls and thresholds, under the tokens. */
   readonly topology: Container;
   readonly tokens: Container;
@@ -49,6 +51,7 @@ export class BoardStage {
     this.layers = {
       map: new Container({ label: "map" }),
       grid: new Container({ label: "grid" }),
+      height: new Container({ label: "height" }),
       topology: new Container({ label: "topology" }),
       tokens: new Container({ label: "tokens" }),
       overlay: new Container({ label: "overlay" }),
@@ -56,6 +59,7 @@ export class BoardStage {
     this.world.addChild(
       this.layers.map,
       this.layers.grid,
+      this.layers.height,
       this.layers.topology,
       this.layers.tokens,
       this.layers.overlay
