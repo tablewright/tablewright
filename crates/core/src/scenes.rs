@@ -46,9 +46,25 @@ impl Scenes {
         };
         match scenes.last_open()? {
             Some(scene) => scenes.current = scene,
-            None => scenes.save()?,
+            None => {
+                scenes.set_aside_unreadable()?;
+                scenes.save()?;
+            }
         }
         Ok(scenes)
+    }
+
+    // The seed must never write over a file the library could not read:
+    // that is the DM's scene, kept beside it under a name the library
+    // never reads, theirs to look at.
+    fn set_aside_unreadable(&self) -> Result<(), SceneError> {
+        let path = self.path_of(&self.current.id);
+        if path.is_file() && Scene::load(&path).is_err() {
+            let mut aside = path.clone().into_os_string();
+            aside.push(".unreadable");
+            std::fs::rename(&path, &aside).map_err(|source| io(&path, source))?;
+        }
+        Ok(())
     }
 
     /// The scene open.
@@ -331,5 +347,21 @@ mod tests {
         assert_eq!(slug("  The Rusty Flagon!  "), "the-rusty-flagon");
         assert_eq!(slug("Étage 2 -- nord"), "étage-2-nord");
         assert_eq!(slug("???"), "scene");
+    }
+
+    #[test]
+    fn a_tavern_file_that_will_not_load_is_set_aside_never_written_over() {
+        let dir = library("aside");
+        std::fs::create_dir_all(&dir).expect("dir");
+        let stale = "{\"id\": \"tavern\", \"older\": true}";
+        std::fs::write(dir.join("tavern.json"), stale).expect("stale");
+        let scenes = Scenes::open(&dir).expect("open");
+        assert_eq!(scenes.current().id, "tavern");
+        assert_eq!(
+            std::fs::read_to_string(dir.join("tavern.json.unreadable")).expect("kept"),
+            stale
+        );
+        assert!(Scene::load(&dir.join("tavern.json")).is_ok());
+        std::fs::remove_dir_all(&dir).expect("cleanup");
     }
 }
