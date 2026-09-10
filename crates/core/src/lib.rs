@@ -11,6 +11,7 @@ pub mod render;
 pub mod scene;
 pub mod scenes;
 pub mod search;
+pub mod shelf;
 pub mod store;
 pub mod stroke;
 pub mod system;
@@ -24,6 +25,7 @@ pub use render::render;
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};
 pub use scenes::{SceneSummary, Scenes, slug};
 pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood, Viewer};
+pub use shelf::Shelf;
 pub use store::{Store, StoreError};
 pub use stroke::{
     CellRect, Edge, GroundState, HeightDisplay, HeightMode, OpeningSize, PlayState, Point, Shape,

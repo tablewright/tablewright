@@ -1,9 +1,9 @@
 //! A campaign: one folder holding everything a table needs for it. The
-//! manifest names its system and modules; its scenes are a library under
-//! it; its compendium is installed beside them; the pictures opened into
-//! it are copied in and named by a path within the folder. Copyable and
-//! hostable as one thing. Design: docs/design.md §3 "A campaign is a
-//! folder".
+//! manifest names its system and the library modules it sees; its scenes
+//! are a library under it; its own compendium, when it has one, sits
+//! beside them; the pictures opened into it are copied in and named by a
+//! path within the folder. Copyable and hostable as one thing. Design:
+//! docs/design.md §3 "A campaign is a folder".
 
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
@@ -18,6 +18,7 @@ use crate::scenes::{Scenes, slug};
 const MANIFEST: &str = "campaign.json";
 const SCENES: &str = "scenes";
 const ASSETS: &str = "assets";
+const COMPENDIUM: &str = "compendium/compendium.sqlite";
 
 /// What a campaign is: its name, the system and version it plays, and
 /// the modules it draws its compendium from.
@@ -205,6 +206,12 @@ impl Campaign {
     /// A path within the campaign as a path on disk.
     pub fn resolve(&self, relative: &str) -> PathBuf {
         self.dir.join(relative)
+    }
+
+    /// The campaign's own compendium store, when it has one.
+    pub fn compendium_path(&self) -> Option<PathBuf> {
+        let path = self.dir.join(COMPENDIUM);
+        path.is_file().then_some(path)
     }
 }
 

@@ -15,14 +15,15 @@ use specta::Type;
 use tablewright_core::{
     Campaign, CampaignError, CampaignManifest, CampaignSummary, DEFAULT_LIMIT, Edge, Entry,
     EntryId, Filter, HeightDisplay, Hit, Manifest, MapImage, PlayState, Scene, SceneError,
-    SceneSummary, StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility, campaign,
+    SceneSummary, Shelf, StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility,
+    campaign,
 };
 use tauri::State;
 
-use crate::state::{AppState, Compendium, Session};
+use crate::state::{AppState, Session};
 
 // What a new campaign plays until the intro asks: the bundled system and
-// its two rule versions.
+// its two rule versions from the library.
 const SYSTEM: &str = "5e";
 const VERSION: &str = "2024";
 const MODULES: [&str; 2] = ["5e-2024-srd", "5e-2014-srd"];
@@ -46,7 +47,8 @@ pub struct SearchResponse {
 pub enum CommandError {
     /// No campaign is open; the intro screen is where one is.
     NoCampaign,
-    /// The campaign has no compendium; nothing to search.
+    /// Neither the library nor the campaign's own store could be opened;
+    /// nothing to search.
     NoCompendium,
     /// No entry with that id, or none the viewer may see.
     NotFound { id: String },
@@ -96,11 +98,8 @@ fn with_session<T>(
     answer(session)
 }
 
-fn compendium(session: &Session) -> Result<&Compendium, CommandError> {
-    session
-        .compendium
-        .as_ref()
-        .ok_or(CommandError::NoCompendium)
+fn shelf(session: &Session) -> Result<&Shelf, CommandError> {
+    session.shelf.as_ref().ok_or(CommandError::NoCompendium)
 }
 
 // ── The compendium ──
@@ -119,7 +118,7 @@ pub fn search(
     version: Option<String>,
 ) -> Result<SearchResponse, CommandError> {
     with_session(&state, |session| {
-        let compendium = compendium(session)?;
+        let shelf = shelf(session)?;
         let started = Instant::now();
         let limit = limit.map_or(DEFAULT_LIMIT, |limit| limit as usize);
         let viewer = Viewer {
@@ -127,13 +126,13 @@ pub fn search(
             version,
         };
         let answer =
-            compendium
-                .catalogue
+            shelf
+                .catalogue()
                 .answer_with(&query, viewer, limit, &filters.unwrap_or_default());
         Ok(SearchResponse {
             hits: answer.hits,
             elapsed_us: u32::try_from(started.elapsed().as_micros()).unwrap_or(u32::MAX),
-            catalogue_size: u32::try_from(compendium.catalogue.len()).unwrap_or(u32::MAX),
+            catalogue_size: u32::try_from(shelf.len()).unwrap_or(u32::MAX),
             understood: answer.understood,
         })
     })
@@ -151,29 +150,20 @@ pub fn get_entry(
     version: Option<String>,
 ) -> Result<Entry, CommandError> {
     with_session(&state, |session| {
-        let store = compendium(session)?
-            .store
-            .lock()
-            .map_err(|_| store_poisoned())?;
+        let shelf = shelf(session)?;
         let id = match version {
-            Some(version) => store.version_of(&id, &version)?.unwrap_or(id),
+            Some(version) => shelf.version_of(&id, &version).unwrap_or(id),
             None => id,
         };
-        Ok(store.get(&id, viewer)?)
+        Ok(shelf.get(&id, viewer)?)
     })
 }
 
-/// The manifests of every module in the compendium, for the credits view.
+/// The manifests of every module on the shelf, for the credits view.
 #[tauri::command]
 #[specta::specta]
 pub fn modules(state: State<'_, AppState>) -> Result<Vec<Manifest>, CommandError> {
-    with_session(&state, |session| {
-        let store = compendium(session)?
-            .store
-            .lock()
-            .map_err(|_| store_poisoned())?;
-        Ok(store.modules()?)
-    })
+    with_session(&state, |session| Ok(shelf(session)?.modules()?))
 }
 
 /// The text values each facet holds across the compendium, for the tray's
@@ -184,16 +174,16 @@ pub fn facet_values(
     state: State<'_, AppState>,
 ) -> Result<std::collections::BTreeMap<String, Vec<String>>, CommandError> {
     with_session(&state, |session| {
-        Ok(compendium(session)?.catalogue.facet_values())
+        Ok(shelf(session)?.catalogue().facet_values())
     })
 }
 
-/// The system the compendium was seeded for: its categories, kinds,
-/// facets and the tray's controls. `None` when the seeder was given none.
+/// The system the shelf was seeded for: its categories, kinds, facets and
+/// the tray's controls. `None` when the seeder was given none.
 #[tauri::command]
 #[specta::specta]
 pub fn system(state: State<'_, AppState>) -> Result<Option<SystemManifest>, CommandError> {
-    with_session(&state, |session| Ok(compendium(session)?.system.clone()))
+    with_session(&state, |session| Ok(shelf(session)?.system().cloned()))
 }
 
 // ── Campaigns ──
@@ -342,13 +332,7 @@ pub fn place_entry(
     row: i32,
 ) -> Result<Scene, CommandError> {
     with_session(&state, |session| {
-        let summary = {
-            let store = compendium(session)?
-                .store
-                .lock()
-                .map_err(|_| store_poisoned())?;
-            store.get(&id, Visibility::Dm)?.summary()
-        };
+        let summary = shelf(session)?.get(&id, Visibility::Dm)?.summary();
         let scenes = session.campaign.scenes_mut();
         scenes.current_mut().place(&summary, col, row);
         scenes.save()?;
@@ -448,11 +432,5 @@ pub fn set_threshold_state(
 fn poisoned() -> CommandError {
     CommandError::Campaign {
         message: "the session lock is poisoned".into(),
-    }
-}
-
-fn store_poisoned() -> CommandError {
-    CommandError::Store {
-        message: "the store lock is poisoned".into(),
     }
 }

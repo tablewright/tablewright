@@ -392,7 +392,7 @@ function describe(error: { kind: string }): string {
     case "no-campaign":
       return "No campaign is open.";
     case "no-compendium":
-      return "The campaign has no compendium.";
+      return "No compendium could be opened: neither the library nor the campaign's own.";
     case "campaign":
       return `The campaign folder refused: ${(error as { message?: string }).message ?? "unknown"}.`;
     case "not-found":

@@ -118,23 +118,40 @@ One search spans Vault and Compendium; results are labeled by origin.
   reference compendium entries and entries can reference lore.
 - **A campaign is a folder.** Everything a table needs for one
   campaign lives in one directory: `campaign.json` (name, system,
-  version, the modules chosen); `compendium/`, the campaign's own
-  compendium SQLite, installed from the bundle and rebuilt from its
-  modules, derived and never the record; `modules/` *(later)* for
-  the campaign's own modules, a homebrew book among them; `scenes/`;
-  `assets/`, pictures opened into the campaign, copied in and named
-  by a path relative to the folder; `players/` *(later)*. Campaigns
-  live under the Tablewright home, `Documents/Tablewright/campaigns/`,
-  unless the DM puts one in a folder of their own, and the app
-  remembers each by path. A folder is copyable and hostable as one
-  thing: serve mode runs over a campaign folder wherever it sits.
-  The app's own data directory holds only what is no campaign's:
-  the list of campaigns and, later, the installed module library. An
-  intro screen lists the campaigns and opens one, as Foundry's setup
-  does; the first run makes the example campaign, the tavern with
-  the mansion and the hill. A shipped adventure must be
-  redistributable (CC-BY), which none of the free WotC ones are.
-  Data shared between campaigns is *(later)*. Decided 2026-09-10.
+  version, the library modules chosen); `compendium/` *(later)*, the
+  campaign's own compendium SQLite, derived from `modules/`
+  *(later)*, the campaign's own modules with a homebrew book among
+  them, never the record; `scenes/`; `assets/`, pictures opened
+  into the campaign, copied in and named by a path relative to the
+  folder; `players/` *(later)*. Campaigns live under the Tablewright
+  home, `Documents/Tablewright/campaigns/`, unless the DM puts one in
+  a folder of their own, and the app remembers each by path. A
+  folder is copyable and hostable as one thing: serve mode runs over
+  a campaign folder wherever it sits. The app's own data directory
+  holds only what is no campaign's and no library's: the list of
+  campaigns. An intro screen lists the campaigns and opens one, as
+  Foundry's setup does; the first run makes the example campaign,
+  the tavern with the mansion and the hill. A shipped adventure must
+  be redistributable (CC-BY), which none of the free WotC ones are.
+  Decided 2026-09-10.
+- **The library, and the campaign's own.** The compendium a table
+  searches is two layers. The **library** is shared by every
+  campaign on the machine, under the home at
+  `Documents/Tablewright/library/`: the bundled SRD, both rule
+  versions, installed there from the app on first run and again when
+  the bundle is newer, and *(later)* the modules the DM installs, a
+  book they own, so every 5e campaign of theirs has it at once. The
+  **campaign's own**, `compendium/` in its folder, holds what belongs
+  to one campaign only. A campaign's manifest lists the library
+  modules its table sees, so a 2014-only table hides the 2024 SRD;
+  the campaign's own entries win where an id collides, so a house
+  Fireball replaces the SRD's. Both stores are derived, rebuilt from
+  modules, never the record; a campaign never carries a copy of the
+  SRD. Decided 2026-09-10 (user): the SRD is bundled with the app;
+  compendiums live in the app and in the campaign with the
+  campaign's taking precedence; one library serves many campaigns.
+  The library sits in the home rather than app data so it is visible
+  and copyable beside the campaigns.
 - **What ships.** Only content Tablewright may redistribute: the SRD
   under CC-BY-4.0, and homebrew that is CC-BY-4.0 or licensed to
   Tablewright. Nothing else of 5e. The bundled SRD is the latest

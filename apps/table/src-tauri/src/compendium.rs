@@ -1,7 +1,7 @@
-//! Where the compendium lives on this machine. The bundled SRD ships as an
-//! app resource and is copied into the app data directory on first run, so
-//! the app never writes inside its own install and a newer bundle replaces
-//! an older copy on the next start.
+//! How the bundled SRD reaches the library. It ships as an app resource
+//! and is copied into the library under the Tablewright home on first run,
+//! so the app never writes inside its own install and a newer bundle
+//! replaces an older copy on the next start.
 //!
 //! Replacing a SQLite file is more than a copy. A write-ahead log or its
 //! shared-memory index left beside the file by a killed process (routine

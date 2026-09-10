@@ -1,15 +1,13 @@
-//! What the shell holds for the lifetime of the app: where campaigns live,
-//! which are known, and the session open, a campaign with its compendium.
-//! The session is opened from the intro screen and closed back to it; every
-//! command that needs a campaign asks for the session and says so when
-//! there is none.
+//! What the shell holds for the lifetime of the app: where campaigns and
+//! the library live, which campaigns are known, and the session open, a
+//! campaign with its shelf. The session is opened from the intro screen
+//! and closed back to it; every command that needs a campaign asks for the
+//! session and says so when there is none.
 
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
-use tablewright_core::{
-    Campaign, CampaignError, CampaignSummary, Catalogue, Store, StoreError, SystemManifest,
-};
+use tablewright_core::{Campaign, CampaignError, CampaignSummary, Shelf};
 
 use crate::compendium;
 
@@ -17,43 +15,17 @@ use crate::compendium;
 const KNOWN: &str = "campaigns.json";
 const CURRENT: &str = "campaign";
 
-/// An open compendium, its catalogue, and the system it was seeded for.
-pub struct Compendium {
-    /// SQLite connections are not `Sync`; the mutex makes the state shareable.
-    pub store: Mutex<Store>,
-    pub catalogue: Catalogue,
-    /// The manifest the seeder was given, if any: kinds, facets, controls.
-    pub system: Option<SystemManifest>,
-}
-
-impl Compendium {
-    /// Open the compendium at `path` and build its catalogue.
-    ///
-    /// # Errors
-    ///
-    /// Fails if the file cannot be opened or read.
-    pub fn open(path: &Path) -> Result<Self, StoreError> {
-        let store = Store::open(path)?;
-        let catalogue = Catalogue::from_store(&store)?;
-        let system = store.system()?;
-        Ok(Self {
-            store: Mutex::new(store),
-            catalogue,
-            system,
-        })
-    }
-}
-
-/// A campaign at the table, with its compendium when one could be opened.
+/// A campaign at the table, with its shelf when a store could be opened.
 pub struct Session {
     pub campaign: Campaign,
-    pub compendium: Option<Compendium>,
+    pub shelf: Option<Shelf>,
 }
 
 /// The managed state.
 pub struct AppState {
     /// The Tablewright home: campaigns go under `campaigns/` unless the DM
-    /// puts one elsewhere.
+    /// puts one elsewhere, and the library every campaign shares is under
+    /// `library/`.
     pub home: PathBuf,
     /// The app's own data directory: the list of campaigns and the one open.
     pub data_dir: PathBuf,
@@ -88,6 +60,25 @@ impl AppState {
         self.home.join("campaigns")
     }
 
+    /// Where the library lives: the bundled SRD installed from the app,
+    /// and later the modules the DM installs.
+    pub fn library_dir(&self) -> PathBuf {
+        self.home.join("library")
+    }
+
+    /// The library's store, installed from the bundle when it is missing
+    /// or older. `None` when there is no bundle or it cannot be copied.
+    pub fn library(&self) -> Option<PathBuf> {
+        let bundled = self.bundled.as_ref()?;
+        match compendium::install(bundled, &self.library_dir()) {
+            Ok(path) => Some(path),
+            Err(error) => {
+                eprintln!("library: not installed: {error} ({})", bundled.display());
+                None
+            }
+        }
+    }
+
     /// The campaign open when the app last closed, if it remembers one.
     pub fn last_open(&self) -> Option<PathBuf> {
         std::fs::read_to_string(self.data_dir.join(CURRENT))
@@ -96,23 +87,20 @@ impl AppState {
             .filter(|path| path.is_dir())
     }
 
-    /// Open the campaign in `dir` as the session, with its compendium
-    /// installed beside its scenes, and remember it.
+    /// Open the campaign in `dir` as the session, with its shelf over the
+    /// library and its own store, and remember it.
     ///
     /// # Errors
     ///
     /// Fails if the folder is not a campaign or its scenes will not open. A
-    /// compendium that will not open is reported and the session goes on
+    /// shelf that will not open is reported and the session goes on
     /// without one.
     pub fn open_campaign(&self, dir: &Path) -> Result<CampaignSummary, CampaignError> {
         let campaign = Campaign::open(dir)?;
-        let compendium = self.open_compendium(&campaign);
+        let shelf = self.open_shelf(&campaign);
         let summary = campaign.summary();
         if let Ok(mut session) = self.session.lock() {
-            *session = Some(Session {
-                campaign,
-                compendium,
-            });
+            *session = Some(Session { campaign, shelf });
         }
         self.remember(dir);
         Ok(summary)
@@ -130,39 +118,34 @@ impl AppState {
         }
     }
 
-    // The bundle is installed into the campaign, replaced when it is out
-    // of date, and once more when it will not open; only then does the
-    // session go without a compendium.
-    fn open_compendium(&self, campaign: &Campaign) -> Option<Compendium> {
-        let bundled = self.bundled.as_ref()?;
-        let installed = match compendium::install(bundled, campaign.dir()) {
-            Ok(path) => path,
-            Err(error) => {
-                eprintln!("compendium: not installed: {error} ({})", bundled.display());
-                return None;
-            }
-        };
-        match Compendium::open(&installed) {
-            Ok(compendium) => return Some(announce(compendium, &installed)),
-            Err(error) => eprintln!(
-                "compendium: could not open {}: {error}; replacing it from the bundle",
-                installed.display()
-            ),
+    // The shelf is the library, showing the modules the campaign lists,
+    // under the campaign's own store when it has one. A library that will
+    // not open is replaced from the bundle once; only then does the session
+    // go without a shelf.
+    fn open_shelf(&self, campaign: &Campaign) -> Option<Shelf> {
+        let own = campaign.compendium_path();
+        let modules = &campaign.manifest().modules;
+        let library = self.library();
+        if own.is_none() && library.is_none() {
+            eprintln!("compendium: no library and no store of the campaign's own");
+            return None;
         }
-        let installed = match compendium::reinstall(bundled, campaign.dir()) {
-            Ok(path) => path,
+        match Shelf::open(library.as_deref(), own.as_deref(), modules) {
+            Ok(shelf) => return Some(announce(shelf, campaign)),
+            Err(error) => eprintln!("compendium: could not open: {error}; replacing the library"),
+        }
+        let bundled = self.bundled.as_ref()?;
+        let library = match compendium::reinstall(bundled, &self.library_dir()) {
+            Ok(path) => Some(path),
             Err(error) => {
-                eprintln!("compendium: not reinstalled: {error}");
-                return None;
+                eprintln!("library: not reinstalled: {error}");
+                None
             }
         };
-        match Compendium::open(&installed) {
-            Ok(compendium) => Some(announce(compendium, &installed)),
+        match Shelf::open(library.as_deref(), own.as_deref(), modules) {
+            Ok(shelf) => Some(announce(shelf, campaign)),
             Err(error) => {
-                eprintln!(
-                    "compendium: could not open {}: {error}",
-                    installed.display()
-                );
+                eprintln!("compendium: could not open: {error}");
                 None
             }
         }
@@ -195,11 +178,12 @@ impl AppState {
     }
 }
 
-fn announce(compendium: Compendium, path: &Path) -> Compendium {
+fn announce(shelf: Shelf, campaign: &Campaign) -> Shelf {
     eprintln!(
-        "compendium: {} entries from {}",
-        compendium.catalogue.len(),
-        path.display()
+        "compendium: {} entries on the shelf for {} ({})",
+        shelf.len(),
+        campaign.manifest().name,
+        campaign.manifest().modules.join(", ")
     );
-    compendium
+    shelf
 }

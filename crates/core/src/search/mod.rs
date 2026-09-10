@@ -195,6 +195,46 @@ impl Catalogue {
         self.lexicon.values()
     }
 
+    /// The id of the same thing as `id` in rule `version`, when the
+    /// catalogue holds one: fireball in 2014 for fireball in 2024. The
+    /// catalogue's order decides between two, so on a shelf the campaign's
+    /// own comes first.
+    pub fn version_of(&self, id: &EntryId, version: &str) -> Option<EntryId> {
+        let identity = self.identity(id)?;
+        self.entries
+            .iter()
+            .zip(&self.identities)
+            .find(|((summary, _), candidate)| **candidate == identity && summary.version == version)
+            .map(|((summary, _), _)| summary.id.clone())
+    }
+
+    /// Every rule version the same thing as `id` exists in, sorted, empty
+    /// for an id the catalogue does not hold or a thing with no version.
+    pub fn versions_of(&self, id: &EntryId) -> Vec<String> {
+        let Some(identity) = self.identity(id) else {
+            return Vec::new();
+        };
+        let mut versions: Vec<String> = self
+            .entries
+            .iter()
+            .zip(&self.identities)
+            .filter(|((summary, _), candidate)| {
+                **candidate == identity && !summary.version.is_empty()
+            })
+            .map(|((summary, _), _)| summary.version.clone())
+            .collect();
+        versions.sort();
+        versions.dedup();
+        versions
+    }
+
+    fn identity(&self, id: &EntryId) -> Option<u32> {
+        self.entries
+            .iter()
+            .position(|(summary, _)| summary.id == *id)
+            .map(|at| self.identities[at])
+    }
+
     pub fn len(&self) -> usize {
         self.entries.len()
     }
@@ -421,7 +461,8 @@ impl Catalogue {
 
 // `<kind>:<slug>`: the thing an entry is a version of. Ids are
 // `<module>:<kind>:<slug>`, so the slug is the last segment.
-fn identity_of(summary: &EntrySummary) -> String {
+// A thing across its versions: its kind and the last segment of its id.
+pub(crate) fn identity_of(summary: &EntrySummary) -> String {
     let id = summary.id.as_str();
     let slug = id.rsplit(':').next().unwrap_or(id);
     format!("{}:{slug}", summary.kind)

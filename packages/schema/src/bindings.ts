@@ -19,11 +19,11 @@ export const commands = {
 	 *  page turns to the reader's version when they switch.
 	 */
 	getEntry: (id: EntryId, viewer: Visibility, version: string | null) => typedError<Entry, CommandError>(__TAURI_INVOKE("get_entry", { id, viewer, version })),
-	/**  The manifests of every module in the compendium, for the credits view. */
+	/**  The manifests of every module on the shelf, for the credits view. */
 	modules: () => typedError<Manifest[], CommandError>(__TAURI_INVOKE("modules")),
 	/**
-	 *  The system the compendium was seeded for: its categories, kinds,
-	 *  facets and the tray's controls. `None` when the seeder was given none.
+	 *  The system the shelf was seeded for: its categories, kinds, facets and
+	 *  the tray's controls. `None` when the seeder was given none.
 	 */
 	system: () => typedError<{
 	id: string,
@@ -155,7 +155,10 @@ export type CellRect = {
 export type CommandError = 
 /**  No campaign is open; the intro screen is where one is. */
 { kind: "no-campaign" } | 
-/**  The campaign has no compendium; nothing to search. */
+/**
+ *  Neither the library nor the campaign's own store could be opened;
+ *  nothing to search.
+ */
 { kind: "no-compendium" } | 
 /**  No entry with that id, or none the viewer may see. */
 { kind: "not-found"; id: string } | 
