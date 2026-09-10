@@ -287,14 +287,6 @@ export class TwToolRail extends LitElement {
       background: var(--tw-primary-container);
       color: var(--tw-on-primary-container);
     }
-    .swatch {
-      display: flex;
-      justify-content: center;
-      padding: var(--tw-space-xs) 0;
-      border: 1px solid var(--tw-outline-variant);
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-board-ground);
-    }
     .field {
       display: flex;
       align-items: center;
@@ -532,21 +524,12 @@ export class TwToolRail extends LitElement {
         </div>
         <span class="tag">${NATURE[tool.ink]}</span>
       </header>
-      ${tool.ink === "threshold" ? this.#thresholdPreview() : this.#shapes()}
-      ${tool.shape === "brush" && tool.ink !== "threshold" ? this.#size() : nothing}
-      ${this.#options()}
+      ${this.#shapes()} ${tool.shape === "brush" ? this.#size() : nothing} ${this.#options()}
     </div>`;
   }
 
-  // A threshold has one shape, the click, so the palette shows what the
-  // click will leave instead: the kind, state and size chosen, drawn.
-  #thresholdPreview() {
-    return html`<section>
-      <span class="cap">Preview</span>
-      <div class="swatch">${thresholdSwatch(this.tool.threshold)}</div>
-    </section>`;
-  }
-
+  // A threshold has one shape, the click, so its tile shows what the click
+  // will leave instead of a cursor: the kind, state and size chosen, drawn.
   #shapes() {
     const { tool } = this;
     const shapes = shapesOf(tool.ink);
@@ -563,7 +546,11 @@ export class TwToolRail extends LitElement {
               aria-pressed=${tool.shape === candidate.shape ? "true" : "false"}
               @click=${() => this.#setShape(candidate.shape)}
             >
-              ${shapeIcon(candidate.shape)}
+              ${
+                tool.ink === "threshold" && candidate.shape === "click"
+                  ? thresholdSwatch(tool.threshold)
+                  : shapeIcon(candidate.shape)
+              }
             </button>`
         )}
       </div>
