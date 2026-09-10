@@ -124,6 +124,7 @@ function tokenStyle(theme: BoardTheme): TokenStyle {
 function topologyStyle(theme: BoardTheme): TopologyStyle {
   return {
     ground: theme.ground,
+    floor: theme.floor,
     wall: theme.wall,
     threshold: theme.threshold,
     sight: theme.sight,

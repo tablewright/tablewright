@@ -28,8 +28,8 @@ pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Underst
 pub use shelf::Shelf;
 pub use store::{Store, StoreError};
 pub use stroke::{
-    CellRect, Edge, GroundState, HeightDisplay, HeightMode, OpeningSize, PlayState, Point, Shape,
-    Side, Stroke, ThresholdKind, ThresholdPlay, ThresholdState, WallShape,
+    CellRect, Edge, GroundState, HeightDisplay, HeightMode, Look, OpeningSize, PlayState, Point,
+    Shape, Side, Stroke, ThresholdKind, ThresholdPlay, ThresholdState, WallShape,
 };
 pub use system::{
     Cell, ControlKind, ControlSpec, DiagonalRule, FacetSpec, FacetType, GridKind, GridSpec,

@@ -1,12 +1,14 @@
 /**
  * ─ Topology layer ─
  *
- * Draws what the DM drew, quietly, over the map picture: difficult and
- * air cells as faint tints, walls as a hint, thresholds by kind and
- * state, level changes as ticks, free ink as it was. Nothing for void
- * or plain ground, so a scene with no strokes looks as it did. One
- * Graphics, rebuilt when the topology or the grid changes; height is
- * the height layer's to show.
+ * Draws what the DM drew over the map picture. A stroke drawn as data
+ * shows quietly: difficult and air cells as faint tints, walls as a
+ * hint, thresholds by kind and state, level changes as ticks. A stroke
+ * drawn as texture too shows in full, for a map whose art has none: a
+ * painted floor, hatched difficult ground, a hole for air, a solid wall,
+ * a heavy threshold, stair treads. Free ink as it was. Nothing for void,
+ * so a scene with no strokes looks as it did. One Graphics, rebuilt when
+ * the topology or the grid changes; height is the height layer's.
  * Design: docs/design.md §5 "Topology and measurement".
  */
 
@@ -16,12 +18,20 @@ import type { Point } from "../geometry.js";
 import type { SquareGrid } from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
 import { edgeCells, edgeKey } from "./edges.js";
-import { groundAt, type EdgeData, type Topology } from "./derive.js";
+import {
+  LEVEL_CHANGE_TEXTURED,
+  groundAt,
+  isTexturedAt,
+  type EdgeData,
+  type Topology,
+} from "./derive.js";
 import { placedPoints, radiusOf, sampleCentre, sampleHeight, sampleWidth } from "./shapes.js";
 
 export interface TopologyStyle {
-  /** The board's ground, for the dark centre of a lock mark. */
+  /** The board's ground, for the dark centre of a lock mark and the floor of a hole. */
   readonly ground: number;
+  /** Ground drawn as texture: a painted floor. */
+  readonly floor: PackedColor;
   readonly wall: PackedColor;
   readonly threshold: PackedColor;
   /** What sight passes through: windows. */
@@ -42,8 +52,12 @@ interface Segment {
 type Threshold = Extract<EdgeData, { kind: "threshold" }>;
 
 // The tokens' values, until the theme bridge supplies them.
+// How much heavier a threshold drawn as texture is than the data hint.
+const TEXTURE_WEIGHT = 1.6;
+
 const DEFAULT_STYLE: TopologyStyle = {
   ground: 0x1b1d24,
+  floor: { rgb: 0xf1e6d2, alpha: 0.08 },
   wall: { rgb: 0xf1e6d2, alpha: 0.4 },
   threshold: { rgb: 0xc9a24e, alpha: 1 },
   sight: { rgb: 0x5fa8bd, alpha: 1 },
@@ -120,43 +134,87 @@ export class TopologyLayer {
     g.moveTo(s.x0, s.y0)
       .lineTo(s.x1, s.y1)
       .stroke({ width: cell * 0.3, color: hover.rgb, alpha: 0.22, cap: "round" });
-    this.drawThreshold(g, s, data, cell, {
-      ...this.style,
-      wall: { rgb: hover.rgb, alpha: 0.9 },
-      threshold: hover,
-      sight: hover,
-    });
+    this.drawThreshold(
+      g,
+      s,
+      data,
+      cell,
+      {
+        ...this.style,
+        wall: { rgb: hover.rgb, alpha: 0.9 },
+        threshold: hover,
+        sight: hover,
+      },
+      data.look === "both"
+    );
   }
 
+  // Cells by state and look: a textured floor is painted, a textured
+  // difficult cell hatched, a textured air cell a hole down to the desk;
+  // as data, the tints alone.
   private drawStates(g: Graphics, topology: Topology, grid: SquareGrid): void {
     const { bounds } = topology;
     const cell = grid.cellSize;
+    const floors: Point[] = [];
+    const difficult: Point[] = [];
+    const hatched: Point[] = [];
     const air: Point[] = [];
-    let difficult = 0;
+    const holes: Point[] = [];
     for (let row = bounds.rowMin; row < bounds.rowMin + bounds.rows; row += 1) {
       for (let col = bounds.colMin; col < bounds.colMin + bounds.cols; col += 1) {
         const state = groundAt(topology, { col, row });
-        if (state !== "difficult" && state !== "air") {
+        if (state === "void") {
           continue;
         }
-        const x = grid.originX + col * cell;
-        const y = grid.originY + row * cell;
+        const textured = isTexturedAt(topology, { col, row });
+        const p = { x: grid.originX + col * cell, y: grid.originY + row * cell };
+        if (state === "ground") {
+          if (textured) {
+            floors.push(p);
+          }
+          continue;
+        }
         if (state === "difficult") {
-          g.rect(x, y, cell, cell);
-          difficult += 1;
-        } else {
-          air.push({ x, y });
+          difficult.push(p);
+          if (textured) {
+            hatched.push(p);
+          }
+          continue;
+        }
+        air.push(p);
+        if (textured) {
+          holes.push(p);
         }
       }
     }
-    if (difficult > 0) {
-      g.fill({ color: this.style.difficult.rgb, alpha: this.style.difficult.alpha });
-    }
-    if (air.length > 0) {
-      for (const p of air) {
+    const fillCells = (cells: readonly Point[], color: number, alpha: number): void => {
+      if (cells.length === 0) {
+        return;
+      }
+      for (const p of cells) {
         g.rect(p.x, p.y, cell, cell);
       }
-      g.fill({ color: this.style.air.rgb, alpha: this.style.air.alpha });
+      g.fill({ color, alpha });
+    };
+    fillCells(floors, this.style.floor.rgb, this.style.floor.alpha);
+    fillCells(holes, this.style.ground, 0.85);
+    fillCells(difficult, this.style.difficult.rgb, this.style.difficult.alpha);
+    if (hatched.length > 0) {
+      // Diagonal hatching, four lines to the cell.
+      const step = cell / 4;
+      for (const p of hatched) {
+        for (let k = step; k < cell * 2; k += step) {
+          const x0 = p.x + Math.max(0, k - cell);
+          const y0 = p.y + Math.min(k, cell);
+          const x1 = p.x + Math.min(k, cell);
+          const y1 = p.y + Math.max(0, k - cell);
+          g.moveTo(x0, y0).lineTo(x1, y1);
+        }
+      }
+      g.stroke({ width: 1, color: this.style.wall.rgb, alpha: 0.6, pixelLine: true });
+    }
+    if (air.length > 0) {
+      fillCells(air, this.style.air.rgb, this.style.air.alpha);
       const inset = cell * 0.06;
       for (const p of air) {
         g.rect(p.x + inset, p.y + inset, cell - inset * 2, cell - inset * 2);
@@ -165,35 +223,52 @@ export class TopologyLayer {
     }
   }
 
-  // Short ticks over the painted slope, thinned to every fourth row and
-  // second column of samples so stairs read without covering the art.
+  // Over a painted slope: as data, short ticks thinned to every fourth row
+  // and second column of samples, so stairs read without covering the
+  // art; as texture, treads, the same ticks long enough to join.
   private drawLevelChanges(g: Graphics, topology: Topology, grid: SquareGrid): void {
     const { samples, levelChange } = topology;
     const width = sampleWidth(samples);
     const height = sampleHeight(samples);
-    const half = grid.cellSize * 0.06;
-    let ticks = 0;
+    const cell = grid.cellSize;
+    const ticks: Point[] = [];
+    const treads: Point[] = [];
     for (let j = 1; j < height; j += 4) {
       for (let i = 1; i < width; i += 2) {
-        if (levelChange[j * width + i] !== 1) {
+        const mark = levelChange[j * width + i] ?? 0;
+        if (mark === 0) {
           continue;
         }
         const centre = sampleCentre(samples, i, j);
-        const x = grid.originX + centre.x * grid.cellSize;
-        const y = grid.originY + centre.y * grid.cellSize;
-        g.moveTo(x - half, y).lineTo(x + half, y);
-        ticks += 1;
+        const p = { x: grid.originX + centre.x * cell, y: grid.originY + centre.y * cell };
+        if (mark === LEVEL_CHANGE_TEXTURED) {
+          treads.push(p);
+        } else {
+          ticks.push(p);
+        }
       }
     }
-    if (ticks > 0) {
+    if (ticks.length > 0) {
+      const half = cell * 0.06;
+      for (const p of ticks) {
+        g.moveTo(p.x - half, p.y).lineTo(p.x + half, p.y);
+      }
       g.stroke({ width: 1, color: this.style.wall.rgb, alpha: 0.5, pixelLine: true });
+    }
+    if (treads.length > 0) {
+      const half = cell * 0.14;
+      for (const p of treads) {
+        g.moveTo(p.x - half, p.y).lineTo(p.x + half, p.y);
+      }
+      g.stroke({ width: cell * 0.03, color: this.style.wall.rgb, alpha: 0.85 });
     }
   }
 
   private drawEdges(g: Graphics, topology: Topology, grid: SquareGrid): void {
     const cell = grid.cellSize;
     const thresholds: Threshold[] = [];
-    let walls = 0;
+    const hints: Segment[] = [];
+    const solid: Segment[] = [];
     for (const data of topology.edges.values()) {
       const [a, b] = edgeCells(data.edge);
       // Between two void cells nothing is crossed, so nothing is drawn.
@@ -204,59 +279,71 @@ export class TopologyLayer {
         thresholds.push(data);
         continue;
       }
-      const s = segment(grid, data.edge);
-      g.moveTo(s.x0, s.y0).lineTo(s.x1, s.y1);
-      walls += 1;
+      (data.look === "both" ? solid : hints).push(segment(grid, data.edge));
     }
-    if (walls > 0) {
+    if (hints.length > 0) {
+      for (const s of hints) {
+        g.moveTo(s.x0, s.y0).lineTo(s.x1, s.y1);
+      }
       g.stroke({ width: cell * 0.06, color: this.style.wall.rgb, alpha: this.style.wall.alpha });
     }
+    if (solid.length > 0) {
+      for (const s of solid) {
+        g.moveTo(s.x0, s.y0).lineTo(s.x1, s.y1);
+      }
+      g.stroke({ width: cell * 0.1, color: this.style.wall.rgb, alpha: 1, cap: "square" });
+    }
     for (const data of thresholds) {
-      this.drawThreshold(g, segment(grid, data.edge), data, cell);
+      this.drawThreshold(g, segment(grid, data.edge), data, cell, this.style, data.look === "both");
     }
   }
 
+  // A threshold as data is a hint in the wall's own faintness; as texture
+  // it is heavier and its posts and frame are solid.
   private drawThreshold(
     g: Graphics,
     s: Segment,
     data: Threshold,
     cell: number,
-    style: TopologyStyle = this.style
+    style: TopologyStyle,
+    heavy: boolean
   ): void {
     const ux = (s.x1 - s.x0) / cell;
     const uy = (s.y1 - s.y0) / cell;
     const nx = -uy;
     const ny = ux;
     const { wall, threshold, sight } = style;
+    const w = (fraction: number): number => cell * fraction * (heavy ? TEXTURE_WEIGHT : 1);
+    const wallAlpha = heavy ? 1 : wall.alpha;
     const line = (width: number, color: PackedColor, alpha = color.alpha): void => {
       g.moveTo(s.x0, s.y0).lineTo(s.x1, s.y1).stroke({ width, color: color.rgb, alpha });
     };
     // Door posts: the wall's ends, drawn firm where the wall itself is faint.
     const caps = (): void => {
-      const half = cell * 0.12;
+      const half = w(0.12);
       g.moveTo(s.x0 - nx * half, s.y0 - ny * half)
         .lineTo(s.x0 + nx * half, s.y0 + ny * half)
         .moveTo(s.x1 - nx * half, s.y1 - ny * half)
         .lineTo(s.x1 + nx * half, s.y1 + ny * half)
-        .stroke({ width: cell * 0.08, color: wall.rgb, alpha: 0.9 });
+        .stroke({ width: w(0.08), color: wall.rgb, alpha: heavy ? 1 : 0.9 });
     };
     const bar = (): void => {
       const inset = cell * 0.08;
       g.moveTo(s.x0 + ux * inset, s.y0 + uy * inset)
         .lineTo(s.x1 - ux * inset, s.y1 - uy * inset)
-        .stroke({ width: cell * 0.06, color: threshold.rgb, alpha: threshold.alpha });
+        .stroke({ width: w(0.06), color: threshold.rgb, alpha: threshold.alpha });
     };
     const lock = (): void => {
       const mx = (s.x0 + s.x1) / 2;
       const my = (s.y0 + s.y1) / 2;
-      g.circle(mx, my, cell * 0.08).fill({ color: threshold.rgb, alpha: threshold.alpha });
-      g.circle(mx, my, cell * 0.03).fill({ color: style.ground });
+      g.circle(mx, my, w(0.08)).fill({ color: threshold.rgb, alpha: threshold.alpha });
+      g.circle(mx, my, w(0.03)).fill({ color: style.ground });
     };
     if (data.state === "secret") {
       // A wall to everyone who may not see it; to the DM, a wall with a hint.
-      line(cell * 0.06, wall);
+      line(w(0.06), wall, wallAlpha);
       dashed(g, s, cell * 0.12, cell * 0.12);
-      g.stroke({ width: cell * 0.03, color: threshold.rgb, alpha: threshold.alpha });
+      g.stroke({ width: w(0.03), color: threshold.rgb, alpha: threshold.alpha });
       return;
     }
     switch (data.threshold) {
@@ -265,7 +352,7 @@ export class TopologyLayer {
         return;
       case "window":
       case "frosted":
-        line(cell * (data.size === "large" ? 0.1 : 0.07), wall);
+        line(w(data.size === "large" ? 0.1 : 0.07), wall, wallAlpha);
         if (data.state === "smashed") {
           // The glass in two pieces at the ends; the way through is clear.
           const shard = cell * 0.3;
@@ -273,14 +360,14 @@ export class TopologyLayer {
             .lineTo(s.x0 + ux * shard, s.y0 + uy * shard)
             .moveTo(s.x1 - ux * shard, s.y1 - uy * shard)
             .lineTo(s.x1, s.y1)
-            .stroke({ width: cell * 0.04, color: sight.rgb, alpha: sight.alpha });
+            .stroke({ width: w(0.04), color: sight.rgb, alpha: sight.alpha });
           return;
         }
         if (data.threshold === "frosted") {
           dashed(g, s, cell * 0.1, cell * 0.1);
-          g.stroke({ width: cell * 0.04, color: sight.rgb, alpha: sight.alpha });
+          g.stroke({ width: w(0.04), color: sight.rgb, alpha: sight.alpha });
         } else {
-          line(cell * 0.04, sight);
+          line(w(0.04), sight);
         }
         if (data.state === "locked") {
           lock();
@@ -296,7 +383,7 @@ export class TopologyLayer {
           const leaf = cell * 0.8;
           g.moveTo(s.x0, s.y0)
             .lineTo(s.x0 + lx * leaf, s.y0 + ly * leaf)
-            .stroke({ width: cell * 0.06, color: threshold.rgb, alpha: threshold.alpha });
+            .stroke({ width: w(0.06), color: threshold.rgb, alpha: threshold.alpha });
         } else {
           bar();
           if (data.state === "locked") {

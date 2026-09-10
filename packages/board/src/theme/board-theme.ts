@@ -25,6 +25,8 @@ export interface BoardTheme {
   readonly sight: PackedColor;
   readonly difficult: PackedColor;
   readonly air: PackedColor;
+  /** Ground drawn as texture: a painted floor where the picture has none. */
+  readonly floor: PackedColor;
   /** How height shows: the low-side shadow, the contour hairline, the washes, the tag text. */
   readonly heightShade: PackedColor;
   readonly heightLine: PackedColor;
@@ -46,6 +48,7 @@ const FALLBACK: BoardTheme = {
   sight: { rgb: 0x5fa8bd, alpha: 1 },
   difficult: { rgb: 0xf1e6d2, alpha: 0.12 },
   air: { rgb: 0x5fa8bd, alpha: 0.28 },
+  floor: { rgb: 0xf1e6d2, alpha: 0.08 },
   heightShade: { rgb: 0x000000, alpha: 1 },
   heightLine: { rgb: 0xf1e6d2, alpha: 0.6 },
   heightUp: { rgb: 0xe4c57a, alpha: 1 },
@@ -70,6 +73,7 @@ export function readBoardTheme(element: Element): BoardTheme {
     sight: token("sight", FALLBACK.sight),
     difficult: token("difficult", FALLBACK.difficult),
     air: token("air", FALLBACK.air),
+    floor: token("floor", FALLBACK.floor),
     heightShade: token("height-shade", FALLBACK.heightShade),
     heightLine: token("height-line", FALLBACK.heightLine),
     heightUp: token("height-up", FALLBACK.heightUp),

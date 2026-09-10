@@ -20,10 +20,12 @@ import {
   GROUND_STATES,
   HEIGHT_MODES,
   INKS,
+  LOOKS,
   OPENING_SIZES,
   THRESHOLD_KINDS,
   THRESHOLD_STATES,
   describeStroke,
+  hasLook,
   shapesOf,
   signed,
   withInk,
@@ -44,17 +46,14 @@ const HINTS: Record<Ink, string> = {
   free: "Ink with no rules meaning",
 };
 
-// What a stroke of each ink is to the scene: rules the board reads, or a
-// mark on the picture and nothing more. Whether a rules stroke also
-// shows as texture is a choice still to be made per stroke.
-const NATURE: Record<Ink, string> = {
-  ground: "Data",
-  threshold: "Data",
-  wall: "Data",
+// What a stroke of an ink with no choice is to the scene: height is data
+// the scene's display shows; free ink is a mark on the picture and
+// nothing more. The other inks choose per stroke, on the palette.
+const NATURE: Partial<Record<Ink, string>> = {
   height: "Data",
-  "level-change": "Data",
   free: "Texture",
 };
+const LOOK_LABELS = { data: "Data", both: "Data + texture" } as const;
 
 // A brush's width on the map, in its pixels: a hairline up to a broad sweep.
 const SIZE_PX = { min: 1, max: 300, step: 1 } as const;
@@ -533,10 +532,29 @@ export class TwToolRail extends LitElement {
           <span class="name">${spec?.name ?? tool.ink}</span>
           <span class="hint">${HINTS[tool.ink]}</span>
         </div>
-        <span class="tag">${NATURE[tool.ink]}</span>
+        ${hasLook(tool.ink) ? nothing : html`<span class="tag">${NATURE[tool.ink]}</span>`}
       </header>
-      ${this.#shapes()} ${tool.shape === "brush" ? this.#size() : nothing} ${this.#options()}
+      ${this.#shapes()} ${this.#look()} ${tool.shape === "brush" ? this.#size() : nothing}
+      ${this.#options()}
     </div>`;
+  }
+
+  // Whether the stroke also paints what it means onto the picture: for a
+  // map whose art has no walls of its own.
+  #look() {
+    if (!hasLook(this.tool.ink)) {
+      return nothing;
+    }
+    return html`<section>
+      <span class="cap">Shows as</span>
+      <tw-strip
+        label="Shows as"
+        .values=${LOOKS}
+        .labels=${LOOK_LABELS}
+        .pressed=${[this.tool.look]}
+        @tw-cell=${this.#choose(LOOKS, (look) => this.#update({ look }))}
+      ></tw-strip>
+    </section>`;
   }
 
   // A threshold has one shape, the click, so its tile shows what the click

@@ -75,6 +75,7 @@ colors:
   board-height-up: "#E4C57A"
   board-height-down: "#5FA8BD"
   board-height-tag: "#F1E6D2"
+  board-floor: "#F1E6D214"
 
 typography:
   headline-md:
@@ -282,7 +283,11 @@ side of a rise, black laid on soft; `board-height-line` the hairline
 along a contour, paper at a low alpha; `board-height-up` and
 `board-height-down` the warm and cool washes of ground above and
 below zero, their alpha set by the height; `board-height-tag` the
-small edge tag's text over a ground-coloured pill.
+small edge tag's text over a ground-coloured pill. A stroke drawn as
+texture too is the same paper made firm: `board-floor` is the painted
+floor of ground drawn where the picture has none, and the wall,
+threshold and difficult tokens are drawn solid and hatched rather
+than hinted.
 
 Colour never carries meaning alone. Every status colour is paired with
 an icon, a label, a shape, or a position.

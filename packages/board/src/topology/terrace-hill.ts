@@ -109,6 +109,7 @@ export function terraceHillStrokes(): Stroke[] {
       ink: "ground",
       shape: { kind: "rect", rect: { col0: 0, row0: 0, col1: 19, row1: 14 } },
       state: "ground",
+      look: "both",
       visibility: "party",
     },
   ];
@@ -123,6 +124,7 @@ export function terraceHillStrokes(): Stroke[] {
   for (const angle of STAIRS) {
     strokes.push({
       ink: "level-change",
+      look: "both",
       shape: { kind: "brush", points: stairDabs(angle), radius: 0.6 },
       visibility: "party",
     });

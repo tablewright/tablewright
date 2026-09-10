@@ -414,6 +414,13 @@ export type KindSpec = {
 	data_visibility?: Visibility | null,
 };
 
+/**
+ *  What a rules stroke shows as: the data the board reads, alone, or the
+ *  data and its texture painted onto the picture, for a map whose art
+ *  does not draw its own walls.
+ */
+export type Look = "data" | "both";
+
 /**  The manifest at a module's root, `module.json`. */
 export type Manifest = {
 	id: string,
@@ -601,14 +608,19 @@ export type Stop = {
 	label?: string | null,
 };
 
-/**  One addition to the map: an ink, its shape, and who may see it. */
+/**
+ *  One addition to the map: an ink, its shape, and who may see it. A
+ *  rules stroke also says whether it paints its texture onto the picture
+ *  (design.md §5 "Data, and texture too"); height's texture is the scene's
+ *  display, and free ink is texture and nothing else.
+ */
 export type Stroke = 
 /**  What can be stood on, and by whom. */
-{ ink: "ground"; shape: Shape; state: GroundState; visibility: Visibility } | 
+{ ink: "ground"; shape: Shape; state: GroundState; look: Look; visibility: Visibility } | 
 /**  An opening in a cell edge: a door, an arch, a window. */
-{ ink: "threshold"; edge: Edge; kind: ThresholdKind; state: ThresholdState; size: OpeningSize; visibility: Visibility } | 
+{ ink: "threshold"; edge: Edge; kind: ThresholdKind; state: ThresholdState; size: OpeningSize; look: Look; visibility: Visibility } | 
 /**  Solid edges. Nothing derives walls; the DM draws every one. */
-{ ink: "wall"; shape: WallShape; visibility: Visibility } | 
+{ ink: "wall"; shape: WallShape; look: Look; visibility: Visibility } | 
 /**
  *  An amount written into the elevation field, in the system's
  *  distance unit.
@@ -618,7 +630,7 @@ export type Stroke =
  *  Where a change of height is walked rather than climbed: stairs,
  *  ramps, ladders, lifts.
  */
-{ ink: "level-change"; shape: Shape; visibility: Visibility } | 
+{ ink: "level-change"; shape: Shape; look: Look; visibility: Visibility } | 
 /**  Ink with no rules meaning. */
 { ink: "free"; shape: Shape; visibility: Visibility } | 
 /**

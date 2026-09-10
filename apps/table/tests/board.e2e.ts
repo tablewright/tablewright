@@ -339,3 +339,42 @@ test("the height display follows the scene's choice, and a token wears its heigh
   await tools.getByLabel("Height display strength").fill("40");
   await expect.poll(async () => (await heights())?.strength).toBe(40);
 });
+
+// A rules stroke may paint its texture too, chosen on the pen: a wall
+// drawn as data is a hint the board reads; drawn as data and texture it
+// is a solid wall on a map whose art has none. The record says which.
+test("a wall drawn as data and texture carries its look into the record", async ({ page }) => {
+  await page.goto("/?role=dm");
+  await page.waitForFunction(
+    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
+  );
+  const looks = () =>
+    page.evaluate(() =>
+      [...(window.__tablewright?.topology().edges.values() ?? [])].map((edge) => edge.look)
+    );
+  const tools = page.locator("tw-tool-rail");
+  await tools.getByRole("button", { name: "Wall" }).click();
+  await tools.getByRole("button", { name: "Line" }).click();
+  await tools.getByRole("button", { name: "Data + texture" }).click();
+  // Down the tavern's floor, well clear of the palette.
+  const a = await cellOnScreen(page, { col: 9, row: 4 });
+  const b = await cellOnScreen(page, { col: 10, row: 5 });
+  const c = await cellOnScreen(page, { col: 9, row: 8 });
+  const d = await cellOnScreen(page, { col: 10, row: 9 });
+  await page.mouse.move((a.x + b.x) / 2, (a.y + b.y) / 2);
+  await page.mouse.down();
+  await page.mouse.move((c.x + d.x) / 2, (c.y + d.y) / 2, { steps: 6 });
+  await page.mouse.up();
+  await expect.poll(async () => (await looks()).length).toBe(4);
+  expect((await looks()).every((look) => look === "both")).toBe(true);
+  await tools.getByRole("button", { name: "History" }).click();
+  await expect(tools.getByText("Wall along 4 edges, textured")).toBeVisible();
+  // Back to data for the next wall: the pen keeps the choice, and the record shows it.
+  await tools.getByRole("button", { name: "Data", exact: true }).click();
+  await page.mouse.move((a.x + b.x) / 2 + 100, (a.y + b.y) / 2);
+  await page.mouse.down();
+  await page.mouse.move((c.x + d.x) / 2 + 100, (c.y + d.y) / 2, { steps: 6 });
+  await page.mouse.up();
+  await expect.poll(async () => (await looks()).length).toBe(8);
+  expect((await looks()).filter((look) => look === "data").length).toBe(4);
+});

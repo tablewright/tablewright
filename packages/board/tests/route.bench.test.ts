@@ -11,6 +11,7 @@ const bounds = { colMin: 0, rowMin: 0, cols: 200, rows: 200 };
 const open: Stroke[] = [
   {
     ink: "ground",
+    look: "data",
     shape: { kind: "rect", rect: { col0: 0, row0: 0, col1: 199, row1: 199 } },
     state: "ground",
     visibility: "party",

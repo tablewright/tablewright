@@ -319,8 +319,8 @@ fn initials(name: &str) -> String {
 mod tests {
     use super::*;
     use crate::stroke::{
-        CellRect, Edge, GroundState, HeightMode, OpeningSize, Point, Shape, Side, ThresholdKind,
-        WallShape,
+        CellRect, Edge, GroundState, HeightMode, Look, OpeningSize, Point, Shape, Side,
+        ThresholdKind, WallShape,
     };
 
     fn goblin() -> EntrySummary {
@@ -428,6 +428,7 @@ mod tests {
             kind: ThresholdKind::Door,
             state,
             size: OpeningSize::Small,
+            look: Look::Data,
             visibility: Visibility::Party,
         }
     }
@@ -438,6 +439,7 @@ mod tests {
             Stroke::Ground {
                 shape: rect(1, 1, 12, 13),
                 state: GroundState::Ground,
+                look: Look::Data,
                 visibility: Visibility::Party,
             },
             Stroke::Ground {
@@ -449,6 +451,7 @@ mod tests {
                     ],
                 },
                 state: GroundState::Difficult,
+                look: Look::Data,
                 visibility: Visibility::Party,
             },
             Stroke::Wall {
@@ -460,6 +463,7 @@ mod tests {
                         row1: 2,
                     },
                 },
+                look: Look::Data,
                 visibility: Visibility::Party,
             },
             Stroke::Wall {
@@ -477,6 +481,7 @@ mod tests {
                         },
                     ],
                 },
+                look: Look::Data,
                 visibility: Visibility::Party,
             },
             door(10, 7, ThresholdState::Open),
@@ -493,6 +498,7 @@ mod tests {
                     points: vec![Point { x: 7.5, y: 9.5 }],
                     radius: 0.6,
                 },
+                look: Look::Data,
                 visibility: Visibility::Party,
             },
             Stroke::Free {

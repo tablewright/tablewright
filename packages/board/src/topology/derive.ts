@@ -13,6 +13,7 @@
 import type {
   Edge,
   GroundState,
+  Look,
   OpeningSize,
   PlayState,
   Shape,
@@ -45,8 +46,12 @@ const GROUND_STATES: readonly GroundState[] = ["void", "ground", "difficult", "a
 // world < party < dm, the same order the core keeps.
 const TIER: Record<Visibility, number> = { world: 0, party: 1, dm: 2 };
 
-/** What sits on an edge: solid wall, or an opening with its kind and state. */
-export type EdgeData = { readonly edge: Edge } & (
+/** A level change's mark on a sample: none, painted as data, or painted as texture too. */
+export const LEVEL_CHANGE_DATA = 1;
+export const LEVEL_CHANGE_TEXTURED = 2;
+
+/** What sits on an edge: solid wall, or an opening with its kind and state, and how it shows. */
+export type EdgeData = { readonly edge: Edge; readonly look: Look } & (
   | { readonly kind: "wall" }
   | {
       readonly kind: "threshold";
@@ -67,10 +72,12 @@ export interface Topology {
   readonly samples: SampleGrid;
   /** A ground code per cell, row-major over `bounds`; read it with `groundAt`. */
   readonly ground: Uint8Array;
+  /** 1 where the ground was drawn as texture too, per cell. */
+  readonly texture: Uint8Array;
   readonly edges: ReadonlyMap<string, EdgeData>;
   /** The elevation field, row-major over the samples, in the system's distance unit. */
   readonly field: Float32Array;
-  /** 1 where a level change was painted, per sample. */
+  /** Per sample: 0, or `LEVEL_CHANGE_DATA` or `LEVEL_CHANGE_TEXTURED` where one was painted. */
   readonly levelChange: Uint8Array;
   /** Free ink, kept as drawn; it means nothing to the rules. */
   readonly free: readonly FreeStroke[];
@@ -91,6 +98,7 @@ export function derive(
     bounds,
     samples,
     ground: new Uint8Array(bounds.cols * bounds.rows),
+    texture: new Uint8Array(bounds.cols * bounds.rows),
     edges: new Map<string, EdgeData>(),
     field,
     levelChange: new Uint8Array(field.length),
@@ -158,13 +166,20 @@ export function heightAt(topology: Topology, cell: Cell): number {
 /** Whether a level change was painted over the cell's centre. */
 export function isLevelChangeAt(topology: Topology, cell: Cell): boolean {
   const index = centreSample(topology, cell);
-  return index !== undefined && topology.levelChange[index] === 1;
+  return index !== undefined && (topology.levelChange[index] ?? 0) !== 0;
+}
+
+/** Whether the cell's ground was drawn as texture too. */
+export function isTexturedAt(topology: Topology, cell: Cell): boolean {
+  const index = cellIndex(topology.bounds, cell);
+  return index !== undefined && topology.texture[index] === 1;
 }
 
 interface Mutable {
   readonly bounds: CellExtent;
   readonly samples: SampleGrid;
   readonly ground: Uint8Array;
+  readonly texture: Uint8Array;
   readonly edges: Map<string, EdgeData>;
   readonly field: Float32Array;
   readonly levelChange: Uint8Array;
@@ -175,10 +190,12 @@ function apply(stroke: Stroke, topology: Mutable): void {
   switch (stroke.ink) {
     case "ground": {
       const code = GROUND_CODES[stroke.state];
+      const textured = stroke.look === "both" ? 1 : 0;
       const paint = (col: number, row: number): void => {
         const index = cellIndex(topology.bounds, { col, row });
         if (index !== undefined) {
           topology.ground[index] = code;
+          topology.texture[index] = textured;
         }
       };
       // A ground brush converts every cell it touches, however thin; the
@@ -200,7 +217,7 @@ function apply(stroke: Stroke, topology: Mutable): void {
         stroke.shape.kind === "line" ? stroke.shape.edges : rectEdges(stroke.shape.rect);
       for (const edge of edges) {
         if (touchesBounds(edge, topology.bounds)) {
-          topology.edges.set(edgeKey(edge), { edge, kind: "wall" });
+          topology.edges.set(edgeKey(edge), { edge, look: stroke.look, kind: "wall" });
         }
       }
       break;
@@ -209,6 +226,7 @@ function apply(stroke: Stroke, topology: Mutable): void {
       if (touchesBounds(stroke.edge, topology.bounds)) {
         topology.edges.set(edgeKey(stroke.edge), {
           edge: stroke.edge,
+          look: stroke.look,
           kind: "threshold",
           threshold: stroke.kind,
           state: stroke.state,
@@ -223,13 +241,18 @@ function apply(stroke: Stroke, topology: Mutable): void {
       });
       break;
     case "level-change":
-      paintLevelChange(stroke.shape, topology);
+      paintLevelChange(
+        stroke.shape,
+        topology,
+        stroke.look === "both" ? LEVEL_CHANGE_TEXTURED : LEVEL_CHANGE_DATA
+      );
       break;
     case "free":
       topology.free.push(stroke);
       break;
     case "clear":
       topology.ground.fill(0);
+      topology.texture.fill(0);
       topology.edges.clear();
       topology.field.fill(0);
       topology.levelChange.fill(0);
@@ -241,7 +264,7 @@ function apply(stroke: Stroke, topology: Mutable): void {
 // A level change smooths the field under it into a slope between the
 // heights on either side, so crossing it is a step rather than a climb,
 // and marks the samples for the rules and the display.
-function paintLevelChange(shape: Shape, topology: Mutable): void {
+function paintLevelChange(shape: Shape, topology: Mutable, mark: number): void {
   const { samples, field } = topology;
   const width = sampleWidth(samples);
   const height = sampleHeight(samples);
@@ -261,7 +284,7 @@ function paintLevelChange(shape: Shape, topology: Mutable): void {
       }
     }
     field[index] = count === 0 ? 0 : sum / count;
-    topology.levelChange[index] = 1;
+    topology.levelChange[index] = mark;
   });
 }
 

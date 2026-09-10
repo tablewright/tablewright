@@ -10,7 +10,10 @@ use specta::Type;
 
 use crate::compendium::Visibility;
 
-/// One addition to the map: an ink, its shape, and who may see it.
+/// One addition to the map: an ink, its shape, and who may see it. A
+/// rules stroke also says whether it paints its texture onto the picture
+/// (design.md §5 "Data, and texture too"); height's texture is the scene's
+/// display, and free ink is texture and nothing else.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 #[serde(tag = "ink", rename_all = "kebab-case")]
 pub enum Stroke {
@@ -18,6 +21,7 @@ pub enum Stroke {
     Ground {
         shape: Shape,
         state: GroundState,
+        look: Look,
         visibility: Visibility,
     },
     /// An opening in a cell edge: a door, an arch, a window.
@@ -26,11 +30,13 @@ pub enum Stroke {
         kind: ThresholdKind,
         state: ThresholdState,
         size: OpeningSize,
+        look: Look,
         visibility: Visibility,
     },
     /// Solid edges. Nothing derives walls; the DM draws every one.
     Wall {
         shape: WallShape,
+        look: Look,
         visibility: Visibility,
     },
     /// An amount written into the elevation field, in the system's
@@ -44,6 +50,7 @@ pub enum Stroke {
     /// ramps, ladders, lifts.
     LevelChange {
         shape: Shape,
+        look: Look,
         visibility: Visibility,
     },
     /// Ink with no rules meaning.
@@ -69,6 +76,16 @@ impl Stroke {
             | Self::Clear { visibility } => *visibility,
         }
     }
+}
+
+/// What a rules stroke shows as: the data the board reads, alone, or the
+/// data and its texture painted onto the picture, for a map whose art
+/// does not draw its own walls.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "lowercase")]
+pub enum Look {
+    Data,
+    Both,
 }
 
 /// An area drawn in cells: a block of cells, a free shape traced as a
@@ -243,6 +260,7 @@ mod tests {
             kind: ThresholdKind::Window,
             state: ThresholdState::Closed,
             size: OpeningSize::Large,
+            look: Look::Both,
             visibility: Visibility::Party,
         };
         let json = serde_json::to_value(&stroke).expect("json");
@@ -254,6 +272,7 @@ mod tests {
                 "kind": "window",
                 "state": "closed",
                 "size": "large",
+                "look": "both",
                 "visibility": "party",
             })
         );
@@ -262,6 +281,7 @@ mod tests {
                 points: vec![Point { x: 1.5, y: 2.5 }],
                 radius: 0.6,
             },
+            look: Look::Data,
             visibility: Visibility::Dm,
         };
         let json = serde_json::to_value(&level).expect("json");
@@ -292,10 +312,12 @@ mod tests {
             Stroke::Ground {
                 shape: shape.clone(),
                 state: GroundState::Ground,
+                look: Look::Data,
                 visibility: Visibility::World,
             },
             Stroke::Wall {
                 shape: WallShape::Line { edges: Vec::new() },
+                look: Look::Both,
                 visibility: Visibility::Party,
             },
             Stroke::Height {

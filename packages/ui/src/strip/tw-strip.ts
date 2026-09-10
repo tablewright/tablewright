@@ -13,6 +13,7 @@ export class TwStrip extends LitElement {
     label: { type: String },
     values: { attribute: false },
     pressed: { attribute: false },
+    labels: { attribute: false },
   };
 
   /** What the strip is, for assistive tech. */
@@ -21,12 +22,15 @@ export class TwStrip extends LitElement {
   declare values: readonly string[];
   /** The values on. */
   declare pressed: readonly string[];
+  /** What a value reads as, when not its own word. */
+  declare labels: Readonly<Record<string, string>>;
 
   constructor() {
     super();
     this.label = "";
     this.values = [];
     this.pressed = [];
+    this.labels = {};
   }
 
   static override styles = css`
@@ -80,7 +84,7 @@ export class TwStrip extends LitElement {
   override render() {
     return html`<div role="group" aria-label=${this.label} style="display: contents">
       ${this.values.map((value) => {
-        const label = titleCase(value);
+        const label = this.labels[value] ?? titleCase(value);
         return html`<button
           type="button"
           class="cell ${label.length > 8 ? "wide" : ""}"

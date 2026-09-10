@@ -198,7 +198,7 @@ fn io(path: &Path, source: std::io::Error) -> SceneError {
 mod tests {
     use super::*;
     use crate::compendium::Visibility;
-    use crate::stroke::{Edge, OpeningSize, Side, ThresholdKind, ThresholdState};
+    use crate::stroke::{Edge, Look, OpeningSize, Side, ThresholdKind, ThresholdState};
 
     fn library(tag: &str) -> PathBuf {
         let dir =
@@ -240,6 +240,7 @@ mod tests {
             kind: ThresholdKind::Door,
             state: ThresholdState::Secret,
             size: OpeningSize::Small,
+            look: Look::Data,
             visibility: Visibility::Party,
         };
         let created = scenes

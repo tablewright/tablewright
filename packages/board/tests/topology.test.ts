@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import type { Stroke } from "@tablewright/schema";
 import {
+  LEVEL_CHANGE_TEXTURED,
   SAMPLES_PER_CELL,
   derive,
   edgeAt,
@@ -9,6 +10,7 @@ import {
   groundAt,
   heightAt,
   isLevelChangeAt,
+  isTexturedAt,
   mansionStrokes,
   pointInPolygon,
   rectEdges,
@@ -26,6 +28,7 @@ const groundRect = (
   row1: number
 ): Stroke => ({
   ink: "ground",
+  look: "data",
   shape: { kind: "rect", rect: { col0, row0, col1, row1 } },
   state,
   visibility: "party",
@@ -58,6 +61,7 @@ describe("edges", () => {
       [
         {
           ink: "wall",
+          look: "data",
           shape: { kind: "rect", rect: { col0: 2, row0: 2, col1: 4, row1: 3 } },
           visibility: "party",
         },
@@ -84,11 +88,13 @@ describe("edges", () => {
       [
         {
           ink: "wall",
+          look: "data",
           shape: { kind: "rect", rect: { col0: 2, row0: 2, col1: 4, row1: 3 } },
           visibility: "party",
         },
         {
           ink: "threshold",
+          look: "data",
           edge: { col: 4, row: 2, side: "east" },
           kind: "door",
           state: "locked",
@@ -100,6 +106,7 @@ describe("edges", () => {
     );
     expect(edgeAt(topology, { col: 4, row: 2, side: "east" })).toEqual({
       edge: { col: 4, row: 2, side: "east" },
+      look: "data",
       kind: "threshold",
       threshold: "door",
       state: "locked",
@@ -125,6 +132,7 @@ describe("ground", () => {
   test("a free shape takes the cells whose centres it encloses", () => {
     const triangle: Stroke = {
       ink: "ground",
+      look: "data",
       shape: {
         kind: "free",
         points: [
@@ -153,6 +161,7 @@ describe("ground", () => {
   test("a ground dab converts every cell its disc touches", () => {
     const dab = (radius: number): Stroke => ({
       ink: "ground",
+      look: "data",
       shape: { kind: "brush", points: [{ x: 3.5, y: 3.5 }], radius },
       state: "ground",
       visibility: "party",
@@ -172,6 +181,7 @@ describe("ground", () => {
   test("a ground sweep converts every cell along its path, however thin", () => {
     const thin: Stroke = {
       ink: "ground",
+      look: "data",
       shape: {
         kind: "brush",
         points: [
@@ -206,6 +216,7 @@ describe("the field", () => {
   test("a level change slopes between the heights beside it and marks the cells", () => {
     const stairs: Stroke = {
       ink: "level-change",
+      look: "data",
       shape: {
         kind: "brush",
         points: [
@@ -235,6 +246,7 @@ describe("visibility", () => {
   test("strokes above the viewer's tier are left out", () => {
     const secret: Stroke = {
       ink: "threshold",
+      look: "data",
       edge: { col: 4, row: 2, side: "east" },
       kind: "door",
       state: "secret",
@@ -341,5 +353,62 @@ describe("play", () => {
     expect(secret?.kind === "threshold" ? secret.state : undefined).toBe("closed");
     const hidden = derive(visibleTo(strokes, "party"), bounds);
     expect(edgeAt(hidden, revealed.edge)?.kind).toBe("wall");
+  });
+});
+
+describe("data, and texture too", () => {
+  test("a stroke's look reaches the cells, edges and slope it painted", () => {
+    const topology = derive(
+      [
+        {
+          ink: "ground",
+          shape: { kind: "rect", rect: { col0: 1, row0: 1, col1: 4, row1: 4 } },
+          state: "ground",
+          look: "both",
+          visibility: "party",
+        },
+        {
+          ink: "ground",
+          shape: { kind: "rect", rect: { col0: 3, row0: 3, col1: 4, row1: 4 } },
+          state: "difficult",
+          look: "data",
+          visibility: "party",
+        },
+        {
+          ink: "wall",
+          shape: { kind: "line", edges: [{ col: 2, row: 1, side: "east" }] },
+          look: "both",
+          visibility: "party",
+        },
+        {
+          ink: "threshold",
+          edge: { col: 2, row: 2, side: "east" },
+          kind: "door",
+          state: "open",
+          size: "small",
+          look: "data",
+          visibility: "party",
+        },
+        {
+          ink: "level-change",
+          shape: { kind: "brush", points: [{ x: 1.5, y: 3.5 }], radius: 0.4 },
+          look: "both",
+          visibility: "party",
+        },
+      ],
+      bounds
+    );
+    expect(isTexturedAt(topology, { col: 1, row: 1 })).toBe(true);
+    // The later data stroke took the cell's look with its state.
+    expect(isTexturedAt(topology, { col: 4, row: 4 })).toBe(false);
+    expect(isTexturedAt(topology, { col: 7, row: 7 })).toBe(false);
+    expect(edgeAt(topology, { col: 2, row: 1, side: "east" })?.look).toBe("both");
+    expect(edgeAt(topology, { col: 2, row: 2, side: "east" })?.look).toBe("data");
+    expect(isLevelChangeAt(topology, { col: 1, row: 3 })).toBe(true);
+    const centre = 3 * SAMPLES_PER_CELL + SAMPLES_PER_CELL / 2;
+    const width = bounds.cols * SAMPLES_PER_CELL;
+    expect(topology.levelChange[centre * width + SAMPLES_PER_CELL + SAMPLES_PER_CELL / 2]).toBe(
+      LEVEL_CHANGE_TEXTURED
+    );
   });
 });

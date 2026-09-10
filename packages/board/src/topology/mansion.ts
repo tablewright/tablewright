@@ -29,11 +29,17 @@ const east = (col: number, row: number): Edge => ({ col, row, side: "east" });
 const south = (col: number, row: number): Edge => ({ col, row, side: "south" });
 
 function ground(state: GroundState, block: CellRect): Stroke {
-  return { ink: "ground", shape: { kind: "rect", rect: block }, state, visibility: "party" };
+  return {
+    ink: "ground",
+    shape: { kind: "rect", rect: block },
+    state,
+    look: "both",
+    visibility: "party",
+  };
 }
 
 function walls(block: CellRect): Stroke {
-  return { ink: "wall", shape: { kind: "rect", rect: block }, visibility: "party" };
+  return { ink: "wall", shape: { kind: "rect", rect: block }, look: "both", visibility: "party" };
 }
 
 // A secret door is the DM's, as the core would make it on adding.
@@ -49,6 +55,7 @@ function threshold(
     kind,
     state,
     size,
+    look: "both",
     visibility: state === "secret" ? "dm" : "party",
   };
 }
@@ -84,6 +91,7 @@ export function mansionStrokes(): Stroke[] {
     height(10, rect(1, 1, 8, 2)),
     {
       ink: "level-change",
+      look: "both",
       shape: {
         kind: "brush",
         points: [

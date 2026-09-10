@@ -77,6 +77,7 @@ describe("strokes from gestures", () => {
     moveGesture(gesture, { x: 9.8, y: 8.2 });
     expect(strokeOf(wall, gesture)).toEqual({
       ink: "wall",
+      look: "data",
       shape: {
         kind: "line",
         edges: [
@@ -122,6 +123,7 @@ describe("strokes from gestures", () => {
     }
     expect(strokeOf(door, gesture)).toEqual({
       ink: "threshold",
+      look: "data",
       edge: { col: 3, row: 6, side: "east" },
       kind: "door",
       state: "locked",

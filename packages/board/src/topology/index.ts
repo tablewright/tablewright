@@ -1,4 +1,6 @@
 export {
+  LEVEL_CHANGE_DATA,
+  LEVEL_CHANGE_TEXTURED,
   SAMPLES_PER_CELL,
   cellIndex,
   derive,
@@ -6,6 +8,7 @@ export {
   groundAt,
   heightAt,
   isLevelChangeAt,
+  isTexturedAt,
   visibleTo,
   type EdgeData,
   type FreeStroke,

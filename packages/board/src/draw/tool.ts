@@ -9,6 +9,7 @@
 
 import type {
   GroundState,
+  Look,
   OpeningSize,
   Shape,
   Stroke,
@@ -48,8 +49,15 @@ export const GROUND_STATES: readonly GroundState[] = ["ground", "difficult", "ai
 export const THRESHOLD_KINDS: readonly ThresholdKind[] = ["door", "arch", "window", "frosted"];
 export const THRESHOLD_STATES: readonly ThresholdState[] = ["open", "closed", "locked", "secret"];
 export const OPENING_SIZES: readonly OpeningSize[] = ["small", "large"];
+/** What a rules stroke shows as: the data alone, or the data and its texture on the picture. */
+export const LOOKS: readonly Look[] = ["data", "both"];
 /** How wide a brush may be, in cells: a dab within a cell up to a broad sweep. */
 export const RADIUS_RANGE = { min: 0.25, max: 3, step: 0.25 } as const;
+
+/** The inks whose strokes carry a look: rules inks other than height, whose look is the scene's display. */
+export function hasLook(ink: Ink): boolean {
+  return ink === "ground" || ink === "threshold" || ink === "wall" || ink === "level-change";
+}
 
 export interface ThresholdChoice {
   readonly kind: ThresholdKind;
@@ -67,6 +75,8 @@ export interface DrawTool {
   readonly height: number;
   /** The brush's radius, in cells. */
   readonly radius: number;
+  /** Whether the next rules stroke also paints its texture. */
+  readonly look: Look;
 }
 
 export const DEFAULT_TOOL: DrawTool = {
@@ -76,6 +86,7 @@ export const DEFAULT_TOOL: DrawTool = {
   threshold: { kind: "door", state: "closed", size: "small" },
   height: 5,
   radius: 0.6,
+  look: "data",
 };
 
 /** The shapes `ink` takes. */
@@ -94,24 +105,34 @@ export function withInk(tool: DrawTool, ink: Ink): DrawTool {
 export function describeStroke(stroke: Stroke): string {
   switch (stroke.ink) {
     case "ground":
-      return `Ground, ${stroke.state}, ${area(stroke.shape)}`;
+      return textured(`Ground, ${stroke.state}, ${area(stroke.shape)}`, stroke.look);
     case "threshold": {
       const sized = stroke.kind === "window" || stroke.kind === "frosted";
-      return `${capital(stroke.kind)}, ${stroke.state}${sized ? `, ${stroke.size}` : ""}`;
+      return textured(
+        `${capital(stroke.kind)}, ${stroke.state}${sized ? `, ${stroke.size}` : ""}`,
+        stroke.look
+      );
     }
     case "wall":
-      return stroke.shape.kind === "rect"
-        ? `Walls around ${size(stroke.shape.rect.col1 - stroke.shape.rect.col0 + 1, stroke.shape.rect.row1 - stroke.shape.rect.row0 + 1)}`
-        : `Wall along ${count(stroke.shape.edges.length, "edge")}`;
+      return textured(
+        stroke.shape.kind === "rect"
+          ? `Walls around ${size(stroke.shape.rect.col1 - stroke.shape.rect.col0 + 1, stroke.shape.rect.row1 - stroke.shape.rect.row0 + 1)}`
+          : `Wall along ${count(stroke.shape.edges.length, "edge")}`,
+        stroke.look
+      );
     case "height":
       return `Height ${signed(stroke.value)}, ${area(stroke.shape)}`;
     case "level-change":
-      return `Level change, ${area(stroke.shape)}`;
+      return textured(`Level change, ${area(stroke.shape)}`, stroke.look);
     case "free":
       return `Free ink, ${area(stroke.shape)}`;
     case "clear":
       return "Reset: everything before it cleared";
   }
+}
+
+function textured(description: string, look: Look): string {
+  return look === "both" ? `${description}, textured` : description;
 }
 
 /** A height with its sign, as the tool and the record show it. */

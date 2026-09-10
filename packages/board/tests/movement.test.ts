@@ -98,6 +98,7 @@ describe("one step", () => {
     const strip: Stroke[] = [
       {
         ink: "ground",
+        look: "data",
         shape: { kind: "rect", rect: { col0: 0, row0: 0, col1: 3, row1: 0 } },
         state: "ground",
         visibility: "party",
