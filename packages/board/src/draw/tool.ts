@@ -32,7 +32,7 @@ export const INKS: readonly InkSpec[] = [
   { ink: "wall", name: "Wall", shapes: ["line", "rect"] },
   { ink: "height", name: "Height", shapes: ["brush", "rect", "free"] },
   { ink: "level-change", name: "Level change", shapes: ["brush"] },
-  { ink: "free", name: "Free", shapes: ["brush", "free", "rect"] },
+  { ink: "free", name: "Free ink", shapes: ["brush", "free", "rect"] },
 ];
 
 export const DRAW_SHAPES: readonly { readonly shape: DrawShape; readonly name: string }[] = [

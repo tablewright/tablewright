@@ -2,7 +2,13 @@ import "@tablewright/ui/theme.css";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
-import { BoardStage, REFERENCE_SCENES, readBoardTheme, signed } from "@tablewright/board";
+import {
+  BoardStage,
+  REFERENCE_SCENES,
+  readBoardTheme,
+  signed,
+  type DrawTool,
+} from "@tablewright/board";
 import { commands } from "@tablewright/schema";
 import type {
   CommandError,
@@ -18,7 +24,7 @@ import { BoardHost, type CellReadout } from "./board-host.js";
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
-const buildTools = document.querySelector("tw-build-tools");
+const toolRail = document.querySelector("tw-tool-rail");
 const dmChrome = document.getElementById("dm-chrome");
 const roleLabel = document.getElementById("role");
 const searchButton = document.getElementById("search");
@@ -29,7 +35,7 @@ const scenesTab = document.querySelector("tw-scenes");
 if (
   host === null ||
   openButton === null ||
-  buildTools === null ||
+  toolRail === null ||
   dmChrome === null ||
   roleLabel === null ||
   searchButton === null ||
@@ -39,7 +45,7 @@ if (
   scenesTab === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #dm-chrome, #role, #search, <tw-scenes>, <tw-build-tools>, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #dm-chrome, #role, #search, <tw-scenes>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
   );
 }
 
@@ -306,7 +312,7 @@ try {
   const showScene = (scene: Scene): void => {
     board.setScene(scene);
     scenesTab.current = scene.id;
-    buildTools.strokes = scene.strokes;
+    toolRail.strokes = scene.strokes;
   };
   const refreshScenes = async (): Promise<void> => {
     scenesTab.scenes = await core.listScenes();
@@ -379,12 +385,14 @@ try {
     })();
   });
   openButton.addEventListener("click", () => void openMap(board));
-  // Build mode is the DM's: the tool draws over the board, the tokens go
-  // inert, and every finished stroke is a command to the core. The record
-  // shown is the scene's own.
-  buildTools.hidden = VIEWER !== "dm";
-  const applyTool = (): void => {
-    board.setBuildTool(buildTools.mode === "build" ? buildTools.tool : undefined);
+  // The rail is the DM's hand: an ink held is a pen held, the board draws
+  // with it and the tokens go inert; the pen down, the pointer moves
+  // tokens again. Every finished stroke is a command to the core, and the
+  // record shown is the scene's own.
+  toolRail.hidden = VIEWER !== "dm";
+  const applyTool = (event: Event): void => {
+    const { tool } = (event as CustomEvent<{ tool: DrawTool | undefined }>).detail;
+    board.setBuildTool(tool);
   };
   const undo = (): void => {
     void (async () => {
@@ -396,10 +404,9 @@ try {
       }
     })();
   };
-  buildTools.addEventListener("tw-mode", applyTool);
-  buildTools.addEventListener("tw-tool", applyTool);
-  buildTools.addEventListener("tw-undo", undo);
-  buildTools.addEventListener("tw-remove", (event) => {
+  toolRail.addEventListener("tw-tool", applyTool);
+  toolRail.addEventListener("tw-undo", undo);
+  toolRail.addEventListener("tw-remove", (event) => {
     const { index } = (event as CustomEvent<{ index: number }>).detail;
     void (async () => {
       try {
@@ -421,7 +428,7 @@ try {
     })();
   });
   board.onHover((readout) => {
-    buildTools.readout = readout === undefined ? "" : describeCell(readout);
+    toolRail.readout = readout === undefined ? "" : describeCell(readout);
   });
   // A player's page has no DM chrome and says whose view it is.
   dmChrome.hidden = VIEWER !== "dm";
@@ -527,7 +534,7 @@ try {
     if (
       event.key === "z" &&
       (event.ctrlKey || event.metaKey) &&
-      buildTools.mode === "build" &&
+      toolRail.held &&
       !(event.target instanceof HTMLElement && event.target.matches("input, textarea"))
     ) {
       event.preventDefault();

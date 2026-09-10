@@ -32,6 +32,8 @@
         position: fixed;
         top: var(--tw-space-md);
         left: var(--tw-space-md);
+        /* Above the tool rail, so the scene tab's list drops over the palette. */
+        z-index: 130;
         display: flex;
         gap: var(--tw-space-sm);
       }
@@ -124,8 +126,8 @@
     <div id="dm-chrome" class="chrome chrome-right">
       <button id="open-map" type="button">Open map</button>
     </div>
-    <!-- Play or Build, and Build's drawing tool: the DM's, shown once the viewer is known. -->
-    <tw-build-tools hidden></tw-build-tools>
+    <!-- The DM's tool rail: an ink held is a pen held; shown once the viewer is known. -->
+    <tw-tool-rail hidden></tw-tool-rail>
     <!-- Mounted once and hidden, so Ctrl+Space costs nothing but a class change. -->
     <tw-spotlight></tw-spotlight>
     <!-- Shared entries queue here, one card at a time; an entry opens as a page. -->

@@ -158,8 +158,8 @@ test("a reference drawing becomes a scene, and the tab switches scenes", async (
   await expect(tab.getByRole("button", { name: "Halloway House" })).toBeVisible();
   expect(await tokens()).toBe(0);
   expect(await northEast()).toBe(3);
-  await page.locator("tw-build-tools").getByRole("button", { name: "Build" }).click();
-  await page.locator("tw-build-tools").getByRole("button", { name: "Undo" }).click();
+  await page.locator("tw-tool-rail").getByRole("button", { name: "Wall" }).click();
+  await page.locator("tw-tool-rail").getByRole("button", { name: "Undo" }).click();
   await expect.poll(northEast).toBe(1);
   await tab.getByRole("button", { name: "Halloway House" }).click();
   await tab.getByRole("menuitem", { name: "The Rusty Flagon" }).click();
@@ -169,7 +169,7 @@ test("a reference drawing becomes a scene, and the tab switches scenes", async (
 
 // Build mode draws through the core: a wall down the corridor joins the
 // record, and Undo takes it back.
-test("in Build mode a wall drawn down the corridor joins the record, and Undo takes it back", async ({
+test("with the wall pen held, a wall drawn down the corridor joins the record, and Undo takes it back", async ({
   page,
 }) => {
   await page.goto("/?role=dm");
@@ -181,8 +181,7 @@ test("in Build mode a wall drawn down the corridor joins the record, and Undo ta
   await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
   await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
   await expect.poll(edges).toBe(118);
-  const tools = page.locator("tw-build-tools");
-  await tools.getByRole("button", { name: "Build" }).click();
+  const tools = page.locator("tw-tool-rail");
   await tools.getByRole("button", { name: "Wall" }).click();
   await tools.getByRole("button", { name: "Line" }).click();
   // Vertices sit between cell centres: a line down x = 10 from row 4 to row 8,
@@ -196,8 +195,8 @@ test("in Build mode a wall drawn down the corridor joins the record, and Undo ta
   await page.mouse.move((c.x + d.x) / 2, (c.y + d.y) / 2, { steps: 6 });
   await page.mouse.up();
   await expect.poll(edges).toBe(122);
-  await expect(tools.getByRole("button", { name: "Record 28" })).toBeVisible();
+  await expect(tools.getByRole("button", { name: "Show all 28" })).toBeVisible();
   await tools.getByRole("button", { name: "Undo" }).click();
   await expect.poll(edges).toBe(118);
-  await expect(tools.getByRole("button", { name: "Record 27" })).toBeVisible();
+  await expect(tools.getByRole("button", { name: "Show all 27" })).toBeVisible();
 });
