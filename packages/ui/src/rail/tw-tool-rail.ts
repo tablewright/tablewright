@@ -112,6 +112,10 @@ export class TwToolRail extends LitElement {
       display: flex;
       align-items: flex-start;
       gap: var(--tw-space-sm);
+      /* The box is as tall as the rail and as wide as the palette; only
+         the rail and the panels are solid, so the board draws in the
+         corner beneath the palette. */
+      pointer-events: none;
       font-family: var(--tw-typo-label-md-font-family);
       font-size: var(--tw-typo-label-md-font-size);
       font-weight: var(--tw-typo-label-md-font-weight);
@@ -126,6 +130,7 @@ export class TwToolRail extends LitElement {
       flex-direction: column;
       gap: var(--tw-space-xs);
       padding: var(--tw-space-xs);
+      pointer-events: auto;
       border: 1px solid var(--tw-outline);
       border-radius: var(--tw-comp-panel-rounded);
       background: var(--tw-comp-panel-background-color);
@@ -210,6 +215,7 @@ export class TwToolRail extends LitElement {
       gap: 10px;
       width: 236px;
       padding: 10px;
+      pointer-events: auto;
       border: 1px solid var(--tw-outline);
       border-radius: var(--tw-comp-panel-rounded);
       background: var(--tw-comp-panel-background-color);

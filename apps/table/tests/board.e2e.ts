@@ -378,3 +378,37 @@ test("a wall drawn as data and texture carries its look into the record", async 
   await expect.poll(async () => (await looks()).length).toBe(8);
   expect((await looks()).filter((look) => look === "data").length).toBe(4);
 });
+
+// The rail's box reaches as far down as its icons and as far right as its
+// palette; the corner beneath the palette is the board's, and a stroke
+// started there lands.
+test("a stroke started in the corner beneath the palette still lands", async ({ page }) => {
+  await page.goto("/?role=dm");
+  await page.waitForFunction(
+    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
+  );
+  const tools = page.locator("tw-tool-rail");
+  await tools.getByRole("button", { name: "Ground" }).click();
+  await tools.getByRole("button", { name: "Rect" }).click();
+  await tools.getByRole("button", { name: "Difficult" }).click();
+  // Below the palette's bottom edge and left of its right edge, beside the rail.
+  const palette = await tools.locator(".panel").first().boundingBox();
+  const rail = await tools.locator(".rail").boundingBox();
+  expect(palette).not.toBeNull();
+  expect(rail).not.toBeNull();
+  const from = { x: (palette?.x ?? 0) + 40, y: (palette?.y ?? 0) + (palette?.height ?? 0) + 24 };
+  expect(from.y).toBeLessThan((rail?.y ?? 0) + (rail?.height ?? 0));
+  const to = { x: from.x + 90, y: from.y + 90 };
+  await page.mouse.move(from.x, from.y);
+  await page.mouse.down();
+  await page.mouse.move(to.x, to.y, { steps: 6 });
+  await page.mouse.up();
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const topology = window.__tablewright?.topology();
+        return topology === undefined ? 0 : topology.ground.filter((code) => code === 2).length;
+      })
+    )
+    .toBeGreaterThan(0);
+});
