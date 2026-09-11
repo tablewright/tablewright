@@ -42,6 +42,17 @@ refinement. Where they disagree, this file governs.
 - Box-drawing section dividers (`// ── Section ──`) available for
   long files.
 
+## Prose
+
+- Every word added to the repo is plain English, in markdown as in
+  comments: common words, short declarative sentences, active voice.
+  A document reads like a person explaining, never like a generator.
+- The domain's names are the exception that proves it: compendium,
+  scene, stroke, threshold, visibility tier are the real names, and
+  they are used.
+- A design doc says why. A story says what someone does and sees. A
+  plan says when. None of them narrates the code.
+
 ## TypeScript (UI, board, app shells)
 
 - TypeScript strict, plus `noUncheckedIndexedAccess`,
@@ -96,12 +107,14 @@ refinement. Where they disagree, this file governs.
 
 ## Tests
 
-- Runner: `bun test` (TS), `cargo test` (Rust); TS tests in top-level
-  `tests/` per package, named `<feature>.test.ts`.
-- Test behavior, not implementation; unit-test pure logic hard (the
-  core is almost all pure logic), integration-test the rest.
+- [TESTING.md](TESTING.md) says how: logic tests for complex pure
+  logic, stories for everything a person does, budgets apart.
+- Runner: `bun test` (TS), `cargo test` (Rust). TS logic tests in
+  top-level `tests/` per package, named `<feature>.test.ts`; stories
+  in `apps/table/tests/<feature>.e2e.ts`, one per feature of
+  `docs/stories.md`.
 - DOM- or canvas-bound code is never DOM-emulated: extract the math
-  into a pure module, test that, verify real rendering in the app.
+  into a pure module, test that, and let a story show it rendering.
 - Names describe the scenario: `"cone template covers the origin
   cell's far edge"`.
 - No mocks unless hitting a real external service.

@@ -31,7 +31,9 @@ Research → design doc → plan → execute, step by step.
 
 See [STYLE.md](STYLE.md). Formatting is oxfmt's / rustfmt's job,
 linting is oxlint's / clippy's — style review is about what tools
-can't check.
+can't check. Tests follow [TESTING.md](TESTING.md): logic tests for
+complex pure logic, and stories from `docs/stories.md` for everything
+a person does.
 
 ## House rules
 
