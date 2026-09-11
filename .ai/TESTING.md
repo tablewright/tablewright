@@ -31,6 +31,23 @@ in [STYLE.md](STYLE.md).
   what they see, in the words the step will carry. The domain's names
   are used as they are.
 
+## The base
+
+- Every story starts from one known state, the base, and assumes
+  nothing else: here, the example campaign as the first run makes
+  it, the tavern with three tokens, the mansion and the hill as
+  scenes, and the fixture compendium. The base is the same on a
+  laptop and in CI.
+- A story sets up nothing of its own. What it needs beyond the base,
+  it does in its first steps, in the open, as a person would.
+- A reset is a page load. In the browser stand-in the base lives in
+  memory per page, so a load is a fresh base. With the real core
+  behind the page, a Playwright worker fixture starts one core over a
+  temporary home copied from the base, and a load resets the page;
+  a story that needs a clean core mid-way asks the fixture for one.
+- Steps in a story share the page and build on each other. A story
+  that would need two resets is two stories.
+
 ## From story to test
 
 - One spec per feature, `tests/<feature>.e2e.ts`. One `test()` per
