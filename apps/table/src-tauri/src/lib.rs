@@ -65,6 +65,9 @@ fn specta_builder() -> Builder<tauri::Wry> {
     // TypeScript alias per type is the honest export.
     Builder::<tauri::Wry>::new()
         .disable_serde_phases()
+        // The cast of the stand-in crosses to the page as a file the seed
+        // writes, not as a command, so its type is named here by hand.
+        .typ::<tablewright_core::Cast>()
         .commands(collect_commands![
             commands::search,
             commands::get_entry,

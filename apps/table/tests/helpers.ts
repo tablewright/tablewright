@@ -17,9 +17,14 @@ export async function openTable(page: Page, role: "dm" | "player" = "dm"): Promi
   );
 }
 
+/** The field typed into, by its name: the tray beside it holds inputs of its own. */
+export function searchField(page: Page) {
+  return page.getByRole("textbox", { name: "Search the compendium" });
+}
+
 /** Replace whatever the search box holds with `query`; the box must be open. */
 export async function retype(page: Page, query: string): Promise<void> {
-  await page.locator(`${box} input`).click();
+  await searchField(page).click();
   await page.keyboard.press("Control+a");
   await page.keyboard.type(query);
 }

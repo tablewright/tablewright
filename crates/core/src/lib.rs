@@ -5,6 +5,7 @@
 //! definitions, never hand-written. Design: docs/design.md §3, §4.
 
 pub mod campaign;
+pub mod cast;
 pub mod compendium;
 pub mod module;
 pub mod render;
@@ -17,6 +18,7 @@ pub mod stroke;
 pub mod system;
 
 pub use campaign::{Campaign, CampaignError, CampaignManifest, CampaignSummary};
+pub use cast::{Cast, CastEntry, CastError};
 pub use compendium::{
     Entry, EntryId, EntrySummary, FacetValue, JsonValue, Part, Section, Visibility,
 };
@@ -24,7 +26,9 @@ pub use module::{Manifest, Module, ModuleError, read_module};
 pub use render::render;
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};
 pub use scenes::{SceneSummary, Scenes, slug};
-pub use search::{Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood, Viewer};
+pub use search::{
+    Answer, Catalogue, Compare, DEFAULT_LIMIT, Filter, Hit, Understood, Viewer, identity_of,
+};
 pub use shelf::Shelf;
 pub use store::{Store, StoreError};
 pub use stroke::{

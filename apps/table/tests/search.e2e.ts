@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { box, card, entryPage, openTable, retype } from "./helpers.js";
+import { box, card, entryPage, openTable, retype, searchField } from "./helpers.js";
 
-// The search feature of docs/stories.md, against the fixture compendium.
+// The search feature of docs/stories.md, against the cast the seed wrote
+// from the real compendium (src/dev/fixture.json).
 
 test("A player searches the compendium", async ({ page }) => {
   await openTable(page, "player");
@@ -12,7 +13,7 @@ test("A player searches the compendium", async ({ page }) => {
     await expect(page.locator(box)).not.toHaveAttribute("open", "");
     await page.keyboard.press("Control+Space");
     await expect(page.locator(box)).toHaveAttribute("open", "");
-    await expect(page.locator(`${box} input`)).toBeFocused();
+    await expect(searchField(page)).toBeFocused();
     await expect(page.locator(`${box} .box`)).toHaveClass(/idle/);
     await page.keyboard.type("fire");
     await expect(page.locator(`${box} .box`)).not.toHaveClass(/idle/);
@@ -121,7 +122,7 @@ test("Opening a result", async ({ page }) => {
     await expect(page.locator(entryPage)).toHaveAttribute("open", "");
     await expect(heading).toHaveText("Fire Bolt");
     await expect(page.locator(box)).toHaveAttribute("open", "");
-    await expect(page.locator(`${box} input`)).toBeFocused();
+    await expect(searchField(page)).toBeFocused();
   });
 
   await test.step("The arrows choose a tile; a second Enter turns the page to it.", async () => {
@@ -133,13 +134,22 @@ test("Opening a result", async ({ page }) => {
   });
 
   await test.step("The page shows the body as the core rendered it: a table is a table, and bold is bold.", async () => {
-    await retype(page, "longsword");
+    await retype(page, "staff of fire");
     await page.keyboard.press("Enter");
-    await expect(heading).toHaveText("Longsword");
+    await expect(heading).toHaveText("Staff of Fire");
     const body = article.locator(".body");
-    await expect(body.locator("p").first()).toHaveText("A longsword.");
-    await expect(body.locator("table th")).toHaveText(["Cost", "Weight"]);
-    await expect(body.locator("table td")).toHaveText(["15 gp", "3 lb"]);
+    await expect(body.locator("p").first()).toHaveText(
+      "You have Resistance to Fire damage while you hold this staff."
+    );
+    await expect(body.locator("table th")).toHaveText(["Spell", "Charge Cost"]);
+    await expect(body.locator("table td")).toHaveText([
+      "Burning Hands",
+      "1",
+      "Fireball",
+      "3",
+      "Wall of Fire",
+      "4",
+    ]);
     await retype(page, "fire bolt");
     await page.keyboard.press("Enter");
     await expect(article.locator("strong")).toHaveText("Cantrip Upgrade.");
@@ -151,11 +161,10 @@ test("Opening a result", async ({ page }) => {
     await page.keyboard.press("Enter");
     await expect(heading).toHaveText("Goblin Warrior");
     const parts = article.locator(".parts");
-    await expect(parts.locator("h2")).toHaveText(["Traits", "Actions"]);
-    await expect(parts.nth(1).locator("h3")).toHaveText(["Scimitar", "Shortbow"]);
-    await expect(parts.nth(1).locator(".part").first().locator("em").first()).toHaveText(
-      "Melee Attack Roll:"
-    );
+    await expect(parts.locator("h2")).toHaveText(["Actions", "Bonus actions"]);
+    await expect(parts.nth(0).locator("h3")).toHaveText(["Scimitar", "Shortbow"]);
+    await expect(parts.nth(0).locator(".part").first()).toContainText("Melee Attack Roll: +4");
+    await expect(parts.nth(1).locator("h3")).toHaveText(["Nimble Escape"]);
   });
 
   await test.step("The page's rail turns the thing to its other rule version.", async () => {
@@ -170,7 +179,7 @@ test("Opening a result", async ({ page }) => {
     await rail.nth(0).click();
     await expect(rail.nth(0)).toHaveAttribute("aria-pressed", "true");
     await expect(article).toContainText("from your pointing finger");
-    await expect(page.locator(`${entryPage} footer code`)).toHaveText("fx14:spell:fireball");
+    await expect(page.locator(`${entryPage} footer code`)).toHaveText("5e-2014-srd:spell:fireball");
 
     await test.step("A thing one version lacks offers no turn there.", async () => {
       await retype(page, "feeblemind");
@@ -309,7 +318,7 @@ test("Filtering the search", async ({ page }) => {
     await expect(page.locator(`${box} .mask u`)).toHaveCount(2);
     await page.getByRole("button", { name: "Filters" }).click();
     await expect(tray).not.toHaveAttribute("compact", "");
-    await expect(level().locator("button")).toHaveCount(6);
+    await expect(level().locator("button")).toHaveCount(10);
     await level().getByRole("button", { name: "4", exact: true }).click();
     await expect(tiles).toHaveCount(3);
     await expect(page.locator(`${box} .mask .masked`)).toHaveText("level<=3");
@@ -342,7 +351,7 @@ test("Filtering the search", async ({ page }) => {
     await expect(tiles).toHaveCount(1);
     // Focus is on the rail: the first Escape returns to the input, the second closes the box.
     await page.keyboard.press("Escape");
-    await expect(page.locator(`${box} input`)).toBeFocused();
+    await expect(searchField(page)).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(page.locator(box)).not.toHaveAttribute("open", "");
     await page.keyboard.press("Control+Space");

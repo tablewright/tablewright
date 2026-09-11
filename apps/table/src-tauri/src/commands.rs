@@ -23,10 +23,9 @@ use tauri::State;
 use crate::state::{AppState, Session};
 
 // What a new campaign plays until the intro asks: the bundled system and
-// its two rule versions from the library.
+// its rule version. Its modules are every one the library holds.
 const SYSTEM: &str = "5e";
 const VERSION: &str = "2024";
-const MODULES: [&str; 2] = ["5e-2024-srd", "5e-2014-srd"];
 
 /// A ranked search result with the time the core spent on it.
 #[derive(Debug, Clone, Serialize, Type)]
@@ -218,7 +217,8 @@ pub fn open_campaign(
 }
 
 /// Make a campaign named `name` under the home, or under `location` when
-/// the DM chose a folder of their own, and bring it to the table.
+/// the DM chose a folder of their own, listing every module of the
+/// library, and bring it to the table.
 #[tauri::command]
 #[specta::specta]
 pub fn create_campaign(
@@ -228,13 +228,14 @@ pub fn create_campaign(
 ) -> Result<CampaignSummary, CommandError> {
     let root = location.map_or_else(|| state.campaigns_dir(), PathBuf::from);
     let dir = Campaign::place(&root, &name);
+    let modules = state.library_modules()?;
     Campaign::create(
         &dir,
         CampaignManifest {
             name,
             system: SYSTEM.into(),
             version: VERSION.into(),
-            modules: MODULES.iter().map(|module| (*module).to_owned()).collect(),
+            modules,
         },
     )?;
     Ok(state.open_campaign(&dir)?)

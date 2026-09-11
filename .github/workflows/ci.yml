@@ -210,11 +210,13 @@ jobs:
       - run: bun run seed
       - run: bun run check:rust
       # Rust is the source of truth for the boundary types, and the
-      # generated TypeScript is committed. Prove the two still agree.
+      # generated TypeScript is committed. Prove the two still agree. The
+      # cast of the stand-in is the same kind of file: the seed above wrote
+      # it afresh, and the committed copy must match.
       - if: runner.os == 'Linux'
         run: |
           bun run schema
-          git diff --exit-code packages/schema/src/bindings.ts
+          git diff --exit-code packages/schema/src/bindings.ts apps/table/src/dev/fixture.json
 
   e2e:
     name: E2E ${{ matrix.project }} ${{ matrix.shard }}/2

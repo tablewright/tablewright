@@ -459,10 +459,9 @@ impl Catalogue {
     }
 }
 
-// `<kind>:<slug>`: the thing an entry is a version of. Ids are
-// `<module>:<kind>:<slug>`, so the slug is the last segment.
-// A thing across its versions: its kind and the last segment of its id.
-pub(crate) fn identity_of(summary: &EntrySummary) -> String {
+/// `<kind>:<slug>`: the thing an entry is a version of. Ids are
+/// `<module>:<kind>:<slug>`, so the slug is the last segment.
+pub fn identity_of(summary: &EntrySummary) -> String {
     let id = summary.id.as_str();
     let slug = id.rsplit(':').next().unwrap_or(id);
     format!("{}:{slug}", summary.kind)

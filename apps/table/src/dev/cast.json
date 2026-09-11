@@ -1,0 +1,13 @@
+[
+  "spell:fire-bolt",
+  "spell:fireball",
+  "spell:wall-of-fire",
+  "monster:fire-elemental",
+  "monster:goblin-warrior",
+  "monster:giant-rat",
+  "item:longsword",
+  "magic-item:staff-of-fire",
+  "magic-item:flame-tongue-longsword",
+  "spell:feeblemind",
+  "condition:blinded"
+]

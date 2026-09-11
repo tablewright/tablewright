@@ -73,7 +73,8 @@ export const commands = {
 	openCampaign: (path: string) => typedError<CampaignSummary, CommandError>(__TAURI_INVOKE("open_campaign", { path })),
 	/**
 	 *  Make a campaign named `name` under the home, or under `location` when
-	 *  the DM chose a folder of their own, and bring it to the table.
+	 *  the DM chose a folder of their own, listing every module of the
+	 *  library, and bring it to the table.
 	 */
 	createCampaign: (name: string, location: string | null) => typedError<CampaignSummary, CommandError>(__TAURI_INVOKE("create_campaign", { name, location })),
 	/**  Back to the intro screen. */
@@ -137,6 +138,32 @@ export type CampaignSummary = {
 	version: string,
 	/**  The folder, as the app opens it again. */
 	path: string,
+};
+
+/**
+ *  What the stand-in reads: the cast, with what the whole compendium says
+ *  about its system and its facets.
+ */
+export type Cast = {
+	/**  The system the compendium was seeded for. */
+	system: SystemManifest | null,
+	/**  The text values each facet holds across the whole compendium. */
+	facetValues: { [key in string]: string[] },
+	/**  Every version of every thing asked for, in the order asked. */
+	entries: CastEntry[],
+};
+
+/**  One version of one thing in the cast. */
+export type CastEntry = {
+	/**  The fields search reads. */
+	summary: EntrySummary,
+	/**  The entry as the DM gets it. */
+	dm: Entry,
+	/**
+	 *  As a player at the party tier gets it; nothing when the thing is
+	 *  the DM's alone.
+	 */
+	party: Entry | null,
 };
 
 /**
@@ -272,6 +299,27 @@ export type Entry = {
 
 /**  Stable identifier of an entry; links never break because ids never change. */
 export type EntryId = string;
+
+/**
+ *  The envelope fields that identify and classify an entry, without the
+ *  body or the system data. Search ranks over these.
+ */
+export type EntrySummary = {
+	id: EntryId,
+	type: string,
+	name: string,
+	source: string,
+	/**  The rule version, as on the entry. */
+	version?: string,
+	tags: string[],
+	visibility: Visibility,
+	facets?: { [key in string]: FacetValue },
+	/**
+	 *  Named parts of `data` read by the system manifest at seed time, so
+	 *  search can find an entry by a trait, an action, or a feature.
+	 */
+	parts?: Part[],
+};
 
 /**  How one facet is read from an entry's `data`, and the words that name it. */
 export type FacetSpec = {

@@ -1,172 +1,37 @@
 // A stand-in for the core when the page runs without Tauri, as it does
-// under Vite and Playwright: a few entries with bodies, the simplest
-// ranking (name matches first, then tags, then type), and a lookup by id.
-// Enough to drive the panel, the share cards, and the entry page.
+// under Vite and Playwright. The cast is what the core answered for a
+// short list of things, written by the seed (design.md §3 "The stand-in's
+// cast"). Only the search is this file's own: the simplest ranking (name
+// matches first, then tags, then type), the operator filters, and one hit
+// per thing, as the core folds.
 
-import type { Filter, Understood, Visibility } from "@tablewright/schema";
+import type {
+  Cast,
+  CastEntry,
+  EntrySummary,
+  Filter,
+  SystemManifest,
+  Understood,
+  Visibility,
+} from "@tablewright/schema";
 import type { EntryDocument, SearchAnswer, SpotlightHit } from "@tablewright/ui";
-import { fixtureSystem } from "./system-fixture.js";
+import { documentOf } from "../entry-document.js";
+import raw from "./fixture.json";
 
-/** A fixture entry carries the facets the seeder would have read. */
-interface FixtureEntry extends Omit<EntryDocument, "versions"> {
-  facets: Record<string, string | number | boolean>;
+// The file is what the seed wrote from the type the bindings carry; the
+// cast is read as that type rather than as whatever the JSON looks like.
+const fixture = raw as unknown as Cast;
+const system = fixture.system;
+if (system === null) {
+  throw new Error("The cast carries no system manifest; run `bun run seed`.");
 }
 
-const ENTRIES: FixtureEntry[] = [
-  {
-    id: "fx:spell:fire-bolt",
-    type: "spell",
-    name: "Fire Bolt",
-    source: "fixture",
-    version: "2024",
-    tags: ["evocation", "cantrip"],
-    facets: { level: 0, school: "evocation", ritual: false, concentration: false },
-    body: "You hurl a mote of fire at a creature or an object within range.\n\n**Cantrip Upgrade.** The damage increases by 1d10 at levels 5, 11, and 17.",
-    html: "<p>You hurl a mote of fire at a creature or an object within range.</p>\n<p><strong>Cantrip Upgrade.</strong> The damage increases by 1d10 at levels 5, 11, and 17.</p>\n",
-    sections: [],
-  },
-  {
-    id: "fx:spell:fireball",
-    type: "spell",
-    name: "Fireball",
-    source: "fixture",
-    version: "2024",
-    tags: ["evocation", "level-3"],
-    facets: { level: 3, school: "evocation", ritual: false, concentration: false },
-    body: "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion.",
-    html: "<p>A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion.</p>\n",
-    sections: [],
-  },
-  {
-    // The same thing in the 2014 rules: the footer's rail turns to it.
-    id: "fx14:spell:fireball",
-    type: "spell",
-    name: "Fireball",
-    source: "fixture-2014",
-    version: "2014",
-    tags: ["evocation", "level-3"],
-    facets: { level: 3, school: "evocation", ritual: false, concentration: false },
-    body: "A bright streak flashes from your pointing finger to a point you choose within range and then blossoms with a low roar into an explosion of flame.",
-    html: "<p>A bright streak flashes from your pointing finger to a point you choose within range and then blossoms with a low roar into an explosion of flame.</p>\n",
-    sections: [],
-  },
-  {
-    id: "fx:spell:wall-of-fire",
-    type: "spell",
-    name: "Wall of Fire",
-    source: "fixture",
-    version: "2024",
-    tags: ["evocation", "level-4"],
-    facets: { level: 4, school: "evocation", ritual: false, concentration: true },
-    body: "You create a wall of fire on a solid surface within range.",
-    html: "<p>You create a wall of fire on a solid surface within range.</p>\n",
-    sections: [],
-  },
-  {
-    id: "fx:monster:fire-elemental",
-    type: "monster",
-    name: "Fire Elemental",
-    source: "fixture",
-    version: "2024",
-    tags: ["elemental", "large", "cr-5"],
-    facets: { cr: 5, size: "large" },
-    body: "",
-    html: "",
-    sections: [],
-  },
-  {
-    id: "fx:monster:goblin-warrior",
-    type: "monster",
-    name: "Goblin Warrior",
-    source: "fixture",
-    version: "2024",
-    tags: ["fey", "small", "cr-1/4"],
-    facets: { cr: 0.25, size: "small" },
-    body: "",
-    html: "",
-    sections: [
-      {
-        label: "Traits",
-        name: "Nimble Escape",
-        note: "",
-        html: "<p>The goblin can take the Disengage or Hide action as a Bonus Action on each of its turns.</p>\n",
-      },
-      {
-        label: "Actions",
-        name: "Scimitar",
-        note: "",
-        html: "<p><em>Melee Attack Roll:</em> +4, reach 5 ft. <em>Hit:</em> 5 (1d6 + 2) Slashing damage.</p>\n",
-      },
-      {
-        label: "Actions",
-        name: "Shortbow",
-        note: "",
-        html: "<p><em>Ranged Attack Roll:</em> +4, range 80/320 ft. <em>Hit:</em> 5 (1d6 + 2) Piercing damage.</p>\n",
-      },
-    ],
-  },
-  {
-    id: "fx:item:longsword",
-    type: "item",
-    name: "Longsword",
-    source: "fixture",
-    version: "2024",
-    tags: ["weapon"],
-    facets: { category: "weapon" },
-    body: "A longsword.\n\n| Cost | Weight |\n|---|---|\n| 15 gp | 3 lb |",
-    html: "<p>A longsword.</p>\n<table>\n<thead>\n<tr>\n<th>Cost</th>\n<th>Weight</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>15 gp</td>\n<td>3 lb</td>\n</tr>\n</tbody>\n</table>\n",
-    sections: [],
-  },
-  {
-    // A 2014 spell the 2024 rules dropped: for a 2024 reader it stands in.
-    id: "fx:spell:feeblemind",
-    type: "spell",
-    name: "Feeblemind",
-    source: "fixture",
-    version: "2014",
-    tags: ["enchantment", "level-8"],
-    facets: { level: 8, school: "enchantment", ritual: false, concentration: false },
-    body: "You blast the mind of a creature that you can see within range.",
-    html: "<p>You blast the mind of a creature that you can see within range.</p>\n",
-    sections: [],
-  },
-  {
-    id: "fx:magic-item:flame-tongue",
-    type: "magic-item",
-    name: "Flame Tongue",
-    source: "fixture",
-    version: "2024",
-    tags: ["weapon", "fire", "rare", "attunement"],
-    facets: { category: "weapon", rarity: "rare", attunement: true },
-    body: "While holding this magic weapon, you can take a Bonus Action to cause flames to sheathe its blade.",
-    html: "<p>While holding this magic weapon, you can take a Bonus Action to cause flames to sheathe its blade.</p>\n",
-    sections: [],
-  },
-  {
-    id: "fx:condition:blinded",
-    type: "condition",
-    name: "Blinded",
-    source: "fixture",
-    version: "2024",
-    tags: ["condition"],
-    facets: {},
-    body: "You can't see and automatically fail any ability check that requires sight.",
-    html: "<p>You can't see and automatically fail any ability check that requires sight.</p>\n",
-    sections: [],
-  },
-  {
-    id: "fx:monster:giant-rat",
-    type: "monster",
-    name: "Giant Rat",
-    source: "fixture",
-    version: "2024",
-    tags: ["beast", "small", "cr-1/8"],
-    facets: { cr: 0.125, size: "small" },
-    body: "A rat the size of a dog, with a taste for the dark.",
-    html: "<p>A rat the size of a dog, with a taste for the dark.</p>\n",
-    sections: [],
-  },
-];
+/** The system manifest as the seed stored it. */
+export const fixtureSystem: SystemManifest = system;
+/** The text values each facet holds across the whole compendium. */
+export const fixtureFacetValues: Record<string, string[]> = fixture.facetValues;
+
+const CAST: readonly CastEntry[] = fixture.entries;
 
 export const fixtureSearcher = async (
   query: string,
@@ -201,42 +66,42 @@ export const fixtureSearcher = async (
     ...understood.flatMap((item) => (item.overruled || item.filter === null ? [] : [item.filter])),
     ...filters,
   ];
-  const scored = ENTRIES.flatMap((entry) => {
-    if (!seenBy(entry, viewer) || !applied.every((filter) => passes(entry, filter))) {
+  const scored = CAST.flatMap(({ summary }) => {
+    if (!seenBy(summary, viewer) || !applied.every((filter) => passes(summary, filter))) {
       return [];
     }
     let score = 0;
     for (const token of tokens) {
-      const name = entry.name.toLowerCase();
+      const name = summary.name.toLowerCase();
       if (name.startsWith(token)) {
         score += 0;
       } else if (name.includes(token)) {
         score += 1;
-      } else if (entry.tags.some((tag) => tag.includes(token))) {
+      } else if (summary.tags.some((tag) => tag.includes(token))) {
         score += 4;
-      } else if (entry.type.includes(token)) {
+      } else if (summary.type.includes(token)) {
         score += 8;
       } else {
         return [];
       }
     }
-    return [{ entry, score }];
+    return [{ summary, score }];
   });
-  scored.sort((a, b) => a.score - b.score || a.entry.name.localeCompare(b.entry.name));
+  scored.sort((a, b) => a.score - b.score || a.summary.name.localeCompare(b.summary.name));
   // One hit per thing, as the core folds: the asked-for version when it
   // matched, else whichever ranked first stands in.
-  const chosen = new Map<string, FixtureEntry>();
-  for (const { entry } of scored) {
-    const key = thingOf(entry);
+  const chosen = new Map<string, EntrySummary>();
+  for (const { summary } of scored) {
+    const key = thingOf(summary);
     const kept = chosen.get(key);
-    if (kept === undefined || (kept.version !== version && entry.version === version)) {
-      chosen.set(key, entry);
+    if (kept === undefined || (kept.version !== version && summary.version === version)) {
+      chosen.set(key, summary);
     }
   }
   return {
-    hits: [...chosen.values()].map(summaryOf),
+    hits: [...chosen.values()].map(hitOf),
     elapsedUs: Math.round((performance.now() - started) * 1000),
-    catalogueSize: ENTRIES.length,
+    catalogueSize: CAST.length,
     understood,
   };
 };
@@ -278,21 +143,21 @@ function facetsNamed(filter: Filter): string[] {
   }
 }
 
-function passes(entry: FixtureEntry, filter: Filter): boolean {
+function passes(summary: EntrySummary, filter: Filter): boolean {
   switch (filter.filter) {
     case "kind":
-      return entry.type === filter.value;
+      return summary.type === filter.value;
     case "tag":
-      return entry.tags.includes(filter.value);
+      return summary.tags.includes(filter.value);
     case "source":
-      return entry.source === filter.value;
+      return summary.source === filter.value;
     case "any":
-      return filter.items.some((item) => passes(entry, item));
+      return filter.items.some((item) => passes(summary, item));
     case "not":
-      return !passes(entry, filter.item);
+      return !passes(summary, filter.item);
     case "facet": {
-      const have = entry.facets[filter.name];
-      if (have === undefined) {
+      const have = summary.facets?.[filter.name];
+      if (have === undefined || have === null) {
         return false;
       }
       if (typeof have === "number") {
@@ -333,46 +198,43 @@ function numberOf(value: string): number | undefined {
 }
 
 /**
- * The fixture's answer to `get_entry`: the entry, or with a version the
- * same thing in that version when there is one, each with every version
- * the thing exists in.
+ * The answer to `get_entry`: the entry, or with a version the same thing
+ * in that version when there is one, as the core answered it for the
+ * viewer. The cast holds the DM's answer and the party's; a page is one
+ * or the other.
  */
 export function fixtureEntry(
   id: string,
   version?: string,
   viewer: Visibility = "dm"
 ): EntryDocument | undefined {
-  const asked = ENTRIES.find((entry) => entry.id === id);
-  if (asked === undefined || !seenBy(asked, viewer)) {
+  const asked = CAST.find((cast) => cast.summary.id === id);
+  if (asked === undefined) {
     return undefined;
   }
-  const siblings = ENTRIES.filter((entry) => thingOf(entry) === thingOf(asked));
-  const found = siblings.find((entry) => entry.version === version) ?? asked;
-  // Data the viewer may not see yields no sections, as the core's store does.
-  const sections = dataSeenBy(found, viewer) ? found.sections : [];
-  return { ...found, sections, versions: siblings.map((entry) => entry.version).sort() };
+  const thing = thingOf(asked.summary);
+  const found =
+    CAST.find((cast) => thingOf(cast.summary) === thing && cast.summary.version === version) ??
+    asked;
+  const entry = viewer === "dm" ? found.dm : found.party;
+  return entry === null ? undefined : documentOf(entry);
 }
 
-// Visibility as the seeder would have set it: the kind's defaults from the
-// system manifest, else the world (design.md §3 "Who sees what").
-function seenBy(entry: FixtureEntry, viewer: Visibility): boolean {
-  return rank(viewer) >= rank(fixtureSystem.kinds?.[entry.type]?.visibility ?? "world");
-}
-
-function dataSeenBy(entry: FixtureEntry, viewer: Visibility): boolean {
-  return rank(viewer) >= rank(fixtureSystem.kinds?.[entry.type]?.data_visibility ?? "world");
+// The tiers in order, as the core keeps them: world < party < dm.
+function seenBy(summary: EntrySummary, viewer: Visibility): boolean {
+  return rank(viewer) >= rank(summary.visibility);
 }
 
 function rank(tier: Visibility): number {
   return tier === "dm" ? 2 : tier === "party" ? 1 : 0;
 }
 
-// `<kind>:<slug>`, the thing an entry is a version of.
-function thingOf(entry: FixtureEntry): string {
-  return `${entry.type}:${entry.id.split(":").at(-1) ?? entry.id}`;
+// `<kind>:<slug>`, the thing an entry is a version of, as the core reads it.
+function thingOf(summary: EntrySummary): string {
+  return `${summary.type}:${summary.id.split(":").at(-1) ?? summary.id}`;
 }
 
-function summaryOf(entry: FixtureEntry): SpotlightHit {
-  const { id, type, name, source, tags, version } = entry;
-  return { id, type, name, source, tags, version };
+function hitOf(summary: EntrySummary): SpotlightHit {
+  const { id, type, name, source, tags, version } = summary;
+  return { id, type, name, source, tags, version: version ?? "" };
 }

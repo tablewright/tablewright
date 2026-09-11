@@ -151,7 +151,12 @@ One search spans Vault and Compendium; results are labeled by origin.
   compendiums live in the app and in the campaign with the
   campaign's taking precedence; one library serves many campaigns.
   The library sits in the home rather than app data so it is visible
-  and copyable beside the campaigns.
+  and copyable beside the campaigns. A new campaign lists every
+  module of the bundled SRD, read from the library itself, so a
+  module added to the bundle joins new campaigns without anyone
+  keeping a list; choosing modules at creation, with at least one
+  SRD required, comes *(later)*. Decided 2026-09-11 (user), after a
+  hand-kept list had left the 2014 conditions module out.
 - **What ships.** Only content Tablewright may redistribute: the SRD
   under CC-BY-4.0, and homebrew that is CC-BY-4.0 or licensed to
   Tablewright. Nothing else of 5e. The bundled SRD is the latest
@@ -176,6 +181,19 @@ One search spans Vault and Compendium; results are labeled by origin.
   imported from the app; it never enters the repo. The compendium
   SQLite is generated from module directories at build time and
   shipped as an app resource, never committed.
+- **The stand-in's cast.** The page served without Tauri, the one
+  the stories drive, answers from a stand-in for the core. Its
+  entries are not written by hand: when the seed builds the
+  compendium, it also writes the stand-in's cast, a short list of
+  things in every version, as the core answers them for the DM and
+  for a player (rendered pages, parts, versions), with the fields
+  search reads, the system's manifest and its facet values. The file
+  is committed, since the story job in CI has no Rust, and CI's Rust
+  job fails when the committed copy is stale. Only the stand-in's
+  small search stays hand-written. The cast is a placeholder: once
+  the page reaches the real core over the network layer (§6), the
+  whole SRD is in and the stand-in goes. Decided 2026-09-11 (user),
+  after a hand-written creature missed the tag its tile reads.
 - **Coverage (decided 2026-09-03).** The SRD module carries everything
   Open5e publishes for it, not a selection: creatures, magic items,
   spells, equipment, classes, species, backgrounds, feats, rules and

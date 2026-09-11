@@ -29,6 +29,7 @@ import type {
 import "@tablewright/ui";
 import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
 import { BoardHost, type CellReadout } from "./board-host.js";
+import { documentOf } from "./entry-document.js";
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
@@ -273,12 +274,11 @@ function connectCore(): Core {
       // panel rather than the module import.
       const fixture = import("./dev/search-fixture.js");
       const scenes = import("./dev/campaign-fixture.js");
-      const system = import("./dev/system-fixture.js");
       return {
         search: async (query, filters) =>
           (await fixture).fixtureSearcher(query, filters, VERSION, VIEWER),
-        system: async () => (await system).fixtureSystem,
-        facetValues: async () => (await system).fixtureFacetValues,
+        system: async () => (await fixture).fixtureSystem,
+        facetValues: async () => (await fixture).fixtureFacetValues,
         entry: async (id, version) => {
           const found = (await fixture).fixtureEntry(id, version, VIEWER);
           if (found === undefined) {
@@ -355,23 +355,8 @@ function connectCore(): Core {
     },
     system: async () => unwrap(await commands.system()),
     facetValues: async () => unwrap(await commands.facetValues()),
-    entry: async (id, version) => {
-      const { type, name, source, tags, body, html, sections, ...rest } = unwrap(
-        await commands.getEntry(id, VIEWER, version ?? null)
-      );
-      return {
-        id: rest.id,
-        type,
-        name,
-        source,
-        version: rest.version ?? "",
-        versions: rest.versions ?? [],
-        tags,
-        body,
-        html: html ?? "",
-        sections: sections ?? [],
-      };
-    },
+    entry: async (id, version) =>
+      documentOf(unwrap(await commands.getEntry(id, VIEWER, version ?? null))),
     listCampaigns: async () => unwrap(await commands.listCampaigns()),
     currentCampaign: async () => unwrap(await commands.currentCampaign()),
     openCampaign: async (path) => unwrap(await commands.openCampaign(path)),

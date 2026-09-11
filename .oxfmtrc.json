@@ -12,6 +12,7 @@
   "ignorePatterns": [
     "**/*.md",
     "packages/schema/src/**",
+    "apps/table/src/dev/fixture.json",
     "packages/ui/src/tokens.css",
     "systems/*/content/**"
   ]

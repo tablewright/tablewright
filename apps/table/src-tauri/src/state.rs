@@ -7,7 +7,7 @@
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
-use tablewright_core::{Campaign, CampaignError, CampaignSummary, Shelf};
+use tablewright_core::{Campaign, CampaignError, CampaignSummary, Shelf, Store, StoreError};
 
 use crate::compendium;
 
@@ -77,6 +77,25 @@ impl AppState {
                 None
             }
         }
+    }
+
+    /// Every module the library holds, by id: what a new campaign lists,
+    /// until choosing modules at creation comes (design §3). Empty when
+    /// there is no library.
+    ///
+    /// # Errors
+    ///
+    /// Fails if the library is there but cannot be read.
+    pub fn library_modules(&self) -> Result<Vec<String>, StoreError> {
+        let Some(path) = self.library() else {
+            return Ok(Vec::new());
+        };
+        let store = Store::open(&path)?;
+        Ok(store
+            .modules()?
+            .into_iter()
+            .map(|manifest| manifest.id)
+            .collect())
     }
 
     /// The campaign open when the app last closed, if it remembers one.
