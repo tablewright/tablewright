@@ -680,6 +680,29 @@ the rounds are in the local research file.
   well. Free ink is texture and nothing else. Decided 2026-09-10
   (user): some maps have the natural points for the walls and some
   do not, so data and texture are each a choice.
+- **Every ink knows its place upward.** An area ink may sit at a
+  height, in the distance unit of the system, and has none by
+  default: Ground and Free ink carry one. A Ground stroke with no
+  height changes the state alone, so difficult ground painted over
+  a hill keeps the hill. With one, it also writes the field under
+  every cell it paints, the very cells its shape or brush converts,
+  and clears any level change there, as the Height pen would. A
+  platform is then one stroke, ground at +10, where before it took a
+  second pass with the Height pen. That pen stays for maps whose art
+  already draws the floors and wants only the data added. Free ink
+  at a height reads as nothing yet; it waits for floors *(later)*.
+  A level change carries no number: its two ends are the field on
+  either side, inferred as the foot of a wall is.
+  An edge ink carries how tall it stands instead: a wall or a
+  threshold has its foot on the ground under it, read from the
+  field, so what it needs is its tallness, and that has no limit. A
+  door may be two feet tall or twenty, a wall grandiose, by the size
+  of whoever built the place. Nothing reads tallness yet; sight
+  over a low wall and the first-person view will. Every pen keeps
+  its own amount, since a map is built one pen at a time. Decided
+  2026-09-11 (user): a map built in Tablewright puts its ground at a
+  height in one stroke, and its walls and doors as tall as the
+  place wants.
 - **Elevation is a field.** Continuous and sub-cell, eight samples
   to a cell (a fixed fraction of the cell, never the image's
   pixels), painted or traced. Contours and shadows are its
@@ -731,7 +754,15 @@ the rounds are in the local research file.
   cells-and-walls maps with no texture), Marked (hairline and small
   edge tags, for art that draws its own cliffs), Data only. Token
   height is a badge. A strength setting fades the whole overlay.
-  Hatching was tried twice and struck as too busy.
+  Hatching was tried twice and struck as too busy. The DM alone has
+  a Topology view besides (placeholder name), a data check rather
+  than a look: the picture and every texture muted hard, each cell
+  printing its height, a level change printing stair, the badge as
+  it is. It reads the field of the scene as the display does; it is
+  another picture of the same data, and only the toggle belongs to
+  the DM rather than to the scene. It has the same controls, the strength
+  included, so the two are one experience. Players get it only if
+  they ask for it. Decided 2026-09-11 (user).
 - **Where it runs.** The board holds the queries that answer while
   the pointer moves (no IPC between the pointer and the pixel); the
   core holds the record and, with movement rules, the validation
@@ -741,7 +772,9 @@ the rounds are in the local research file.
   linking two floors, open cells that see and fall through, and
   possibly a side-view strip beside the plan; which sheet actions
   commit provisional movement; whether a token's history shows to
-  other players; filling the field from the art with a wand;
+  other players; filling the field from the art with a wand; a
+  staircase that repeats over several floors of one layout, a
+  tower or a library, and how one stroke stands for it;
   templates as volumes (sphere, cylinder, cone in 3D) with the
   system's cover rule.
 
@@ -752,7 +785,7 @@ token, rendered by a three.js module in the browser player client
 that loads only when the mode is entered. It is a second view of the
 same scene document, never a second source of truth.
 
-- Walls extrude to a scene-level height; the map image is the floor;
+- Walls extrude to the height each stroke carries; the map image is the floor;
   scene lights become point lights, with shadow casters capped or the
   2D visibility polygons reused as light masks.
 - Tokens render as billboards or stand-ups of their 2D art until an
@@ -766,8 +799,8 @@ same scene document, never a second source of truth.
   move) and cursor mode (pointer free, panels usable). Opening a
   panel enters cursor mode; Escape returns.
 - Scene document additions when needed, all optional with defaults:
-  wall height and token model ref. Token facing already exists on
-  the board model.
+  the token model ref; wall height is on the stroke already. Token
+  facing already exists on the board model.
 
 Movement is grid-step by default: one press moves the token one
 cell, the classic dungeon-crawler feel, and each step is the same
