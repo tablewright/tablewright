@@ -92,6 +92,10 @@ export interface BoardDebug {
   selectedId(): string | undefined;
   camera(): CameraState;
   bounds(): CellExtent;
+  /** The picture on the board by its pixel size, once it has loaded. */
+  picture(): MapSize | undefined;
+  /** The scene's strokes in the order drawn: the record the board derives from. */
+  strokes(): readonly Stroke[];
   /** What the strokes derived to, as this viewer sees it. */
   topology(): Topology;
   /** Screen position of a cell's centre, for pointing a test's mouse at it. */
@@ -430,6 +434,8 @@ export class BoardHost {
       selectedId: () => this.tokenLayer.selectedId,
       camera: () => this.camera.current,
       bounds: () => this.bounds,
+      picture: () => this.mapLayer.size(),
+      strokes: () => this.strokes,
       topology: () => this.topology,
       cellToScreen: (cell) => this.camera.toScreen(cellCenter(this.grid, cell)),
       rule: () => this.rule,

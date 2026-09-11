@@ -1,414 +1,216 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import {
+  cellOnScreen,
+  drag,
+  edgeOnScreen,
+  openHallowayHouse,
+  openTable,
+  routeCost,
+  selectedId,
+  settledAt,
+  tokenById,
+  tokenOnScreen,
+} from "./helpers.js";
 
-// The dev build exposes a read-only view of the scene on window.__tablewright;
-// tests point the mouse through it instead of guessing pixels.
+// The board feature of docs/stories.md: the scene on show, tokens moved
+// every way, thresholds worked in play, and the heights as the scene
+// chooses.
 
-async function tokenOnScreen(page: Page, index: number) {
-  return page.evaluate((i) => {
-    const debug = window.__tablewright;
-    if (debug === undefined) {
-      throw new Error("dev debug view missing");
-    }
-    const token = debug.tokens()[i];
-    if (token === undefined) {
-      throw new Error(`no token at index ${i}`);
-    }
-    return {
-      id: token.id,
-      cell: token.cell,
-      facing: token.facing,
-      at: debug.cellToScreen(token.cell),
-    };
-  }, index);
-}
+test("The board shows the scene", async ({ page }) => {
+  await openTable(page);
 
-async function cellOnScreen(page: Page, cell: { col: number; row: number }) {
-  return page.evaluate((c) => {
-    const debug = window.__tablewright;
-    if (debug === undefined) {
-      throw new Error("dev debug view missing");
-    }
-    return debug.cellToScreen(c);
-  }, cell);
-}
-
-async function tokenById(page: Page, id: string) {
-  return page.evaluate((wanted) => window.__tablewright?.tokens().find((t) => t.id === wanted), id);
-}
-
-async function selectedId(page: Page) {
-  return page.evaluate(() => window.__tablewright?.selectedId());
-}
-
-// A move goes through the core and comes back as a new scene, so the token
-// settles a moment after the input; on a software-rendered runner that
-// moment is long enough to read the old cell. Poll for the cell, then read.
-async function settledAt(
-  page: Page,
-  id: string,
-  cell: { col: number; row: number }
-): Promise<Awaited<ReturnType<typeof tokenById>>> {
-  await expect.poll(async () => (await tokenById(page, id))?.cell).toEqual(cell);
-  return tokenById(page, id);
-}
-
-test.beforeEach(async ({ page }) => {
-  await page.goto("/");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
-});
-
-test("renders a WebGL board with the fixture map and its tokens", async ({ page }) => {
-  await expect(page.locator("#board > canvas")).toHaveCount(1);
-  await expect(page.locator(".notice")).toHaveCount(0);
-  await expect(page.locator("tw-scenes").getByText("The Rusty Flagon")).toBeVisible();
-  const hasWebgl = await page.evaluate(() => {
-    const canvas = document.querySelector("#board > canvas");
-    return canvas instanceof HTMLCanvasElement && canvas.getContext("webgl2") !== null;
-  });
-  expect(hasWebgl).toBe(true);
-  const bounds = await page.evaluate(() => window.__tablewright?.bounds());
-  expect(bounds).toEqual({ colMin: 0, rowMin: 0, cols: 20, rows: 15 });
-  expect(await page.evaluate(() => window.__tablewright?.tokens().length)).toBe(3);
-});
-
-test("dragging a token drops it on the target cell facing its travel", async ({ page }) => {
-  const token = await tokenOnScreen(page, 0);
-  const target = { col: token.cell.col + 2, row: token.cell.row + 1 };
-  const to = await cellOnScreen(page, target);
-  await page.mouse.move(token.at.x, token.at.y);
-  await page.mouse.down();
-  await page.mouse.move(to.x, to.y, { steps: 12 });
-  await page.mouse.up();
-  const after = await settledAt(page, token.id, target);
-  // Two cells east and one south is a heading of about 117 degrees.
-  expect(after?.facing).toBeCloseTo(116.57, 0);
-});
-
-test("a click selects, arrow keys step, and empty board deselects", async ({ page }) => {
-  const token = await tokenOnScreen(page, 1);
-  await page.mouse.click(token.at.x, token.at.y);
-  expect(await selectedId(page)).toBe(token.id);
-  await page.keyboard.press("ArrowRight");
-  await page.keyboard.press("ArrowRight");
-  await page.keyboard.press("ArrowUp");
-  const after = await settledAt(page, token.id, {
-    col: token.cell.col + 2,
-    row: token.cell.row - 1,
-  });
-  expect(after?.facing).toBe(0);
-  const empty = await cellOnScreen(page, { col: 15, row: 12 });
-  await page.mouse.click(empty.x, empty.y);
-  expect(await selectedId(page)).toBeUndefined();
-});
-
-test("a press on the selected token's corner turns it in place", async ({ page }) => {
-  const token = await tokenOnScreen(page, 2);
-  await page.mouse.click(token.at.x, token.at.y);
-  const neighbour = await cellOnScreen(page, { col: token.cell.col - 1, row: token.cell.row - 1 });
-  // The shared corner is halfway to the diagonal neighbour; press a little inside
-  // the cell from it, still well outside the disc, so pixel rounding cannot put
-  // the press on the boundary.
-  const corner = { x: (token.at.x + neighbour.x) / 2, y: (token.at.y + neighbour.y) / 2 };
-  const handle = {
-    x: corner.x + (token.at.x - corner.x) * 0.2,
-    y: corner.y + (token.at.y - corner.y) * 0.2,
-  };
-  const west = await cellOnScreen(page, { col: token.cell.col - 3, row: token.cell.row });
-  await page.mouse.move(handle.x, handle.y);
-  await page.mouse.down();
-  await page.mouse.move(west.x, west.y, { steps: 8 });
-  await page.mouse.up();
-  // A turn in place changes only the facing, so that is what settles.
-  await expect.poll(async () => (await tokenById(page, token.id))?.facing).toBeCloseTo(270, 0);
-  const after = await tokenById(page, token.id);
-  expect(after?.cell).toEqual(token.cell);
-});
-
-test("the wheel zooms about the cursor", async ({ page }) => {
-  const before = await page.evaluate(() => window.__tablewright?.camera());
-  await page.mouse.move(640, 400);
-  await page.mouse.wheel(0, -300);
-  const after = await page.evaluate(() => window.__tablewright?.camera());
-  expect(after?.zoom).toBeCloseTo((before?.zoom ?? 0) * 1.1 ** 3, 5);
-});
-
-// The scene tab is the DM's list until the Scenes leaf: a reference
-// drawing becomes a scene of its own, and the tab switches between them.
-test("a reference drawing becomes a scene, and the tab switches scenes", async ({ page }) => {
-  await page.goto("/?role=dm");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
-  const tab = page.locator("tw-scenes");
-  const edges = () => page.evaluate(() => window.__tablewright?.topology().edges.size);
-  const tokens = () => page.evaluate(() => window.__tablewright?.tokens().length);
-  // Ground code of a cell in the north-east room: 3 is air, 1 is ground.
-  // The air there is the last stroke of the mansion.
-  const northEast = () =>
-    page.evaluate(() => {
-      const topology = window.__tablewright?.topology();
-      return topology === undefined ? undefined : topology.ground[2 * topology.bounds.cols + 15];
+  await test.step("The scene comes up with its picture, its grid, and its tokens.", async () => {
+    await expect(page.locator("#board > canvas")).toHaveCount(1);
+    await expect(page.locator(".notice")).toHaveCount(0);
+    await expect(page.locator("tw-scenes").getByText("The Rusty Flagon")).toBeVisible();
+    const hasWebgl = await page.evaluate(() => {
+      const canvas = document.querySelector("#board > canvas");
+      return canvas instanceof HTMLCanvasElement && canvas.getContext("webgl2") !== null;
     });
-  expect(await edges()).toBe(0);
-  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
-  await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
-  await expect.poll(edges).toBe(118);
-  await expect(tab.getByRole("button", { name: "Halloway House" })).toBeVisible();
-  expect(await tokens()).toBe(0);
-  expect(await northEast()).toBe(3);
-  await page.locator("tw-tool-rail").getByRole("button", { name: "Wall" }).click();
-  await page.locator("tw-tool-rail").getByRole("button", { name: "Undo" }).click();
-  await expect.poll(northEast).toBe(1);
-  await tab.getByRole("button", { name: "Halloway House" }).click();
-  await tab.getByRole("menuitem", { name: "The Rusty Flagon" }).click();
-  await expect.poll(edges).toBe(0);
-  await expect.poll(tokens).toBe(3);
-});
-
-// Build mode draws through the core: a wall down the corridor joins the
-// record, and Undo takes it back.
-test("with the wall pen held, a wall drawn down the corridor joins the record, and Undo takes it back", async ({
-  page,
-}) => {
-  await page.goto("/?role=dm");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
-  const tab = page.locator("tw-scenes");
-  const edges = () => page.evaluate(() => window.__tablewright?.topology().edges.size);
-  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
-  await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
-  await expect.poll(edges).toBe(118);
-  const tools = page.locator("tw-tool-rail");
-  await tools.getByRole("button", { name: "Wall" }).click();
-  await tools.getByRole("button", { name: "Line" }).click();
-  // Vertices sit between cell centres: a line down x = 10 from row 4 to row 8,
-  // inside the corridor, where the mansion has no wall yet.
-  const a = await cellOnScreen(page, { col: 9, row: 3 });
-  const b = await cellOnScreen(page, { col: 10, row: 4 });
-  const c = await cellOnScreen(page, { col: 9, row: 7 });
-  const d = await cellOnScreen(page, { col: 10, row: 8 });
-  await page.mouse.move((a.x + b.x) / 2, (a.y + b.y) / 2);
-  await page.mouse.down();
-  await page.mouse.move((c.x + d.x) / 2, (c.y + d.y) / 2, { steps: 6 });
-  await page.mouse.up();
-  await expect.poll(edges).toBe(122);
-  await tools.getByRole("button", { name: "History" }).click();
-  await expect(tools.getByRole("button", { name: "Show all 28" })).toBeVisible();
-  // A reset is a stroke: everything goes, and Undo brings it all back.
-  await tools.getByRole("button", { name: "Reset" }).click();
-  await expect.poll(edges).toBe(0);
-  await expect(tools.getByRole("button", { name: "Show all 29" })).toBeVisible();
-  await tools.getByRole("button", { name: "Undo" }).click();
-  await expect.poll(edges).toBe(122);
-  await tools.getByRole("button", { name: "Undo" }).click();
-  await expect.poll(edges).toBe(118);
-  await expect(tools.getByRole("button", { name: "Show all 27" })).toBeVisible();
-});
-
-// In Play, a tap on a shut door opens it and a tap on an open one shuts it:
-// a state of the scene, not a stroke, so the history does not grow.
-test("a tap on a door works it", async ({ page }) => {
-  await page.goto("/?role=dm");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
-  const tab = page.locator("tw-scenes");
-  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
-  await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
-  const door = () =>
-    page.evaluate(() => {
-      const data = window.__tablewright?.topology().edges.get("south:15:6");
-      return data?.kind === "threshold" ? data.state : undefined;
+    expect(hasWebgl).toBe(true);
+    // The tavern's picture, a thousand by seven hundred and fifty pixels.
+    await expect
+      .poll(() => page.evaluate(() => window.__tablewright?.picture()))
+      .toEqual({ width: 1000, height: 750 });
+    expect(await page.evaluate(() => window.__tablewright?.bounds())).toEqual({
+      colMin: 0,
+      rowMin: 0,
+      cols: 20,
+      rows: 15,
     });
-  await expect.poll(door).toBe("closed");
-  const above = await cellOnScreen(page, { col: 15, row: 6 });
-  const below = await cellOnScreen(page, { col: 15, row: 7 });
-  const at = { x: (above.x + below.x) / 2, y: (above.y + below.y) / 2 };
-  // Over the door the pointer lights it up and turns to a hand; a tap works it.
-  await page.mouse.move(at.x, at.y);
-  await expect(page.locator("#board")).toHaveAttribute("data-threshold", "true");
-  await page.mouse.click(at.x, at.y);
-  await expect.poll(door).toBe("open");
-  await page.mouse.click(at.x, at.y);
-  await expect.poll(door).toBe("closed");
-});
-
-// The intro is the whole window: leaving a campaign shows it, a new
-// campaign opens on a tavern of its own, and the example is there to come
-// back to with the mansion still among its scenes.
-test("leaving the campaign shows the intro, and a new campaign opens on its own tavern", async ({
-  page,
-}) => {
-  await page.goto("/?role=dm");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
-  const tokens = () => page.evaluate(() => window.__tablewright?.tokens().length);
-  const intro = page.locator("tw-campaigns");
-  const tab = page.locator("tw-scenes");
-  const leave = page.getByRole("button", { name: "Campaigns" });
-  await expect(intro).toBeHidden();
-  await leave.click();
-  await expect(intro).toBeVisible();
-  await expect(intro.getByRole("button", { name: "Open The Rusty Flagon" })).toBeVisible();
-  await expect(intro.getByText("5e · 2024")).toBeVisible();
-  await expect.poll(tokens).toBe(0);
-  await intro.getByLabel("New campaign name").fill("Winter's Reach");
-  await intro.getByRole("button", { name: "Create", exact: true }).click();
-  await expect(intro).toBeHidden();
-  await expect.poll(tokens).toBe(3);
-  await expect(page).toHaveTitle("Winter's Reach · Tablewright Table");
-  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
-  await expect(tab.getByRole("menuitem", { name: "Halloway House", exact: true })).toHaveCount(0);
-  await leave.click();
-  await expect(intro.getByRole("button", { name: "Open Winter's Reach" })).toBeVisible();
-  await intro.getByRole("button", { name: "Open The Rusty Flagon" }).click();
-  await expect(intro).toBeHidden();
-  await expect.poll(tokens).toBe(3);
-  await expect(page).toHaveTitle("The Rusty Flagon · Tablewright Table");
-  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
-  await expect(tab.getByRole("menuitem", { name: "Halloway House", exact: true })).toBeVisible();
-});
-
-// The rules read the scene the board derived: a route to the corridor
-// through the open door, and none into the wing behind the locked one.
-test("the rules read the mansion: a route to the corridor, none into the locked wing", async ({
-  page,
-}) => {
-  await page.goto("/?role=dm");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
-  const tab = page.locator("tw-scenes");
-  await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
-  await tab.getByRole("menuitem", { name: "Halloway House", exact: true }).click();
-  await expect
-    .poll(() => page.evaluate(() => window.__tablewright?.topology().edges.size))
-    .toBe(118);
-  const measured = await page.evaluate(() => {
-    const debug = window.__tablewright;
-    if (debug === undefined) {
-      throw new Error("dev debug view missing");
-    }
-    return {
-      corridor: debug.route({ col: 3, row: 8 }, { col: 9, row: 7 })?.cost,
-      wing: debug.route({ col: 3, row: 8 }, { col: 12, row: 3 })?.cost,
-      straight: debug.distance({ col: 3, row: 8 }, { col: 9, row: 7 }),
-      unit: debug.rule().unit,
-    };
+    expect(await page.evaluate(() => window.__tablewright?.tokens().length)).toBe(3);
   });
-  expect(measured).toEqual({ corridor: 30, wing: undefined, straight: 30, unit: "ft" });
-});
 
-// The scene shows its heights as it chooses. The tavern is flat until the
-// Height pen paints a rise under a token, which then wears its height;
-// Marked tags the rise, Data draws nothing, and the strength is the
-// scene's too.
-test("the height display follows the scene's choice, and a token wears its height", async ({
-  page,
-}) => {
-  await page.goto("/?role=dm");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
-  const heights = () => page.evaluate(() => window.__tablewright?.heights());
-  const heightOfB = () =>
-    page.evaluate(() => window.__tablewright?.tokens().find((t) => t.id === "seed-b")?.height);
-  expect(await heights()).toEqual({ mode: "shaded", strength: 80, contours: 0, tags: 0 });
-  expect(await heightOfB()).toBe(0);
-  const tools = page.locator("tw-tool-rail");
-  await tools.getByRole("button", { name: "Height" }).click();
-  await tools.getByRole("button", { name: "Rect" }).click();
-  // Clear of the palette, which covers the west of the map on screen.
-  const from = await cellOnScreen(page, { col: 6, row: 5 });
-  const to = await cellOnScreen(page, { col: 8, row: 7 });
-  await page.mouse.move(from.x, from.y);
-  await page.mouse.down();
-  await page.mouse.move(to.x, to.y, { steps: 6 });
-  await page.mouse.up();
-  await expect.poll(heightOfB).toBe(5);
-  await expect.poll(async () => (await heights())?.contours).toBeGreaterThan(0);
-  await tools.getByRole("button", { name: "Marked" }).click();
-  await expect.poll(async () => (await heights())?.mode).toBe("marked");
-  expect((await heights())?.tags).toBe(1);
-  await tools.getByRole("button", { name: "Data", exact: true }).click();
-  await expect.poll(async () => (await heights())?.contours).toBe(0);
-  await tools.getByLabel("Height display strength").fill("40");
-  await expect.poll(async () => (await heights())?.strength).toBe(40);
-});
+  await test.step("The wheel zooms about the cursor, and a drag on empty board pans.", async () => {
+    const before = await page.evaluate(() => window.__tablewright?.camera());
+    await page.mouse.move(640, 400);
+    await page.mouse.wheel(0, -300);
+    const zoomed = await page.evaluate(() => window.__tablewright?.camera());
+    expect(zoomed?.zoom).toBeCloseTo((before?.zoom ?? 0) * 1.1 ** 3, 5);
+    const empty = await cellOnScreen(page, { col: 15, row: 12 });
+    await drag(page, empty, { x: empty.x - 120, y: empty.y - 80 });
+    const moved = await cellOnScreen(page, { col: 15, row: 12 });
+    expect(moved.x).toBeCloseTo(empty.x - 120, 0);
+    expect(moved.y).toBeCloseTo(empty.y - 80, 0);
+  });
 
-// A rules stroke may paint its texture too, chosen on the pen: a wall
-// drawn as data is a hint the board reads; drawn as data and texture it
-// is a solid wall on a map whose art has none. The record says which.
-test("a wall drawn as data and texture carries its look into the record", async ({ page }) => {
-  await page.goto("/?role=dm");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
-  const looks = () =>
-    page.evaluate(() =>
-      [...(window.__tablewright?.topology().edges.values() ?? [])].map((edge) => edge.look)
+  await test.step("A token wears the height of the ground under it.", async () => {
+    const heightOfC = async () => (await tokenById(page, "seed-c"))?.height;
+    expect(await heightOfC()).toBe(0);
+    const tools = page.locator("tw-tool-rail");
+    await tools.getByRole("button", { name: "Height" }).click();
+    await tools.getByRole("button", { name: "Rect" }).click();
+    // Around C: after the zoom, the ground around B lies under the Height palette.
+    await drag(
+      page,
+      await cellOnScreen(page, { col: 10, row: 8 }),
+      await cellOnScreen(page, { col: 12, row: 10 })
     );
-  const tools = page.locator("tw-tool-rail");
-  await tools.getByRole("button", { name: "Wall" }).click();
-  await tools.getByRole("button", { name: "Line" }).click();
-  await tools.getByRole("button", { name: "Data + texture" }).click();
-  // Down the tavern's floor, well clear of the palette.
-  const a = await cellOnScreen(page, { col: 9, row: 4 });
-  const b = await cellOnScreen(page, { col: 10, row: 5 });
-  const c = await cellOnScreen(page, { col: 9, row: 8 });
-  const d = await cellOnScreen(page, { col: 10, row: 9 });
-  await page.mouse.move((a.x + b.x) / 2, (a.y + b.y) / 2);
-  await page.mouse.down();
-  await page.mouse.move((c.x + d.x) / 2, (c.y + d.y) / 2, { steps: 6 });
-  await page.mouse.up();
-  await expect.poll(async () => (await looks()).length).toBe(4);
-  expect((await looks()).every((look) => look === "both")).toBe(true);
-  await tools.getByRole("button", { name: "History" }).click();
-  await expect(tools.getByText("Wall along 4 edges, textured")).toBeVisible();
-  // Back to data for the next wall: the pen keeps the choice, and the record shows it.
-  await tools.getByRole("button", { name: "Data", exact: true }).click();
-  await page.mouse.move((a.x + b.x) / 2 + 100, (a.y + b.y) / 2);
-  await page.mouse.down();
-  await page.mouse.move((c.x + d.x) / 2 + 100, (c.y + d.y) / 2, { steps: 6 });
-  await page.mouse.up();
-  await expect.poll(async () => (await looks()).length).toBe(8);
-  expect((await looks()).filter((look) => look === "data").length).toBe(4);
+    await expect.poll(heightOfC).toBe(5);
+  });
 });
 
-// The rail's box reaches as far down as its icons and as far right as its
-// palette; the corner beneath the palette is the board's, and a stroke
-// started there lands.
-test("a stroke started in the corner beneath the palette still lands", async ({ page }) => {
-  await page.goto("/?role=dm");
-  await page.waitForFunction(
-    () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
-  );
+test("A DM or a player moves a token", async ({ page }) => {
+  await openTable(page);
+
+  await test.step("A drag drops the token on the target cell, facing its travel.", async () => {
+    const token = await tokenOnScreen(page, 0);
+    const target = { col: token.cell.col + 2, row: token.cell.row + 1 };
+    await drag(page, token.at, await cellOnScreen(page, target));
+    const after = await settledAt(page, token.id, target);
+    // Two cells east and one south is a heading of about 117 degrees, kept whole.
+    expect(after?.facing).toBe(117);
+  });
+
+  await test.step("The arrow keys and WASD step the selected token one cell.", async () => {
+    const token = await tokenOnScreen(page, 1);
+    await page.mouse.click(token.at.x, token.at.y);
+    expect(await selectedId(page)).toBe(token.id);
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowUp");
+    await settledAt(page, token.id, { col: token.cell.col + 1, row: token.cell.row - 1 });
+    await page.keyboard.press("d");
+    await page.keyboard.press("w");
+    const after = await settledAt(page, token.id, {
+      col: token.cell.col + 2,
+      row: token.cell.row - 2,
+    });
+    expect(after?.facing).toBe(0);
+  });
+
+  await test.step("A click on empty board deselects.", async () => {
+    const empty = await cellOnScreen(page, { col: 15, row: 12 });
+    await page.mouse.click(empty.x, empty.y);
+    expect(await selectedId(page)).toBeUndefined();
+  });
+
+  await test.step("A press on the selected token's corner turns it in place.", async () => {
+    const token = await tokenOnScreen(page, 2);
+    await page.mouse.click(token.at.x, token.at.y);
+    const neighbour = await cellOnScreen(page, {
+      col: token.cell.col - 1,
+      row: token.cell.row - 1,
+    });
+    // The shared corner is halfway to the diagonal neighbour; press a little
+    // inside the cell from it, still well outside the disc.
+    const corner = { x: (token.at.x + neighbour.x) / 2, y: (token.at.y + neighbour.y) / 2 };
+    const handle = {
+      x: corner.x + (token.at.x - corner.x) * 0.2,
+      y: corner.y + (token.at.y - corner.y) * 0.2,
+    };
+    const west = await cellOnScreen(page, { col: token.cell.col - 3, row: token.cell.row });
+    await drag(page, handle, west);
+    await expect.poll(async () => (await settledAt(page, token.id, token.cell))?.facing).toBe(270);
+  });
+});
+
+test("Working thresholds in play", async ({ page }) => {
+  await openTable(page);
+  const notice = page.locator(".notice");
+  const stateOf = (key: string) =>
+    page.evaluate((k) => {
+      const data = window.__tablewright?.topology().edges.get(k);
+      return data?.kind === "threshold" ? data.state : undefined;
+    }, key);
+
+  await test.step("In Halloway House, a door under the pointer lights up.", async () => {
+    await openHallowayHouse(page);
+    const door = await edgeOnScreen(page, { col: 15, row: 6 }, { col: 15, row: 7 });
+    await page.mouse.move(door.x, door.y);
+    await expect(page.locator("#board")).toHaveAttribute("data-threshold", "true");
+  });
+
+  await test.step("A tap on a shut door opens it, and on an open one shuts it.", async () => {
+    const door = await edgeOnScreen(page, { col: 15, row: 6 }, { col: 15, row: 7 });
+    expect(await stateOf("south:15:6")).toBe("closed");
+    await page.mouse.click(door.x, door.y);
+    await expect.poll(() => stateOf("south:15:6")).toBe("open");
+    await page.mouse.click(door.x, door.y);
+    await expect.poll(() => stateOf("south:15:6")).toBe("closed");
+  });
+
+  await test.step("A locked door says so, an arch is always open, a large window is smashed through, and a small one is sight only.", async () => {
+    // The page says so in a notice, and a click on the notice puts it away.
+    await expect(notice).toHaveCount(0);
+    const locked = await edgeOnScreen(page, { col: 10, row: 3 }, { col: 11, row: 3 });
+    await page.mouse.click(locked.x, locked.y);
+    await expect(notice).toBeVisible();
+    expect(await stateOf("east:10:3")).toBe("locked");
+    await notice.click();
+    await expect(notice).toHaveCount(0);
+    // An arch has nothing to work: a tap leaves it open, and the way through
+    // is one step onto the difficult ground beyond it, not the long way round.
+    const arch = await edgeOnScreen(page, { col: 4, row: 11 }, { col: 4, row: 12 });
+    await page.mouse.click(arch.x, arch.y);
+    expect(await stateOf("south:4:11")).toBe("open");
+    expect(await routeCost(page, { col: 4, row: 11 }, { col: 4, row: 12 })).toBe(10);
+    const large = await edgeOnScreen(page, { col: 18, row: 2 }, { col: 19, row: 2 });
+    await page.mouse.click(large.x, large.y);
+    await expect.poll(() => stateOf("east:18:2")).toBe("smashed");
+    // A small window says why it stays shut, and no one passes it.
+    const small = await edgeOnScreen(page, { col: 0, row: 6 }, { col: 1, row: 6 });
+    await page.mouse.click(small.x, small.y);
+    await expect(notice).toBeVisible();
+    expect(await stateOf("east:0:6")).toBe("closed");
+    expect(await routeCost(page, { col: 1, row: 6 }, { col: 0, row: 6 })).toBeUndefined();
+  });
+});
+
+test("The heights show as the scene chooses", async ({ page }) => {
+  await openTable(page);
   const tools = page.locator("tw-tool-rail");
-  await tools.getByRole("button", { name: "Ground" }).click();
-  await tools.getByRole("button", { name: "Rect" }).click();
-  await tools.getByRole("button", { name: "Difficult" }).click();
-  // Below the palette's bottom edge and left of its right edge, beside the rail.
-  const palette = await tools.locator(".panel").first().boundingBox();
-  const rail = await tools.locator(".rail").boundingBox();
-  expect(palette).not.toBeNull();
-  expect(rail).not.toBeNull();
-  const from = { x: (palette?.x ?? 0) + 40, y: (palette?.y ?? 0) + (palette?.height ?? 0) + 24 };
-  expect(from.y).toBeLessThan((rail?.y ?? 0) + (rail?.height ?? 0));
-  const to = { x: from.x + 90, y: from.y + 90 };
-  await page.mouse.move(from.x, from.y);
-  await page.mouse.down();
-  await page.mouse.move(to.x, to.y, { steps: 6 });
-  await page.mouse.up();
-  await expect
-    .poll(() =>
-      page.evaluate(() => {
-        const topology = window.__tablewright?.topology();
-        return topology === undefined ? 0 : topology.ground.filter((code) => code === 2).length;
-      })
-    )
-    .toBeGreaterThan(0);
+  const tab = page.locator("tw-scenes");
+  const heights = () => page.evaluate(() => window.__tablewright?.heights());
+
+  await test.step("In Halloway House the heights show Shaded, with a contour around every rise.", async () => {
+    await openHallowayHouse(page);
+    expect((await heights())?.mode).toBe("shaded");
+    expect((await heights())?.contours).toBeGreaterThan(0);
+  });
+
+  await test.step("Washed, Marked, or Data is chosen from the Height pen's palette, and the choice stays with the scene.", async () => {
+    await tools.getByRole("button", { name: "Height" }).click();
+    await tools.getByRole("button", { name: "Washed" }).click();
+    await expect.poll(async () => (await heights())?.mode).toBe("washed");
+    await tools.getByRole("button", { name: "Data", exact: true }).click();
+    await expect.poll(async () => (await heights())?.contours).toBe(0);
+    await tab.getByRole("button", { name: "Halloway House" }).click();
+    await tab.getByRole("menuitem", { name: "The Rusty Flagon" }).click();
+    await expect.poll(async () => (await heights())?.mode).toBe("shaded");
+    await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
+    await tab.getByRole("menuitem", { name: "Halloway House", exact: true }).nth(1).click();
+    await expect.poll(async () => (await heights())?.mode).toBe("data");
+  });
+
+  await test.step("Marked tags each rise once.", async () => {
+    await tools.getByRole("button", { name: "Marked" }).click();
+    await expect.poll(async () => (await heights())?.mode).toBe("marked");
+    // The gallery, the pit, and the raised south row.
+    expect((await heights())?.tags).toBe(3);
+  });
+
+  await test.step("The strength fades the whole overlay.", async () => {
+    await tools.getByLabel("Height display strength").fill("40");
+    await expect.poll(async () => (await heights())?.strength).toBe(40);
+  });
 });

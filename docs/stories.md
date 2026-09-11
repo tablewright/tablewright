@@ -24,7 +24,7 @@ the logic tests.
 ### A DM searches the compendium
 
 - The same queries, with the bestiary among the answers.
-- Small beasts below CR 4 come back as a list, each with its CR.
+- Small creatures below CR 4 come back as a list, each with its CR.
 - Words that narrow the answer to one category light its tab and fold
   the tray.
 - A hit from another rule version wears its year.
@@ -50,8 +50,8 @@ the logic tests.
 
 ### Sharing an entry
 
-- A share from a tile, a tile dragged out of the box, or a share from
-  the page raises a card on the table.
+- A share from a tile, or a tile dragged out of the box, raises a card
+  on the table.
 - Cards queue one at a time; dismissing one lets the next up.
 - Opening a card's entry dismisses the card: the reader has it now.
 - Sharing the entry already open as a page raises no card.
@@ -101,15 +101,17 @@ the logic tests.
 
 ### Working thresholds in play
 
-- A door under the pointer lights up.
+- In Halloway House, a door under the pointer lights up.
 - A tap on a shut door opens it, and on an open one shuts it.
 - A locked door says so, an arch is always open, a large window is
   smashed through, and a small one is sight only.
 
 ### The heights show as the scene chooses
 
-- Shaded, Washed, Marked, or Data, chosen from the Height pen's
-  palette, and kept with the scene.
+- In Halloway House the heights show Shaded, with a contour around
+  every rise.
+- Washed, Marked, or Data is chosen from the Height pen's palette, and
+  the choice stays with the scene.
 - Marked tags each rise once.
 - The strength fades the whole overlay.
 
@@ -133,13 +135,14 @@ the logic tests.
 
 ### A DM places thresholds
 
-- A click on a cell edge places the kind, state and size chosen, and
-  the palette's tile shows what the click will leave.
+- A click on a cell edge places the kind, state and size chosen.
+- The palette's tile shows what the click will leave *(later)*.
 - A secret door is the DM's alone until it is found.
 
 ### A DM paints height and level changes
 
-- An amount painted into the field by brush, rect, or free shape.
+- An amount painted into the field, by rect or by brush, shows on the
+  token standing there.
 - A level change is walked, not climbed.
 - The rules read what was drawn: a route through an open door, none
   through a locked one.
@@ -152,8 +155,8 @@ the logic tests.
 
 - Every stroke is in the history, newest first, with a line that says
   what it is.
-- Undo takes the last stroke back; Ctrl+Z does the same while a pen
-  is held; a stroke can be removed from the middle.
+- Undo takes the last stroke back, Ctrl+Z does the same while a pen is
+  held, and a stroke can be removed from the middle.
 - Reset clears everything before it and stays in the history, so Undo
   brings it all back.
 
@@ -165,9 +168,10 @@ the logic tests.
   mansion and the hill as scenes.
 - The intro lists every campaign the app knows, with its system and
   where it lives.
-- A new campaign goes under the Tablewright home, or in a folder of
-  the DM's own.
-- A campaign folder from elsewhere opens from the intro.
+- A new campaign goes under the Tablewright home and opens on a
+  tavern of its own.
+- A campaign can live in a folder of the DM's own, and a folder from
+  elsewhere opens from the intro *(later)*.
 - Leaving a campaign returns to the intro, and the window's title
   says which campaign is open.
 - The campaign open when the app closed comes back at the next start
@@ -176,18 +180,18 @@ the logic tests.
 ### A DM sets up scenes
 
 - A new scene is blank, or a reference drawing.
-- The scene tab switches scenes; a player sees the scene's name and
-  nothing more.
-- Each scene keeps its own picture, opened from a file.
+- The scene tab switches scenes.
+- Each scene keeps its own picture, opened from a file *(later)*.
 - A scene remembers its strokes, its display, and the state play left
   its thresholds in.
 
-## A player at the table
+## The player
 
 ### The player's view
 
 - The page served without Tauri is the player view: the party tier,
   no DM chrome, and it says so.
+- A player sees the scene's name and nothing more.
 - A player's entry page has no Place on board.
 
 ## Budgets

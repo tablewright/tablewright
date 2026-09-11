@@ -10,9 +10,10 @@ export const fixtureSystem: SystemManifest = {
   name: "5e",
   versions: { "2014": { name: "5e (2014 rules)" }, "2024": { name: "5e (2024 rules)" } },
   grid: { type: "square", cellSize: 5, unit: "ft", diagonals: "equal" },
-  categories: { spells: "Spells", bestiary: "Bestiary", items: "Items" },
+  categories: { spells: "Spells", bestiary: "Bestiary", items: "Items", rules: "Rules" },
   kinds: {
     spell: { name: "Spell", category: "spells", words: ["spell", "spells"] },
+    condition: { name: "Condition", category: "rules", words: ["condition", "conditions"] },
     monster: {
       name: "Creature",
       category: "bestiary",
@@ -112,6 +113,6 @@ export const fixtureSystem: SystemManifest = {
 /** The text values the fixture entries hold, per facet. */
 export const fixtureFacetValues: Record<string, string[]> = {
   school: ["evocation", "abjuration"],
-  size: ["large"],
+  size: ["small", "large"],
   rarity: ["rare"],
 };

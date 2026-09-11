@@ -58,6 +58,14 @@ export class MapLayer {
     return { width: texture.width, height: texture.height };
   }
 
+  /** The shown map's pixel size, or nothing while there is none. */
+  size(): MapSize | undefined {
+    if (this.sprite === undefined) {
+      return undefined;
+    }
+    return { width: this.sprite.texture.width, height: this.sprite.texture.height };
+  }
+
   clear(): void {
     if (this.sprite !== undefined) {
       this.sprite.destroy();

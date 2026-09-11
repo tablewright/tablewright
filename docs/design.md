@@ -622,9 +622,10 @@ the rounds are in the local research file.
   that names what the stroke means for movement and sight.
   *Ground*, with a state: ground; difficult (double cost); air
   (fliers only: the gap between floating islands, a floor a spell
-  took); void (nobody; outside the scene). *Threshold*, clicked onto
-  a cell edge: a kind (door, arch, window, frosted window that blurs
-  sight) and a state (open, closed, locked, secret); windows always
+  took); void (nobody; outside the scene). A cell with no ground
+  drawn on it is ground. *Threshold*, clicked onto a cell edge: a
+  kind (door, arch, window, frosted window that blurs sight) and a
+  state (open, closed, locked, secret); windows always
   pass sight, and a large window is forcible, dived through open or
   smashed shut by an action taken in play that the route never
   plans, while a small one is sight only; walls are forcible the

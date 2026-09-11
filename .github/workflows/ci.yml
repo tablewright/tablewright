@@ -230,8 +230,8 @@ jobs:
         # The perf project stays out: hosted runners render in software, so
         # its frame times say nothing. Real numbers come from a GPU machine.
         project: [chromium, webkit]
-        # Two shards is what three spec files justify. Raise this list and
-        # the divisor in the command below together when the suite grows.
+        # Two shards for the five spec files. Raise this list and the
+        # divisor in the command below together when the suite grows.
         shard: [1, 2]
     steps:
       - uses: actions/checkout@v6
@@ -247,7 +247,9 @@ jobs:
       # slowest step of the job for nothing.
       - run: bunx playwright install --with-deps ${{ matrix.project }}
       # Parameterised, so this is the one job that reaches for Playwright
-      # directly instead of going through a bun run script.
+      # directly instead of going through a bun run script. It also runs
+      # without the cap the e2e scripts put on a desk: a runner has no one
+      # else to share with, so the stories spread across its workers.
       - run: bunx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shard }}/2 --reporter=blob
         working-directory: apps/table
       - uses: actions/upload-artifact@v7

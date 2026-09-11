@@ -57,6 +57,12 @@ in [STYLE.md](STYLE.md).
 - A story runs on one page load. Its steps share the page and read
   what the user would read: what is shown, and what the record holds.
   Never how a component is built.
+- A step does not read the page's own words: a notice, a history
+  line, a label, the way the title is laid out. Words change; the
+  outcome does not. It may read data the record holds or the person
+  typed, such as a campaign's name or where it lives, and it finds a
+  control by its name. Where the words are the answer, as in search,
+  the step reads them.
 - Write the outcome line first, then the step. A regression is a new
   line in the story it belongs to, never a test of its own.
 - A checker in `check` ties the document to the specs: an outcome
@@ -74,8 +80,11 @@ in [STYLE.md](STYLE.md).
 ## Speed
 
 - `check` runs in seconds; keep it so. Stories are the one slow part.
-  They share nothing, so they run in parallel, in one browser engine
-  by default, the others on request.
+  They share nothing, so CI runs them side by side, in one browser
+  engine by default, the others on request.
+- On a person's own machine, stories run one at a time, held to a
+  share of the machine, so the desktop stays usable while they run.
+  The run takes longer for it, and the person keeps working.
 - While working: one story, one engine. Before a commit: every story.
 
 ## What a story cannot see

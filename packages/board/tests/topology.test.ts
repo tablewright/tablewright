@@ -117,15 +117,15 @@ describe("edges", () => {
 });
 
 describe("ground", () => {
-  test("everything is void until ground is drawn, and a later stroke overrides an earlier", () => {
+  test("a cell nothing was drawn on is ground, and a later stroke overrides an earlier", () => {
     const topology = derive(
-      [groundRect("ground", 1, 1, 5, 5), groundRect("difficult", 2, 2, 3, 3)],
+      [groundRect("void", 1, 1, 5, 5), groundRect("difficult", 2, 2, 3, 3)],
       bounds
     );
-    expect(groundAt(topology, { col: 0, row: 0 })).toBe("void");
-    expect(groundAt(topology, { col: 1, row: 1 })).toBe("ground");
+    expect(groundAt(topology, { col: 0, row: 0 })).toBe("ground");
+    expect(groundAt(topology, { col: 1, row: 1 })).toBe("void");
     expect(groundAt(topology, { col: 2, row: 3 })).toBe("difficult");
-    expect(groundAt(topology, { col: 4, row: 4 })).toBe("ground");
+    expect(groundAt(topology, { col: 4, row: 4 })).toBe("void");
     expect(groundAt(topology, { col: 40, row: 40 })).toBe("void");
   });
 
@@ -141,14 +141,14 @@ describe("ground", () => {
           { x: 1, y: 6 },
         ],
       },
-      state: "ground",
+      state: "difficult",
       visibility: "party",
     };
     const topology = derive([triangle], bounds);
-    expect(groundAt(topology, { col: 1, row: 1 })).toBe("ground");
-    expect(groundAt(topology, { col: 2, row: 2 })).toBe("ground");
-    expect(groundAt(topology, { col: 4, row: 4 })).toBe("void");
-    expect(groundAt(topology, { col: 5, row: 1 })).toBe("void");
+    expect(groundAt(topology, { col: 1, row: 1 })).toBe("difficult");
+    expect(groundAt(topology, { col: 2, row: 2 })).toBe("difficult");
+    expect(groundAt(topology, { col: 4, row: 4 })).toBe("ground");
+    expect(groundAt(topology, { col: 5, row: 1 })).toBe("ground");
     const corners = [
       { x: 1, y: 1 },
       { x: 6, y: 1 },
@@ -163,19 +163,19 @@ describe("ground", () => {
       ink: "ground",
       look: "data",
       shape: { kind: "brush", points: [{ x: 3.5, y: 3.5 }], radius },
-      state: "ground",
+      state: "difficult",
       visibility: "party",
     });
     // Within the cell: only that cell.
     const narrow = derive([dab(0.4)], bounds);
-    expect(groundAt(narrow, { col: 3, row: 3 })).toBe("ground");
-    expect(groundAt(narrow, { col: 4, row: 3 })).toBe("void");
+    expect(groundAt(narrow, { col: 3, row: 3 })).toBe("difficult");
+    expect(groundAt(narrow, { col: 4, row: 3 })).toBe("ground");
     // Past the cell's edge by a tenth: the four neighbours, not the corners.
     const wide = derive([dab(0.6)], bounds);
-    expect(groundAt(wide, { col: 4, row: 3 })).toBe("ground");
-    expect(groundAt(wide, { col: 2, row: 3 })).toBe("ground");
-    expect(groundAt(wide, { col: 3, row: 2 })).toBe("ground");
-    expect(groundAt(wide, { col: 4, row: 4 })).toBe("void");
+    expect(groundAt(wide, { col: 4, row: 3 })).toBe("difficult");
+    expect(groundAt(wide, { col: 2, row: 3 })).toBe("difficult");
+    expect(groundAt(wide, { col: 3, row: 2 })).toBe("difficult");
+    expect(groundAt(wide, { col: 4, row: 4 })).toBe("ground");
   });
 
   test("a ground sweep converts every cell along its path, however thin", () => {
@@ -190,15 +190,15 @@ describe("ground", () => {
         ],
         radius: 0.01,
       },
-      state: "ground",
+      state: "difficult",
       visibility: "party",
     };
     const topology = derive([thin], bounds);
     for (let col = 1; col <= 4; col += 1) {
-      expect(groundAt(topology, { col, row: 2 })).toBe("ground");
+      expect(groundAt(topology, { col, row: 2 })).toBe("difficult");
     }
-    expect(groundAt(topology, { col: 1, row: 3 })).toBe("void");
-    expect(groundAt(topology, { col: 5, row: 2 })).toBe("void");
+    expect(groundAt(topology, { col: 1, row: 3 })).toBe("ground");
+    expect(groundAt(topology, { col: 5, row: 2 })).toBe("ground");
   });
 });
 
@@ -279,7 +279,9 @@ describe("the mansion", () => {
     expect(heightAt(topology, { col: 4, row: 1 })).toBe(10);
     expect(heightAt(topology, { col: 14, row: 9 })).toBe(-10);
     expect(isLevelChangeAt(topology, { col: 9, row: 1 })).toBe(true);
-    expect(groundAt(topology, { col: 0, row: 0 })).toBe("void");
+    // Outside the house nothing was drawn, so it is plain ground, walled off.
+    expect(groundAt(topology, { col: 0, row: 0 })).toBe("ground");
+    expect(isTexturedAt(topology, { col: 0, row: 0 })).toBe(false);
   });
 });
 
@@ -325,14 +327,16 @@ describe("a reset", () => {
       [
         ...mansionStrokes(),
         { ink: "clear", visibility: "party" },
-        groundRect("ground", 0, 0, 1, 1),
+        groundRect("difficult", 0, 0, 1, 1),
       ],
       bounds
     );
     expect(topology.edges.size).toBe(0);
     expect(heightAt(topology, { col: 4, row: 1 })).toBe(0);
-    expect(groundAt(topology, { col: 5, row: 5 })).toBe("void");
-    expect(groundAt(topology, { col: 0, row: 0 })).toBe("ground");
+    // The mansion's textured floor is gone: plain ground, as if nothing was drawn.
+    expect(groundAt(topology, { col: 5, row: 5 })).toBe("ground");
+    expect(isTexturedAt(topology, { col: 5, row: 5 })).toBe(false);
+    expect(groundAt(topology, { col: 0, row: 0 })).toBe("difficult");
   });
 });
 

@@ -142,6 +142,30 @@ const ENTRIES: FixtureEntry[] = [
     html: "<p>While holding this magic weapon, you can take a Bonus Action to cause flames to sheathe its blade.</p>\n",
     sections: [],
   },
+  {
+    id: "fx:condition:blinded",
+    type: "condition",
+    name: "Blinded",
+    source: "fixture",
+    version: "2024",
+    tags: ["condition"],
+    facets: {},
+    body: "You can't see and automatically fail any ability check that requires sight.",
+    html: "<p>You can't see and automatically fail any ability check that requires sight.</p>\n",
+    sections: [],
+  },
+  {
+    id: "fx:monster:giant-rat",
+    type: "monster",
+    name: "Giant Rat",
+    source: "fixture",
+    version: "2024",
+    tags: ["beast", "small", "cr-1/8"],
+    facets: { cr: 0.125, size: "small" },
+    body: "A rat the size of a dog, with a taste for the dark.",
+    html: "<p>A rat the size of a dog, with a taste for the dark.</p>\n",
+    sections: [],
+  },
 ];
 
 export const fixtureSearcher = async (

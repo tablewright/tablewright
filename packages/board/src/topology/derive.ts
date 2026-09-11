@@ -85,7 +85,8 @@ export interface Topology {
 
 /**
  * Apply `strokes` in order over `bounds`, then what `play` did to the
- * thresholds among them. Cells outside the bounds are void.
+ * thresholds among them. A cell nothing was drawn on is ground; cells
+ * outside the bounds are void.
  */
 export function derive(
   strokes: readonly Stroke[],
@@ -97,7 +98,7 @@ export function derive(
   const topology = {
     bounds,
     samples,
-    ground: new Uint8Array(bounds.cols * bounds.rows),
+    ground: new Uint8Array(bounds.cols * bounds.rows).fill(GROUND_CODES.ground),
     texture: new Uint8Array(bounds.cols * bounds.rows),
     edges: new Map<string, EdgeData>(),
     field,
@@ -251,7 +252,7 @@ function apply(stroke: Stroke, topology: Mutable): void {
       topology.free.push(stroke);
       break;
     case "clear":
-      topology.ground.fill(0);
+      topology.ground.fill(GROUND_CODES.ground);
       topology.texture.fill(0);
       topology.edges.clear();
       topology.field.fill(0);

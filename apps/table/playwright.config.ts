@@ -12,11 +12,23 @@ export default defineConfig({
   testDir: "./tests",
   testMatch: /.*\.e2e\.ts/,
   outputDir: "./test-results",
-  workers: 1,
+  // Stories share nothing, so CI runs them side by side. On a desk, one at
+  // a time: a headless browser draws the board in software, on the
+  // processor, and two or more at once take the whole machine.
+  workers: isCi ? undefined : 1,
+  // A story strings many outcomes on one page, headless browsers draw the
+  // board in software, and a run on a desk is held to a quarter of the
+  // machine (tools/capped.ts), where the slowest story takes about three
+  // minutes. So the waits are generous: ten minutes for a story, twice
+  // the default for a check. An action that finds nothing still gives up
+  // after twenty seconds.
+  timeout: 600_000,
+  expect: { timeout: 10_000 },
   reporter: [["list"], ["html", { open: "never", outputFolder: "./playwright-report" }]],
   use: {
     baseURL: `http://localhost:${PORT}`,
     viewport: { width: 1280, height: 800 },
+    actionTimeout: 20_000,
     // Off while the PoC iterates fast; every recording is encoded in software.
     // Back on, at least for failures, once past the PoC.
     video: "off",

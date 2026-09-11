@@ -11,7 +11,8 @@
     "build": "vite build",
     "typecheck": "tsc -p . && tsc -p tests",
     "check": "bun run typecheck && bun run build",
-    "e2e": "playwright test",
+    "e2e": "bun run ../../tools/capped.ts bun x playwright test --project=chromium",
+    "e2e:all": "bun run ../../tools/capped.ts bun x playwright test --project=chromium --project=webkit",
     "e2e:perf": "playwright test tests/perf.e2e.ts --project=chromium",
     "tauri": "tauri",
     "seed": "cargo run -p tablewright-core --bin seed -- src-tauri/resources/compendium/5e-srd.sqlite ../../systems/5e/system.json ../../systems/5e/content/2024/srd ../../systems/5e/content/2014/srd ../../systems/5e/content/2014/core-conditions"

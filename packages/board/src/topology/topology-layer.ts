@@ -6,9 +6,10 @@
  * hint, thresholds by kind and state, level changes as ticks. A stroke
  * drawn as texture too shows in full, for a map whose art has none: a
  * painted floor, hatched difficult ground, a hole for air, a solid wall,
- * a heavy threshold, stair treads. Free ink as it was. Nothing for void,
- * so a scene with no strokes looks as it did. One Graphics, rebuilt when
- * the topology or the grid changes; height is the height layer's.
+ * a heavy threshold, stair treads. Free ink as it was. Nothing for plain
+ * ground or void, so a scene with no strokes looks as it did. One
+ * Graphics, rebuilt when the topology or the grid changes; height is the
+ * height layer's.
  * Design: docs/design.md §5 "Topology and measurement".
  */
 
