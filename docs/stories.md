@@ -1,21 +1,11 @@
 # Stories
 
-What a person at the table does, and what they see. Each feature is a
-section, each story a heading, and each line under it an outcome that
-a test checks, word for word, as a step. A story marked *(later)* is
-intended and not yet tested. The design says why
-([design.md](design.md)); the plan says when. How a story becomes a
-test is in [.ai/TESTING.md](../.ai/TESTING.md).
-
-Every story starts from the base: the example campaign as the first
-run makes it, with the tavern and its three tokens open, the mansion
-and the hill as scenes, and the fixture compendium. A story sets up
-nothing else; what it needs, it does in its first steps.
-
-The stories run the page against a stand-in for the core in the
-browser. Until serve mode puts the real core behind the page, the seam
-between the two is where a bug can hide: the core's types and its
-files are proved by the logic tests, not by the stories.
+What a person at the table does, and what they see, starting from the
+base: the example campaign with the tavern open. *(later)* marks a
+story not yet tested. How a story becomes a test is in
+[.ai/TESTING.md](../.ai/TESTING.md). The stories run against a
+stand-in for the core; the core's own types and files are proved by
+the logic tests.
 
 ## Search
 
