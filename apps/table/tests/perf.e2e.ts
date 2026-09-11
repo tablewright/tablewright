@@ -3,7 +3,9 @@ import { expect, test } from "@playwright/test";
 // The measurement lives in the app (src/dev/perf-probe.ts); this spec only
 // starts a scenario, waits for its numbers, attaches them, and judges them.
 // With a real GPU the budget is a 60 Hz frame; in software rendering only a
-// collapse counts, because the absolute numbers mean nothing there.
+// collapse counts, because the absolute numbers mean nothing there. The
+// frames drawn in an idle second are reported and not judged: the board
+// draws on request, so a person reading the line expects none.
 
 const SCENARIOS = ["tavern", "world-fit", "world-zoom"] as const;
 const P95_BUDGET_MS = 16.9;
@@ -44,7 +46,7 @@ test.describe("board frame times", () => {
       });
       console.log(
         `${scenario}: mean ${result.meanMs} p95 ${result.p95Ms} max ${result.maxMs} ` +
-          `>16.9 ${result.over16} >33 ${result.over33} on ${renderer}`
+          `>16.9 ${result.over16} >33 ${result.over33} idle ${result.idleFrames} on ${renderer}`
       );
       if (isSoftware) {
         expect(result.p95Ms).toBeLessThanOrEqual(SOFTWARE_P95_BUDGET_MS);

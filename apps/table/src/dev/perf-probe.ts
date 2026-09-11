@@ -4,8 +4,10 @@
  * The frame-time measurement that the perf harness and a person at the
  * console run alike: one wheel step per animation frame, alternating
  * direction, which changes the camera and rebuilds the grid on every
- * frame, while the gaps between frames are recorded. Dev builds only;
- * the harness reads the result from `window.__tablewrightPerf`.
+ * frame, while the gaps between frames are recorded. Then a second with
+ * nothing happening, counting the frames drawn: the board draws on
+ * request, so a person expects none. Dev builds only; the harness reads
+ * the result from `window.__tablewrightPerf`.
  */
 
 export interface PerfResult {
@@ -18,6 +20,8 @@ export interface PerfResult {
   readonly over16: number;
   /** Frames longer than two 60 Hz budgets: a visible hitch. */
   readonly over33: number;
+  /** Frames drawn in one second with nothing happening, after the zoom. */
+  readonly idleFrames: number;
 }
 
 export type PerfScenario = "tavern" | "world-fit" | "world-zoom";
@@ -38,6 +42,7 @@ const WHEEL_STEP_PX = 40;
 const REVERSE_EVERY = 40;
 const SIXTY_HZ_BUDGET_MS = 16.9;
 const HITCH_MS = 33;
+const IDLE_MS = 1000;
 
 function wheel(target: HTMLElement, x: number, y: number, deltaY: number): void {
   target.dispatchEvent(
@@ -52,10 +57,20 @@ function wheel(target: HTMLElement, x: number, y: number, deltaY: number): void 
   );
 }
 
-/** Run the probe against `target`, the board element, and resolve with the statistics. */
+function nextRefresh(): Promise<void> {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => resolve());
+  });
+}
+
+/**
+ * Run the probe against `target`, the board element, and resolve with the
+ * statistics. `framesDrawn` reads how many frames the board has drawn.
+ */
 export async function runPerfProbe(
   target: HTMLElement,
-  scenario: PerfScenario
+  scenario: PerfScenario,
+  framesDrawn: () => number
 ): Promise<PerfResult> {
   const rect = target.getBoundingClientRect();
   for (let i = 0; i < SCENARIOS[scenario].zoomInSteps; i += 1) {
@@ -85,6 +100,15 @@ export async function runPerfProbe(
     };
     requestAnimationFrame(step);
   });
+  // The frame the last wheel step asked for is still to come; let it land
+  // before the idle second starts.
+  await nextRefresh();
+  await nextRefresh();
+  const drawnBeforeIdle = framesDrawn();
+  await new Promise((resolve) => {
+    setTimeout(resolve, IDLE_MS);
+  });
+  const idleFrames = framesDrawn() - drawnBeforeIdle;
   const sorted = deltas.sort((a, b) => a - b);
   const mean = sorted.reduce((sum, value) => sum + value, 0) / sorted.length;
   return {
@@ -95,6 +119,7 @@ export async function runPerfProbe(
     maxMs: round(sorted[sorted.length - 1] ?? 0),
     over16: sorted.filter((value) => value > SIXTY_HZ_BUDGET_MS).length,
     over33: sorted.filter((value) => value > HITCH_MS).length,
+    idleFrames,
   };
 }
 

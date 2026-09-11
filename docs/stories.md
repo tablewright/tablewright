@@ -199,4 +199,7 @@ the logic tests.
 Not stories. The perf project, `bun run e2e:perf`, drives the tavern,
 a world map fitted to the window, and the same map zoomed in, with
 fifty tokens, and reports frame times against a sixty hertz budget
-with hitches counted. It runs on demand on a machine with a GPU.
+with hitches counted. It also counts the frames drawn in one second
+with nothing happening: the board draws only on request, so the count
+should be none. That number is reported, not judged. It runs on
+demand on a machine with a GPU.

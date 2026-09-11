@@ -5,11 +5,13 @@
  * draws into. The world container is the one thing the camera moves;
  * the layers inside it are ordered map, grid, height, topology, tokens,
  * overlay, so draw order is a fact of the tree rather than a convention
- * each layer has to remember.
- * Design: docs/design.md §5, hybrid rendering.
+ * each layer has to remember. The stage draws on request: its ticker
+ * never runs, and a frame comes only when something asks for one.
+ * Design: docs/design.md §5, hybrid rendering; the board draws on request.
  */
 
-import { Application, Container, UPDATE_PRIORITY } from "pixi.js";
+import { Application, Container } from "pixi.js";
+import { FrameScheduler } from "./frame-scheduler.js";
 
 export interface BoardStageOptions {
   /** Canvas clear colour as 0xRRGGBB. The theme bridge supplies it once it exists. */
@@ -31,17 +33,33 @@ export interface BoardLayers {
 // A shade lighter than the page ground so an empty board is visibly a board.
 const DEFAULT_BACKGROUND = 0x1b1d24;
 
+// Input on the board that can change what it shows; each asks for a frame.
+// Caught in the capture phase, since a layer that claims a press stops the
+// event before it would bubble to the host element.
+const INPUT_EVENTS = [
+  "pointerdown",
+  "pointermove",
+  "pointerup",
+  "pointercancel",
+  "pointerleave",
+  "wheel",
+] as const;
+const INPUT_OPTIONS: AddEventListenerOptions = { capture: true, passive: true };
+
 /** A full-size Pixi canvas inside a host element, resized and DPR-corrected automatically. */
 export class BoardStage {
   readonly app: Application;
   /** The camera applies its transform here; everything in world space hangs below it. */
   readonly world: Container;
   readonly layers: BoardLayers;
-  /** Resolves after the first frame has rendered, for hosts that keep their window hidden until then. */
+  /** Resolves once the first frame has been drawn, for hosts that keep their window hidden until then. */
   readonly firstFrame: Promise<void>;
   private readonly host: HTMLElement;
+  private readonly scheduler: FrameScheduler;
   private readonly resizeObserver: ResizeObserver;
   private readonly resizeListeners = new Set<() => void>();
+  private readonly beforeDrawListeners = new Set<() => void>();
+  private resolveFirstFrame: () => void = () => {};
   private dprQuery: MediaQueryList | undefined;
 
   private constructor(app: Application, host: HTMLElement) {
@@ -67,21 +85,36 @@ export class BoardStage {
     app.stage.addChild(this.world);
 
     this.firstFrame = new Promise((resolve) => {
-      // UTILITY runs after the application's own render pass (LOW) within a tick.
-      app.ticker.addOnce(() => resolve(), undefined, UPDATE_PRIORITY.UTILITY);
+      this.resolveFirstFrame = resolve;
     });
+    this.scheduler = new FrameScheduler(
+      (draw) => {
+        requestAnimationFrame(draw);
+      },
+      () => this.draw()
+    );
+    for (const type of INPUT_EVENTS) {
+      host.addEventListener(type, this.onInput, INPUT_OPTIONS);
+    }
+    // The board acts on key presses; a release changes nothing it shows.
+    window.addEventListener("keydown", this.onInput, INPUT_OPTIONS);
 
     this.resizeObserver = new ResizeObserver(() => this.fit());
     this.resizeObserver.observe(host);
     this.watchDpr();
+    // The stage asks for its own first frame, so a host that waits on it
+    // never waits on a change that has yet to come.
+    this.requestFrame();
   }
 
-  /** Create the Pixi application inside `host`, attach its canvas, and start rendering. */
+  /** Create the Pixi application inside `host` and attach its canvas; the first frame follows. */
   static async create(host: HTMLElement, options: BoardStageOptions = {}): Promise<BoardStage> {
     const app = new Application();
     await app.init({
       // WebGL only: the frontend stays engine-neutral (design §4, Platforms).
       preference: "webgl",
+      // The ticker never runs: a frame is drawn when asked for, never on a loop.
+      autoStart: false,
       background: options.background ?? DEFAULT_BACKGROUND,
       width: host.clientWidth,
       height: host.clientHeight,
@@ -93,16 +126,44 @@ export class BoardStage {
     return new BoardStage(app, host);
   }
 
-  /** Stop rendering, detach the canvas, and release GPU resources. */
+  /** Stop drawing, detach the canvas, and release GPU resources. */
   destroy(): void {
+    this.scheduler.dispose();
+    for (const type of INPUT_EVENTS) {
+      this.host.removeEventListener(type, this.onInput, INPUT_OPTIONS);
+    }
+    window.removeEventListener("keydown", this.onInput, INPUT_OPTIONS);
     this.resizeObserver.disconnect();
     this.dprQuery?.removeEventListener("change", this.onDprChange);
     this.app.destroy({ removeView: true }, { children: true });
   }
 
+  /** Ask for a frame: drawn at the next screen refresh, together with every other ask until then. */
+  requestFrame(): void {
+    this.scheduler.ask();
+  }
+
+  /** Frames drawn since the stage was made; still while nothing changes. */
+  get framesDrawn(): number {
+    return this.scheduler.framesDrawn;
+  }
+
+  /**
+   * Run `listener` just before each frame is drawn, for work that waits on
+   * the frame rather than on each change, such as a grid rebuilt once per
+   * camera move. Returns the unsubscribe function.
+   */
+  onBeforeDraw(listener: () => void): () => void {
+    this.beforeDrawListeners.add(listener);
+    return () => {
+      this.beforeDrawListeners.delete(listener);
+    };
+  }
+
   /** Change the canvas clear colour, for example on a theme switch. */
   setBackground(color: number): void {
     this.app.renderer.background.color = color;
+    this.requestFrame();
   }
 
   /** Subscribe to canvas size changes; returns the unsubscribe function. */
@@ -111,6 +172,19 @@ export class BoardStage {
     return () => {
       this.resizeListeners.delete(listener);
     };
+  }
+
+  private readonly onInput = (): void => {
+    this.requestFrame();
+  };
+
+  // One frame: the work that waited for it, then the render.
+  private draw(): void {
+    for (const listener of this.beforeDrawListeners) {
+      listener();
+    }
+    this.app.render();
+    this.resolveFirstFrame();
   }
 
   private fit(): void {
@@ -122,6 +196,8 @@ export class BoardStage {
     for (const listener of this.resizeListeners) {
       listener();
     }
+    // Resizing blanks the canvas, so this frame cannot wait for the next refresh.
+    this.scheduler.drawNow();
   }
 
   // A media query matching the current ratio fires once when the window moves

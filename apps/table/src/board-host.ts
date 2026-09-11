@@ -108,6 +108,8 @@ export interface BoardDebug {
   distance(from: Cell, to: Cell): number;
   /** What the height display last drew. */
   heights(): HeightDrawing;
+  /** Frames the board has drawn; still while nothing changes. */
+  framesDrawn(): number;
 }
 
 /** A finished gesture the scene should record: which token, where, facing what. */
@@ -227,6 +229,7 @@ export class BoardHost {
       this.topologyLayer.setStyle(topologyStyle(next));
       this.heightLayer.setStyle(heightStyle(next));
       this.drawLayer.setStyle(drawStyle(next));
+      stage.requestFrame();
     });
 
     // A finished stroke is the DM's to record; the hovered cell is read
@@ -250,16 +253,21 @@ export class BoardHost {
         listener(move);
       }
     });
+    // The hold-to-turn timer selects the token it turns, on no input of
+    // its own; the selection is what the frame has to show.
+    this.tokenLayer.onSelect(() => stage.requestFrame());
 
     // Camera and resize events can arrive several times per frame; the grid
-    // is rebuilt at most once, just before the frame renders.
+    // is rebuilt at most once, just before the frame is drawn. A camera
+    // change asks for that frame; a resize is drawn at once by the stage.
     this.camera.onChange(() => {
       this.isGridStale = true;
+      stage.requestFrame();
     });
     stage.onResize(() => {
       this.isGridStale = true;
     });
-    stage.app.ticker.add(() => {
+    stage.onBeforeDraw(() => {
       if (this.isGridStale) {
         this.isGridStale = false;
         this.redrawGrid();
@@ -303,18 +311,21 @@ export class BoardHost {
     this.display = scene.display;
     this.redrawTopology();
     this.setTokens(tokenViews(scene));
+    this.stage.requestFrame();
   }
 
   /** Measure by `rule`: the campaign's setting, the system's default until then. */
   setRule(rule: GridRule): void {
     this.rule = rule;
     this.redrawHeights();
+    this.stage.requestFrame();
   }
 
   /** Replace what stands on the board. */
   setTokens(tokens: readonly TokenView[]): void {
     this.tokens = tokens;
     this.showTokens();
+    this.stage.requestFrame();
   }
 
   // Every token wears the height of the ground under it.
@@ -343,6 +354,7 @@ export class BoardHost {
     } else {
       this.target.dataset["tool"] = tool.shape;
     }
+    this.stage.requestFrame();
   }
 
   /** Hear every stroke the tool finishes. Returns the unsubscribe. */
@@ -419,6 +431,7 @@ export class BoardHost {
     } else {
       this.target.dataset["threshold"] = "true";
     }
+    this.stage.requestFrame();
   }
 
   /** The cell under the middle of the view: where a placed token lands. */
@@ -448,6 +461,7 @@ export class BoardHost {
           this.rule
         ),
       heights: () => this.heightLayer.drawing(),
+      framesDrawn: () => this.stage.framesDrawn,
     };
   }
 
@@ -480,6 +494,8 @@ export class BoardHost {
       { left: 0, top: 0, right: size.width, bottom: size.height },
       FIT_PADDING
     );
+    // The picture arrived in its own time, on no input; it needs a frame of its own.
+    this.stage.requestFrame();
     return size;
   }
 

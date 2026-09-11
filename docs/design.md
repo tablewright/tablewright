@@ -567,6 +567,23 @@ PixiJS (WebGL).
 - **Hybrid rendering:** canvas for grid, background, lighting,
   effects; DOM overlay positioned by the same camera transform for
   rich content (panels, labels).
+- **The board draws on request.** Nothing is drawn while nothing
+  changes, so an idle board costs neither processor nor graphics
+  card, in the app and in a headless test alike. A change asks for a
+  frame, and every ask made before the next screen refresh is drawn
+  together, once. While the pointer pans, drags, measures or places
+  a template, the asks come every refresh, so the board draws at
+  full rate. Asks come from input on the board (pointer, wheel,
+  keys), from the host after every change it makes, and from what
+  changes on its own: the hold-to-turn timer, a picture that
+  finishes loading, a theme, a resize (drawn at once, since resizing
+  the canvas blanks it). Something that animates, such as a
+  flickering light *(later)*, asks every refresh while it runs. Pixi
+  tests pointer hits against the last frame drawn, which input
+  asking for a frame keeps current. Decided 2026-09-11 (user) as the
+  way to try first and feel in play; if a change that fails to ask
+  ever shows late, the fallback is a slow heartbeat while idle, two
+  frames a second.
 - **Engine/skin split:** camera, coordinate math (square + hex),
   drag-snap, hit-testing are aesthetic-neutral; looks are skins.
   Square ships in the PoC; hex *(later)* imports the pointy-top

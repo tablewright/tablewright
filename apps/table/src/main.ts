@@ -206,7 +206,8 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
     board.seedTokens(count);
   }
   if (scenario !== undefined) {
-    window.__tablewrightPerf = runPerfProbe(host, scenario);
+    const debug = board.debug();
+    window.__tablewrightPerf = runPerfProbe(host, scenario, () => debug.framesDrawn());
   }
 }
 
