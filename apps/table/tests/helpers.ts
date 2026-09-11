@@ -34,7 +34,7 @@ export async function openHallowayHouse(page: Page): Promise<void> {
   const tab = page.locator("tw-scenes");
   await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
   await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
-  await expect.poll(() => edgeCount(page)).toBe(118);
+  await expect.poll(() => edgeCount(page)).toBe(110);
 }
 
 export function edgeCount(page: Page) {

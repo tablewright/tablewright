@@ -4,7 +4,8 @@
  * The Drawing Room mock's mansion, laid out for the tavern's twenty by
  * fifteen cells: two wings either side of a corridor, a dais hall with
  * arches and stairs, a locked door, windows in the outer walls, a
- * secret door to the gallery, a pit, and a raised gallery end. The
+ * secret door to the gallery, a pit, and a gallery raised over the
+ * hall and open to it as a ledge, so a drop is one way down. The
  * reference drawing behind the topology tests and the table's
  * "Draw the mansion" button.
  */
@@ -69,8 +70,7 @@ export function mansionStrokes(): Stroke[] {
   return [
     ground("ground", rect(1, 1, 10, 13)),
     ground("ground", rect(11, 1, 18, 13)),
-    walls(rect(1, 1, 8, 2)),
-    walls(rect(1, 3, 8, 11)),
+    walls(rect(1, 1, 8, 11)),
     walls(rect(9, 1, 10, 11)),
     walls(rect(11, 1, 18, 6)),
     walls(rect(11, 7, 18, 11)),

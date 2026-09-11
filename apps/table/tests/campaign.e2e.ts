@@ -80,7 +80,7 @@ test("A DM sets up scenes", async ({ page }) => {
     expect(await edgeCount(page)).toBe(0);
     await tab.getByRole("button", { name: "Cellar" }).click();
     await tab.getByRole("menuitem", { name: "Add Halloway House" }).click();
-    await expect.poll(() => edgeCount(page)).toBe(118);
+    await expect.poll(() => edgeCount(page)).toBe(110);
     await expect(tab.getByRole("button", { name: "Halloway House" })).toBeVisible();
   });
 
@@ -92,7 +92,7 @@ test("A DM sets up scenes", async ({ page }) => {
     await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
     // The reference just added is the second Halloway House; the example's own is first.
     await tab.getByRole("menuitem", { name: "Halloway House", exact: true }).nth(1).click();
-    await expect.poll(() => edgeCount(page)).toBe(118);
+    await expect.poll(() => edgeCount(page)).toBe(110);
   });
 
   await test.step("A scene remembers its strokes, its display, and the state play left its thresholds in.", async () => {
@@ -103,7 +103,7 @@ test("A DM sets up scenes", async ({ page }) => {
       await edgeOnScreen(page, { col: 9, row: 3 }, { col: 10, row: 4 }),
       await edgeOnScreen(page, { col: 9, row: 7 }, { col: 10, row: 8 })
     );
-    await expect.poll(() => edgeCount(page)).toBe(122);
+    await expect.poll(() => edgeCount(page)).toBe(114);
     await tools.getByRole("button", { name: "Height" }).click();
     await tools.getByRole("button", { name: "Marked" }).click();
     await expect.poll(async () => (await heights())?.mode).toBe("marked");
@@ -116,7 +116,7 @@ test("A DM sets up scenes", async ({ page }) => {
     await expect.poll(() => edgeCount(page)).toBe(0);
     await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
     await tab.getByRole("menuitem", { name: "Halloway House", exact: true }).nth(1).click();
-    await expect.poll(() => edgeCount(page)).toBe(122);
+    await expect.poll(() => edgeCount(page)).toBe(114);
     expect((await heights())?.mode).toBe("marked");
     expect(await doorState()).toBe("open");
   });
