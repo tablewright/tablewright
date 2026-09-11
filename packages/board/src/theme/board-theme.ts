@@ -33,6 +33,10 @@ export interface BoardTheme {
   readonly heightUp: PackedColor;
   readonly heightDown: PackedColor;
   readonly heightTag: PackedColor;
+  /** The ruler: its line, its ends and its numbers. */
+  readonly ruler: PackedColor;
+  /** The one red on the board: a way past what this turn's movement reaches. */
+  readonly beyond: PackedColor;
 }
 
 // Used when a token is missing or unparseable, so a broken theme still shows a board.
@@ -54,6 +58,8 @@ const FALLBACK: BoardTheme = {
   heightUp: { rgb: 0xe4c57a, alpha: 1 },
   heightDown: { rgb: 0x5fa8bd, alpha: 1 },
   heightTag: { rgb: 0xf1e6d2, alpha: 1 },
+  ruler: { rgb: 0xf1e6d2, alpha: 1 },
+  beyond: { rgb: 0xc8553d, alpha: 1 },
 };
 
 /** Read the board tokens from `element`'s computed style. */
@@ -79,6 +85,8 @@ export function readBoardTheme(element: Element): BoardTheme {
     heightUp: token("height-up", FALLBACK.heightUp),
     heightDown: token("height-down", FALLBACK.heightDown),
     heightTag: token("height-tag", FALLBACK.heightTag),
+    ruler: token("ruler", FALLBACK.ruler),
+    beyond: token("beyond", FALLBACK.beyond),
   };
 }
 

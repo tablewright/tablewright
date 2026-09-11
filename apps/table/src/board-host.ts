@@ -16,6 +16,7 @@ import {
   GridLayer,
   HeightLayer,
   MapLayer,
+  RulerTool,
   TokenLayer,
   TopologyLayer,
   cellCenter,
@@ -29,6 +30,7 @@ import {
   groundAt,
   heightAt,
   isLevelChangeAt,
+  measure,
   readBoardTheme,
   stepHeight,
   visibleExtent,
@@ -46,9 +48,13 @@ import {
   type HeightDrawing,
   type HeightStyle,
   type MapSize,
+  type PlayTool,
   type Point,
   type Route,
   type RouteOptions,
+  type RulerMode,
+  type RulerStyle,
+  type ShownMeasure,
   type SquareGrid,
   type StrokeListener,
   type ThresholdEdge,
@@ -110,6 +116,8 @@ export interface BoardDebug {
   heights(): HeightDrawing;
   /** Frames the board has drawn; still while nothing changes. */
   framesDrawn(): number;
+  /** The measure the ruler shows, in the mode it is read in, or nothing. */
+  measurement(): ShownMeasure | undefined;
 }
 
 /** A finished gesture the scene should record: which token, where, facing what. */
@@ -144,6 +152,10 @@ function drawStyle(theme: BoardTheme): DrawStyle {
   return { hover: theme.hover, ink: theme.threshold };
 }
 
+function rulerStyle(theme: BoardTheme): RulerStyle {
+  return { line: theme.ruler, dash: theme.selection, beyond: theme.beyond, ground: theme.ground };
+}
+
 function heightStyle(theme: BoardTheme): HeightStyle {
   return {
     ground: theme.ground,
@@ -173,6 +185,7 @@ export class BoardHost {
   private readonly topologyLayer: TopologyLayer;
   private readonly heightLayer: HeightLayer;
   private readonly drawLayer: DrawLayer;
+  private readonly ruler: RulerTool;
   private readonly target: HTMLElement;
   private readonly moveListeners = new Set<TokenMoveListener>();
   private readonly strokeListeners = new Set<StrokeListener>();
@@ -184,6 +197,10 @@ export class BoardHost {
   /** The picture on the map layer, so a scene switch loads only a different one. */
   private mapUrl: string | undefined;
   private isToolHeld = false;
+  private buildTool: DrawTool | undefined;
+  private playTool: PlayTool = "move";
+  /** The scene on show, so a switch to another takes the measure off the board. */
+  private sceneId: string | undefined;
   private highlighted: string | undefined;
   /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
   private readonly viewer: Visibility;
@@ -210,6 +227,16 @@ export class BoardHost {
     this.drawLayer = new DrawLayer(stage.app.canvas, stage.layers.overlay, this.grid, (screen) =>
       this.camera.toWorld(screen)
     );
+    // The ruler asks the scene as it stands: the topology derived, the rule
+    // the campaign plays by, and a person on foot until sheets say otherwise.
+    this.ruler = new RulerTool(
+      stage.app.canvas,
+      stage.layers.overlay,
+      this.grid,
+      (screen) => this.camera.toWorld(screen),
+      (from, to, isPrivate) => measure(this.topology, from, to, this.rule, DEFAULT_MOVER, isPrivate)
+    );
+    this.ruler.onMeasure(() => stage.requestFrame());
     const input = new CameraInput(this.camera, target);
     // A tap on a threshold works it; a tap on empty board clears the
     // selection, the same as pressing Escape. The pointer over a threshold
@@ -222,6 +249,7 @@ export class BoardHost {
     this.topologyLayer.setStyle(topologyStyle(theme));
     this.heightLayer.setStyle(heightStyle(theme));
     this.drawLayer.setStyle(drawStyle(theme));
+    this.ruler.setStyle(rulerStyle(theme));
     watchBoardTheme(target, (next) => {
       stage.setBackground(next.ground);
       this.gridLayer.setStyle(next.grid);
@@ -229,6 +257,7 @@ export class BoardHost {
       this.topologyLayer.setStyle(topologyStyle(next));
       this.heightLayer.setStyle(heightStyle(next));
       this.drawLayer.setStyle(drawStyle(next));
+      this.ruler.setStyle(rulerStyle(next));
       stage.requestFrame();
     });
 
@@ -281,6 +310,10 @@ export class BoardHost {
    * no picture; the scene keeps the path, the page resolves it.
    */
   setScene(scene: Scene, map: string | undefined): void {
+    if (scene.id !== this.sceneId) {
+      this.sceneId = scene.id;
+      this.ruler.clear();
+    }
     const grid: SquareGrid = {
       cellSize: scene.grid.cell_size,
       originX: scene.grid.origin_x,
@@ -290,6 +323,7 @@ export class BoardHost {
       this.grid = grid;
       this.tokenLayer.setGrid(grid, tokenViews(scene));
       this.drawLayer.setGrid(grid);
+      this.ruler.setGrid(grid);
       this.isGridStale = true;
     }
     // A picture sets its own bounds once loaded; without one the scene's
@@ -343,16 +377,45 @@ export class BoardHost {
     return () => this.moveListeners.delete(listener);
   }
 
-  /** Draw with `tool`, or with nothing: Play mode, where the tokens take presses. */
+  /** Draw with `tool`, or with nothing: Play, where the pointer moves tokens or measures. */
   setBuildTool(tool: DrawTool | undefined): void {
-    this.isToolHeld = tool !== undefined;
-    this.setHighlight(undefined);
+    this.buildTool = tool;
     this.drawLayer.setTool(tool);
-    this.tokenLayer.setInteractive(tool === undefined);
-    if (tool === undefined) {
-      delete this.target.dataset["tool"];
+    this.applyTools();
+  }
+
+  /** In Play, move tokens or measure; a pen held keeps drawing until it is put down. */
+  setPlayTool(tool: PlayTool): void {
+    this.playTool = tool;
+    this.applyTools();
+  }
+
+  /** Read a measure as a line, or as a path on foot. */
+  setRulerMode(mode: RulerMode): void {
+    this.ruler.setMode(mode);
+  }
+
+  /** The measure the ruler shows, or nothing. */
+  get measurement(): ShownMeasure | undefined {
+    return this.ruler.measurement;
+  }
+
+  // One hand on the board: a pen held draws, else the ruler measures when
+  // chosen, else the pointer moves tokens. The cursor says which, and a
+  // threshold lights only for the hand that can work it.
+  private applyTools(): void {
+    const pen = this.buildTool;
+    const isRuler = pen === undefined && this.playTool === "ruler";
+    this.isToolHeld = pen !== undefined || isRuler;
+    this.setHighlight(undefined);
+    this.ruler.setActive(isRuler);
+    this.tokenLayer.setInteractive(!this.isToolHeld);
+    if (pen !== undefined) {
+      this.target.dataset["tool"] = pen.shape;
+    } else if (isRuler) {
+      this.target.dataset["tool"] = "ruler";
     } else {
-      this.target.dataset["tool"] = tool.shape;
+      delete this.target.dataset["tool"];
     }
     this.stage.requestFrame();
   }
@@ -462,6 +525,7 @@ export class BoardHost {
         ),
       heights: () => this.heightLayer.drawing(),
       framesDrawn: () => this.stage.framesDrawn,
+      measurement: () => this.ruler.measurement,
     };
   }
 

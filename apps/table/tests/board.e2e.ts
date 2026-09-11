@@ -214,3 +214,110 @@ test("The heights show as the scene chooses", async ({ page }) => {
     await expect.poll(async () => (await heights())?.strength).toBe(40);
   });
 });
+
+test("A DM or a player measures", async ({ page }) => {
+  await openTable(page);
+  const tools = page.locator("tw-tool-rail");
+  const board = page.locator("#board");
+  // The measure without the route, whose set of step kinds would not travel.
+  const measured = () =>
+    page.evaluate(() => {
+      const found = window.__tablewright?.measurement();
+      return found === undefined
+        ? undefined
+        : {
+            from: found.from,
+            mode: found.mode,
+            distance: found.distance,
+            rise: found.rise,
+            cost: (found.choice.route ?? found.route)?.cost,
+            phase: found.choice.phase,
+            blockedAt: found.blockedAt,
+            isPrivate: found.isPrivate,
+          };
+    });
+  const measure = async (from: { col: number; row: number }, to: { col: number; row: number }) => {
+    await drag(page, await cellOnScreen(page, from), await cellOnScreen(page, to));
+    return measured();
+  };
+
+  await test.step("The ruler sits in the rail under Move and swaps moving for measuring, its modes in a column beside it.", async () => {
+    await expect(tools.getByRole("button", { name: "Line" })).toHaveCount(0);
+    await tools.getByRole("button", { name: "Ruler" }).click();
+    await expect(tools.getByRole("button", { name: "Ruler" })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    await expect(tools.getByRole("button", { name: "Line" })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    await expect(board).toHaveAttribute("data-tool", "ruler");
+    // A drag from a token measures from its cell and moves nothing.
+    const token = await tokenOnScreen(page, 0);
+    await drag(page, token.at, await cellOnScreen(page, { col: 7, row: 8 }));
+    expect((await tokenById(page, token.id))?.cell).toEqual(token.cell);
+    expect((await measured())?.from).toEqual(token.cell);
+    await page.keyboard.press("r");
+    await expect(tools.getByRole("button", { name: "Move" })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    await expect(board).not.toHaveAttribute("data-tool", /./);
+    expect(await measured()).toBeUndefined();
+    await page.keyboard.press("r");
+    await expect(tools.getByRole("button", { name: "Ruler" })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+  });
+
+  await test.step("A line measure shows the distance as the crow flies, with the rise, and breaks where the line of effect does.", async () => {
+    // Across the tavern floor, three cells across and four down.
+    const flat = await measure({ col: 2, row: 2 }, { col: 5, row: 6 });
+    expect(flat?.mode).toBe("line");
+    expect(flat?.distance).toBe(20);
+    expect(flat?.rise).toBe(0);
+    expect(flat?.blockedAt).toBeUndefined();
+    // Through Halloway House, the line of effect breaks at the first wall.
+    await openHallowayHouse(page);
+    const walled = await measure({ col: 3, row: 8 }, { col: 12, row: 8 });
+    expect(walled?.distance).toBe(45);
+    expect(walled?.blockedAt).toEqual({ x: 9, y: 8.5 });
+    // Up Terrace Hill, fifteen feet of rise within four cells is still twenty feet.
+    const tab = page.locator("tw-scenes");
+    await tab.getByRole("button", { name: "Halloway House" }).click();
+    await tab.getByRole("menuitem", { name: "Add Terrace Hill" }).click();
+    await expect(tab.getByRole("button", { name: "Terrace Hill" })).toBeVisible();
+    const climbed = await measure({ col: 3, row: 3 }, { col: 6, row: 7 });
+    expect(climbed?.distance).toBe(20);
+    expect(climbed?.rise).toBe(15);
+  });
+
+  await test.step("A path measure shows the way this turn allows, and says when it takes a dash.", async () => {
+    await tools.getByRole("button", { name: "Path" }).click();
+    await expect(tools.getByRole("button", { name: "Path" })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    // The same climb, walked: twenty feet on foot up the stairs, within the move.
+    const walked = await measure({ col: 3, row: 3 }, { col: 6, row: 7 });
+    expect(walked?.mode).toBe("path");
+    expect(walked?.phase).toBe("move");
+    expect(walked?.cost).toBe(20);
+    // Across the hill is forty feet: more than a move on foot, within a dash.
+    const dashed = await measure({ col: 2, row: 7 }, { col: 10, row: 7 });
+    expect(dashed?.phase).toBe("dash");
+    expect(dashed?.cost).toBe(40);
+  });
+
+  await test.step("A measure stays until Escape, and Alt makes it private.", async () => {
+    expect((await measured())?.rise).toBe(20);
+    await page.keyboard.press("Escape");
+    expect(await measured()).toBeUndefined();
+    await page.keyboard.down("Alt");
+    const own = await measure({ col: 3, row: 3 }, { col: 6, row: 7 });
+    await page.keyboard.up("Alt");
+    expect(own?.isPrivate).toBe(true);
+  });
+});

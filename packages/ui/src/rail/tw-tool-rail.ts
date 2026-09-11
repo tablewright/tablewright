@@ -5,6 +5,11 @@
 // since it is the scene's and not any one ink's. There is no Build mode
 // to enter: the rail is on the desk the way pens are.
 //
+// The ruler sits under Move: measuring instead of moving, and the R key
+// swaps the two. `tw-play` says which the pointer does in Play, and
+// `tw-ruler` how the ruler reads a measure, as a line or as a path,
+// chosen in a second column beside the rail once the ruler is picked.
+//
 // `tw-tool` carries the draw tool held, or undefined once the pen is
 // down; `tw-undo` asks for the last stroke back; `tw-reset` for a reset
 // stroke; `tw-remove` names a stroke by its place in the history;
@@ -22,6 +27,7 @@ import {
   INKS,
   LOOKS,
   OPENING_SIZES,
+  RULER_MODES,
   THRESHOLD_KINDS,
   THRESHOLD_STATES,
   describeStroke,
@@ -32,9 +38,19 @@ import {
   type DrawShape,
   type DrawTool,
   type Ink,
+  type PlayTool,
+  type RulerMode,
   type ThresholdChoice,
 } from "@tablewright/board";
-import { HISTORY_ICON, MOVE_ICON, UNDO_ICON, inkIcon, shapeIcon } from "./icons.js";
+import {
+  HISTORY_ICON,
+  MOVE_ICON,
+  RULER_ICON,
+  UNDO_ICON,
+  inkIcon,
+  rulerIcon,
+  shapeIcon,
+} from "./icons.js";
 import { thresholdSwatch } from "./swatches.js";
 
 const HINTS: Record<Ink, string> = {
@@ -64,6 +80,8 @@ export class TwToolRail extends LitElement {
   static override properties = {
     tool: { attribute: false },
     held: { type: Boolean },
+    play: { attribute: false },
+    mode: { attribute: false },
     strokes: { attribute: false },
     readout: { type: String },
     cellSize: { attribute: false },
@@ -77,6 +95,10 @@ export class TwToolRail extends LitElement {
   declare tool: DrawTool;
   /** Whether a pen is held: the pointer draws, and the tokens are inert. */
   declare held: boolean;
+  /** What the pointer does once the pen is down: moves tokens, or measures. */
+  declare play: PlayTool;
+  /** How the ruler reads a measure: as a line, or as a path on foot. */
+  declare mode: RulerMode;
   /** The scene's history of strokes, as it stands. */
   declare strokes: Stroke[];
   /** What is under the pointer, in words. */
@@ -94,6 +116,8 @@ export class TwToolRail extends LitElement {
     super();
     this.tool = DEFAULT_TOOL;
     this.held = false;
+    this.play = "move";
+    this.mode = "line";
     this.strokes = [];
     this.readout = "";
     this.cellSize = 50;
@@ -161,6 +185,8 @@ export class TwToolRail extends LitElement {
     }
     .tip {
       position: absolute;
+      /* Over the column beside the rail, which comes later in the tree. */
+      z-index: 1;
       left: calc(100% + 10px);
       top: 50%;
       padding: var(--tw-space-xs) var(--tw-space-sm);
@@ -481,10 +507,19 @@ export class TwToolRail extends LitElement {
           class="icon"
           type="button"
           aria-label="Move"
-          aria-pressed=${held ? "false" : "true"}
-          @click=${this.putDown}
+          aria-pressed=${!held && this.play === "move" ? "true" : "false"}
+          @click=${this.#move}
         >
           ${MOVE_ICON}<span class="tip">Move</span>
+        </button>
+        <button
+          class="icon"
+          type="button"
+          aria-label="Ruler"
+          aria-pressed=${!held && this.play === "ruler" ? "true" : "false"}
+          @click=${this.#measure}
+        >
+          ${RULER_ICON}<span class="tip">Ruler: R</span>
         </button>
         <div class="divider"></div>
         ${INKS.map(
@@ -501,7 +536,7 @@ export class TwToolRail extends LitElement {
         )}
         <div class="divider"></div>
         <button class="icon" type="button" aria-label="Undo" @click=${this.#undo}>
-          ${UNDO_ICON}<span class="tip">Undo · Ctrl+Z</span>
+          ${UNDO_ICON}<span class="tip">Undo: Ctrl+Z</span>
         </button>
         <button
           class="icon"
@@ -517,6 +552,7 @@ export class TwToolRail extends LitElement {
           <span class="tip">History</span>
         </button>
       </div>
+      ${!held && this.play === "ruler" ? this.#modes() : nothing}
       ${
         held || this.historyOpen
           ? html`<div class="side">
@@ -526,6 +562,25 @@ export class TwToolRail extends LitElement {
       }
       ${this.readout === "" ? nothing : html`<div class="readout">${this.readout}</div>`}
     `;
+  }
+
+  // The ruler's modes, a second column beside the rail once the ruler is
+  // picked, as Foundry does; templates join it later.
+  #modes() {
+    return html`<div class="rail" role="toolbar" aria-label="Ruler modes">
+      ${RULER_MODES.map(
+        (spec) =>
+          html`<button
+            class="icon"
+            type="button"
+            aria-label=${spec.name}
+            aria-pressed=${this.mode === spec.mode ? "true" : "false"}
+            @click=${() => this.#setMode(spec.mode)}
+          >
+            ${rulerIcon(spec.mode)}<span class="tip">${spec.name}</span>
+          </button>`
+      )}
+    </div>`;
   }
 
   #palette() {
@@ -827,6 +882,37 @@ export class TwToolRail extends LitElement {
   #update(change: Partial<DrawTool>): void {
     this.tool = { ...this.tool, ...change };
     this.#emitTool();
+  }
+
+  // Move and the ruler are the two hands of Play; either puts the pen down.
+  #move = (): void => {
+    this.putDown();
+    this.#play("move");
+  };
+
+  #measure = (): void => {
+    this.putDown();
+    this.#play("ruler");
+  };
+
+  #play(tool: PlayTool): void {
+    if (tool === this.play) {
+      return;
+    }
+    this.play = tool;
+    this.dispatchEvent(
+      new CustomEvent("tw-play", { detail: { tool }, bubbles: true, composed: true })
+    );
+  }
+
+  #setMode(mode: RulerMode): void {
+    if (mode === this.mode) {
+      return;
+    }
+    this.mode = mode;
+    this.dispatchEvent(
+      new CustomEvent("tw-ruler", { detail: { mode }, bubbles: true, composed: true })
+    );
   }
 
   #emitTool(): void {

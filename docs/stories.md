@@ -92,12 +92,15 @@ the logic tests.
 - A move takes the route the rules find, and asks before a dash
   *(later)*.
 
-### A DM or a player measures *(later)*
+### A DM or a player measures
 
 - The ruler sits in the rail under Move and swaps moving for
-  measuring.
-- A measure shows the distance, the route and its cost, and where the
-  line of effect breaks.
+  measuring, its modes in a column beside it.
+- A line measure shows the distance as the crow flies, with the rise,
+  and breaks where the line of effect does.
+- A path measure shows the way this turn allows, and says when it takes
+  a dash.
+- A measure stays until Escape, and Alt makes it private.
 
 ### Working thresholds in play
 
@@ -193,6 +196,7 @@ the logic tests.
   no DM chrome, and it says so.
 - A player sees the scene's name and nothing more.
 - A player's entry page has no Place on board.
+- A player measures with the R key.
 
 ## Budgets
 

@@ -10,6 +10,8 @@ import {
   readBoardTheme,
   signed,
   type DrawTool,
+  type PlayTool,
+  type RulerMode,
   type ThresholdEdge,
 } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
@@ -551,6 +553,20 @@ try {
     })();
   };
   toolRail.addEventListener("tw-tool", applyTool);
+  // Play has two hands, moving and measuring. The rail and the R key swap
+  // them, for the DM and for a player, who has no rail.
+  let play: PlayTool = "move";
+  const setPlay = (tool: PlayTool): void => {
+    play = tool;
+    board.setPlayTool(tool);
+    toolRail.play = tool;
+  };
+  toolRail.addEventListener("tw-play", (event) => {
+    setPlay((event as CustomEvent<{ tool: PlayTool }>).detail.tool);
+  });
+  toolRail.addEventListener("tw-ruler", (event) => {
+    board.setRulerMode((event as CustomEvent<{ mode: RulerMode }>).detail.mode);
+  });
   toolRail.addEventListener("tw-undo", undo);
   // A reset is a stroke like any other: everything before it is cleared,
   // and it sits in the history so that taking it back brings the rest back.
@@ -708,6 +724,33 @@ try {
     if (event.key === "o" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
       void openMap(board, core, showScene);
+    }
+    // A letter typed into a field is text; the first element on the composed
+    // path is the real target, even inside another component.
+    const typing = event.composedPath()[0];
+    const isTyping =
+      typing instanceof HTMLElement &&
+      (typing.isContentEditable || typing.matches("input, textarea, select"));
+    if (
+      (event.key === "r" || event.key === "R") &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey &&
+      !isTyping
+    ) {
+      setPlay(play === "ruler" ? "move" : "ruler");
+    }
+    // Escape leaves the ruler for Move once nothing is on show: a measure
+    // on show takes the press and comes off the board instead. Read from
+    // the board, since the ruler hears the key after this handler does.
+    if (
+      event.key === "Escape" &&
+      play === "ruler" &&
+      !toolRail.held &&
+      !event.defaultPrevented &&
+      board.measurement === undefined
+    ) {
+      setPlay("move");
     }
     if (event.code === "Space" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();

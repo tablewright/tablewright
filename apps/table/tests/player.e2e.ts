@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { box, entryPage, openTable, retype } from "./helpers.js";
+import { box, cellOnScreen, drag, entryPage, openTable, retype } from "./helpers.js";
 
 // The player feature of docs/stories.md: the same page served without
 // Tauri is the player view (design.md §6).
@@ -37,5 +37,25 @@ test("The player's view", async ({ page }) => {
     ).toHaveCount(0);
     await expect(page.locator(entryPage).getByRole("button", { name: "Close" })).toBeVisible();
     await expect(page.locator(`${box} li`)).toHaveCount(1);
+  });
+
+  await test.step("A player measures with the R key.", async () => {
+    await page.keyboard.press("Escape");
+    await page.keyboard.press("Escape");
+    await expect(page.locator(entryPage)).not.toHaveAttribute("open", "");
+    await page.keyboard.press("r");
+    await expect(page.locator("#board")).toHaveAttribute("data-tool", "ruler");
+    await drag(
+      page,
+      await cellOnScreen(page, { col: 2, row: 2 }),
+      await cellOnScreen(page, { col: 5, row: 6 })
+    );
+    const found = await page.evaluate(() => {
+      const measured = window.__tablewright?.measurement();
+      return measured === undefined
+        ? undefined
+        : { distance: measured.distance, cost: measured.route?.cost };
+    });
+    expect(found).toEqual({ distance: 20, cost: 20 });
   });
 });

@@ -2,7 +2,7 @@
 // rail and the palette share them. Each takes the current colour.
 
 import { svg, type TemplateResult } from "lit";
-import type { DrawShape, Ink } from "@tablewright/board";
+import type { DrawShape, Ink, RulerMode } from "@tablewright/board";
 
 const frame = (body: TemplateResult): TemplateResult =>
   svg`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
@@ -16,6 +16,11 @@ export const UNDO_ICON = frame(
 );
 
 export const HISTORY_ICON = frame(svg`<path d="M4 5.5h12M4 10h12M4 14.5h7"></path>`);
+
+// A ruler laid on the diagonal, its ticks across the near edge.
+export const RULER_ICON = frame(
+  svg`<path d="M3 14.5L14.5 3l2.5 2.5L5.5 17z"></path><path d="M6.5 11l1.5 1.5M9 8.5l1.5 1.5M11.5 6l1.5 1.5"></path>`
+);
 
 const INK_ICONS: Record<Ink, TemplateResult> = {
   ground: frame(
@@ -47,6 +52,20 @@ const SHAPE_ICONS: Record<DrawShape, TemplateResult> = {
   ),
   click: frame(svg`<path d="M5 3.5l10.5 6.2-4.6 1.2-2.2 4.4z"></path>`),
 };
+
+// The ruler's modes: a line with its arrow, and a path stepping round.
+const RULER_MODE_ICONS: Record<RulerMode, TemplateResult> = {
+  line: frame(
+    svg`<path d="M4 16L15.5 4.5"></path><path d="M10.5 4h5.5v5.5"></path><circle cx="4" cy="16" r="1.4"></circle>`
+  ),
+  path: frame(
+    svg`<path d="M4 16h4v-5h4V6h4"></path><path d="M13.5 3.5L16 6l-2.5 2.5"></path><circle cx="4" cy="16" r="1.4"></circle>`
+  ),
+};
+
+export function rulerIcon(mode: RulerMode): TemplateResult {
+  return RULER_MODE_ICONS[mode];
+}
 
 export function inkIcon(ink: Ink): TemplateResult {
   return INK_ICONS[ink];

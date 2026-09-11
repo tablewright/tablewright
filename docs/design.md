@@ -741,13 +741,31 @@ the rounds are in the local research file.
   turn commits them into the turn's history, drawn thin with a dot
   at each commit, where a drop becomes real. Shift with a key plans
   without moving. One Esc always cancels provisional movement.
-- **Measuring is its own tool.** The ruler (R or the toolbar)
-  measures from a token or the floor without moving anything and
-  shows the fuller answer: the route and its cost, the straight
-  distance with its height difference, and the line of effect
-  breaking red at the wall. Rulers are public by default; Alt makes
-  one private; a measure touching a hidden token is private whatever
-  the modifier.
+- **Measuring is its own tool.** The ruler (R, or under Move in the
+  rail) measures from a token or the floor without moving anything.
+  Picking it opens a second column beside the rail with its modes,
+  as Foundry does: Line, the default, measures as the crow flies,
+  with an arrow at its far end, a bar across it where a wall or a
+  shut door breaks the line of effect and the line faint beyond;
+  Path shows the way on foot as this turn offers it, chosen in the
+  tiers a move is (below), drawn as the line is in three bands: the
+  plain colour as far as the movement left this turn reaches, the
+  brass of a selected token as far as a dash would, red past even
+  that, and dashed where it drops; its badge names the cost, led by
+  Dash when it takes one, with the dice of a drop, and says so when
+  the way is beyond even a dash. Red is the one colour with a
+  meaning of its own on the board, and it means only that: a player
+  reads it as where they cannot go this turn, while still seeing how
+  far the thing is. Templates join the column *(later)*. One badge beside the far end carries the number, the
+  rise beside it as an arrow up or down when there is one, and
+  nothing more: a player reads it at a glance, and the everyday
+  question is how far a thing is. A measure stays until Escape or
+  the next one. Rulers are public by default; Alt makes one private,
+  fainter and dashed; a measure touching a hidden token is private
+  whatever the modifier *(later, with token visibility)*. Decided
+  2026-09-11 (user): the crow-flies line is the everyday measure and
+  the route belongs to moving, so the ruler shows one answer at a
+  time, never all three at once.
 - **Height is displayed per scene.** A scene chooses how height
   shows over its picture: Shaded (a soft shadow on the low side and
   a hairline; the default), Washed (a tint per height band, for

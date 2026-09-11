@@ -76,6 +76,8 @@ colors:
   board-height-down: "#5FA8BD"
   board-height-tag: "#F1E6D2"
   board-floor: "#F1E6D214"
+  board-ruler: "#F1E6D2"
+  board-beyond: "#C8553D"
 
 typography:
   headline-md:
@@ -287,7 +289,10 @@ small edge tag's text over a ground-coloured pill. A stroke drawn as
 texture too is the same paper made firm: `board-floor` is the painted
 floor of ground drawn where the picture has none, and the wall,
 threshold and difficult tokens are drawn solid and hatched rather
-than hinted.
+than hinted. The ruler is `board-ruler`, paper laid over the map like
+a tape; a way within a dash wears `board-selection`, the brass of a
+chosen token; `board-beyond` is the one red on the board: a way past
+even a dash, which a player reads as where they cannot go this turn.
 
 Colour never carries meaning alone. Every status colour is paired with
 an icon, a label, a shape, or a position.
