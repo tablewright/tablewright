@@ -9,7 +9,8 @@
     "type": "square",
     "cellSize": 5,
     "unit": "ft",
-    "diagonals": "equal"
+    "diagonals": "equal",
+    "cover": "cube-centre"
   },
   "categories": {
     "spells": "Spells",

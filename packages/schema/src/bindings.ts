@@ -232,6 +232,17 @@ export type ControlSpec = {
 };
 
 /**
+ *  How an area of effect decides which cells it catches. One rule today:
+ *  a cell is caught when the volume holds the centre of that cell's
+ *  cube, and then everything standing in the cell is caught. It is one
+ *  test in three dimensions rather than a family of grid rules, and it
+ *  reads plainly at the table; a system that counts differently brings
+ *  its own (design.md §5 "A cell is caught when the volume holds the
+ *  centre of its cube").
+ */
+export type CoverRule = "cube-centre";
+
+/**
  *  How a diagonal counts against distance: every square the same
  *  (5e's default), every second one double (the 5/10/5 variant), or the
  *  exact length.
@@ -388,6 +399,8 @@ export type GridSpec = {
 	/**  The distance unit's short name, as the table shows it: "ft", "m". */
 	unit: string,
 	diagonals: DiagonalRule,
+	/**  How an area of effect decides which cells it catches. */
+	cover?: CoverRule,
 };
 
 /**  What a cell of ground is for movement. */

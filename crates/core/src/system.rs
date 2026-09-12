@@ -71,6 +71,9 @@ pub struct GridSpec {
     /// The distance unit's short name, as the table shows it: "ft", "m".
     pub unit: String,
     pub diagonals: DiagonalRule,
+    /// How an area of effect decides which cells it catches.
+    #[serde(default)]
+    pub cover: CoverRule,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
@@ -89,6 +92,20 @@ pub enum DiagonalRule {
     Equal,
     Alternate,
     Exact,
+}
+
+/// How an area of effect decides which cells it catches. One rule today:
+/// a cell is caught when the volume holds the centre of that cell's
+/// cube, and then everything standing in the cell is caught. It is one
+/// test in three dimensions rather than a family of grid rules, and it
+/// reads plainly at the table; a system that counts differently brings
+/// its own (design.md §5 "A cell is caught when the volume holds the
+/// centre of its cube").
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize, Type)]
+#[serde(rename_all = "kebab-case")]
+pub enum CoverRule {
+    #[default]
+    CubeCentre,
 }
 
 /// A list inside `data` whose items carry a name and a text: `traits`,
@@ -861,5 +878,31 @@ mod tests {
                 .facets_for("spell", &serde_json::json!({}))
                 .is_empty()
         );
+    }
+
+    // The grid block is the one place a system says how the board
+    // measures and how an area of effect catches a cell.
+    #[test]
+    fn the_grid_block_keeps_its_cover_rule_and_falls_back_without_one() {
+        let named: SystemManifest = serde_json::from_str(
+            r#"{"id":"x","name":"X","grid":{"type":"square","cellSize":5,
+                "unit":"ft","diagonals":"equal","cover":"cube-centre"}}"#,
+        )
+        .expect("manifest");
+        let grid = named.grid.expect("a grid");
+        assert_eq!(grid.cover, CoverRule::CubeCentre);
+        assert_eq!(
+            serde_json::to_value(grid).expect("json")["cover"],
+            serde_json::json!("cube-centre")
+        );
+
+        // A system that says nothing about it gets the rule the table
+        // reads plainly, rather than failing to load.
+        let quiet: SystemManifest = serde_json::from_str(
+            r#"{"id":"x","name":"X","grid":{"type":"square","cellSize":5,
+                "unit":"ft","diagonals":"equal"}}"#,
+        )
+        .expect("manifest");
+        assert_eq!(quiet.grid.expect("a grid").cover, CoverRule::default());
     }
 }
