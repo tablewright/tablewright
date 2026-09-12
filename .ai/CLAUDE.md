@@ -54,6 +54,7 @@ a person does.
 ## Key paths
 
 - `docs/design.md` — design doc (source of truth for plans)
+- `docs/permissions.md` — roles, permissions and who sees what
 - `.ai/STYLE.md` — code style rules
 - `.plan/` — local-only plans (gitignored)
 - `apps/table`, `apps/vault` — Tauri shells

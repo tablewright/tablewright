@@ -53,7 +53,9 @@ One search spans Vault and Compendium; results are labeled by origin.
 - **Visibility is data, field-level.** Tiers: DM / party / world.
   Field-level, so players can see a monster's name and art while its
   statblock stays DM-only. Party discovery state layers on top. Every
-  query and outbound message honors visibility.
+  query and outbound message honors visibility. Who may see and do
+  what, and the file that says so, is
+  [docs/permissions.md](permissions.md).
 - **Provenance.** Every entry belongs to a source (book, module,
   homebrew collection).
 - **Stable ids** on entries; links never break.
