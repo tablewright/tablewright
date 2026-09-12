@@ -178,6 +178,25 @@ impl Scene {
         Ok(token)
     }
 
+    /// Mark who may see a token: the party, or the DM keeping it back.
+    ///
+    /// # Errors
+    ///
+    /// `NoToken` when no token has that id.
+    pub fn set_token_visibility(
+        &mut self,
+        id: &str,
+        visibility: Visibility,
+    ) -> Result<&Token, SceneError> {
+        let token = self
+            .tokens
+            .iter_mut()
+            .find(|token| token.id == id)
+            .ok_or_else(|| SceneError::NoToken(id.to_owned()))?;
+        token.visibility = visibility;
+        Ok(token)
+    }
+
     /// Stand a compendium entry on a cell as a new token, facing north.
     pub fn place(&mut self, entry: &EntrySummary, col: i32, row: i32) -> &Token {
         let id = format!("tok-{}", self.next_token);
@@ -190,7 +209,11 @@ impl Scene {
             row,
             facing: 0,
             entry: Some(entry.id.clone()),
-            visibility: entry.visibility,
+            // The party's, whatever the entry's own tier is: looking a
+            // goblin up and seeing one on the table are different
+            // questions, and putting it down is showing it. A DM who
+            // wants it out of sight says so (`scene:hide`).
+            visibility: Visibility::Party,
         });
         self.tokens.last().expect("just pushed")
     }
@@ -323,7 +346,36 @@ mod tests {
         ThresholdKind, WallShape,
     };
 
+    #[test]
+    fn a_token_put_down_is_the_party_s_however_the_entry_is_kept() {
+        let mut scene = Scene::tavern();
+        let mut secret = goblin();
+        secret.visibility = Visibility::Dm;
+        let token = scene.place(&secret, 3, 3).clone();
+        assert_eq!(
+            token.visibility,
+            Visibility::Party,
+            "putting a thing on the table is showing it"
+        );
+    }
+
+    #[test]
+    fn a_token_is_kept_back_and_given_again() {
+        let mut scene = Scene::tavern();
+        let token = scene.place(&goblin(), 3, 3).id.clone();
+        let kept = scene
+            .set_token_visibility(&token, Visibility::Dm)
+            .expect("the token");
+        assert_eq!(kept.visibility, Visibility::Dm);
+        let shown = scene
+            .set_token_visibility(&token, Visibility::Party)
+            .expect("the token");
+        assert_eq!(shown.visibility, Visibility::Party);
+        assert!(scene.set_token_visibility("nobody", Visibility::Dm).is_err());
+    }
+
     fn goblin() -> EntrySummary {
+
         EntrySummary {
             id: EntryId::new("5e-2024-srd:monster:goblin-warrior"),
             kind: "monster".into(),

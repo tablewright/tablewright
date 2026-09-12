@@ -8,6 +8,7 @@ import {
   openTable,
   routeCost,
   tokenById,
+  tokenOnScreen,
 } from "./helpers.js";
 
 // The drawing feature of docs/stories.md, on the tavern: every ink, what
@@ -363,6 +364,45 @@ test("A DM draws free ink", async ({ page }) => {
       await page.evaluate(() => window.__tablewright?.topology().field.every((v) => v === 0))
     ).toBe(true);
     expect(await cellsOf(page, 1)).toBe(cells);
+  });
+});
+
+test("A DM keeps something back", async ({ page }) => {
+  await openTable(page);
+  const tools = page.locator("tw-tool-rail");
+  const tokens = () => page.evaluate(() => window.__tablewright?.tokens().length);
+
+  await test.step("While the rail is on the DM layer, what is put down is the DM's own and reads faint.", async () => {
+    const standing = (await tokens()) ?? 0;
+    // A token already on the table, kept back from its own menu.
+    const token = await tokenOnScreen(page, 0);
+    await page.mouse.click(token.at.x, token.at.y, { button: "right" });
+    await page.getByRole("menuitem", { name: "Move to the DM layer" }).click();
+    await expect.poll(async () => (await tokenById(page, token.id))?.visibility).toBe("dm");
+    // It is still the DM's to see, so the board is no lighter for them.
+    expect(await tokens()).toBe(standing);
+    // And what the pens put down while the rail says so is the DM's too.
+    await tools.getByRole("button", { name: "Layer" }).click();
+    await tools.getByRole("button", { name: "Free ink" }).click();
+    await tools.getByRole("button", { name: "Brush" }).click();
+    await drag(
+      page,
+      await cellOnScreen(page, { col: 14, row: 3 }),
+      await cellOnScreen(page, { col: 16, row: 4 })
+    );
+    await expect
+      .poll(() => page.evaluate(() => window.__tablewright?.strokes().at(-1)?.visibility))
+      .toBe("dm");
+  });
+
+  await test.step("Sitting as a player, the board is without it.", async () => {
+    const standing = (await tokens()) ?? 0;
+    await page
+      .getByRole("group", { name: "Sit as" })
+      .getByRole("button", { name: "Player" })
+      .click();
+    await expect.poll(async () => await tokens()).toBe(standing - 1);
+    expect(await page.evaluate(() => window.__tablewright?.topology().free.length)).toBe(0);
   });
 });
 

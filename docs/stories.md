@@ -91,6 +91,8 @@ the logic tests.
 - A player moves only the tokens they own *(later)*.
 - A token standing for no sheet has no limit, so a long drag lands it all
   the same.
+- Delete takes the chosen token off the board.
+- A seat that may not move one chooses it and moves nothing.
 - A drag past a sheet's movement asks for a dash: Use dash moves the
   token, Cancel or Escape leaves it where it stood *(later)*.
 - A drag beyond even a dash leaves the token where it stood *(later)*.
@@ -177,6 +179,12 @@ the logic tests.
 ### A DM draws free ink
 
 - Ink with no rules meaning, at the brush's width.
+
+### A DM keeps something back
+
+- While the rail is on the DM layer, what is put down is the DM's own
+  and reads faint.
+- Sitting as a player, the board is without it.
 
 ### The history
 

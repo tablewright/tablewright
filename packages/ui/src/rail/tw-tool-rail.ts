@@ -61,8 +61,10 @@ import {
 } from "@tablewright/board";
 import {
   HISTORY_ICON,
+  KEPT_ICON,
   TOPOLOGY_ICON,
   MOVE_ICON,
+  SHOWN_ICON,
   RULER_ICON,
   UNDO_ICON,
   inkIcon,
@@ -139,6 +141,7 @@ export class TwToolRail extends LitElement {
     snap: { attribute: false },
     seen: { attribute: false },
     twRole: { attribute: false },
+    marking: { attribute: false },
     strokes: { attribute: false },
     topology: { type: Boolean },
     readout: { type: String },
@@ -171,6 +174,11 @@ export class TwToolRail extends LitElement {
    * holds. Named around the DOM's own `role`, which every element has.
    */
   declare twRole: Role;
+  /**
+   * Who what this hand puts down is for. A DM setting something up the
+   * table has not met yet marks it their own and builds as usual.
+   */
+  declare marking: Visibility;
   /** The scene's history of strokes, as it stands. */
   declare strokes: Stroke[];
   /** Whether the DM is reading the scene as numbers: their own view, not the scene's. */
@@ -197,6 +205,7 @@ export class TwToolRail extends LitElement {
     this.snap = "centre";
     this.seen = "party";
     this.twRole = NO_ROLE;
+    this.marking = "party";
     this.strokes = [];
     this.topology = false;
     this.readout = "";
@@ -228,6 +237,23 @@ export class TwToolRail extends LitElement {
     }
     :host([hidden]) {
       display: none;
+    }
+    /* The rail's own column: what this hand is putting down, then the
+       tools themselves. */
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: var(--tw-space-sm);
+    }
+    .putting {
+      display: flex;
+      flex-direction: column;
+      gap: var(--tw-space-xs);
+      padding: var(--tw-space-xs);
+      pointer-events: auto;
+      border: 1px solid var(--tw-outline);
+      border-radius: var(--tw-comp-panel-rounded);
+      background: var(--tw-comp-panel-background-color);
     }
     .rail {
       display: flex;
@@ -586,83 +612,99 @@ export class TwToolRail extends LitElement {
     const record = may("history:read") || may("history:undo");
     return html`
       <div class="rail" role="toolbar" aria-label="Tools">
-        <button
-          class="icon"
-          type="button"
-          aria-label="Move"
-          aria-pressed=${!held && this.play === "move" ? "true" : "false"}
-          @click=${this.#move}
-        >
-          ${MOVE_ICON}<span class="tip">Move</span>
-        </button>
-        <button
-          class="icon"
-          type="button"
-          aria-label="Ruler"
-          aria-pressed=${!held && this.play === "ruler" ? "true" : "false"}
-          @click=${this.#measure}
-        >
-          ${RULER_ICON}<span class="tip">Ruler: R</span>
-        </button>
         ${
-          may("topology:read")
+          may("scene:hide")
             ? html`<button
-                class="icon"
-                type="button"
-                aria-label="Topology"
-                aria-pressed=${this.topology ? "true" : "false"}
-                @click=${this.#topology}
-              >
-                ${TOPOLOGY_ICON}<span class="tip">Topology: T</span>
-              </button>`
+                  class="icon"
+                  type="button"
+                  aria-label="Layer"
+                  aria-pressed=${this.marking === "dm" ? "true" : "false"}
+                  @click=${() => this.#setMarking(this.marking === "dm" ? "party" : "dm")}
+                >
+                  ${this.marking === "dm" ? KEPT_ICON : SHOWN_ICON}
+                  <span class="tip">Layer: ${this.marking === "dm" ? "DM" : "Token"}</span>
+                </button>
+                <div class="divider"></div>`
             : nothing
         }
-        ${
-          inks.length === 0
-            ? nothing
-            : html`<div class="divider"></div>
-                ${inks.map(
-                  (spec) =>
-                    html`<button
-                      class="icon"
-                      type="button"
-                      aria-label=${spec.name}
-                      aria-pressed=${held && tool.ink === spec.ink ? "true" : "false"}
-                      @click=${() => this.#pick(spec.ink)}
-                    >
-                      ${inkIcon(spec.ink)}<span class="tip">${spec.name}</span>
-                    </button>`
-                )}`
-        }
-        ${record ? html`<div class="divider"></div>` : nothing}
-        ${
-          may("history:undo")
-            ? html`<button class="icon" type="button" aria-label="Undo" @click=${this.#undo}>
-                ${UNDO_ICON}<span class="tip">Undo: Ctrl+Z</span>
-              </button>`
-            : nothing
-        }
-        ${
-          may("history:read")
-            ? html`<button
-                class="icon"
-                type="button"
-                aria-label="History"
-                aria-pressed=${this.historyOpen ? "true" : "false"}
-                @click=${() => {
-                  this.historyOpen = !this.historyOpen;
-                }}
-              >
-                ${HISTORY_ICON}
-                ${
-                  this.strokes.length > 0
-                    ? html`<span class="count">${this.strokes.length}</span>`
-                    : nothing
-                }
-                <span class="tip">History</span>
-              </button>`
-            : nothing
-        }
+          <button
+            class="icon"
+            type="button"
+            aria-label="Move"
+            aria-pressed=${!held && this.play === "move" ? "true" : "false"}
+            @click=${this.#move}
+          >
+            ${MOVE_ICON}<span class="tip">Move</span>
+          </button>
+          <button
+            class="icon"
+            type="button"
+            aria-label="Ruler"
+            aria-pressed=${!held && this.play === "ruler" ? "true" : "false"}
+            @click=${this.#measure}
+          >
+            ${RULER_ICON}<span class="tip">Ruler: R</span>
+          </button>
+          ${
+            may("topology:read")
+              ? html`<button
+                  class="icon"
+                  type="button"
+                  aria-label="Topology"
+                  aria-pressed=${this.topology ? "true" : "false"}
+                  @click=${this.#topology}
+                >
+                  ${TOPOLOGY_ICON}<span class="tip">Topology: T</span>
+                </button>`
+              : nothing
+          }
+          ${
+            inks.length === 0
+              ? nothing
+              : html`<div class="divider"></div>
+                  ${inks.map(
+                    (spec) =>
+                      html`<button
+                        class="icon"
+                        type="button"
+                        aria-label=${spec.name}
+                        aria-pressed=${held && tool.ink === spec.ink ? "true" : "false"}
+                        @click=${() => this.#pick(spec.ink)}
+                      >
+                        ${inkIcon(spec.ink)}<span class="tip">${spec.name}</span>
+                      </button>`
+                  )}`
+          }
+          ${record ? html`<div class="divider"></div>` : nothing}
+          ${
+            may("history:undo")
+              ? html`<button class="icon" type="button" aria-label="Undo" @click=${this.#undo}>
+                  ${UNDO_ICON}<span class="tip">Undo: Ctrl+Z</span>
+                </button>`
+              : nothing
+          }
+          ${
+            may("history:read")
+              ? html`<button
+                  class="icon"
+                  type="button"
+                  aria-label="History"
+                  aria-pressed=${this.historyOpen ? "true" : "false"}
+                  @click=${() => {
+                    this.historyOpen = !this.historyOpen;
+                  }}
+                >
+                  ${HISTORY_ICON}
+                  ${
+                    this.strokes.length > 0
+                      ? html`<span class="count">${this.strokes.length}</span>`
+                      : nothing
+                  }
+                  <span class="tip">History</span>
+                </button>`
+              : nothing
+          }
+        </div>
       </div>
       ${!held && this.play === "ruler" ? this.#modes() : nothing}
       ${
@@ -1262,6 +1304,13 @@ export class TwToolRail extends LitElement {
         apply(next);
       }
     };
+  }
+
+  #setMarking(marking: Visibility): void {
+    this.marking = marking;
+    this.dispatchEvent(
+      new CustomEvent("tw-marking", { detail: { marking }, bubbles: true, composed: true })
+    );
   }
 
   #setSeen(seen: Visibility): void {

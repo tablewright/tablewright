@@ -9,6 +9,7 @@ export { TwEntryView } from "./entry/tw-entry-view.js";
 export { TwScenes } from "./scenes/tw-scenes.js";
 export { TwCampaigns } from "./campaigns/tw-campaigns.js";
 export { TwToolRail } from "./rail/tw-tool-rail.js";
+export { TwTokenMenu } from "./token/tw-token-menu.js";
 export { TwStrip } from "./strip/tw-strip.js";
 export { TwDashAsk } from "./dash/tw-dash-ask.js";
 export { titleCase } from "./text.js";

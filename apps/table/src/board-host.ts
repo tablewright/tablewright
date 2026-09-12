@@ -44,6 +44,7 @@ import {
   stepHeight,
   visibleExtent,
   NOBODY,
+  allows,
   seenAt,
   visibleTo,
   watchBoardTheme,
@@ -262,6 +263,8 @@ export class BoardHost {
   /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
   /** Who sits at this board: their role, and the name it goes by. */
   private seat: Seat;
+  /** Who what this hand puts down is for. */
+  private putting: Visibility = "party";
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
   /** What a cell measures and how diagonals count: the campaign's, from its system. */
   private rule: GridRule = DEFAULT_RULE;
@@ -335,6 +338,9 @@ export class BoardHost {
     this.areaTool.onChange((placed) => this.showArea(placed));
     this.ruler.setSeat(seat);
     this.areaTool.setSeat(seat);
+    // The right button belongs to the board: it asks a token what may be
+    // done with it, so the browser's own menu never opens over it.
+    stage.app.canvas.addEventListener("contextmenu", (event) => event.preventDefault());
     const input = new CameraInput(this.camera, target);
     // A tap on a threshold works it; a tap on empty board clears the
     // selection, the same as pressing Escape. The pointer over a threshold
@@ -428,7 +434,7 @@ export class BoardHost {
     };
     if (grid.cellSize !== this.grid.cellSize || grid.originX !== this.grid.originX) {
       this.grid = grid;
-      this.tokenLayer.setGrid(grid, this.seenTokens());
+      this.tokenLayer.setGrid(grid, this.tokensWithHeights());
       this.drawLayer.setGrid(grid);
       this.ruler.setGrid(grid);
       this.dragRoute.setGrid(grid);
@@ -508,7 +514,17 @@ export class BoardHost {
     return this.seenTokens().map((token) => ({
       ...token,
       height: heightAt(this.topology, token.cell),
+      // Still on this seat's board, but not on the table's.
+      isKept: (token.visibility ?? "party") !== "party",
     }));
+  }
+
+  /** Hear the right button ask what may be done with a token. */
+  onTokenAsk(listener: (ask: { id: string; at: Point; kept: boolean }) => void): () => void {
+    return this.tokenLayer.onAsk((ask) => {
+      const token = this.tokens.find((one) => one.id === ask.id);
+      listener({ ...ask, kept: (token?.visibility ?? "party") !== "party" });
+    });
   }
 
   /** Hear every finished move gesture. Returns the unsubscribe. */
@@ -593,6 +609,26 @@ export class BoardHost {
     this.areaTool.chooseSeenBy(seenBy);
   }
 
+  /**
+   * Who what this hand puts down is for: the table, or kept back. It
+   * marks the strokes the pens draw; a token is marked as it is placed
+   * and by the scene after that.
+   */
+  setMarking(marking: Visibility): void {
+    this.putting = marking;
+    this.drawLayer.setMarking(marking);
+  }
+
+  /** What this hand is putting down as, for whoever places a token. */
+  get marking(): Visibility {
+    return this.putting;
+  }
+
+  /** The token the pointer has chosen, when one is chosen. */
+  get selected(): string | undefined {
+    return this.tokenLayer.selectedId;
+  }
+
   /** Who the next measure or area is for, leaving what is on the board alone. */
   setSeenBy(seenBy: Visibility): void {
     this.ruler.setSeenBy(seenBy);
@@ -611,6 +647,7 @@ export class BoardHost {
     this.seat = seat;
     this.ruler.setSeat(seat);
     this.areaTool.setSeat(seat);
+    this.applyTools();
     this.redrawTopology();
     this.stage.requestFrame();
   }
@@ -689,6 +726,7 @@ export class BoardHost {
     this.ruler.setActive(isRuler);
     this.areaTool.setActive(isArea_);
     this.tokenLayer.setInteractive(!this.isToolHeld);
+    this.tokenLayer.setMovable(allows(this.seat.role, "token:move"));
     if (pen !== undefined) {
       this.target.dataset["tool"] = pen.shape;
     } else if (inColumn) {

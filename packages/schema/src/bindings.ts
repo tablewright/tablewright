@@ -99,6 +99,11 @@ export const commands = {
 	createScene: (name: string, strokes: Stroke[]) => typedError<Scene, CommandError>(__TAURI_INVOKE("create_scene", { name, strokes })),
 	/**  Commit a token's move: the release of a drag, or a keyboard step. */
 	moveToken: (id: string, col: number, row: number, facing: number) => typedError<Scene, CommandError>(__TAURI_INVOKE("move_token", { id, col, row, facing })),
+	/**
+	 *  Mark who may see a token: the party, or the DM keeping it back for
+	 *  something the table has not met yet.
+	 */
+	setTokenVisibility: (id: string, visibility: Visibility) => typedError<Scene, CommandError>(__TAURI_INVOKE("set_token_visibility", { id, visibility })),
 	/**  Stand a compendium entry on a cell as a new token. */
 	placeEntry: (id: EntryId, col: number, row: number) => typedError<Scene, CommandError>(__TAURI_INVOKE("place_entry", { id, col, row })),
 	/**  Take a token off the board. */
@@ -569,7 +574,7 @@ export type PartSpec = {
 };
 
 /**  One thing a hand may do: the thing it acts on, then what is done. */
-export type Permission = "ink:ground:draw" | "ink:wall:draw" | "ink:threshold:draw" | "ink:threshold:open" | "ink:height:draw" | "ink:level-change:draw" | "ink:free:draw" | "history:read" | "history:undo" | "history:clear" | "scene:change" | "scene:map:set" | "token:place" | "token:move" | "topology:read" | "ruler:use" | "ruler:show" | "compendium:read";
+export type Permission = "ink:ground:draw" | "ink:wall:draw" | "ink:threshold:draw" | "ink:threshold:open" | "ink:height:draw" | "ink:level-change:draw" | "ink:free:draw" | "history:read" | "history:undo" | "history:clear" | "scene:change" | "scene:hide" | "scene:map:set" | "token:place" | "token:move" | "token:remove" | "topology:read" | "ruler:use" | "ruler:show" | "compendium:read";
 
 /**
  *  What a threshold became in play: opened, shut, locked, or smashed

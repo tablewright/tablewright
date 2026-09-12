@@ -5,6 +5,7 @@
 
 import { REFERENCE_SCENES } from "@tablewright/board";
 import type {
+  Visibility,
   CampaignSummary,
   Edge,
   HeightDisplay,
@@ -108,6 +109,16 @@ export function fixtureMoveToken(id: string, col: number, row: number, facing: n
   token.col = col;
   token.row = row;
   token.facing = facing % 360;
+  return fixtureScene();
+}
+
+/** Mark who may see a token, as the core's own command does. */
+export function fixtureTokenVisibility(id: string, visibility: Visibility): Scene {
+  const token = scene().tokens.find((candidate) => candidate.id === id);
+  if (token === undefined) {
+    throw new Error(`no token ${id} in the scene`);
+  }
+  token.visibility = visibility;
   return fixtureScene();
 }
 

@@ -85,6 +85,7 @@ fn specta_builder() -> Builder<tauri::Wry> {
             commands::open_scene,
             commands::create_scene,
             commands::move_token,
+            commands::set_token_visibility,
             commands::place_entry,
             commands::remove_token,
             commands::add_stroke,

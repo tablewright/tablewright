@@ -1,5 +1,6 @@
-// The rail's icons: stroke glyphs on a 20 px grid, drawn once here so the
-// rail and the palette share them. Each takes the current colour.
+// The icons: stroke glyphs on a 20 px grid, drawn once here so the rail,
+// the palette and a thing's own menu share them. Each takes the current
+// colour.
 
 import { svg, type TemplateResult } from "lit";
 import type { DrawShape, Ink, RulerMode } from "@tablewright/board";
@@ -15,7 +16,17 @@ export const UNDO_ICON = frame(
   svg`<path d="M7 5L4 8l3 3"></path><path d="M4 8h7.5a4.5 4.5 0 010 9H8"></path>`
 );
 
-export const HISTORY_ICON = frame(svg`<path d="M4 5.5h12M4 10h12M4 14.5h7"></path>`);
+export const HISTORY_ICON = frame(svg`<path d="M4 5.5h12M4 14.5h7M4 10h12"></path>`);
+
+// What this hand is putting down: an eye open for the table, and the
+// same eye struck through for the DM keeping something back.
+export const SHOWN_ICON = frame(
+  svg`<path d="M2.5 10S5.5 5 10 5s7.5 5 7.5 5-3 5-7.5 5-7.5-5-7.5-5z"></path><circle cx="10" cy="10" r="2.2"></circle>`
+);
+
+export const KEPT_ICON = frame(
+  svg`<path d="M2.5 10S5.5 5 10 5s7.5 5 7.5 5-3 5-7.5 5-7.5-5-7.5-5z"></path><circle cx="10" cy="10" r="2.2"></circle><path d="M4 16L16 4"></path>`
+);
 
 // A grid of cells with a figure written in one: the scene as the rules
 // read it rather than as it is painted.

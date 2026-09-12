@@ -41,6 +41,7 @@ clear = "Wipe the field and start again."
 
 [features.scene]
 change = "Open a scene, or make one."
+hide = "Keep what you put on the field out of the players' sight."
 
 [features.scene.map]
 set = "Put a map under the field, or take it away."
@@ -48,6 +49,7 @@ set = "Put a map under the field, or take it away."
 [features.token]
 place = "Stand something new on the board."
 move = "Move what stands on the board."
+remove = "Take one off the board altogether."
 
 [features.topology]
 read = "Read the field as numbers: heights and level changes."
@@ -74,9 +76,11 @@ permissions = [
   "history:undo",
   "history:clear",
   "scene:change",
+  "scene:hide",
   "scene:map:set",
   "token:place",
   "token:move",
+  "token:remove",
   "topology:read",
   "ruler:use",
   "ruler:show",

@@ -56,6 +56,7 @@ const entryView = document.querySelector("tw-entry-view");
 const scenesTab = document.querySelector("tw-scenes");
 const intro = document.querySelector("tw-campaigns");
 const dashAsk = document.querySelector("tw-dash-ask");
+const tokenMenu = document.querySelector("tw-token-menu");
 if (
   host === null ||
   openButton === null ||
@@ -71,7 +72,8 @@ if (
   entryView === null ||
   scenesTab === null ||
   intro === null ||
-  dashAsk === null
+  dashAsk === null ||
+  tokenMenu === null
 ) {
   throw new Error(
     "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #role, #view-as, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, and <tw-entry-view>"
@@ -274,6 +276,10 @@ interface Core {
   closeCampaign: () => Promise<void>;
   scene: () => Promise<Scene>;
   moveToken: (id: string, col: number, row: number, facing: number) => Promise<Scene>;
+  /** Mark who may see a token: the party, or the DM keeping it back. */
+  setTokenVisibility: (id: string, visibility: Visibility) => Promise<Scene>;
+  /** Take a token off the board altogether. */
+  removeToken: (id: string) => Promise<Scene>;
   placeEntry: (entry: EntryDocument, col: number, row: number) => Promise<Scene>;
   addStroke: (stroke: Stroke) => Promise<Scene>;
   undoStroke: () => Promise<Scene>;
@@ -318,6 +324,9 @@ function connectCore(): Core {
         scene: async () => (await scenes).fixtureScene(),
         moveToken: async (id, col, row, facing) =>
           (await scenes).fixtureMoveToken(id, col, row, facing),
+        setTokenVisibility: async (id, visibility) =>
+          (await scenes).fixtureTokenVisibility(id, visibility),
+        removeToken: async (id) => (await scenes).fixtureRemoveToken(id),
         placeEntry: async (entry, col, row) => (await scenes).fixturePlace(entry, col, row),
         addStroke: async (stroke) => (await scenes).fixtureAddStroke(stroke),
         undoStroke: async () => (await scenes).fixtureUndoStroke(),
@@ -347,6 +356,8 @@ function connectCore(): Core {
       closeCampaign: unconnected,
       scene: unconnected,
       moveToken: unconnected,
+      setTokenVisibility: unconnected,
+      removeToken: unconnected,
       placeEntry: unconnected,
       addStroke: unconnected,
       undoStroke: unconnected,
@@ -392,6 +403,9 @@ function connectCore(): Core {
     scene: async () => unwrap(await commands.getScene()),
     moveToken: async (id, col, row, facing) =>
       unwrap(await commands.moveToken(id, col, row, facing)),
+    setTokenVisibility: async (id, visibility) =>
+      unwrap(await commands.setTokenVisibility(id, visibility)),
+    removeToken: async (id) => unwrap(await commands.removeToken(id)),
     placeEntry: async (entry, col, row) => unwrap(await commands.placeEntry(entry.id, col, row)),
     addStroke: async (stroke) => unwrap(await commands.addStroke(stroke)),
     undoStroke: async () => unwrap(await commands.undoStroke()),
@@ -631,6 +645,37 @@ try {
   // Who a measure or an area is for. The choice marks the one on the board
   // as well as the next, so a measure already taken is shared by saying so
   // rather than by taking it again (user, 2026-09-12).
+  // What this hand is putting down: a DM setting an ambush up marks what
+  // they draw and place as their own until they say otherwise. Changing
+  // something already down is the thing's own business, not this one's.
+  toolRail.addEventListener("tw-marking", (event) => {
+    board.setMarking((event as CustomEvent<{ marking: Visibility }>).detail.marking);
+  });
+  // The right button on a token asks what may be done with it. Only a
+  // hand that may keep things back has anything to ask.
+  let asked: string | undefined;
+  board.onTokenAsk((ask) => {
+    if (!allows(seat.role, "scene:hide")) {
+      return;
+    }
+    asked = ask.id;
+    tokenMenu.open(ask.at, ask.kept);
+  });
+  tokenMenu.addEventListener("tw-token-mark", (event) => {
+    const { visibility } = (event as CustomEvent<{ visibility: Visibility }>).detail;
+    const id = asked;
+    if (id === undefined) {
+      return;
+    }
+    void (async () => {
+      try {
+        showScene(await core.setTokenVisibility(id, visibility));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        showNotice(`Could not change who sees the token: ${reason}`);
+      }
+    })();
+  });
   toolRail.addEventListener("tw-seen", (event) => {
     board.chooseSeenBy((event as CustomEvent<{ seen: Visibility }>).detail.seen);
   });
@@ -745,6 +790,22 @@ try {
   // through every surface, and settling what proves a view is the DM's once
   // a page is served rather than opened, want a step of their own.
   let chromeShown = false;
+  // On the page, or off it altogether. Each remembers where it stood, so
+  // it goes back where it was rather than to the end.
+  const stood = new Map<HTMLElement, Node | null>();
+  const show = (element: HTMLElement, on: boolean): void => {
+    if (!stood.has(element)) {
+      stood.set(element, element.nextSibling);
+    }
+    if (on) {
+      if (!element.isConnected) {
+        document.body.insertBefore(element, stood.get(element) ?? null);
+      }
+      element.hidden = false;
+    } else {
+      element.remove();
+    }
+  };
   // A button a seat, filled once the sitting is defined below.
   const seats = new Map<string, HTMLButtonElement>();
   const sitAs = (id: string): void => {
@@ -781,10 +842,20 @@ try {
     toolRail.twRole = role;
     roleLabel.textContent = role.name;
     roleLabel.hidden = id === OWN_SEAT && allows(role, "scene:change");
-    dmChrome.hidden = !chromeShown || !allows(role, "scene:change");
+    // What a seat may not reach is taken out of the page rather than
+    // hidden in it: a hidden button is one stylesheet away from being a
+    // pressed button, and the rail's own buttons are already built or
+    // not built rather than shown or not shown (user, 2026-09-12). The
+    // core refusing the command is what actually holds the line; this is
+    // so nothing is lying about on the page inviting a try.
+    const chromeOnRight = chromeShown && allows(role, "scene:change");
+    show(dmChrome, chromeOnRight);
     toolRail.hidden = !chromeShown;
-    // A page that is not the owner's has nowhere else to sit.
-    viewAs.hidden = !chromeShown || !__DEV_BUILD__ || OWN_SEAT !== "dm";
+    // A page that is not the owner's has nowhere else to sit. The seats
+    // sit under the DM's chrome, and take its place in a seat that has
+    // none, so the corner is never a gap with something under it.
+    show(viewAs, chromeShown && __DEV_BUILD__ && OWN_SEAT === "dm");
+    viewAs.classList.toggle("chrome-under", chromeOnRight);
     for (const [at, button] of seats) {
       button.setAttribute("aria-pressed", String(at === id));
     }
@@ -932,6 +1003,26 @@ try {
       } else {
         raise(spotlight);
         spotlight.show();
+      }
+    }
+    // Delete takes the chosen token off the board, for a hand that may.
+    // A field keeps its own keys, so a name being typed is not a token.
+    if (
+      (event.key === "Delete" || event.key === "Backspace") &&
+      !isTyping &&
+      allows(seat.role, "token:remove")
+    ) {
+      const chosen = board.selected;
+      if (chosen !== undefined) {
+        event.preventDefault();
+        void (async () => {
+          try {
+            showScene(await core.removeToken(chosen));
+          } catch (error) {
+            const reason = error instanceof Error ? error.message : String(error);
+            showNotice(`Could not take the token off: ${reason}`);
+          }
+        })();
       }
     }
     // Undo is the record's, so only while building; a field keeps its own.

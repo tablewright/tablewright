@@ -54,12 +54,16 @@ pub enum Permission {
     HistoryClear,
     #[serde(rename = "scene:change")]
     SceneChange,
+    #[serde(rename = "scene:hide")]
+    SceneHide,
     #[serde(rename = "scene:map:set")]
     SceneMapSet,
     #[serde(rename = "token:place")]
     TokenPlace,
     #[serde(rename = "token:move")]
     TokenMove,
+    #[serde(rename = "token:remove")]
+    TokenRemove,
     #[serde(rename = "topology:read")]
     TopologyRead,
     #[serde(rename = "ruler:use")]
@@ -72,7 +76,7 @@ pub enum Permission {
 
 impl Permission {
     /// Every permission the app checks, in the order the file lists them.
-    pub const ALL: [Self; 18] = [
+    pub const ALL: [Self; 20] = [
         Self::InkGroundDraw,
         Self::InkWallDraw,
         Self::InkThresholdDraw,
@@ -84,9 +88,11 @@ impl Permission {
         Self::HistoryUndo,
         Self::HistoryClear,
         Self::SceneChange,
+        Self::SceneHide,
         Self::SceneMapSet,
         Self::TokenPlace,
         Self::TokenMove,
+        Self::TokenRemove,
         Self::TopologyRead,
         Self::RulerUse,
         Self::RulerShow,
@@ -108,9 +114,11 @@ impl Permission {
             Self::HistoryUndo => "history:undo",
             Self::HistoryClear => "history:clear",
             Self::SceneChange => "scene:change",
+            Self::SceneHide => "scene:hide",
             Self::SceneMapSet => "scene:map:set",
             Self::TokenPlace => "token:place",
             Self::TokenMove => "token:move",
+            Self::TokenRemove => "token:remove",
             Self::TopologyRead => "topology:read",
             Self::RulerUse => "ruler:use",
             Self::RulerShow => "ruler:show",

@@ -9,7 +9,7 @@
  */
 
 import { Graphics, type Container } from "pixi.js";
-import type { Stroke } from "@tablewright/schema";
+import type { Stroke, Visibility } from "@tablewright/schema";
 import type { Point } from "../geometry.js";
 import type { Cell, SquareGrid } from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
@@ -51,6 +51,8 @@ export class DrawLayer {
   private grid: SquareGrid;
   private style: DrawStyle = DEFAULT_STYLE;
   private tool: DrawTool | undefined;
+  /** Who what this hand puts down is for. The table's, unless kept back. */
+  private marking: Visibility = "party";
   private gesture: Gesture | undefined;
   private pointerId: number | undefined;
   private hover: Point | undefined;
@@ -70,6 +72,15 @@ export class DrawLayer {
   }
 
   /** Draw with `tool`, or with nothing: Play mode. */
+  /**
+   * Who the next stroke is for. A DM setting an ambush up marks what
+   * they draw as their own, and the field a player sees is the field
+   * without it.
+   */
+  setMarking(marking: Visibility): void {
+    this.marking = marking;
+  }
+
   setTool(tool: DrawTool | undefined): void {
     const wasOn = this.tool !== undefined;
     this.tool = tool;
@@ -187,7 +198,7 @@ export class DrawLayer {
   };
 
   private emit(tool: DrawTool, gesture: Gesture): void {
-    const stroke = strokeOf(tool, gesture);
+    const stroke = strokeOf(tool, gesture, this.marking);
     if (stroke === undefined) {
       return;
     }

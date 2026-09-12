@@ -14,9 +14,11 @@
       "history:undo",
       "history:clear",
       "scene:change",
+      "scene:hide",
       "scene:map:set",
       "token:place",
       "token:move",
+      "token:remove",
       "topology:read",
       "ruler:use",
       "ruler:show",
@@ -42,7 +44,10 @@
   "spectator": {
     "name": "Spectator",
     "sees": "party",
-    "permissions": ["ruler:use", "compendium:read"],
+    "permissions": [
+      "ruler:use",
+      "compendium:read"
+    ],
     "reach": {}
   }
 }

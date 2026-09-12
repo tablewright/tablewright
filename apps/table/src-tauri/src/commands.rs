@@ -334,6 +334,20 @@ pub fn create_scene(
     })
 }
 
+/// Mark who may see a token: the party, or the DM keeping it back for
+/// something the table has not met yet.
+#[tauri::command]
+#[specta::specta]
+pub fn set_token_visibility(
+    state: State<'_, AppState>,
+    id: String,
+    visibility: Visibility,
+) -> Result<Scene, CommandError> {
+    edit_scene(&state, |scene| {
+        scene.set_token_visibility(&id, visibility).map(|_| ())
+    })
+}
+
 /// Commit a token's move: the release of a drag, or a keyboard step.
 #[tauri::command]
 #[specta::specta]

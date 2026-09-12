@@ -31,6 +31,7 @@ import type { Mover } from "../topology/cost.js";
 import type { Budget } from "../topology/route.js";
 import { facingBetween, facingToward, normalizeDegrees } from "./facing.js";
 import { DRAG_THRESHOLD_PX, HOLD_MS, afterHold } from "./press.js";
+import { KEPT_ALPHA } from "../seen.js";
 import { TokenSprite, type TokenStyle } from "./token-sprite.js";
 
 /** What the layer needs to show a token; the scene owns everything else. */
@@ -48,6 +49,8 @@ export interface TokenView {
   readonly budget?: Budget;
   /** Who may see it stand there; the party by default, as the scene has it. */
   readonly visibility?: Visibility;
+  /** Whether it reads faint: kept back from the table, but shown to this seat. */
+  readonly isKept?: boolean;
   /**
    * How far it stands above the floor under it: a flier's own height.
    * Its place in the scene is `height` plus this, so an area tests it
@@ -55,6 +58,14 @@ export interface TokenView {
    */
   readonly elevation?: number;
 }
+
+/** The right button on a token: which one, and where on the screen. */
+export interface TokenAsk {
+  readonly id: string;
+  readonly at: Point;
+}
+
+export type TokenAskListener = (ask: TokenAsk) => void;
 
 /** One committed move: where the token now stands and which way it faces. */
 export interface TokenMove {
@@ -140,6 +151,8 @@ export class TokenLayer {
   private readonly sprites = new Map<string, TokenSprite>();
   private readonly moveListeners = new Set<TokenMoveListener>();
   private readonly selectListeners = new Set<TokenSelectListener>();
+  private readonly askListeners = new Set<TokenAskListener>();
+  private movable = true;
   private readonly dashListeners = new Set<DashAskListener>();
   private readonly route: DragRoute;
   private grid: SquareGrid;
@@ -163,6 +176,15 @@ export class TokenLayer {
     this.container.eventMode = enabled ? "passive" : "none";
   }
 
+  /**
+   * Whether this hand may move what stands on the board. A hand that may
+   * not still chooses a token and asks what may be done with it: it
+   * simply cannot drag it, turn it, or step it with the keys.
+   */
+  setMovable(movable: boolean): void {
+    this.movable = movable;
+  }
+
   /** Make the layer show exactly `tokens`, reusing sprites by id. */
   set(tokens: readonly TokenView[]): void {
     const seen = new Set<string>();
@@ -174,6 +196,7 @@ export class TokenLayer {
       } else {
         existing.setLabel(token.label);
         existing.setBadge(badgeOf(token));
+        existing.view.alpha = token.isKept === true ? KEPT_ALPHA : 1;
         if (this.press?.id !== token.id && this.pending?.id !== token.id) {
           existing.setFacing(token.facing);
           existing.setPosition(cellCenter(this.grid, token.cell));
@@ -227,6 +250,12 @@ export class TokenLayer {
     };
   }
 
+  /** Hear the right button ask what may be done with one. */
+  onAsk(listener: TokenAskListener): () => void {
+    this.askListeners.add(listener);
+    return () => this.askListeners.delete(listener);
+  }
+
   onSelect(listener: TokenSelectListener): () => void {
     this.selectListeners.add(listener);
     return () => {
@@ -275,12 +304,24 @@ export class TokenLayer {
 
   private add(token: TokenView): void {
     const sprite = new TokenSprite(token.label, this.grid.cellSize, this.style);
+    // Kept back from the table: the seats that may still see it are shown
+    // it faintly, as a measure that is not the table's reads faint.
+    sprite.view.alpha = token.isKept === true ? KEPT_ALPHA : 1;
     sprite.setPosition(cellCenter(this.grid, token.cell));
     sprite.setFacing(token.facing);
     sprite.setBadge(badgeOf(token));
     sprite.view.on("pointerover", () => sprite.setHovered(true));
     sprite.view.on("pointerout", () => sprite.setHovered(false));
     sprite.view.on("pointerdown", (event: FederatedPointerEvent) => {
+      // The right button asks what may be done with this one instead of
+      // moving it; everything a token carries will hang off that.
+      if (event.button === 2) {
+        event.stopPropagation();
+        for (const listener of this.askListeners) {
+          listener({ id: token.id, at: { x: event.global.x, y: event.global.y } });
+        }
+        return;
+      }
       // A selected token covers its whole cell: outside the disc is a turn handle.
       const local = sprite.view.toLocal(event.global);
       const isOnDisc = Math.hypot(local.x, local.y) <= sprite.discRadius;
@@ -292,6 +333,11 @@ export class TokenLayer {
 
   private beginPress(id: string, event: FederatedPointerEvent, mode: PressMode): void {
     if (event.button !== 0 || this.press !== undefined) {
+      return;
+    }
+    // A hand that may not move one still chooses it, and nothing more.
+    if (!this.movable) {
+      this.select(id);
       return;
     }
     const sprite = this.sprites.get(id);
@@ -466,7 +512,7 @@ export class TokenLayer {
       }
       return;
     }
-    const step = STEP_KEYS[event.key];
+    const step = this.movable ? STEP_KEYS[event.key] : undefined;
     if (step !== undefined && this.press === undefined) {
       event.preventDefault();
       this.moveSelectedBy(step.dc, step.dr);
