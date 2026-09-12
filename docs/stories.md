@@ -89,8 +89,11 @@ the logic tests.
 - A click on empty board deselects.
 - A press on the selected token's corner turns it in place.
 - A player moves only the tokens they own *(later)*.
-- A move takes the route the rules find, and asks before a dash
-  *(later)*.
+- A token standing for no sheet has no limit, so a long drag lands it all
+  the same.
+- A drag past a sheet's movement asks for a dash: Use dash moves the
+  token, Cancel or Escape leaves it where it stood *(later)*.
+- A drag beyond even a dash leaves the token where it stood *(later)*.
 
 ### A DM or a player measures
 

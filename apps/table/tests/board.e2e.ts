@@ -122,6 +122,16 @@ test("A DM or a player moves a token", async ({ page }) => {
     await drag(page, handle, west);
     await expect.poll(async () => (await settledAt(page, token.id, token.cell))?.facing).toBe(270);
   });
+
+  await test.step("A token standing for no sheet has no limit, so a long drag lands it all the same.", async () => {
+    const token = await tokenOnScreen(page, 0);
+    // Thirteen cells of the tavern's five-foot squares is sixty-five feet,
+    // past what a person on foot could walk or even dash.
+    const far = { col: 19, row: token.cell.row };
+    await drag(page, await cellOnScreen(page, token.cell), await cellOnScreen(page, far));
+    await settledAt(page, token.id, far);
+    await expect(page.locator("tw-dash-ask")).toBeHidden();
+  });
 });
 
 test("Working thresholds in play", async ({ page }) => {
