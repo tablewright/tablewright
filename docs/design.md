@@ -782,10 +782,17 @@ the rounds are in the local research file.
   than a look: the picture and every texture muted hard, each cell
   printing its height, a level change printing stair, the badge as
   it is. It reads the field of the scene as the display does; it is
-  another picture of the same data, and only the toggle belongs to
-  the DM rather than to the scene. It has the same controls, the strength
-  included, so the two are one experience. Players get it only if
-  they ask for it. Decided 2026-09-11 (user).
+  another picture of the same data. Decided 2026-09-11 (user).
+  Decided 2026-09-12 (user): it is a different mode of viewing
+  rather than a setting of the display, so it is its own item in the
+  rail, under the Ruler, and not a control in the Height pen's
+  palette; and it is the DM's alone, not a thing a player may be
+  given. Its toggle belongs to the DM and never to the scene, so it
+  survives every change the scene reports and no one else inherits
+  it; and it does not take the scene's strength, since a data check
+  faded is a worse data check. Every texture reads as its own data
+  hint while it is on, which is how the picture underneath is
+  uncovered without losing what the rules read.
 - **Where it runs.** The board holds the queries that answer while
   the pointer moves (no IPC between the pointer and the pixel); the
   core holds the record and, with movement rules, the validation
