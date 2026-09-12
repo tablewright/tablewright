@@ -11,6 +11,7 @@ import {
   Camera,
   CameraInput,
   DEFAULT_MOVER,
+  DragRoute,
   DEFAULT_RULE,
   DrawLayer,
   GridLayer,
@@ -30,6 +31,7 @@ import {
   groundAt,
   heightAt,
   isLevelChangeAt,
+  NO_LIMIT,
   measure,
   readBoardTheme,
   stepHeight,
@@ -39,6 +41,7 @@ import {
   worldToCell,
   type BoardStage,
   type BoardTheme,
+  type Budget,
   type CameraState,
   type Cell,
   type CellExtent,
@@ -48,6 +51,7 @@ import {
   type HeightDrawing,
   type HeightStyle,
   type MapSize,
+  type Mover,
   type PlayTool,
   type Point,
   type Route,
@@ -58,6 +62,8 @@ import {
   type SquareGrid,
   type StrokeListener,
   type ThresholdEdge,
+  type DashAsk,
+  type DashAskListener,
   type TokenMove,
   type TokenStyle,
   type TokenView,
@@ -186,11 +192,15 @@ export class BoardHost {
   private readonly heightLayer: HeightLayer;
   private readonly drawLayer: DrawLayer;
   private readonly ruler: RulerTool;
+  private readonly dragRoute: DragRoute;
   private readonly target: HTMLElement;
   private readonly moveListeners = new Set<TokenMoveListener>();
   private readonly strokeListeners = new Set<StrokeListener>();
   private readonly hoverListeners = new Set<HoverListener>();
   private readonly thresholdListeners = new Set<ThresholdListener>();
+  private readonly dashListeners = new Set<DashAskListener>();
+  /** The dash question on show, so Escape knows a move is waiting on an answer. */
+  private asking: DashAsk | undefined;
   private play: readonly ThresholdPlay[] = [];
   /** How the scene shows its heights. */
   private display: HeightDisplay = { mode: "shaded", strength: 80 };
@@ -223,7 +233,27 @@ export class BoardHost {
     this.topologyLayer = new TopologyLayer(stage.layers.topology);
     this.heightLayer = new HeightLayer(stage.layers.height);
     const theme = readBoardTheme(target);
-    this.tokenLayer = new TokenLayer(stage.layers.tokens, this.grid, tokenStyle(theme));
+    // A drag prices its way for the token that is moving, against what that
+    // token has left this turn; the route draws in the overlay, over the tokens.
+    this.dragRoute = new DragRoute(
+      stage.layers.overlay,
+      this.grid,
+      (id, from, to) => measure(this.topology, from, to, this.rule, this.moverOf(id)),
+      (id) => this.budgetOf(id)
+    );
+    this.tokenLayer = new TokenLayer(
+      stage.layers.tokens,
+      this.grid,
+      tokenStyle(theme),
+      this.dragRoute
+    );
+    this.tokenLayer.onDashAsk((ask) => {
+      this.asking = ask;
+      stage.requestFrame();
+      for (const listener of this.dashListeners) {
+        listener(ask);
+      }
+    });
     this.drawLayer = new DrawLayer(stage.app.canvas, stage.layers.overlay, this.grid, (screen) =>
       this.camera.toWorld(screen)
     );
@@ -250,6 +280,7 @@ export class BoardHost {
     this.heightLayer.setStyle(heightStyle(theme));
     this.drawLayer.setStyle(drawStyle(theme));
     this.ruler.setStyle(rulerStyle(theme));
+    this.dragRoute.setStyle(rulerStyle(theme));
     watchBoardTheme(target, (next) => {
       stage.setBackground(next.ground);
       this.gridLayer.setStyle(next.grid);
@@ -258,6 +289,7 @@ export class BoardHost {
       this.heightLayer.setStyle(heightStyle(next));
       this.drawLayer.setStyle(drawStyle(next));
       this.ruler.setStyle(rulerStyle(next));
+      this.dragRoute.setStyle(rulerStyle(next));
       stage.requestFrame();
     });
 
@@ -324,6 +356,7 @@ export class BoardHost {
       this.tokenLayer.setGrid(grid, tokenViews(scene));
       this.drawLayer.setGrid(grid);
       this.ruler.setGrid(grid);
+      this.dragRoute.setGrid(grid);
       this.isGridStale = true;
     }
     // A picture sets its own bounds once loaded; without one the scene's
@@ -375,6 +408,34 @@ export class BoardHost {
   onTokenMove(listener: TokenMoveListener): () => void {
     this.moveListeners.add(listener);
     return () => this.moveListeners.delete(listener);
+  }
+
+  /** Hear the dash question a drop asks, and its answer. Returns the unsubscribe. */
+  onDashAsk(listener: DashAskListener): () => void {
+    this.dashListeners.add(listener);
+    return () => this.dashListeners.delete(listener);
+  }
+
+  /** Answer the dash question: the token moves and spends the action, or stays. */
+  answerDash(use: boolean): void {
+    this.tokenLayer.answerDash(use);
+  }
+
+  /** Whether a move is waiting on the dash question. */
+  get isAskingDash(): boolean {
+    return this.asking !== undefined;
+  }
+
+  // Who is moving, and what their turn allows. Both come from the sheet the
+  // token stands for. Without one it is a placeholder the DM put down: it
+  // walks as a person on foot, so a route still prices, but no movement
+  // holds it, so a drag of any length lands.
+  private moverOf(id: string): Mover {
+    return this.tokens.find((token) => token.id === id)?.mover ?? DEFAULT_MOVER;
+  }
+
+  private budgetOf(id: string): Budget {
+    return this.tokens.find((token) => token.id === id)?.budget ?? NO_LIMIT;
   }
 
   /** Draw with `tool`, or with nothing: Play, where the pointer moves tokens or measures. */

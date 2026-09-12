@@ -1,4 +1,10 @@
-export { cellCenter, cellToWorld, snapToCellCenter, worldToCell } from "./square-grid.js";
+export {
+  cellCenter,
+  cellToWorld,
+  snapToCellCenter,
+  worldToCell,
+  worldToCellPoint,
+} from "./square-grid.js";
 export type { Cell, SquareGrid } from "./square-grid.js";
 export { gridLines } from "./grid-lines.js";
 export type { CellExtent, GridLines } from "./grid-lines.js";

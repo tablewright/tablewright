@@ -46,6 +46,7 @@ const shares = document.querySelector("tw-share-tray");
 const entryView = document.querySelector("tw-entry-view");
 const scenesTab = document.querySelector("tw-scenes");
 const intro = document.querySelector("tw-campaigns");
+const dashAsk = document.querySelector("tw-dash-ask");
 if (
   host === null ||
   openButton === null ||
@@ -59,10 +60,11 @@ if (
   shares === null ||
   entryView === null ||
   scenesTab === null ||
-  intro === null
+  intro === null ||
+  dashAsk === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #role, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #role, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, and <tw-entry-view>"
   );
 }
 
@@ -490,6 +492,21 @@ try {
         showNotice(`Could not create ${name}: ${reason}`);
       }
     })();
+  });
+  // The one question a move asks stands in a bar under the board while the
+  // token waits at its destination; either answer takes it away.
+  board.onDashAsk((ask) => {
+    if (ask === undefined) {
+      dashAsk.hidden = true;
+      return;
+    }
+    dashAsk.cost = ask.cost;
+    dashAsk.left = ask.left;
+    dashAsk.unit = ask.unit;
+    dashAsk.hidden = false;
+  });
+  dashAsk.addEventListener("tw-dash", (event) => {
+    board.answerDash((event as CustomEvent<{ use: boolean }>).detail.use);
   });
   board.onTokenMove(({ id, cell, facing }) => {
     void (async () => {

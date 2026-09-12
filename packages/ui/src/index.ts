@@ -10,6 +10,7 @@ export { TwScenes } from "./scenes/tw-scenes.js";
 export { TwCampaigns } from "./campaigns/tw-campaigns.js";
 export { TwToolRail } from "./rail/tw-tool-rail.js";
 export { TwStrip } from "./strip/tw-strip.js";
+export { TwDashAsk } from "./dash/tw-dash-ask.js";
 export { titleCase } from "./text.js";
 export { groups } from "./entry/sections.js";
 export type { SectionGroup } from "./entry/sections.js";

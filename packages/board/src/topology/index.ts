@@ -68,6 +68,7 @@ export {
 } from "./height-layer.js";
 export { contourGroups, isoLines, type Segment } from "./iso.js";
 export {
+  NO_LIMIT,
   chooseRoute,
   findRoute,
   reach,

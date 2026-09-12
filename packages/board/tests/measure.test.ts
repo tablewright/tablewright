@@ -113,6 +113,7 @@ describe("the badge of a way with a drop", () => {
       rise: -20,
       unit: "ft",
       route,
+      ways: { safe: route },
       choice: { route, phase: "move" },
       reach: 30,
       dashReach: 60,

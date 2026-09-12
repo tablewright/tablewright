@@ -1,5 +1,7 @@
 export { TokenLayer } from "./token-layer.js";
 export type {
+  DashAsk,
+  DashAskListener,
   TokenMove,
   TokenMoveListener,
   TokenSelectListener,

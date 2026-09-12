@@ -11,6 +11,9 @@
  * from it (design §5). Movement is reported once per drop, key press,
  * or release of a turn, never per pointer move: the scene commits on
  * gesture end.
+ * A drag reads the graph as it goes: the route it would take shows
+ * beside it, and the drop lands the token, asks for a dash, or refuses
+ * and leaves it where it stood.
  */
 
 import { Graphics, type Container, type FederatedPointerEvent } from "pixi.js";
@@ -22,6 +25,9 @@ import {
   type Cell,
   type SquareGrid,
 } from "../grid/square-grid.js";
+import type { DragRoute } from "../move/drag-route.js";
+import type { Mover } from "../topology/cost.js";
+import type { Budget } from "../topology/route.js";
 import { facingBetween, facingToward, normalizeDegrees } from "./facing.js";
 import { DRAG_THRESHOLD_PX, HOLD_MS, afterHold } from "./press.js";
 import { TokenSprite, type TokenStyle } from "./token-sprite.js";
@@ -35,6 +41,10 @@ export interface TokenView {
   readonly facing: number;
   /** The height the field gives the token's cell, worn as a badge when not zero. */
   readonly height?: number;
+  /** Who is moving: the speeds and Strength a move is priced by, from the sheet. */
+  readonly mover?: Mover;
+  /** What this turn allows, from the sheet; a token standing for none has no limit. */
+  readonly budget?: Budget;
 }
 
 /** One committed move: where the token now stands and which way it faces. */
@@ -44,8 +54,29 @@ export interface TokenMove {
   readonly facing: number;
 }
 
+/** The one question a move asks: the way costs more than the movement left. */
+export interface DashAsk {
+  readonly id: string;
+  /** What the way costs, in the rule's unit. */
+  readonly cost: number;
+  /** Movement left this turn before the dash, in the same unit. */
+  readonly left: number;
+  readonly unit: string;
+}
+
 export type TokenMoveListener = (move: TokenMove) => void;
 export type TokenSelectListener = (id: string | undefined) => void;
+/** Hears the question while it stands, and nothing once it is answered. */
+export type DashAskListener = (ask: DashAsk | undefined) => void;
+
+// A drop waiting on the dash question: the token stands at the destination
+// until the answer comes, and goes back to `origin` if it is no.
+interface PendingDash extends DashAsk {
+  readonly cell: Cell;
+  readonly facing: number | undefined;
+  readonly origin: Point;
+  readonly originFacing: number;
+}
 
 const GHOST_WIDTH = 2;
 const GHOST_ALPHA = 0.7;
@@ -100,15 +131,19 @@ export class TokenLayer {
   private readonly sprites = new Map<string, TokenSprite>();
   private readonly moveListeners = new Set<TokenMoveListener>();
   private readonly selectListeners = new Set<TokenSelectListener>();
+  private readonly dashListeners = new Set<DashAskListener>();
+  private readonly route: DragRoute;
   private grid: SquareGrid;
   private style: TokenStyle;
   private selected: string | undefined;
   private press: PressState | undefined;
+  private pending: PendingDash | undefined;
 
-  constructor(container: Container, grid: SquareGrid, style: TokenStyle) {
+  constructor(container: Container, grid: SquareGrid, style: TokenStyle, route: DragRoute) {
     this.container = container;
     this.grid = grid;
     this.style = style;
+    this.route = route;
     this.ghost.visible = false;
     container.addChild(this.ghost);
     window.addEventListener("keydown", this.onKeyDown);
@@ -130,7 +165,7 @@ export class TokenLayer {
       } else {
         existing.setLabel(token.label);
         existing.setBadge(badgeOf(token));
-        if (this.press?.id !== token.id) {
+        if (this.press?.id !== token.id && this.pending?.id !== token.id) {
           existing.setFacing(token.facing);
           existing.setPosition(cellCenter(this.grid, token.cell));
         }
@@ -190,8 +225,37 @@ export class TokenLayer {
     };
   }
 
+  /** Hear the dash question as it is asked and answered. Returns the unsubscribe. */
+  onDashAsk(listener: DashAskListener): () => void {
+    this.dashListeners.add(listener);
+    return () => {
+      this.dashListeners.delete(listener);
+    };
+  }
+
+  /** Answer the dash question: the token moves and spends the action, or stays. */
+  answerDash(use: boolean): void {
+    const pending = this.pending;
+    if (pending === undefined) {
+      return;
+    }
+    this.pending = undefined;
+    this.route.end();
+    const sprite = this.sprites.get(pending.id);
+    if (sprite !== undefined) {
+      if (use) {
+        this.commitMove(pending.id, sprite, pending.cell, pending.facing);
+      } else {
+        sprite.setPosition(pending.origin);
+        sprite.setFacing(pending.originFacing);
+      }
+    }
+    this.askDash(undefined);
+  }
+
   destroy(): void {
     this.endPress();
+    this.route.end();
     window.removeEventListener("keydown", this.onKeyDown);
     for (const sprite of this.sprites.values()) {
       sprite.destroy();
@@ -327,6 +391,9 @@ export class TokenLayer {
     sprite.setDragging(true);
     this.container.addChild(sprite.view);
     this.ghost.visible = true;
+    // A new drag drops whatever question the last one left standing.
+    this.answerDash(false);
+    this.route.begin(press.id, worldToCell(this.grid, press.origin));
   }
 
   // Move the token or its facing to where the pointer is now.
@@ -341,6 +408,7 @@ export class TokenLayer {
     }
     sprite.setPosition(world);
     this.drawGhost(snapToCellCenter(this.grid, world));
+    this.route.show(worldToCell(this.grid, world), world);
   }
 
   private readonly onPointerUp = (event: PointerEvent): void => {
@@ -356,9 +424,7 @@ export class TokenLayer {
         this.follow(press, sprite, event);
       }
       if (press.mode === "drag") {
-        const cell = worldToCell(this.grid, sprite.position);
-        const from = worldToCell(this.grid, press.origin);
-        this.commitMove(press.id, sprite, cell, facingBetween(from, cell));
+        this.drop(press, sprite, worldToCell(this.grid, sprite.position));
       } else if (press.mode === "turn") {
         this.commitMove(press.id, sprite, worldToCell(this.grid, sprite.position), sprite.facing);
       } else {
@@ -381,7 +447,10 @@ export class TokenLayer {
       return;
     }
     if (event.key === "Escape") {
-      if (this.press !== undefined) {
+      if (this.pending !== undefined) {
+        event.preventDefault();
+        this.answerDash(false);
+      } else if (this.press !== undefined) {
         this.cancelPress();
       } else {
         this.select(undefined);
@@ -408,6 +477,39 @@ export class TokenLayer {
     this.commitMove(id, sprite, cell, facingBetween(from, cell));
   }
 
+  // A token lands where it was dropped or not at all: within the movement it
+  // simply moves; past it the drop asks for the dash and waits at the
+  // destination for the answer; past even a dash, or with no way there, it
+  // goes back where it stood.
+  private drop(press: PressState, sprite: TokenSprite, cell: Cell): void {
+    const shown = this.route.shown;
+    const from = worldToCell(this.grid, press.origin);
+    const facing = facingBetween(from, cell);
+    if (shown === undefined || shown.choice.phase === "move") {
+      this.route.end();
+      this.commitMove(press.id, sprite, cell, facing);
+      return;
+    }
+    if (shown.choice.phase === "dash") {
+      this.place(sprite, cell, facing);
+      this.pending = {
+        id: press.id,
+        cost: shown.choice.route?.cost ?? 0,
+        left: shown.reach,
+        unit: shown.unit,
+        cell,
+        facing,
+        origin: press.origin,
+        originFacing: press.originFacing,
+      };
+      this.askDash(this.pending);
+      return;
+    }
+    this.route.end();
+    sprite.setPosition(press.origin);
+    sprite.setFacing(press.originFacing);
+  }
+
   // A move faces the token along its travel; a move that went nowhere keeps
   // its facing. The scene keeps whole degrees, so the commit rounds, and the
   // sprite shows the same so the two agree.
@@ -417,16 +519,30 @@ export class TokenLayer {
     cell: Cell,
     travelFacing: number | undefined
   ): void {
-    const facing = Math.round(normalizeDegrees(travelFacing ?? sprite.facing)) % 360;
-    sprite.setPosition(cellCenter(this.grid, cell));
-    sprite.setFacing(facing);
+    const facing = this.place(sprite, cell, travelFacing);
     for (const listener of this.moveListeners) {
       listener({ id, cell, facing });
     }
   }
 
+  // Stand the sprite on a cell, facing the way it travelled. The scene keeps
+  // whole degrees, so the sprite shows the same and the two agree.
+  private place(sprite: TokenSprite, cell: Cell, travelFacing: number | undefined): number {
+    const facing = Math.round(normalizeDegrees(travelFacing ?? sprite.facing)) % 360;
+    sprite.setPosition(cellCenter(this.grid, cell));
+    sprite.setFacing(facing);
+    return facing;
+  }
+
+  private askDash(ask: DashAsk | undefined): void {
+    for (const listener of this.dashListeners) {
+      listener(ask);
+    }
+  }
+
   private cancelPress(): void {
     const press = this.press;
+    this.route.end();
     if (press !== undefined) {
       const sprite = this.sprites.get(press.id);
       sprite?.setPosition(press.origin);

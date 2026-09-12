@@ -18,7 +18,14 @@ import { speedOf, type Mover } from "../topology/cost.js";
 import { heightAt, type Topology } from "../topology/derive.js";
 import { distance, type GridRule } from "../topology/distance.js";
 import { cellCentre, firstBlock } from "../topology/effect.js";
-import { chooseRoute, routes, type Budget, type Choice, type Route } from "../topology/route.js";
+import {
+  chooseRoute,
+  routes,
+  type Budget,
+  type Choice,
+  type Route,
+  type Routes,
+} from "../topology/route.js";
 
 export interface Measurement {
   readonly from: Cell;
@@ -31,6 +38,8 @@ export interface Measurement {
   readonly unit: string;
   /** The shortest way on foot at any cost, or nothing when there is none. */
   readonly route: Route | undefined;
+  /** Both ways the move may take, for a drag to choose between as it goes. */
+  readonly ways: Routes;
   /** The way this turn offers, chosen in tiers: with or without a dash, or refused. */
   readonly choice: Choice;
   /** Movement left this turn before a dash, in the unit: where a way leaves the plain colour. */
@@ -68,6 +77,7 @@ export function measure(
     rise: far.height - near.height,
     unit: rule.unit,
     route: found.quick ?? found.safe,
+    ways: found,
     choice: chooseRoute(found, budget),
     reach: Math.max(0, budget.speed - budget.spent),
     dashReach: Math.max(0, (budget.dashed ? budget.speed : budget.speed * 2) - budget.spent),

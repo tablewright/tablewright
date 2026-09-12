@@ -51,3 +51,11 @@ export function cellCenter(grid: SquareGrid, cell: Cell): Point {
 export function snapToCellCenter(grid: SquareGrid, point: Point): Point {
   return cellCenter(grid, worldToCell(grid, point));
 }
+
+/** A world point in cell coordinates, fractions and all: the grid's own measure. */
+export function worldToCellPoint(grid: SquareGrid, point: Point): Point {
+  return {
+    x: (point.x - grid.originX) / grid.cellSize,
+    y: (point.y - grid.originY) / grid.cellSize,
+  };
+}

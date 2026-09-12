@@ -52,6 +52,17 @@ export interface Budget {
   readonly dashed: boolean;
 }
 
+/**
+ * A mover under no limit: every way is within the movement, so nothing is
+ * ever refused and nothing needs a dash. What a token with no sheet moves
+ * on, since a placeholder the DM put down has no speed to be held to.
+ */
+export const NO_LIMIT: Budget = {
+  speed: Number.POSITIVE_INFINITY,
+  spent: 0,
+  dashed: false,
+};
+
 export type Phase = "move" | "dash" | "refused";
 
 export interface Choice {
