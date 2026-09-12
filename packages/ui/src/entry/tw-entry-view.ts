@@ -358,7 +358,7 @@ export class TwEntryView extends LitElement {
       return nothing;
     }
     const preview = previewOf(entry);
-    // "Spell · Cantrip", "Monster · CR 1/4", "Magic Item · Rare": the kind as
+    // "Spell — Cantrip", "Monster — CR 1/4", "Magic Item — Rare": the kind as
     // words, then the one fact the category leads with.
     const kind = entry.type
       .split("-")
@@ -370,7 +370,7 @@ export class TwEntryView extends LitElement {
         : preview.ring !== undefined
           ? `Level ${preview.ring}`
           : preview.badge;
-    const label = detail === undefined ? kind : `${kind} · ${detail}`;
+    const label = detail === undefined ? kind : `${kind} — ${detail}`;
     return html`
       <header>
         <div>

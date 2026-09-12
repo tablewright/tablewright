@@ -200,7 +200,7 @@ export class TwCampaigns extends LitElement {
                     (campaign) => html`<li>
                       <span class="about">
                         <span class="name">${campaign.name}</span>
-                        <span class="meta">${campaign.system} · ${campaign.version}</span>
+                        <span class="meta">${campaign.system} — ${campaign.version}</span>
                         <span class="meta">${campaign.path}</span>
                       </span>
                       <button

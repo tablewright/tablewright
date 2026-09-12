@@ -36,7 +36,7 @@ export function categoryOf(kind: string, taxonomy?: Taxonomy): string {
 export function previewOf(hit: SpotlightHit, taxonomy?: Taxonomy): TilePreview {
   const preview = fieldsPreview(hit, taxonomy);
   if (hit.part !== undefined && hit.part !== null) {
-    preview.meta = `${hit.part.name} · ${preview.meta}`;
+    preview.meta = `${hit.part.name}, ${preview.meta}`;
   }
   return preview;
 }
@@ -91,7 +91,7 @@ function without(tags: readonly string[], tag: string | undefined): string[] {
 }
 
 function joinOr(tags: readonly string[], fallback: string): string {
-  return tags.length > 0 ? tags.join(" · ") : fallback;
+  return tags.length > 0 ? tags.join(", ") : fallback;
 }
 
 function titleCase(text: string): string {

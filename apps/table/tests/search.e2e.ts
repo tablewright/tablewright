@@ -49,7 +49,7 @@ test("A player searches the compendium", async ({ page }) => {
     await retype(page, "fire");
     await expect(tiles).toHaveCount(4);
     await expect(page.locator(`${box} footer`)).toContainText(
-      /4 hits of \d+ · core [\d.]+ ms · to paint \d+ ms/
+      /4 hits of \d+, core [\d.]+ ms, to paint \d+ ms/
     );
   });
 });
@@ -237,7 +237,7 @@ test("Sharing an entry", async ({ page, browserName }) => {
     await page.getByRole("button", { name: "Share Wall of Fire with the table" }).click();
     await expect(shown).toHaveCount(1);
     await expect(shown).toContainText("Fire Bolt");
-    await expect(shown).toContainText("Shared by you · 1 more waits");
+    await expect(shown).toContainText("Shared by you — 1 more waits");
     await shown.getByRole("button", { name: "Dismiss" }).click();
     await expect(shown).toHaveCount(1);
     await expect(shown).toContainText("Wall of Fire");

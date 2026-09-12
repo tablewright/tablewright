@@ -106,7 +106,7 @@ function describeCell(readout: CellReadout): string {
     return "Void: outside the scene";
   }
   const height = readout.height === 0 ? "ground level" : `${signed(Math.round(readout.height))} ft`;
-  return `${readout.ground} · ${height}${readout.isLevelChange ? " · level change" : ""}`;
+  return `${readout.ground}, ${height}${readout.isLevelChange ? ", level change" : ""}`;
 }
 
 // What a tap does to a threshold in Play: a door opens or shuts, a locked
@@ -817,7 +817,7 @@ try {
   const setTitle = (): void => {
     document.title = [campaign?.name, TITLE, VIEWER === "dm" ? undefined : "Player view"]
       .filter((part) => part !== undefined)
-      .join(" · ");
+      .join(" — ");
   };
   const showChrome = (shown: boolean): void => {
     sceneChrome.hidden = !shown;

@@ -35,14 +35,14 @@ describe("previewOf", () => {
       hit("spell", "Fire Bolt", ["evocation", "cantrip", "wizard"]),
       TAXONOMY
     );
-    expect(cantrip).toEqual({ category: "Spells", meta: "evocation · wizard", ring: "C" });
+    expect(cantrip).toEqual({ category: "Spells", meta: "evocation, wizard", ring: "C" });
     const third = previewOf(hit("spell", "Fireball", ["evocation", "level-3"]), TAXONOMY);
     expect(third.ring).toBe("3");
   });
 
   test("a creature shows its challenge as a badge", () => {
     const goblin = previewOf(hit("monster", "Goblin", ["fey", "small", "cr-1/4"]), TAXONOMY);
-    expect(goblin).toEqual({ category: "Bestiary", meta: "fey · small", badge: "CR 1/4" });
+    expect(goblin).toEqual({ category: "Bestiary", meta: "fey, small", badge: "CR 1/4" });
   });
 
   test("an item shows its rarity as a badge when it has one", () => {
@@ -50,7 +50,7 @@ describe("previewOf", () => {
       hit("magic-item", "Flame Tongue", ["weapon", "rare", "attunement"]),
       TAXONOMY
     );
-    expect(sword).toEqual({ category: "Items", meta: "weapon · attunement", badge: "Rare" });
+    expect(sword).toEqual({ category: "Items", meta: "weapon, attunement", badge: "Rare" });
     const gear = previewOf(hit("item", "Rope", ["adventuring-gear"]), TAXONOMY);
     expect(gear.badge).toBeUndefined();
   });
@@ -60,8 +60,8 @@ describe("previewOf", () => {
       ...hit("monster", "Goblin", ["fey", "small"]),
       part: { label: "Trait", name: "Pack Tactics" },
     };
-    expect(previewOf(goblin, TAXONOMY).meta).toBe("Pack Tactics · fey · small");
-    expect(previewOf({ ...goblin, part: null }, TAXONOMY).meta).toBe("fey · small");
+    expect(previewOf(goblin, TAXONOMY).meta).toBe("Pack Tactics, fey, small");
+    expect(previewOf({ ...goblin, part: null }, TAXONOMY).meta).toBe("fey, small");
   });
 
   test("with no tags the line falls back to the source", () => {

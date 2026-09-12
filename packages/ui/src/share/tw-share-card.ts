@@ -114,9 +114,9 @@ export class TwShareCard extends LitElement {
     const preview = previewOf(hit);
     const label = [hit.type, preview.badge ?? preview.ring]
       .filter((part) => part !== undefined)
-      .join(" · ");
+      .join(" — ");
     const waiting =
-      this.pending > 0 ? ` · ${this.pending} more ${this.pending === 1 ? "waits" : "wait"}` : "";
+      this.pending > 0 ? ` — ${this.pending} more ${this.pending === 1 ? "waits" : "wait"}` : "";
     return html`
       <header>
         <span>Shared by <strong>${this.sharedBy}</strong>${waiting}</span>

@@ -52,6 +52,9 @@ refinement. Where they disagree, this file governs.
   they are used.
 - A design doc says why. A story says what someone does and sees. A
   plan says when. None of them narrates the code.
+- Text on screen takes ordinary punctuation and never a middle dot: a
+  colon between a label and its value, a dash between peers, a comma
+  in a list.
 
 ## TypeScript (UI, board, app shells)
 

@@ -844,7 +844,7 @@ export class TwSpotlight extends LitElement {
             : `${this.hits.length} ${this.hits.length === 1 ? "hit" : "hits"}`;
         const core = (this.elapsedUs / 1000).toFixed(2);
         const paint = this.paintMs.toFixed(0);
-        return `${count} of ${this.catalogueSize} · core ${core} ms · to paint ${paint} ms`;
+        return `${count} of ${this.catalogueSize}, core ${core} ms, to paint ${paint} ms`;
       }
     }
   }

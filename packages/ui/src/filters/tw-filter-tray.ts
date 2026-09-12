@@ -313,7 +313,7 @@ export class TwFilterTray extends LitElement {
     const count = activeCount(this.state) + activeCount(this.selection);
     return html`
       <header>
-        <span>Filters${this.label === "" ? "" : ` · ${this.label}`}</span>
+        <span>Filters${this.label === "" ? "" : `: ${this.label}`}</span>
         ${
           count === 0
             ? nothing
@@ -340,7 +340,7 @@ export class TwFilterTray extends LitElement {
     }
     return html`
       <header>
-        <span>Filters${this.label === "" ? "" : ` · ${this.label}`}</span>
+        <span>Filters${this.label === "" ? "" : `: ${this.label}`}</span>
         <button type="button" class="clear" @click=${this.#clear}>Clear</button>
       </header>
       <div class="summary" @click=${this.#expand}>${picks}</div>

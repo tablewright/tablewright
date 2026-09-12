@@ -778,7 +778,7 @@ export class TwToolRail extends LitElement {
             ></tw-strip>
           </section>
           <section>
-            <span class="cap">Size · windows</span>
+            <span class="cap">Window size</span>
             <tw-strip
               label="Size"
               .values=${OPENING_SIZES}
@@ -798,11 +798,11 @@ export class TwToolRail extends LitElement {
                 .value=${String(this.tool.height)}
                 @input=${this.#heightInput}
               />
-              <span class="unit">ft · ${signed(this.tool.height)}</span>
+              <span class="unit">ft: ${signed(this.tool.height)}</span>
             </div>
           </section>
           <section>
-            <span class="cap">Display · this scene</span>
+            <span class="cap">Display — this scene</span>
             <tw-strip
               label="Height display"
               .values=${HEIGHT_MODES}
