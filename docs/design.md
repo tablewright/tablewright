@@ -761,7 +761,7 @@ the rounds are in the local research file.
   the way is beyond even a dash. Red is the one colour with a
   meaning of its own on the board, and it means only that: a player
   reads it as where they cannot go this turn, while still seeing how
-  far the thing is. Templates join the column *(later)*. One badge beside the far end carries the number, the
+  far the thing is. One badge beside the far end carries the number, the
   rise beside it as an arrow up or down when there is one, and
   nothing more: a player reads it at a glance, and the everyday
   question is how far a thing is. A measure stays until Escape or
@@ -771,6 +771,58 @@ the rounds are in the local research file.
   2026-09-11 (user): the crow-flies line is the everyday measure and
   the route belongs to moving, so the ruler shows one answer at a
   time, never all three at once.
+- **Templates are areas, laid down from the same column.** Line, Cone
+  and Circle each have their own item beside Path, and it is right
+  that an area is placed differently from a measure: a measure is
+  press, drag, release, while an area is click, turn, click. One lays
+  an area down; the other only answers a question. Each carries its
+  own sizes: a line a width, a length and a height; a cone a length
+  and a spread, the spread a slider from nought to ninety degrees and
+  its far edge round or flat, round by default since a round edge
+  keeps everything inside the range; a circle a radius and an inner
+  radius. A template starts on the token its caster holds, or the one
+  a player owns, and where there is neither it goes where it is
+  clicked: an origin is a point or a token, which is also what an
+  area that moves with a creature needs.
+- **Every area has a vertical form**, chosen beside its sizes. A
+  circle stands as a sphere, a dome or a cylinder: the dome is what a
+  DM reaches for, since a fireball should not burn the cellar, and
+  the sphere is the one that passes through the floor on purpose,
+  over a chasm or above an open room. A cone is flat or 3D: flat is
+  the footprint given a height, 3D spreads upward as it spreads
+  sideways. A line is a box or a beam, and its height is whatever the
+  effect says, a wall of fire being twenty feet, falling back to its
+  own width where the effect says nothing. A line with no width is
+  the crow-flies measure it has always been. A ring is an inner radius
+  beside the radius rather than a form of its own, nought meaning a
+  full disc; with a cylinder it is a tube and with a sphere a shell.
+  What the world then does to a volume is a second question from its
+  shape: clipping it to the ground is what makes a sixty-foot cone
+  fired down a ten-foot corridor behave like the one a player
+  pictures, and stay a cone across a canyon.
+- **A cell is caught when the volume holds the centre of its cube**,
+  and then everything standing in that cell is caught. It is one test
+  in three dimensions rather than a family of grid rules, it reads
+  plainly to a player, and it is a campaign setting beside the
+  diagonal rule, so a system that counts differently says so. The
+  tokens an area holds wear a dashed brass ring, turning slowly, a
+  little clear of their own: the token's ring keeps its own meaning
+  and the dashed one says only that this one is caught.
+- **Every measure and every area says who sees it**: everyone, the DM
+  alone, or the one who made it, and everyone by default. Alt is the
+  shortcut for one's own, as it already is for a private measure.
+- **The engine is not a 5e engine.** A shape is its settings, a
+  spread and an edge and a form, and what 5e means by a cone is one
+  place on that slider. 5e is first because two SRDs exist to seed
+  real content from, not because its readings are the target; a
+  system that wants a quarter-circle cone or a different cover rule
+  sets them and the engine does not care. Decided 2026-09-12 (user),
+  with the round's canvas and `.plan/RESEARCH.templates.md` behind it.
+- **Effects on an area** *(later)*: the animated kind, fire fanning
+  out along the shape it covers. Not built now, and the model must
+  not make it hard: an area keeps a stable id, its geometry as
+  separate fields rather than a blob, its far end measured, and its
+  vertical profile, so something later can hang off any of them.
 - **Height is displayed per scene.** A scene chooses how height
   shows over its picture: Shaded (a soft shadow on the low side and
   a hairline; the default), Washed (a tint per height band, for
@@ -804,9 +856,7 @@ the rounds are in the local research file.
   commit provisional movement; whether a token's history shows to
   other players; filling the field from the art with a wand; a
   staircase that repeats over several floors of one layout, a
-  tower or a library, and how one stroke stands for it;
-  templates as volumes (sphere, cylinder, cone in 3D) with the
-  system's cover rule.
+  tower or a library, and how one stroke stands for it.
 
 ### First-person view *(later)*
 
