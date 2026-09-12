@@ -29,18 +29,18 @@ export type Anchor =
   | { readonly kind: "token"; readonly id: string };
 
 /**
- * A straight run with a width and a height. A box has square corners; a
- * beam is round in section about its axis, and reads its width alone.
- * The height rises from the origin, as a wall of fire does.
+ * A straight run in three sizes: as long as it is aimed, as wide across
+ * and as tall upward, the height rising from the origin as a wall of
+ * fire does. It is a rectangle rather than a line, since Line in the
+ * column measures and lays nothing down.
  */
-export interface LineArea {
-  readonly kind: "line";
+export interface RectArea {
+  readonly kind: "rect";
   /** Degrees clockwise from north, as a token's facing is. */
   readonly aim: number;
   readonly length: number;
   readonly width: number;
   readonly height: number;
-  readonly form: "box" | "beam";
 }
 
 /**
@@ -75,15 +75,10 @@ export interface CircleArea {
   readonly height: number;
 }
 
-export type Area = LineArea | ConeArea | CircleArea;
+export type Area = RectArea | ConeArea | CircleArea;
 
 /** The widest an area may open, in degrees. */
 export const SPREAD_RANGE = { min: 0, max: 90 } as const;
-
-/** A line with no width is the crow-flies measure it has always been. */
-export function isMeasure(area: Area): boolean {
-  return area.kind === "line" && area.width <= 0;
-}
 
 /**
  * The way an area faces as a unit vector across the map. Degrees run
@@ -111,4 +106,32 @@ export function cubeCentre(cell: Cell, ground: number, rule: GridRule): Spot {
 /** A place on the map's floor, from a cell and the height under it. */
 export function floorSpot(cell: Cell, ground: number, rule: GridRule): Spot {
   return { x: (cell.col + 0.5) * rule.cellSize, y: (cell.row + 0.5) * rule.cellSize, z: ground };
+}
+
+/**
+ * One line for the badge beside an area: what it is and how big, in the
+ * DM's words. The form is named only where it changes what is caught,
+ * so a plain cone says nothing about standing up.
+ */
+export function describeArea(area: Area, rule: GridRule): string {
+  const unit = rule.unit;
+  switch (area.kind) {
+    case "rect":
+      return `${tidy(area.length)} by ${tidy(area.width)} ${unit} rectangle`;
+    case "cone":
+      return `${tidy(area.length)} ${unit} cone, ${tidy(area.spread)}°${
+        area.form === "flat" ? ", flat" : ""
+      }`;
+    default: {
+      const shape = area.form === "sphere" ? "sphere" : area.form === "dome" ? "dome" : "cylinder";
+      const ring = area.inner > 0 ? `, ${tidy(area.inner)} ${unit} inner` : "";
+      return `${tidy(area.radius)} ${unit} ${shape}${ring}`;
+    }
+  }
+}
+
+// Whole numbers stay whole; a fractional size keeps two places, as the
+// ruler's own badge does.
+function tidy(value: number): string {
+  return String(Math.round(value * 100) / 100);
 }

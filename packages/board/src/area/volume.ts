@@ -15,8 +15,8 @@ import { aimVector, type Area, type Spot } from "./area.js";
 export function holds(area: Area, origin: Spot, spot: Spot): boolean {
   const v = { x: spot.x - origin.x, y: spot.y - origin.y, z: spot.z - origin.z };
   switch (area.kind) {
-    case "line":
-      return inLine(area, v);
+    case "rect":
+      return inRect(area, v);
     case "cone":
       return inCone(area, v);
     default:
@@ -37,19 +37,14 @@ function split(aim: number, v: Offset): { along: number; across: number } {
   return { along, across: Math.hypot(v.x - along * d.x, v.y - along * d.y) };
 }
 
-// A box is a width across and a height rising from the origin; a beam is
-// round in section about the axis, so its width is a diameter and its
-// height is not read.
-function inLine(area: Extract<Area, { kind: "line" }>, v: Offset): boolean {
+// A width across and a height rising from the origin: the three sizes
+// say everything, so there is no form to choose beside them.
+function inRect(area: Extract<Area, { kind: "rect" }>, v: Offset): boolean {
   const { along, across } = split(area.aim, v);
   if (along < 0 || along > area.length) {
     return false;
   }
-  const half = area.width / 2;
-  if (area.form === "beam") {
-    return Math.hypot(across, v.z) <= half;
-  }
-  return across <= half && v.z >= 0 && v.z <= area.height;
+  return across <= area.width / 2 && v.z >= 0 && v.z <= area.height;
 }
 
 // One wedge, two caps, and the form deciding whether the offset from the

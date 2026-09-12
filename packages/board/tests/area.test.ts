@@ -6,6 +6,7 @@ import {
   derive,
   holds,
   mansionStrokes,
+  outline,
   placeOf,
   type Area,
   type Spot,
@@ -36,13 +37,12 @@ const circle = (over: Partial<Extract<Area, { kind: "circle" }>> = {}): Area => 
   ...over,
 });
 
-const line = (over: Partial<Extract<Area, { kind: "line" }>> = {}): Area => ({
-  kind: "line",
+const rect = (over: Partial<Extract<Area, { kind: "rect" }>> = {}): Area => ({
+  kind: "rect",
   aim: 90,
   length: 60,
   width: 5,
   height: 20,
-  form: "box",
   ...over,
 });
 
@@ -65,7 +65,7 @@ describe("a cone", () => {
     expect(holds(cone({ edge: "round", form: "flat" }), at(0, 0), at(29.9, 0))).toBe(true);
   });
 
-  test("a spread of nought opens onto nothing, since a line is its own tool", () => {
+  test("a spread of nought opens onto nothing, since a rectangle is its own tool", () => {
     expect(holds(cone({ spread: 0 }), at(0, 0), at(10, 0))).toBe(false);
   });
 
@@ -114,29 +114,20 @@ describe("a circle", () => {
   });
 });
 
-describe("a line", () => {
+describe("a rectangle", () => {
   test("a box is a width across and a height rising from where it starts", () => {
-    expect(holds(line(), at(0, 0), at(30, 2.4, 19))).toBe(true);
-    expect(holds(line(), at(0, 0), at(30, 2.6, 19))).toBe(false);
-    expect(holds(line(), at(0, 0), at(30, 0, 21))).toBe(false);
-    expect(holds(line(), at(0, 0), at(61, 0, 1))).toBe(false);
+    expect(holds(rect(), at(0, 0), at(30, 2.4, 19))).toBe(true);
+    expect(holds(rect(), at(0, 0), at(30, 2.6, 19))).toBe(false);
+    expect(holds(rect(), at(0, 0), at(30, 0, 21))).toBe(false);
+    expect(holds(rect(), at(0, 0), at(61, 0, 1))).toBe(false);
   });
 
   test("its height is the effect's own, so a wall reaches what a bolt does not", () => {
-    const wall = line({ height: 20 });
-    const bolt = line({ height: 5 });
+    const wall = rect({ height: 20 });
+    const bolt = rect({ height: 5 });
     const up = at(30, 0, 15);
     expect(holds(wall, at(0, 0), up)).toBe(true);
     expect(holds(bolt, at(0, 0), up)).toBe(false);
-  });
-
-  test("a beam is round in section about its axis", () => {
-    const beam = line({ form: "beam", width: 10 });
-    // Five feet is the radius, so the diagonal at four and four is inside
-    // a box of the same width and outside the beam.
-    expect(holds(beam, at(0, 0), at(30, 0, 4.9))).toBe(true);
-    expect(holds(beam, at(0, 0), at(30, 4, 4))).toBe(false);
-    expect(holds(line({ width: 10 }), at(0, 0), at(30, 4, 4))).toBe(true);
   });
 });
 
@@ -197,5 +188,54 @@ describe("what an area catches", () => {
     expect(placeOf(flier)).toBe(30);
     expect(catchesToken(blast, from, ground, rule)).toBe(true);
     expect(catchesToken(blast, from, flier, rule)).toBe(false);
+  });
+});
+
+describe("what an area draws", () => {
+  test("a rectangle is the four corners of its run", () => {
+    // Aimed east, sixty feet long and ten wide: twelve cells by two.
+    const ring = outline(rect({ width: 10 }), at(0, 0), rule).ring;
+    const corners = [
+      [0, -1],
+      [12, -1],
+      [12, 1],
+      [0, 1],
+    ];
+    expect(ring).toHaveLength(4);
+    corners.forEach(([x, y], index) => {
+      expect(ring[index]?.x).toBeCloseTo(x ?? 0, 6);
+      expect(ring[index]?.y).toBeCloseTo(y ?? 0, 6);
+    });
+  });
+
+  test("a flat far edge reaches past the length at its corners", () => {
+    const flat = outline(cone({ edge: "flat", spread: 60, length: 30 }), at(0, 0), rule).ring;
+    expect(flat).toHaveLength(3);
+    // Six cells along the axis, and the corners a seventh further out.
+    const corner = flat[1] ?? { x: 0, y: 0 };
+    expect(Math.hypot(corner.x, corner.y)).toBeCloseTo(6 / Math.cos(Math.PI / 6), 6);
+  });
+
+  test("a round far edge keeps every point at the length", () => {
+    const round = outline(cone({ edge: "round", spread: 60, length: 30 }), at(0, 0), rule).ring;
+    expect(round.length).toBeGreaterThan(3);
+    expect(round[0]).toEqual({ x: 0, y: 0 });
+    for (const point of round.slice(1)) {
+      expect(Math.hypot(point.x, point.y)).toBeCloseTo(6, 6);
+    }
+  });
+
+  test("a spread of nought draws nothing, as it holds nothing", () => {
+    expect(outline(cone({ spread: 0 }), at(0, 0), rule).ring).toHaveLength(0);
+  });
+
+  test("a ring keeps the hole in its middle as a loop of its own", () => {
+    const plain = outline(circle({ radius: 20, inner: 0 }), at(50, 50), rule);
+    expect(plain.hole).toBeUndefined();
+    const ring = outline(circle({ radius: 20, inner: 10 }), at(50, 50), rule);
+    expect(ring.hole).toBeDefined();
+    for (const point of ring.hole ?? []) {
+      expect(Math.hypot(point.x - 10, point.y - 10)).toBeCloseTo(2, 6);
+    }
   });
 });

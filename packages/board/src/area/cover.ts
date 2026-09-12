@@ -96,7 +96,7 @@ function reachBox(area: Area, origin: Spot, rule: GridRule): CellExtent {
 
 function flatReach(area: Area): number {
   switch (area.kind) {
-    case "line":
+    case "rect":
       return area.length + area.width;
     case "cone": {
       const half = ((area.spread / 2) * Math.PI) / 180;
