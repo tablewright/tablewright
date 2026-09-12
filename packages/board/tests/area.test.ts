@@ -3,11 +3,16 @@ import {
   DEFAULT_RULE,
   catchesToken,
   caughtCells,
+  clamped,
   derive,
+  footprintCovers,
   holds,
   mansionStrokes,
   outline,
   placeOf,
+  reached,
+  snapOrigin,
+  snapSize,
   type Area,
   type Spot,
 } from "../src/index.js";
@@ -237,5 +242,103 @@ describe("what an area draws", () => {
     for (const point of ring.hole ?? []) {
       expect(Math.hypot(point.x - 10, point.y - 10)).toBeCloseTo(2, 6);
     }
+  });
+});
+
+describe("reaching while it turns", () => {
+  test("a size the pointer reached lands on whole cells, and never on none", () => {
+    expect(snapSize(0, rule)).toBe(5);
+    expect(snapSize(2, rule)).toBe(5);
+    expect(snapSize(12, rule)).toBe(10);
+    expect(snapSize(13, rule)).toBe(15);
+    expect(snapSize(30, rule)).toBe(30);
+  });
+
+  test("a drag reaches a length, or a radius where that is the size", () => {
+    const far = reached(cone({ length: 30 }), 45, rule);
+    expect(far.kind === "cone" ? far.length : 0).toBe(45);
+    const run = reached(rect({ length: 60 }), 20, rule);
+    expect(run.kind === "rect" ? run.length : 0).toBe(20);
+    // A circle sizes by its radius, so that is what the drag gives it.
+    const wide = reached(circle({ radius: 20 }), 45, rule);
+    expect(wide.kind === "circle" ? wide.radius : 0).toBe(45);
+    // Dragged smaller, a ring's hole comes in with it rather than
+    // swallowing the ring.
+    const tight = reached(circle({ radius: 40, inner: 30 }), 15, rule);
+    expect(tight.kind === "circle" ? tight.inner : -1).toBe(10);
+  });
+});
+
+describe("where an area starts", () => {
+  test("an origin sits in the middle of its own cube, or the cells nearest it are lost", () => {
+    // Every cell is judged by the centre of its cube, half a cell up. An
+    // origin left on the floor is therefore half a cell below everything
+    // it is measured against, and the cell straight ahead falls outside a
+    // 53° cone by a hair: 2.5 up over 5 along wants tan(half) of 0.5, and
+    // 53° gives 0.4986.
+    const ahead = at(5, 0, 2.5);
+    expect(holds(cone({ aim: 90, spread: 53 }), at(0, 0, 0), ahead)).toBe(false);
+    // Started from the middle of its own cube, it is dead on the axis.
+    expect(holds(cone({ aim: 90, spread: 53 }), at(0, 0, 2.5), ahead)).toBe(true);
+  });
+
+  test("an origin snaps to a cell's middle, to a corner, or to neither", () => {
+    const pressed = { x: 12, y: 18 };
+    expect(snapOrigin(pressed, "centre", rule)).toEqual({ x: 12.5, y: 17.5 });
+    expect(snapOrigin(pressed, "corner", rule)).toEqual({ x: 10, y: 20 });
+    expect(snapOrigin(pressed, "free", rule)).toEqual(pressed);
+  });
+
+  test("from a cell's middle the cells straight ahead are caught, as a player expects", () => {
+    const from = at(12.5, 17.5, 2.5);
+    const east = cone({ aim: 90, spread: 53, length: 30 });
+    const topology = derive([], bounds);
+    const cells = caughtCells(east, from, topology, rule);
+    const has = (col: number, row: number) =>
+      cells.some((cell) => cell.col === col && cell.row === row);
+    // The origin's own cell, and the three straight down the axis.
+    expect(has(3, 3)).toBe(true);
+    expect(has(4, 3)).toBe(true);
+    expect(has(5, 3)).toBe(true);
+  });
+});
+
+describe("taking hold of an area", () => {
+  test("a press inside what is drawn takes hold of it, one outside does not", () => {
+    const from = at(0, 0, 2.5);
+    const east = cone({ aim: 90, spread: 60, length: 30 });
+    // In cells: the origin is at nought and the cone runs six cells east.
+    expect(footprintCovers(east, from, { x: 3, y: 0 }, rule)).toBe(true);
+    expect(footprintCovers(east, from, { x: 3, y: 2.5 }, rule)).toBe(false);
+    expect(footprintCovers(east, from, { x: -2, y: 0 }, rule)).toBe(false);
+  });
+
+  test("a ring is hollow to the hand as well as to the rules", () => {
+    const from = at(50, 50, 2.5);
+    const donut = circle({ radius: 20, inner: 10 });
+    expect(footprintCovers(donut, from, { x: 10, y: 10 }, rule)).toBe(false);
+    expect(footprintCovers(donut, from, { x: 13, y: 10 }, rule)).toBe(true);
+    expect(footprintCovers(donut, from, { x: 20, y: 10 }, rule)).toBe(false);
+  });
+});
+
+describe("a ring's hole stays inside it", () => {
+  test("an inner radius is clamped under the radius, whichever number moved", () => {
+    // Typed too wide: the hole comes back inside by a cell.
+    const swallowed = clamped(circle({ radius: 20, inner: 20 }), rule);
+    expect(swallowed.kind === "circle" ? swallowed.inner : -1).toBe(15);
+    expect((clamped(circle({ radius: 20, inner: 40 }), rule) as { inner: number }).inner).toBe(15);
+    // The radius pulled down under the hole drags the hole with it.
+    const shrunk = clamped(circle({ radius: 10, inner: 15 }), rule);
+    expect(shrunk.kind === "circle" ? shrunk.inner : -1).toBe(5);
+    // A radius of one cell leaves no room for a hole at all.
+    expect((clamped(circle({ radius: 5, inner: 5 }), rule) as { inner: number }).inner).toBe(0);
+  });
+
+  test("a ring left alone is left alone, and nothing else is touched", () => {
+    const fine = circle({ radius: 20, inner: 10 });
+    expect(clamped(fine, rule)).toBe(fine);
+    const wall = rect({ length: 60, width: 5 });
+    expect(clamped(wall, rule)).toBe(wall);
   });
 });

@@ -67,6 +67,13 @@ const RULER_MODE_ICONS: Record<RulerMode, TemplateResult> = {
   path: frame(
     svg`<path d="M4 16h4v-5h4V6h4"></path><path d="M13.5 3.5L16 6l-2.5 2.5"></path><circle cx="4" cy="16" r="1.4"></circle>`
   ),
+  rect: frame(
+    svg`<rect x="3" y="6" width="14" height="8" rx="1"></rect><circle cx="3" cy="10" r="1.4"></circle>`
+  ),
+  cone: frame(svg`<path d="M4 10L16 4v12z"></path><circle cx="4" cy="10" r="1.4"></circle>`),
+  circle: frame(
+    svg`<circle cx="10" cy="10" r="6.5"></circle><circle cx="10" cy="10" r="1.4"></circle>`
+  ),
 };
 
 export function rulerIcon(mode: RulerMode): TemplateResult {

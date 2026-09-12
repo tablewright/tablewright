@@ -773,18 +773,35 @@ the rounds are in the local research file.
   time, never all three at once.
 - **Templates are areas, laid down from the same column.** Rectangle,
   Cone and Circle each have their own item beside Line and Path, which
-  measure and lay nothing down. It is right that an area is placed
-  differently from a measure: a measure is press, drag, release, while
-  an area is click, turn, click. One lays an area down; the other only
-  answers a question. Each carries its own sizes: a rectangle a
-  length, a width and a height; a cone a length and a spread, the
-  spread a slider from nought to ninety degrees and its far edge round
-  or flat, round by default since a round edge keeps everything inside
-  the range; a circle a radius and an inner radius. A template starts
-  on the token its caster holds, or the one a player owns, and where
-  there is neither it goes where it is clicked: an origin is a point
-  or a token, which is also what an area that moves with a creature
-  needs.
+  measure and lay nothing down. All five are pressed, dragged and
+  released: what separates an area from a measure is not the gesture but
+  what happens after, since a measure answers and is gone while an area
+  stays. The press puts the origin down, the drag aims it and says how
+  far it goes — the length of a rectangle or a cone, the radius of a
+  circle, which takes no aim — and the release leaves it there; a press
+  inside one already on the board takes hold of it and moves it. An area
+  still under the hand draws its edge in brass and settles to the ink's
+  own white once it is down, so the one being drawn out and the one
+  already lying there never read the same. Each carries its own sizes: a
+  rectangle a length, a width and a height; a cone a length and a
+  spread, the spread a slider from nought to ninety degrees and its far
+  edge round or flat, round by default since a round edge keeps
+  everything inside the range; a circle a radius and an inner radius,
+  which always sits inside it, whether that radius was typed or dragged,
+  since a hole as wide as the area swallows it and a ring that catches
+  nothing is nobody's intent. A template starts on the token its caster
+  holds, or the one a player owns, and where there is neither it goes
+  where the palette says it may: the middle of a cell, a corner of the
+  grid, or wherever it was pressed, the middle by default, and the same
+  snap holds while it is moved, and it is carried by the offset it was
+  taken hold of at rather than jumping under the pointer. The wheel
+  turns one while the hand is on it, and the palette keeps its bearing
+  as a number for a hand that would rather type one; the gesture is the
+  everyday way and the number is there when it is wanted. An origin is a
+  point or a token, which is also what an area that moves with a
+  creature needs, and it sits in the middle of its own cube rather than
+  on the floor, since that is where every cell it is measured against
+  sits.
 - **Every area has a vertical form**, chosen beside its sizes. A
   circle stands as a sphere, a dome or a cylinder: the dome is what a
   DM reaches for, since a fireball should not burn the cellar, and

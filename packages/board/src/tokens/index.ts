@@ -7,7 +7,7 @@ export type {
   TokenSelectListener,
   TokenView,
 } from "./token-layer.js";
-export { TokenSprite } from "./token-sprite.js";
+export { TokenSprite, tokenReach } from "./token-sprite.js";
 export type { TokenStyle } from "./token-sprite.js";
 export {
   facingBetween,

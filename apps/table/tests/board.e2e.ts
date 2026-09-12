@@ -358,4 +358,71 @@ test("A DM or a player measures", async ({ page }) => {
     await page.keyboard.up("Alt");
     expect(own?.isPrivate).toBe(true);
   });
+
+  await test.step("Rectangle, Cone and Circle lay an area down instead of measuring, and a press inside one moves it.", async () => {
+    const area = () => page.evaluate(() => window.__tablewright?.area());
+    await tools.getByRole("button", { name: "Cone", exact: true }).click();
+    expect((await area())?.kind).toBe("none");
+    // The press puts its origin down, the drag aims it and reaches, the
+    // release leaves it on the board. The palette floats over the board's
+    // top left, so these cells keep clear of it.
+    const from = await cellOnScreen(page, { col: 12, row: 10 });
+    const toward = await cellOnScreen(page, { col: 12, row: 5 });
+    await page.mouse.move(from.x, from.y);
+    await page.mouse.down();
+    await page.mouse.move(toward.x, toward.y);
+    await expect.poll(async () => (await area())?.kind).toBe("cone");
+    await page.mouse.up();
+    expect((await area())?.cells).toBeGreaterThan(0);
+    expect((await area())?.badge).toContain("cone");
+    // A press inside it takes hold of it and moves it along.
+    const inside = await cellOnScreen(page, { col: 12, row: 9 });
+    const over = await cellOnScreen(page, { col: 15, row: 9 });
+    await page.mouse.move(inside.x, inside.y);
+    await page.mouse.down();
+    await page.mouse.move(over.x, over.y);
+    await page.mouse.up();
+    expect((await area())?.kind).toBe("cone");
+    // Escape takes it off, and the column stays on Cone.
+    await page.keyboard.press("Escape");
+    await expect.poll(async () => (await area())?.kind).toBe("none");
+  });
+
+  await test.step("An area lights up every token it holds, and a dome leaves out the one standing in the pit.", async () => {
+    const area = () => page.evaluate(() => window.__tablewright?.area());
+    // Back to the tavern, where the tokens stand, and dig C a pit: the
+    // scenes that carry heights carry no tokens.
+    const tab = page.locator("tw-scenes");
+    await tab.getByRole("button", { name: "Terrace Hill" }).click();
+    await tab.getByRole("menuitem", { name: "The Rusty Flagon" }).click();
+    await tools.getByRole("button", { name: "Height" }).click();
+    await tools.getByLabel("Height amount").fill("-10");
+    await tools.getByRole("button", { name: "Rect" }).click();
+    await drag(
+      page,
+      await cellOnScreen(page, { col: 10, row: 8 }),
+      await cellOnScreen(page, { col: 12, row: 10 })
+    );
+    await expect.poll(async () => (await tokenById(page, "seed-c"))?.height).toBe(-10);
+    await tools.getByRole("button", { name: "Ruler" }).click();
+    await tools.getByRole("button", { name: "Circle", exact: true }).click();
+    await tools
+      .getByRole("group", { name: "Stands as" })
+      .getByRole("button", { name: "Sphere" })
+      .click();
+    await tools.getByLabel("Radius").fill("60");
+    // Laid on the flat floor, sixty feet reaches all three.
+    const middle = await cellOnScreen(page, { col: 8, row: 7 });
+    await page.mouse.move(middle.x, middle.y);
+    await page.mouse.down();
+    await page.mouse.up();
+    await expect.poll(async () => (await area())?.tokens).toBe(3);
+    // A dome stops at the floor it sits on, so the one in the pit is out.
+    await tools
+      .getByRole("group", { name: "Stands as" })
+      .getByRole("button", { name: "Dome" })
+      .click();
+    await expect.poll(async () => (await area())?.tokens).toBe(2);
+    await page.keyboard.press("Escape");
+  });
 });

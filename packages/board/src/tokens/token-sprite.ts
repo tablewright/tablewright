@@ -256,3 +256,13 @@ export class TokenSprite {
     });
   }
 }
+
+/**
+ * How far a token's drawing reaches from its centre: past the disc and
+ * its ring, out to the tip of the arrow that shows which way it faces.
+ * Anything drawn about a token clears this rather than guessing at it.
+ */
+export function tokenReach(cellSize: number): number {
+  const radius = (cellSize * DISC_FRACTION) / 2;
+  return radius + RING_WIDTH + radius * ARROW_LENGTH;
+}

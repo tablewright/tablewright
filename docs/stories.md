@@ -104,6 +104,10 @@ the logic tests.
 - A path measure shows the way this turn allows, and says when it takes
   a dash.
 - A measure stays until Escape, and Alt makes it private.
+- Rectangle, Cone and Circle lay an area down instead of measuring, and
+  a press inside one moves it.
+- An area lights up every token it holds, and a dome leaves out the one
+  standing in the pit.
 
 ### Working thresholds in play
 

@@ -4,6 +4,8 @@ import { resolveResource } from "@tauri-apps/api/path";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
 import {
+  defaultArea,
+  isArea,
   BoardStage,
   REFERENCE_SCENES,
   gridRuleOf,
@@ -11,6 +13,8 @@ import {
   signed,
   type DrawTool,
   type PlayTool,
+  type Area,
+  type OriginSnap,
   type RulerMode,
   type ThresholdEdge,
 } from "@tablewright/board";
@@ -455,6 +459,7 @@ try {
     toolRail.strokes = scene.strokes;
     toolRail.cellSize = scene.grid.cell_size;
     toolRail.display = scene.display;
+    toolRail.rule = board.gridRule;
   };
   const refreshScenes = async (): Promise<void> => {
     scenesTab.scenes = await core.listScenes();
@@ -581,8 +586,32 @@ try {
   toolRail.addEventListener("tw-play", (event) => {
     setPlay((event as CustomEvent<{ tool: PlayTool }>).detail.tool);
   });
+  // The column's last three items lay an area down. Picking one hands the
+  // board the area it would lay, so the board has sizes before the first
+  // press; leaving them takes whatever was on the board off it.
   toolRail.addEventListener("tw-ruler", (event) => {
-    board.setRulerMode((event as CustomEvent<{ mode: RulerMode }>).detail.mode);
+    const { mode } = (event as CustomEvent<{ mode: RulerMode }>).detail;
+    board.setRulerMode(mode);
+    if (isArea(mode)) {
+      const area = mode === toolRail.area.kind ? toolRail.area : defaultArea(mode, toolRail.rule);
+      toolRail.area = area;
+      board.setArea(area);
+    } else {
+      board.setArea(undefined);
+    }
+  });
+  toolRail.addEventListener("tw-snap", (event) => {
+    board.setOriginSnap((event as CustomEvent<{ snap: OriginSnap }>).detail.snap);
+  });
+  toolRail.addEventListener("tw-area", (event) => {
+    board.setArea((event as CustomEvent<{ area: Area }>).detail.area);
+  });
+  // Turning an area also reaches: the palette's own numbers follow the
+  // pointer, so the field and the board never disagree.
+  board.onArea((placed) => {
+    if (placed !== undefined) {
+      toolRail.area = placed.area;
+    }
   });
 
   // How the scene shows its heights is the scene's; reading it as numbers is
@@ -779,15 +808,17 @@ try {
     ) {
       setTopology(!board.isReadingNumbers);
     }
-    // Escape leaves the ruler for Move once nothing is on show: a measure
-    // on show takes the press and comes off the board instead. Read from
-    // the board, since the ruler hears the key after this handler does.
+    // Escape leaves the column for Move once nothing is on show: a
+    // measure or an area on show takes the press and comes off the board
+    // instead. Read from the board, since both hear the key after this
+    // handler does.
     if (
       event.key === "Escape" &&
       play === "ruler" &&
       !toolRail.held &&
       !event.defaultPrevented &&
-      board.measurement === undefined
+      board.measurement === undefined &&
+      !board.hasArea
     ) {
       setPlay("move");
     }

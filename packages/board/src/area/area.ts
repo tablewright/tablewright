@@ -135,3 +135,94 @@ export function describeArea(area: Area, rule: GridRule): string {
 function tidy(value: number): string {
   return String(Math.round(value * 100) / 100);
 }
+
+/**
+ * What each item in the column starts from, in the rule's own unit: a
+ * wall of fire's reach, a breath weapon, a fireball. The DM changes the
+ * numbers from there, and a spell will name its own once sheets arrive.
+ */
+export function defaultArea(kind: Area["kind"], rule: GridRule): Area {
+  const cells = (count: number): number => count * rule.cellSize;
+  switch (kind) {
+    case "rect":
+      return { kind: "rect", aim: 0, length: cells(12), width: cells(1), height: cells(4) };
+    case "cone":
+      return {
+        kind: "cone",
+        aim: 0,
+        length: cells(6),
+        spread: 53,
+        edge: "round",
+        form: "3d",
+        height: cells(1),
+      };
+    default:
+      return { kind: "circle", radius: cells(4), inner: 0, form: "sphere", height: cells(4) };
+  }
+}
+
+/**
+ * A size the pointer reached, snapped to whole cells and never shorter
+ * than one. Every size a DM types moves by a cell, so one dragged should
+ * land on the same numbers rather than between them.
+ */
+export function snapSize(reach: number, rule: GridRule): number {
+  return Math.max(1, Math.round(reach / rule.cellSize)) * rule.cellSize;
+}
+
+/**
+ * An area the drag reached that far: the length of a rectangle or a
+ * cone, the radius of a circle. A circle's hole is pulled in with it, so
+ * dragging a ring smaller never swallows the ring.
+ */
+export function reached(area: Area, reach: number, rule: GridRule): Area {
+  if (area.kind === "circle") {
+    return clamped({ ...area, radius: reach }, rule);
+  }
+  return { ...area, length: reach };
+}
+
+/** Where an area's origin may sit: a cell's middle, a grid corner, or wherever it was clicked. */
+export type OriginSnap = "centre" | "corner" | "free";
+
+export const ORIGIN_SNAPS: readonly OriginSnap[] = ["centre", "corner", "free"];
+
+/**
+ * The place an origin takes when it is put down at `at`, in the rule's
+ * unit. A cone leaving a cell's middle covers that cell's neighbours
+ * evenly; one leaving a corner is what a grid game usually means; free
+ * is for a map that is not being played on the squares.
+ */
+export function snapOrigin(
+  at: { x: number; y: number },
+  snap: OriginSnap,
+  rule: GridRule
+): { x: number; y: number } {
+  const cell = rule.cellSize;
+  switch (snap) {
+    case "centre":
+      return {
+        x: (Math.floor(at.x / cell) + 0.5) * cell,
+        y: (Math.floor(at.y / cell) + 0.5) * cell,
+      };
+    case "corner":
+      return { x: Math.round(at.x / cell) * cell, y: Math.round(at.y / cell) * cell };
+    default:
+      return at;
+  }
+}
+
+/**
+ * An area with its sizes made sensible. A ring's hole must sit inside
+ * its radius: an inner radius as wide as the area swallows it, and a
+ * ring that catches nothing is not a shape anyone meant to draw. One
+ * rule covers both hands, so raising the inner clamps it and lowering
+ * the radius pulls it down.
+ */
+export function clamped(area: Area, rule: GridRule): Area {
+  if (area.kind !== "circle") {
+    return area;
+  }
+  const inner = Math.min(area.inner, Math.max(0, area.radius - rule.cellSize));
+  return inner === area.inner ? area : { ...area, inner };
+}

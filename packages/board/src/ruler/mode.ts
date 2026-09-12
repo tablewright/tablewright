@@ -12,7 +12,19 @@
 import type { Route } from "../topology/route.js";
 import type { Measurement } from "./measure.js";
 
-export type RulerMode = "line" | "path";
+/**
+ * What the column does: the first two measure and lay nothing down, the
+ * rest lay an area on the board (design §5 "Templates are areas, laid
+ * down from the same column").
+ */
+export type RulerMode = "line" | "path" | "rect" | "cone" | "circle";
+
+/** The modes that lay an area down rather than answer a question. */
+export type AreaMode = Extract<RulerMode, "rect" | "cone" | "circle">;
+
+export function isArea(mode: RulerMode): mode is AreaMode {
+  return mode === "rect" || mode === "cone" || mode === "circle";
+}
 
 export interface RulerModeSpec {
   readonly mode: RulerMode;
@@ -23,6 +35,9 @@ export interface RulerModeSpec {
 export const RULER_MODES: readonly RulerModeSpec[] = [
   { mode: "line", name: "Line" },
   { mode: "path", name: "Path" },
+  { mode: "rect", name: "Rectangle" },
+  { mode: "cone", name: "Cone" },
+  { mode: "circle", name: "Circle" },
 ];
 
 /**

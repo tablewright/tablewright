@@ -16,11 +16,15 @@ import {
   DrawLayer,
   GridLayer,
   HeightLayer,
+  AreaLayer,
+  AreaTool,
   MapLayer,
   NumbersLayer,
   RulerTool,
   TokenLayer,
   TopologyLayer,
+  catchesToken,
+  caughtCells,
   cellCenter,
   derive,
   distance,
@@ -28,9 +32,11 @@ import {
   edgeKey,
   edgeNear,
   extentCovering,
+  cubeCentre,
   findRoute,
   groundAt,
   heightAt,
+  isArea,
   isLevelChangeAt,
   NO_LIMIT,
   measure,
@@ -45,6 +51,10 @@ import {
   type Budget,
   type CameraState,
   type Cell,
+  type Area,
+  type OriginSnap,
+  type AreaDrawing,
+  type AreaStyle,
   type CellExtent,
   type DrawStyle,
   type DrawTool,
@@ -56,12 +66,15 @@ import {
   type NumbersStyle,
   type Mover,
   type PlayTool,
+  type AreaListener,
+  type PlacedArea,
   type Point,
   type Route,
   type RouteOptions,
   type RulerMode,
   type RulerStyle,
   type ShownMeasure,
+  type Spot,
   type SquareGrid,
   type StrokeListener,
   type ThresholdEdge,
@@ -125,6 +138,8 @@ export interface BoardDebug {
   heights(): HeightDrawing;
   /** What the DM's Topology view last printed; nothing while it is off. */
   numbers(): NumbersDrawing;
+  /** The area on the board, or nothing while none is laid down. */
+  area(): AreaDrawing;
   /** Frames the board has drawn; still while nothing changes. */
   framesDrawn(): number;
   /** The measure the ruler shows, in the mode it is read in, or nothing. */
@@ -181,6 +196,10 @@ function numbersStyle(theme: BoardTheme): NumbersStyle {
   };
 }
 
+function areaStyle(theme: BoardTheme): AreaStyle {
+  return { ground: theme.ground, line: theme.ruler, caught: theme.selection };
+}
+
 function heightStyle(theme: BoardTheme): HeightStyle {
   return {
     ground: theme.ground,
@@ -210,6 +229,8 @@ export class BoardHost {
   private readonly topologyLayer: TopologyLayer;
   private readonly heightLayer: HeightLayer;
   private readonly numbersLayer: NumbersLayer;
+  private readonly areaLayer: AreaLayer;
+  private readonly areaTool: AreaTool;
   private readonly drawLayer: DrawLayer;
   private readonly ruler: RulerTool;
   private readonly dragRoute: DragRoute;
@@ -219,6 +240,7 @@ export class BoardHost {
   private readonly hoverListeners = new Set<HoverListener>();
   private readonly thresholdListeners = new Set<ThresholdListener>();
   private readonly dashListeners = new Set<DashAskListener>();
+  private readonly areaListeners = new Set<AreaListener>();
   /** The dash question on show, so Escape knows a move is waiting on an answer. */
   private asking: DashAsk | undefined;
   private play: readonly ThresholdPlay[] = [];
@@ -244,6 +266,12 @@ export class BoardHost {
   private isGridStale = true;
   /** Whether the DM is reading the scene as numbers; theirs alone, never the scene's. */
   private isTopologyView = false;
+  /** How the ruler's column reads: two measures, then three areas. */
+  private rulerMode: RulerMode = "line";
+  /** The area the palette has made, or nothing while no area mode is picked. */
+  private area: Area | undefined;
+  /** When the turning ring was last advanced, on the document's clock. */
+  private turnedAt = 0;
 
   constructor(stage: BoardStage, target: HTMLElement, viewer: Visibility = "dm") {
     this.stage = stage;
@@ -290,6 +318,15 @@ export class BoardHost {
       (from, to, isPrivate) => measure(this.topology, from, to, this.rule, DEFAULT_MOVER, isPrivate)
     );
     this.ruler.onMeasure(() => stage.requestFrame());
+    this.areaLayer = new AreaLayer(stage.layers.overlay, this.grid, this.rule);
+    this.areaTool = new AreaTool(
+      stage.app.canvas,
+      this.grid,
+      (screen) => this.camera.toWorld(screen),
+      this.rule,
+      (cell, at) => this.originAt(cell, at)
+    );
+    this.areaTool.onChange((placed) => this.showArea(placed));
     const input = new CameraInput(this.camera, target);
     // A tap on a threshold works it; a tap on empty board clears the
     // selection, the same as pressing Escape. The pointer over a threshold
@@ -302,6 +339,7 @@ export class BoardHost {
     this.topologyLayer.setStyle(topologyStyle(theme));
     this.heightLayer.setStyle(heightStyle(theme));
     this.numbersLayer.setStyle(numbersStyle(theme));
+    this.areaLayer.setStyle(areaStyle(theme));
     this.drawLayer.setStyle(drawStyle(theme));
     this.ruler.setStyle(rulerStyle(theme));
     this.dragRoute.setStyle(rulerStyle(theme));
@@ -312,6 +350,7 @@ export class BoardHost {
       this.topologyLayer.setStyle(topologyStyle(next));
       this.heightLayer.setStyle(heightStyle(next));
       this.numbersLayer.setStyle(numbersStyle(next));
+      this.areaLayer.setStyle(areaStyle(next));
       this.drawLayer.setStyle(drawStyle(next));
       this.ruler.setStyle(rulerStyle(next));
       this.dragRoute.setStyle(rulerStyle(next));
@@ -358,6 +397,7 @@ export class BoardHost {
         this.isGridStale = false;
         this.redrawGrid();
       }
+      this.turnRing();
     });
   }
 
@@ -370,6 +410,7 @@ export class BoardHost {
     if (scene.id !== this.sceneId) {
       this.sceneId = scene.id;
       this.ruler.clear();
+      this.areaTool.clear();
     }
     const grid: SquareGrid = {
       cellSize: scene.grid.cell_size,
@@ -476,9 +517,45 @@ export class BoardHost {
     this.applyTools();
   }
 
-  /** Read a measure as a line, or as a path on foot. */
+  /**
+   * What the ruler's column does: measure as a line or a path, or lay an
+   * area down. Swapping between the two halves takes whatever the other
+   * had on show off the board.
+   */
   setRulerMode(mode: RulerMode): void {
-    this.ruler.setMode(mode);
+    if (mode === this.rulerMode) {
+      return;
+    }
+    this.rulerMode = mode;
+    this.ruler.setMode(isArea(mode) ? "line" : mode);
+    this.applyTools();
+  }
+
+  /** The area the palette has made: its kind, its sizes and its form. */
+  setArea(area: Area | undefined): void {
+    this.area = area;
+    this.areaTool.setArea(area);
+  }
+
+  /** Where an area's origin may sit when one is put down. */
+  setOriginSnap(snap: OriginSnap): void {
+    this.areaTool.setSnap(snap);
+  }
+
+  /** Take the area off the board, as Escape does. */
+  clearArea(): void {
+    this.areaTool.clear();
+  }
+
+  /** Whether an area is on the board. */
+  get hasArea(): boolean {
+    return this.areaLayer.isShowing;
+  }
+
+  /** Hear the area as it is turned and laid down, so a palette can follow it. */
+  onArea(listener: AreaListener): () => void {
+    this.areaListeners.add(listener);
+    return () => this.areaListeners.delete(listener);
   }
 
   /**
@@ -509,6 +586,11 @@ export class BoardHost {
     return this.isTopologyView;
   }
 
+  /** What a cell measures and how a diagonal counts, as the campaign has it. */
+  get gridRule(): GridRule {
+    return this.rule;
+  }
+
   /** The measure the ruler shows, or nothing. */
   get measurement(): ShownMeasure | undefined {
     return this.ruler.measurement;
@@ -519,14 +601,19 @@ export class BoardHost {
   // threshold lights only for the hand that can work it.
   private applyTools(): void {
     const pen = this.buildTool;
-    const isRuler = pen === undefined && this.playTool === "ruler";
-    this.isToolHeld = pen !== undefined || isRuler;
+    const inColumn = pen === undefined && this.playTool === "ruler";
+    // The column's two halves share the pointer: one measures, the other
+    // lays an area down, and only ever one of them hears a press.
+    const isArea_ = inColumn && isArea(this.rulerMode);
+    const isRuler = inColumn && !isArea_;
+    this.isToolHeld = pen !== undefined || inColumn;
     this.setHighlight(undefined);
     this.ruler.setActive(isRuler);
+    this.areaTool.setActive(isArea_);
     this.tokenLayer.setInteractive(!this.isToolHeld);
     if (pen !== undefined) {
       this.target.dataset["tool"] = pen.shape;
-    } else if (isRuler) {
+    } else if (inColumn) {
       this.target.dataset["tool"] = "ruler";
     } else {
       delete this.target.dataset["tool"];
@@ -639,6 +726,7 @@ export class BoardHost {
         ),
       heights: () => this.heightLayer.drawing(),
       numbers: () => this.numbersLayer.drawing(),
+      area: () => this.areaLayer.drawing(),
       framesDrawn: () => this.stage.framesDrawn,
       measurement: () => this.ruler.measurement,
     };
@@ -701,6 +789,48 @@ export class BoardHost {
     this.showTokens();
   }
 
+  // Where an area starts when it is pressed on a cell: the place of the
+  // token standing there, so a caster's own cone leaves from them, and
+  // otherwise the floor the pointer found.
+  // Where an area leaves from. It sits in the middle of its own cube, not
+  // on the floor: every cell is judged by the centre of its cube, so an
+  // origin at floor level would start half a cell below everything it is
+  // measured against and lose the cells nearest to it.
+  private originAt(cell: Cell, at: { x: number; y: number }): Spot {
+    const token = this.tokens.find((one) => one.cell.col === cell.col && one.cell.row === cell.row);
+    const ground = heightAt(this.topology, cell);
+    // A caster's own area leaves from them, wherever the press landed;
+    // otherwise it takes the place the snap chose.
+    if (token !== undefined) {
+      return cubeCentre(cell, ground + (token.elevation ?? 0), this.rule);
+    }
+    return { x: at.x, y: at.y, z: ground + this.rule.cellSize / 2 };
+  }
+
+  // An area laid down or turning: what it covers, and who it holds.
+  private showArea(placed: PlacedArea | undefined): void {
+    for (const listener of this.areaListeners) {
+      listener(placed);
+    }
+    if (placed === undefined) {
+      this.areaLayer.clear();
+      this.stage.requestFrame();
+      return;
+    }
+    const cells = caughtCells(placed.area, placed.origin, this.topology, this.rule);
+    const tokens = this.tokensWithHeights()
+      .filter((token) => catchesToken(placed.area, placed.origin, token, this.rule))
+      .map((token) => token.cell);
+    this.areaLayer.show({
+      area: placed.area,
+      origin: placed.origin,
+      cells,
+      tokens,
+      isPlaced: placed.isPlaced,
+    });
+    this.stage.requestFrame();
+  }
+
   private redrawHeights(): void {
     this.heightLayer.draw(this.topology, this.grid, this.display, stepHeight(this.rule));
   }
@@ -708,6 +838,22 @@ export class BoardHost {
   // The grid and the numbers both cost what is on screen and nothing more,
   // so both are redrawn from the same visible extent whenever the camera
   // moves, on the frame the move asked for.
+  // The ring about a caught token is the one thing here that moves on
+  // its own, so while an area is on show the board asks for the next
+  // frame and advances the ring by the time that actually passed. It
+  // gates nothing: the rest of the drawing is already done.
+  private turnRing(): void {
+    if (!this.areaLayer.isShowing) {
+      this.turnedAt = 0;
+      return;
+    }
+    const now = performance.now();
+    const since = this.turnedAt === 0 ? 0 : (now - this.turnedAt) / 1000;
+    this.turnedAt = now;
+    this.areaLayer.turn(since);
+    this.stage.requestFrame();
+  }
+
   private redrawGrid(): void {
     const { width, height } = this.stage.app.screen;
     const topLeft = this.camera.toWorld({ x: 0, y: 0 });

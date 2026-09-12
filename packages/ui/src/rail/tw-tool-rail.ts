@@ -17,12 +17,15 @@
 // chosen from the Height pen's palette since that is where heights are.
 // `tw-topology` asks for the DM's Topology view, the scene read as the
 // rules read it; it is the DM's own way of looking, so it never reaches
-// the scene the way the display does.
+// the scene the way the display does. `tw-area` carries the area the
+// column would lay down, sizes and all, every time one of them changes.
 
 import { LitElement, css, html, nothing } from "lit";
 import type { HeightDisplay, Stroke } from "@tablewright/schema";
 import "../strip/tw-strip.js";
+import type { GridRule } from "@tablewright/board";
 import {
+  DEFAULT_RULE,
   DEFAULT_TOOL,
   DRAW_SHAPES,
   GROUND_STATES,
@@ -31,6 +34,10 @@ import {
   LOOKS,
   OPENING_SIZES,
   RULER_MODES,
+  ORIGIN_SNAPS,
+  clamped,
+  defaultArea,
+  isArea,
   THRESHOLD_KINDS,
   THRESHOLD_STATES,
   describeStroke,
@@ -44,6 +51,8 @@ import {
   type DrawTool,
   type Ink,
   type PlayTool,
+  type Area,
+  type OriginSnap,
   type RulerMode,
   type ThresholdChoice,
 } from "@tablewright/board";
@@ -77,6 +86,19 @@ const NATURE: Partial<Record<Ink, string>> = {
 };
 const LOOK_LABELS = { data: "Data", both: "Data + texture" } as const;
 
+// An area's own choices: how a cone's far edge is cut, and how each
+// shape stands upward.
+const EDGES = ["round", "flat"] as const;
+const CONE_FORMS = ["flat", "3d"] as const;
+const CONE_LABELS = { flat: "Flat", "3d": "3D" } as const;
+const CIRCLE_FORMS = ["sphere", "dome", "cylinder"] as const;
+const SNAP_LABELS = { centre: "Centre", corner: "Corner", free: "Free" } as const;
+
+// The name of a mode, for the head of its panel.
+function nameOf(mode: RulerMode): string {
+  return RULER_MODES.find((spec) => spec.mode === mode)?.name ?? mode;
+}
+
 // An area ink lies on the ground the map already has, or at a height it
 // writes into the field itself.
 const PLACES = ["level", "raised"] as const;
@@ -93,6 +115,9 @@ export class TwToolRail extends LitElement {
     held: { type: Boolean },
     play: { attribute: false },
     mode: { attribute: false },
+    area: { attribute: false },
+    rule: { attribute: false },
+    snap: { attribute: false },
     strokes: { attribute: false },
     topology: { type: Boolean },
     readout: { type: String },
@@ -109,8 +134,14 @@ export class TwToolRail extends LitElement {
   declare held: boolean;
   /** What the pointer does once the pen is down: moves tokens, or measures. */
   declare play: PlayTool;
-  /** How the ruler reads a measure: as a line, or as a path on foot. */
+  /** What the column does: measures as a line or a path, or lays an area down. */
   declare mode: RulerMode;
+  /** The area the column would lay down, with its sizes as they stand. */
+  declare area: Area;
+  /** What a cell measures and in what unit, so a size reads in the system's own. */
+  declare rule: GridRule;
+  /** Where an area's origin may sit when one is put down. */
+  declare snap: OriginSnap;
   /** The scene's history of strokes, as it stands. */
   declare strokes: Stroke[];
   /** Whether the DM is reading the scene as numbers: their own view, not the scene's. */
@@ -132,6 +163,9 @@ export class TwToolRail extends LitElement {
     this.held = false;
     this.play = "move";
     this.mode = "line";
+    this.rule = DEFAULT_RULE;
+    this.area = defaultArea("cone", DEFAULT_RULE);
+    this.snap = "centre";
     this.strokes = [];
     this.topology = false;
     this.readout = "";
@@ -578,9 +612,10 @@ export class TwToolRail extends LitElement {
       </div>
       ${!held && this.play === "ruler" ? this.#modes() : nothing}
       ${
-        held || this.historyOpen
+        held || this.historyOpen || this.#isArea
           ? html`<div class="side">
-              ${held ? this.#palette() : nothing}${this.historyOpen ? this.#history() : nothing}
+              ${held ? this.#palette() : nothing}${this.#isArea ? this.#areaPanel() : nothing}
+              ${this.historyOpen ? this.#history() : nothing}
             </div>`
           : nothing
       }
@@ -588,8 +623,150 @@ export class TwToolRail extends LitElement {
     `;
   }
 
+  /** Whether the column is laying an area down rather than measuring. */
+  get #isArea(): boolean {
+    return !this.held && this.play === "ruler" && isArea(this.mode);
+  }
+
+  // An area's own sizes, and nothing else. What it catches is shown by
+  // lighting the tokens on the board, not by a paragraph in a panel.
+  #areaPanel() {
+    const { area } = this;
+    return html`<div class="panel">
+      <header>
+        <div class="title">
+          <span class="name">${nameOf(this.mode)}</span>
+          <span class="hint">Press, drag, release</span>
+        </div>
+      </header>
+      <section>
+        <span class="cap">Starts at</span>
+        <tw-strip
+          label="Starts at"
+          .values=${ORIGIN_SNAPS}
+          .labels=${SNAP_LABELS}
+          .pressed=${[this.snap]}
+          @tw-cell=${this.#choose(ORIGIN_SNAPS, (snap) => this.#setSnap(snap))}
+        ></tw-strip>
+      </section>
+      ${
+        area.kind === "rect"
+          ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
+            ${this.#sizeRow("Width", area.width, (width) => this.#reshape({ width }))}
+            ${this.#sizeRow("Height", area.height, (height) => this.#reshape({ height }))}
+            ${this.#aimRow(area.aim, (aim) => this.#reshape({ aim }))}`
+          : nothing
+      }
+      ${
+        area.kind === "cone"
+          ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
+              <section>
+                <span class="cap">Spread</span>
+                <div class="field">
+                  <input
+                    class="range"
+                    type="range"
+                    min="0"
+                    max="90"
+                    step="1"
+                    aria-label="Spread"
+                    .value=${String(area.spread)}
+                    @input=${this.#number((spread) => this.#reshape({ spread }))}
+                  />
+                  <span class="unit">${area.spread}°</span>
+                </div>
+              </section>
+              <section>
+                <span class="cap">Far edge</span>
+                <tw-strip
+                  label="Far edge"
+                  .values=${EDGES}
+                  .pressed=${[area.edge]}
+                  @tw-cell=${this.#choose(EDGES, (edge) => this.#reshape({ edge }))}
+                ></tw-strip>
+              </section>
+              <section>
+                <span class="cap">Stands as</span>
+                <tw-strip
+                  label="Stands as"
+                  .values=${CONE_FORMS}
+                  .labels=${CONE_LABELS}
+                  .pressed=${[area.form]}
+                  @tw-cell=${this.#choose(CONE_FORMS, (form) => this.#reshape({ form }))}
+                ></tw-strip>
+              </section>
+              ${
+                area.form === "flat"
+                  ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
+                  : nothing
+              }
+              ${this.#aimRow(area.aim, (aim) => this.#reshape({ aim }))}`
+          : nothing
+      }
+      ${
+        area.kind === "circle"
+          ? html`${this.#sizeRow("Radius", area.radius, (radius) => this.#reshape({ radius }))}
+              ${this.#sizeRow("Inner", area.inner, (inner) => this.#reshape({ inner }), area.radius - this.rule.cellSize)}
+              <section>
+                <span class="cap">Stands as</span>
+                <tw-strip
+                  label="Stands as"
+                  .values=${CIRCLE_FORMS}
+                  .pressed=${[area.form]}
+                  @tw-cell=${this.#choose(CIRCLE_FORMS, (form) => this.#reshape({ form }))}
+                ></tw-strip>
+              </section>
+              ${
+                area.form === "cylinder"
+                  ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
+                  : nothing
+              }`
+          : nothing
+      }
+    </div>`;
+  }
+
+  // The aim, for a hand that would rather type a bearing than turn one.
+  #aimRow(value: number, change: (next: number) => void) {
+    return html`<section>
+      <span class="cap">Aim</span>
+      <div class="field">
+        <input
+          class="number"
+          type="number"
+          min="0"
+          max="359"
+          step="5"
+          aria-label="Aim"
+          .value=${String(Math.round(value))}
+          @input=${this.#number(change)}
+        />
+        <span class="unit">°</span>
+      </div>
+    </section>`;
+  }
+
+  #sizeRow(label: string, value: number, change: (next: number) => void, most?: number) {
+    return html`<section>
+      <span class="cap">${label}</span>
+      <div class="field">
+        <input
+          class="number"
+          type="number"
+          min="0"
+          max=${most === undefined ? nothing : String(Math.max(0, most))}
+          step=${this.rule.cellSize}
+          aria-label=${label}
+          .value=${String(value)}
+          @input=${this.#number(change)}
+        />
+        <span class="unit">${this.rule.unit}</span>
+      </div>
+    </section>`;
+  }
+
   // The ruler's modes, a second column beside the rail once the ruler is
-  // picked, as Foundry does; templates join it later.
+  // picked, as Foundry does; the last three lay an area down.
   #modes() {
     return html`<div class="rail" role="toolbar" aria-label="Ruler modes">
       ${RULER_MODES.map(
@@ -998,6 +1175,33 @@ export class TwToolRail extends LitElement {
     this.play = tool;
     this.dispatchEvent(
       new CustomEvent("tw-play", { detail: { tool }, bubbles: true, composed: true })
+    );
+  }
+
+  // A number typed or dragged is taken as it comes; a field emptied or
+  // half-typed changes nothing until it reads as a number again.
+  #number(apply: (next: number) => void) {
+    return (event: Event): void => {
+      const next = Number((event.target as HTMLInputElement).value);
+      if (Number.isFinite(next) && next >= 0) {
+        apply(next);
+      }
+    };
+  }
+
+  #setSnap(snap: OriginSnap): void {
+    this.snap = snap;
+    this.dispatchEvent(
+      new CustomEvent("tw-snap", { detail: { snap }, bubbles: true, composed: true })
+    );
+  }
+
+  // The area is the rail's while the column holds it, and the board hears
+  // every change: there is nothing to commit, only what it is now.
+  #reshape(change: Record<string, unknown>): void {
+    this.area = clamped({ ...this.area, ...change } as Area, this.rule);
+    this.dispatchEvent(
+      new CustomEvent("tw-area", { detail: { area: this.area }, bubbles: true, composed: true })
     );
   }
 

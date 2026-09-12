@@ -12,6 +12,7 @@
 
 import { Container, Graphics, Text } from "pixi.js";
 import type { Cell, SquareGrid } from "../grid/square-grid.js";
+import { tokenReach } from "../tokens/token-sprite.js";
 import type { PackedColor } from "../theme/css-color.js";
 import type { GridRule } from "../topology/distance.js";
 import { describeArea, type Area, type Spot } from "./area.js";
@@ -23,7 +24,10 @@ export interface AreaStyle {
   readonly ground: number;
   /** The footprint's edge and its badge's text. */
   readonly line: PackedColor;
-  /** The cells it catches, and the ring about a token it holds. */
+  /**
+   * The cells it catches, the ring about a token it holds, and the edge
+   * of one the hand has not let go of yet.
+   */
   readonly caught: PackedColor;
 }
 
@@ -40,12 +44,17 @@ const EDGE_FRACTION = 0.04;
 // A caught cell, washed just enough to read under the footprint.
 const CELL_ALPHA = 0.22;
 const CELL_INSET = 0.06;
-// The ring about a caught token: clear of the token's own, and a full
-// turn in this many seconds, slow enough to read as alive and no more.
-const RING_GAP = 0.08;
+// The ring about a caught token sits clear of everything the token
+// itself draws, the tip of its facing arrow included, by this much of a
+// cell; and it turns once in this many seconds, slow enough to read as
+// alive and no more.
+const RING_GAP = 0.1;
 const RING_WIDTH = 0.04;
 const RING_DASHES = 12;
 const TURN_SECONDS = 9;
+// The heavier edge an area wears while the hand is still on it, over the
+// hairline it settles to once it is down.
+const LIVE_WIDTH = 0.05;
 const BADGE_FRACTION = 0.26;
 const PILL_ALPHA = 0.8;
 
@@ -57,6 +66,8 @@ export interface ShownArea {
   readonly cells: readonly Cell[];
   /** Where the tokens it holds stand, each wearing a turning ring. */
   readonly tokens: readonly Cell[];
+  /** Left on the board rather than under the hand, which its edge says. */
+  readonly isPlaced: boolean;
 }
 
 /** What the layer last drew, for the debug view and the stories. */
@@ -176,6 +187,10 @@ export class AreaLayer {
     return { x: this.grid.originX + point.x * cell, y: this.grid.originY + point.y * cell };
   }
 
+  // The footprint, and an edge that says which of the two this one is:
+  // brass and a touch heavier while the hand is still on it, the paper
+  // white of the ink once it is down, so the one being drawn out and the
+  // one already lying there never read the same.
   private drawShape(shown: ShownArea): void {
     const g = this.shape;
     g.clear();
@@ -183,7 +198,7 @@ export class AreaLayer {
     if (ring.length < 3) {
       return;
     }
-    const { line } = this.style;
+    const { line, caught } = this.style;
     g.poly(ring.map((point) => this.world(point)));
     if (hole !== undefined) {
       g.poly(hole.map((point) => this.world(point)));
@@ -199,10 +214,11 @@ export class AreaLayer {
         true
       );
     }
+    const edge = shown.isPlaced ? line : caught;
     g.stroke({
-      width: this.grid.cellSize * EDGE_FRACTION,
-      color: line.rgb,
-      alpha: line.alpha,
+      width: this.grid.cellSize * (shown.isPlaced ? EDGE_FRACTION : LIVE_WIDTH),
+      color: edge.rgb,
+      alpha: edge.alpha,
       join: "round",
     });
   }
@@ -235,7 +251,7 @@ export class AreaLayer {
       return;
     }
     const cell = this.grid.cellSize;
-    const radius = cell * (0.4 + RING_GAP);
+    const radius = tokenReach(cell) + cell * RING_GAP;
     const arc = Math.PI / RING_DASHES;
     const lead = this.turned * Math.PI * 2;
     for (const at of tokens) {

@@ -11,6 +11,7 @@
 
 import type { Point } from "../geometry.js";
 import type { GridRule } from "../topology/distance.js";
+import { pointInPolygon } from "../topology/shapes.js";
 import { aimVector, type Area, type Spot } from "./area.js";
 
 /** What an area covers on the plan: its ring, and the hole a ring keeps. */
@@ -102,4 +103,17 @@ function loop(at: Point, radius: number): Point[] {
 function along(at: Point, degrees: number, reach: number): Point {
   const d = aimVector(degrees);
   return { x: at.x + d.x * reach, y: at.y + d.y * reach };
+}
+
+/**
+ * Whether an area's footprint covers a point on the plan, both in cells.
+ * This is how one is picked up: a press inside what is drawn takes hold
+ * of it, where a press outside starts a new one.
+ */
+export function footprintCovers(area: Area, origin: Spot, at: Point, rule: GridRule): boolean {
+  const { ring, hole } = outline(area, origin, rule);
+  if (ring.length < 3 || !pointInPolygon(at, ring)) {
+    return false;
+  }
+  return hole === undefined || !pointInPolygon(at, hole);
 }
