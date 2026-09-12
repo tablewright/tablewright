@@ -46,7 +46,13 @@ describe("distance under the rule", () => {
       name: "Metric",
       grid: { type: "square", cellSize: 1.5, unit: "m", diagonals: "alternate" },
     };
-    expect(gridRuleOf(metric)).toEqual({ cellSize: 1.5, unit: "m", diagonals: "alternate" });
+    // A manifest that says nothing about cover still gets a rule to play by.
+    expect(gridRuleOf(metric)).toEqual({
+      cellSize: 1.5,
+      unit: "m",
+      diagonals: "alternate",
+      cover: "cube-centre",
+    });
     const unsized: SystemManifest = {
       id: "u",
       name: "Unsized",

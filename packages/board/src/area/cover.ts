@@ -14,20 +14,17 @@ import type { CellExtent } from "../grid/grid-lines.js";
 import type { Cell } from "../grid/square-grid.js";
 import type { TokenView } from "../tokens/token-layer.js";
 import { heightAt, type Topology } from "../topology/derive.js";
+import type { CoverRule } from "@tablewright/schema";
 import type { GridRule } from "../topology/distance.js";
 import { cubeCentre, type Area, type Spot } from "./area.js";
 import { holds } from "./volume.js";
-
-/** How a cell is judged caught. The campaign says which; others join it as systems ask. */
-export type CoverRule = "cube-centre";
-
-export const DEFAULT_COVER: CoverRule = "cube-centre";
 
 // The place in a cell the rule asks about. A second rule joins here
 // rather than at every call site.
 function testPoint(cover: CoverRule, cell: Cell, ground: number, rule: GridRule): Spot {
   switch (cover) {
     case "cube-centre":
+    default:
       return cubeCentre(cell, ground, rule);
   }
 }
@@ -43,10 +40,9 @@ export function catchesCell(
   origin: Spot,
   cell: Cell,
   topology: Topology,
-  rule: GridRule,
-  cover: CoverRule = DEFAULT_COVER
+  rule: GridRule
 ): boolean {
-  return holds(area, origin, testPoint(cover, cell, heightAt(topology, cell), rule));
+  return holds(area, origin, testPoint(rule.cover, cell, heightAt(topology, cell), rule));
 }
 
 /**
@@ -55,14 +51,8 @@ export function catchesCell(
  * it holds above that floor, so a flier is not caught by what washes
  * the ground beneath them.
  */
-export function catchesToken(
-  area: Area,
-  origin: Spot,
-  token: TokenView,
-  rule: GridRule,
-  cover: CoverRule = DEFAULT_COVER
-): boolean {
-  return holds(area, origin, testPoint(cover, token.cell, placeOf(token), rule));
+export function catchesToken(area: Area, origin: Spot, token: TokenView, rule: GridRule): boolean {
+  return holds(area, origin, testPoint(rule.cover, token.cell, placeOf(token), rule));
 }
 
 /**
@@ -75,8 +65,7 @@ export function caughtCells(
   origin: Spot,
   topology: Topology,
   rule: GridRule,
-  extent: CellExtent = topology.bounds,
-  cover: CoverRule = DEFAULT_COVER
+  extent: CellExtent = topology.bounds
 ): Cell[] {
   const box = clip(reachBox(area, origin, rule), extent);
   const cells: Cell[] = [];
@@ -86,7 +75,7 @@ export function caughtCells(
   for (let row = box.rowMin; row < box.rowMin + box.rows; row += 1) {
     for (let col = box.colMin; col < box.colMin + box.cols; col += 1) {
       const cell = { col, row };
-      if (catchesCell(area, origin, cell, topology, rule, cover)) {
+      if (catchesCell(area, origin, cell, topology, rule)) {
         cells.push(cell);
       }
     }
