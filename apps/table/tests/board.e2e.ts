@@ -383,6 +383,10 @@ test("A DM or a player measures", async ({ page }) => {
     await page.mouse.move(over.x, over.y);
     await page.mouse.up();
     expect((await area())?.kind).toBe("cone");
+    // A size typed into the palette is the hand's own: it reaches what is
+    // already down rather than being overruled by how far the drag went.
+    await tools.getByLabel("Length").fill("45");
+    await expect.poll(async () => (await area())?.badge).toContain("45 ft");
     // Escape takes it off, and the column stays on Cone.
     await page.keyboard.press("Escape");
     await expect.poll(async () => (await area())?.kind).toBe("none");

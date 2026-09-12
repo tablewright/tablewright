@@ -110,6 +110,10 @@ export class AreaTool {
     if (area !== undefined && area.kind !== "circle" && area.aim !== this.aim) {
       this.aim = area.aim;
     }
+    // Sizes typed into the palette are the hand's own, as a typed aim is:
+    // they replace how far the drag reached rather than being overruled by
+    // it, or the fields would do nothing to what is already down.
+    this.reach = undefined;
     this.area = area;
     if (this.origin !== undefined) {
       this.notify();
