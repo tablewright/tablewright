@@ -1,5 +1,14 @@
 export type { Point, WorldRect } from "./geometry.js";
-export { SEEN_BY, seenByNote, seesIt, type SeenBy } from "./seen.js";
+export {
+  NOBODY,
+  NO_ROLE,
+  SEEN_BY,
+  allows,
+  reachOf,
+  seenByNote,
+  seesIt,
+  type Seat,
+} from "./seen.js";
 export * from "./grid/index.js";
 export * from "./camera/index.js";
 export * from "./area/index.js";

@@ -1,24 +1,31 @@
 //! Writes the cast of the stand-in (design.md §3 "The stand-in's cast").
 //!
-//! Usage: `fixture <compendium.sqlite> <cast.json> <output.json>`, where
-//! the cast names things as `<kind>:<slug>`. The compendium is read from a
-//! copy, since opening a store turns its write-ahead log on and the sealed
-//! bundle must stay as the seed left it. The output is committed, and CI
-//! fails when it is stale, as it does for the bindings.
+//! Usage: `fixture <compendium.sqlite> <cast.json> <output.json>
+//! <roles.json>`, where the cast names things as `<kind>:<slug>`. The
+//! compendium is read from a copy, since opening a store turns its
+//! write-ahead log on and the sealed bundle must stay as the seed left
+//! it. The roles are the app's own permissions, so the page the stand-in
+//! serves asks the same file the core would. Both outputs are committed,
+//! and CI fails when either is stale, as it does for the bindings.
 
 use std::error::Error;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
-use tablewright_core::{Cast, Store};
+use tablewright_core::{Cast, Permissions, Store};
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    let [compendium, cast, output] = args.as_slice() else {
-        eprintln!("usage: fixture <compendium.sqlite> <cast.json> <output.json>");
+    let [compendium, cast, output, roles] = args.as_slice() else {
+        eprintln!("usage: fixture <compendium.sqlite> <cast.json> <output.json> <roles.json>");
         return ExitCode::from(2);
     };
-    match run(Path::new(compendium), Path::new(cast), Path::new(output)) {
+    match run(
+        Path::new(compendium),
+        Path::new(cast),
+        Path::new(output),
+        Path::new(roles),
+    ) {
         Ok(()) => ExitCode::SUCCESS,
         Err(error) => {
             eprintln!("fixture: {error}");
@@ -27,7 +34,10 @@ fn main() -> ExitCode {
     }
 }
 
-fn run(compendium: &Path, cast: &Path, output: &Path) -> Result<(), Box<dyn Error>> {
+fn run(compendium: &Path, cast: &Path, output: &Path, roles: &Path) -> Result<(), Box<dyn Error>> {
+    let mut written = serde_json::to_string_pretty(&Permissions::app().roles)?;
+    written.push('\n');
+    std::fs::write(roles, written)?;
     let things: Vec<String> = serde_json::from_str(&std::fs::read_to_string(cast)?)?;
     let scratch = Scratch::copy_of(compendium)?;
     let cast = Cast::read(Store::open(&scratch.path)?, &things)?;

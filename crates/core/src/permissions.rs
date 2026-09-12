@@ -54,8 +54,8 @@ pub enum Permission {
     HistoryClear,
     #[serde(rename = "scene:change")]
     SceneChange,
-    #[serde(rename = "scene:picture:set")]
-    ScenePictureSet,
+    #[serde(rename = "scene:map:set")]
+    SceneMapSet,
     #[serde(rename = "token:place")]
     TokenPlace,
     #[serde(rename = "token:move")]
@@ -84,7 +84,7 @@ impl Permission {
         Self::HistoryUndo,
         Self::HistoryClear,
         Self::SceneChange,
-        Self::ScenePictureSet,
+        Self::SceneMapSet,
         Self::TokenPlace,
         Self::TokenMove,
         Self::TopologyRead,
@@ -108,7 +108,7 @@ impl Permission {
             Self::HistoryUndo => "history:undo",
             Self::HistoryClear => "history:clear",
             Self::SceneChange => "scene:change",
-            Self::ScenePictureSet => "scene:picture:set",
+            Self::SceneMapSet => "scene:map:set",
             Self::TokenPlace => "token:place",
             Self::TokenMove => "token:move",
             Self::TopologyRead => "topology:read",

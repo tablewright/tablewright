@@ -42,8 +42,8 @@ clear = "Wipe the field and start again."
 [features.scene]
 change = "Open a scene, or make one."
 
-[features.scene.picture]
-set = "Put a picture under the field, or take it away."
+[features.scene.map]
+set = "Put a map under the field, or take it away."
 
 [features.token]
 place = "Stand something new on the board."
@@ -74,7 +74,7 @@ permissions = [
   "history:undo",
   "history:clear",
   "scene:change",
-  "scene:picture:set",
+  "scene:map:set",
   "token:place",
   "token:move",
   "topology:read",

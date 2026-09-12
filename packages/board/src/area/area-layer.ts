@@ -10,11 +10,12 @@
  * centre of its cube".
  */
 
+import type { Visibility } from "@tablewright/schema";
 import { Container, Graphics, Text } from "pixi.js";
 import type { Cell, SquareGrid } from "../grid/square-grid.js";
 import { tokenReach } from "../tokens/token-sprite.js";
 import type { PackedColor } from "../theme/css-color.js";
-import { KEPT_ALPHA, seenByNote, type SeenBy } from "../seen.js";
+import { KEPT_ALPHA, seenByNote } from "../seen.js";
 import type { GridRule } from "../topology/distance.js";
 import { describeArea, type Area, type Spot } from "./area.js";
 import { outline } from "./outline.js";
@@ -68,7 +69,7 @@ export interface ShownArea {
   /** Where the tokens it holds stand, each wearing a turning ring. */
   readonly tokens: readonly Cell[];
   /** Who it is for: the table reads it plain, anyone else's reads faint. */
-  readonly seenBy: SeenBy;
+  readonly seenBy: Visibility;
   /** Left on the board rather than under the hand, which its edge says. */
   readonly isPlaced: boolean;
 }

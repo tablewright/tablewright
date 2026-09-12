@@ -482,15 +482,16 @@ test("A DM or a player measures", async ({ page }) => {
     expect((await area())?.badge).toContain("DM only");
   });
 
-  await test.step("The DM can look at the table as a player, and what the DM kept back is not there.", async () => {
+  await test.step("The DM can sit as a player, and what the DM kept back is not there.", async () => {
     const area = () => page.evaluate(() => window.__tablewright?.area());
     const seen = tools.getByRole("group", { name: "Seen by" });
-    const viewAs = page.getByRole("group", { name: "Board as" });
-    const asPlayer = viewAs.getByRole("button", { name: "Player" });
-    const asDm = viewAs.getByRole("button", { name: "DM", exact: true });
+    const viewAs = page.getByRole("group", { name: "Sit as" });
+    const asPlayer = viewAs.getByRole("button", { name: "Player", exact: true });
+    const asDm = viewAs.getByRole("button", { name: "The DM" });
     await asPlayer.click();
-    // The page mirrors what a player has: the rail without the DM's pens,
+    // The page holds what that seat holds: the free ink and no other pen,
     // and none of the DM's chrome.
+    await expect(tools.getByRole("button", { name: "Free ink" })).toBeVisible();
     await expect(tools.getByRole("button", { name: "Wall", exact: true })).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Open map" })).toBeHidden();
     await expect.poll(async () => (await area())?.kind).toBe("none");
@@ -511,5 +512,20 @@ test("A DM or a player measures", async ({ page }) => {
     // What a player measures for the table is the DM's to see as well.
     await asDm.click();
     await expect.poll(async () => (await measured())?.seenBy).toBe("party");
+  });
+
+  await test.step("Sitting as a spectator, the ruler measures and the table is never shown it.", async () => {
+    const seen = tools.getByRole("group", { name: "Seen by" });
+    await page
+      .getByRole("group", { name: "Sit as" })
+      .getByRole("button", { name: "Spectator" })
+      .click();
+    await tools.getByRole("button", { name: "Ruler" }).click();
+    await tools.getByRole("button", { name: "Line" }).click();
+    // The row offers nothing else: what a spectator measures is their own.
+    await expect(seen.getByRole("button")).toHaveCount(1);
+    await expect(seen.getByRole("button", { name: "Just me" })).toBeVisible();
+    const theirs = await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
+    expect(theirs?.seenBy).toBe("own");
   });
 });

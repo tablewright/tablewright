@@ -13,7 +13,7 @@
 
 import type { Visibility } from "@tablewright/schema";
 import type { Point } from "../geometry.js";
-import { seesIt, type SeenBy } from "../seen.js";
+import { NOBODY, allows, seesIt, type Seat } from "../seen.js";
 import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import { facingToward, normalizeDegrees } from "../tokens/facing.js";
 import type { GridRule } from "../topology/distance.js";
@@ -25,9 +25,9 @@ export interface PlacedArea {
   readonly area: Area;
   readonly origin: Spot;
   /** Who it is for: everyone at the table, the DM, or the one who laid it. */
-  readonly seenBy: SeenBy;
-  /** The view it was laid in, which is who counts as its maker. */
-  readonly madeBy: Visibility;
+  readonly seenBy: Visibility;
+  /** The seat it was laid in, which is who counts as its maker. */
+  readonly madeBy: string;
   /** Left on the board, or still under the hand. */
   readonly isPlaced: boolean;
 }
@@ -64,11 +64,11 @@ export class AreaTool {
   private reach: number | undefined;
   private snap: OriginSnap = "centre";
   /** Who the palette says the next one is for, and who the one on the board is for. */
-  private seenBy: SeenBy = "party";
-  private made: SeenBy = "party";
-  /** Whose view the board is, and whose it was when this one was laid. */
-  private viewer: Visibility = "dm";
-  private madeBy: Visibility = "dm";
+  private seenBy: Visibility = "party";
+  private made: Visibility = "party";
+  /** The seat at this board, and the seat this one was laid in. */
+  private seat: Seat = NOBODY;
+  private madeBy = NOBODY.id;
   /** Where the origin sat under the hand when a move began, in the rule's unit. */
   private grab: { x: number; y: number } | undefined;
   private phase: Phase = "idle";
@@ -146,7 +146,7 @@ export class AreaTool {
   }
 
   /** Who the next area laid is for. What is on the board keeps what it has. */
-  setSeenBy(seenBy: SeenBy): void {
+  setSeenBy(seenBy: Visibility): void {
     this.seenBy = seenBy;
   }
 
@@ -156,8 +156,8 @@ export class AreaTool {
    * area this view can see is re-marked, so nobody re-marks what they are
    * not being shown.
    */
-  chooseSeenBy(seenBy: SeenBy): void {
-    this.seenBy = seenBy;
+  chooseSeenBy(seenBy: Visibility): void {
+    this.seenBy = this.canShow ? seenBy : "own";
     if (this.placed === undefined) {
       return;
     }
@@ -166,14 +166,14 @@ export class AreaTool {
   }
 
   /**
-   * Whose view the board is. An area another side of the table kept to
-   * itself is not shown here, and comes back when that side returns.
+   * Who sits at this board. An area another seat kept to itself is not
+   * shown here, and comes back when that seat returns.
    */
-  setViewer(viewer: Visibility): void {
-    if (viewer === this.viewer) {
+  setSeat(seat: Seat): void {
+    if (seat.id === this.seat.id) {
       return;
     }
-    this.viewer = viewer;
+    this.seat = seat;
     this.notify();
   }
 
@@ -183,9 +183,9 @@ export class AreaTool {
     if (area === undefined || origin === undefined) {
       return undefined;
     }
-    // Mine when it was laid at the side of the table this page stands at.
-    const isMine = this.madeBy === this.viewer;
-    if (!seesIt(this.made, isMine, this.viewer)) {
+    // Mine when it was laid in the seat this page is sitting in.
+    const isMine = this.madeBy === this.seat.id;
+    if (!seesIt(this.made, isMine, this.seat.role)) {
       return undefined;
     }
     const turned = aimed(area, this.aim);
@@ -250,9 +250,10 @@ export class AreaTool {
     this.phase = "placing";
     this.reach = undefined;
     this.grab = undefined;
-    // Alt is the shortcut for one's own, whatever the palette holds.
-    this.made = event.altKey ? "own" : this.seenBy;
-    this.madeBy = this.viewer;
+    // Alt is the shortcut for one's own, whatever the palette holds, and
+    // a seat that may not show what it lays down keeps it either way.
+    this.made = this.canShow && !event.altKey ? this.seenBy : "own";
+    this.madeBy = this.seat.id;
     this.moveOrigin(event);
   };
 
@@ -354,6 +355,11 @@ export class AreaTool {
       x: (at.x - this.grid.originX) / this.grid.cellSize,
       y: (at.y - this.grid.originY) / this.grid.cellSize,
     };
+  }
+
+  // Whether this seat may let the table see what it lays down at all.
+  private get canShow(): boolean {
+    return allows(this.seat.role, "ruler:show");
   }
 
   private notify(): void {

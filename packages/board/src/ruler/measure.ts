@@ -12,8 +12,8 @@
  * "Moving shows movement only".
  */
 
+import type { Visibility } from "@tablewright/schema";
 import type { Point } from "../geometry.js";
-import type { SeenBy } from "../seen.js";
 import type { Cell } from "../grid/square-grid.js";
 import { speedOf, type Mover } from "../topology/cost.js";
 import { heightAt, type Topology } from "../topology/derive.js";
@@ -50,7 +50,7 @@ export interface Measurement {
   /** Where the line of effect breaks, in cell coordinates, or nothing when it holds. */
   readonly blockedAt: Point | undefined;
   /** Who the measure is for: everyone at the table, the DM, or the one who made it. */
-  readonly seenBy: SeenBy;
+  readonly seenBy: Visibility;
 }
 
 /** A turn just begun: the whole speed to spend, and no dash taken. */
@@ -65,7 +65,7 @@ export function measure(
   to: Cell,
   rule: GridRule,
   mover: Mover,
-  seenBy: SeenBy = "party",
+  seenBy: Visibility = "party",
   budget: Budget = turnOf(mover)
 ): Measurement {
   const near = { ...from, height: heightAt(topology, from) };

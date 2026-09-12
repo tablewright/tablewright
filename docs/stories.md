@@ -112,8 +112,9 @@ the logic tests.
   one who made it.
 - The one on the board can be shared after the fact, without taking it
   again.
-- The DM can look at the table as a player, and what the DM kept back is
-  not there.
+- The DM can sit as a player, and what the DM kept back is not there.
+- Sitting as a spectator, the ruler measures and the table is never
+  shown it.
 
 ### Working thresholds in play
 
@@ -217,8 +218,8 @@ the logic tests.
 
 - The page served without Tauri is the player view: the party tier,
   no DM chrome, and it says so.
-- A player's rail moves tokens and measures, and keeps none of the
-  DM's pens, undo or history.
+- A player's rail draws freely, moves tokens and measures, and keeps
+  none of the DM's other pens, undo or history.
 - A player sees the scene's name and nothing more.
 - A player's entry page has no Place on board.
 - A player measures with the R key.

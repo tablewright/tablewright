@@ -1,0 +1,48 @@
+{
+  "dm": {
+    "name": "The DM",
+    "sees": "dm",
+    "permissions": [
+      "ink:ground:draw",
+      "ink:wall:draw",
+      "ink:threshold:draw",
+      "ink:threshold:open",
+      "ink:height:draw",
+      "ink:level-change:draw",
+      "ink:free:draw",
+      "history:read",
+      "history:undo",
+      "history:clear",
+      "scene:change",
+      "scene:map:set",
+      "token:place",
+      "token:move",
+      "topology:read",
+      "ruler:use",
+      "ruler:show",
+      "compendium:read"
+    ],
+    "reach": {
+      "token:move": "world"
+    }
+  },
+  "player": {
+    "name": "Player",
+    "sees": "party",
+    "permissions": [
+      "ink:free:draw",
+      "ink:threshold:open",
+      "token:move",
+      "ruler:use",
+      "ruler:show",
+      "compendium:read"
+    ],
+    "reach": {}
+  },
+  "spectator": {
+    "name": "Spectator",
+    "sees": "party",
+    "permissions": ["ruler:use", "compendium:read"],
+    "reach": {}
+  }
+}

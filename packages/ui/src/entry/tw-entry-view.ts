@@ -12,7 +12,8 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import type { Section, Visibility } from "@tablewright/schema";
+import type { Role, Section } from "@tablewright/schema";
+import { NO_ROLE, allows } from "@tablewright/board";
 import { previewOf } from "../spotlight/preview.js";
 import { groups } from "./sections.js";
 
@@ -48,7 +49,7 @@ export class TwEntryView extends LitElement {
     open: { type: Boolean, reflect: true },
     entry: { attribute: false },
     versions: { attribute: false },
-    viewer: { type: String },
+    twRole: { attribute: false },
   };
 
   declare open: boolean;
@@ -62,14 +63,14 @@ export class TwEntryView extends LitElement {
    * Whose page this is: the DM's carries the table's controls (Place on
    * board); a player's does not. The party tier unless the host says.
    */
-  declare viewer: Visibility;
+  declare twRole: Role;
 
   constructor() {
     super();
     this.open = false;
     this.entry = undefined;
     this.versions = [];
-    this.viewer = "party";
+    this.twRole = NO_ROLE;
   }
 
   static override styles = css`
@@ -379,7 +380,7 @@ export class TwEntryView extends LitElement {
         </div>
         <span class="actions">
           ${
-            entry.type === "monster" && this.viewer === "dm"
+            entry.type === "monster" && allows(this.twRole, "token:place")
               ? html`<button type="button" @click=${this.#place}>Place on board</button>`
               : nothing
           }

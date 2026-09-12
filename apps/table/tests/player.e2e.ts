@@ -20,11 +20,13 @@ test("The player's view", async ({ page }) => {
     await page.keyboard.press("Escape");
   });
 
-  await test.step("A player's rail moves tokens and measures, and keeps none of the DM's pens, undo or history.", async () => {
+  await test.step("A player's rail draws freely, moves tokens and measures, and keeps none of the DM's other pens, undo or history.", async () => {
     const tools = page.locator("tw-tool-rail");
     await expect(tools.getByRole("button", { name: "Move" })).toBeVisible();
     await expect(tools.getByRole("button", { name: "Ruler" })).toBeVisible();
-    for (const name of ["Ground", "Wall", "Height", "Free ink", "Undo", "History", "Topology"]) {
+    // The notes and the jokes are the table's; the walls are the DM's.
+    await expect(tools.getByRole("button", { name: "Free ink" })).toBeVisible();
+    for (const name of ["Ground", "Wall", "Height", "Undo", "History", "Topology"]) {
       await expect(tools.getByRole("button", { name, exact: true })).toHaveCount(0);
     }
   });

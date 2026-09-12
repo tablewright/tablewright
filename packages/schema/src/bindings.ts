@@ -569,7 +569,7 @@ export type PartSpec = {
 };
 
 /**  One thing a hand may do: the thing it acts on, then what is done. */
-export type Permission = "ink:ground:draw" | "ink:wall:draw" | "ink:threshold:draw" | "ink:threshold:open" | "ink:height:draw" | "ink:level-change:draw" | "ink:free:draw" | "history:read" | "history:undo" | "history:clear" | "scene:change" | "scene:picture:set" | "token:place" | "token:move" | "topology:read" | "ruler:use" | "ruler:show" | "compendium:read";
+export type Permission = "ink:ground:draw" | "ink:wall:draw" | "ink:threshold:draw" | "ink:threshold:open" | "ink:height:draw" | "ink:level-change:draw" | "ink:free:draw" | "history:read" | "history:undo" | "history:clear" | "scene:change" | "scene:map:set" | "token:place" | "token:move" | "topology:read" | "ruler:use" | "ruler:show" | "compendium:read";
 
 /**
  *  What a threshold became in play: opened, shut, locked, or smashed

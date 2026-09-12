@@ -16,7 +16,9 @@ import {
   type Area,
   type OriginSnap,
   type RulerMode,
-  type SeenBy,
+  NOBODY,
+  allows,
+  type Seat,
   type ThresholdEdge,
 } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
@@ -27,6 +29,7 @@ import type {
   HeightDisplay,
   MapImage,
   PlayState,
+  Role,
   Scene,
   SceneSummary,
   Stroke,
@@ -46,8 +49,6 @@ const sceneChrome = document.querySelector<HTMLElement>(".chrome");
 const dmChrome = document.getElementById("dm-chrome");
 const roleLabel = document.getElementById("role");
 const viewAs = document.getElementById("view-as");
-const viewAsDm = document.getElementById("view-dm");
-const viewAsPlayer = document.getElementById("view-player");
 const searchButton = document.getElementById("search");
 const spotlight = document.querySelector("tw-spotlight");
 const shares = document.querySelector("tw-share-tray");
@@ -64,8 +65,6 @@ if (
   dmChrome === null ||
   roleLabel === null ||
   viewAs === null ||
-  viewAsDm === null ||
-  viewAsPlayer === null ||
   searchButton === null ||
   spotlight === null ||
   shares === null ||
@@ -239,23 +238,26 @@ const VERSION = "2024";
 // same page served without Tauri is the player view, at the party tier with
 // no DM chrome. Under plain Vite, `?role=dm` keeps the DM's view reachable
 // for Playwright and for looking at it in a browser.
-const VIEWER: Visibility = whoseView();
-// The view being shown, which is this page's own until the dev toggle
-// stands it at the other side of the table.
-let viewer: Visibility = VIEWER;
+const OWN_SEAT: string = whoseSeat();
+// The seat this page is sitting in. Its own, until the dev toggle moves
+// it round the table. Nobody until the roles have been read, so a page
+// that never reads them may do nothing rather than everything.
+let seat: Seat = NOBODY;
 
-function whoseView(): Visibility {
+function whoseSeat(): string {
   if ("__TAURI_INTERNALS__" in window) {
     return "dm";
   }
   if (__DEV_BUILD__ && new URLSearchParams(window.location.search).get("role") === "dm") {
     return "dm";
   }
-  return "party";
+  return "player";
 }
 
 interface Core {
   search: Searcher;
+  /** Who may do what at this table: the app's own rules under the campaign's. */
+  permissions: () => Promise<Record<string, Role>>;
   /** The system the compendium was seeded for, or null when the seeder had none. */
   system: () => Promise<SystemManifest | null>;
   /** Facet name to the text values the compendium holds, for the tray's chips. */
@@ -294,11 +296,14 @@ function connectCore(): Core {
       const scenes = import("./dev/campaign-fixture.js");
       return {
         search: async (query, filters) =>
-          (await fixture).fixtureSearcher(query, filters, VERSION, viewer),
+          (await fixture).fixtureSearcher(query, filters, VERSION, seat.role.sees),
+        // The stand-in reads the roles the core would give, written out of
+        // the same file by `bun run --cwd apps/table seed`.
+        permissions: async () => (await import("./dev/roles.json")).default as Record<string, Role>,
         system: async () => (await fixture).fixtureSystem,
         facetValues: async () => (await fixture).fixtureFacetValues,
         entry: async (id, version) => {
-          const found = (await fixture).fixtureEntry(id, version, viewer);
+          const found = (await fixture).fixtureEntry(id, version, seat.role.sees);
           if (found === undefined) {
             throw new Error(`No entry ${id} in the fixture.`);
           }
@@ -331,6 +336,7 @@ function connectCore(): Core {
     };
     return {
       search: unconnected,
+      permissions: unconnected,
       system: unconnected,
       facetValues: unconnected,
       entry: unconnected,
@@ -363,7 +369,7 @@ function connectCore(): Core {
   };
   return {
     search: async (query, filters) => {
-      const data = unwrap(await commands.search(query, viewer, null, filters, VERSION));
+      const data = unwrap(await commands.search(query, seat.role.sees, null, filters, VERSION));
       return {
         hits: data.hits,
         elapsedUs: data.elapsed_us,
@@ -371,10 +377,11 @@ function connectCore(): Core {
         understood: data.understood,
       };
     },
+    permissions: async () => unwrap(await commands.permissions()),
     system: async () => unwrap(await commands.system()),
     facetValues: async () => unwrap(await commands.facetValues()),
     entry: async (id, version) =>
-      documentOf(unwrap(await commands.getEntry(id, viewer, version ?? null))),
+      documentOf(unwrap(await commands.getEntry(id, seat.role.sees, version ?? null))),
     listCampaigns: async () => unwrap(await commands.listCampaigns()),
     currentCampaign: async () => unwrap(await commands.currentCampaign()),
     openCampaign: async (path) => unwrap(await commands.openCampaign(path)),
@@ -435,8 +442,18 @@ function exposeSearchProbe(): void {
 // has rendered its first frame, so the user never sees an empty frame.
 try {
   const stage = await BoardStage.create(host, { background: readBoardTheme(host).ground });
-  const board = new BoardHost(stage, host, VIEWER);
   const core = connectCore();
+  // Who may do what, from the core's own file. A page that cannot read
+  // them sits in nobody's seat, which may do nothing at all.
+  const roles = await core.permissions().catch((error: unknown) => {
+    showNotice(`Could not read who may do what: ${String(error)}`, "fatal");
+    return {} as Record<string, Role>;
+  });
+  const own = roles[OWN_SEAT];
+  if (own !== undefined) {
+    seat = { id: OWN_SEAT, role: own };
+  }
+  const board = new BoardHost(stage, host, seat);
   // Whatever opened last sits on top: the search over the rail, the scene
   // list over the palette. A stacking order is geometry, as the camera's
   // transform is, so it is the one inline style the page writes.
@@ -615,7 +632,7 @@ try {
   // as well as the next, so a measure already taken is shared by saying so
   // rather than by taking it again (user, 2026-09-12).
   toolRail.addEventListener("tw-seen", (event) => {
-    board.chooseSeenBy((event as CustomEvent<{ seen: SeenBy }>).detail.seen);
+    board.chooseSeenBy((event as CustomEvent<{ seen: Visibility }>).detail.seen);
   });
   toolRail.addEventListener("tw-area", (event) => {
     board.setArea((event as CustomEvent<{ area: Area }>).detail.area);
@@ -699,6 +716,9 @@ try {
   });
   // A threshold worked in Play is a state of the scene, not a stroke.
   board.onThreshold((threshold) => {
+    if (!allows(seat.role, "ink:threshold:open")) {
+      return;
+    }
     const outcome = workThreshold(threshold);
     if ("notice" in outcome) {
       showNotice(outcome.notice, "info");
@@ -725,36 +745,50 @@ try {
   // through every surface, and settling what proves a view is the DM's once
   // a page is served rather than opened, want a step of their own.
   let chromeShown = false;
-  const lookAs = (next: Visibility): void => {
-    viewer = next;
-    board.setViewer(next);
-    // Nobody but the DM draws, so a pen is put down on the way over. What
-    // is on the board keeps its place, to be seen again from the side it
-    // was made for.
-    board.setBuildTool(undefined);
-    toolRail.held = false;
-    // The DM's reading of the field is the DM's own: it goes off the board
-    // at a player's side, and is waiting where it was left on coming back.
-    if (next === "dm") {
+  // A button a seat, filled once the sitting is defined below.
+  const seats = new Map<string, HTMLButtonElement>();
+  const sitAs = (id: string): void => {
+    const role = roles[id];
+    if (role === undefined) {
+      showNotice(`No role called ${id} at this table.`);
+      return;
+    }
+    seat = { id, role };
+    board.setSeat(seat);
+    // A hand that may not draw does not keep a pen on the way over, and
+    // what is on the board keeps its place, to be seen again from the
+    // seat it was made in.
+    if (!allows(role, "ink:free:draw")) {
+      board.setBuildTool(undefined);
+      toolRail.held = false;
+    }
+    // Reading the field as numbers is the DM's own: it goes off the board
+    // in a seat that may not, and is waiting where it was left on return.
+    if (allows(role, "topology:read")) {
       setTopology(dmNumbers);
     } else {
       dmNumbers = board.isReadingNumbers;
       setTopology(false);
     }
-    scenesTab.canManage = next === "dm";
-    entryView.viewer = next;
-    toolRail.viewer = next;
-    roleLabel.hidden = next === "dm";
-    dmChrome.hidden = !chromeShown || next !== "dm";
+    // What a seat may not reach is not left on screen from the last one:
+    // the box keeps its hits, the entry page its page, the rail its
+    // record, and none of them are this seat's to see.
+    spotlight.hide();
+    entryView.hide();
+    toolRail.historyOpen = false;
+    scenesTab.canManage = allows(role, "scene:change");
+    entryView.twRole = role;
+    toolRail.twRole = role;
+    roleLabel.textContent = role.name;
+    roleLabel.hidden = id === OWN_SEAT && allows(role, "scene:change");
+    dmChrome.hidden = !chromeShown || !allows(role, "scene:change");
     toolRail.hidden = !chromeShown;
-    // A player's page has nothing to stand at the other side of.
-    viewAs.hidden = !chromeShown || !__DEV_BUILD__ || VIEWER !== "dm";
-    viewAsDm.setAttribute("aria-pressed", String(next === "dm"));
-    viewAsPlayer.setAttribute("aria-pressed", String(next !== "dm"));
+    // A page that is not the owner's has nowhere else to sit.
+    viewAs.hidden = !chromeShown || !__DEV_BUILD__ || OWN_SEAT !== "dm";
+    for (const [at, button] of seats) {
+      button.setAttribute("aria-pressed", String(at === id));
+    }
   };
-  viewAsDm.addEventListener("click", () => lookAs("dm"));
-  viewAsPlayer.addEventListener("click", () => lookAs("party"));
-  lookAs(viewer);
   spotlight.searcher = core.search;
   spotlight.version = VERSION;
   // The box groups by the system's categories and builds its tray from the
@@ -840,7 +874,13 @@ try {
     { capture: true }
   );
   window.addEventListener("keydown", (event) => {
-    if (event.key === "o" && (event.ctrlKey || event.metaKey)) {
+    // The picture under the field is the scene's, so the key asks the seat
+    // as the button does.
+    if (
+      event.key === "o" &&
+      (event.ctrlKey || event.metaKey) &&
+      allows(seat.role, "scene:map:set")
+    ) {
       event.preventDefault();
       void openMap(board, core, showScene);
     }
@@ -867,7 +907,7 @@ try {
       !event.metaKey &&
       !event.altKey &&
       !isTyping &&
-      viewer === "dm"
+      allows(seat.role, "topology:read")
     ) {
       setTopology(!board.isReadingNumbers);
     }
@@ -898,6 +938,7 @@ try {
     if (
       event.key === "z" &&
       (event.ctrlKey || event.metaKey) &&
+      allows(seat.role, "history:undo") &&
       toolRail.held &&
       !(event.target instanceof HTMLElement && event.target.matches("input, textarea"))
     ) {
@@ -909,14 +950,27 @@ try {
   // chrome; leaving closes it in the core and shows the intro over an empty
   // board. The window's title says which is open.
   const setTitle = (): void => {
-    document.title = [campaign?.name, TITLE, viewer === "dm" ? undefined : "Player view"]
+    document.title = [campaign?.name, TITLE, seat.id === "dm" ? undefined : seat.role.name]
       .filter((part) => part !== undefined)
       .join(" — ");
   };
+  // The seats this page may sit in, dev only, in the order the file holds
+  // them. A player's page has nowhere else to sit, so it builds none.
+  if (__DEV_BUILD__ && OWN_SEAT === "dm") {
+    for (const [id, role] of Object.entries(roles)) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = role.name;
+      button.addEventListener("click", () => sitAs(id));
+      viewAs.append(button);
+      seats.set(id, button);
+    }
+  }
+
   const showChrome = (shown: boolean): void => {
     chromeShown = shown;
     sceneChrome.hidden = !shown;
-    lookAs(viewer);
+    sitAs(seat.id);
   };
   const enterCampaign = async (opened: CampaignSummary): Promise<void> => {
     campaign = opened;
@@ -1011,7 +1065,7 @@ try {
   const current = await core.currentCampaign();
   if (current !== null) {
     await enterCampaign(current);
-  } else if (VIEWER !== "dm") {
+  } else if (!allows(seat.role, "scene:change")) {
     showChrome(false);
     setTitle();
     showNotice("No campaign is at the table.", "info");

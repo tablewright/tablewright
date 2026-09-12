@@ -65,7 +65,7 @@ a database by hand to get back in.
 [roles.dm]
 name = "The DM"
 permissions = ["map:draw", "map:undo", "history:read", "scene:change",
-               "picture:set", "topology:read", "token:place",
+               "scene:map:set", "topology:read", "token:place",
                "token:move", "door:open", "ruler:use",
                "compendium:read"]
 reach = { content = "dm" }

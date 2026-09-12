@@ -21,7 +21,7 @@
 // column would lay down, sizes and all, every time one of them changes.
 
 import { LitElement, css, html, nothing } from "lit";
-import type { HeightDisplay, Stroke, Visibility } from "@tablewright/schema";
+import type { HeightDisplay, Permission, Role, Stroke, Visibility } from "@tablewright/schema";
 import "../strip/tw-strip.js";
 import type { GridRule } from "@tablewright/board";
 import {
@@ -55,7 +55,8 @@ import {
   type Area,
   type OriginSnap,
   type RulerMode,
-  type SeenBy,
+  NO_ROLE,
+  allows,
   type ThresholdChoice,
 } from "@tablewright/board";
 import {
@@ -98,6 +99,19 @@ const SNAP_LABELS = { centre: "Centre", corner: "Corner", free: "Free" } as cons
 // Who a measure or an area is for, as the palette says it: the tiers are
 // the core's, the words are the maker's own.
 const SEEN_LABELS = { party: "Everyone", dm: "The DM", own: "Just me" } as const;
+// A hand that may not show what it measures is offered nothing else.
+const OWN_ONLY: readonly Visibility[] = ["own"];
+// Which permission each pen wants. The rail shows the pens a hand holds
+// and no others, so a table that lets its players draw freely and nothing
+// else gives them one pen.
+const INK_NEEDS: Record<Ink, Permission> = {
+  ground: "ink:ground:draw",
+  threshold: "ink:threshold:draw",
+  wall: "ink:wall:draw",
+  height: "ink:height:draw",
+  "level-change": "ink:level-change:draw",
+  free: "ink:free:draw",
+};
 
 // The name of a mode, for the head of its panel.
 function nameOf(mode: RulerMode): string {
@@ -124,7 +138,7 @@ export class TwToolRail extends LitElement {
     rule: { attribute: false },
     snap: { attribute: false },
     seen: { attribute: false },
-    viewer: { attribute: false },
+    twRole: { attribute: false },
     strokes: { attribute: false },
     topology: { type: Boolean },
     readout: { type: String },
@@ -150,12 +164,13 @@ export class TwToolRail extends LitElement {
   /** Where an area's origin may sit when one is put down. */
   declare snap: OriginSnap;
   /** Who the next measure or area is for. */
-  declare seen: SeenBy;
+  declare seen: Visibility;
   /**
-   * Whose hand this is. A player moves tokens and measures; the pens, the
-   * scene's own record and the DM's reading of the field are the DM's.
+   * The role this rail serves. Every button asks it rather than deciding
+   * for itself, so the rail holds what the table's own rules say it
+   * holds. Named around the DOM's own `role`, which every element has.
    */
-  declare viewer: Visibility;
+  declare twRole: Role;
   /** The scene's history of strokes, as it stands. */
   declare strokes: Stroke[];
   /** Whether the DM is reading the scene as numbers: their own view, not the scene's. */
@@ -181,7 +196,7 @@ export class TwToolRail extends LitElement {
     this.area = defaultArea("cone", DEFAULT_RULE);
     this.snap = "centre";
     this.seen = "party";
-    this.viewer = "dm";
+    this.twRole = NO_ROLE;
     this.strokes = [];
     this.topology = false;
     this.readout = "";
@@ -566,7 +581,9 @@ export class TwToolRail extends LitElement {
 
   override render() {
     const { tool, held } = this;
-    const isDm = this.viewer === "dm";
+    const may = (permission: Permission): boolean => allows(this.twRole, permission);
+    const inks = INKS.filter((spec) => may(INK_NEEDS[spec.ink]));
+    const record = may("history:read") || may("history:undo");
     return html`
       <div class="rail" role="toolbar" aria-label="Tools">
         <button
@@ -588,18 +605,23 @@ export class TwToolRail extends LitElement {
           ${RULER_ICON}<span class="tip">Ruler: R</span>
         </button>
         ${
-          isDm
+          may("topology:read")
             ? html`<button
-                  class="icon"
-                  type="button"
-                  aria-label="Topology"
-                  aria-pressed=${this.topology ? "true" : "false"}
-                  @click=${this.#topology}
-                >
-                  ${TOPOLOGY_ICON}<span class="tip">Topology: T</span>
-                </button>
-                <div class="divider"></div>
-                ${INKS.map(
+                class="icon"
+                type="button"
+                aria-label="Topology"
+                aria-pressed=${this.topology ? "true" : "false"}
+                @click=${this.#topology}
+              >
+                ${TOPOLOGY_ICON}<span class="tip">Topology: T</span>
+              </button>`
+            : nothing
+        }
+        ${
+          inks.length === 0
+            ? nothing
+            : html`<div class="divider"></div>
+                ${inks.map(
                   (spec) =>
                     html`<button
                       class="icon"
@@ -610,28 +632,35 @@ export class TwToolRail extends LitElement {
                     >
                       ${inkIcon(spec.ink)}<span class="tip">${spec.name}</span>
                     </button>`
-                )}
-                <div class="divider"></div>
-                <button class="icon" type="button" aria-label="Undo" @click=${this.#undo}>
-                  ${UNDO_ICON}<span class="tip">Undo: Ctrl+Z</span>
-                </button>
-                <button
-                  class="icon"
-                  type="button"
-                  aria-label="History"
-                  aria-pressed=${this.historyOpen ? "true" : "false"}
-                  @click=${() => {
-                    this.historyOpen = !this.historyOpen;
-                  }}
-                >
-                  ${HISTORY_ICON}
-                  ${
-                    this.strokes.length > 0
-                      ? html`<span class="count">${this.strokes.length}</span>`
-                      : nothing
-                  }
-                  <span class="tip">History</span>
-                </button>`
+                )}`
+        }
+        ${record ? html`<div class="divider"></div>` : nothing}
+        ${
+          may("history:undo")
+            ? html`<button class="icon" type="button" aria-label="Undo" @click=${this.#undo}>
+                ${UNDO_ICON}<span class="tip">Undo: Ctrl+Z</span>
+              </button>`
+            : nothing
+        }
+        ${
+          may("history:read")
+            ? html`<button
+                class="icon"
+                type="button"
+                aria-label="History"
+                aria-pressed=${this.historyOpen ? "true" : "false"}
+                @click=${() => {
+                  this.historyOpen = !this.historyOpen;
+                }}
+              >
+                ${HISTORY_ICON}
+                ${
+                  this.strokes.length > 0
+                    ? html`<span class="count">${this.strokes.length}</span>`
+                    : nothing
+                }
+                <span class="tip">History</span>
+              </button>`
             : nothing
         }
       </div>
@@ -763,7 +792,7 @@ export class TwToolRail extends LitElement {
         <span class="cap">Seen by</span>
         <tw-strip
           label="Seen by"
-          .values=${SEEN_BY}
+          .values=${allows(this.twRole, "ruler:show") ? SEEN_BY : OWN_ONLY}
           .labels=${SEEN_LABELS}
           .pressed=${[this.seen]}
           @tw-cell=${this.#choose(SEEN_BY, (seen) => this.#setSeen(seen))}
@@ -1235,7 +1264,7 @@ export class TwToolRail extends LitElement {
     };
   }
 
-  #setSeen(seen: SeenBy): void {
+  #setSeen(seen: Visibility): void {
     this.seen = seen;
     this.dispatchEvent(
       new CustomEvent("tw-seen", { detail: { seen }, bubbles: true, composed: true })

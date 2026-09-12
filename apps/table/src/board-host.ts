@@ -43,6 +43,7 @@ import {
   readBoardTheme,
   stepHeight,
   visibleExtent,
+  NOBODY,
   seenAt,
   visibleTo,
   watchBoardTheme,
@@ -54,7 +55,7 @@ import {
   type Cell,
   type Area,
   type OriginSnap,
-  type SeenBy,
+  type Seat,
   type AreaDrawing,
   type AreaStyle,
   type CellExtent,
@@ -259,7 +260,8 @@ export class BoardHost {
   private sceneId: string | undefined;
   private highlighted: string | undefined;
   /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
-  private viewer: Visibility;
+  /** Who sits at this board: their role, and the name it goes by. */
+  private seat: Seat;
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
   /** What a cell measures and how diagonals count: the campaign's, from its system. */
   private rule: GridRule = DEFAULT_RULE;
@@ -277,10 +279,10 @@ export class BoardHost {
   /** When the turning ring was last advanced, on the document's clock. */
   private turnedAt = 0;
 
-  constructor(stage: BoardStage, target: HTMLElement, viewer: Visibility = "dm") {
+  constructor(stage: BoardStage, target: HTMLElement, seat: Seat = NOBODY) {
     this.stage = stage;
     this.target = target;
-    this.viewer = viewer;
+    this.seat = seat;
     this.camera = new Camera(stage.world);
     this.gridLayer = new GridLayer(stage.layers.grid);
     this.mapLayer = new MapLayer(stage.layers.map);
@@ -331,8 +333,8 @@ export class BoardHost {
       (cell, at) => this.originAt(cell, at)
     );
     this.areaTool.onChange((placed) => this.showArea(placed));
-    this.ruler.setViewer(viewer);
-    this.areaTool.setViewer(viewer);
+    this.ruler.setSeat(seat);
+    this.areaTool.setSeat(seat);
     const input = new CameraInput(this.camera, target);
     // A tap on a threshold works it; a tap on empty board clears the
     // selection, the same as pressing Escape. The pointer over a threshold
@@ -499,7 +501,7 @@ export class BoardHost {
   // DM is not on a player's board at all, so it cannot be seen, caught by
   // an area, or dragged.
   private seenTokens(): readonly TokenView[] {
-    return this.tokens.filter((token) => seenAt(token.visibility ?? "party", this.viewer));
+    return this.tokens.filter((token) => seenAt(token.visibility ?? "party", this.seat.role.sees));
   }
 
   private tokensWithHeights(): TokenView[] {
@@ -586,30 +588,29 @@ export class BoardHost {
    * table, the DM, or oneself. It marks the one on the board as well as
    * the next, so what is already down is shared by saying so.
    */
-  chooseSeenBy(seenBy: SeenBy): void {
+  chooseSeenBy(seenBy: Visibility): void {
     this.ruler.chooseSeenBy(seenBy);
     this.areaTool.chooseSeenBy(seenBy);
   }
 
   /** Who the next measure or area is for, leaving what is on the board alone. */
-  setSeenBy(seenBy: SeenBy): void {
+  setSeenBy(seenBy: Visibility): void {
     this.ruler.setSeenBy(seenBy);
     this.areaTool.setSeenBy(seenBy);
   }
 
   /**
-   * Whose view the board is. The scene is derived again at that tier, and
-   * a measure or an area another view kept to itself drops off the board
-   * until that view comes back. Dev only for now: it is how one page shows
-   * both sides of a table that is not yet networked.
+   * Who sits at this board. The scene is derived again as that role sees
+   * it, and a measure or an area another seat kept to itself drops off
+   * the board until that seat comes back.
    */
-  setViewer(viewer: Visibility): void {
-    if (viewer === this.viewer) {
+  setSeat(seat: Seat): void {
+    if (seat.id === this.seat.id) {
       return;
     }
-    this.viewer = viewer;
-    this.ruler.setViewer(viewer);
-    this.areaTool.setViewer(viewer);
+    this.seat = seat;
+    this.ruler.setSeat(seat);
+    this.areaTool.setSeat(seat);
     this.redrawTopology();
     this.stage.requestFrame();
   }
@@ -855,7 +856,11 @@ export class BoardHost {
   // The strokes are the record; what the board reads is derived from them
   // afresh, cheap at map scale, whenever they, the bounds or the grid change.
   private redrawTopology(): void {
-    this.topology = derive(visibleTo(this.strokes, this.viewer, this.play), this.bounds, this.play);
+    this.topology = derive(
+      visibleTo(this.strokes, this.seat.role.sees, this.play),
+      this.bounds,
+      this.play
+    );
     this.topologyLayer.draw(this.topology, this.grid);
     this.redrawHeights();
     // The numbers read the field, so a stroke changes them; they are redrawn
@@ -874,7 +879,9 @@ export class BoardHost {
   // origin at floor level would start half a cell below everything it is
   // measured against and lose the cells nearest to it.
   private originAt(cell: Cell, at: { x: number; y: number }): Spot {
-    const token = this.tokens.find((one) => one.cell.col === cell.col && one.cell.row === cell.row);
+    const token = this.seenTokens().find(
+      (one) => one.cell.col === cell.col && one.cell.row === cell.row
+    );
     const ground = heightAt(this.topology, cell);
     // A caster's own area leaves from them, wherever the press landed;
     // otherwise it takes the place the snap chose.
