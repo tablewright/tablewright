@@ -661,14 +661,31 @@ export type Stop = {
  *  rules stroke also says whether it paints its texture onto the picture
  *  (design.md §5 "Data, and texture too"); height's texture is the scene's
  *  display, and free ink is texture and nothing else.
+ * 
+ *  Every ink knows its place upward (design.md §5): an area ink may sit at
+ *  a height and has none by default, an edge ink says how tall it stands
+ *  and is ten feet by default. Both defaults hold when the field is absent,
+ *  so a map thrown down as a picture needs no setting up: the ground is at
+ *  nought, the walls reach the ceiling, and changing either is the DM's
+ *  deliberate act.
  */
 export type Stroke = 
 /**  What can be stood on, and by whom. */
-{ ink: "ground"; shape: Shape; state: GroundState; look: Look; visibility: Visibility } | 
+{ ink: "ground"; shape: Shape; state: GroundState; 
+/**
+ *  Where this ground lies, written into the field under the very
+ *  cells it paints. With none it changes the state alone, so
+ *  difficult ground painted over a hill keeps the hill.
+ */
+height?: number | null; look: Look; visibility: Visibility } | 
 /**  An opening in a cell edge: a door, an arch, a window. */
-{ ink: "threshold"; edge: Edge; kind: ThresholdKind; state: ThresholdState; size: OpeningSize; look: Look; visibility: Visibility } | 
+{ ink: "threshold"; edge: Edge; kind: ThresholdKind; state: ThresholdState; size: OpeningSize; 
+/**  How tall it stands from the ground under it. */
+tall?: number; look: Look; visibility: Visibility } | 
 /**  Solid edges. Nothing derives walls; the DM draws every one. */
-{ ink: "wall"; shape: WallShape; look: Look; visibility: Visibility } | 
+{ ink: "wall"; shape: WallShape; 
+/**  How tall it stands from the ground under it. */
+tall?: number; look: Look; visibility: Visibility } | 
 /**
  *  An amount written into the elevation field, in the system's
  *  distance unit.
@@ -680,7 +697,9 @@ export type Stroke =
  */
 { ink: "level-change"; shape: Shape; look: Look; visibility: Visibility } | 
 /**  Ink with no rules meaning. */
-{ ink: "free"; shape: Shape; visibility: Visibility } | 
+{ ink: "free"; shape: Shape; 
+/**  Where the ink lies. Nothing reads it yet; it waits for floors. */
+height?: number | null; visibility: Visibility } | 
 /**
  *  Everything drawn before this is cleared: a reset that stays in the
  *  history, so taking it back brings the rest back.

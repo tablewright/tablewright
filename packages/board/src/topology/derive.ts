@@ -25,10 +25,12 @@ import type {
 } from "@tablewright/schema";
 import type { CellExtent } from "../grid/grid-lines.js";
 import type { Cell } from "../grid/square-grid.js";
+import { DEFAULT_TALL } from "../draw/tool.js";
 import { edgeCells, edgeKey, rectEdges } from "./edges.js";
 import {
   forCellsInShape,
   forCellsTouchedByBrush,
+  forSamplesInCell,
   forSamplesInShape,
   radiusOf,
   sampleHeight,
@@ -51,7 +53,12 @@ export const LEVEL_CHANGE_DATA = 1;
 export const LEVEL_CHANGE_TEXTURED = 2;
 
 /** What sits on an edge: solid wall, or an opening with its kind and state, and how it shows. */
-export type EdgeData = { readonly edge: Edge; readonly look: Look } & (
+export type EdgeData = {
+  readonly edge: Edge;
+  readonly look: Look;
+  /** How tall it stands from the ground under it. Nothing reads it yet. */
+  readonly tall: number;
+} & (
   | { readonly kind: "wall" }
   | {
       readonly kind: "threshold";
@@ -192,11 +199,22 @@ function apply(stroke: Stroke, topology: Mutable): void {
     case "ground": {
       const code = GROUND_CODES[stroke.state];
       const textured = stroke.look === "both" ? 1 : 0;
+      // Ground at a height raises the very cells it converts, and takes any
+      // level change there with it, as the Height pen would. With no height
+      // it changes the state alone, so difficult ground painted over a hill
+      // keeps the hill.
+      const lift = stroke.height ?? undefined;
       const paint = (col: number, row: number): void => {
         const index = cellIndex(topology.bounds, { col, row });
         if (index !== undefined) {
           topology.ground[index] = code;
           topology.texture[index] = textured;
+        }
+        if (lift !== undefined) {
+          forSamplesInCell(col, row, topology.samples, (sample) => {
+            topology.field[sample] = lift;
+            topology.levelChange[sample] = 0;
+          });
         }
       };
       // A ground brush converts every cell it touches, however thin; the
@@ -216,9 +234,10 @@ function apply(stroke: Stroke, topology: Mutable): void {
     case "wall": {
       const edges =
         stroke.shape.kind === "line" ? stroke.shape.edges : rectEdges(stroke.shape.rect);
+      const tall = stroke.tall ?? DEFAULT_TALL;
       for (const edge of edges) {
         if (touchesBounds(edge, topology.bounds)) {
-          topology.edges.set(edgeKey(edge), { edge, look: stroke.look, kind: "wall" });
+          topology.edges.set(edgeKey(edge), { edge, look: stroke.look, tall, kind: "wall" });
         }
       }
       break;
@@ -228,6 +247,7 @@ function apply(stroke: Stroke, topology: Mutable): void {
         topology.edges.set(edgeKey(stroke.edge), {
           edge: stroke.edge,
           look: stroke.look,
+          tall: stroke.tall ?? DEFAULT_TALL,
           kind: "threshold",
           threshold: stroke.kind,
           state: stroke.state,

@@ -162,6 +162,20 @@ function cellTouches(centre: Point, p: Point, radius: number): boolean {
   return Math.hypot(dx, dy) <= radius;
 }
 
+/**
+ * The samples under one whole cell: the `per × per` block the field keeps
+ * for it. An ink that works by the cell writes the field this way, so what
+ * it paints and what it raises are the same cells.
+ */
+export function forSamplesInCell(
+  col: number,
+  row: number,
+  samples: SampleGrid,
+  visit: SampleVisitor
+): void {
+  forSamplesWhere({ col0: col, row0: row, col1: col, row1: row }, samples, () => true, visit);
+}
+
 /** The centre of sample (i, j), in cells. */
 export function sampleCentre(samples: SampleGrid, i: number, j: number): Point {
   return {

@@ -87,6 +87,7 @@ export { terraceHillStrokes } from "./terrace-hill.js";
 export {
   forCellsInShape,
   forCellsTouchedByBrush,
+  forSamplesInCell,
   forSamplesInShape,
   placedPoints,
   pointInPolygon,

@@ -130,6 +130,10 @@ export function strokeOf(
   gesture: Gesture,
   visibility: Visibility = "party"
 ): Stroke | undefined {
+  // Where an area ink sits and how tall an edge ink stands: the pen keeps
+  // each, and every shape it takes carries it.
+  const height = tool.raised ? tool.at : null;
+  const { tall } = tool;
   switch (gesture.kind) {
     case "rect": {
       const rect = normRect(gesture.a, gesture.b);
@@ -139,15 +143,16 @@ export function strokeOf(
             ink: "ground",
             shape: { kind: "rect", rect },
             state: tool.ground,
+            height,
             look: tool.look,
             visibility,
           };
         case "wall":
-          return { ink: "wall", shape: { kind: "rect", rect }, look: tool.look, visibility };
+          return { ink: "wall", shape: { kind: "rect", rect }, tall, look: tool.look, visibility };
         case "height":
           return { ink: "height", shape: { kind: "rect", rect }, value: tool.height, visibility };
         case "free":
-          return { ink: "free", shape: { kind: "rect", rect }, visibility };
+          return { ink: "free", shape: { kind: "rect", rect }, height, visibility };
         default:
           return undefined;
       }
@@ -158,19 +163,19 @@ export function strokeOf(
       if (tool.ink !== "wall" || edges.length === 0) {
         return undefined;
       }
-      return { ink: "wall", shape: { kind: "line", edges }, look: tool.look, visibility };
+      return { ink: "wall", shape: { kind: "line", edges }, tall, look: tool.look, visibility };
     }
     case "brush": {
       const shape = { kind: "brush" as const, points: gesture.points, radius: tool.radius };
       switch (tool.ink) {
         case "ground":
-          return { ink: "ground", shape, state: tool.ground, look: tool.look, visibility };
+          return { ink: "ground", shape, state: tool.ground, height, look: tool.look, visibility };
         case "height":
           return { ink: "height", shape, value: tool.height, visibility };
         case "level-change":
           return { ink: "level-change", shape, look: tool.look, visibility };
         case "free":
-          return { ink: "free", shape, visibility };
+          return { ink: "free", shape, height, visibility };
         default:
           return undefined;
       }
@@ -182,11 +187,11 @@ export function strokeOf(
       const shape = { kind: "free" as const, points: gesture.points };
       switch (tool.ink) {
         case "ground":
-          return { ink: "ground", shape, state: tool.ground, look: tool.look, visibility };
+          return { ink: "ground", shape, state: tool.ground, height, look: tool.look, visibility };
         case "height":
           return { ink: "height", shape, value: tool.height, visibility };
         case "free":
-          return { ink: "free", shape, visibility };
+          return { ink: "free", shape, height, visibility };
         default:
           return undefined;
       }
@@ -201,6 +206,7 @@ export function strokeOf(
         kind: tool.threshold.kind,
         state: tool.threshold.state,
         size: tool.threshold.size,
+        tall,
         look: tool.look,
         visibility,
       };

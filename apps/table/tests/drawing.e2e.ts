@@ -18,6 +18,11 @@ const looksOf = (page: Parameters<typeof edgeCount>[0]) =>
     [...(window.__tablewright?.topology().edges.values() ?? [])].map((edge) => edge.look)
   );
 
+const tallsOf = (page: Parameters<typeof edgeCount>[0]) =>
+  page.evaluate(() =>
+    [...(window.__tablewright?.topology().edges.values() ?? [])].map((edge) => edge.tall)
+  );
+
 test("A DM draws ground", async ({ page }) => {
   await openTable(page);
   const tools = page.locator("tw-tool-rail");
@@ -106,6 +111,29 @@ test("A DM draws ground", async ({ page }) => {
     await drag(page, from, { x: from.x + 90, y: from.y + 90 });
     await expect.poll(() => cellsOf(page, 2)).toBeGreaterThan(before);
   });
+
+  // One stroke where it took two: the Height pen is not needed to raise a
+  // floor the same hand is laying down.
+  await test.step("Ground at a height raises the cells it paints, so a platform is one stroke.", async () => {
+    await tools
+      .getByRole("group", { name: "Ground state" })
+      .getByRole("button", { name: "Ground", exact: true })
+      .click();
+    await tools.getByRole("button", { name: "Rect" }).click();
+    await tools
+      .getByRole("group", { name: "Sits at" })
+      .getByRole("button", { name: "A height" })
+      .click();
+    await tools.getByLabel("Height of the ground").fill("10");
+    await drag(
+      page,
+      await cellOnScreen(page, { col: 6, row: 5 }),
+      await cellOnScreen(page, { col: 8, row: 7 })
+    );
+    await expect.poll(async () => (await tokenById(page, "seed-b"))?.height).toBe(10);
+    await tools.getByRole("button", { name: "History" }).click();
+    await expect(tools.getByText("Ground, ground, 3 × 3 cells, at +10")).toBeVisible();
+  });
 });
 
 test("A DM draws walls", async ({ page }) => {
@@ -142,6 +170,25 @@ test("A DM draws walls", async ({ page }) => {
     );
     await expect.poll(() => edgeCount(page)).toBe(15);
     expect((await looksOf(page)).filter((look) => look === "both").length).toBe(3);
+  });
+
+  // Nothing drawn so far said a word about height, and every wall of it
+  // stands at the ceiling of convention all the same.
+  await test.step("A wall stands ten feet unless it is told otherwise, and the record says how tall.", async () => {
+    expect((await tallsOf(page)).every((tall) => tall === 10)).toBe(true);
+    await tools.getByLabel("How tall it stands").fill("3");
+    await tools.getByRole("button", { name: "Line" }).click();
+    // A balustrade down x = 3, from row 1 to row 3: two edges, knee high.
+    await drag(
+      page,
+      await edgeOnScreen(page, { col: 2, row: 0 }, { col: 3, row: 1 }),
+      await edgeOnScreen(page, { col: 2, row: 2 }, { col: 3, row: 3 })
+    );
+    await expect
+      .poll(async () => (await tallsOf(page)).filter((tall) => tall === 3).length)
+      .toBe(2);
+    await tools.getByRole("button", { name: "History" }).click();
+    await expect(tools.getByText("Wall along 2 edges, 3 ft tall")).toBeVisible();
   });
 });
 
@@ -186,6 +233,21 @@ test("A DM places thresholds", async ({ page }) => {
         state: "closed",
         size: "large",
       });
+  });
+
+  // A window two cells up a wall is a low thing to climb through, and the
+  // record is where that is said until sight reads it.
+  await test.step("A threshold stands as tall as it is given, and the record says how tall.", async () => {
+    await tools.getByLabel("How tall it stands").fill("4");
+    const low = await edgeOnScreen(page, { col: 10, row: 10 }, { col: 11, row: 10 });
+    await page.mouse.click(low.x, low.y);
+    await expect
+      .poll(() =>
+        page.evaluate(() => window.__tablewright?.topology().edges.get("east:10:10")?.tall)
+      )
+      .toBe(4);
+    await tools.getByRole("button", { name: "History" }).click();
+    await expect(tools.getByText("Window, closed, large, 4 ft tall")).toBeVisible();
   });
 
   await test.step("A secret door is the DM's alone until it is found.", async () => {

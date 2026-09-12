@@ -256,6 +256,7 @@ mod tests {
             kind: ThresholdKind::Door,
             state: ThresholdState::Secret,
             size: OpeningSize::Small,
+            tall: 10,
             look: Look::Data,
             visibility: Visibility::Party,
         };

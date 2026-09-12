@@ -14,6 +14,13 @@ use crate::compendium::Visibility;
 /// rules stroke also says whether it paints its texture onto the picture
 /// (design.md §5 "Data, and texture too"); height's texture is the scene's
 /// display, and free ink is texture and nothing else.
+///
+/// Every ink knows its place upward (design.md §5): an area ink may sit at
+/// a height and has none by default, an edge ink says how tall it stands
+/// and is ten feet by default. Both defaults hold when the field is absent,
+/// so a map thrown down as a picture needs no setting up: the ground is at
+/// nought, the walls reach the ceiling, and changing either is the DM's
+/// deliberate act.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 #[serde(tag = "ink", rename_all = "kebab-case")]
 pub enum Stroke {
@@ -21,6 +28,11 @@ pub enum Stroke {
     Ground {
         shape: Shape,
         state: GroundState,
+        /// Where this ground lies, written into the field under the very
+        /// cells it paints. With none it changes the state alone, so
+        /// difficult ground painted over a hill keeps the hill.
+        #[serde(default)]
+        height: Option<i32>,
         look: Look,
         visibility: Visibility,
     },
@@ -30,12 +42,18 @@ pub enum Stroke {
         kind: ThresholdKind,
         state: ThresholdState,
         size: OpeningSize,
+        /// How tall it stands from the ground under it.
+        #[serde(default = "ten_feet")]
+        tall: u32,
         look: Look,
         visibility: Visibility,
     },
     /// Solid edges. Nothing derives walls; the DM draws every one.
     Wall {
         shape: WallShape,
+        /// How tall it stands from the ground under it.
+        #[serde(default = "ten_feet")]
+        tall: u32,
         look: Look,
         visibility: Visibility,
     },
@@ -56,11 +74,20 @@ pub enum Stroke {
     /// Ink with no rules meaning.
     Free {
         shape: Shape,
+        /// Where the ink lies. Nothing reads it yet; it waits for floors.
+        #[serde(default)]
+        height: Option<i32>,
         visibility: Visibility,
     },
     /// Everything drawn before this is cleared: a reset that stays in the
     /// history, so taking it back brings the rest back.
     Clear { visibility: Visibility },
+}
+
+/// How tall an edge ink stands when nothing says otherwise: ten feet, the
+/// dungeon ceiling of convention.
+const fn ten_feet() -> u32 {
+    10
 }
 
 impl Stroke {
@@ -260,6 +287,7 @@ mod tests {
             kind: ThresholdKind::Window,
             state: ThresholdState::Closed,
             size: OpeningSize::Large,
+            tall: 4,
             look: Look::Both,
             visibility: Visibility::Party,
         };
@@ -272,6 +300,7 @@ mod tests {
                 "kind": "window",
                 "state": "closed",
                 "size": "large",
+                "tall": 4,
                 "look": "both",
                 "visibility": "party",
             })
@@ -298,6 +327,43 @@ mod tests {
         );
     }
 
+    // A map thrown down as a picture is set up by not setting it up: what
+    // was drawn before inks knew their place upward still reads, its ground
+    // at nought and its walls at the ceiling.
+    #[test]
+    fn a_stroke_drawn_before_heights_reads_with_the_defaults() {
+        let ground: Stroke = serde_json::from_value(serde_json::json!({
+            "ink": "ground",
+            "shape": { "kind": "rect", "rect": { "col0": 1, "row0": 1, "col1": 4, "row1": 3 } },
+            "state": "difficult",
+            "look": "data",
+            "visibility": "party",
+        }))
+        .expect("reads");
+        assert!(matches!(ground, Stroke::Ground { height: None, .. }));
+
+        let wall: Stroke = serde_json::from_value(serde_json::json!({
+            "ink": "wall",
+            "shape": { "kind": "line", "edges": [] },
+            "look": "both",
+            "visibility": "party",
+        }))
+        .expect("reads");
+        assert!(matches!(wall, Stroke::Wall { tall: 10, .. }));
+
+        let door: Stroke = serde_json::from_value(serde_json::json!({
+            "ink": "threshold",
+            "edge": { "col": 2, "row": 2, "side": "south" },
+            "kind": "door",
+            "state": "closed",
+            "size": "small",
+            "look": "data",
+            "visibility": "party",
+        }))
+        .expect("reads");
+        assert!(matches!(door, Stroke::Threshold { tall: 10, .. }));
+    }
+
     #[test]
     fn every_ink_carries_its_visibility() {
         let shape = Shape::Rect {
@@ -312,11 +378,13 @@ mod tests {
             Stroke::Ground {
                 shape: shape.clone(),
                 state: GroundState::Ground,
+                height: None,
                 look: Look::Data,
                 visibility: Visibility::World,
             },
             Stroke::Wall {
                 shape: WallShape::Line { edges: Vec::new() },
+                tall: ten_feet(),
                 look: Look::Both,
                 visibility: Visibility::Party,
             },
@@ -327,6 +395,7 @@ mod tests {
             },
             Stroke::Free {
                 shape,
+                height: None,
                 visibility: Visibility::Party,
             },
         ];

@@ -428,6 +428,7 @@ mod tests {
             kind: ThresholdKind::Door,
             state,
             size: OpeningSize::Small,
+            tall: 7,
             look: Look::Data,
             visibility: Visibility::Party,
         }
@@ -439,6 +440,7 @@ mod tests {
             Stroke::Ground {
                 shape: rect(1, 1, 12, 13),
                 state: GroundState::Ground,
+                height: Some(10),
                 look: Look::Data,
                 visibility: Visibility::Party,
             },
@@ -451,6 +453,7 @@ mod tests {
                     ],
                 },
                 state: GroundState::Difficult,
+                height: None,
                 look: Look::Data,
                 visibility: Visibility::Party,
             },
@@ -463,6 +466,7 @@ mod tests {
                         row1: 2,
                     },
                 },
+                tall: 20,
                 look: Look::Data,
                 visibility: Visibility::Party,
             },
@@ -481,6 +485,7 @@ mod tests {
                         },
                     ],
                 },
+                tall: 10,
                 look: Look::Data,
                 visibility: Visibility::Party,
             },
@@ -506,6 +511,7 @@ mod tests {
                     points: vec![Point { x: 2.0, y: 2.0 }, Point { x: 2.2, y: 2.4 }],
                     radius: 0.3,
                 },
+                height: None,
                 visibility: Visibility::Dm,
             },
         ]

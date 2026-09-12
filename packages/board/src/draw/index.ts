@@ -19,6 +19,7 @@ export {
   type Gesture,
 } from "./gestures.js";
 export {
+  DEFAULT_TALL,
   DEFAULT_TOOL,
   DRAW_SHAPES,
   GROUND_STATES,
@@ -29,7 +30,9 @@ export {
   THRESHOLD_KINDS,
   THRESHOLD_STATES,
   describeStroke,
+  hasHeight,
   hasLook,
+  hasTall,
   shapesOf,
   signed,
   withInk,

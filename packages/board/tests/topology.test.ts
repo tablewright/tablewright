@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import type { Stroke } from "@tablewright/schema";
 import {
+  DEFAULT_TALL,
   LEVEL_CHANGE_TEXTURED,
   SAMPLES_PER_CELL,
   derive,
@@ -104,15 +105,46 @@ describe("edges", () => {
       ],
       bounds
     );
+    // Neither stroke said how tall it stands, so both reach the ceiling of
+    // convention: a map drawn without a thought for height still has one.
     expect(edgeAt(topology, { col: 4, row: 2, side: "east" })).toEqual({
       edge: { col: 4, row: 2, side: "east" },
       look: "data",
+      tall: DEFAULT_TALL,
       kind: "threshold",
       threshold: "door",
       state: "locked",
       size: "small",
     });
+    expect(edgeAt(topology, { col: 3, row: 1, side: "south" })?.tall).toBe(DEFAULT_TALL);
     expect(topology.edges.size).toBe(10);
+  });
+
+  test("an edge ink stands as tall as it was drawn", () => {
+    const topology = derive(
+      [
+        {
+          ink: "wall",
+          look: "data",
+          shape: { kind: "line", edges: [{ col: 2, row: 2, side: "east" }] },
+          tall: 3,
+          visibility: "party",
+        },
+        {
+          ink: "threshold",
+          look: "data",
+          edge: { col: 5, row: 5, side: "south" },
+          kind: "door",
+          state: "closed",
+          size: "small",
+          tall: 20,
+          visibility: "party",
+        },
+      ],
+      bounds
+    );
+    expect(edgeAt(topology, { col: 2, row: 2, side: "east" })?.tall).toBe(3);
+    expect(edgeAt(topology, { col: 5, row: 5, side: "south" })?.tall).toBe(20);
   });
 });
 
@@ -203,6 +235,63 @@ describe("ground", () => {
 });
 
 describe("the field", () => {
+  test("ground at a height raises the very cells it paints, and nothing else", () => {
+    // A thin sweep converts every cell it touches, however little of each,
+    // so its height must reach all of them: what is painted and what is
+    // raised are the same cells.
+    const sweep: Stroke = {
+      ink: "ground",
+      look: "data",
+      shape: {
+        kind: "brush",
+        points: [
+          { x: 1.2, y: 2.9 },
+          { x: 4.8, y: 2.9 },
+        ],
+        radius: 0.01,
+      },
+      state: "ground",
+      height: 10,
+      visibility: "party",
+    };
+    const topology = derive([sweep], bounds);
+    for (let col = 1; col <= 4; col += 1) {
+      expect(heightAt(topology, { col, row: 2 })).toBe(10);
+    }
+    expect(heightAt(topology, { col: 1, row: 3 })).toBe(0);
+    expect(heightAt(topology, { col: 5, row: 2 })).toBe(0);
+    // Four cells of eight samples each, and no sample beyond them.
+    const raised = topology.field.reduce((count, value) => count + (value === 10 ? 1 : 0), 0);
+    expect(raised).toBe(4 * SAMPLES_PER_CELL * SAMPLES_PER_CELL);
+  });
+
+  test("ground with no height changes the state alone, so a hill keeps its shape", () => {
+    const hill = derive([heightRect(10, 1, 1, 4, 4), groundRect("difficult", 1, 1, 4, 4)], bounds);
+    expect(groundAt(hill, { col: 2, row: 2 })).toBe("difficult");
+    expect(heightAt(hill, { col: 2, row: 2 })).toBe(10);
+  });
+
+  test("ground at a height takes the level change under it away", () => {
+    const stairs: Stroke = {
+      ink: "level-change",
+      look: "data",
+      shape: { kind: "brush", points: [{ x: 2.5, y: 2.5 }], radius: 0.4 },
+      visibility: "party",
+    };
+    const paved: Stroke = {
+      ink: "ground",
+      look: "data",
+      shape: { kind: "rect", rect: { col0: 2, row0: 2, col1: 2, row1: 2 } },
+      state: "ground",
+      height: -5,
+      visibility: "party",
+    };
+    expect(isLevelChangeAt(derive([stairs], bounds), { col: 2, row: 2 })).toBe(true);
+    const over = derive([stairs, paved], bounds);
+    expect(isLevelChangeAt(over, { col: 2, row: 2 })).toBe(false);
+    expect(heightAt(over, { col: 2, row: 2 })).toBe(-5);
+  });
+
   test("a height rect writes every sample of its cells", () => {
     const topology = derive([heightRect(10, 1, 1, 2, 1)], bounds);
     const written = topology.field.reduce((count, value) => count + (value === 10 ? 1 : 0), 0);

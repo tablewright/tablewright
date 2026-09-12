@@ -31,7 +31,9 @@ import {
   THRESHOLD_KINDS,
   THRESHOLD_STATES,
   describeStroke,
+  hasHeight,
   hasLook,
+  hasTall,
   shapesOf,
   signed,
   withInk,
@@ -70,6 +72,11 @@ const NATURE: Partial<Record<Ink, string>> = {
   free: "Texture",
 };
 const LOOK_LABELS = { data: "Data", both: "Data + texture" } as const;
+
+// An area ink lies on the ground the map already has, or at a height it
+// writes into the field itself.
+const PLACES = ["level", "raised"] as const;
+const PLACE_LABELS = { level: "Ground level", raised: "A height" } as const;
 
 // A brush's width on the map, in its pixels: a hairline up to a broad sweep.
 const SIZE_PX = { min: 1, max: 300, step: 1 } as const;
@@ -595,9 +602,62 @@ export class TwToolRail extends LitElement {
         </div>
         ${hasLook(tool.ink) ? nothing : html`<span class="tag">${NATURE[tool.ink]}</span>`}
       </header>
-      ${this.#shapes()} ${this.#look()} ${tool.shape === "brush" ? this.#size() : nothing}
-      ${this.#options()}
+      ${this.#shapes()} ${this.#look()} ${this.#place()}
+      ${tool.shape === "brush" ? this.#size() : nothing} ${this.#options()}
     </div>`;
+  }
+
+  // Where the ink knows its place upward: an area ink sits at a height or
+  // leaves the field alone, an edge ink stands as tall as the place wants.
+  // It shows for every shape the pen takes, as the Height pen's amount does;
+  // only the brush size is a shape's own.
+  #place() {
+    const { tool } = this;
+    if (hasHeight(tool.ink)) {
+      return html`<section>
+        <span class="cap">Sits at</span>
+        <tw-strip
+          label="Sits at"
+          .values=${PLACES}
+          .labels=${PLACE_LABELS}
+          .pressed=${[tool.raised ? "raised" : "level"]}
+          @tw-cell=${this.#choose(PLACES, (place) => this.#update({ raised: place === "raised" }))}
+        ></tw-strip>
+        ${
+          tool.raised
+            ? html`<div class="field">
+                <input
+                  class="number"
+                  type="number"
+                  step="5"
+                  aria-label="Height of the ground"
+                  .value=${String(tool.at)}
+                  @input=${this.#atInput}
+                />
+                <span class="unit">ft: ${signed(tool.at)}</span>
+              </div>`
+            : nothing
+        }
+      </section>`;
+    }
+    if (!hasTall(tool.ink)) {
+      return nothing;
+    }
+    return html`<section>
+      <span class="cap">Stands</span>
+      <div class="field">
+        <input
+          class="number"
+          type="number"
+          min="0"
+          step="5"
+          aria-label="How tall it stands"
+          .value=${String(tool.tall)}
+          @input=${this.#tallInput}
+        />
+        <span class="unit">ft tall</span>
+      </div>
+    </section>`;
   }
 
   // Whether the stroke also paints what it means onto the picture: for a
@@ -830,6 +890,25 @@ export class TwToolRail extends LitElement {
     const height = Number((event.target as HTMLInputElement).value);
     if (Number.isFinite(height)) {
       this.#update({ height });
+    }
+  };
+
+  // Where an area ink sits. The amount is kept while the ink is put back on
+  // the ground, so turning it off and on again does not lose it.
+  #atInput = (event: Event): void => {
+    const at = Number((event.target as HTMLInputElement).value);
+    if (Number.isFinite(at)) {
+      this.#update({ at });
+    }
+  };
+
+  // How tall an edge ink stands. Tallness has no upper limit, a wall being
+  // as grandiose as whoever built the place, but nothing stands below the
+  // ground it has its foot on.
+  #tallInput = (event: Event): void => {
+    const tall = Number((event.target as HTMLInputElement).value);
+    if (Number.isFinite(tall) && tall >= 0) {
+      this.#update({ tall });
     }
   };
 

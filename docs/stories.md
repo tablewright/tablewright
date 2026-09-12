@@ -132,17 +132,23 @@ the logic tests.
   difficult ground hatched, air a hole.
 - A stroke started anywhere on the board lands, the corner beneath
   the palette included.
+- Ground at a height raises the cells it paints, so a platform is one
+  stroke.
 
 ### A DM draws walls
 
 - A line along the grid, or a rect for four walls at once.
 - As data, a hint over art that draws its own walls; as texture, a
   solid wall.
+- A wall stands ten feet unless it is told otherwise, and the record
+  says how tall.
 
 ### A DM places thresholds
 
 - A click on a cell edge places the kind, state and size chosen.
 - The palette's tile shows what the click will leave *(later)*.
+- A threshold stands as tall as it is given, and the record says how
+  tall.
 - A secret door is the DM's alone until it is found.
 
 ### A DM paints height and level changes

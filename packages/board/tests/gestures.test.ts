@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
+  DEFAULT_TALL,
   DEFAULT_TOOL,
   POINT_GAP,
   beginGesture,
@@ -78,6 +79,7 @@ describe("strokes from gestures", () => {
     expect(strokeOf(wall, gesture)).toEqual({
       ink: "wall",
       look: "data",
+      tall: DEFAULT_TALL,
       shape: {
         kind: "line",
         edges: [
@@ -124,6 +126,7 @@ describe("strokes from gestures", () => {
     expect(strokeOf(door, gesture)).toEqual({
       ink: "threshold",
       look: "data",
+      tall: DEFAULT_TALL,
       edge: { col: 3, row: 6, side: "east" },
       kind: "door",
       state: "locked",
@@ -149,6 +152,21 @@ describe("strokes from gestures", () => {
     });
     expect(stroke === undefined ? "" : describeStroke(stroke)).toBe("Height -10, 3 × 2 cells");
     const line = strokeOf(wall, { kind: "line", a: { x: 2, y: 4 }, b: { x: 3, y: 4 } });
-    expect(line === undefined ? "" : describeStroke(line)).toBe("Wall along 1 edge");
+    expect(line === undefined ? "" : describeStroke(line)).toBe("Wall along 1 edge, 10 ft tall");
+  });
+
+  test("the record says where an ink sits and how tall it stands", () => {
+    const block = { kind: "rect" as const, a: { col: 1, row: 1 }, b: { col: 4, row: 3 } };
+    const level = strokeOf(DEFAULT_TOOL, block);
+    expect(level === undefined ? "" : describeStroke(level)).toBe("Ground, ground, 4 × 3 cells");
+    const platform = strokeOf({ ...DEFAULT_TOOL, raised: true, at: 10 }, block);
+    expect(platform === undefined ? "" : describeStroke(platform)).toBe(
+      "Ground, ground, 4 × 3 cells, at +10"
+    );
+    const low = strokeOf(
+      { ...wall, tall: 3 },
+      { kind: "line", a: { x: 2, y: 4 }, b: { x: 3, y: 4 } }
+    );
+    expect(low === undefined ? "" : describeStroke(low)).toBe("Wall along 1 edge, 3 ft tall");
   });
 });

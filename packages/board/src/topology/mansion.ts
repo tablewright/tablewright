@@ -29,11 +29,14 @@ const rect = (col0: number, row0: number, col1: number, row1: number): CellRect 
 const east = (col: number, row: number): Edge => ({ col, row, side: "east" });
 const south = (col: number, row: number): Edge => ({ col, row, side: "south" });
 
-function ground(state: GroundState, block: CellRect): Stroke {
+// Ground at a height is one stroke: it converts the cells and raises them
+// together, so a platform needs no second pass with the Height pen.
+function ground(state: GroundState, block: CellRect, at: number | null = null): Stroke {
   return {
     ink: "ground",
     shape: { kind: "rect", rect: block },
     state,
+    height: at,
     look: "both",
     visibility: "party",
   };
@@ -88,7 +91,8 @@ export function mansionStrokes(): Stroke[] {
     threshold("frosted", "closed", east(18, 3)),
     threshold("window", "closed", east(0, 6)),
     threshold("door", "secret", south(16, 11)),
-    height(10, rect(1, 1, 8, 2)),
+    // The dais: one stroke, ground at +10, where it took two before.
+    ground("ground", rect(1, 1, 8, 2), 10),
     {
       ink: "level-change",
       look: "both",

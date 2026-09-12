@@ -53,10 +53,27 @@ export const OPENING_SIZES: readonly OpeningSize[] = ["small", "large"];
 export const LOOKS: readonly Look[] = ["data", "both"];
 /** How wide a brush may be, in cells: a dab within a cell up to a broad sweep. */
 export const RADIUS_RANGE = { min: 0.25, max: 3, step: 0.25 } as const;
+/**
+ * How tall an edge ink stands when nothing says otherwise: ten feet, the
+ * dungeon ceiling of convention. It is the core's own default too
+ * (`ten_feet` in crates/core/src/stroke.rs), which fills it in for anything
+ * drawn before edge inks knew their tallness.
+ */
+export const DEFAULT_TALL = 10;
 
 /** The inks whose strokes carry a look: rules inks other than height, whose look is the scene's display. */
 export function hasLook(ink: Ink): boolean {
   return ink === "ground" || ink === "threshold" || ink === "wall" || ink === "level-change";
+}
+
+/** The area inks, which may sit at a height and have none by default. */
+export function hasHeight(ink: Ink): boolean {
+  return ink === "ground" || ink === "free";
+}
+
+/** The edge inks, which stand as tall as the place wants. */
+export function hasTall(ink: Ink): boolean {
+  return ink === "wall" || ink === "threshold";
 }
 
 export interface ThresholdChoice {
@@ -71,20 +88,34 @@ export interface DrawTool {
   readonly shape: DrawShape;
   readonly ground: GroundState;
   readonly threshold: ThresholdChoice;
-  /** In the system's distance unit. */
+  /** The Height pen's amount, in the system's distance unit. */
   readonly height: number;
+  /** Whether an area ink sits at a height rather than leaving the field alone. */
+  readonly raised: boolean;
+  /** Where it sits when it does, in the same unit; below the ground when negative. */
+  readonly at: number;
+  /** How tall an edge ink stands, in the same unit. */
+  readonly tall: number;
   /** The brush's radius, in cells. */
   readonly radius: number;
   /** Whether the next rules stroke also paints its texture. */
   readonly look: Look;
 }
 
+// Every pen keeps its own amount, since a map is built one pen at a time:
+// the Height pen's, where an area ink sits, and how tall an edge ink
+// stands. An area ink starts level, so a map thrown down needs no setting
+// up; ten feet is the dungeon ceiling of convention, as the core's own
+// default is (design §5 "Every ink knows its place upward").
 export const DEFAULT_TOOL: DrawTool = {
   ink: "ground",
   shape: "rect",
   ground: "ground",
   threshold: { kind: "door", state: "closed", size: "small" },
   height: 5,
+  raised: false,
+  at: 10,
+  tall: DEFAULT_TALL,
   radius: 0.6,
   look: "data",
 };
@@ -105,19 +136,22 @@ export function withInk(tool: DrawTool, ink: Ink): DrawTool {
 export function describeStroke(stroke: Stroke): string {
   switch (stroke.ink) {
     case "ground":
-      return textured(`Ground, ${stroke.state}, ${area(stroke.shape)}`, stroke.look);
+      return textured(
+        `Ground, ${stroke.state}, ${area(stroke.shape)}${at(stroke.height)}`,
+        stroke.look
+      );
     case "threshold": {
       const sized = stroke.kind === "window" || stroke.kind === "frosted";
       return textured(
-        `${capital(stroke.kind)}, ${stroke.state}${sized ? `, ${stroke.size}` : ""}`,
+        `${capital(stroke.kind)}, ${stroke.state}${sized ? `, ${stroke.size}` : ""}${tall(stroke.tall)}`,
         stroke.look
       );
     }
     case "wall":
       return textured(
-        stroke.shape.kind === "rect"
+        (stroke.shape.kind === "rect"
           ? `Walls around ${size(stroke.shape.rect.col1 - stroke.shape.rect.col0 + 1, stroke.shape.rect.row1 - stroke.shape.rect.row0 + 1)}`
-          : `Wall along ${count(stroke.shape.edges.length, "edge")}`,
+          : `Wall along ${count(stroke.shape.edges.length, "edge")}`) + tall(stroke.tall),
         stroke.look
       );
     case "height":
@@ -125,7 +159,7 @@ export function describeStroke(stroke: Stroke): string {
     case "level-change":
       return textured(`Level change, ${area(stroke.shape)}`, stroke.look);
     case "free":
-      return `Free ink, ${area(stroke.shape)}`;
+      return `Free ink, ${area(stroke.shape)}${at(stroke.height)}`;
     case "clear":
       return "Reset: everything before it cleared";
   }
@@ -133,6 +167,18 @@ export function describeStroke(stroke: Stroke): string {
 
 function textured(description: string, look: Look): string {
   return look === "both" ? `${description}, textured` : description;
+}
+
+// Where an area ink sits, when it sits anywhere; a ground stroke with no
+// height changed the state alone and has nothing to say.
+function at(height: number | null | undefined): string {
+  return height === null || height === undefined ? "" : `, at ${signed(height)}`;
+}
+
+// How tall an edge ink stands. Every one stands somehow, so every line says
+// so, the ten feet of convention included.
+function tall(height: number | undefined): string {
+  return `, ${height ?? DEFAULT_TALL} ft tall`;
 }
 
 /** A height with its sign, as the tool and the record show it. */
