@@ -703,6 +703,11 @@ the rounds are in the local research file.
   2026-09-11 (user): a map built in Tablewright puts its ground at a
   height in one stroke, and its walls and doors as tall as the
   place wants.
+  Decided 2026-09-12 (user): both defaults hold wherever a stroke says
+  nothing, in the record and on the way in from a file, so a map is set
+  up by not setting it up. A DM without the time to build one throws a
+  picture down and puts the players on it: the ground is level, the
+  walls reach the ceiling, and moving either is a deliberate act.
 - **Elevation is a field.** Continuous and sub-cell, eight samples
   to a cell (a fixed fraction of the cell, never the image's
   pixels), painted or traced. Contours and shadows are its
