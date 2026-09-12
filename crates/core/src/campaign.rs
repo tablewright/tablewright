@@ -19,6 +19,7 @@ const MANIFEST: &str = "campaign.json";
 const SCENES: &str = "scenes";
 const ASSETS: &str = "assets";
 const COMPENDIUM: &str = "compendium/compendium.sqlite";
+const PERMISSIONS: &str = crate::permissions::FILE;
 
 /// What a campaign is: its name, the system and version it plays, and
 /// the modules it draws its compendium from.
@@ -211,6 +212,13 @@ impl Campaign {
     /// The campaign's own compendium store, when it has one.
     pub fn compendium_path(&self) -> Option<PathBuf> {
         let path = self.dir.join(COMPENDIUM);
+        path.is_file().then_some(path)
+    }
+
+    /// This campaign's own permissions, when its DM keeps any.
+    #[must_use]
+    pub fn permissions_path(&self) -> Option<PathBuf> {
+        let path = self.dir.join(PERMISSIONS);
         path.is_file().then_some(path)
     }
 }

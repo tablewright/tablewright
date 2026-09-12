@@ -46,7 +46,12 @@ const GROUND_CODES: Record<GroundState, number> = { void: 0, ground: 1, difficul
 const GROUND_STATES: readonly GroundState[] = ["void", "ground", "difficult", "air"];
 
 // world < party < dm, the same order the core keeps.
-const TIER: Record<Visibility, number> = { world: 0, party: 1, dm: 2 };
+// The four words a thing is marked with. The first three are a ladder,
+// so a viewer sees everything at or below their own; the fourth is
+// about whose a thing is rather than how open it is, so it sits past
+// the end and reaches nobody by tier alone. Who made it is what
+// answers for it, which the board asks separately.
+const TIER: Record<Visibility, number> = { world: 0, party: 1, dm: 2, own: 3 };
 
 /** A level change's mark on a sample: none, painted as data, or painted as texture too. */
 export const LEVEL_CHANGE_DATA = 1;

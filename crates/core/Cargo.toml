@@ -21,3 +21,7 @@ pest_derive = "2.9"
 # Snowball stemming, so "wands" finds the value "wand".
 rust-stemmers = "1.2"
 comrak = { version = "0.54", default-features = false }
+# The permissions file a person writes (docs/permissions.md). Already in
+# the lock through tauri, so it costs no new crate, and its error names
+# the line and the keys that would have worked.
+toml = "1"

@@ -52,6 +52,13 @@ export const commands = {
 	grid?: GridSpec | null,
 } | null, CommandError>(__TAURI_INVOKE("system")),
 	/**
+	 *  Who may do what at this table: the app's own rules with the
+	 *  campaign's over them. A campaign's file that will not load is
+	 *  refused and said so, and the app's own stands in, so a mistyped
+	 *  rule never leaves a table with none.
+	 */
+	permissions: () => typedError<{ [key in string]: Role }, CommandError>(__TAURI_INVOKE("permissions")),
+	/**
 	 *  The text values each facet holds across the compendium, for the tray's
 	 *  chips: schools, creature types, categories.
 	 */
@@ -561,6 +568,9 @@ export type PartSpec = {
 	note?: NoteSpec | null,
 };
 
+/**  One thing a hand may do: the thing it acts on, then what is done. */
+export type Permission = "ink:ground:draw" | "ink:wall:draw" | "ink:threshold:draw" | "ink:threshold:open" | "ink:height:draw" | "ink:level-change:draw" | "ink:free:draw" | "history:read" | "history:undo" | "history:clear" | "scene:change" | "scene:picture:set" | "token:place" | "token:move" | "topology:read" | "ruler:use" | "ruler:show" | "compendium:read";
+
 /**
  *  What a threshold became in play: opened, shut, locked, or smashed
  *  through. Play state is kept apart from the strokes; a stroke says what
@@ -577,6 +587,18 @@ export type PlayState = "open" | "closed" | "locked" |
 export type Point = {
 	x: number | null,
 	y: number | null,
+};
+
+/**  A named set of permissions. A person holds one at a time. */
+export type Role = {
+	/**  What the role is called on screen. */
+	name: string,
+	/**  How far sight goes: everything marked at this or below. */
+	sees: Visibility,
+	/**  What may be done. A name the app does not know is an error. */
+	permissions: Permission[],
+	/**  Where a permission reaches past one's own, which is the default. */
+	reach?: Partial<{ [key in Permission]: Visibility }>,
 };
 
 /**  A scene as the board shows it. */
@@ -812,7 +834,15 @@ export type Visibility =
 /**  The party: players at the table. */
 "party" | 
 /**  The DM only. */
-"dm";
+"dm" | 
+/**
+ *  The one who made it, and nobody else.
+ * 
+ *  Not a rung on the ladder the other three make: it is about whose
+ *  a thing is rather than how open it is, so it needs the maker to
+ *  answer, and `is_visible_to` says no until it has one.
+ */
+"own";
 
 /**  A wall as drawn: along one run of edges, or the four sides of a rect. */
 export type WallShape = { kind: "line"; edges: Edge[] } | { kind: "rect"; rect: CellRect };

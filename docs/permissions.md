@@ -11,22 +11,25 @@ that asks "may they?" or "may they see it?" answers from here.
 
 - **Role** — a named set of permissions. The DM, a player, a
   spectator, a stand-in DM. A person holds one role at a time.
-- **Permission** — a thing and what may be done with it:
-  `tokens = "move"`, `scenes = "change"`. A thing and a verb, never a
-  bare verb, so a reader is never left wondering whether `history`
+- **Permission** — one thing a hand may do, the thing first and then
+  what is done to it: `token:move`, `scene:change`, `history:read`.
+  The spelling an OAuth or GitHub token uses, and never a bare verb
+  or a bare noun, so a reader is not left wondering whether `history`
   means seeing it or rewriting it.
-- **Scope** — how far a permission reaches: over one's own things, the
-  party's, the DM's, or anyone's.
+- **Reach** — how far a permission carries: over one's own things, the
+  party's, the DM's, or anyone's. Called reach rather than scope,
+  since a scope elsewhere in the world (an OAuth token's, a GitHub
+  token's) is what this calls a permission.
 
 That is the whole vocabulary. Anything a person may do is a
-permission; anything about how far it reaches is a scope. There is no
+permission; anything about how far it carries is a reach. There is no
 third mechanism and no minus sign.
 
 ## One list for who a thing is for
 
 A permission says what a hand may do. It cannot say that one
 particular wall is a secret, so a thing carries its own marking, and
-it uses the same four words a scope does:
+it uses the same four words a reach does:
 
 - `world` — anyone, including someone who has never sat at this table
 - `party` — everyone at the table
@@ -61,27 +64,32 @@ a database by hand to get back in.
 
 [roles.dm]
 name = "The DM"
-permissions = { map = "draw", history = "read", scenes = "change",
-                tokens = "move", doors = "open", ruler = "use",
-                heights = "read", compendium = "read" }
-scopes      = { content = "dm" }
+permissions = ["map:draw", "map:undo", "history:read", "scene:change",
+               "picture:set", "topology:read", "token:place",
+               "token:move", "door:open", "ruler:use",
+               "compendium:read"]
+reach = { content = "dm" }
 
 [roles.player]
 name = "Player"
-permissions = { tokens = "move", doors = "open", ruler = "use",
-                compendium = "read" }
-scopes      = { content = "party", tokens = "own" }
+permissions = ["token:move", "door:open", "ruler:use", "compendium:read"]
+reach = { content = "party", token = "own" }
 
 [roles.spectator]
 name = "Spectator"
-permissions = { ruler = "use", compendium = "read" }
-scopes      = { content = "party", ruler = "own" }
+permissions = ["ruler:use", "compendium:read"]
+reach = { content = "party", ruler = "own" }
 ```
+
+A role's permissions are a flat list, because a thing takes more than
+one verb: a DM both moves tokens and places them. The list is closed,
+so a name the app does not know is an error rather than a rule that
+quietly does nothing.
 
 A spectator watches and looks things up. They may measure, because a
 measure that reaches nobody costs the table nothing, and `ruler =
-"own"` is what makes it theirs alone: they cannot offer it to the
-table, and nobody else is shown it.
+"own"` under `reach` is what makes it theirs alone: they cannot
+offer it to the table, and nobody else is shown it.
 
 TOML rather than YAML for two reasons, neither of them taste. The
 crate is already inside the build, so the file costs no new
@@ -105,7 +113,7 @@ to hold three files in their head to know the answer.
 
 A person writes this by hand, so it will be wrong sometimes.
 
-- An unknown key, an unknown permission or a scope that is not one of
+- An unknown key, an unknown permission or a reach that is not one of
   the four words is an error. Nothing is ignored quietly: a rule that
   does nothing because of a typo is the worst failure this file has.
 - A campaign's file that will not load is refused, the app's own is

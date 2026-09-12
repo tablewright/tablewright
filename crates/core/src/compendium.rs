@@ -44,6 +44,12 @@ pub enum Visibility {
     Party = 1,
     /// The DM only.
     Dm = 2,
+    /// The one who made it, and nobody else.
+    ///
+    /// Not a rung on the ladder the other three make: it is about whose
+    /// a thing is rather than how open it is, so it needs the maker to
+    /// answer, and `is_visible_to` says no until it has one.
+    Own = 3,
 }
 
 impl Visibility {

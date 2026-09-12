@@ -1,0 +1,106 @@
+# Who sits at the table, what each may do, and how far it reaches.
+#
+# This is the app's own. A campaign may write its own beside its
+# scenes, and a role named there replaces the one here whole. The
+# owner of a campaign keeps everything whatever any file says.
+#
+# `[features]` is the whole vocabulary: every permission the app
+# knows, grouped by the thing it acts on, so one block tells you
+# everything that thing can have. A role may name nothing else, and
+# the app may check nothing that is not here.
+#
+# A role then says how far it sees, what it may do, and where a
+# permission reaches further than its own. Sight and reach are said in
+# the four words a thing is marked with: world, party, dm, own.
+#
+# Design: docs/permissions.md
+
+[features.ink.ground]
+draw = "Lay ground, and say what kind it is."
+
+[features.ink.wall]
+draw = "Put walls and edges on the field."
+
+[features.ink.threshold]
+draw = "Put a door or a window in a wall."
+open = "Open or shut one in play."
+
+[features.ink.height]
+draw = "Raise or lower the ground."
+
+[features.ink.level-change]
+draw = "Mark where a change of height is walked."
+
+[features.ink.free]
+draw = "Draw freely: notes, marks, whatever the table finds funny."
+
+[features.history]
+read = "See everything drawn, in order."
+undo = "Take back the last stroke."
+clear = "Wipe the field and start again."
+
+[features.scene]
+change = "Open a scene, or make one."
+
+[features.scene.picture]
+set = "Put a picture under the field, or take it away."
+
+[features.token]
+place = "Stand something new on the board."
+move = "Move what stands on the board."
+
+[features.topology]
+read = "Read the field as numbers: heights and level changes."
+
+[features.ruler]
+use = "Measure, and lay templates down."
+show = "Let others see what was measured."
+
+[features.compendium]
+read = "Search the compendium and open entries."
+
+[roles.dm]
+name = "The DM"
+sees = "dm"
+permissions = [
+  "ink:ground:draw",
+  "ink:wall:draw",
+  "ink:threshold:draw",
+  "ink:threshold:open",
+  "ink:height:draw",
+  "ink:level-change:draw",
+  "ink:free:draw",
+  "history:read",
+  "history:undo",
+  "history:clear",
+  "scene:change",
+  "scene:picture:set",
+  "token:place",
+  "token:move",
+  "topology:read",
+  "ruler:use",
+  "ruler:show",
+  "compendium:read",
+]
+reach = { "token:move" = "world" }
+
+# Moves their own, works doors, measures, and may draw freely: the
+# notes and the jokes are the table's, the walls are the DM's.
+[roles.player]
+name = "Player"
+sees = "party"
+permissions = [
+  "ink:free:draw",
+  "ink:threshold:open",
+  "token:move",
+  "ruler:use",
+  "ruler:show",
+  "compendium:read",
+]
+
+# Watches and looks things up. The ruler is theirs alone: they may
+# measure, but without `ruler:show` it reaches nobody.
+[roles.spectator]
+name = "Spectator"
+sees = "party"
+permissions = ["ruler:use", "compendium:read"]

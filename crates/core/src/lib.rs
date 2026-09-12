@@ -8,6 +8,7 @@ pub mod campaign;
 pub mod cast;
 pub mod compendium;
 pub mod module;
+pub mod permissions;
 pub mod render;
 pub mod scene;
 pub mod scenes;
@@ -23,6 +24,7 @@ pub use compendium::{
     Entry, EntryId, EntrySummary, FacetValue, JsonValue, Part, Section, Visibility,
 };
 pub use module::{Manifest, Module, ModuleError, read_module};
+pub use permissions::{Permission, Permissions, PermissionsError, Role};
 pub use render::render;
 pub use scene::{Grid, MapImage, Scene, SceneError, Token};
 pub use scenes::{SceneSummary, Scenes, slug};

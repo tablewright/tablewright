@@ -7,6 +7,7 @@
 //! the DM may preview what a player sees. A remote transport sets it from
 //! the session, never from the caller.
 
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
@@ -14,9 +15,9 @@ use serde::Serialize;
 use specta::Type;
 use tablewright_core::{
     Campaign, CampaignError, CampaignManifest, CampaignSummary, DEFAULT_LIMIT, Edge, Entry,
-    EntryId, Filter, HeightDisplay, Hit, Manifest, MapImage, PlayState, Scene, SceneError,
-    SceneSummary, Shelf, StoreError, Stroke, SystemManifest, Understood, Viewer, Visibility,
-    campaign,
+    EntryId, Filter, HeightDisplay, Hit, Manifest, MapImage, Permissions, PlayState, Role, Scene,
+    SceneError, SceneSummary, Shelf, StoreError, Stroke, SystemManifest, Understood, Viewer,
+    Visibility, campaign,
 };
 use tauri::State;
 
@@ -183,6 +184,31 @@ pub fn facet_values(
 #[specta::specta]
 pub fn system(state: State<'_, AppState>) -> Result<Option<SystemManifest>, CommandError> {
     with_session(&state, |session| Ok(shelf(session)?.system().cloned()))
+}
+
+/// Who may do what at this table: the app's own rules with the
+/// campaign's over them. A campaign's file that will not load is
+/// refused and said so, and the app's own stands in, so a mistyped
+/// rule never leaves a table with none.
+#[tauri::command]
+#[specta::specta]
+pub fn permissions(state: State<'_, AppState>) -> Result<BTreeMap<String, Role>, CommandError> {
+    let state = state.session.lock().map_err(|_| poisoned())?;
+    let own = state
+        .as_ref()
+        .and_then(|session| session.campaign.permissions_path());
+    let app = Permissions::app();
+    let rules = match own {
+        Some(path) => match Permissions::load(&path) {
+            Ok(campaign) => app.under(campaign),
+            Err(error) => {
+                eprintln!("permissions: {error}");
+                app
+            }
+        },
+        None => app,
+    };
+    Ok(rules.roles)
 }
 
 // ── Campaigns ──
