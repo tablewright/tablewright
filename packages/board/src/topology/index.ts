@@ -67,6 +67,7 @@ export {
   type HeightStyle,
 } from "./height-layer.js";
 export { contourGroups, isoLines, type Segment } from "./iso.js";
+export { STAIR, cellNumbers, type CellNumber } from "./numbers.js";
 export {
   NO_LIMIT,
   chooseRoute,
@@ -97,4 +98,5 @@ export {
   sampleWidth,
   type SampleGrid,
 } from "./shapes.js";
+export { NumbersLayer, type NumbersDrawing, type NumbersStyle } from "./numbers-layer.js";
 export { TopologyLayer, type TopologyStyle } from "./topology-layer.js";

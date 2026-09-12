@@ -191,6 +191,7 @@ test("The heights show as the scene chooses", async ({ page }) => {
   const tools = page.locator("tw-tool-rail");
   const tab = page.locator("tw-scenes");
   const heights = () => page.evaluate(() => window.__tablewright?.heights());
+  const numbers = () => page.evaluate(() => window.__tablewright?.numbers());
 
   await test.step("In Halloway House the heights show Shaded, with a contour around every rise.", async () => {
     await openHallowayHouse(page);
@@ -222,6 +223,33 @@ test("The heights show as the scene chooses", async ({ page }) => {
   await test.step("The strength fades the whole overlay.", async () => {
     await tools.getByLabel("Height display strength").fill("40");
     await expect.poll(async () => (await heights())?.strength).toBe(40);
+  });
+
+  await test.step("Topology in the rail reads the scene as the rules do: every height printed, a level change as stair, the picture out of the way.", async () => {
+    expect((await numbers())?.heights).toBe(0);
+    await tools.getByRole("button", { name: "Topology" }).click();
+    await expect.poll(async () => (await numbers())?.heights).toBeGreaterThan(0);
+    // The dais, the gallery and the pit are printed; the stairs off the dais say stair.
+    expect((await numbers())?.stairs).toBeGreaterThan(0);
+    // A textured wall reads as its data hint while the numbers are up, so
+    // the picture under them is uncovered.
+    expect(await page.evaluate(() => window.__tablewright?.topology().edges.size)).toBeGreaterThan(
+      0
+    );
+  });
+
+  await test.step("The Topology view is the DM's alone, and it stays on while the DM plays.", async () => {
+    // A pen picked up and put down again leaves the numbers where they were.
+    await tools.getByRole("button", { name: "Ground", exact: true }).click();
+    await page.keyboard.press("Escape");
+    await expect.poll(async () => (await numbers())?.heights).toBeGreaterThan(0);
+    // The key puts it away again, and the rail's item comes up with it.
+    await page.keyboard.press("t");
+    await expect.poll(async () => (await numbers())?.heights).toBe(0);
+    await expect(tools.getByRole("button", { name: "Topology" })).toHaveAttribute(
+      "aria-pressed",
+      "false"
+    );
   });
 });
 

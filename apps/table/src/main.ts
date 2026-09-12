@@ -584,6 +584,16 @@ try {
   toolRail.addEventListener("tw-ruler", (event) => {
     board.setRulerMode((event as CustomEvent<{ mode: RulerMode }>).detail.mode);
   });
+
+  // How the scene shows its heights is the scene's; reading it as numbers is
+  // the DM's own, so it is kept here and on the board, never on the scene.
+  const setTopology = (on: boolean): void => {
+    board.setTopologyView(on);
+    toolRail.topology = on;
+  };
+  toolRail.addEventListener("tw-topology", (event) => {
+    setTopology((event as CustomEvent<{ on: boolean }>).detail.on);
+  });
   toolRail.addEventListener("tw-undo", undo);
   // A reset is a stroke like any other: everything before it is cleared,
   // and it sits in the history so that taking it back brings the rest back.
@@ -756,6 +766,18 @@ try {
       !isTyping
     ) {
       setPlay(play === "ruler" ? "move" : "ruler");
+    }
+    // The Topology view is the DM's alone: a player has no rail to reach it
+    // from, so the key must not reach it either.
+    if (
+      (event.key === "t" || event.key === "T") &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey &&
+      !isTyping &&
+      VIEWER === "dm"
+    ) {
+      setTopology(!board.isReadingNumbers);
     }
     // Escape leaves the ruler for Move once nothing is on show: a measure
     // on show takes the press and comes off the board instead. Read from

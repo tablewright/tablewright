@@ -73,6 +73,9 @@ export class TopologyLayer {
   // The threshold under the pointer, drawn again over everything, brighter.
   private readonly glow = new Graphics();
   private style: TopologyStyle = DEFAULT_STYLE;
+  // In the DM's Topology view every texture is read as its data hint, so
+  // the picture underneath is uncovered and only what the rules read shows.
+  private isMuted = false;
   private last: { topology: Topology; grid: SquareGrid } | undefined;
   private highlighted: Edge | undefined;
 
@@ -88,7 +91,9 @@ export class TopologyLayer {
     this.drawStates(g, topology, grid);
     this.drawLevelChanges(g, topology, grid);
     this.drawEdges(g, topology, grid);
-    this.drawFreeInk(g, topology, grid);
+    if (!this.isMuted) {
+      this.drawFreeInk(g, topology, grid);
+    }
     this.drawHighlight();
   }
 
@@ -102,6 +107,20 @@ export class TopologyLayer {
   /** Change the colours, redrawing if something has been drawn. */
   setStyle(style: TopologyStyle): void {
     this.style = style;
+    if (this.last !== undefined) {
+      this.draw(this.last.topology, this.last.grid);
+    }
+  }
+
+  /**
+   * Show every stroke as its data hint, whatever it was drawn as: the
+   * Topology view uncovers the picture so the numbers over it can be read.
+   */
+  setMuted(muted: boolean): void {
+    if (muted === this.isMuted) {
+      return;
+    }
+    this.isMuted = muted;
     if (this.last !== undefined) {
       this.draw(this.last.topology, this.last.grid);
     }
@@ -167,7 +186,7 @@ export class TopologyLayer {
         if (state === "void") {
           continue;
         }
-        const textured = isTexturedAt(topology, { col, row });
+        const textured = !this.isMuted && isTexturedAt(topology, { col, row });
         const p = { x: grid.originX + col * cell, y: grid.originY + row * cell };
         if (state === "ground") {
           if (textured) {
@@ -242,7 +261,7 @@ export class TopologyLayer {
         }
         const centre = sampleCentre(samples, i, j);
         const p = { x: grid.originX + centre.x * cell, y: grid.originY + centre.y * cell };
-        if (mark === LEVEL_CHANGE_TEXTURED) {
+        if (!this.isMuted && mark === LEVEL_CHANGE_TEXTURED) {
           treads.push(p);
         } else {
           ticks.push(p);
@@ -280,7 +299,7 @@ export class TopologyLayer {
         thresholds.push(data);
         continue;
       }
-      (data.look === "both" ? solid : hints).push(segment(grid, data.edge));
+      (!this.isMuted && data.look === "both" ? solid : hints).push(segment(grid, data.edge));
     }
     if (hints.length > 0) {
       for (const s of hints) {
@@ -295,7 +314,8 @@ export class TopologyLayer {
       g.stroke({ width: cell * 0.1, color: this.style.wall.rgb, alpha: 1, cap: "square" });
     }
     for (const data of thresholds) {
-      this.drawThreshold(g, segment(grid, data.edge), data, cell, this.style, data.look === "both");
+      const textured = !this.isMuted && data.look === "both";
+      this.drawThreshold(g, segment(grid, data.edge), data, cell, this.style, textured);
     }
   }
 

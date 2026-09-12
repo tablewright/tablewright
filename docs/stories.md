@@ -120,6 +120,10 @@ the logic tests.
   the choice stays with the scene.
 - Marked tags each rise once.
 - The strength fades the whole overlay.
+- Topology in the rail reads the scene as the rules do: every height
+  printed, a level change as stair, the picture out of the way.
+- The Topology view is the DM's alone, and it stays on while the DM
+  plays.
 
 ## Drawing
 

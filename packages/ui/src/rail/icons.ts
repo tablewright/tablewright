@@ -17,6 +17,12 @@ export const UNDO_ICON = frame(
 
 export const HISTORY_ICON = frame(svg`<path d="M4 5.5h12M4 10h12M4 14.5h7"></path>`);
 
+// A grid of cells with a figure written in one: the scene as the rules
+// read it rather than as it is painted.
+export const TOPOLOGY_ICON = frame(
+  svg`<rect x="3" y="3" width="14" height="14" rx="1.5"></rect><path d="M3 8.5h14M3 13h14M8.5 3v14M13 3v14"></path><path d="M4.8 12.2v-1.9h1.6"></path>`
+);
+
 // A ruler laid on the diagonal, its ticks across the near edge.
 export const RULER_ICON = frame(
   svg`<path d="M3 14.5L14.5 3l2.5 2.5L5.5 17z"></path><path d="M6.5 11l1.5 1.5M9 8.5l1.5 1.5M11.5 6l1.5 1.5"></path>`

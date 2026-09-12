@@ -26,6 +26,8 @@ export interface BoardLayers {
   readonly height: Container;
   /** What the DM drew: ground states, walls and thresholds, under the tokens. */
   readonly topology: Container;
+  /** The DM's Topology view: the rules' reading printed in every cell that has one. */
+  readonly numbers: Container;
   readonly tokens: Container;
   readonly overlay: Container;
 }
@@ -71,6 +73,7 @@ export class BoardStage {
       grid: new Container({ label: "grid" }),
       height: new Container({ label: "height" }),
       topology: new Container({ label: "topology" }),
+      numbers: new Container({ label: "numbers" }),
       tokens: new Container({ label: "tokens" }),
       overlay: new Container({ label: "overlay" }),
     };
@@ -79,6 +82,7 @@ export class BoardStage {
       this.layers.grid,
       this.layers.height,
       this.layers.topology,
+      this.layers.numbers,
       this.layers.tokens,
       this.layers.overlay
     );

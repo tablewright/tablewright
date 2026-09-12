@@ -15,6 +15,9 @@
 // stroke; `tw-remove` names a stroke by its place in the history;
 // `tw-display` carries a change to how the scene shows its heights,
 // chosen from the Height pen's palette since that is where heights are.
+// `tw-topology` asks for the DM's Topology view, the scene read as the
+// rules read it; it is the DM's own way of looking, so it never reaches
+// the scene the way the display does.
 
 import { LitElement, css, html, nothing } from "lit";
 import type { HeightDisplay, Stroke } from "@tablewright/schema";
@@ -46,6 +49,7 @@ import {
 } from "@tablewright/board";
 import {
   HISTORY_ICON,
+  TOPOLOGY_ICON,
   MOVE_ICON,
   RULER_ICON,
   UNDO_ICON,
@@ -90,6 +94,7 @@ export class TwToolRail extends LitElement {
     play: { attribute: false },
     mode: { attribute: false },
     strokes: { attribute: false },
+    topology: { type: Boolean },
     readout: { type: String },
     cellSize: { attribute: false },
     display: { attribute: false },
@@ -108,6 +113,8 @@ export class TwToolRail extends LitElement {
   declare mode: RulerMode;
   /** The scene's history of strokes, as it stands. */
   declare strokes: Stroke[];
+  /** Whether the DM is reading the scene as numbers: their own view, not the scene's. */
+  declare topology: boolean;
   /** What is under the pointer, in words. */
   declare readout: string;
   /** The scene's cell in map pixels, so a brush can be sized in them. */
@@ -126,6 +133,7 @@ export class TwToolRail extends LitElement {
     this.play = "move";
     this.mode = "line";
     this.strokes = [];
+    this.topology = false;
     this.readout = "";
     this.cellSize = 50;
     this.display = { mode: "shaded", strength: 80 };
@@ -527,6 +535,15 @@ export class TwToolRail extends LitElement {
           @click=${this.#measure}
         >
           ${RULER_ICON}<span class="tip">Ruler: R</span>
+        </button>
+        <button
+          class="icon"
+          type="button"
+          aria-label="Topology"
+          aria-pressed=${this.topology ? "true" : "false"}
+          @click=${this.#topology}
+        >
+          ${TOPOLOGY_ICON}<span class="tip">Topology: T</span>
         </button>
         <div class="divider"></div>
         ${INKS.map(
@@ -1003,6 +1020,18 @@ export class TwToolRail extends LitElement {
       })
     );
   }
+
+  // The Topology view is the DM's way of looking, so the rail reports the
+  // ask and the board keeps it; nothing about it reaches the scene.
+  #topology = (): void => {
+    this.dispatchEvent(
+      new CustomEvent("tw-topology", {
+        detail: { on: !this.topology },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  };
 
   #undo = (): void => {
     this.dispatchEvent(new CustomEvent("tw-undo", { bubbles: true, composed: true }));

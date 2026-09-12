@@ -17,6 +17,7 @@ import {
   GridLayer,
   HeightLayer,
   MapLayer,
+  NumbersLayer,
   RulerTool,
   TokenLayer,
   TopologyLayer,
@@ -51,6 +52,8 @@ import {
   type HeightDrawing,
   type HeightStyle,
   type MapSize,
+  type NumbersDrawing,
+  type NumbersStyle,
   type Mover,
   type PlayTool,
   type Point,
@@ -120,6 +123,8 @@ export interface BoardDebug {
   distance(from: Cell, to: Cell): number;
   /** What the height display last drew. */
   heights(): HeightDrawing;
+  /** What the DM's Topology view last printed; nothing while it is off. */
+  numbers(): NumbersDrawing;
   /** Frames the board has drawn; still while nothing changes. */
   framesDrawn(): number;
   /** The measure the ruler shows, in the mode it is read in, or nothing. */
@@ -131,6 +136,11 @@ export type TokenMoveListener = (move: TokenMove) => void;
 
 // Screen pixels kept clear around a map when the camera fits to it.
 const FIT_PADDING = 24;
+
+// How much of the picture and its textures is left showing under the
+// Topology view: enough to place the numbers on the map, too little to read
+// as the map itself.
+const MUTED_ALPHA = 0.15;
 
 function tokenStyle(theme: BoardTheme): TokenStyle {
   return {
@@ -162,6 +172,15 @@ function rulerStyle(theme: BoardTheme): RulerStyle {
   return { line: theme.ruler, dash: theme.selection, beyond: theme.beyond, ground: theme.ground };
 }
 
+function numbersStyle(theme: BoardTheme): NumbersStyle {
+  return {
+    ground: theme.ground,
+    up: theme.heightUp,
+    down: theme.heightDown,
+    stair: theme.threshold,
+  };
+}
+
 function heightStyle(theme: BoardTheme): HeightStyle {
   return {
     ground: theme.ground,
@@ -190,6 +209,7 @@ export class BoardHost {
   private readonly tokenLayer: TokenLayer;
   private readonly topologyLayer: TopologyLayer;
   private readonly heightLayer: HeightLayer;
+  private readonly numbersLayer: NumbersLayer;
   private readonly drawLayer: DrawLayer;
   private readonly ruler: RulerTool;
   private readonly dragRoute: DragRoute;
@@ -222,6 +242,8 @@ export class BoardHost {
   private strokes: readonly Stroke[] = [];
   private topology: Topology = derive([], this.bounds);
   private isGridStale = true;
+  /** Whether the DM is reading the scene as numbers; theirs alone, never the scene's. */
+  private isTopologyView = false;
 
   constructor(stage: BoardStage, target: HTMLElement, viewer: Visibility = "dm") {
     this.stage = stage;
@@ -232,6 +254,7 @@ export class BoardHost {
     this.mapLayer = new MapLayer(stage.layers.map);
     this.topologyLayer = new TopologyLayer(stage.layers.topology);
     this.heightLayer = new HeightLayer(stage.layers.height);
+    this.numbersLayer = new NumbersLayer(stage.layers.numbers);
     const theme = readBoardTheme(target);
     // A drag prices its way for the token that is moving, against what that
     // token has left this turn; the route draws in the overlay, over the tokens.
@@ -278,6 +301,7 @@ export class BoardHost {
     this.gridLayer.setStyle(theme.grid);
     this.topologyLayer.setStyle(topologyStyle(theme));
     this.heightLayer.setStyle(heightStyle(theme));
+    this.numbersLayer.setStyle(numbersStyle(theme));
     this.drawLayer.setStyle(drawStyle(theme));
     this.ruler.setStyle(rulerStyle(theme));
     this.dragRoute.setStyle(rulerStyle(theme));
@@ -287,6 +311,7 @@ export class BoardHost {
       this.tokenLayer.setStyle(tokenStyle(next));
       this.topologyLayer.setStyle(topologyStyle(next));
       this.heightLayer.setStyle(heightStyle(next));
+      this.numbersLayer.setStyle(numbersStyle(next));
       this.drawLayer.setStyle(drawStyle(next));
       this.ruler.setStyle(rulerStyle(next));
       this.dragRoute.setStyle(rulerStyle(next));
@@ -456,6 +481,34 @@ export class BoardHost {
     this.ruler.setMode(mode);
   }
 
+  /**
+   * Read the scene as the rules read it: the picture and every texture down
+   * to a hint, and the height printed in each cell that has one. The DM's
+   * own way of looking, kept off the scene, so it survives every change the
+   * scene reports back and no player inherits it.
+   */
+  setTopologyView(on: boolean): void {
+    if (on === this.isTopologyView) {
+      return;
+    }
+    this.isTopologyView = on;
+    const muted = on ? MUTED_ALPHA : 1;
+    this.stage.layers.map.alpha = muted;
+    this.stage.layers.height.alpha = muted;
+    this.topologyLayer.setMuted(on);
+    if (on) {
+      this.isGridStale = true;
+    } else {
+      this.numbersLayer.clear();
+    }
+    this.stage.requestFrame();
+  }
+
+  /** Whether the Topology view is on. */
+  get isReadingNumbers(): boolean {
+    return this.isTopologyView;
+  }
+
   /** The measure the ruler shows, or nothing. */
   get measurement(): ShownMeasure | undefined {
     return this.ruler.measurement;
@@ -585,6 +638,7 @@ export class BoardHost {
           this.rule
         ),
       heights: () => this.heightLayer.drawing(),
+      numbers: () => this.numbersLayer.drawing(),
       framesDrawn: () => this.stage.framesDrawn,
       measurement: () => this.ruler.measurement,
     };
@@ -639,6 +693,11 @@ export class BoardHost {
     this.topology = derive(visibleTo(this.strokes, this.viewer, this.play), this.bounds, this.play);
     this.topologyLayer.draw(this.topology, this.grid);
     this.redrawHeights();
+    // The numbers read the field, so a stroke changes them; they are redrawn
+    // with the grid, over the extent in view.
+    if (this.isTopologyView) {
+      this.isGridStale = true;
+    }
     this.showTokens();
   }
 
@@ -646,6 +705,9 @@ export class BoardHost {
     this.heightLayer.draw(this.topology, this.grid, this.display, stepHeight(this.rule));
   }
 
+  // The grid and the numbers both cost what is on screen and nothing more,
+  // so both are redrawn from the same visible extent whenever the camera
+  // moves, on the frame the move asked for.
   private redrawGrid(): void {
     const { width, height } = this.stage.app.screen;
     const topLeft = this.camera.toWorld({ x: 0, y: 0 });
@@ -657,8 +719,12 @@ export class BoardHost {
     );
     if (extent === undefined) {
       this.gridLayer.clear();
-    } else {
-      this.gridLayer.draw(this.grid, extent);
+      this.numbersLayer.clear();
+      return;
+    }
+    this.gridLayer.draw(this.grid, extent);
+    if (this.isTopologyView) {
+      this.numbersLayer.draw(this.topology, this.grid, extent);
     }
   }
 }
