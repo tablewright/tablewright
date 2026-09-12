@@ -9,6 +9,7 @@ export {
   heightAt,
   isLevelChangeAt,
   isTexturedAt,
+  seenAt,
   visibleTo,
   type EdgeData,
   type FreeStroke,

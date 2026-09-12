@@ -12,13 +12,21 @@ test("The player's view", async ({ page }) => {
     await expect(page.locator("#role")).toBeVisible();
     await expect(page.getByRole("button", { name: "Open map" })).toBeHidden();
     await expect(page.getByRole("button", { name: "Campaigns" })).toBeHidden();
-    await expect(page.locator("tw-tool-rail")).toBeHidden();
     // At the party tier the bestiary is the DM's: a monster's name finds nothing.
     await page.keyboard.press("Control+Space");
     await page.keyboard.type("goblin");
     await expect(page.locator(`${box} footer`)).toContainText("No matches");
     await expect(page.locator(`${box} li`)).toHaveCount(0);
     await page.keyboard.press("Escape");
+  });
+
+  await test.step("A player's rail moves tokens and measures, and keeps none of the DM's pens, undo or history.", async () => {
+    const tools = page.locator("tw-tool-rail");
+    await expect(tools.getByRole("button", { name: "Move" })).toBeVisible();
+    await expect(tools.getByRole("button", { name: "Ruler" })).toBeVisible();
+    for (const name of ["Ground", "Wall", "Height", "Free ink", "Undo", "History", "Topology"]) {
+      await expect(tools.getByRole("button", { name, exact: true })).toHaveCount(0);
+    }
   });
 
   await test.step("A player sees the scene's name and nothing more.", async () => {
@@ -45,10 +53,11 @@ test("The player's view", async ({ page }) => {
     await expect(page.locator(entryPage)).not.toHaveAttribute("open", "");
     await page.keyboard.press("r");
     await expect(page.locator("#board")).toHaveAttribute("data-tool", "ruler");
+    // Clear of the palette the column opens beside the rail.
     await drag(
       page,
-      await cellOnScreen(page, { col: 2, row: 2 }),
-      await cellOnScreen(page, { col: 5, row: 6 })
+      await cellOnScreen(page, { col: 8, row: 2 }),
+      await cellOnScreen(page, { col: 11, row: 6 })
     );
     const found = await page.evaluate(() => {
       const measured = window.__tablewright?.measurement();

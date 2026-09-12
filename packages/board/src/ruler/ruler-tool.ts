@@ -4,15 +4,18 @@
  * Measuring is its own tool: a press on the board starts a measure at
  * the cell under it, from a token or the floor without moving anything,
  * the pointer draws it out, and the release pins it until Escape or the
- * next measure. Alt at the press makes the measure private. What shows
+ * next measure. A measure is the table's unless the palette says
+ * otherwise, and Alt at the press keeps that one to oneself. What shows
  * is the mode's answer alone, drawn by the measure view a token's drag
  * draws through too. The tool takes the left button on the canvas before
  * the camera can, as the drawing tool does.
  * Design: docs/design.md §5 "Measuring is its own tool".
  */
 
+import type { Visibility } from "@tablewright/schema";
 import type { Container } from "pixi.js";
 import type { Point } from "../geometry.js";
+import { seesIt, type SeenBy } from "../seen.js";
 import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import type { Measurement } from "./measure.js";
 import { MeasureView, type RulerStyle } from "./measure-view.js";
@@ -22,9 +25,13 @@ import type { RulerMode } from "./mode.js";
 export type PlayTool = "move" | "ruler";
 
 /** Answers a measure between two cells; the host composes it from the scene. */
-export type Measurer = (from: Cell, to: Cell, isPrivate: boolean) => Measurement;
-/** A measure as the ruler shows it: the numbers, and the mode they are read in. */
-export type ShownMeasure = Measurement & { readonly mode: RulerMode };
+export type Measurer = (from: Cell, to: Cell, seenBy: SeenBy) => Measurement;
+/** A measure as the ruler shows it: the numbers, the mode they are read in, and whose it is. */
+export type ShownMeasure = Measurement & {
+  readonly mode: RulerMode;
+  /** The view it was measured in, which is who counts as its maker. */
+  readonly madeBy: Visibility;
+};
 /** Hears the measure on show, or nothing once it is taken off the board. */
 export type MeasureListener = (measurement: ShownMeasure | undefined) => void;
 
@@ -40,7 +47,12 @@ export class RulerTool {
   private isActive = false;
   private pointerId: number | undefined;
   private from: Cell | undefined;
-  private isPrivate = false;
+  /** Who the palette says a measure is for, and who this one turned out to be for. */
+  private seenBy: SeenBy = "party";
+  private made: SeenBy = "party";
+  /** Whose view the board is, and whose it was when this measure was made. */
+  private viewer: Visibility = "dm";
+  private madeBy: Visibility = "dm";
   private shown: Measurement | undefined;
 
   /** `toWorld` maps a point on the canvas to world pixels: the camera's inverse. */
@@ -91,6 +103,41 @@ export class RulerTool {
     this.notify();
   }
 
+  /** Who the next measure is for. What is on the board keeps what it has. */
+  setSeenBy(seenBy: SeenBy): void {
+    this.seenBy = seenBy;
+  }
+
+  /**
+   * The hand's own choice: the next measure, and the one on the board,
+   * which is how a measure already taken is shared without taking it
+   * again. Only a measure this view can see is re-marked, so nobody
+   * re-marks what they are not being shown.
+   */
+  chooseSeenBy(seenBy: SeenBy): void {
+    this.seenBy = seenBy;
+    if (this.shown === undefined || this.measurement === undefined) {
+      return;
+    }
+    this.made = seenBy;
+    this.shown = { ...this.shown, seenBy };
+    this.redraw();
+    this.notify();
+  }
+
+  /**
+   * Whose view the board is. A measure another side of the table kept to
+   * itself is not shown here, and comes back when that side returns.
+   */
+  setViewer(viewer: Visibility): void {
+    if (viewer === this.viewer) {
+      return;
+    }
+    this.viewer = viewer;
+    this.redraw();
+    this.notify();
+  }
+
   setGrid(grid: SquareGrid): void {
     this.grid = grid;
     this.drawn.setGrid(grid);
@@ -104,7 +151,11 @@ export class RulerTool {
 
   /** The measure on show, pinned or under the pointer, in the mode it is read in. */
   get measurement(): ShownMeasure | undefined {
-    return this.shown === undefined ? undefined : { ...this.shown, mode: this.mode };
+    const shown = this.shown;
+    if (shown === undefined || !seesIt(shown.seenBy, this.isMine, this.viewer)) {
+      return undefined;
+    }
+    return { ...shown, mode: this.mode, madeBy: this.madeBy };
   }
 
   /** Hear the measure as it changes. Returns the unsubscribe. */
@@ -138,7 +189,9 @@ export class RulerTool {
     this.canvas.setPointerCapture(event.pointerId);
     this.pointerId = event.pointerId;
     this.from = this.cellUnder(event);
-    this.isPrivate = event.altKey;
+    // Alt is the shortcut for one's own, whatever the palette holds.
+    this.made = event.altKey ? "own" : this.seenBy;
+    this.madeBy = this.viewer;
     this.show(this.from);
   };
 
@@ -177,7 +230,7 @@ export class RulerTool {
     if (this.from === undefined) {
       return;
     }
-    this.shown = this.measurer(this.from, to, this.isPrivate);
+    this.shown = this.measurer(this.from, to, this.made);
     this.redraw();
     this.notify();
   }
@@ -203,11 +256,17 @@ export class RulerTool {
     return worldToCell(this.grid, world);
   }
 
+  // Mine when it was made at the side of the table this page stands at.
+  private get isMine(): boolean {
+    return this.madeBy === this.viewer;
+  }
+
   private redraw(): void {
-    if (this.shown === undefined) {
+    const shown = this.measurement;
+    if (shown === undefined) {
       this.drawn.clear();
       return;
     }
-    this.drawn.show(this.shown, this.mode);
+    this.drawn.show(shown, this.mode);
   }
 }

@@ -16,6 +16,7 @@
  * and leaves it where it stood.
  */
 
+import type { Visibility } from "@tablewright/schema";
 import { Graphics, type Container, type FederatedPointerEvent } from "pixi.js";
 import type { Point } from "../geometry.js";
 import {
@@ -45,6 +46,8 @@ export interface TokenView {
   readonly mover?: Mover;
   /** What this turn allows, from the sheet; a token standing for none has no limit. */
   readonly budget?: Budget;
+  /** Who may see it stand there; the party by default, as the scene has it. */
+  readonly visibility?: Visibility;
   /**
    * How far it stands above the floor under it: a flier's own height.
    * Its place in the scene is `height` plus this, so an area tests it

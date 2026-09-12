@@ -11,7 +11,9 @@
  * same column".
  */
 
+import type { Visibility } from "@tablewright/schema";
 import type { Point } from "../geometry.js";
+import { seesIt, type SeenBy } from "../seen.js";
 import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import { facingToward, normalizeDegrees } from "../tokens/facing.js";
 import type { GridRule } from "../topology/distance.js";
@@ -22,6 +24,10 @@ import { footprintCovers } from "./outline.js";
 export interface PlacedArea {
   readonly area: Area;
   readonly origin: Spot;
+  /** Who it is for: everyone at the table, the DM, or the one who laid it. */
+  readonly seenBy: SeenBy;
+  /** The view it was laid in, which is who counts as its maker. */
+  readonly madeBy: Visibility;
   /** Left on the board, or still under the hand. */
   readonly isPlaced: boolean;
 }
@@ -57,6 +63,12 @@ export class AreaTool {
   /** How far the drag reached, in the rule's unit; unset until it moves. */
   private reach: number | undefined;
   private snap: OriginSnap = "centre";
+  /** Who the palette says the next one is for, and who the one on the board is for. */
+  private seenBy: SeenBy = "party";
+  private made: SeenBy = "party";
+  /** Whose view the board is, and whose it was when this one was laid. */
+  private viewer: Visibility = "dm";
+  private madeBy: Visibility = "dm";
   /** Where the origin sat under the hand when a move began, in the rule's unit. */
   private grab: { x: number; y: number } | undefined;
   private phase: Phase = "idle";
@@ -133,15 +145,58 @@ export class AreaTool {
     this.snap = snap;
   }
 
+  /** Who the next area laid is for. What is on the board keeps what it has. */
+  setSeenBy(seenBy: SeenBy): void {
+    this.seenBy = seenBy;
+  }
+
+  /**
+   * The hand's own choice: the next area, and the one on the board, which
+   * is how an area already down is shared without laying it again. Only an
+   * area this view can see is re-marked, so nobody re-marks what they are
+   * not being shown.
+   */
+  chooseSeenBy(seenBy: SeenBy): void {
+    this.seenBy = seenBy;
+    if (this.placed === undefined) {
+      return;
+    }
+    this.made = seenBy;
+    this.notify();
+  }
+
+  /**
+   * Whose view the board is. An area another side of the table kept to
+   * itself is not shown here, and comes back when that side returns.
+   */
+  setViewer(viewer: Visibility): void {
+    if (viewer === this.viewer) {
+      return;
+    }
+    this.viewer = viewer;
+    this.notify();
+  }
+
   /** The area on the board, under the hand or left there. */
   get placed(): PlacedArea | undefined {
     const { area, origin } = this;
     if (area === undefined || origin === undefined) {
       return undefined;
     }
+    // Mine when it was laid at the side of the table this page stands at.
+    const isMine = this.madeBy === this.viewer;
+    if (!seesIt(this.made, isMine, this.viewer)) {
+      return undefined;
+    }
     const turned = aimed(area, this.aim);
     const sized = this.reach === undefined ? turned : reached(turned, this.reach, this.rule);
-    return { area: sized, origin, isPlaced: this.phase === "idle" };
+    return {
+      area: sized,
+      origin,
+      seenBy: this.made,
+      madeBy: this.madeBy,
+      isPlaced: this.phase === "idle",
+    };
   }
 
   onChange(listener: AreaListener): () => void {
@@ -195,6 +250,9 @@ export class AreaTool {
     this.phase = "placing";
     this.reach = undefined;
     this.grab = undefined;
+    // Alt is the shortcut for one's own, whatever the palette holds.
+    this.made = event.altKey ? "own" : this.seenBy;
+    this.madeBy = this.viewer;
     this.moveOrigin(event);
   };
 

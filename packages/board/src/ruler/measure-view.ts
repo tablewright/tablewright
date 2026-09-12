@@ -13,6 +13,7 @@
 
 import { Container, Graphics, Text } from "pixi.js";
 import type { Point } from "../geometry.js";
+import { KEPT_ALPHA } from "../seen.js";
 import { cellCenter, type SquareGrid } from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
 import type { Measurement } from "./measure.js";
@@ -43,8 +44,6 @@ const DEFAULT_STYLE: RulerStyle = {
   ground: 0x1b1d24,
 };
 
-// A private measure reads as one's own: fainter throughout.
-const PRIVATE_ALPHA = 0.6;
 // Past a break the line keeps its colour at this much of its alpha.
 const FAINT_ALPHA = 0.4;
 // Fractions of the cell: the line never under two pixels, a dash and its
@@ -92,7 +91,9 @@ export class MeasureView {
     g.clear();
     this.pill.clear();
     this.view.visible = true;
-    this.view.alpha = measurement.isPrivate ? PRIVATE_ALPHA : 1;
+    // One that is not the whole table's reads fainter throughout; the badge
+    // says which of the two it is.
+    this.view.alpha = measurement.seenBy === "party" ? 1 : KEPT_ALPHA;
     if (mode === "path") {
       this.drawPath(g, measurement);
     } else {

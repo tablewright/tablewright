@@ -828,7 +828,20 @@ the rounds are in the local research file.
   and the dashed one says only that this one is caught.
 - **Every measure and every area says who sees it**: everyone, the DM
   alone, or the one who made it, and everyone by default. Alt is the
-  shortcut for one's own, as it already is for a private measure.
+  shortcut for one's own, as it already is for a private measure. The
+  choice is the one on the board's as much as the next one's, so a
+  measure already taken is shared by saying so rather than by taking it
+  again, and the row follows whatever is down, Alt's own choice
+  included. What is not the whole table's reads fainter on the board,
+  with a word beside the numbers saying which, so the one who made it
+  can see at a glance what the table cannot. The first two choices are
+  the compendium's own tiers, judged by the rule that already decides
+  which strokes a viewer sees; the third is about the hand that made the
+  thing rather than how open it is, so it has no tier of its own. Until
+  the table is networked the maker is the side of it the page was
+  standing at, and only while the page looks through its own eyes: a
+  mirror of the other side is nobody's maker, so it shows what that side
+  sees and nothing besides.
 - **The engine is not a 5e engine.** A shape is its settings, a
   spread and an edge and a form, and what 5e means by a cone is one
   place on that slider. 5e is first because two SRDs exist to seed
@@ -947,11 +960,24 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   board packages as Table, a static Vite build, no Tauri. Until it
   exists, the Table page served without Tauri *is* the player view
   (decided 2026-09-03): the party tier, no DM chrome (no Open map, no
-  Place on board, no Reveal), the fixtures at party visibility, and
-  the demo tunnel (`bun run demo`) is how a phone or a guest reaches
-  it. When networking lands the same page connects to the DM's
-  process and the fixtures fall away; the DM's own view stays in the
-  Tauri window.
+  Place on board, no Reveal), the fixtures at party visibility, and the
+  demo tunnel (`bun run demo`) is how a phone or a guest reaches it.
+  When networking lands the same page connects to the DM's process and
+  the fixtures fall away; the DM's own view stays in the Tauri window.
+  In a dev build a toggle under the campaign chrome stands the page at
+  either side of the table, mirroring what a player has: the board at
+  the party tier, so a stroke, a token, a measure or an area the DM kept
+  back drops off it and the DM's reading of the field goes with them;
+  the rail without the pens, undo or history; no Open map and no
+  Campaigns; and the compendium answering as it would for a player. It
+  is how a DM sees their own table as the party does without a second
+  machine. Two things are open (user, 2026-09-12): visibility wants a
+  pass of its own so that one notion runs through every surface rather
+  than each keeping a flag, and once a page is served to players what
+  makes a view the DM's has to be proved rather than asked for, since a
+  query string is something a player can type. Whether the DM client
+  keeps a way to see what a player sees, once there are real players to
+  see it for, belongs to that pass too.
 - **Serve mode.** The same installed binary has a second entry
   point, `table --serve`: it runs the core plus a local HTTP and
   WebSocket server from crates/net without creating a WebView,

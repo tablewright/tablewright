@@ -13,6 +13,7 @@
  */
 
 import type { Point } from "../geometry.js";
+import type { SeenBy } from "../seen.js";
 import type { Cell } from "../grid/square-grid.js";
 import { speedOf, type Mover } from "../topology/cost.js";
 import { heightAt, type Topology } from "../topology/derive.js";
@@ -48,8 +49,8 @@ export interface Measurement {
   readonly dashReach: number;
   /** Where the line of effect breaks, in cell coordinates, or nothing when it holds. */
   readonly blockedAt: Point | undefined;
-  /** A private measure is the measurer's alone; until the table is networked, nothing else differs. */
-  readonly isPrivate: boolean;
+  /** Who the measure is for: everyone at the table, the DM, or the one who made it. */
+  readonly seenBy: SeenBy;
 }
 
 /** A turn just begun: the whole speed to spend, and no dash taken. */
@@ -64,7 +65,7 @@ export function measure(
   to: Cell,
   rule: GridRule,
   mover: Mover,
-  isPrivate = false,
+  seenBy: SeenBy = "party",
   budget: Budget = turnOf(mover)
 ): Measurement {
   const near = { ...from, height: heightAt(topology, from) };
@@ -82,6 +83,6 @@ export function measure(
     reach: Math.max(0, budget.speed - budget.spent),
     dashReach: Math.max(0, (budget.dashed ? budget.speed : budget.speed * 2) - budget.spent),
     blockedAt: firstBlock(topology, cellCentre(from), cellCentre(to), "effect")?.at,
-    isPrivate,
+    seenBy,
   };
 }

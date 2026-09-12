@@ -28,7 +28,7 @@ describe("a measure across the tavern", () => {
     expect(found.reach).toBe(30);
     expect(found.dashReach).toBe(60);
     expect(found.blockedAt).toBeUndefined();
-    expect(found.isPrivate).toBe(false);
+    expect(found.seenBy).toBe("party");
     expect(badgeText(found, "line")).toBe("20 ft");
     expect(badgeText(found, "path")).toBe("20 ft");
   });
@@ -51,12 +51,13 @@ describe("a measure across the tavern", () => {
 
 describe("a measure up the hill", () => {
   test("height is a third axis: fifteen feet up within four cells is still twenty feet", () => {
-    const found = measure(hill, at(3, 3), at(6, 7), DEFAULT_RULE, DEFAULT_MOVER, true);
+    const found = measure(hill, at(3, 3), at(6, 7), DEFAULT_RULE, DEFAULT_MOVER, "own");
     expect(found.distance).toBe(20);
     expect(found.rise).toBe(15);
     expect(found.route?.cost).toBe(20);
-    expect(found.isPrivate).toBe(true);
-    expect(badgeText(found, "line")).toBe("20 ft ↑15 ft");
+    // Kept to oneself, the badge says so beside the numbers.
+    expect(found.seenBy).toBe("own");
+    expect(badgeText(found, "line")).toBe("20 ft ↑15 ft — Just you");
   });
 
   test("down is an arrow down", () => {
@@ -118,7 +119,7 @@ describe("the badge of a way with a drop", () => {
       reach: 30,
       dashReach: 60,
       blockedAt: undefined,
-      isPrivate: false,
+      seenBy: "party",
     };
     expect(badgeText(found, "path")).toBe("15 ft, 2d6 fall");
   });

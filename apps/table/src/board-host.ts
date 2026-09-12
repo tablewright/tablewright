@@ -43,6 +43,7 @@ import {
   readBoardTheme,
   stepHeight,
   visibleExtent,
+  seenAt,
   visibleTo,
   watchBoardTheme,
   worldToCell,
@@ -53,6 +54,7 @@ import {
   type Cell,
   type Area,
   type OriginSnap,
+  type SeenBy,
   type AreaDrawing,
   type AreaStyle,
   type CellExtent,
@@ -62,6 +64,7 @@ import {
   type HeightDrawing,
   type HeightStyle,
   type MapSize,
+  type MeasureListener,
   type NumbersDrawing,
   type NumbersStyle,
   type Mover,
@@ -217,6 +220,7 @@ function tokenViews(scene: Scene): TokenView[] {
     label: token.label,
     cell: { col: token.col, row: token.row },
     facing: token.facing,
+    visibility: token.visibility,
   }));
 }
 
@@ -255,7 +259,7 @@ export class BoardHost {
   private sceneId: string | undefined;
   private highlighted: string | undefined;
   /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
-  private readonly viewer: Visibility;
+  private viewer: Visibility;
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
   /** What a cell measures and how diagonals count: the campaign's, from its system. */
   private rule: GridRule = DEFAULT_RULE;
@@ -315,7 +319,7 @@ export class BoardHost {
       stage.layers.overlay,
       this.grid,
       (screen) => this.camera.toWorld(screen),
-      (from, to, isPrivate) => measure(this.topology, from, to, this.rule, DEFAULT_MOVER, isPrivate)
+      (from, to, seenBy) => measure(this.topology, from, to, this.rule, DEFAULT_MOVER, seenBy)
     );
     this.ruler.onMeasure(() => stage.requestFrame());
     this.areaLayer = new AreaLayer(stage.layers.overlay, this.grid, this.rule);
@@ -327,6 +331,8 @@ export class BoardHost {
       (cell, at) => this.originAt(cell, at)
     );
     this.areaTool.onChange((placed) => this.showArea(placed));
+    this.ruler.setViewer(viewer);
+    this.areaTool.setViewer(viewer);
     const input = new CameraInput(this.camera, target);
     // A tap on a threshold works it; a tap on empty board clears the
     // selection, the same as pressing Escape. The pointer over a threshold
@@ -420,7 +426,7 @@ export class BoardHost {
     };
     if (grid.cellSize !== this.grid.cellSize || grid.originX !== this.grid.originX) {
       this.grid = grid;
-      this.tokenLayer.setGrid(grid, tokenViews(scene));
+      this.tokenLayer.setGrid(grid, this.seenTokens());
       this.drawLayer.setGrid(grid);
       this.ruler.setGrid(grid);
       this.dragRoute.setGrid(grid);
@@ -489,8 +495,18 @@ export class BoardHost {
     this.tokenLayer.set(this.tokensWithHeights());
   }
 
+  // What stands on the board as this viewer sees it: a token kept for the
+  // DM is not on a player's board at all, so it cannot be seen, caught by
+  // an area, or dragged.
+  private seenTokens(): readonly TokenView[] {
+    return this.tokens.filter((token) => seenAt(token.visibility ?? "party", this.viewer));
+  }
+
   private tokensWithHeights(): TokenView[] {
-    return this.tokens.map((token) => ({ ...token, height: heightAt(this.topology, token.cell) }));
+    return this.seenTokens().map((token) => ({
+      ...token,
+      height: heightAt(this.topology, token.cell),
+    }));
   }
 
   /** Hear every finished move gesture. Returns the unsubscribe. */
@@ -565,6 +581,39 @@ export class BoardHost {
     this.areaTool.setSnap(snap);
   }
 
+  /**
+   * The hand's choice of who a measure or an area is for: everyone at the
+   * table, the DM, or oneself. It marks the one on the board as well as
+   * the next, so what is already down is shared by saying so.
+   */
+  chooseSeenBy(seenBy: SeenBy): void {
+    this.ruler.chooseSeenBy(seenBy);
+    this.areaTool.chooseSeenBy(seenBy);
+  }
+
+  /** Who the next measure or area is for, leaving what is on the board alone. */
+  setSeenBy(seenBy: SeenBy): void {
+    this.ruler.setSeenBy(seenBy);
+    this.areaTool.setSeenBy(seenBy);
+  }
+
+  /**
+   * Whose view the board is. The scene is derived again at that tier, and
+   * a measure or an area another view kept to itself drops off the board
+   * until that view comes back. Dev only for now: it is how one page shows
+   * both sides of a table that is not yet networked.
+   */
+  setViewer(viewer: Visibility): void {
+    if (viewer === this.viewer) {
+      return;
+    }
+    this.viewer = viewer;
+    this.ruler.setViewer(viewer);
+    this.areaTool.setViewer(viewer);
+    this.redrawTopology();
+    this.stage.requestFrame();
+  }
+
   /** Take the area off the board, as Escape does. */
   clearArea(): void {
     this.areaTool.clear();
@@ -579,6 +628,11 @@ export class BoardHost {
   onArea(listener: AreaListener): () => void {
     this.areaListeners.add(listener);
     return () => this.areaListeners.delete(listener);
+  }
+
+  /** Hear the measure as it is drawn out and pinned, so a palette can follow it. */
+  onMeasure(listener: MeasureListener): () => void {
+    return this.ruler.onMeasure(listener);
   }
 
   /**
@@ -849,6 +903,7 @@ export class BoardHost {
       origin: placed.origin,
       cells,
       tokens,
+      seenBy: placed.seenBy,
       isPlaced: placed.isPlaced,
     });
     this.stage.requestFrame();

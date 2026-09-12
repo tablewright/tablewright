@@ -14,6 +14,7 @@ import { Container, Graphics, Text } from "pixi.js";
 import type { Cell, SquareGrid } from "../grid/square-grid.js";
 import { tokenReach } from "../tokens/token-sprite.js";
 import type { PackedColor } from "../theme/css-color.js";
+import { KEPT_ALPHA, seenByNote, type SeenBy } from "../seen.js";
 import type { GridRule } from "../topology/distance.js";
 import { describeArea, type Area, type Spot } from "./area.js";
 import { outline } from "./outline.js";
@@ -66,6 +67,8 @@ export interface ShownArea {
   readonly cells: readonly Cell[];
   /** Where the tokens it holds stand, each wearing a turning ring. */
   readonly tokens: readonly Cell[];
+  /** Who it is for: the table reads it plain, anyone else's reads faint. */
+  readonly seenBy: SeenBy;
   /** Left on the board rather than under the hand, which its edge says. */
   readonly isPlaced: boolean;
 }
@@ -123,6 +126,7 @@ export class AreaLayer {
   show(shown: ShownArea): void {
     this.shown = shown;
     this.view.visible = true;
+    this.view.alpha = shown.seenBy === "party" ? 1 : KEPT_ALPHA;
     this.redraw();
   }
 
@@ -272,7 +276,9 @@ export class AreaLayer {
   private drawBadge(shown: ShownArea): void {
     const cell = this.grid.cellSize;
     this.pill.clear();
-    this.badge.text = describeArea(shown.area, this.rule);
+    const note = seenByNote(shown.seenBy);
+    const said = describeArea(shown.area, this.rule);
+    this.badge.text = note === undefined ? said : `${said} — ${note}`;
     this.badge.style.fontSize = Math.max(11, Math.round(cell * BADGE_FRACTION));
     this.badge.style.fill = this.style.line.rgb;
     const at = this.world({

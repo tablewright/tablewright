@@ -16,6 +16,7 @@ import {
   type Area,
   type OriginSnap,
   type RulerMode,
+  type SeenBy,
   type ThresholdEdge,
 } from "@tablewright/board";
 import { commands } from "@tablewright/schema";
@@ -44,6 +45,9 @@ const toolRail = document.querySelector("tw-tool-rail");
 const sceneChrome = document.querySelector<HTMLElement>(".chrome");
 const dmChrome = document.getElementById("dm-chrome");
 const roleLabel = document.getElementById("role");
+const viewAs = document.getElementById("view-as");
+const viewAsDm = document.getElementById("view-dm");
+const viewAsPlayer = document.getElementById("view-player");
 const searchButton = document.getElementById("search");
 const spotlight = document.querySelector("tw-spotlight");
 const shares = document.querySelector("tw-share-tray");
@@ -59,6 +63,9 @@ if (
   sceneChrome === null ||
   dmChrome === null ||
   roleLabel === null ||
+  viewAs === null ||
+  viewAsDm === null ||
+  viewAsPlayer === null ||
   searchButton === null ||
   spotlight === null ||
   shares === null ||
@@ -68,7 +75,7 @@ if (
   dashAsk === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #role, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #role, #view-as, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, and <tw-entry-view>"
   );
 }
 
@@ -233,6 +240,9 @@ const VERSION = "2024";
 // no DM chrome. Under plain Vite, `?role=dm` keeps the DM's view reachable
 // for Playwright and for looking at it in a browser.
 const VIEWER: Visibility = whoseView();
+// The view being shown, which is this page's own until the dev toggle
+// stands it at the other side of the table.
+let viewer: Visibility = VIEWER;
 
 function whoseView(): Visibility {
   if ("__TAURI_INTERNALS__" in window) {
@@ -284,11 +294,11 @@ function connectCore(): Core {
       const scenes = import("./dev/campaign-fixture.js");
       return {
         search: async (query, filters) =>
-          (await fixture).fixtureSearcher(query, filters, VERSION, VIEWER),
+          (await fixture).fixtureSearcher(query, filters, VERSION, viewer),
         system: async () => (await fixture).fixtureSystem,
         facetValues: async () => (await fixture).fixtureFacetValues,
         entry: async (id, version) => {
-          const found = (await fixture).fixtureEntry(id, version, VIEWER);
+          const found = (await fixture).fixtureEntry(id, version, viewer);
           if (found === undefined) {
             throw new Error(`No entry ${id} in the fixture.`);
           }
@@ -353,7 +363,7 @@ function connectCore(): Core {
   };
   return {
     search: async (query, filters) => {
-      const data = unwrap(await commands.search(query, VIEWER, null, filters, VERSION));
+      const data = unwrap(await commands.search(query, viewer, null, filters, VERSION));
       return {
         hits: data.hits,
         elapsedUs: data.elapsed_us,
@@ -364,7 +374,7 @@ function connectCore(): Core {
     system: async () => unwrap(await commands.system()),
     facetValues: async () => unwrap(await commands.facetValues()),
     entry: async (id, version) =>
-      documentOf(unwrap(await commands.getEntry(id, VIEWER, version ?? null))),
+      documentOf(unwrap(await commands.getEntry(id, viewer, version ?? null))),
     listCampaigns: async () => unwrap(await commands.listCampaigns()),
     currentCampaign: async () => unwrap(await commands.currentCampaign()),
     openCampaign: async (path) => unwrap(await commands.openCampaign(path)),
@@ -410,9 +420,9 @@ function describe(error: { kind: string }): string {
 // own time, and the round trip through the webview. Only in a Tauri window;
 // the plain Vite page has no core behind it.
 function exposeSearchProbe(): void {
-  window.__tablewrightSearch = async (query: string, viewer: Visibility = "dm", limit = null) => {
+  window.__tablewrightSearch = async (query: string, tier: Visibility = "dm", limit = null) => {
     const started = performance.now();
-    const result = await commands.search(query, viewer, limit, null, VERSION);
+    const result = await commands.search(query, tier, limit, null, VERSION);
     const roundTripMs = performance.now() - started;
     if (result.status === "error") {
       throw new Error(`search failed: ${JSON.stringify(result.error)}`);
@@ -464,7 +474,6 @@ try {
   const refreshScenes = async (): Promise<void> => {
     scenesTab.scenes = await core.listScenes();
   };
-  scenesTab.canManage = VIEWER === "dm";
   scenesTab.references = REFERENCE_SCENES.map((reference) => reference.name);
   scenesTab.addEventListener("click", () => {
     const chrome = scenesTab.parentElement;
@@ -556,7 +565,6 @@ try {
   // with it and the tokens go inert; the pen down, the pointer moves
   // tokens again. Every finished stroke is a command to the core, and the
   // record shown is the scene's own.
-  toolRail.hidden = VIEWER !== "dm";
   const applyTool = (event: Event): void => {
     const { tool } = (event as CustomEvent<{ tool: DrawTool | undefined }>).detail;
     if (tool !== undefined) {
@@ -603,6 +611,12 @@ try {
   toolRail.addEventListener("tw-snap", (event) => {
     board.setOriginSnap((event as CustomEvent<{ snap: OriginSnap }>).detail.snap);
   });
+  // Who a measure or an area is for. The choice marks the one on the board
+  // as well as the next, so a measure already taken is shared by saying so
+  // rather than by taking it again (user, 2026-09-12).
+  toolRail.addEventListener("tw-seen", (event) => {
+    board.chooseSeenBy((event as CustomEvent<{ seen: SeenBy }>).detail.seen);
+  });
   toolRail.addEventListener("tw-area", (event) => {
     board.setArea((event as CustomEvent<{ area: Area }>).detail.area);
   });
@@ -611,11 +625,22 @@ try {
   board.onArea((placed) => {
     if (placed !== undefined) {
       toolRail.area = placed.area;
+      toolRail.seen = placed.seenBy;
+    }
+  });
+  // A measure carries its own choice too, Alt's as much as the palette's,
+  // so the row follows whatever is on the board.
+  board.onMeasure((measurement) => {
+    if (measurement !== undefined) {
+      toolRail.seen = measurement.seenBy;
     }
   });
 
   // How the scene shows its heights is the scene's; reading it as numbers is
   // the DM's own, so it is kept here and on the board, never on the scene.
+  // Being the DM's own, it goes off the board while this page stands at a
+  // player's side, and is waiting where it was left on coming back.
+  let dmNumbers = false;
   const setTopology = (on: boolean): void => {
     board.setTopologyView(on);
     toolRail.topology = on;
@@ -688,10 +713,48 @@ try {
       }
     })();
   });
-  // A player's page has no DM chrome and says whose view it is.
-  dmChrome.hidden = VIEWER !== "dm";
-  roleLabel.hidden = VIEWER === "dm";
-  entryView.viewer = VIEWER;
+  // Everything this page shows follows the view it is standing at: the
+  // board and its tiers, the rail, whose chrome is on show, and what the
+  // compendium answers. The rail itself is everyone's, minus the pens, the
+  // record and the DM's reading of the field (user, 2026-09-12).
+  //
+  // Dev only, until the table is networked: the toggle under the campaign
+  // chrome stands this page at the other side of it, mirroring what a
+  // player has, so the DM can see their table as the party does without a
+  // second machine (user, 2026-09-12). Making one notion of visibility run
+  // through every surface, and settling what proves a view is the DM's once
+  // a page is served rather than opened, want a step of their own.
+  let chromeShown = false;
+  const lookAs = (next: Visibility): void => {
+    viewer = next;
+    board.setViewer(next);
+    // Nobody but the DM draws, so a pen is put down on the way over. What
+    // is on the board keeps its place, to be seen again from the side it
+    // was made for.
+    board.setBuildTool(undefined);
+    toolRail.held = false;
+    // The DM's reading of the field is the DM's own: it goes off the board
+    // at a player's side, and is waiting where it was left on coming back.
+    if (next === "dm") {
+      setTopology(dmNumbers);
+    } else {
+      dmNumbers = board.isReadingNumbers;
+      setTopology(false);
+    }
+    scenesTab.canManage = next === "dm";
+    entryView.viewer = next;
+    toolRail.viewer = next;
+    roleLabel.hidden = next === "dm";
+    dmChrome.hidden = !chromeShown || next !== "dm";
+    toolRail.hidden = !chromeShown;
+    // A player's page has nothing to stand at the other side of.
+    viewAs.hidden = !chromeShown || !__DEV_BUILD__ || VIEWER !== "dm";
+    viewAsDm.setAttribute("aria-pressed", String(next === "dm"));
+    viewAsPlayer.setAttribute("aria-pressed", String(next !== "dm"));
+  };
+  viewAsDm.addEventListener("click", () => lookAs("dm"));
+  viewAsPlayer.addEventListener("click", () => lookAs("party"));
+  lookAs(viewer);
   spotlight.searcher = core.search;
   spotlight.version = VERSION;
   // The box groups by the system's categories and builds its tray from the
@@ -804,7 +867,7 @@ try {
       !event.metaKey &&
       !event.altKey &&
       !isTyping &&
-      VIEWER === "dm"
+      viewer === "dm"
     ) {
       setTopology(!board.isReadingNumbers);
     }
@@ -846,14 +909,14 @@ try {
   // chrome; leaving closes it in the core and shows the intro over an empty
   // board. The window's title says which is open.
   const setTitle = (): void => {
-    document.title = [campaign?.name, TITLE, VIEWER === "dm" ? undefined : "Player view"]
+    document.title = [campaign?.name, TITLE, viewer === "dm" ? undefined : "Player view"]
       .filter((part) => part !== undefined)
       .join(" — ");
   };
   const showChrome = (shown: boolean): void => {
+    chromeShown = shown;
     sceneChrome.hidden = !shown;
-    dmChrome.hidden = !shown || VIEWER !== "dm";
-    toolRail.hidden = !shown || VIEWER !== "dm";
+    lookAs(viewer);
   };
   const enterCampaign = async (opened: CampaignSummary): Promise<void> => {
     campaign = opened;

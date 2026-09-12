@@ -21,7 +21,7 @@
 // column would lay down, sizes and all, every time one of them changes.
 
 import { LitElement, css, html, nothing } from "lit";
-import type { HeightDisplay, Stroke } from "@tablewright/schema";
+import type { HeightDisplay, Stroke, Visibility } from "@tablewright/schema";
 import "../strip/tw-strip.js";
 import type { GridRule } from "@tablewright/board";
 import {
@@ -35,6 +35,7 @@ import {
   OPENING_SIZES,
   RULER_MODES,
   ORIGIN_SNAPS,
+  SEEN_BY,
   clamped,
   defaultArea,
   isArea,
@@ -54,6 +55,7 @@ import {
   type Area,
   type OriginSnap,
   type RulerMode,
+  type SeenBy,
   type ThresholdChoice,
 } from "@tablewright/board";
 import {
@@ -93,6 +95,9 @@ const CONE_FORMS = ["flat", "3d"] as const;
 const CONE_LABELS = { flat: "Flat", "3d": "3D" } as const;
 const CIRCLE_FORMS = ["sphere", "dome", "cylinder"] as const;
 const SNAP_LABELS = { centre: "Centre", corner: "Corner", free: "Free" } as const;
+// Who a measure or an area is for, as the palette says it: the tiers are
+// the core's, the words are the maker's own.
+const SEEN_LABELS = { party: "Everyone", dm: "The DM", own: "Just me" } as const;
 
 // The name of a mode, for the head of its panel.
 function nameOf(mode: RulerMode): string {
@@ -118,6 +123,8 @@ export class TwToolRail extends LitElement {
     area: { attribute: false },
     rule: { attribute: false },
     snap: { attribute: false },
+    seen: { attribute: false },
+    viewer: { attribute: false },
     strokes: { attribute: false },
     topology: { type: Boolean },
     readout: { type: String },
@@ -142,6 +149,13 @@ export class TwToolRail extends LitElement {
   declare rule: GridRule;
   /** Where an area's origin may sit when one is put down. */
   declare snap: OriginSnap;
+  /** Who the next measure or area is for. */
+  declare seen: SeenBy;
+  /**
+   * Whose hand this is. A player moves tokens and measures; the pens, the
+   * scene's own record and the DM's reading of the field are the DM's.
+   */
+  declare viewer: Visibility;
   /** The scene's history of strokes, as it stands. */
   declare strokes: Stroke[];
   /** Whether the DM is reading the scene as numbers: their own view, not the scene's. */
@@ -166,6 +180,8 @@ export class TwToolRail extends LitElement {
     this.rule = DEFAULT_RULE;
     this.area = defaultArea("cone", DEFAULT_RULE);
     this.snap = "centre";
+    this.seen = "party";
+    this.viewer = "dm";
     this.strokes = [];
     this.topology = false;
     this.readout = "";
@@ -550,6 +566,7 @@ export class TwToolRail extends LitElement {
 
   override render() {
     const { tool, held } = this;
+    const isDm = this.viewer === "dm";
     return html`
       <div class="rail" role="toolbar" aria-label="Tools">
         <button
@@ -570,51 +587,59 @@ export class TwToolRail extends LitElement {
         >
           ${RULER_ICON}<span class="tip">Ruler: R</span>
         </button>
-        <button
-          class="icon"
-          type="button"
-          aria-label="Topology"
-          aria-pressed=${this.topology ? "true" : "false"}
-          @click=${this.#topology}
-        >
-          ${TOPOLOGY_ICON}<span class="tip">Topology: T</span>
-        </button>
-        <div class="divider"></div>
-        ${INKS.map(
-          (spec) =>
-            html`<button
-              class="icon"
-              type="button"
-              aria-label=${spec.name}
-              aria-pressed=${held && tool.ink === spec.ink ? "true" : "false"}
-              @click=${() => this.#pick(spec.ink)}
-            >
-              ${inkIcon(spec.ink)}<span class="tip">${spec.name}</span>
-            </button>`
-        )}
-        <div class="divider"></div>
-        <button class="icon" type="button" aria-label="Undo" @click=${this.#undo}>
-          ${UNDO_ICON}<span class="tip">Undo: Ctrl+Z</span>
-        </button>
-        <button
-          class="icon"
-          type="button"
-          aria-label="History"
-          aria-pressed=${this.historyOpen ? "true" : "false"}
-          @click=${() => {
-            this.historyOpen = !this.historyOpen;
-          }}
-        >
-          ${HISTORY_ICON}
-          ${this.strokes.length > 0 ? html`<span class="count">${this.strokes.length}</span>` : nothing}
-          <span class="tip">History</span>
-        </button>
+        ${
+          isDm
+            ? html`<button
+                  class="icon"
+                  type="button"
+                  aria-label="Topology"
+                  aria-pressed=${this.topology ? "true" : "false"}
+                  @click=${this.#topology}
+                >
+                  ${TOPOLOGY_ICON}<span class="tip">Topology: T</span>
+                </button>
+                <div class="divider"></div>
+                ${INKS.map(
+                  (spec) =>
+                    html`<button
+                      class="icon"
+                      type="button"
+                      aria-label=${spec.name}
+                      aria-pressed=${held && tool.ink === spec.ink ? "true" : "false"}
+                      @click=${() => this.#pick(spec.ink)}
+                    >
+                      ${inkIcon(spec.ink)}<span class="tip">${spec.name}</span>
+                    </button>`
+                )}
+                <div class="divider"></div>
+                <button class="icon" type="button" aria-label="Undo" @click=${this.#undo}>
+                  ${UNDO_ICON}<span class="tip">Undo: Ctrl+Z</span>
+                </button>
+                <button
+                  class="icon"
+                  type="button"
+                  aria-label="History"
+                  aria-pressed=${this.historyOpen ? "true" : "false"}
+                  @click=${() => {
+                    this.historyOpen = !this.historyOpen;
+                  }}
+                >
+                  ${HISTORY_ICON}
+                  ${
+                    this.strokes.length > 0
+                      ? html`<span class="count">${this.strokes.length}</span>`
+                      : nothing
+                  }
+                  <span class="tip">History</span>
+                </button>`
+            : nothing
+        }
       </div>
       ${!held && this.play === "ruler" ? this.#modes() : nothing}
       ${
-        held || this.historyOpen || this.#isArea
+        held || this.historyOpen || this.#inColumn
           ? html`<div class="side">
-              ${held ? this.#palette() : nothing}${this.#isArea ? this.#areaPanel() : nothing}
+              ${held ? this.#palette() : nothing}${this.#inColumn ? this.#rulerPanel() : nothing}
               ${this.historyOpen ? this.#history() : nothing}
             </div>`
           : nothing
@@ -623,15 +648,22 @@ export class TwToolRail extends LitElement {
     `;
   }
 
-  /** Whether the column is laying an area down rather than measuring. */
-  get #isArea(): boolean {
-    return !this.held && this.play === "ruler" && isArea(this.mode);
+  /** Whether the ruler's column has the pointer: every mode there has a panel. */
+  get #inColumn(): boolean {
+    return !this.held && this.play === "ruler";
   }
 
-  // An area's own sizes, and nothing else. What it catches is shown by
-  // lighting the tokens on the board, not by a paragraph in a panel.
-  #areaPanel() {
+  /** Whether the column is laying an area down rather than measuring. */
+  get #isArea(): boolean {
+    return this.#inColumn && isArea(this.mode);
+  }
+
+  // What the mode is for: an area's own sizes, and for every mode who sees
+  // it. What an area catches is shown by lighting the tokens on the board,
+  // not by a paragraph in a panel.
+  #rulerPanel() {
     const { area } = this;
+    const isLaid = this.#isArea;
     return html`<div class="panel">
       <header>
         <div class="title">
@@ -639,18 +671,22 @@ export class TwToolRail extends LitElement {
           <span class="hint">Press, drag, release</span>
         </div>
       </header>
-      <section>
-        <span class="cap">Starts at</span>
-        <tw-strip
-          label="Starts at"
-          .values=${ORIGIN_SNAPS}
-          .labels=${SNAP_LABELS}
-          .pressed=${[this.snap]}
-          @tw-cell=${this.#choose(ORIGIN_SNAPS, (snap) => this.#setSnap(snap))}
-        ></tw-strip>
-      </section>
       ${
-        area.kind === "rect"
+        isLaid
+          ? html`<section>
+              <span class="cap">Starts at</span>
+              <tw-strip
+                label="Starts at"
+                .values=${ORIGIN_SNAPS}
+                .labels=${SNAP_LABELS}
+                .pressed=${[this.snap]}
+                @tw-cell=${this.#choose(ORIGIN_SNAPS, (snap) => this.#setSnap(snap))}
+              ></tw-strip>
+            </section>`
+          : nothing
+      }
+      ${
+        isLaid && area.kind === "rect"
           ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
             ${this.#sizeRow("Width", area.width, (width) => this.#reshape({ width }))}
             ${this.#sizeRow("Height", area.height, (height) => this.#reshape({ height }))}
@@ -658,7 +694,7 @@ export class TwToolRail extends LitElement {
           : nothing
       }
       ${
-        area.kind === "cone"
+        isLaid && area.kind === "cone"
           ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
               <section>
                 <span class="cap">Spread</span>
@@ -704,7 +740,7 @@ export class TwToolRail extends LitElement {
           : nothing
       }
       ${
-        area.kind === "circle"
+        isLaid && area.kind === "circle"
           ? html`${this.#sizeRow("Radius", area.radius, (radius) => this.#reshape({ radius }))}
               ${this.#sizeRow("Inner", area.inner, (inner) => this.#reshape({ inner }), area.radius - this.rule.cellSize)}
               <section>
@@ -723,6 +759,16 @@ export class TwToolRail extends LitElement {
               }`
           : nothing
       }
+      <section>
+        <span class="cap">Seen by</span>
+        <tw-strip
+          label="Seen by"
+          .values=${SEEN_BY}
+          .labels=${SEEN_LABELS}
+          .pressed=${[this.seen]}
+          @tw-cell=${this.#choose(SEEN_BY, (seen) => this.#setSeen(seen))}
+        ></tw-strip>
+      </section>
     </div>`;
   }
 
@@ -1187,6 +1233,13 @@ export class TwToolRail extends LitElement {
         apply(next);
       }
     };
+  }
+
+  #setSeen(seen: SeenBy): void {
+    this.seen = seen;
+    this.dispatchEvent(
+      new CustomEvent("tw-seen", { detail: { seen }, bubbles: true, composed: true })
+    );
   }
 
   #setSnap(snap: OriginSnap): void {

@@ -138,9 +138,14 @@ export function visibleTo(
   const revealed = new Set(play.map((entry) => edgeKey(entry.edge)));
   return strokes.filter(
     (stroke) =>
-      TIER[stroke.visibility] <= TIER[viewer] ||
+      seenAt(stroke.visibility, viewer) ||
       (stroke.ink === "threshold" && revealed.has(edgeKey(stroke.edge)))
   );
+}
+
+/** Whether a thing kept at `tier` reaches `viewer`: a viewer sees everything at or below their own. */
+export function seenAt(tier: Visibility, viewer: Visibility): boolean {
+  return TIER[tier] <= TIER[viewer];
 }
 
 /** A cell's place in the ground array, or undefined outside the bounds. */

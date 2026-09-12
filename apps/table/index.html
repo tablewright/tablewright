@@ -60,6 +60,10 @@
         left: auto;
         right: var(--tw-space-md);
       }
+      /* A second row on the right, under the first. */
+      .chrome-under {
+        top: calc(var(--tw-space-md) * 2 + 36px);
+      }
       .chrome button {
         background: var(--tw-comp-button-quiet-background-color);
         color: var(--tw-comp-button-quiet-text-color);
@@ -78,6 +82,12 @@
       }
       .chrome button:hover {
         background: var(--tw-surface-container-highest);
+      }
+      /* The side of the table this page is standing at. */
+      .chrome button[aria-pressed="true"] {
+        background: var(--tw-primary);
+        color: var(--tw-on-primary);
+        border-color: transparent;
       }
       .chrome button:focus-visible {
         outline: 2px solid var(--tw-focus-ring);
@@ -130,6 +140,18 @@
     <div id="dm-chrome" class="chrome chrome-right">
       <button id="open-map" type="button">Open map</button>
       <button id="campaigns" type="button" title="Back to the campaigns">Campaigns</button>
+    </div>
+    <!-- Dev only, until the table is networked: the page stands at either side of it. -->
+    <div
+      id="view-as"
+      class="chrome chrome-right chrome-under"
+      role="group"
+      aria-label="Board as"
+      hidden
+    >
+      <span class="role">Board as</span>
+      <button id="view-dm" type="button" aria-pressed="true">DM</button>
+      <button id="view-player" type="button" aria-pressed="false">Player</button>
     </div>
     <!-- The intro: the whole window until a campaign is open, and again when the DM leaves one. -->
     <tw-campaigns hidden></tw-campaigns>

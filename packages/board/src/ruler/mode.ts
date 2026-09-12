@@ -10,6 +10,7 @@
  */
 
 import type { Route } from "../topology/route.js";
+import { seenByNote } from "../seen.js";
 import type { Measurement } from "./measure.js";
 
 /**
@@ -47,6 +48,13 @@ export const RULER_MODES: readonly RulerModeSpec[] = [
  * dash the shortest way is named as such, and no way at all says so.
  */
 export function badgeText(measurement: Measurement, mode: RulerMode): string {
+  const note = seenByNote(measurement.seenBy);
+  const said = reading(measurement, mode);
+  return note === undefined ? said : `${said} — ${note}`;
+}
+
+// The numbers themselves, as the mode reads them.
+function reading(measurement: Measurement, mode: RulerMode): string {
   const { distance, rise, unit, route, choice } = measurement;
   if (mode === "path") {
     // A refusal still names the way it would take, so the number is there.

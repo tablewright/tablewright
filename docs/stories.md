@@ -108,6 +108,12 @@ the logic tests.
   a press inside one moves it.
 - An area lights up every token it holds, and a dome leaves out the one
   standing in the pit.
+- A measure or an area says who sees it: everyone, the DM, or just the
+  one who made it.
+- The one on the board can be shared after the fact, without taking it
+  again.
+- The DM can look at the table as a player, and what the DM kept back is
+  not there.
 
 ### Working thresholds in play
 
@@ -211,6 +217,8 @@ the logic tests.
 
 - The page served without Tauri is the player view: the party tier,
   no DM chrome, and it says so.
+- A player's rail moves tokens and measures, and keeps none of the
+  DM's pens, undo or history.
 - A player sees the scene's name and nothing more.
 - A player's entry page has no Place on board.
 - A player measures with the R key.

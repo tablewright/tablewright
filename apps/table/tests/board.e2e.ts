@@ -271,7 +271,7 @@ test("A DM or a player measures", async ({ page }) => {
             cost: (found.choice.route ?? found.route)?.cost,
             phase: found.choice.phase,
             blockedAt: found.blockedAt,
-            isPrivate: found.isPrivate,
+            seenBy: found.seenBy,
           };
     });
   const measure = async (from: { col: number; row: number }, to: { col: number; row: number }) => {
@@ -311,8 +311,9 @@ test("A DM or a player measures", async ({ page }) => {
   });
 
   await test.step("A line measure shows the distance as the crow flies, with the rise, and breaks where the line of effect does.", async () => {
-    // Across the tavern floor, three cells across and four down.
-    const flat = await measure({ col: 2, row: 2 }, { col: 5, row: 6 });
+    // Across the tavern floor, three cells across and four down, clear of
+    // the palette the column now opens for every mode.
+    const flat = await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
     expect(flat?.mode).toBe("line");
     expect(flat?.distance).toBe(20);
     expect(flat?.rise).toBe(0);
@@ -356,7 +357,7 @@ test("A DM or a player measures", async ({ page }) => {
     await page.keyboard.down("Alt");
     const own = await measure({ col: 3, row: 3 }, { col: 6, row: 7 });
     await page.keyboard.up("Alt");
-    expect(own?.isPrivate).toBe(true);
+    expect(own?.seenBy).toBe("own");
   });
 
   await test.step("Rectangle, Cone and Circle lay an area down instead of measuring, and a press inside one moves it.", async () => {
@@ -428,5 +429,87 @@ test("A DM or a player measures", async ({ page }) => {
       .click();
     await expect.poll(async () => (await area())?.tokens).toBe(2);
     await page.keyboard.press("Escape");
+  });
+
+  await test.step("A measure or an area says who sees it: everyone, the DM, or just the one who made it.", async () => {
+    const area = () => page.evaluate(() => window.__tablewright?.area());
+    const seen = tools.getByRole("group", { name: "Seen by" });
+    // The palette's choice rides on the measure the next press makes.
+    await tools.getByRole("button", { name: "Line" }).click();
+    await seen.getByRole("button", { name: "The DM" }).click();
+    const kept = await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
+    expect(kept?.seenBy).toBe("dm");
+    // Alt keeps one to oneself, whatever the palette holds.
+    await page.keyboard.down("Alt");
+    const own = await measure({ col: 8, row: 2 }, { col: 10, row: 4 });
+    await page.keyboard.up("Alt");
+    expect(own?.seenBy).toBe("own");
+    await page.keyboard.press("Escape");
+    // An area takes the same choice, and its badge says which.
+    await tools.getByRole("button", { name: "Cone", exact: true }).click();
+    const from = await cellOnScreen(page, { col: 12, row: 10 });
+    await page.mouse.move(from.x, from.y);
+    await page.mouse.down();
+    await page.mouse.up();
+    expect((await area())?.badge).toContain("DM only");
+  });
+
+  await test.step("The one on the board can be shared after the fact, without taking it again.", async () => {
+    const area = () => page.evaluate(() => window.__tablewright?.area());
+    const seen = tools.getByRole("group", { name: "Seen by" });
+    // The cone from the step before is still down, and still the DM's.
+    expect((await area())?.badge).toContain("DM only");
+    await seen.getByRole("button", { name: "Everyone" }).click();
+    await expect.poll(async () => (await area())?.badge).not.toContain("DM only");
+    // A measure goes the same way, and the row follows what is on the board.
+    await tools.getByRole("button", { name: "Line" }).click();
+    await page.keyboard.down("Alt");
+    await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
+    await page.keyboard.up("Alt");
+    await expect(seen.getByRole("button", { name: "Just me" })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    await seen.getByRole("button", { name: "The DM" }).click();
+    await expect.poll(async () => (await measured())?.seenBy).toBe("dm");
+    await page.keyboard.press("Escape");
+    // Laid again for the step that follows, kept back as the DM's own.
+    await tools.getByRole("button", { name: "Cone", exact: true }).click();
+    const again = await cellOnScreen(page, { col: 12, row: 10 });
+    await page.mouse.move(again.x, again.y);
+    await page.mouse.down();
+    await page.mouse.up();
+    expect((await area())?.badge).toContain("DM only");
+  });
+
+  await test.step("The DM can look at the table as a player, and what the DM kept back is not there.", async () => {
+    const area = () => page.evaluate(() => window.__tablewright?.area());
+    const seen = tools.getByRole("group", { name: "Seen by" });
+    const viewAs = page.getByRole("group", { name: "Board as" });
+    const asPlayer = viewAs.getByRole("button", { name: "Player" });
+    const asDm = viewAs.getByRole("button", { name: "DM", exact: true });
+    await asPlayer.click();
+    // The page mirrors what a player has: the rail without the DM's pens,
+    // and none of the DM's chrome.
+    await expect(tools.getByRole("button", { name: "Wall", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Open map" })).toBeHidden();
+    await expect.poll(async () => (await area())?.kind).toBe("none");
+    // The cone is still the DM's; coming back to that side shows it again.
+    await asDm.click();
+    await expect.poll(async () => (await area())?.kind).toBe("cone");
+    // A measure the DM kept back goes the same way, badge and all.
+    await tools.getByRole("button", { name: "Line" }).click();
+    const kept = await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
+    expect(kept?.seenBy).toBe("dm");
+    await asPlayer.click();
+    await expect.poll(async () => await measured()).toBeUndefined();
+    // A player measures at that side and sees their own, whatever the row
+    // holds: the hand that makes a thing is never shown nothing.
+    await seen.getByRole("button", { name: "Everyone" }).click();
+    const theirs = await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
+    expect(theirs?.seenBy).toBe("party");
+    // What a player measures for the table is the DM's to see as well.
+    await asDm.click();
+    await expect.poll(async () => (await measured())?.seenBy).toBe("party");
   });
 });
