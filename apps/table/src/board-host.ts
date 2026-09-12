@@ -407,7 +407,8 @@ export class BoardHost {
    * no picture; the scene keeps the path, the page resolves it.
    */
   setScene(scene: Scene, map: string | undefined): void {
-    if (scene.id !== this.sceneId) {
+    const isNew = scene.id !== this.sceneId;
+    if (isNew) {
       this.sceneId = scene.id;
       this.ruler.clear();
       this.areaTool.clear();
@@ -444,7 +445,29 @@ export class BoardHost {
     this.display = scene.display;
     this.redrawTopology();
     this.setTokens(tokenViews(scene));
+    // A scene opens in the middle of the window rather than in its corner.
+    // A picture frames itself once it has loaded, so this is for the scenes
+    // that are grid and strokes alone.
+    if (isNew && map === undefined) {
+      this.frameScene();
+    }
     this.stage.requestFrame();
+  }
+
+  /** Put the whole scene in the middle of the view, at most life size. */
+  private frameScene(): void {
+    const { cellSize, originX, originY } = this.grid;
+    this.camera.fit(
+      this.stage.app.screen,
+      {
+        left: originX + this.bounds.colMin * cellSize,
+        top: originY + this.bounds.rowMin * cellSize,
+        right: originX + (this.bounds.colMin + this.bounds.cols) * cellSize,
+        bottom: originY + (this.bounds.rowMin + this.bounds.rows) * cellSize,
+      },
+      FIT_PADDING,
+      1
+    );
   }
 
   /** Measure by `rule`: the campaign's setting, the system's default until then. */

@@ -70,18 +70,25 @@ export function zoomAbout(
 
 /**
  * The camera that shows all of `rect` centred in `view`, with `padding` screen
- * pixels kept clear around it. `rect` must have positive size.
+ * pixels kept clear around it. `rect` must have positive size. `most` caps the
+ * zoom: at 1 a rect smaller than the view is centred at life size rather than
+ * blown up to fill it.
  */
 export function fitToRect(
   view: ViewSize,
   rect: WorldRect,
   limits: ZoomLimits,
-  padding = 0
+  padding = 0,
+  most = Number.POSITIVE_INFINITY
 ): CameraState {
   const rectWidth = rect.right - rect.left;
   const rectHeight = rect.bottom - rect.top;
   const zoom = clampZoom(
-    Math.min((view.width - 2 * padding) / rectWidth, (view.height - 2 * padding) / rectHeight),
+    Math.min(
+      most,
+      (view.width - 2 * padding) / rectWidth,
+      (view.height - 2 * padding) / rectHeight
+    ),
     limits
   );
   return {

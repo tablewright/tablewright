@@ -24,6 +24,16 @@ describe("fitToRect", () => {
     expect(worldToScreen(camera, { x: 0, y: 0 }).x).toBe(100);
   });
 
+  test("a cap centres a small rect instead of blowing it up", () => {
+    // Half the view each way: without the cap it would be doubled to fill.
+    const camera = fitToRect(view, { left: 0, top: 0, right: 500, bottom: 250 }, limits, 0, 1);
+    expect(camera.zoom).toBe(1);
+    expect(worldToScreen(camera, { x: 0, y: 0 })).toEqual({ x: 250, y: 125 });
+    // A rect larger than the view still shrinks to fit under the same cap.
+    const wide = fitToRect(view, { left: 0, top: 0, right: 2000, bottom: 500 }, limits, 0, 1);
+    expect(wide.zoom).toBe(0.5);
+  });
+
   test("a rect not at the origin is still centred", () => {
     const camera = fitToRect(view, { left: 300, top: 200, right: 800, bottom: 450 }, limits);
     expect(camera.zoom).toBe(2);

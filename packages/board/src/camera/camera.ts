@@ -53,9 +53,12 @@ export class Camera {
     this.set(zoomAbout(this.state, anchor, factor, this.limits));
   }
 
-  /** Show all of `rect` centred in a view of `view` size, with `padding` screen pixels clear. */
-  fit(view: ViewSize, rect: WorldRect, padding = 0): void {
-    this.set(fitToRect(view, rect, this.limits, padding));
+  /**
+   * Show all of `rect` centred in a view of `view` size, with `padding` screen
+   * pixels clear and the zoom no closer than `most`.
+   */
+  fit(view: ViewSize, rect: WorldRect, padding = 0, most?: number): void {
+    this.set(fitToRect(view, rect, this.limits, padding, most));
   }
 
   /** Replace the whole state, for example when a scene loads. */
