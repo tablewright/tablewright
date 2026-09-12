@@ -45,6 +45,12 @@ export interface TokenView {
   readonly mover?: Mover;
   /** What this turn allows, from the sheet; a token standing for none has no limit. */
   readonly budget?: Budget;
+  /**
+   * How far it stands above the floor under it: a flier's own height.
+   * Its place in the scene is `height` plus this, so an area tests it
+   * where it actually is rather than where the ground is.
+   */
+  readonly elevation?: number;
 }
 
 /** One committed move: where the token now stands and which way it faces. */
