@@ -771,31 +771,32 @@ the rounds are in the local research file.
   2026-09-11 (user): the crow-flies line is the everyday measure and
   the route belongs to moving, so the ruler shows one answer at a
   time, never all three at once.
-- **Templates are areas, laid down from the same column.** Line, Cone
-  and Circle each have their own item beside Path, and it is right
-  that an area is placed differently from a measure: a measure is
-  press, drag, release, while an area is click, turn, click. One lays
-  an area down; the other only answers a question. Each carries its
-  own sizes: a line a width, a length and a height; a cone a length
-  and a spread, the spread a slider from nought to ninety degrees and
-  its far edge round or flat, round by default since a round edge
-  keeps everything inside the range; a circle a radius and an inner
-  radius. A template starts on the token its caster holds, or the one
-  a player owns, and where there is neither it goes where it is
-  clicked: an origin is a point or a token, which is also what an
-  area that moves with a creature needs.
+- **Templates are areas, laid down from the same column.** Rectangle,
+  Cone and Circle each have their own item beside Line and Path, which
+  measure and lay nothing down. It is right that an area is placed
+  differently from a measure: a measure is press, drag, release, while
+  an area is click, turn, click. One lays an area down; the other only
+  answers a question. Each carries its own sizes: a rectangle a
+  length, a width and a height; a cone a length and a spread, the
+  spread a slider from nought to ninety degrees and its far edge round
+  or flat, round by default since a round edge keeps everything inside
+  the range; a circle a radius and an inner radius. A template starts
+  on the token its caster holds, or the one a player owns, and where
+  there is neither it goes where it is clicked: an origin is a point
+  or a token, which is also what an area that moves with a creature
+  needs.
 - **Every area has a vertical form**, chosen beside its sizes. A
   circle stands as a sphere, a dome or a cylinder: the dome is what a
   DM reaches for, since a fireball should not burn the cellar, and
   the sphere is the one that passes through the floor on purpose,
   over a chasm or above an open room. A cone is flat or 3D: flat is
   the footprint given a height, 3D spreads upward as it spreads
-  sideways. A line is a box or a beam, and its height is whatever the
-  effect says, a wall of fire being twenty feet, falling back to its
-  own width where the effect says nothing. A line with no width is
-  the crow-flies measure it has always been. A ring is an inner radius
-  beside the radius rather than a form of its own, nought meaning a
-  full disc; with a cylinder it is a tube and with a sphere a shell.
+  sideways. A rectangle has no form to choose: its length, width and
+  height already say everything, and the height is whatever the effect
+  says, a wall of fire being twenty feet, falling back to its own width
+  where the effect says nothing. A ring is an inner radius beside the
+  radius rather than a form of its own, nought meaning a full disc; with
+  a cylinder it is a tube and with a sphere a shell.
   What the world then does to a volume is a second question from its
   shape: clipping it to the ground is what makes a sixty-foot cone
   fired down a ten-foot corridor behave like the one a player
