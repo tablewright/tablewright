@@ -13,6 +13,8 @@
     "**/*.md",
     "packages/schema/src/**",
     "apps/table/src/dev/fixture.json",
+    "apps/table/src/dev/roles.json",
+    "packages/ui/src/fonts.css",
     "packages/ui/src/tokens.css",
     "systems/*/content/**"
   ]

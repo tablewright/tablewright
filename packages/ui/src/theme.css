@@ -1,4 +1,7 @@
-/* Base theme: the generated tokens plus the document defaults every app shares. */
+/* Base theme: the faces, the generated tokens, and the document defaults
+   every app shares. The faces come first: a token names a family, and a
+   family has to have been declared before it is named. */
+@import "./fonts.css";
 @import "./tokens.css";
 
 :root {
