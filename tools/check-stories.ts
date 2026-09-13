@@ -1,6 +1,7 @@
 // Ties docs/stories.md to the story specs: every feature with a story has
-// a spec, every story a test titled with its heading, every outcome a
-// step titled with its line, word for word, and nothing in a spec that
+// a spec, every story a test titled with its heading, and every outcome a
+// step titled with its line, word for word, taken inside that story's own
+// test and in the order the story tells them. Nothing sits in a spec that
 // the document does not say. Stories and lines marked *(later)* are
 // intended and not yet tested, so they are exempt. Run by `bun run check`.
 
@@ -12,6 +13,9 @@ const DOCUMENT = join(ROOT, "docs", "stories.md");
 const SPECS = join(ROOT, "apps", "table", "tests");
 // The marker sits at the end of a heading or a line, before its full stop.
 const LATER = /\s*\*\(later\)\*\.?\s*$/;
+// A test or a step as the spec source writes it, test("...") or
+// test.step("..."), and never the tail of a longer name such as latest("...").
+const CALL = /(?<![\w.$])test(\.step)?\(\s*"((?:[^"\\]|\\.)*)"/g;
 
 interface Story {
   readonly title: string;
@@ -22,6 +26,23 @@ interface Story {
 interface Feature {
   readonly title: string;
   readonly stories: Story[];
+}
+
+interface Step {
+  readonly title: string;
+  /** The test opened last above the step, or none when it comes before any. */
+  readonly test: string | undefined;
+}
+
+interface Spec {
+  readonly tests: readonly string[];
+  readonly steps: readonly Step[];
+}
+
+// A line wraps in the document and never in a spec, so both are compared
+// with their spacing collapsed.
+function plain(text: string): string {
+  return text.replace(/\s+/g, " ").trim();
 }
 
 // A feature's spec is its heading as a file name, articles dropped:
@@ -45,7 +66,7 @@ function parseDocument(text: string): Feature[] {
   const close = (): void => {
     if (open !== undefined && story !== undefined) {
       const later = LATER.test(open.text);
-      story.outcomes.push({ text: open.text.replace(LATER, "").trim(), later });
+      story.outcomes.push({ text: plain(open.text.replace(LATER, "")), later });
     }
     open = undefined;
   };
@@ -61,7 +82,7 @@ function parseDocument(text: string): Feature[] {
       close();
       const heading = line.slice(4).trim();
       story = {
-        title: heading.replace(LATER, "").trim(),
+        title: plain(heading.replace(LATER, "")),
         later: LATER.test(heading),
         outcomes: [],
       };
@@ -84,10 +105,24 @@ function parseDocument(text: string): Feature[] {
   return features;
 }
 
-// Titles as the spec source writes them: test("...") and test.step("...").
-function titlesIn(source: string, call: string): string[] {
-  const pattern = new RegExp(`${call.replace(".", "\\.")}\\(\\s*"((?:[^"\\\\]|\\\\.)*)"`, "g");
-  return [...source.matchAll(pattern)].map((match) => (match[1] ?? "").replace(/\\"/g, '"'));
+// The spec's tests and steps in the order its source gives them. A spec is
+// a row of tests one after another, so a step belongs to the last test
+// opened above it. Nothing here counts brackets, and nothing needs to while
+// the specs keep to that shape.
+function readSpec(source: string): Spec {
+  const tests: string[] = [];
+  const steps: Step[] = [];
+  let test: string | undefined;
+  for (const match of source.matchAll(CALL)) {
+    const title = plain((match[2] ?? "").replace(/\\"/g, '"'));
+    if (match[1] === undefined) {
+      tests.push(title);
+      test = title;
+    } else {
+      steps.push({ title, test });
+    }
+  }
+  return { tests, steps };
 }
 
 const problems: string[] = [];
@@ -97,40 +132,74 @@ for (const feature of features) {
   if (tested.length === 0) {
     continue;
   }
-  const spec = specOf(feature.title);
-  const short = spec.slice(ROOT.length + 1);
-  if (!existsSync(spec)) {
+  const path = specOf(feature.title);
+  const short = path.slice(ROOT.length + 1);
+  if (!existsSync(path)) {
     problems.push(`${feature.title}: no spec at ${short}`);
     continue;
   }
-  const source = readFileSync(spec, "utf8");
-  const tests = new Set(titlesIn(source, "test"));
-  const steps = new Set(titlesIn(source, "test.step"));
-  const wanted = new Set<string>();
+  const spec = readSpec(readFileSync(path, "utf8"));
+  // The story each outcome is filed under, which is the test its step
+  // belongs in.
+  const storyOf = new Map<string, string>();
   for (const story of tested) {
-    if (!tests.has(story.title)) {
-      problems.push(`${short}: no test for the story "${story.title}"`);
-    }
     for (const outcome of story.outcomes) {
-      if (outcome.later) {
-        continue;
-      }
-      wanted.add(outcome.text);
-      if (!steps.has(outcome.text)) {
-        problems.push(`${short}: no step for "${outcome.text}" (${story.title})`);
+      if (!outcome.later) {
+        storyOf.set(outcome.text, story.title);
       }
     }
   }
-  const told = new Set(tested.map((story) => story.title));
-  for (const title of tests) {
-    if (!told.has(title)) {
+
+  for (const story of tested) {
+    if (!spec.tests.includes(story.title)) {
+      problems.push(`${short}: no test for the story "${story.title}"`);
+    }
+    const told = story.outcomes.filter((outcome) => !outcome.later).map((o) => o.text);
+    for (const text of told) {
+      if (!spec.steps.some((step) => step.title === text)) {
+        problems.push(`${short}: no step for "${text}" (${story.title})`);
+      }
+    }
+    // The order is checked only among the steps that are where they belong:
+    // one that is in the wrong test is reported below, and counting it here
+    // as well would say the same thing twice.
+    const taken = [
+      ...new Set(
+        spec.steps
+          .filter((step) => step.test === story.title && storyOf.get(step.title) === story.title)
+          .map((step) => step.title)
+      ),
+    ];
+    const expected = told.filter((text) => taken.includes(text));
+    const slip = expected.findIndex((text, index) => taken[index] !== text);
+    if (slip >= 0) {
+      problems.push(
+        `${short}: in the test "${story.title}", "${taken[slip]}" comes before ` +
+          `"${expected[slip]}", and the story has them the other way round`
+      );
+    }
+  }
+
+  const titled = new Set(tested.map((story) => story.title));
+  for (const title of spec.tests) {
+    if (!titled.has(title)) {
       problems.push(`${short}: the test "${title}" is no story in ${feature.title}`);
     }
   }
-  for (const title of steps) {
-    if (!wanted.has(title)) {
-      problems.push(`${short}: the step "${title}" is no outcome in ${feature.title}`);
+  const seen = new Set<string>();
+  for (const step of spec.steps) {
+    const story = storyOf.get(step.title);
+    const where = step.test === undefined ? "no test at all" : `"${step.test}"`;
+    if (story === undefined) {
+      problems.push(`${short}: the step "${step.title}" is no outcome in ${feature.title}`);
+    } else if (story !== step.test) {
+      problems.push(`${short}: "${step.title}" is an outcome of "${story}" but a step of ${where}`);
     }
+    const key = `${step.test ?? ""}\n${step.title}`;
+    if (seen.has(key)) {
+      problems.push(`${short}: "${step.title}" is a step of ${where} more than once`);
+    }
+    seen.add(key);
   }
 }
 
