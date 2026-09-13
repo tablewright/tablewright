@@ -9,6 +9,7 @@ import {
   BoardStage,
   REFERENCE_SCENES,
   gridRuleOf,
+  loadBoardFaces,
   readBoardTheme,
   signed,
   type DrawTool,
@@ -40,6 +41,23 @@ import "@tablewright/ui";
 import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
 import { BoardHost, type CellReadout } from "./board-host.js";
 import { documentOf } from "./entry-document.js";
+
+// The window opens onto the wordmark rather than onto nothing.
+//
+// It is held back — tauri.conf.json keeps it hidden — but only until the page
+// has painted once, which is a frame away: the loader is inline in index.html
+// and owes nothing to a font, a stylesheet or a module. Letting the window be
+// visible from the start would show the webview's own blank white first, and
+// waiting instead for the board's first frame would keep the screen empty for
+// exactly as long as the loader exists to fill.
+if ("__TAURI_INTERNALS__" in window) {
+  await new Promise<number>((painted) => requestAnimationFrame(painted));
+  try {
+    await getCurrentWindow().show();
+  } catch {
+    // A window that will not show is no reason to stop loading the board.
+  }
+}
 
 const host = document.getElementById("board");
 const openButton = document.getElementById("open-map");
@@ -455,7 +473,12 @@ function exposeSearchProbe(): void {
 // The window starts hidden (tauri.conf.json) and shows only after the board
 // has rendered its first frame, so the user never sees an empty frame.
 try {
-  const stage = await BoardStage.create(host, { background: readBoardTheme(host).ground });
+  const theme = readBoardTheme(host);
+  // Pixi measures text as it draws it, so the faces have to be in hand before
+  // the first frame — which is the frame the window is shown on. A badge
+  // measured against a fallback keeps the fallback's width all session.
+  await loadBoardFaces(theme);
+  const stage = await BoardStage.create(host, { background: theme.ground });
   const core = connectCore();
   // Who may do what, from the core's own file. A page that cannot read
   // them sits in nobody's seat, which may do nothing at all.
@@ -1181,8 +1204,48 @@ try {
     "fatal"
   );
 }
-// Only a Tauri window has a window to show; the same page in a browser tab
-// is already visible.
-if ("__TAURI_INTERNALS__" in window) {
-  await getCurrentWindow().show();
+// The three lengths the wordmark is set to, all of them written down in
+// #loading's rules in apps/table/index.html: how long a letter takes to
+// draw, the head start the second one gives the first, and how long the
+// curtain takes to open.
+const DRAW_MS = 1150;
+const SECOND_LETTER_MS = 180;
+const OPEN_MS = 520;
+
+/**
+ * Resolves once the mark has been drawn through, which is the last letter's
+ * animation ending.
+ *
+ * Nothing is animated while a page is not being painted — a window still
+ * hidden, a tab in the background — so the animation may never start at all.
+ * The timer is what keeps that from becoming a wait without an end.
+ */
+function drawnOnce(mark: Element): Promise<void> {
+  // Asked for stillness, the mark stands drawn from the start and nothing is
+  // playing: there is no animation to end, and waiting out the timer would
+  // give the person who asked for less motion the longest wait of anyone.
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => {
+    mark
+      .querySelector("path:last-of-type")
+      ?.addEventListener("animationend", () => resolve(), { once: true });
+    setTimeout(resolve, DRAW_MS + SECOND_LETTER_MS + OPEN_MS);
+  });
+}
+
+// The wordmark comes off whatever happened above: a board that failed to
+// start has a notice to show, and it cannot be read through the loader.
+const loading = document.querySelector<HTMLElement>("#loading");
+if (loading !== null) {
+  // The board is usually ready before the mark has finished drawing, so the
+  // wait here is on the drawing. A mark cut off half-drawn reads as a fault
+  // rather than as a wait, which is the opposite of what it is for.
+  await drawnOnce(loading);
+  loading.classList.add("done");
+  // Taken off on a timer rather than on transitionend, which does not fire
+  // when the page is not being painted, and the curtain would then sit over
+  // the board for good.
+  setTimeout(() => loading.remove(), OPEN_MS);
 }

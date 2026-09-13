@@ -111,9 +111,176 @@
         color: var(--tw-on-surface);
         cursor: pointer;
       }
+      /* The wordmark, and the only thing on screen until the board has a
+         frame. Its colours are written out rather than taken from the
+         tokens: tokens.css arrives with the module, and this has to be
+         painted before that, or a loader is just another thing to load. */
+      #loading {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        /* The same ground behind the two halves. On an odd number of pixels
+           they meet on half of one, and the hairline that leaves would show
+           the board through it. It goes the moment they part. */
+        background: #17130f;
+      }
+      #loading .marks {
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+      /* Two halves of one curtain. Each is half the window wide and hides
+         what falls outside it. */
+      #loading .half {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        overflow: hidden;
+        background: #17130f;
+        transition: transform 520ms cubic-bezier(0.65, 0, 0.35, 1);
+      }
+      #loading .left {
+        left: 0;
+      }
+      #loading .right {
+        right: 0;
+      }
+      /* Inside each half, the whole window. The mark is centred in that,
+         so it lands in the same place on both sides and the seam falls
+         down the middle of the letters. */
+      #loading .pane {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 200%;
+        display: grid;
+        place-items: center;
+        animation: tw-breathe 2600ms 1500ms ease-in-out infinite;
+      }
+      #loading .left .pane {
+        left: 0;
+      }
+      #loading .right .pane {
+        right: 0;
+      }
+      #loading svg {
+        width: min(40vw, 260px);
+      }
+      /* pathLength makes each outline one unit long whatever its real
+         length, so both letters draw in step without measuring either. The
+         stroke is set on the use and inherited by the path it stands for.
+         The draw runs once and holds: a mark cut off half-drawn reads as a
+         fault rather than as a wait. */
+      #loading use {
+        fill: none;
+        stroke: #c9a24e;
+        stroke-width: 14;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: tw-draw 1150ms ease-in-out forwards;
+      }
+      #loading .w {
+        animation-delay: 180ms;
+      }
+      /* Opened: the halves leave by their own sides, each with its share of
+         the letters. main.ts takes the node off after the same length. */
+      #loading.done {
+        pointer-events: none;
+        background: transparent;
+      }
+      #loading.done .left {
+        transform: translateX(-100%);
+      }
+      #loading.done .right {
+        transform: translateX(100%);
+      }
+      @keyframes tw-draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes tw-breathe {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.45;
+        }
+      }
+      /* Asked for stillness: the mark stands, drawn, and the curtain goes
+         straight off rather than sliding. */
+      @media (prefers-reduced-motion: reduce) {
+        #loading .pane,
+        #loading use {
+          animation: none;
+        }
+        #loading use {
+          stroke-dashoffset: 0;
+        }
+        #loading .half {
+          transition: opacity 200ms ease;
+        }
+        #loading.done .half {
+          transform: none;
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- The T and W of Cinzel Decorative as outlines rather than as text, so
+         the loader owes nothing to a face that has yet to load. Taken once
+         from packages/ui/fonts/cinzel-decorative-700.woff2; changing the
+         heading face means redrawing these two paths. The W is set at the
+         T's shoulder, where its swash carries over the top. -->
+    <!-- The T and W of Cinzel Decorative as outlines rather than as text, so
+         the loader owes nothing to a face that has yet to load. Taken once
+         from packages/ui/fonts/cinzel-decorative-700.woff2; the copy to look
+         at and to work on is packages/ui/brand/wordmark.svg. The W is set at
+         the T's shoulder, where its swash carries over the top.
+
+         The mark is drawn once and worn twice: each half of the curtain
+         holds the whole window and clips it to its own side, so the seam
+         falls down the middle of the letters and each side carries its own
+         half of them away. -->
+    <div id="loading">
+      <svg class="marks" aria-hidden="true">
+        <defs>
+          <g id="tw-t">
+            <path
+              pathLength="1"
+              d="M-25 -467Q-74 -514 -74 -568Q-74 -610 -47 -641Q4 -701 96 -701H567Q611 -702 644.0 -708.5Q677 -715 686 -719V-545H676V-557Q676 -602 649.0 -630.0Q622 -658 576 -659H441V-72Q443 -36 474 -18Q488 -10 505 -10H518V0H214V-10H227Q253 -10 271.5 -28.0Q290 -46 291 -71V-659H96Q55 -659 24 -644Q-39 -614 -39 -550Q-39 -512 -15 -472Z"
+            />
+          </g>
+          <g id="tw-w">
+            <path
+              pathLength="1"
+              d="M1778 -934Q1824 -946 1853.0 -946.0Q1882 -946 1899 -944V-934Q1768 -927 1689 -814Q1648 -756 1623 -679L1435 -93Q1418 -38 1418 9Q1418 14 1418 18H1408L1191 -464L1013 -41Q986 25 934 87Q878 153 798 174Q779 180 758.0 180.0Q737 180 713 173L714 163Q751 161 785.5 143.0Q820 125 846.0 99.5Q872 74 896 40Q935 -15 962 -80L759 -632Q746 -661 722.0 -675.5Q698 -690 673 -690H665V-700H970V-690H961Q940 -690 929.5 -676.5Q919 -663 919.0 -651.0Q919 -639 923 -628L1046 -281L1227 -716L1236 -715L1435 -276L1550 -679Q1575 -766 1629 -833Q1692 -912 1778 -934Z"
+            />
+          </g>
+        </defs>
+      </svg>
+      <div class="half left">
+        <div class="pane">
+          <svg viewBox="-114 -986 2053 1206" role="img" aria-label="Tablewright is starting">
+            <use class="t" href="#tw-t" />
+            <use class="w" href="#tw-w" />
+          </svg>
+        </div>
+      </div>
+      <div class="half right" aria-hidden="true">
+        <div class="pane">
+          <svg viewBox="-114 -986 2053 1206">
+            <use class="t" href="#tw-t" />
+            <use class="w" href="#tw-w" />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div id="board"></div>
     <div class="chrome">
       <!-- Which scene this is: the tab for everyone, the list for the DM until the Scenes leaf. -->

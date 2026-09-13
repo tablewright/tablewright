@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { curtainOpen } from "./helpers.js";
 
 // The measurement lives in the app (src/dev/perf-probe.ts); this spec only
 // starts a scenario, waits for its numbers, attaches them, and judges them.
@@ -19,6 +20,7 @@ test.describe("board frame times", () => {
     test(scenario, async ({ page }, testInfo) => {
       test.setTimeout(180_000);
       await page.goto(`/?perf=${scenario}`);
+      await curtainOpen(page);
       const renderer = await page.evaluate(() => {
         const gl = document.createElement("canvas").getContext("webgl2");
         if (gl === null) {

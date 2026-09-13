@@ -34,6 +34,12 @@ export default defineConfig({
     video: "off",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
+    // Stories are about what the table does, not about the wordmark drawing
+    // itself, which would otherwise cost every story nearly two seconds on a
+    // run already held to a quarter of the machine. Reduced motion is a real
+    // setting a person can choose, so this is a path the app supports rather
+    // than one kept for tests.
+    contextOptions: { reducedMotion: "reduce" },
   },
   webServer: {
     command: `bunx vite --port ${PORT} --strictPort`,

@@ -15,6 +15,19 @@ export async function openTable(page: Page, role: "dm" | "player" = "dm"): Promi
   await page.waitForFunction(
     () => window.__tablewright !== undefined && window.__tablewright.tokens().length > 0
   );
+  await curtainOpen(page);
+}
+
+/**
+ * The wordmark covers the whole window until it has drawn once and parted,
+ * and until then a press lands on it rather than on the board. The board is
+ * ready well before that, so being ready is not the same as taking input.
+ */
+export async function curtainOpen(page: Page): Promise<void> {
+  await page.waitForFunction(() => {
+    const loading = document.getElementById("loading");
+    return loading === null || loading.classList.contains("done");
+  });
 }
 
 /** The field typed into, by its name: the tray beside it holds inputs of its own. */

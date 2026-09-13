@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-114 -986 2053 1206" width="520" role="img" aria-label="Tablewright">
+  <title>Tablewright</title>
+  <desc>
+    The T and W of Cinzel Decorative as outlines rather than as text, lifted
+    once from packages/ui/fonts/cinzel-decorative-700.woff2. The W is set at
+    the T's shoulder, where its swash carries over the top.
+
+    This is the copy to open and to work on. The app paints its own, inline
+    in apps/table/index.html, because a loader that has to fetch a file is a
+    loader that has to wait for one. If these two paths change, that copy
+    changes with them.
+
+    Drawn here as the app draws it: once, then held. For a still wordmark,
+    drop the style block and give the paths a fill.
+  </desc>
+  <style>
+    path {
+      fill: none;
+      stroke: #c9a24e;
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: draw 1150ms ease-in-out forwards;
+    }
+    path + path {
+      animation-delay: 180ms;
+    }
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      path {
+        animation: none;
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+  <path pathLength="1" d="M-25 -467Q-74 -514 -74 -568Q-74 -610 -47 -641Q4 -701 96 -701H567Q611 -702 644.0 -708.5Q677 -715 686 -719V-545H676V-557Q676 -602 649.0 -630.0Q622 -658 576 -659H441V-72Q443 -36 474 -18Q488 -10 505 -10H518V0H214V-10H227Q253 -10 271.5 -28.0Q290 -46 291 -71V-659H96Q55 -659 24 -644Q-39 -614 -39 -550Q-39 -512 -15 -472Z" />
+  <path pathLength="1" d="M1778 -934Q1824 -946 1853.0 -946.0Q1882 -946 1899 -944V-934Q1768 -927 1689 -814Q1648 -756 1623 -679L1435 -93Q1418 -38 1418 9Q1418 14 1418 18H1408L1191 -464L1013 -41Q986 25 934 87Q878 153 798 174Q779 180 758.0 180.0Q737 180 713 173L714 163Q751 161 785.5 143.0Q820 125 846.0 99.5Q872 74 896 40Q935 -15 962 -80L759 -632Q746 -661 722.0 -675.5Q698 -690 673 -690H665V-700H970V-690H961Q940 -690 929.5 -676.5Q919 -663 919.0 -651.0Q919 -639 923 -628L1046 -281L1227 -716L1236 -715L1435 -276L1550 -679Q1575 -766 1629 -833Q1692 -912 1778 -934Z" />
+</svg>
