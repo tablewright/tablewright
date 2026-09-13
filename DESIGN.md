@@ -81,49 +81,63 @@ colors:
 
 typography:
   headline-md:
-    fontFamily: system-ui, Segoe UI, sans-serif
+    fontFamily: Libertinus Sans, system-ui, sans-serif
     fontSize: 20px
-    fontWeight: 600
+    fontWeight: 700
     lineHeight: 1.25
   headline-sm:
-    fontFamily: system-ui, Segoe UI, sans-serif
+    fontFamily: Libertinus Sans, system-ui, sans-serif
     fontSize: 16px
-    fontWeight: 600
+    fontWeight: 700
     lineHeight: 1.3
   body-md:
-    fontFamily: system-ui, Segoe UI, sans-serif
+    fontFamily: Libertinus Sans, system-ui, sans-serif
     fontSize: 14px
     fontWeight: 400
     lineHeight: 1.45
   body-sm:
-    fontFamily: system-ui, Segoe UI, sans-serif
+    fontFamily: Libertinus Sans, system-ui, sans-serif
     fontSize: 12px
     fontWeight: 400
     lineHeight: 1.4
   label-md:
-    fontFamily: system-ui, Segoe UI, sans-serif
+    fontFamily: Libertinus Sans, system-ui, sans-serif
     fontSize: 12px
-    fontWeight: 600
+    fontWeight: 700
     lineHeight: 1.2
     letterSpacing: 0.04em
   numeric-md:
-    fontFamily: ui-monospace, Cascadia Mono, Consolas, monospace
+    fontFamily: Fira Code, ui-monospace, Cascadia Mono, Consolas, monospace
     fontSize: 13px
     fontWeight: 500
     lineHeight: 1.2
     fontFeature: "tnum"
+  icon-md:
+    fontFamily: Material Symbols Rounded
+    fontSize: 20px
+    fontWeight: 500
+    lineHeight: 1
   document-title:
-    fontFamily: Georgia, Cambria, Times New Roman, serif
+    fontFamily: Cinzel Decorative, Georgia, serif
     fontSize: 22px
-    fontWeight: 600
-    lineHeight: 1.2
+    fontWeight: 700
+    lineHeight: 1.25
+  document-heading:
+    fontFamily: Cinzel Decorative, Georgia, serif
+    fontSize: 18px
+    fontWeight: 400
+    lineHeight: 1.3
+  document-body:
+    fontFamily: EB Garamond, Georgia, serif
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 1.55
   document-label:
-    fontFamily: system-ui, Segoe UI, sans-serif
+    fontFamily: Libertinus Sans, system-ui, sans-serif
     fontSize: 11px
-    fontWeight: 600
+    fontWeight: 700
     lineHeight: 1.2
     letterSpacing: 0.08em
-
 spacing:
   xs: 4px
   sm: 8px
@@ -173,12 +187,15 @@ components:
   document:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
+    typography: "{typography.document-body}"
     rounded: "{rounded.lg}"
     padding: "{spacing.xl}"
   document-title:
     textColor: "{colors.ink}"
     typography: "{typography.document-title}"
+  document-heading:
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.document-heading}"
   document-label:
     textColor: "{colors.ink-soft}"
     typography: "{typography.document-label}"

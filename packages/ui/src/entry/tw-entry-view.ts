@@ -163,20 +163,22 @@ export class TwEntryView extends LitElement {
     .body > * {
       margin: 0;
     }
+    /* A heading on the page is inscribed rather than labelled: the face is
+       cut from capitals, so it carries the hierarchy without being shouted
+       in upper case or leaned on for weight. */
     .body h2,
     .body h3,
     .body h4 {
-      margin-top: var(--tw-space-xs);
-      color: var(--tw-ink-soft);
-      font-family: var(--tw-typo-document-label-font-family);
-      font-size: var(--tw-typo-document-label-font-size);
-      font-weight: var(--tw-typo-document-label-font-weight);
-      line-height: var(--tw-typo-document-label-line-height);
-      letter-spacing: var(--tw-typo-document-label-letter-spacing);
-      text-transform: uppercase;
+      margin-top: var(--tw-space-sm);
+      color: var(--tw-comp-document-heading-text-color);
+      font-family: var(--tw-comp-document-heading-font-family);
+      font-size: var(--tw-comp-document-heading-font-size);
+      font-weight: var(--tw-comp-document-heading-font-weight);
+      line-height: var(--tw-comp-document-heading-line-height);
     }
-    .body h2 {
-      font-size: calc(var(--tw-typo-document-label-font-size) + 1px);
+    .body h3,
+    .body h4 {
+      font-size: calc(var(--tw-comp-document-heading-font-size) - 2px);
     }
     .body ul,
     .body ol {

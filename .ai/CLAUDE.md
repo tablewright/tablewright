@@ -55,6 +55,7 @@ a person does.
 
 - `docs/design.md` — design doc (source of truth for plans)
 - `docs/permissions.md` — roles, permissions and who sees what
+- `docs/typography.md` — the faces, the slots and the icons
 - `.ai/STYLE.md` — code style rules
 - `.plan/` — local-only plans (gitignored)
 - `apps/table`, `apps/vault` — Tauri shells

@@ -179,11 +179,13 @@ test("A DM draws walls", async ({ page }) => {
     expect((await tallsOf(page)).every((tall) => tall === 10)).toBe(true);
     await tools.getByLabel("How tall it stands").fill("3");
     await tools.getByRole("button", { name: "Line" }).click();
-    // A balustrade down x = 3, from row 1 to row 3: two edges, knee high.
+    // A balustrade down x = 16, from row 5 to row 7: two edges, knee high.
+    // Out in the open floor to the east, clear of the palette, which grows
+    // with the words in it.
     await drag(
       page,
-      await edgeOnScreen(page, { col: 2, row: 0 }, { col: 3, row: 1 }),
-      await edgeOnScreen(page, { col: 2, row: 2 }, { col: 3, row: 3 })
+      await edgeOnScreen(page, { col: 15, row: 4 }, { col: 16, row: 5 }),
+      await edgeOnScreen(page, { col: 15, row: 6 }, { col: 16, row: 7 })
     );
     await expect
       .poll(async () => (await tallsOf(page)).filter((tall) => tall === 3).length)

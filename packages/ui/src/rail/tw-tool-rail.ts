@@ -61,6 +61,7 @@ import {
 } from "@tablewright/board";
 import {
   HISTORY_ICON,
+  ICON_STYLES,
   KEPT_ICON,
   TOPOLOGY_ICON,
   MOVE_ICON,
@@ -217,6 +218,7 @@ export class TwToolRail extends LitElement {
   }
 
   static override styles = css`
+    ${ICON_STYLES}
     :host {
       position: fixed;
       top: 56px;
@@ -285,9 +287,6 @@ export class TwToolRail extends LitElement {
     .icon[aria-pressed="true"] {
       background: var(--tw-primary);
       color: var(--tw-on-primary);
-    }
-    .icon svg {
-      display: block;
     }
     .tip {
       position: absolute;
@@ -423,9 +422,6 @@ export class TwToolRail extends LitElement {
       background: var(--tw-surface-container-lowest);
       color: var(--tw-on-surface);
       cursor: pointer;
-    }
-    .tile svg {
-      display: block;
     }
     .tile:hover {
       background: var(--tw-surface-container-highest);

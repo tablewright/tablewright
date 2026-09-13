@@ -1,43 +1,63 @@
-// The icons: stroke glyphs on a 20 px grid, drawn once here so the rail,
-// the palette and a thing's own menu share them. Each takes the current
-// colour.
+// The icons, in two hands that are meant to read as one.
+//
+// Material Symbols is the default, reached by codepoint out of the table the
+// font build writes. Drawn here are only the glyphs Material has no idea
+// about, because they are tablewright's own ideas rather than an app's: a
+// threshold, a change of level, and the kinds of ink. Those are stroke
+// glyphs on a 20 px grid at 1.6, which is the weight Material is asked for,
+// so the two sit together. Both take the current colour.
+//
+// Design: docs/typography.md, "Icons".
 
-import { svg, type TemplateResult } from "lit";
+import { css, html, svg, type CSSResult, type TemplateResult } from "lit";
 import type { DrawShape, Ink, RulerMode } from "@tablewright/board";
+import { GLYPH } from "../glyphs.js";
 
 const frame = (body: TemplateResult): TemplateResult =>
-  svg`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+  svg`<svg class="glyph" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
 
-export const MOVE_ICON = frame(
-  svg`<circle cx="10" cy="6" r="2.6"></circle><path d="M6.5 16.5c0-3.2 1.6-5.2 3.5-5.2s3.5 2 3.5 5.2z"></path>`
-);
+// Material's, as a character rather than as the name of one.
+const symbol = (glyph: string): TemplateResult =>
+  html`<span class="glyph symbol" aria-hidden="true">${glyph}</span>`;
 
-export const UNDO_ICON = frame(
-  svg`<path d="M7 5L4 8l3 3"></path><path d="M4 8h7.5a4.5 4.5 0 010 9H8"></path>`
-);
+/**
+ * What a host has to add to its own styles for either hand to sit right.
+ * A drawn glyph is already 20 px square; a symbol is a character, so it is
+ * given the same square to stand in.
+ */
+export const ICON_STYLES: CSSResult = css`
+  .glyph {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+  .symbol {
+    font-family: var(--tw-typo-icon-md-font-family);
+    font-weight: var(--tw-typo-icon-md-font-weight);
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    /* Reached by codepoint, so nothing here should ever be ligated. */
+    font-variant-ligatures: none;
+  }
+`;
 
-export const HISTORY_ICON = frame(svg`<path d="M4 5.5h12M4 14.5h7M4 10h12"></path>`);
+export const MOVE_ICON = symbol(GLYPH.open_with);
 
-// What this hand is putting down: an eye open for the table, and the
-// same eye struck through for the DM keeping something back.
-export const SHOWN_ICON = frame(
-  svg`<path d="M2.5 10S5.5 5 10 5s7.5 5 7.5 5-3 5-7.5 5-7.5-5-7.5-5z"></path><circle cx="10" cy="10" r="2.2"></circle>`
-);
+export const UNDO_ICON = symbol(GLYPH.undo);
 
-export const KEPT_ICON = frame(
-  svg`<path d="M2.5 10S5.5 5 10 5s7.5 5 7.5 5-3 5-7.5 5-7.5-5-7.5-5z"></path><circle cx="10" cy="10" r="2.2"></circle><path d="M4 16L16 4"></path>`
-);
+export const HISTORY_ICON = symbol(GLYPH.history);
 
-// A grid of cells with a figure written in one: the scene as the rules
-// read it rather than as it is painted.
-export const TOPOLOGY_ICON = frame(
-  svg`<rect x="3" y="3" width="14" height="14" rx="1.5"></rect><path d="M3 8.5h14M3 13h14M8.5 3v14M13 3v14"></path><path d="M4.8 12.2v-1.9h1.6"></path>`
-);
+// What this hand is putting down: an eye open for the table, and the same
+// eye struck through for the DM keeping something back.
+export const SHOWN_ICON = symbol(GLYPH.visibility);
 
-// A ruler laid on the diagonal, its ticks across the near edge.
-export const RULER_ICON = frame(
-  svg`<path d="M3 14.5L14.5 3l2.5 2.5L5.5 17z"></path><path d="M6.5 11l1.5 1.5M9 8.5l1.5 1.5M11.5 6l1.5 1.5"></path>`
-);
+export const KEPT_ICON = symbol(GLYPH.visibility_off);
+
+// The scene as the rules read it rather than as it is painted.
+export const TOPOLOGY_ICON = symbol(GLYPH.grid_on);
+
+export const RULER_ICON = symbol(GLYPH.straighten);
 
 const INK_ICONS: Record<Ink, TemplateResult> = {
   ground: frame(

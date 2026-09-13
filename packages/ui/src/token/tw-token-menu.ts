@@ -14,7 +14,7 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { Visibility } from "@tablewright/schema";
-import { KEPT_ICON, SHOWN_ICON } from "../rail/icons.js";
+import { ICON_STYLES, KEPT_ICON, SHOWN_ICON } from "../rail/icons.js";
 
 export class TwTokenMenu extends LitElement {
   static override properties = {
@@ -34,6 +34,7 @@ export class TwTokenMenu extends LitElement {
   }
 
   static override styles = css`
+    ${ICON_STYLES}
     :host {
       position: fixed;
       z-index: 140;
@@ -67,7 +68,7 @@ export class TwTokenMenu extends LitElement {
     }
     /* The icon says which, as it does on the rail; the words say what,
        since a menu is read rather than learned by position. */
-    button svg {
+    button .glyph {
       flex: none;
       color: var(--tw-on-surface-variant);
     }
