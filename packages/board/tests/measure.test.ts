@@ -2,6 +2,8 @@ import { describe, expect, test } from "bun:test";
 import {
   DEFAULT_MOVER,
   DEFAULT_RULE,
+  FALL_MARK,
+  RISE_MARK,
   badgeText,
   derive,
   mansionStrokes,
@@ -57,13 +59,13 @@ describe("a measure up the hill", () => {
     expect(found.route?.cost).toBe(20);
     // Kept to oneself, the badge says so beside the numbers.
     expect(found.seenBy).toBe("own");
-    expect(badgeText(found, "line")).toBe("20 ft ↑15 ft — Just you");
+    expect(badgeText(found, "line")).toBe(`20 ft ${RISE_MARK}15 — Just you`);
   });
 
   test("down is an arrow down", () => {
     const found = measure(hill, at(6, 7), at(3, 3), DEFAULT_RULE, DEFAULT_MOVER);
     expect(found.rise).toBe(-15);
-    expect(badgeText(found, "line")).toBe("20 ft ↓15 ft");
+    expect(badgeText(found, "line")).toBe(`20 ft ${FALL_MARK}15`);
   });
 
   test("across the hill takes a dash", () => {

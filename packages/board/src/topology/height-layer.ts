@@ -33,6 +33,8 @@ export interface HeightStyle {
   readonly up: PackedColor;
   readonly down: PackedColor;
   readonly tag: PackedColor;
+  /** The face a measured figure is set in; the theme bridge supplies it. */
+  readonly face: string;
 }
 
 /** What the layer last drew, for tests and the readout. */
@@ -45,6 +47,7 @@ export interface HeightDrawing {
 }
 
 const DEFAULT_STYLE: HeightStyle = {
+  face: "ui-monospace, monospace",
   ground: 0x1b1d24,
   shade: { rgb: 0x000000, alpha: 1 },
   line: { rgb: 0xf1e6d2, alpha: 0.6 },
@@ -251,7 +254,7 @@ export class HeightLayer {
     const text = new Text({
       text: label,
       style: {
-        fontFamily: "system-ui, sans-serif",
+        fontFamily: this.style.face,
         fontSize: size,
         fontWeight: "600",
         fill: this.style.tag.rgb,

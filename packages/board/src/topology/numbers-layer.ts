@@ -25,9 +25,12 @@ export interface NumbersStyle {
   readonly down: PackedColor;
   /** A level change: the wash behind "stair". */
   readonly stair: PackedColor;
+  /** The face a measured figure is set in; the theme bridge supplies it. */
+  readonly face: string;
 }
 
 const DEFAULT_STYLE: NumbersStyle = {
+  face: "ui-monospace, monospace",
   ground: 0x1b1d24,
   up: { rgb: 0xe4c57a, alpha: 1 },
   down: { rgb: 0x5fa8bd, alpha: 1 },
@@ -155,7 +158,7 @@ export class NumbersLayer {
     }
     const label = new Text({
       text: "",
-      style: { fontFamily: "system-ui, sans-serif", fontWeight: "600", align: "center" },
+      style: { fontFamily: this.style.face, fontWeight: "600", align: "center" },
     });
     label.anchor.set(0.5);
     label.alpha = INK_ALPHA;

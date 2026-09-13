@@ -37,6 +37,19 @@ export interface BoardTheme {
   readonly ruler: PackedColor;
   /** The one red on the board: a way past what this turn's movement reaches. */
   readonly beyond: PackedColor;
+  /**
+   * The faces the board sets text in, as CSS font stacks. Figures for
+   * anything measured — a badge, a height tag, the numbers view — and
+   * labels for what a thing standing on the board is called.
+   */
+  readonly figures: string;
+  readonly labels: string;
+  /**
+   * The face a mark is drawn from. It goes after the text faces rather than
+   * before them: the icon file keeps the letters of the names its ligatures
+   * spell, so asked first it would answer for the a in "Dash" as well.
+   */
+  readonly marks: string;
 }
 
 // Used when a token is missing or unparseable, so a broken theme still shows a board.
@@ -60,6 +73,9 @@ const FALLBACK: BoardTheme = {
   heightTag: { rgb: 0xf1e6d2, alpha: 1 },
   ruler: { rgb: 0xf1e6d2, alpha: 1 },
   beyond: { rgb: 0xc8553d, alpha: 1 },
+  figures: "ui-monospace, monospace",
+  labels: "system-ui, sans-serif",
+  marks: "sans-serif",
 };
 
 /** Read the board tokens from `element`'s computed style. */
@@ -67,6 +83,8 @@ export function readBoardTheme(element: Element): BoardTheme {
   const style = getComputedStyle(element);
   const token = (name: string, fallback: PackedColor): PackedColor =>
     parseCssColor(style.getPropertyValue(`--tw-board-${name}`)) ?? fallback;
+  const face = (name: string, fallback: string): string =>
+    style.getPropertyValue(`--tw-typo-${name}-font-family`).trim() || fallback;
   return {
     ground: token("ground", { rgb: FALLBACK.ground, alpha: 1 }).rgb,
     grid: token("grid", FALLBACK.grid),
@@ -87,7 +105,34 @@ export function readBoardTheme(element: Element): BoardTheme {
     heightTag: token("height-tag", FALLBACK.heightTag),
     ruler: token("ruler", FALLBACK.ruler),
     beyond: token("beyond", FALLBACK.beyond),
+    figures: face("numeric-md", FALLBACK.figures),
+    labels: face("label-md", FALLBACK.labels),
+    marks: face("icon-md", FALLBACK.marks),
   };
+}
+
+/**
+ * Ask the browser for the faces the board draws in, and wait until it has
+ * them.
+ *
+ * `document.fonts.ready` is not enough on its own. It settles the loads the
+ * document has asked for, and a face is only asked for when an element is
+ * set in it — Pixi draws to a canvas, which asks for nothing. A face no
+ * element happened to use would still be missing at the first frame, Pixi
+ * would measure the fallback, and every badge would keep the fallback's
+ * widths for the rest of the session.
+ *
+ * The weights are the ones the board actually sets: a broken face is not
+ * worth refusing to draw over, so a load that fails is let through.
+ */
+export async function loadBoardFaces(theme: BoardTheme): Promise<void> {
+  const wanted = [
+    `600 16px ${theme.figures}`,
+    `700 16px ${theme.labels}`,
+    `500 16px ${theme.marks}`,
+  ];
+  await Promise.all(wanted.map((font) => document.fonts.load(font).catch(() => [])));
+  await document.fonts.ready;
 }
 
 /** Call `onChange` with a fresh theme whenever it may have changed; returns the stop function. */

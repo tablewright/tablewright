@@ -42,6 +42,19 @@ export const RULER_MODES: readonly RulerModeSpec[] = [
 ];
 
 /**
+ * The rise and the fall, drawn from Material Symbols rather than borrowed:
+ * no text face carries an arrow, so the one the badge used came from
+ * whatever the system keeps its symbols in — another weight, another
+ * optical size, and it read as pasted in beside the figures.
+ *
+ * Asked for by codepoint, not by the `arrow_upward` ligature the same file
+ * answers to. The badge's text is read by more than the eye: a story
+ * asserts on it and a log prints it, and neither wants the word.
+ */
+export const RISE_MARK = "\uE5D8";
+export const FALL_MARK = "\uE5DB";
+
+/**
  * The badge beside the far end. As a line: the distance, with the rise as
  * an arrow up or down when there is one. As a path: what the way costs,
  * led by Dash when it takes one, with the dice of a drop; beyond even a
@@ -72,7 +85,10 @@ function reading(measurement: Measurement, mode: RulerMode): string {
         return cost;
     }
   }
-  const climb = rise === 0 ? "" : ` ${rise > 0 ? "↑" : "↓"}${tidy(Math.abs(rise))} ${unit}`;
+  // The rise does not say the unit twice: the distance has said it
+  // already, and a mark with a number reads at a glance where "10 ft
+  // ↓ 10 ft" reads as clutter.
+  const climb = rise === 0 ? "" : ` ${rise > 0 ? RISE_MARK : FALL_MARK}${tidy(Math.abs(rise))}`;
   return `${tidy(distance)} ${unit}${climb}`;
 }
 

@@ -21,6 +21,10 @@ export interface TokenStyle {
   readonly label: PackedColor;
   readonly hover: PackedColor;
   readonly selection: PackedColor;
+  /** What a token is called: a name, so it is set in the chrome's face. */
+  readonly labelFace: string;
+  /** What a token wears: a figure, so it is set in the figures' face. */
+  readonly figureFace: string;
 }
 
 // The disc leaves a margin inside its cell so the grid line stays visible around it.
@@ -68,12 +72,12 @@ export class TokenSprite {
     this.style = style;
     this.text = new Text({
       text: label,
-      style: { fontFamily: "system-ui, sans-serif", fontWeight: "600", align: "center" },
+      style: { fontFamily: style.labelFace, fontWeight: "700", align: "center" },
     });
     this.text.anchor.set(0.5);
     this.badge = new Text({
       text: "",
-      style: { fontFamily: "system-ui, sans-serif", fontWeight: "600", align: "center" },
+      style: { fontFamily: style.figureFace, fontWeight: "600", align: "center" },
     });
     this.badge.anchor.set(0.5);
     this.badge.visible = false;
@@ -130,6 +134,8 @@ export class TokenSprite {
 
   setStyle(style: TokenStyle): void {
     this.style = style;
+    this.text.style.fontFamily = style.labelFace;
+    this.badge.style.fontFamily = style.figureFace;
     this.redraw();
   }
 

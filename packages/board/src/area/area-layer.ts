@@ -31,12 +31,15 @@ export interface AreaStyle {
    * of one the hand has not let go of yet.
    */
   readonly caught: PackedColor;
+  /** The face a measured figure is set in; the theme bridge supplies it. */
+  readonly face: string;
 }
 
 const DEFAULT_STYLE: AreaStyle = {
   ground: 0x1b1d24,
   line: { rgb: 0xf1e6d2, alpha: 1 },
   caught: { rgb: 0xc9a24e, alpha: 1 },
+  face: "ui-monospace, monospace",
 };
 
 // The footprint: a wash inside and a hairline round it, the same weight
@@ -101,7 +104,7 @@ export class AreaLayer {
     this.rule = rule;
     this.badge = new Text({
       text: "",
-      style: { fontFamily: "system-ui, sans-serif", fontWeight: "600", align: "left" },
+      style: { fontFamily: DEFAULT_STYLE.face, fontWeight: "600", align: "left" },
     });
     this.view.visible = false;
     this.view.addChild(this.cells, this.shape, this.rings, this.pill, this.badge);
@@ -120,6 +123,7 @@ export class AreaLayer {
 
   setStyle(style: AreaStyle): void {
     this.style = style;
+    this.badge.style.fontFamily = style.face;
     this.redraw();
   }
 

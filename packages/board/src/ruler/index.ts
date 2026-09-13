@@ -3,6 +3,8 @@ export { MeasureView, type RulerStyle } from "./measure-view.js";
 export {
   RULER_MODES,
   badgeText,
+  FALL_MARK,
+  RISE_MARK,
   isArea,
   type AreaMode,
   type RulerMode,

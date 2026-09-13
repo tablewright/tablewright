@@ -168,6 +168,8 @@ function tokenStyle(theme: BoardTheme): TokenStyle {
     label: theme.tokenLabel,
     hover: theme.hover,
     selection: theme.selection,
+    labelFace: theme.labels,
+    figureFace: theme.figures,
   };
 }
 
@@ -189,7 +191,14 @@ function drawStyle(theme: BoardTheme): DrawStyle {
 }
 
 function rulerStyle(theme: BoardTheme): RulerStyle {
-  return { line: theme.ruler, dash: theme.selection, beyond: theme.beyond, ground: theme.ground };
+  return {
+    line: theme.ruler,
+    dash: theme.selection,
+    beyond: theme.beyond,
+    ground: theme.ground,
+    face: theme.figures,
+    marks: theme.marks,
+  };
 }
 
 function numbersStyle(theme: BoardTheme): NumbersStyle {
@@ -198,11 +207,12 @@ function numbersStyle(theme: BoardTheme): NumbersStyle {
     up: theme.heightUp,
     down: theme.heightDown,
     stair: theme.threshold,
+    face: theme.figures,
   };
 }
 
 function areaStyle(theme: BoardTheme): AreaStyle {
-  return { ground: theme.ground, line: theme.ruler, caught: theme.selection };
+  return { ground: theme.ground, line: theme.ruler, caught: theme.selection, face: theme.figures };
 }
 
 function heightStyle(theme: BoardTheme): HeightStyle {
@@ -213,6 +223,7 @@ function heightStyle(theme: BoardTheme): HeightStyle {
     up: theme.heightUp,
     down: theme.heightDown,
     tag: theme.heightTag,
+    face: theme.figures,
   };
 }
 
