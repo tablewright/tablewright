@@ -133,6 +133,27 @@ test("A DM or a player moves a token", async ({ page }) => {
     await settledAt(page, token.id, far);
     await expect(page.locator("tw-dash-ask")).toBeHidden();
   });
+
+  await test.step("Delete takes the chosen token off the board.", async () => {
+    const standing = (await tokenCount(page)) ?? 0;
+    const token = await tokenOnScreen(page, 2);
+    await page.mouse.click(token.at.x, token.at.y);
+    await page.keyboard.press("Delete");
+    await expect.poll(async () => await tokenCount(page)).toBe(standing - 1);
+    expect(await tokenById(page, token.id)).toBeUndefined();
+  });
+
+  await test.step("A seat that may not move one chooses it and moves nothing.", async () => {
+    const seats = page.getByRole("group", { name: "Sit as" });
+    await seats.getByRole("button", { name: "Spectator" }).click();
+    const token = await tokenOnScreen(page, 0);
+    await page.mouse.click(token.at.x, token.at.y);
+    expect(await selectedId(page)).toBe(token.id);
+    await page.keyboard.press("ArrowRight");
+    // Chosen, and exactly where it stood.
+    expect((await tokenById(page, token.id))?.cell).toEqual(token.cell);
+    await seats.getByRole("button", { name: "The DM" }).click();
+  });
 });
 
 test("Working thresholds in play", async ({ page }) => {
@@ -251,26 +272,6 @@ test("The heights show as the scene chooses", async ({ page }) => {
       "aria-pressed",
       "false"
     );
-  });
-  await test.step("Delete takes the chosen token off the board.", async () => {
-    const standing = (await tokenCount(page)) ?? 0;
-    const token = await tokenOnScreen(page, 2);
-    await page.mouse.click(token.at.x, token.at.y);
-    await page.keyboard.press("Delete");
-    await expect.poll(async () => await tokenCount(page)).toBe(standing - 1);
-    expect(await tokenById(page, token.id)).toBeUndefined();
-  });
-
-  await test.step("A seat that may not move one chooses it and moves nothing.", async () => {
-    const seats = page.getByRole("group", { name: "Sit as" });
-    await seats.getByRole("button", { name: "Spectator" }).click();
-    const token = await tokenOnScreen(page, 0);
-    await page.mouse.click(token.at.x, token.at.y);
-    expect(await selectedId(page)).toBe(token.id);
-    await page.keyboard.press("ArrowRight");
-    // Chosen, and exactly where it stood.
-    expect((await tokenById(page, token.id))?.cell).toEqual(token.cell);
-    await seats.getByRole("button", { name: "The DM" }).click();
   });
 });
 

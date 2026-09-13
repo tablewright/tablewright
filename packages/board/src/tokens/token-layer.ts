@@ -335,8 +335,14 @@ export class TokenLayer {
     if (event.button !== 0 || this.press !== undefined) {
       return;
     }
-    // A hand that may not move one still chooses it, and nothing more.
+    // A hand that may not move one still chooses it, and nothing more. The
+    // press is still the token's to claim: let through to the board element,
+    // it would start a pan from under the token and end as a tap on empty
+    // board, which chooses nothing and so takes the choice straight back.
     if (!this.movable) {
+      if (event.nativeEvent instanceof PointerEvent) {
+        event.nativeEvent.stopPropagation();
+      }
       this.select(id);
       return;
     }
