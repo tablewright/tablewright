@@ -96,6 +96,17 @@ describe("a measure through the mansion", () => {
     expect(badgeText(found, "path")).toBe("20 ft, 1d6 fall");
   });
 
+  test("the way up says how much of it was climbed", () => {
+    // Into the gallery from the hall: the same ten feet the drop gives
+    // back, paid for on the way up at two of movement for one of height.
+    const found = measure(house, at(6, 5), at(6, 1), DEFAULT_RULE, DEFAULT_MOVER);
+    expect(found.rise).toBe(10);
+    expect(found.choice.route?.kinds.has("climb")).toBe(true);
+    expect(badgeText(found, "path")).toContain("10 ft climbed");
+    // The line answers the other question, so it says the rise as a rise.
+    expect(badgeText(found, "line")).toContain(`${RISE_MARK}10`);
+  });
+
   test("a cell no one can reach has no way on foot", () => {
     // The small window at the west wall of row 6 is sight only.
     const found = measure(house, at(1, 6), at(0, 6), DEFAULT_RULE, DEFAULT_MOVER);

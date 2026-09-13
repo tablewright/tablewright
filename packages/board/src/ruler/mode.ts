@@ -75,7 +75,7 @@ function reading(measurement: Measurement, mode: RulerMode): string {
     if (way === undefined) {
       return "No way";
     }
-    const cost = `${tidy(way.cost)} ${unit}${fall(way)}`;
+    const cost = `${tidy(way.cost)} ${unit}${climbed(way, unit)}${fall(way)}`;
     switch (choice.phase) {
       case "dash":
         return `Dash: ${cost}`;
@@ -95,6 +95,17 @@ function reading(measurement: Measurement, mode: RulerMode): string {
 // A drop's dice, a d6 each until the system's manifest says otherwise.
 function fall(route: Route): string {
   return route.dice > 0 ? `, ${route.dice}d6 fall` : "";
+}
+
+// A climb is paid for in the cost, two of movement for one of height
+// without a climb speed, so the way says how much of the number went
+// upwards. A drop says its dice; this is the other half of the same
+// question, which a number alone cannot answer.
+function climbed(route: Route, unit: string): string {
+  const risen = route.steps
+    .filter((step) => step.kind === "climb")
+    .reduce((sum, step) => sum + step.rise, 0);
+  return risen > 0 ? `, ${tidy(risen)} ${unit} climbed` : "";
 }
 
 // Whole numbers stay whole; the exact rule's lengths keep two places.
