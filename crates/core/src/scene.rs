@@ -371,11 +371,14 @@ mod tests {
             .set_token_visibility(&token, Visibility::Party)
             .expect("the token");
         assert_eq!(shown.visibility, Visibility::Party);
-        assert!(scene.set_token_visibility("nobody", Visibility::Dm).is_err());
+        assert!(
+            scene
+                .set_token_visibility("nobody", Visibility::Dm)
+                .is_err()
+        );
     }
 
     fn goblin() -> EntrySummary {
-
         EntrySummary {
             id: EntryId::new("5e-2024-srd:monster:goblin-warrior"),
             kind: "monster".into(),
