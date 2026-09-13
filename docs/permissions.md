@@ -135,9 +135,19 @@ one choice rather than from a flag apiece.
 
 Once a page is served to players rather than opened by the DM, a role
 has to be proved rather than asked for. A query string is something a
-player can type. Serve mode already plans a per-launch token in the
-URL (design §6); that token is what names the seat, and the app's own
-view is never reachable by asking.
+player can type.
+
+The DM's client is the DM's: it is the process holding the campaign,
+so nothing has to prove that. A player joins by picking a name for
+themselves and giving the password the DM handed out, which is enough
+to tell one person from another without pretending to be a login
+system, and it sits well with an invite secret shared out of band
+(design §6). The name a player picks is the seat, and what they may do
+follows from the role that seat holds.
+
+That is why the core does not yet ask who is calling: until people
+join, there is one hand per process and the question has no answer
+worth checking. The check belongs in the step that lets people in.
 
 ## What this replaces
 
