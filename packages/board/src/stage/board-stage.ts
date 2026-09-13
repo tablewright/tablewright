@@ -10,7 +10,7 @@
  * Design: docs/design.md §5, hybrid rendering; the board draws on request.
  */
 
-import { Application, Container } from "pixi.js";
+import { Application, Container, Text } from "pixi.js";
 import { FrameScheduler } from "./frame-scheduler.js";
 
 export interface BoardStageOptions {
@@ -48,6 +48,28 @@ const INPUT_EVENTS = [
 ] as const;
 const INPUT_OPTIONS: AddEventListenerOptions = { capture: true, passive: true };
 
+// How long after the last change of scale the text is drawn again, and how
+// far the scale has to have moved to be worth it: an eighth of a doubling,
+// which is about the point the eye starts to notice.
+const SETTLE_MS = 160;
+const SCALE_STEP = 0.125;
+// Four times the device's own pixels. A texture grows with the square of
+// this, and past here nobody is reading the board anyway.
+const MAX_TEXT_RESOLUTION = 4;
+
+/** Draw every piece of text under `root` again at `resolution`. */
+function sharpen(root: Container, resolution: number): void {
+  for (const child of root.children) {
+    if (child instanceof Text) {
+      if (child.resolution !== resolution) {
+        child.resolution = resolution;
+      }
+    } else if (child instanceof Container) {
+      sharpen(child, resolution);
+    }
+  }
+}
+
 /** A full-size Pixi canvas inside a host element, resized and DPR-corrected automatically. */
 export class BoardStage {
   readonly app: Application;
@@ -62,6 +84,8 @@ export class BoardStage {
   private readonly resizeListeners = new Set<() => void>();
   private readonly beforeDrawListeners = new Set<() => void>();
   private resolveFirstFrame: () => void = () => {};
+  private sharpenAt: ReturnType<typeof setTimeout> | undefined;
+  private sharpenedFor = 0;
   private dprQuery: MediaQueryList | undefined;
 
   private constructor(app: Application, host: HTMLElement) {
@@ -132,6 +156,7 @@ export class BoardStage {
 
   /** Stop drawing, detach the canvas, and release GPU resources. */
   destroy(): void {
+    clearTimeout(this.sharpenAt);
     this.scheduler.dispose();
     for (const type of INPUT_EVENTS) {
       this.host.removeEventListener(type, this.onInput, INPUT_OPTIONS);
@@ -189,6 +214,34 @@ export class BoardStage {
     }
     this.app.render();
     this.resolveFirstFrame();
+    this.watchScale();
+  }
+
+  /**
+   * Text is drawn once into a texture and the world then magnifies it, so at
+   * four times in it is four times the pixels it was drawn with. The way out
+   * is the one Figma and Miro take: do not magnify, draw again at the scale
+   * being looked at.
+   *
+   * Drawing again is a canvas redraw and an upload for every piece of text on
+   * the board, which is no way to spend a pinch. So it waits until the zoom
+   * has settled (user, 2026-09-13), and only for a change worth the work.
+   */
+  private watchScale(): void {
+    const wanted = this.world.scale.x;
+    if (Math.abs(Math.log2(wanted / this.sharpenedFor)) < SCALE_STEP) {
+      return;
+    }
+    clearTimeout(this.sharpenAt);
+    this.sharpenAt = setTimeout(() => {
+      this.sharpenedFor = this.world.scale.x;
+      const resolution = Math.min(
+        MAX_TEXT_RESOLUTION,
+        Math.max(1, this.sharpenedFor) * window.devicePixelRatio
+      );
+      sharpen(this.world, resolution);
+      this.requestFrame();
+    }, SETTLE_MS);
   }
 
   private fit(): void {
