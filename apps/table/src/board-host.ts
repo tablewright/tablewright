@@ -433,13 +433,12 @@ export class BoardHost {
       originX: scene.grid.origin_x,
       originY: scene.grid.origin_y,
     };
-    if (grid.cellSize !== this.grid.cellSize || grid.originX !== this.grid.originX) {
-      this.grid = grid;
-      this.tokenLayer.setGrid(grid, this.tokensWithHeights());
-      this.drawLayer.setGrid(grid);
-      this.ruler.setGrid(grid);
-      this.dragRoute.setGrid(grid);
-      this.isGridStale = true;
+    if (
+      grid.cellSize !== this.grid.cellSize ||
+      grid.originX !== this.grid.originX ||
+      grid.originY !== this.grid.originY
+    ) {
+      this.applyGrid(grid);
     }
     // A picture sets its own bounds once loaded; without one the scene's
     // grid is the board.
@@ -484,9 +483,30 @@ export class BoardHost {
     );
   }
 
+  // Every holder of the grid hears a change at once: the layers draw by it,
+  // and the tools read the pointer through it.
+  private applyGrid(grid: SquareGrid): void {
+    this.grid = grid;
+    this.tokenLayer.setGrid(grid, this.tokensWithHeights());
+    this.drawLayer.setGrid(grid);
+    this.ruler.setGrid(grid);
+    this.dragRoute.setGrid(grid);
+    this.areaLayer.setGrid(grid);
+    this.areaTool.setGrid(grid);
+    this.isGridStale = true;
+  }
+
   /** Measure by `rule`: the campaign's setting, the system's default until then. */
   setRule(rule: GridRule): void {
     this.rule = rule;
+    this.areaLayer.setRule(rule);
+    this.areaTool.setRule(rule);
+    // The ruler and the drag read the rule as they measure; an area already
+    // down is measured again, since what it catches is in the rule's unit.
+    const placed = this.areaTool.placed;
+    if (placed !== undefined) {
+      this.showArea(placed);
+    }
     this.redrawHeights();
     this.stage.requestFrame();
   }
