@@ -13,7 +13,7 @@
 import type { Visibility } from "@tablewright/schema";
 import type { Container } from "pixi.js";
 import { pointOn, type Point } from "../geometry.js";
-import { NOBODY, allows, seesIt, type Seat } from "../seen.js";
+import { Marking, type Seat } from "../seen.js";
 import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import { Listeners } from "../stage/listeners.js";
 import type { Measurement } from "./measure.js";
@@ -46,12 +46,7 @@ export class RulerTool {
   private isActive = false;
   private pointerId: number | undefined;
   private from: Cell | undefined;
-  /** Who the palette says a measure is for, and who this one turned out to be for. */
-  private seenBy: Visibility = "party";
-  private made: Visibility = "party";
-  /** The seat at this board, and the seat this measure was made in. */
-  private seat: Seat = NOBODY;
-  private madeBy = NOBODY.id;
+  private readonly marking = new Marking();
   private shown: Measurement | undefined;
 
   /** `toWorld` maps a point on the canvas to world pixels: the camera's inverse. */
@@ -104,22 +99,16 @@ export class RulerTool {
 
   /** Who the next measure is for. What is on the board keeps what it has. */
   setSeenBy(seenBy: Visibility): void {
-    this.seenBy = seenBy;
+    this.marking.setChoice(seenBy);
   }
 
-  /**
-   * The hand's own choice: the next measure, and the one on the board,
-   * which is how a measure already taken is shared without taking it
-   * again. Only a measure this view can see is re-marked, so nobody
-   * re-marks what they are not being shown.
-   */
+  /** The hand's own choice: the next measure, and the one on the board if this seat is shown it. */
   chooseSeenBy(seenBy: Visibility): void {
-    this.seenBy = this.canShow ? seenBy : "own";
-    if (this.shown === undefined || this.measurement === undefined) {
+    if (!this.marking.choose(seenBy) || this.shown === undefined) {
       return;
     }
-    this.made = seenBy;
-    this.shown = { ...this.shown, seenBy };
+    // The measurement carries who it is for, so the badge can say so.
+    this.shown = { ...this.shown, seenBy: this.marking.seenBy };
     this.redraw();
     this.notify();
   }
@@ -129,10 +118,9 @@ export class RulerTool {
    * shown here, and comes back when that seat returns.
    */
   setSeat(seat: Seat): void {
-    if (seat.id === this.seat.id) {
+    if (!this.marking.setSeat(seat)) {
       return;
     }
-    this.seat = seat;
     this.redraw();
     this.notify();
   }
@@ -151,10 +139,10 @@ export class RulerTool {
   /** The measure on show, pinned or under the pointer, in the mode it is read in. */
   get measurement(): ShownMeasure | undefined {
     const shown = this.shown;
-    if (shown === undefined || !seesIt(shown.seenBy, this.isMine, this.seat.role)) {
+    if (shown === undefined || !this.marking.isSeen) {
       return undefined;
     }
-    return { ...shown, mode: this.mode, madeBy: this.madeBy };
+    return { ...shown, mode: this.mode, madeBy: this.marking.madeBy };
   }
 
   /** Hear the measure as it changes. Returns the unsubscribe. */
@@ -187,10 +175,7 @@ export class RulerTool {
     this.canvas.setPointerCapture(event.pointerId);
     this.pointerId = event.pointerId;
     this.from = this.cellUnder(event);
-    // Alt is the shortcut for one's own, whatever the palette holds, and
-    // a seat that may not show what it measures keeps it either way.
-    this.made = this.canShow && !event.altKey ? this.seenBy : "own";
-    this.madeBy = this.seat.id;
+    this.marking.press(event.altKey);
     this.show(this.from);
   };
 
@@ -229,7 +214,7 @@ export class RulerTool {
     if (this.from === undefined) {
       return;
     }
-    this.shown = this.measurer(this.from, to, this.made);
+    this.shown = this.measurer(this.from, to, this.marking.seenBy);
     this.redraw();
     this.notify();
   }
@@ -248,16 +233,6 @@ export class RulerTool {
 
   private cellUnder(event: PointerEvent): Cell {
     return worldToCell(this.grid, this.toWorld(pointOn(this.canvas, event)));
-  }
-
-  // Whether this seat may let the table see what it measures at all.
-  private get canShow(): boolean {
-    return allows(this.seat.role, "ruler:show");
-  }
-
-  // Mine when it was made in the seat this page is sitting in.
-  private get isMine(): boolean {
-    return this.madeBy === this.seat.id;
   }
 
   private redraw(): void {

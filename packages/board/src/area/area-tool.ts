@@ -13,7 +13,7 @@
 
 import type { Visibility } from "@tablewright/schema";
 import { lengthOf, pointOn, type Point } from "../geometry.js";
-import { NOBODY, allows, seesIt, type Seat } from "../seen.js";
+import { Marking, type Seat } from "../seen.js";
 import {
   cellPointToWorld,
   worldToCell,
@@ -77,12 +77,7 @@ export class AreaTool {
   // one laid down without moving keeps the length the palette holds.
   private reach: number | undefined;
   private snap: OriginSnap = "centre";
-  /** Who the palette says the next one is for, and who the one on the board is for. */
-  private seenBy: Visibility = "party";
-  private made: Visibility = "party";
-  /** The seat at this board, and the seat this one was laid in. */
-  private seat: Seat = NOBODY;
-  private madeBy = NOBODY.id;
+  private readonly marking = new Marking();
   /** Where the origin sat under the hand when a move began, in the rule's unit. */
   private grab: { x: number; y: number } | undefined;
   private phase: Phase = "idle";
@@ -161,35 +156,29 @@ export class AreaTool {
 
   /** Who the next area laid is for. What is on the board keeps what it has. */
   setSeenBy(seenBy: Visibility): void {
-    this.seenBy = seenBy;
+    this.marking.setChoice(seenBy);
   }
 
+  /** The hand's own choice: the next area, and the one on the board if this seat is shown it. */
   chooseSeenBy(seenBy: Visibility): void {
-    this.seenBy = this.canShow ? seenBy : "own";
-    if (this.placed === undefined) {
+    if (!this.marking.choose(seenBy) || this.area === undefined || this.origin === undefined) {
       return;
     }
-    this.made = seenBy;
     this.notify();
   }
 
+  /** Who sits at this board. An area another seat kept to itself is not shown here. */
   setSeat(seat: Seat): void {
-    if (seat.id === this.seat.id) {
+    if (!this.marking.setSeat(seat)) {
       return;
     }
-    this.seat = seat;
     this.notify();
   }
 
   /** The area on the board, under the hand or left there. */
   get placed(): PlacedArea | undefined {
     const { area, origin } = this;
-    if (area === undefined || origin === undefined) {
-      return undefined;
-    }
-    // Mine when it was laid in the seat this page is sitting in.
-    const isMine = this.madeBy === this.seat.id;
-    if (!seesIt(this.made, isMine, this.seat.role)) {
+    if (area === undefined || origin === undefined || !this.marking.isSeen) {
       return undefined;
     }
     const turned = aimed(area, this.aim);
@@ -197,8 +186,8 @@ export class AreaTool {
     return {
       area: sized,
       origin,
-      seenBy: this.made,
-      madeBy: this.madeBy,
+      seenBy: this.marking.seenBy,
+      madeBy: this.marking.madeBy,
       isPlaced: this.phase === "idle",
     };
   }
@@ -255,8 +244,7 @@ export class AreaTool {
     this.phase = "placing";
     this.reach = undefined;
     this.grab = undefined;
-    this.made = this.canShow && !event.altKey ? this.seenBy : "own";
-    this.madeBy = this.seat.id;
+    this.marking.press(event.altKey);
     this.moveOrigin(event);
   };
 
@@ -341,11 +329,6 @@ export class AreaTool {
   private inUnit(at: Point): { x: number; y: number } {
     const cells = worldToCellPoint(this.grid, at);
     return { x: cells.x * this.rule.cellSize, y: cells.y * this.rule.cellSize };
-  }
-
-  // Whether this seat may let the table see what it lays down at all.
-  private get canShow(): boolean {
-    return allows(this.seat.role, "ruler:show");
   }
 
   private notify(): void {

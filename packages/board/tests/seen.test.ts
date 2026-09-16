@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { Role, Visibility } from "@tablewright/schema";
-import { SEEN_BY, allows, reachOf, seenByNote, seesIt } from "../src/index.js";
+import { Marking, SEEN_BY, allows, reachOf, seenByNote, seesIt, type Seat } from "../src/index.js";
 
 const role = (sees: Visibility, over: Partial<Role> = {}): Role => ({
   name: "Someone",
@@ -56,6 +56,65 @@ describe("who sees a measure or an area", () => {
   test("everyone is the first choice offered, so it is the default", () => {
     expect(SEEN_BY[0]).toBe("party");
     expect([...SEEN_BY]).toEqual(["party", "dm", "own"]);
+  });
+});
+
+describe("who a measure or an area is made for", () => {
+  const seat = (id: string, sees: Visibility, over: Partial<Role> = {}): Seat => ({
+    id,
+    role: role(sees, { permissions: ["ruler:use", "ruler:show"], ...over }),
+  });
+  const dmSeat = seat("dm", "dm");
+  const playerSeat = seat("p1", "party");
+
+  test("a press takes the palette's choice, or one's own with Alt held", () => {
+    const marking = new Marking();
+    marking.setSeat(playerSeat);
+    marking.setChoice("dm");
+    marking.press(false);
+    expect(marking.seenBy).toBe("dm");
+    expect(marking.madeBy).toBe("p1");
+    marking.press(true);
+    expect(marking.seenBy).toBe("own");
+    expect(marking.isSeen).toBe(true);
+  });
+
+  test("a seat that may not show keeps everything to itself, whatever it chooses", () => {
+    const marking = new Marking();
+    marking.setSeat(seat("p2", "party", { permissions: ["ruler:use"] }));
+    expect(marking.canShow).toBe(false);
+    marking.setChoice("party");
+    marking.press(false);
+    expect(marking.seenBy).toBe("own");
+    expect(marking.choose("party")).toBe(true);
+    expect(marking.seenBy).toBe("own");
+  });
+
+  test("choosing re-marks the one on the board only for a seat that is shown it", () => {
+    const marking = new Marking();
+    marking.setSeat(playerSeat);
+    marking.press(false);
+    expect(marking.seenBy).toBe("party");
+    // The DM is shown the party's, so the DM may keep it to the DM.
+    expect(marking.setSeat(dmSeat)).toBe(true);
+    expect(marking.isSeen).toBe(true);
+    expect(marking.choose("dm")).toBe(true);
+    expect(marking.seenBy).toBe("dm");
+    // Its maker still sees it, and may take it back to their own.
+    marking.setSeat(playerSeat);
+    expect(marking.isSeen).toBe(true);
+    expect(marking.choose("own")).toBe(true);
+    // Now nobody else is shown it, so nobody else can re-mark it.
+    marking.setSeat(dmSeat);
+    expect(marking.isSeen).toBe(false);
+    expect(marking.choose("party")).toBe(false);
+    expect(marking.seenBy).toBe("own");
+  });
+
+  test("sitting down again in the same seat changes nothing", () => {
+    const marking = new Marking();
+    expect(marking.setSeat(dmSeat)).toBe(true);
+    expect(marking.setSeat(seat("dm", "party"))).toBe(false);
   });
 });
 

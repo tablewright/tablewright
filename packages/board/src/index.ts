@@ -1,5 +1,6 @@
 export { pointOn, type Point, type WorldRect } from "./geometry.js";
 export {
+  Marking,
   NOBODY,
   NO_ROLE,
   SEEN_BY,
