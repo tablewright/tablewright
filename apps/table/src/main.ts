@@ -804,14 +804,15 @@ try {
   let chromeShown = false;
   // On the page, or off it altogether. Each remembers where it stood, so
   // it goes back where it was rather than to the end.
-  const stood = new Map<HTMLElement, Node | null>();
+  const stood = new Map<HTMLElement, { parent: ParentNode; next: Node | null }>();
   const show = (element: HTMLElement, on: boolean): void => {
-    if (!stood.has(element)) {
-      stood.set(element, element.nextSibling);
+    if (!stood.has(element) && element.parentNode !== null) {
+      stood.set(element, { parent: element.parentNode, next: element.nextSibling });
     }
     if (on) {
-      if (!element.isConnected) {
-        document.body.insertBefore(element, stood.get(element) ?? null);
+      const place = stood.get(element);
+      if (!element.isConnected && place !== undefined) {
+        place.parent.insertBefore(element, place.next);
       }
       element.hidden = false;
     } else {
