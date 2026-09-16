@@ -12,10 +12,11 @@
 
 import type { Visibility } from "@tablewright/schema";
 import type { Container } from "pixi.js";
-import { pointOn, type Point } from "../geometry.js";
+import type { Point } from "../geometry.js";
 import { Marking, type Seat } from "../seen.js";
 import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import { Listeners } from "../stage/listeners.js";
+import { PointerSession } from "../stage/pointer-session.js";
 import type { Measurement } from "./measure.js";
 import { MeasureView, type RulerStyle } from "./measure-view.js";
 import type { RulerMode } from "./mode.js";
@@ -36,15 +37,12 @@ export type MeasureListener = (measurement: ShownMeasure | undefined) => void;
 
 /** Measures from a press to the pointer while active; the last measure stays until cleared. */
 export class RulerTool {
-  private readonly canvas: HTMLElement;
   private readonly drawn: MeasureView;
-  private readonly toWorld: (screen: Point) => Point;
   private readonly measurer: Measurer;
   private readonly listeners = new Listeners<ShownMeasure | undefined>();
+  private readonly session: PointerSession;
   private grid: SquareGrid;
   private mode: RulerMode = "line";
-  private isActive = false;
-  private pointerId: number | undefined;
   private from: Cell | undefined;
   private readonly marking = new Marking();
   private shown: Measurement | undefined;
@@ -57,32 +55,41 @@ export class RulerTool {
     toWorld: (screen: Point) => Point,
     measurer: Measurer
   ) {
-    this.canvas = canvas;
     this.grid = grid;
-    this.toWorld = toWorld;
     this.measurer = measurer;
     this.drawn = new MeasureView(container, grid);
+    this.session = new PointerSession(canvas, toWorld, {
+      onDown: (at, event) => {
+        this.from = worldToCell(this.grid, at);
+        this.marking.press(event.altKey);
+        this.show(this.from);
+        return true;
+      },
+      onMove: (at) => this.show(worldToCell(this.grid, at)),
+      // The release position is the last word, and the measure stays pinned.
+      onUp: (at) => {
+        this.show(worldToCell(this.grid, at));
+        this.from = undefined;
+      },
+      onCancel: () => {
+        this.from = undefined;
+      },
+      onEscape: (event) => {
+        if (this.shown === undefined) {
+          return;
+        }
+        event.preventDefault();
+        this.session.release();
+        this.from = undefined;
+        this.clear();
+      },
+    });
   }
 
   /** Whether the pointer measures. Off, the tool hears nothing and shows nothing. */
   setActive(on: boolean): void {
-    if (on === this.isActive) {
-      return;
-    }
-    this.isActive = on;
-    if (on) {
-      this.canvas.addEventListener("pointerdown", this.onPointerDown);
-      this.canvas.addEventListener("pointermove", this.onPointerMove);
-      this.canvas.addEventListener("pointerup", this.onPointerUp);
-      this.canvas.addEventListener("pointercancel", this.onPointerCancel);
-      window.addEventListener("keydown", this.onKeyDown);
-    } else {
-      this.canvas.removeEventListener("pointerdown", this.onPointerDown);
-      this.canvas.removeEventListener("pointermove", this.onPointerMove);
-      this.canvas.removeEventListener("pointerup", this.onPointerUp);
-      this.canvas.removeEventListener("pointercancel", this.onPointerCancel);
-      window.removeEventListener("keydown", this.onKeyDown);
-      this.release();
+    if (this.session.setActive(on) && !on) {
+      this.from = undefined;
       this.clear();
     }
   }
@@ -165,51 +172,6 @@ export class RulerTool {
     this.drawn.destroy();
   }
 
-  private readonly onPointerDown = (event: PointerEvent): void => {
-    if (event.button !== 0 || this.pointerId !== undefined) {
-      return;
-    }
-    // The press is the ruler's; the board element must not start a pan.
-    event.stopPropagation();
-    event.preventDefault();
-    this.canvas.setPointerCapture(event.pointerId);
-    this.pointerId = event.pointerId;
-    this.from = this.cellUnder(event);
-    this.marking.press(event.altKey);
-    this.show(this.from);
-  };
-
-  private readonly onPointerMove = (event: PointerEvent): void => {
-    if (event.pointerId !== this.pointerId) {
-      return;
-    }
-    this.show(this.cellUnder(event));
-  };
-
-  // The release position is the last word, and the measure stays pinned.
-  private readonly onPointerUp = (event: PointerEvent): void => {
-    if (event.pointerId !== this.pointerId) {
-      return;
-    }
-    this.show(this.cellUnder(event));
-    this.release();
-  };
-
-  private readonly onPointerCancel = (event: PointerEvent): void => {
-    if (event.pointerId === this.pointerId) {
-      this.release();
-    }
-  };
-
-  private readonly onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== "Escape" || this.shown === undefined) {
-      return;
-    }
-    event.preventDefault();
-    this.release();
-    this.clear();
-  };
-
   private show(to: Cell): void {
     if (this.from === undefined) {
       return;
@@ -219,20 +181,8 @@ export class RulerTool {
     this.notify();
   }
 
-  private release(): void {
-    if (this.pointerId !== undefined && this.canvas.hasPointerCapture(this.pointerId)) {
-      this.canvas.releasePointerCapture(this.pointerId);
-    }
-    this.pointerId = undefined;
-    this.from = undefined;
-  }
-
   private notify(): void {
     this.listeners.emit(this.measurement);
-  }
-
-  private cellUnder(event: PointerEvent): Cell {
-    return worldToCell(this.grid, this.toWorld(pointOn(this.canvas, event)));
   }
 
   private redraw(): void {

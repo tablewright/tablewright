@@ -48,7 +48,6 @@ import {
   seenAt,
   visibleTo,
   watchBoardTheme,
-  pointOn,
   worldToCell,
   worldToCellPoint,
   Listeners,
@@ -350,7 +349,7 @@ export class BoardHost {
     // selection, the same as pressing Escape. The pointer over a threshold
     // brightens it first, so a door reads as something to work.
     input.onTap((at) => this.tap(at));
-    target.addEventListener("pointermove", this.onPointerMove);
+    input.onMove((at) => this.hover(at));
     target.addEventListener("pointerleave", this.onPointerLeave);
 
     this.gridLayer.setStyle(theme.grid);
@@ -780,12 +779,13 @@ export class BoardHost {
     return data?.kind === "threshold" && data.threshold !== "arch" ? data : undefined;
   }
 
-  private readonly onPointerMove = (event: PointerEvent): void => {
+  // The pointer over a threshold brightens it, for the hand that can work it.
+  private hover(at: Point): void {
     if (this.isToolHeld) {
       return;
     }
-    this.setHighlight(this.thresholdNear(pointOn(this.target, event))?.edge);
-  };
+    this.setHighlight(this.thresholdNear(at)?.edge);
+  }
 
   private readonly onPointerLeave = (): void => {
     this.setHighlight(undefined);

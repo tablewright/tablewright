@@ -12,7 +12,7 @@
  */
 
 import type { Visibility } from "@tablewright/schema";
-import { lengthOf, pointOn, type Point } from "../geometry.js";
+import { lengthOf, type Point } from "../geometry.js";
 import { Marking, type Seat } from "../seen.js";
 import {
   cellPointToWorld,
@@ -22,6 +22,7 @@ import {
   type SquareGrid,
 } from "../grid/square-grid.js";
 import { Listeners } from "../stage/listeners.js";
+import { PointerSession } from "../stage/pointer-session.js";
 import { facingToward, normalizeDegrees } from "../tokens/facing.js";
 import type { GridRule } from "../topology/distance.js";
 import {
@@ -64,10 +65,9 @@ const FINE_TURN = 5;
 
 /** Takes the pointer while an area is being laid down or moved. */
 export class AreaTool {
-  private readonly canvas: HTMLElement;
-  private readonly toWorld: (screen: Point) => Point;
   private readonly originFor: OriginFor;
   private readonly listeners = new Listeners<PlacedArea | undefined>();
+  private readonly session: PointerSession;
   private rule: GridRule;
   private grid: SquareGrid;
   private area: Area | undefined;
@@ -81,8 +81,6 @@ export class AreaTool {
   /** Where the origin sat under the hand when a move began, in the rule's unit. */
   private grab: { x: number; y: number } | undefined;
   private phase: Phase = "idle";
-  private pointerId: number | undefined;
-  private isActive = false;
 
   constructor(
     canvas: HTMLElement,
@@ -91,33 +89,29 @@ export class AreaTool {
     rule: GridRule,
     originFor: OriginFor
   ) {
-    this.canvas = canvas;
     this.grid = grid;
-    this.toWorld = toWorld;
     this.rule = rule;
     this.originFor = originFor;
+    this.session = new PointerSession(canvas, toWorld, {
+      takes: () => this.area !== undefined,
+      onDown: (at, event) => this.press(at, event),
+      onMove: (at) => this.drag(at),
+      onUp: () => this.settle(),
+      onCancel: () => this.settle(),
+      onWheel: (event) => this.turn(event),
+      onEscape: (event) => {
+        if (this.origin === undefined) {
+          return;
+        }
+        event.preventDefault();
+        this.clear();
+      },
+    });
   }
 
   /** Whether the pointer lays areas down. Off, the tool hears nothing. */
   setActive(on: boolean): void {
-    if (on === this.isActive) {
-      return;
-    }
-    this.isActive = on;
-    if (on) {
-      this.canvas.addEventListener("pointerdown", this.onPointerDown);
-      this.canvas.addEventListener("pointermove", this.onPointerMove);
-      this.canvas.addEventListener("pointerup", this.onPointerUp);
-      this.canvas.addEventListener("pointercancel", this.onPointerUp);
-      this.canvas.addEventListener("wheel", this.onWheel, { passive: false });
-      window.addEventListener("keydown", this.onKeyDown);
-    } else {
-      this.canvas.removeEventListener("pointerdown", this.onPointerDown);
-      this.canvas.removeEventListener("pointermove", this.onPointerMove);
-      this.canvas.removeEventListener("pointerup", this.onPointerUp);
-      this.canvas.removeEventListener("pointercancel", this.onPointerUp);
-      this.canvas.removeEventListener("wheel", this.onWheel);
-      window.removeEventListener("keydown", this.onKeyDown);
+    if (this.session.setActive(on) && !on) {
       this.clear();
     }
   }
@@ -205,7 +199,7 @@ export class AreaTool {
     this.reach = undefined;
     this.grab = undefined;
     this.phase = "idle";
-    this.release();
+    this.session.release();
     this.notify();
   }
 
@@ -214,71 +208,56 @@ export class AreaTool {
     this.listeners.clear();
   }
 
-  private readonly onPointerDown = (event: PointerEvent): void => {
-    if (event.button !== 0 || this.area === undefined || this.pointerId !== undefined) {
-      return;
-    }
-    event.stopPropagation();
-    event.preventDefault();
-    this.canvas.setPointerCapture(event.pointerId);
-    this.pointerId = event.pointerId;
-    // A press inside what is already drawn takes hold of it; anywhere
-    // else starts a new one where the press landed.
+  // A press inside what is already drawn takes hold of it; anywhere else
+  // starts a new one where the press landed.
+  private press(at: Point, event: PointerEvent): boolean {
     const placed = this.placed;
     if (
       placed !== undefined &&
-      footprintCovers(
-        placed.area,
-        placed.origin,
-        worldToCellPoint(this.grid, this.worldUnder(event)),
-        this.rule
-      )
+      footprintCovers(placed.area, placed.origin, worldToCellPoint(this.grid, at), this.rule)
     ) {
       this.phase = "moving";
       // The area moves with the hand rather than jumping under it: what
       // is held is the offset, not the origin.
-      const at = this.inUnit(this.worldUnder(event));
-      this.grab = { x: at.x - placed.origin.x, y: at.y - placed.origin.y };
-      return;
+      const under = this.inUnit(at);
+      this.grab = { x: under.x - placed.origin.x, y: under.y - placed.origin.y };
+      return true;
     }
     this.phase = "placing";
     this.reach = undefined;
     this.grab = undefined;
     this.marking.press(event.altKey);
-    this.moveOrigin(event);
-  };
+    this.moveOrigin(at);
+    return true;
+  }
 
-  private readonly onPointerMove = (event: PointerEvent): void => {
-    if (event.pointerId !== this.pointerId || this.origin === undefined) {
+  // The drag aims it and reaches: its bearing turns it and its distance is
+  // how far it goes, so one gesture settles both.
+  private drag(at: Point): void {
+    if (this.origin === undefined) {
       return;
     }
     if (this.phase === "moving") {
-      this.moveOrigin(event);
+      this.moveOrigin(at);
       return;
     }
-    // The drag aims it and reaches: its bearing turns it and its
-    // distance is how far it goes, so one gesture settles both.
-    const at = this.worldUnder(event);
     const from = this.worldOf(this.origin);
     this.aim = facingToward(from, at) ?? this.aim;
     const away = (lengthOf(from, at) / this.grid.cellSize) * this.rule.cellSize;
     this.reach = snapSize(away, this.rule);
     this.notify();
-  };
+  }
 
-  private readonly onPointerUp = (event: PointerEvent): void => {
-    if (event.pointerId !== this.pointerId) {
-      return;
-    }
+  // The release leaves the area where it is.
+  private settle(): void {
     this.phase = "idle";
-    this.release();
     this.notify();
-  };
+  }
 
   // The wheel turns what is under the hand. It is taken only while the
   // pointer is down, so the camera keeps the wheel the rest of the time.
-  private readonly onWheel = (event: WheelEvent): void => {
-    if (this.pointerId === undefined || this.origin === undefined) {
+  private turn(event: WheelEvent): void {
+    if (this.origin === undefined) {
       return;
     }
     event.preventDefault();
@@ -286,38 +265,16 @@ export class AreaTool {
     const step = event.shiftKey ? FINE_TURN : TURN_STEP;
     this.aim = normalizeDegrees(this.aim + (event.deltaY > 0 ? step : -step));
     this.notify();
-  };
-
-  private readonly onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== "Escape" || this.origin === undefined) {
-      return;
-    }
-    event.preventDefault();
-    this.clear();
-  };
+  }
 
   // Put the origin where the pointer says, as near as the snap allows.
-  private moveOrigin(event: PointerEvent): void {
-    const world = this.worldUnder(event);
+  private moveOrigin(world: Point): void {
     const under = this.inUnit(world);
     const wanted =
       this.grab === undefined ? under : { x: under.x - this.grab.x, y: under.y - this.grab.y };
     const at = snapOrigin(wanted, this.snap, this.rule);
     this.origin = this.originFor(worldToCell(this.grid, this.worldOf({ ...at, z: 0 })), at);
     this.notify();
-  }
-
-  private release(): void {
-    if (this.pointerId !== undefined && this.canvas.hasPointerCapture(this.pointerId)) {
-      this.canvas.releasePointerCapture(this.pointerId);
-    }
-    this.pointerId = undefined;
-  }
-
-  // The canvas may sit anywhere on the page, so the press is read from
-  // the client's own corner, as the ruler reads it.
-  private worldUnder(event: PointerEvent): Point {
-    return this.toWorld(pointOn(this.canvas, event));
   }
 
   // An origin sits in the rule's unit; the pointer is in world pixels,

@@ -26,6 +26,9 @@ const TAP_THRESHOLD_PX = 4;
  */
 export type BoardTapListener = (at: Point) => void;
 
+/** Called as the pointer moves over the board element, at that point on it. */
+export type BoardMoveListener = (at: Point) => void;
+
 /** Binds camera gestures to `target` until `dispose` is called. */
 export class CameraInput {
   private readonly camera: Camera;
@@ -33,6 +36,7 @@ export class CameraInput {
   private readonly pointers = new Map<number, Point>();
   private readonly pressOrigins = new Map<number, Point>();
   private readonly tapListeners = new Listeners<Point>();
+  private readonly moveListeners = new Listeners<Point>();
 
   constructor(camera: Camera, target: HTMLElement) {
     this.camera = camera;
@@ -61,6 +65,11 @@ export class CameraInput {
   /** Subscribe to taps on empty board; returns the unsubscribe function. */
   onTap(listener: BoardTapListener): () => void {
     return this.tapListeners.add(listener);
+  }
+
+  /** Hear the pointer move over the board, held or not. Returns the unsubscribe. */
+  onMove(listener: BoardMoveListener): () => void {
+    return this.moveListeners.add(listener);
   }
 
   private readonly onContextMenu = (event: Event): void => {
@@ -92,6 +101,7 @@ export class CameraInput {
   };
 
   private readonly onPointerMove = (event: PointerEvent): void => {
+    this.moveListeners.emit(pointOn(this.target, event));
     const previous = this.pointers.get(event.pointerId);
     if (previous === undefined) {
       return;

@@ -10,7 +10,7 @@
 
 import { Graphics, type Container } from "pixi.js";
 import type { Stroke, Visibility } from "@tablewright/schema";
-import { pointOn, type Point } from "../geometry.js";
+import type { Point } from "../geometry.js";
 import {
   cellPointToWorld,
   worldToCellPoint,
@@ -18,6 +18,7 @@ import {
   type SquareGrid,
 } from "../grid/square-grid.js";
 import { Listeners } from "../stage/listeners.js";
+import { PointerSession } from "../stage/pointer-session.js";
 import type { PackedColor } from "../theme/css-color.js";
 import {
   beginGesture,
@@ -49,9 +50,8 @@ const DEFAULT_STYLE: DrawStyle = {
 
 /** Turns presses on the canvas into strokes while a tool is set. */
 export class DrawLayer {
-  private readonly canvas: HTMLElement;
   private readonly graphics = new Graphics();
-  private readonly toWorld: (screen: Point) => Point;
+  private readonly session: PointerSession;
   private readonly strokeListeners = new Listeners<Stroke>();
   private readonly hoverListeners = new Listeners<Cell | undefined>();
   private grid: SquareGrid;
@@ -60,7 +60,6 @@ export class DrawLayer {
   /** Who what this hand puts down is for. The table's, unless kept back. */
   private marking: Visibility = "party";
   private gesture: Gesture | undefined;
-  private pointerId: number | undefined;
   private hover: Point | undefined;
   private hoverCell: Cell | undefined;
 
@@ -71,10 +70,29 @@ export class DrawLayer {
     grid: SquareGrid,
     toWorld: (screen: Point) => Point
   ) {
-    this.canvas = canvas;
     this.grid = grid;
-    this.toWorld = toWorld;
     container.addChild(this.graphics);
+    this.session = new PointerSession(canvas, toWorld, {
+      takes: () => this.tool !== undefined,
+      onDown: (at) => this.begin(at),
+      onMove: (at) => this.follow(at, true),
+      onHover: (at) => this.follow(at, false),
+      onUp: () => this.finish(),
+      onCancel: () => this.cancel(),
+      onLeave: () => {
+        this.hover = undefined;
+        this.setHover(undefined);
+        this.preview();
+      },
+      onEscape: (event) => {
+        if (this.gesture === undefined) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        this.cancel();
+      },
+    });
   }
 
   /**
@@ -88,22 +106,8 @@ export class DrawLayer {
 
   /** Draw with `tool`, or with nothing: Play mode. */
   setTool(tool: DrawTool | undefined): void {
-    const wasOn = this.tool !== undefined;
     this.tool = tool;
-    if (tool !== undefined && !wasOn) {
-      this.canvas.addEventListener("pointerdown", this.onPointerDown);
-      this.canvas.addEventListener("pointermove", this.onPointerMove);
-      this.canvas.addEventListener("pointerup", this.onPointerUp);
-      this.canvas.addEventListener("pointercancel", this.onPointerCancel);
-      this.canvas.addEventListener("pointerleave", this.onPointerLeave);
-      window.addEventListener("keydown", this.onKeyDown);
-    } else if (tool === undefined && wasOn) {
-      this.canvas.removeEventListener("pointerdown", this.onPointerDown);
-      this.canvas.removeEventListener("pointermove", this.onPointerMove);
-      this.canvas.removeEventListener("pointerup", this.onPointerUp);
-      this.canvas.removeEventListener("pointercancel", this.onPointerCancel);
-      this.canvas.removeEventListener("pointerleave", this.onPointerLeave);
-      window.removeEventListener("keydown", this.onKeyDown);
+    if (this.session.setActive(tool !== undefined) && tool === undefined) {
       this.cancel();
       this.setHover(undefined);
     }
@@ -135,70 +139,44 @@ export class DrawLayer {
     this.graphics.destroy();
   }
 
-  private readonly onPointerDown = (event: PointerEvent): void => {
-    if (this.tool === undefined || event.button !== 0 || this.gesture !== undefined) {
-      return;
+  // A press begins a gesture; a click is a whole stroke, so nothing is held.
+  private begin(at: Point): boolean {
+    if (this.tool === undefined) {
+      return false;
     }
-    event.stopPropagation();
-    event.preventDefault();
-    const p = this.cellPoint(event);
-    const gesture = beginGesture(this.tool, p);
+    const gesture = beginGesture(this.tool, worldToCellPoint(this.grid, at));
     if (gesture === undefined) {
-      return;
+      return false;
     }
     if (gesture.kind === "click") {
       this.emit(this.tool, gesture);
-      return;
+      return false;
     }
     this.gesture = gesture;
-    this.pointerId = event.pointerId;
-    this.canvas.setPointerCapture(event.pointerId);
     this.preview();
-  };
+    return true;
+  }
 
-  private readonly onPointerMove = (event: PointerEvent): void => {
-    const p = this.cellPoint(event);
+  // The pointer shows what a press would take; held, it draws the gesture out.
+  private follow(at: Point, isHeld: boolean): void {
+    const p = worldToCellPoint(this.grid, at);
     this.hover = p;
     this.setHover(cellOf(p));
-    if (this.gesture !== undefined && event.pointerId === this.pointerId) {
+    if (isHeld && this.gesture !== undefined) {
       moveGesture(this.gesture, p);
     }
     this.preview();
-  };
+  }
 
-  private readonly onPointerUp = (event: PointerEvent): void => {
-    if (
-      this.gesture === undefined ||
-      event.pointerId !== this.pointerId ||
-      this.tool === undefined
-    ) {
+  private finish(): void {
+    const { tool, gesture } = this;
+    if (tool === undefined || gesture === undefined) {
       return;
     }
-    const { tool, gesture } = this;
-    this.release();
+    this.gesture = undefined;
     this.emit(tool, gesture);
     this.preview();
-  };
-
-  private readonly onPointerCancel = (event: PointerEvent): void => {
-    if (event.pointerId === this.pointerId) {
-      this.cancel();
-    }
-  };
-
-  private readonly onPointerLeave = (): void => {
-    this.hover = undefined;
-    this.setHover(undefined);
-    this.preview();
-  };
-
-  private readonly onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === "Escape" && this.gesture !== undefined) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.cancel();
-    }
-  };
+  }
 
   private emit(tool: DrawTool, gesture: Gesture): void {
     const stroke = strokeOf(tool, gesture, this.marking);
@@ -208,16 +186,9 @@ export class DrawLayer {
     this.strokeListeners.emit(stroke);
   }
 
-  private release(): void {
-    if (this.pointerId !== undefined && this.canvas.hasPointerCapture(this.pointerId)) {
-      this.canvas.releasePointerCapture(this.pointerId);
-    }
-    this.gesture = undefined;
-    this.pointerId = undefined;
-  }
-
   private cancel(): void {
-    this.release();
+    this.session.release();
+    this.gesture = undefined;
     this.preview();
   }
 
@@ -233,11 +204,6 @@ export class DrawLayer {
     }
     this.hoverCell = cell;
     this.hoverListeners.emit(cell);
-  }
-
-  // Canvas pixels to world pixels through the camera, then to cells.
-  private cellPoint(event: PointerEvent): Point {
-    return worldToCellPoint(this.grid, this.toWorld(pointOn(this.canvas, event)));
   }
 
   private preview(): void {
