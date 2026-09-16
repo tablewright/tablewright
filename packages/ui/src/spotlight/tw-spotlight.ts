@@ -138,6 +138,12 @@ export class TwSpotlight extends LitElement {
   hide(): void {
     this.open = false;
     this.trayOpen = false;
+    // A closed box holds no focus: the table's keys work at once, not
+    // once the browser has painted and noticed the field is gone.
+    const focused = this.shadowRoot?.activeElement;
+    if (focused instanceof HTMLElement) {
+      focused.blur();
+    }
     if (filtersOf(this.#controls(), this.trayState).length > 0) {
       this.trayState = {};
       void this.#search(performance.now());
