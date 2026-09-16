@@ -803,7 +803,9 @@ the rounds are in the local research file.
   point or a token, which is also what an area that moves with a
   creature needs, and it sits in the middle of its own cube rather than
   on the floor, since that is where every cell it is measured against
-  sits.
+  sits. How a template tilts as well as turns, what stops it, the side
+  view, and a spell aimed at one creature are in
+  [docs/templates.md](templates.md).
 - **Every area has a vertical form**, chosen beside its sizes. A
   circle stands as a sphere, a dome or a cylinder: the dome is what a
   DM reaches for, since a fireball should not burn the cellar, and
