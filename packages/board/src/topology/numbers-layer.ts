@@ -12,7 +12,9 @@
 import { Container, Graphics, Text } from "pixi.js";
 import type { CellExtent } from "../grid/grid-lines.js";
 import { cellCenter, insetCell, type SquareGrid } from "../grid/square-grid.js";
+import { FALLBACK } from "../theme/board-theme.js";
 import type { PackedColor } from "../theme/css-color.js";
+import { numbersStyle } from "../theme/styles.js";
 import type { Topology } from "./derive.js";
 import { cellNumbers } from "./numbers.js";
 
@@ -29,13 +31,7 @@ export interface NumbersStyle {
   readonly face: string;
 }
 
-const DEFAULT_STYLE: NumbersStyle = {
-  face: "ui-monospace, monospace",
-  ground: 0x1b1d24,
-  up: { rgb: 0xe4c57a, alpha: 1 },
-  down: { rgb: 0x5fa8bd, alpha: 1 },
-  stair: { rgb: 0xc9a24e, alpha: 1 },
-};
+const DEFAULT_STYLE: NumbersStyle = numbersStyle(FALLBACK);
 
 // The wash under a number, by how far the ground is from level: enough to
 // read at a foot, deepening with the drop or the rise, and never so solid

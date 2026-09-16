@@ -24,6 +24,8 @@ import { tokenReach } from "../tokens/token-sprite.js";
 import type { PackedColor } from "../theme/css-color.js";
 import { Badge } from "../ruler/badge.js";
 import { keptAlpha, withSeenByNote } from "../seen.js";
+import { FALLBACK } from "../theme/board-theme.js";
+import { areaStyle } from "../theme/styles.js";
 import type { GridRule } from "../topology/distance.js";
 import { describeArea, spotToCellPoint, type Area, type Spot } from "./area.js";
 import { outline } from "./outline.js";
@@ -43,12 +45,7 @@ export interface AreaStyle {
   readonly face: string;
 }
 
-const DEFAULT_STYLE: AreaStyle = {
-  ground: 0x1b1d24,
-  line: { rgb: 0xf1e6d2, alpha: 1 },
-  caught: { rgb: 0xc9a24e, alpha: 1 },
-  face: "ui-monospace, monospace",
-};
+const DEFAULT_STYLE: AreaStyle = areaStyle(FALLBACK);
 
 // The footprint: a wash inside and a hairline round it, the same weight
 // the drawing tool previews a gesture at.

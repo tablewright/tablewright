@@ -48,6 +48,13 @@ import {
   seenAt,
   visibleTo,
   watchBoardTheme,
+  areaStyle,
+  drawStyle,
+  heightStyle,
+  numbersStyle,
+  rulerStyle,
+  tokenStyle,
+  topologyStyle,
   worldToCell,
   worldToCellPoint,
   Listeners,
@@ -60,17 +67,13 @@ import {
   type OriginSnap,
   type Seat,
   type AreaDrawing,
-  type AreaStyle,
   type CellExtent,
-  type DrawStyle,
   type DrawTool,
   type GridRule,
   type HeightDrawing,
-  type HeightStyle,
   type MapSize,
   type MeasureListener,
   type NumbersDrawing,
-  type NumbersStyle,
   type Mover,
   type PlayTool,
   type AreaListener,
@@ -79,7 +82,6 @@ import {
   type Route,
   type RouteOptions,
   type RulerMode,
-  type RulerStyle,
   type ShownMeasure,
   type Spot,
   type SquareGrid,
@@ -88,10 +90,8 @@ import {
   type DashAsk,
   type DashAskListener,
   type TokenMove,
-  type TokenStyle,
   type TokenView,
   type Topology,
-  type TopologyStyle,
 } from "@tablewright/board";
 import type {
   Edge,
@@ -165,71 +165,6 @@ const FIT_PADDING = 24;
 // Topology view: enough to place the numbers on the map, too little to read
 // as the map itself.
 const MUTED_ALPHA = 0.15;
-
-function tokenStyle(theme: BoardTheme): TokenStyle {
-  return {
-    fill: theme.token,
-    label: theme.tokenLabel,
-    hover: theme.hover,
-    selection: theme.selection,
-    labelFace: theme.labels,
-    figureFace: theme.figures,
-  };
-}
-
-function topologyStyle(theme: BoardTheme): TopologyStyle {
-  return {
-    ground: theme.ground,
-    floor: theme.floor,
-    wall: theme.wall,
-    threshold: theme.threshold,
-    sight: theme.sight,
-    difficult: theme.difficult,
-    air: theme.air,
-    hover: theme.hover,
-  };
-}
-
-function drawStyle(theme: BoardTheme): DrawStyle {
-  return { hover: theme.hover, ink: theme.threshold };
-}
-
-function rulerStyle(theme: BoardTheme): RulerStyle {
-  return {
-    line: theme.ruler,
-    dash: theme.selection,
-    beyond: theme.beyond,
-    ground: theme.ground,
-    face: theme.figures,
-    marks: theme.marks,
-  };
-}
-
-function numbersStyle(theme: BoardTheme): NumbersStyle {
-  return {
-    ground: theme.ground,
-    up: theme.heightUp,
-    down: theme.heightDown,
-    stair: theme.threshold,
-    face: theme.figures,
-  };
-}
-
-function areaStyle(theme: BoardTheme): AreaStyle {
-  return { ground: theme.ground, line: theme.ruler, caught: theme.selection, face: theme.figures };
-}
-
-function heightStyle(theme: BoardTheme): HeightStyle {
-  return {
-    ground: theme.ground,
-    shade: theme.heightShade,
-    line: theme.heightLine,
-    up: theme.heightUp,
-    down: theme.heightDown,
-    tag: theme.heightTag,
-    face: theme.figures,
-  };
-}
 
 function tokenViews(scene: Scene): TokenView[] {
   return scene.tokens.map((token) => ({
@@ -352,25 +287,9 @@ export class BoardHost {
     input.onMove((at) => this.hover(at));
     target.addEventListener("pointerleave", this.onPointerLeave);
 
-    this.gridLayer.setStyle(theme.grid);
-    this.topologyLayer.setStyle(topologyStyle(theme));
-    this.heightLayer.setStyle(heightStyle(theme));
-    this.numbersLayer.setStyle(numbersStyle(theme));
-    this.areaLayer.setStyle(areaStyle(theme));
-    this.drawLayer.setStyle(drawStyle(theme));
-    this.ruler.setStyle(rulerStyle(theme));
-    this.dragRoute.setStyle(rulerStyle(theme));
+    this.applyTheme(theme);
     watchBoardTheme(target, (next) => {
-      stage.setBackground(next.ground);
-      this.gridLayer.setStyle(next.grid);
-      this.tokenLayer.setStyle(tokenStyle(next));
-      this.topologyLayer.setStyle(topologyStyle(next));
-      this.heightLayer.setStyle(heightStyle(next));
-      this.numbersLayer.setStyle(numbersStyle(next));
-      this.areaLayer.setStyle(areaStyle(next));
-      this.drawLayer.setStyle(drawStyle(next));
-      this.ruler.setStyle(rulerStyle(next));
-      this.dragRoute.setStyle(rulerStyle(next));
+      this.applyTheme(next);
       stage.requestFrame();
     });
 
@@ -490,6 +409,21 @@ export class BoardHost {
     this.areaLayer.setGrid(grid);
     this.areaTool.setGrid(grid);
     this.isGridStale = true;
+  }
+
+  // Every layer takes its colours and faces from the one theme, read at
+  // start and again on a switch.
+  private applyTheme(theme: BoardTheme): void {
+    this.stage.setBackground(theme.ground);
+    this.gridLayer.setStyle(theme.grid);
+    this.tokenLayer.setStyle(tokenStyle(theme));
+    this.topologyLayer.setStyle(topologyStyle(theme));
+    this.heightLayer.setStyle(heightStyle(theme));
+    this.numbersLayer.setStyle(numbersStyle(theme));
+    this.areaLayer.setStyle(areaStyle(theme));
+    this.drawLayer.setStyle(drawStyle(theme));
+    this.ruler.setStyle(rulerStyle(theme));
+    this.dragRoute.setStyle(rulerStyle(theme));
   }
 
   /** Measure by `rule`: the campaign's setting, the system's default until then. */

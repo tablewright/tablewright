@@ -9,6 +9,7 @@
  */
 
 import { Graphics, type Container } from "pixi.js";
+import { FALLBACK } from "../theme/board-theme.js";
 import { gridLines, type CellExtent } from "./grid-lines.js";
 import type { SquareGrid } from "./square-grid.js";
 
@@ -18,7 +19,7 @@ export interface GridStyle {
   readonly alpha: number;
 }
 
-const DEFAULT_STYLE: GridStyle = { rgb: 0x8b8fa3, alpha: 0.35 };
+const DEFAULT_STYLE: GridStyle = FALLBACK.grid;
 
 /** The grid as a single stroked Graphics; call `draw` whenever grid or extent changes. */
 export class GridLayer {

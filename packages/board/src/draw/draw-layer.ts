@@ -19,7 +19,9 @@ import {
 } from "../grid/square-grid.js";
 import { Listeners } from "../stage/listeners.js";
 import { PointerSession } from "../stage/pointer-session.js";
+import { FALLBACK } from "../theme/board-theme.js";
 import type { PackedColor } from "../theme/css-color.js";
+import { drawStyle } from "../theme/styles.js";
 import {
   beginGesture,
   cellOf,
@@ -43,10 +45,7 @@ export interface DrawStyle {
   readonly ink: PackedColor;
 }
 
-const DEFAULT_STYLE: DrawStyle = {
-  hover: { rgb: 0xe4c57a, alpha: 1 },
-  ink: { rgb: 0xc9a24e, alpha: 1 },
-};
+const DEFAULT_STYLE: DrawStyle = drawStyle(FALLBACK);
 
 /** Turns presses on the canvas into strokes while a tool is set. */
 export class DrawLayer {

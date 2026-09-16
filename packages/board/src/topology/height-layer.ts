@@ -15,7 +15,9 @@ import type { HeightDisplay, HeightMode } from "@tablewright/schema";
 import { signed } from "../draw/tool.js";
 import type { Point } from "../geometry.js";
 import { cellPointToWorld, cellToWorld, type SquareGrid } from "../grid/square-grid.js";
+import { FALLBACK } from "../theme/board-theme.js";
 import { channelsOf, type PackedColor } from "../theme/css-color.js";
+import { heightStyle } from "../theme/styles.js";
 import type { Topology } from "./derive.js";
 import { contourGroups, isoLines, type Segment } from "./iso.js";
 import { sampleHeight, sampleWidth } from "./shapes.js";
@@ -43,15 +45,7 @@ export interface HeightDrawing {
   readonly tags: number;
 }
 
-const DEFAULT_STYLE: HeightStyle = {
-  face: "ui-monospace, monospace",
-  ground: 0x1b1d24,
-  shade: { rgb: 0x000000, alpha: 1 },
-  line: { rgb: 0xf1e6d2, alpha: 0.6 },
-  up: { rgb: 0xe4c57a, alpha: 1 },
-  down: { rgb: 0x5fa8bd, alpha: 1 },
-  tag: { rgb: 0xf1e6d2, alpha: 1 },
-};
+const DEFAULT_STYLE: HeightStyle = heightStyle(FALLBACK);
 
 // The shadow: the raised region's mask spread this many samples in every
 // direction and softened, with the region itself cut out, each band this

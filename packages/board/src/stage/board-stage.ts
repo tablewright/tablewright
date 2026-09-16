@@ -11,6 +11,7 @@
  */
 
 import { Application, Container, Text } from "pixi.js";
+import { FALLBACK } from "../theme/board-theme.js";
 import { FrameScheduler } from "./frame-scheduler.js";
 import { Listeners } from "./listeners.js";
 
@@ -34,7 +35,6 @@ export interface BoardLayers {
 }
 
 // A shade lighter than the page ground so an empty board is visibly a board.
-const DEFAULT_BACKGROUND = 0x1b1d24;
 
 // Input on the board that can change what it shows; each asks for a frame.
 // Caught in the capture phase, since a layer that claims a press stops the
@@ -144,7 +144,7 @@ export class BoardStage {
       preference: "webgl",
       // The ticker never runs: a frame is drawn when asked for, never on a loop.
       autoStart: false,
-      background: options.background ?? DEFAULT_BACKGROUND,
+      background: options.background ?? FALLBACK.ground,
       width: host.clientWidth,
       height: host.clientHeight,
       resolution: window.devicePixelRatio,

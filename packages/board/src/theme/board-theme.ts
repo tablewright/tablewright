@@ -52,8 +52,8 @@ export interface BoardTheme {
   readonly marks: string;
 }
 
-// Used when a token is missing or unparseable, so a broken theme still shows a board.
-const FALLBACK: BoardTheme = {
+/** The theme before one is read, and for any token missing or unreadable, so a broken theme still shows a board. */
+export const FALLBACK: BoardTheme = {
   ground: 0x1b1d24,
   grid: { rgb: 0x8b8fa3, alpha: 0.35 },
   selection: { rgb: 0xc9a24e, alpha: 1 },

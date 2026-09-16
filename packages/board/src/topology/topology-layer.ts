@@ -22,7 +22,9 @@ import {
   type Cell,
   type SquareGrid,
 } from "../grid/square-grid.js";
+import { FALLBACK } from "../theme/board-theme.js";
 import type { PackedColor } from "../theme/css-color.js";
+import { topologyStyle } from "../theme/styles.js";
 import { edgeCells, edgeKey } from "./edges.js";
 import {
   LEVEL_CHANGE_TEXTURED,
@@ -60,16 +62,7 @@ type Threshold = Extract<EdgeData, { kind: "threshold" }>;
 // How much heavier a threshold drawn as texture is than the data hint.
 const TEXTURE_WEIGHT = 1.6;
 
-const DEFAULT_STYLE: TopologyStyle = {
-  ground: 0x1b1d24,
-  floor: { rgb: 0xf1e6d2, alpha: 0.08 },
-  wall: { rgb: 0xf1e6d2, alpha: 0.4 },
-  threshold: { rgb: 0xc9a24e, alpha: 1 },
-  sight: { rgb: 0x5fa8bd, alpha: 1 },
-  difficult: { rgb: 0xf1e6d2, alpha: 0.12 },
-  air: { rgb: 0x5fa8bd, alpha: 0.28 },
-  hover: { rgb: 0xe4c57a, alpha: 1 },
-};
+const DEFAULT_STYLE: TopologyStyle = topologyStyle(FALLBACK);
 
 /** The derived topology as one Graphics; call `draw` whenever it or the grid changes. */
 export class TopologyLayer {

@@ -15,7 +15,9 @@ import { dashedLine } from "../draw/strokes.js";
 import { along, lengthOf, type Point } from "../geometry.js";
 import { keptAlpha } from "../seen.js";
 import { cellCenter, cellPointToWorld, type SquareGrid } from "../grid/square-grid.js";
+import { FALLBACK } from "../theme/board-theme.js";
 import type { PackedColor } from "../theme/css-color.js";
+import { rulerStyle } from "../theme/styles.js";
 import { Badge, figuresStyle } from "./badge.js";
 import type { Measurement } from "./measure.js";
 import { badgeText, FALL_MARK, RISE_MARK, type RulerMode } from "./mode.js";
@@ -42,14 +44,7 @@ interface StrokeOptions {
   readonly isDashed?: boolean;
 }
 
-const DEFAULT_STYLE: RulerStyle = {
-  line: { rgb: 0xf1e6d2, alpha: 1 },
-  dash: { rgb: 0xc9a24e, alpha: 1 },
-  beyond: { rgb: 0xc8553d, alpha: 1 },
-  ground: 0x1b1d24,
-  face: "ui-monospace, monospace",
-  marks: "sans-serif",
-};
+const DEFAULT_STYLE: RulerStyle = rulerStyle(FALLBACK);
 
 // Past a break the line keeps its colour at this much of its alpha.
 const FAINT_ALPHA = 0.4;
