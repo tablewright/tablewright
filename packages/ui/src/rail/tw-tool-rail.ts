@@ -11,33 +11,14 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { HeightDisplay, Permission, Role, Stroke, Visibility } from "@tablewright/schema";
-import "../strip/tw-strip.js";
 import type { GridRule } from "@tablewright/board";
 import {
   DEFAULT_RULE,
   DEFAULT_TOOL,
-  DRAW_SHAPES,
-  GROUND_STATES,
-  HEIGHT_MODES,
   INKS,
-  LOOKS,
-  OPENING_SIZES,
   RULER_MODES,
-  ORIGIN_SNAPS,
-  SEEN_BY,
-  clamped,
   defaultArea,
-  isArea,
-  THRESHOLD_KINDS,
-  THRESHOLD_STATES,
-  describeStroke,
-  hasHeight,
-  hasLook,
-  hasTall,
-  shapesOf,
-  signed,
   withInk,
-  type DrawShape,
   type DrawTool,
   type Ink,
   type PlayTool,
@@ -46,7 +27,6 @@ import {
   type RulerMode,
   NO_ROLE,
   allows,
-  type ThresholdChoice,
 } from "@tablewright/board";
 import {
   HISTORY_ICON,
@@ -59,42 +39,14 @@ import {
   UNDO_ICON,
   inkIcon,
   rulerIcon,
-  shapeIcon,
 } from "../icons.js";
-import { thresholdSwatch } from "./swatches.js";
 import { emit } from "../events.js";
-import { FOCUS_RING, PANEL_CHROME, QUIET_BUTTON, QUIET_BUTTON_HOVER } from "../styles.js";
+import { FOCUS_RING, PANEL_CHROME } from "../styles.js";
+import { COUNT_PILL } from "./panel-styles.js";
+import "./tw-pen-palette.js";
+import "./tw-ruler-column.js";
+import "./tw-stroke-history.js";
 
-const HINTS: Record<Ink, string> = {
-  ground: "Paint or drag what can be stood on",
-  threshold: "Click a cell edge to place it",
-  wall: "Drag a line along the grid, or a rect for four",
-  height: "Paint or drag an amount into the field",
-  "level-change": "Paint where a change of height is walked",
-  free: "Ink with no rules meaning",
-};
-
-// What a stroke of an ink with no choice is to the scene: height is data
-// the scene's display shows; free ink is a mark on the picture and
-// nothing more. The other inks choose per stroke, on the palette.
-const NATURE: Partial<Record<Ink, string>> = {
-  height: "Data",
-  free: "Texture",
-};
-const LOOK_LABELS = { data: "Data", both: "Data + texture" } as const;
-
-// An area's own choices: how a cone's far edge is cut, and how each
-// shape stands upward.
-const EDGES = ["round", "flat"] as const;
-const CONE_FORMS = ["flat", "3d"] as const;
-const CONE_LABELS = { flat: "Flat", "3d": "3D" } as const;
-const CIRCLE_FORMS = ["sphere", "dome", "cylinder"] as const;
-const SNAP_LABELS = { centre: "Centre", corner: "Corner", free: "Free" } as const;
-// Who a measure or an area is for, as the palette says it: the tiers are
-// the core's, the words are the maker's own.
-const SEEN_LABELS = { party: "Everyone", dm: "The DM", own: "Just me" } as const;
-// A hand that may not show what it measures is offered nothing else.
-const OWN_ONLY: readonly Visibility[] = ["own"];
 // Which permission each pen wants. The rail shows the pens a hand holds
 // and no others, so a table that lets its players draw freely and nothing
 // else gives them one pen.
@@ -106,40 +58,6 @@ const INK_NEEDS: Record<Ink, Permission> = {
   "level-change": "ink:level-change:draw",
   free: "ink:free:draw",
 };
-
-// The name of a mode, for the head of its panel.
-function nameOf(mode: RulerMode): string {
-  return RULER_MODES.find((spec) => spec.mode === mode)?.name ?? mode;
-}
-
-// An area ink lies on the ground the map already has, or at a height it
-// writes into the field itself.
-const PLACES = ["level", "raised"] as const;
-const PLACE_LABELS = { level: "Ground level", raised: "A height" } as const;
-
-// A brush's width on the map, in its pixels: a hairline up to a broad sweep.
-const SIZE_PX = { min: 1, max: 300, step: 1 } as const;
-// How much of the history shows until all of it is asked for.
-const RECENT = 3;
-// A strip given no labels reads its values as words.
-const NO_LABELS: Readonly<Record<string, string>> = {};
-
-// A number or a slider in a field: `change` hears the value as it is typed
-// or dragged, and `release` hears a slider let go.
-interface FieldSpec {
-  readonly aria: string;
-  readonly value: number;
-  readonly unit: string;
-  readonly min?: number;
-  readonly max?: number;
-  readonly step: number;
-  readonly change: (next: number) => void;
-  readonly release?: (next: number) => void;
-}
-
-interface RowSpec extends FieldSpec {
-  readonly cap: string;
-}
 
 export class TwToolRail extends LitElement {
   static override properties = {
@@ -155,12 +73,9 @@ export class TwToolRail extends LitElement {
     marking: { attribute: false },
     strokes: { attribute: false },
     topology: { type: Boolean },
-    readout: { type: String },
-    cellSize: { attribute: false },
+    cellPx: { attribute: false },
     display: { attribute: false },
     historyOpen: { state: true },
-    showAll: { state: true },
-    strength: { state: true },
   };
 
   /** The pen's settings, kept while it is down so it comes back as it was. */
@@ -189,15 +104,10 @@ export class TwToolRail extends LitElement {
   declare strokes: Stroke[];
   /** Whether the DM is reading the scene as numbers: their own view, not the scene's. */
   declare topology: boolean;
-  /** What is under the pointer, in words. */
-  declare readout: string;
   /** The scene's cell in map pixels, so a brush can be sized in them. */
-  declare cellSize: number;
+  declare cellPx: number;
   declare display: HeightDisplay;
   declare historyOpen: boolean;
-  declare showAll: boolean;
-  /** The strength slider as it is dragged, before its release is sent. */
-  declare strength: number | undefined;
 
   constructor() {
     super();
@@ -213,12 +123,9 @@ export class TwToolRail extends LitElement {
     this.marking = "party";
     this.strokes = [];
     this.topology = false;
-    this.readout = "";
-    this.cellSize = 50;
+    this.cellPx = 50;
     this.display = { mode: "shaded", strength: 80 };
     this.historyOpen = false;
-    this.showAll = false;
-    this.strength = undefined;
   }
 
   static override styles = css`
@@ -290,16 +197,7 @@ export class TwToolRail extends LitElement {
     .icon:focus-visible .tip {
       opacity: 1;
     }
-    .count {
-      padding: 1px 6px;
-      border-radius: var(--tw-rounded-full);
-      background: var(--tw-primary);
-      color: var(--tw-on-primary);
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1.4;
-      letter-spacing: 0;
-    }
+    ${COUNT_PILL}
     .icon .count {
       position: absolute;
       right: 1px;
@@ -320,235 +218,6 @@ export class TwToolRail extends LitElement {
       display: flex;
       flex-direction: column;
       gap: var(--tw-space-sm);
-    }
-    .panel {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 236px;
-      padding: 10px;
-      pointer-events: auto;
-      ${PANEL_CHROME}
-      color: var(--tw-comp-panel-text-color);
-    }
-    header {
-      display: flex;
-      align-items: center;
-      gap: var(--tw-space-sm);
-    }
-    .badge {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-primary);
-      color: var(--tw-on-primary);
-    }
-    .title {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .tag {
-      align-self: flex-start;
-      padding: 2px 6px;
-      border: 1px solid var(--tw-outline-variant);
-      border-radius: var(--tw-rounded-full);
-      color: var(--tw-on-surface-variant);
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .name {
-      font-size: var(--tw-typo-body-md-font-size);
-      letter-spacing: 0;
-    }
-    .hint {
-      color: var(--tw-on-surface-variant);
-      font-size: var(--tw-typo-body-sm-font-size);
-      font-weight: var(--tw-typo-body-sm-font-weight);
-      line-height: var(--tw-typo-body-sm-line-height);
-      letter-spacing: 0;
-    }
-    section {
-      display: flex;
-      flex-direction: column;
-      gap: var(--tw-space-xs);
-    }
-    .cap {
-      color: var(--tw-comp-panel-title-text-color);
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .tiles {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--tw-space-xs);
-    }
-    .tile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      padding: 0;
-      border: 1px solid var(--tw-outline-variant);
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-surface-container-lowest);
-      color: var(--tw-on-surface);
-      cursor: pointer;
-    }
-    .tile:hover {
-      background: var(--tw-surface-container-highest);
-    }
-    .tile[aria-pressed="true"] {
-      border-color: var(--tw-primary-container);
-      background: var(--tw-primary-container);
-      color: var(--tw-on-primary-container);
-    }
-    .field {
-      display: flex;
-      align-items: center;
-      gap: var(--tw-space-sm);
-    }
-    .number {
-      width: 72px;
-      padding: var(--tw-comp-input-padding);
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-comp-input-rounded);
-      background: var(--tw-comp-input-background-color);
-      color: var(--tw-comp-input-text-color);
-      font: inherit;
-      letter-spacing: 0;
-      font-variant-numeric: tabular-nums;
-    }
-    .range {
-      flex: 1;
-      min-width: 0;
-      margin: 0;
-      accent-color: var(--tw-primary);
-    }
-    .unit {
-      min-width: 5.5ch;
-      color: var(--tw-on-surface-variant);
-      font-size: var(--tw-typo-body-sm-font-size);
-      font-weight: var(--tw-typo-body-sm-font-weight);
-      letter-spacing: 0;
-      text-align: right;
-      white-space: nowrap;
-      font-variant-numeric: tabular-nums;
-    }
-    .history-head {
-      display: flex;
-      align-items: center;
-      gap: var(--tw-space-sm);
-    }
-    .reset {
-      margin-left: auto;
-      ${QUIET_BUTTON}
-      padding: var(--tw-space-xs) var(--tw-space-sm);
-      font-size: 11px;
-      letter-spacing: inherit;
-    }
-    .reset:hover {
-      ${QUIET_BUTTON_HOVER}
-    }
-    ol {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-      max-height: 40vh;
-      margin: 0;
-      padding: 0;
-      overflow-y: auto;
-      list-style: none;
-      font-size: var(--tw-typo-body-sm-font-size);
-      font-weight: var(--tw-typo-body-sm-font-weight);
-      line-height: var(--tw-typo-body-sm-line-height);
-      letter-spacing: 0;
-    }
-    li {
-      display: flex;
-      align-items: center;
-      gap: var(--tw-space-sm);
-      padding: var(--tw-space-xs) 6px;
-      border-radius: var(--tw-rounded-sm);
-    }
-    li:hover {
-      background: var(--tw-surface-container-high);
-    }
-    .n {
-      min-width: 2ch;
-      color: var(--tw-on-surface-variant);
-      font-variant-numeric: tabular-nums;
-      text-align: right;
-    }
-    .what {
-      flex: 1;
-    }
-    .who {
-      color: var(--tw-primary);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .x {
-      margin-left: auto;
-      width: 20px;
-      height: 20px;
-      padding: 0;
-      border: 0;
-      border-radius: var(--tw-rounded-sm);
-      background: transparent;
-      color: var(--tw-on-surface-variant);
-      font-size: 14px;
-      line-height: 1;
-      cursor: pointer;
-    }
-    .x:hover {
-      background: var(--tw-surface-container-highest);
-      color: var(--tw-on-surface);
-    }
-    .link {
-      align-self: flex-start;
-      padding: 2px 6px;
-      border: 0;
-      background: transparent;
-      color: var(--tw-on-surface-variant);
-      font-size: var(--tw-typo-body-sm-font-size);
-      font-weight: var(--tw-typo-body-sm-font-weight);
-      letter-spacing: 0;
-      cursor: pointer;
-    }
-    .link:hover {
-      color: var(--tw-on-surface);
-    }
-    .empty {
-      padding: var(--tw-space-xs) 6px;
-      color: var(--tw-on-surface-variant);
-      font-size: var(--tw-typo-body-sm-font-size);
-      font-weight: var(--tw-typo-body-sm-font-weight);
-      letter-spacing: 0;
-    }
-    .readout {
-      position: fixed;
-      left: var(--tw-space-md);
-      bottom: var(--tw-space-md);
-      padding: 6px 10px;
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-comp-panel-background-color);
-      color: var(--tw-on-surface-variant);
-      font-size: var(--tw-typo-body-sm-font-size);
-      font-weight: var(--tw-typo-body-sm-font-weight);
-      line-height: var(--tw-typo-body-sm-line-height);
-      letter-spacing: 0;
-      font-variant-numeric: tabular-nums;
     }
     ${FOCUS_RING}
   `;
@@ -577,6 +246,7 @@ export class TwToolRail extends LitElement {
     const may = (permission: Permission): boolean => allows(this.twRole, permission);
     const inks = INKS.filter((spec) => may(INK_NEEDS[spec.ink]));
     const record = may("history:read") || may("history:undo");
+    const inColumn = this.#inColumn;
     return html`
       <div class="rail" role="toolbar" aria-label="Tools">
         ${
@@ -673,197 +343,49 @@ export class TwToolRail extends LitElement {
           }
         </div>
       </div>
-      ${!held && this.play === "ruler" ? this.#modes() : nothing}
+      ${inColumn ? this.#modes() : nothing}
       ${
-        held || this.historyOpen || this.#inColumn
+        held || this.historyOpen || inColumn
           ? html`<div class="side">
-              ${held ? this.#palette() : nothing}${this.#inColumn ? this.#rulerPanel() : nothing}
-              ${this.historyOpen ? this.#history() : nothing}
+              ${
+                held
+                  ? html`<tw-pen-palette
+                      .tool=${tool}
+                      .cellPx=${this.cellPx}
+                      .display=${this.display}
+                      @tw-tool-change=${this.#retool}
+                    ></tw-pen-palette>`
+                  : nothing
+              }
+              ${
+                inColumn
+                  ? html`<tw-ruler-column
+                      .mode=${this.mode}
+                      .area=${this.area}
+                      .rule=${this.rule}
+                      .snap=${this.snap}
+                      .seen=${this.seen}
+                      .twRole=${this.twRole}
+                      @tw-area=${this.#onArea}
+                      @tw-snap=${this.#onSnap}
+                      @tw-seen=${this.#onSeen}
+                    ></tw-ruler-column>`
+                  : nothing
+              }
+              ${
+                this.historyOpen
+                  ? html`<tw-stroke-history .strokes=${this.strokes}></tw-stroke-history>`
+                  : nothing
+              }
             </div>`
           : nothing
       }
-      ${this.readout === "" ? nothing : html`<div class="readout">${this.readout}</div>`}
     `;
   }
 
   // Whether the ruler's column has the pointer: every mode there has a panel.
   get #inColumn(): boolean {
     return !this.held && this.play === "ruler";
-  }
-
-  get #isArea(): boolean {
-    return this.#inColumn && isArea(this.mode);
-  }
-
-  // What the mode is for: an area's own sizes, and for every mode who sees
-  // it. What an area catches is shown by lighting the tokens on the board,
-  // not by a paragraph in a panel.
-  #rulerPanel() {
-    const { area } = this;
-    const isLaid = this.#isArea;
-    return html`<div class="panel">
-      <header>
-        <div class="title">
-          <span class="name">${nameOf(this.mode)}</span>
-          <span class="hint">Press, drag, release</span>
-        </div>
-      </header>
-      ${
-        isLaid
-          ? this.#stripRow(
-              "Starts at",
-              ORIGIN_SNAPS,
-              this.snap,
-              (snap) => this.#setSnap(snap),
-              SNAP_LABELS
-            )
-          : nothing
-      }
-      ${
-        isLaid && area.kind === "rect"
-          ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
-            ${this.#sizeRow("Width", area.width, (width) => this.#reshape({ width }))}
-            ${this.#sizeRow("Height", area.height, (height) => this.#reshape({ height }))}
-            ${this.#aimRow(area.aim, (aim) => this.#reshape({ aim }))}`
-          : nothing
-      }
-      ${
-        isLaid && area.kind === "cone"
-          ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
-            ${this.#rangeRow({
-              cap: "Spread",
-              aria: "Spread",
-              value: area.spread,
-              unit: `${area.spread}°`,
-              min: 0,
-              max: 90,
-              step: 1,
-              change: (spread) => this.#reshape({ spread }),
-            })}
-            ${this.#stripRow("Far edge", EDGES, area.edge, (edge) => this.#reshape({ edge }))}
-            ${this.#stripRow("Stands as", CONE_FORMS, area.form, (form) => this.#reshape({ form }), CONE_LABELS)}
-            ${
-              area.form === "flat"
-                ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
-                : nothing
-            }
-            ${this.#aimRow(area.aim, (aim) => this.#reshape({ aim }))}`
-          : nothing
-      }
-      ${
-        isLaid && area.kind === "circle"
-          ? html`${this.#sizeRow("Radius", area.radius, (radius) => this.#reshape({ radius }))}
-            ${this.#sizeRow("Inner", area.inner, (inner) => this.#reshape({ inner }), area.radius - this.rule.cellSize)}
-            ${this.#stripRow("Stands as", CIRCLE_FORMS, area.form, (form) => this.#reshape({ form }))}
-            ${
-              area.form === "cylinder"
-                ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
-                : nothing
-            }`
-          : nothing
-      }
-      ${this.#stripRow(
-        "Seen by",
-        allows(this.twRole, "ruler:show") ? SEEN_BY : OWN_ONLY,
-        this.seen,
-        (seen) => this.#setSeen(seen),
-        SEEN_LABELS
-      )}
-    </div>`;
-  }
-
-  // The aim, for a hand that would rather type a bearing than turn one.
-  #aimRow(value: number, change: (next: number) => void) {
-    return this.#numberRow({
-      cap: "Aim",
-      aria: "Aim",
-      value: Math.round(value),
-      unit: "°",
-      min: 0,
-      max: 359,
-      step: 5,
-      change,
-    });
-  }
-
-  #sizeRow(label: string, value: number, change: (next: number) => void, most?: number) {
-    return this.#numberRow({
-      cap: label,
-      aria: label,
-      value,
-      unit: this.rule.unit,
-      min: 0,
-      max: most === undefined ? undefined : Math.max(0, most),
-      step: this.rule.cellSize,
-      change,
-    });
-  }
-
-  // A strip of choices under its caption, which names the strip unless an
-  // `aria` says otherwise.
-  #stripRow<T extends string>(
-    cap: string,
-    values: readonly T[],
-    pressed: T,
-    apply: (value: T) => void,
-    labels?: Readonly<Record<string, string>>,
-    aria = cap
-  ) {
-    return html`<section>
-      <span class="cap">${cap}</span>
-      ${this.#strip(aria, values, pressed, apply, labels)}
-    </section>`;
-  }
-
-  #strip<T extends string>(
-    aria: string,
-    values: readonly T[],
-    pressed: T,
-    apply: (value: T) => void,
-    labels: Readonly<Record<string, string>> = NO_LABELS
-  ) {
-    return html`<tw-strip
-      label=${aria}
-      .values=${values}
-      .labels=${labels}
-      .pressed=${[pressed]}
-      @tw-cell=${this.#choose(values, apply)}
-    ></tw-strip>`;
-  }
-
-  #numberRow({ cap, ...spec }: RowSpec) {
-    return html`<section>
-      <span class="cap">${cap}</span>
-      ${this.#field("number", spec)}
-    </section>`;
-  }
-
-  #rangeRow({ cap, ...spec }: RowSpec) {
-    return html`<section>
-      <span class="cap">${cap}</span>
-      ${this.#field("range", spec)}
-    </section>`;
-  }
-
-  // A number typed into a box or dragged along a slider, with its unit after it.
-  #field(
-    kind: "number" | "range",
-    { aria, value, unit, min, max, step, change, release }: FieldSpec
-  ) {
-    return html`<div class="field">
-      <input
-        class=${kind}
-        type=${kind}
-        min=${min ?? nothing}
-        max=${max ?? nothing}
-        step=${step}
-        aria-label=${aria}
-        .value=${String(value)}
-        @input=${this.#number(change, { min })}
-        @change=${release === undefined ? nothing : this.#number(release, { min })}
-      />
-      <span class="unit">${unit}</span>
-    </div>`;
   }
 
   // The ruler's modes, a second column beside the rail once the ruler is
@@ -885,248 +407,6 @@ export class TwToolRail extends LitElement {
     </div>`;
   }
 
-  #palette() {
-    const { tool } = this;
-    const spec = INKS.find((candidate) => candidate.ink === tool.ink);
-    return html`<div class="panel">
-      <header>
-        <span class="badge">${inkIcon(tool.ink)}</span>
-        <div class="title">
-          <span class="name">${spec?.name ?? tool.ink}</span>
-          <span class="hint">${HINTS[tool.ink]}</span>
-        </div>
-        ${hasLook(tool.ink) ? nothing : html`<span class="tag">${NATURE[tool.ink]}</span>`}
-      </header>
-      ${this.#shapes()} ${this.#look()} ${this.#place()}
-      ${tool.shape === "brush" ? this.#size() : nothing} ${this.#options()}
-    </div>`;
-  }
-
-  // Every shape shows it, like the Height pen's amount; only brush size is a shape's own.
-  // The amount is kept while the ink is put back on the ground, so turning
-  // it off and on again does not lose it.
-  #place() {
-    const { tool } = this;
-    if (hasHeight(tool.ink)) {
-      return html`<section>
-        <span class="cap">Sits at</span>
-        ${this.#strip(
-          "Sits at",
-          PLACES,
-          tool.raised ? "raised" : "level",
-          (place) => this.#update({ raised: place === "raised" }),
-          PLACE_LABELS
-        )}
-        ${
-          tool.raised
-            ? this.#field("number", {
-                aria: "Height of the ground",
-                value: tool.at,
-                unit: `ft: ${signed(tool.at)}`,
-                step: 5,
-                change: (at) => this.#update({ at }),
-              })
-            : nothing
-        }
-      </section>`;
-    }
-    if (!hasTall(tool.ink)) {
-      return nothing;
-    }
-    // No upper limit; nothing stands below its own foot.
-    return this.#numberRow({
-      cap: "Stands",
-      aria: "How tall it stands",
-      value: tool.tall,
-      unit: "ft tall",
-      min: 0,
-      step: 5,
-      change: (tall) => this.#update({ tall }),
-    });
-  }
-
-  // Whether the stroke also paints what it means onto the picture: for a
-  // map whose art has no walls of its own.
-  #look() {
-    if (!hasLook(this.tool.ink)) {
-      return nothing;
-    }
-    return this.#stripRow(
-      "Shows as",
-      LOOKS,
-      this.tool.look,
-      (look) => this.#update({ look }),
-      LOOK_LABELS
-    );
-  }
-
-  // A threshold has one shape, the click, so its tile shows what the click
-  // will leave instead of a cursor: the kind, state and size chosen, drawn.
-  #shapes() {
-    const { tool } = this;
-    const shapes = shapesOf(tool.ink);
-    return html`<section>
-      <span class="cap">Shape</span>
-      <div class="tiles">
-        ${DRAW_SHAPES.filter((candidate) => shapes.includes(candidate.shape)).map(
-          (candidate) =>
-            html`<button
-              class="tile"
-              type="button"
-              aria-label=${candidate.name}
-              title=${candidate.name}
-              aria-pressed=${tool.shape === candidate.shape ? "true" : "false"}
-              @click=${() => this.#setShape(candidate.shape)}
-            >
-              ${
-                tool.ink === "threshold" && candidate.shape === "click"
-                  ? thresholdSwatch(tool.threshold)
-                  : shapeIcon(candidate.shape)
-              }
-            </button>`
-        )}
-      </div>
-    </section>`;
-  }
-
-  // The brush is sized in map pixels, as a painter would; the record keeps
-  // the radius in cells so the stroke means the same on any grid.
-  #size() {
-    const px = Math.max(SIZE_PX.min, Math.round(this.tool.radius * 2 * this.cellSize));
-    return this.#rangeRow({
-      cap: "Size",
-      aria: "Brush size in pixels",
-      value: px,
-      unit: `${px} px`,
-      ...SIZE_PX,
-      change: (next) => {
-        if (this.cellSize > 0) {
-          this.#update({ radius: next / 2 / this.cellSize });
-        }
-      },
-    });
-  }
-
-  #options() {
-    const { tool } = this;
-    switch (tool.ink) {
-      case "ground":
-        return this.#stripRow(
-          "State",
-          GROUND_STATES,
-          tool.ground,
-          (ground) => this.#update({ ground }),
-          undefined,
-          "Ground state"
-        );
-      case "threshold":
-        return html`${this.#stripRow("Kind", THRESHOLD_KINDS, tool.threshold.kind, (kind) => this.#threshold({ kind }))}
-        ${this.#stripRow("State", THRESHOLD_STATES, tool.threshold.state, (state) => this.#threshold({ state }))}
-        ${this.#stripRow(
-          "Window size",
-          OPENING_SIZES,
-          tool.threshold.size,
-          (size) => this.#threshold({ size }),
-          undefined,
-          "Size"
-        )}`;
-      case "height":
-        return html`${this.#numberRow({
-            cap: "Amount",
-            aria: "Height amount",
-            value: tool.height,
-            unit: `ft: ${signed(tool.height)}`,
-            step: 5,
-            change: (height) => this.#update({ height }),
-          })}
-          <section>
-            <span class="cap">Display — this scene</span>
-            ${this.#strip("Height display", HEIGHT_MODES, this.display.mode, (mode) => this.#emitDisplay({ mode }))}
-            ${this.#strengthField()}
-          </section>`;
-      default:
-        return nothing;
-    }
-  }
-
-  // The slider's number follows the drag; the scene hears it on release,
-  // so a drag is one change to the scene and not a hundred.
-  #strengthField() {
-    const strength = this.strength ?? this.display.strength;
-    return this.#field("range", {
-      aria: "Height display strength",
-      value: strength,
-      unit: `${strength}%`,
-      min: 0,
-      max: 100,
-      step: 5,
-      change: (next) => {
-        this.strength = next;
-      },
-      release: (next) => {
-        this.strength = undefined;
-        this.#emitDisplay({ strength: next });
-      },
-    });
-  }
-
-  // Newest first: what was just drawn is what the DM wants back or gone.
-  #history() {
-    const total = this.strokes.length;
-    const entries = this.strokes.map((stroke, index) => ({ stroke, index })).reverse();
-    const shown = this.showAll ? entries : entries.slice(0, RECENT);
-    return html`<div class="panel">
-      <div class="history-head">
-        <span class="cap">History</span>
-        <span class="count">${total}</span>
-        <button
-          class="reset"
-          type="button"
-          title="Clear everything drawn; the reset stays in the history"
-          @click=${this.#reset}
-        >
-          Reset
-        </button>
-      </div>
-      ${
-        total === 0
-          ? html`<span class="empty">Nothing drawn yet.</span>`
-          : html`<ol>
-              ${shown.map(
-                ({ stroke, index }) =>
-                  html`<li>
-                    <span class="n">${index + 1}</span>
-                    <span class="what">${describeStroke(stroke)}</span>
-                    ${stroke.visibility === "dm" ? html`<span class="who">DM only</span>` : nothing}
-                    <button
-                      class="x"
-                      type="button"
-                      aria-label="Remove stroke ${index + 1}"
-                      title="Remove this stroke"
-                      @click=${() => this.#remove(index)}
-                    >
-                      ×
-                    </button>
-                  </li>`
-              )}
-            </ol>`
-      }
-      ${
-        total > RECENT
-          ? html`<button
-              class="link"
-              type="button"
-              @click=${() => {
-                this.showAll = !this.showAll;
-              }}
-            >
-              ${this.showAll ? `Show the last ${RECENT}` : `Show all ${total}`}
-            </button>`
-          : nothing
-      }
-    </div>`;
-  }
-
   // The same ink again puts the pen down; another ink picks it up.
   #pick(ink: Ink): void {
     if (this.held && this.tool.ink === ink) {
@@ -1138,36 +418,25 @@ export class TwToolRail extends LitElement {
     this.#emitTool();
   }
 
-  #setShape(shape: DrawShape): void {
-    this.#update({ shape });
-  }
-
-  // The scene's height display is set from the Height pen's palette, since
-  // that is where heights are.
-  #emitDisplay(change: Partial<HeightDisplay>): void {
-    emit(this, "tw-display", change);
-  }
-
-  // A strip reports a value as a string; only one of the values it was
-  // given can come back, so the typed one is looked up rather than trusted.
-  #choose<T extends string>(values: readonly T[], apply: (value: T) => void) {
-    return (event: HTMLElementEventMap["tw-cell"]): void => {
-      const { value } = event.detail;
-      const chosen = values.find((candidate) => candidate === value);
-      if (chosen !== undefined) {
-        apply(chosen);
-      }
-    };
-  }
-
-  #threshold(change: Partial<ThresholdChoice>): void {
-    this.#update({ threshold: { ...this.tool.threshold, ...change } });
-  }
-
-  #update(change: Partial<DrawTool>): void {
-    this.tool = { ...this.tool, ...change };
+  // The palette asks for the next pen; the rail holds it and says so.
+  #retool = (event: HTMLElementEventMap["tw-tool-change"]): void => {
+    this.tool = event.detail.tool;
     this.#emitTool();
-  }
+  };
+
+  // The column's choices are the rail's to keep: the app reads them here
+  // and writes them back here, and the column shows what it is given.
+  #onArea = (event: HTMLElementEventMap["tw-area"]): void => {
+    this.area = event.detail.area;
+  };
+
+  #onSnap = (event: HTMLElementEventMap["tw-snap"]): void => {
+    this.snap = event.detail.snap;
+  };
+
+  #onSeen = (event: HTMLElementEventMap["tw-seen"]): void => {
+    this.seen = event.detail.seen;
+  };
 
   // Move and the ruler are the two hands of Play; either puts the pen down.
   #move = (): void => {
@@ -1188,38 +457,9 @@ export class TwToolRail extends LitElement {
     emit(this, "tw-play", { tool });
   }
 
-  // A number typed or dragged is taken as it comes; a field emptied or
-  // half-typed changes nothing until it reads as a number again, and nor
-  // does one under the field's floor.
-  #number(apply: (next: number) => void, { min }: { min?: number } = {}) {
-    return (event: Event): void => {
-      const next = Number((event.target as HTMLInputElement).value);
-      if (Number.isFinite(next) && (min === undefined || next >= min)) {
-        apply(next);
-      }
-    };
-  }
-
   #setMarking(marking: Visibility): void {
     this.marking = marking;
     emit(this, "tw-marking", { marking });
-  }
-
-  #setSeen(seen: Visibility): void {
-    this.seen = seen;
-    emit(this, "tw-seen", { seen });
-  }
-
-  #setSnap(snap: OriginSnap): void {
-    this.snap = snap;
-    emit(this, "tw-snap", { snap });
-  }
-
-  // The area is the rail's while the column holds it, and the board hears
-  // every change: there is nothing to commit, only what it is now.
-  #reshape(change: Record<string, unknown>): void {
-    this.area = clamped({ ...this.area, ...change } as Area, this.rule);
-    emit(this, "tw-area", { area: this.area });
   }
 
   #setMode(mode: RulerMode): void {
@@ -1245,15 +485,6 @@ export class TwToolRail extends LitElement {
     emit(this, "tw-undo");
   };
 
-  // A reset is a stroke of its own, so it stays in the history.
-  #reset = (): void => {
-    emit(this, "tw-reset");
-  };
-
-  #remove(index: number): void {
-    emit(this, "tw-remove", { index });
-  }
-
   // Esc puts the pen down, unless something else took the key: a gesture
   // mid-drag cancels itself first, and says so by preventing the default.
   #keydown = (event: KeyboardEvent): void => {
@@ -1278,14 +509,8 @@ declare global {
     "tw-tool": CustomEvent<{ tool: DrawTool | undefined }>;
     "tw-play": CustomEvent<{ tool: PlayTool }>;
     "tw-ruler": CustomEvent<{ mode: RulerMode }>;
-    "tw-area": CustomEvent<{ area: Area }>;
-    "tw-snap": CustomEvent<{ snap: OriginSnap }>;
-    "tw-seen": CustomEvent<{ seen: Visibility }>;
     "tw-marking": CustomEvent<{ marking: Visibility }>;
     "tw-topology": CustomEvent<{ on: boolean }>;
-    "tw-display": CustomEvent<Partial<HeightDisplay>>;
     "tw-undo": CustomEvent<null>;
-    "tw-reset": CustomEvent<null>;
-    "tw-remove": CustomEvent<{ index: number }>;
   }
 }

@@ -68,6 +68,7 @@ const scenesTab = document.querySelector("tw-scenes");
 const intro = document.querySelector("tw-campaigns");
 const dashAsk = document.querySelector("tw-dash-ask");
 const tokenMenu = document.querySelector("tw-token-menu");
+const readoutBox = document.querySelector("tw-readout");
 if (
   host === null ||
   openButton === null ||
@@ -86,10 +87,11 @@ if (
   scenesTab === null ||
   intro === null ||
   dashAsk === null ||
-  tokenMenu === null
+  tokenMenu === null ||
+  readoutBox === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #desk-chrome, #desk-theme, #role, #view-as, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #desk-chrome, #desk-theme, #role, #view-as, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, <tw-entry-view>, and <tw-readout>"
   );
 }
 
@@ -502,7 +504,7 @@ try {
     board.setScene(scene, mapUrlOf(scene.map, campaign?.path));
     scenesTab.current = scene.id;
     toolRail.strokes = scene.strokes;
-    toolRail.cellSize = scene.grid.cell_size;
+    toolRail.cellPx = scene.grid.cell_size;
     toolRail.display = scene.display;
     toolRail.rule = board.gridRule;
   };
@@ -774,7 +776,7 @@ try {
     })();
   });
   board.onHover((readout) => {
-    toolRail.readout = readout === undefined ? "" : describeCell(readout);
+    readoutBox.text = readout === undefined ? "" : describeCell(readout);
   });
   // A threshold worked in Play is a state of the scene, not a stroke.
   board.onThreshold((threshold) => {
@@ -853,6 +855,7 @@ try {
     show(dmChrome, chromeShown && allows(role, "scene:change"));
     show(deskChrome, chromeShown);
     toolRail.hidden = !chromeShown;
+    readoutBox.hidden = !chromeShown;
     // The seats sit above the desk's corner, which steps down to make room.
     const seatsShown = chromeShown && __DEV_BUILD__ && OWN_SEAT === "dm";
     show(viewAs, seatsShown);
