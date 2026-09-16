@@ -13,11 +13,7 @@ import {
   loadBoardFaces,
   readBoardTheme,
   signed,
-  type DrawTool,
   type PlayTool,
-  type Area,
-  type OriginSnap,
-  type RulerMode,
   NOBODY,
   allows,
   type Seat,
@@ -521,7 +517,7 @@ try {
     }
   });
   scenesTab.addEventListener("tw-scene-open", (event) => {
-    const { id } = (event as CustomEvent<{ id: string }>).detail;
+    const { id } = event.detail;
     void (async () => {
       try {
         showScene(await core.openScene(id));
@@ -534,7 +530,7 @@ try {
   // A new scene is blank, or a reference drawing's strokes as the core
   // would take them one by one; either way it opens at once.
   scenesTab.addEventListener("tw-scene-create", (event) => {
-    const { name, reference } = (event as CustomEvent<{ name: string; reference?: string }>).detail;
+    const { name, reference } = event.detail;
     void (async () => {
       try {
         const drawing = REFERENCE_SCENES.find((candidate) => candidate.name === reference);
@@ -559,7 +555,7 @@ try {
     dashAsk.hidden = false;
   });
   dashAsk.addEventListener("tw-dash", (event) => {
-    board.answerDash((event as CustomEvent<{ use: boolean }>).detail.use);
+    board.answerDash(event.detail.use);
   });
   board.onTokenMove(({ id, cell, facing }) => {
     void (async () => {
@@ -574,7 +570,7 @@ try {
   });
   // The footer's rail turns the page to the same thing in another version.
   entryView.addEventListener("tw-version", (event) => {
-    const { id, version } = (event as CustomEvent<{ id: string; version: string }>).detail;
+    const { id, version } = event.detail;
     void (async () => {
       try {
         raise(entryView);
@@ -588,7 +584,7 @@ try {
   // Placing stands the creature on the cell under the middle of the view;
   // dragging it to a cell arrives with the desk surfaces.
   entryView.addEventListener("tw-place", (event) => {
-    const entry = (event as CustomEvent<EntryDocument>).detail;
+    const entry = event.detail;
     const cell = board.centerCell();
     void (async () => {
       try {
@@ -620,8 +616,8 @@ try {
   nameDesk();
   // The rail is the DM's hand: an ink held is a pen held, the board draws
   // with it and the tokens go inert.
-  const applyTool = (event: Event): void => {
-    const { tool } = (event as CustomEvent<{ tool: DrawTool | undefined }>).detail;
+  const applyTool = (event: HTMLElementEventMap["tw-tool"]): void => {
+    const { tool } = event.detail;
     if (tool !== undefined) {
       raise(toolRail);
     }
@@ -647,13 +643,13 @@ try {
     toolRail.play = tool;
   };
   toolRail.addEventListener("tw-play", (event) => {
-    setPlay((event as CustomEvent<{ tool: PlayTool }>).detail.tool);
+    setPlay(event.detail.tool);
   });
   // The column's last three items lay an area down. Picking one hands the
   // board the area it would lay, so the board has sizes before the first
   // press; leaving them takes whatever was on the board off it.
   toolRail.addEventListener("tw-ruler", (event) => {
-    const { mode } = (event as CustomEvent<{ mode: RulerMode }>).detail;
+    const { mode } = event.detail;
     board.setRulerMode(mode);
     if (isArea(mode)) {
       const area = mode === toolRail.area.kind ? toolRail.area : defaultArea(mode, toolRail.rule);
@@ -664,11 +660,11 @@ try {
     }
   });
   toolRail.addEventListener("tw-snap", (event) => {
-    board.setOriginSnap((event as CustomEvent<{ snap: OriginSnap }>).detail.snap);
+    board.setOriginSnap(event.detail.snap);
   });
   // Who what this hand puts down is for.
   toolRail.addEventListener("tw-marking", (event) => {
-    board.setMarking((event as CustomEvent<{ marking: Visibility }>).detail.marking);
+    board.setMarking(event.detail.marking);
   });
   // The right button on a token asks what may be done with it. Only a
   // hand that may keep things back has anything to ask.
@@ -681,7 +677,7 @@ try {
     tokenMenu.open(ask.at, ask.kept);
   });
   tokenMenu.addEventListener("tw-token-mark", (event) => {
-    const { visibility } = (event as CustomEvent<{ visibility: Visibility }>).detail;
+    const { visibility } = event.detail;
     const id = asked;
     if (id === undefined) {
       return;
@@ -698,10 +694,10 @@ try {
   // Who the next measure or area is for; it marks the one on the board too, so
   // what is down is shared by saying so.
   toolRail.addEventListener("tw-seen", (event) => {
-    board.chooseSeenBy((event as CustomEvent<{ seen: Visibility }>).detail.seen);
+    board.chooseSeenBy(event.detail.seen);
   });
   toolRail.addEventListener("tw-area", (event) => {
-    board.setArea((event as CustomEvent<{ area: Area }>).detail.area);
+    board.setArea(event.detail.area);
   });
   // Turning an area also reaches: the palette's own numbers follow the
   // pointer, so the field and the board never disagree.
@@ -729,7 +725,7 @@ try {
     toolRail.topology = on;
   };
   toolRail.addEventListener("tw-topology", (event) => {
-    setTopology((event as CustomEvent<{ on: boolean }>).detail.on);
+    setTopology(event.detail.on);
   });
   toolRail.addEventListener("tw-undo", undo);
   // A reset is a stroke like any other: everything before it is cleared,
@@ -745,7 +741,7 @@ try {
     })();
   });
   toolRail.addEventListener("tw-remove", (event) => {
-    const { index } = (event as CustomEvent<{ index: number }>).detail;
+    const { index } = event.detail;
     void (async () => {
       try {
         showScene(await core.removeStroke(index));
@@ -757,7 +753,7 @@ try {
   });
   // How the scene shows its heights is the scene's, kept with it.
   toolRail.addEventListener("tw-display", (event) => {
-    const change = (event as CustomEvent<Partial<HeightDisplay>>).detail;
+    const change = event.detail;
     void (async () => {
       try {
         showScene(await core.setDisplay({ ...display, ...change }));
@@ -885,13 +881,13 @@ try {
     spotlight.show();
   });
   spotlight.addEventListener("tw-select", (event) => {
-    void openEntry((event as CustomEvent<SpotlightHit>).detail);
+    void openEntry(event.detail);
   });
   // A share becomes a card on this table; the session message to everyone
   // else arrives with networking (design §6). A share of the entry already
   // open as a page raises no card: the reader has it in front of them.
   spotlight.addEventListener("tw-share", (event) => {
-    const hit = (event as CustomEvent<SpotlightHit>).detail;
+    const hit = event.detail;
     if (entryView.open && entryView.entry?.id === hit.id) {
       return;
     }
@@ -899,7 +895,7 @@ try {
     shares.push(hit, "you");
   });
   shares.addEventListener("tw-open", (event) => {
-    void openEntry((event as CustomEvent<SpotlightHit>).detail);
+    void openEntry(event.detail);
   });
   // Escape peels the layers back one at a time: the shared card, then the
   // search box, then the page. Seen first, before any panel's own handler.
@@ -1094,7 +1090,7 @@ try {
     return made;
   };
   intro.addEventListener("tw-campaign-open", (event) => {
-    const { path } = (event as CustomEvent<{ path: string }>).detail;
+    const { path } = event.detail;
     void (async () => {
       try {
         await enterCampaign(await core.openCampaign(path));
@@ -1107,7 +1103,7 @@ try {
   // A new campaign goes under the home, or in a folder the DM picks, where
   // it gets a folder of its own named after it.
   intro.addEventListener("tw-campaign-create", (event) => {
-    const { name, elsewhere } = (event as CustomEvent<{ name: string; elsewhere: boolean }>).detail;
+    const { name, elsewhere } = event.detail;
     void (async () => {
       try {
         const location = elsewhere ? await pickFolder("Where the campaign's folder goes") : null;

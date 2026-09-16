@@ -14,6 +14,9 @@ import type { Role, Section } from "@tablewright/schema";
 import { NO_ROLE, allows } from "@tablewright/board";
 import { previewOf } from "../spotlight/preview.js";
 import { groups } from "./sections.js";
+import { emit } from "../events.js";
+import { QUIET_BUTTON } from "../styles.js";
+import { wordsCase } from "../text.js";
 
 /** What the page shows: the envelope without the system data. */
 export interface EntryDocument {
@@ -111,36 +114,24 @@ export class TwEntryView extends LitElement {
     }
     .label {
       color: var(--tw-comp-document-label-text-color);
-      font-family: var(--tw-comp-document-label-font-family);
-      font-size: var(--tw-comp-document-label-font-size);
-      font-weight: var(--tw-comp-document-label-font-weight);
-      line-height: var(--tw-comp-document-label-line-height);
+      font: var(--tw-comp-document-label-font);
       letter-spacing: var(--tw-typo-document-label-letter-spacing);
       text-transform: uppercase;
     }
     h1 {
       margin: var(--tw-space-xs) 0 0;
       color: var(--tw-comp-document-title-text-color);
-      font-family: var(--tw-comp-document-title-font-family);
-      font-size: var(--tw-comp-document-title-font-size);
-      font-weight: var(--tw-comp-document-title-font-weight);
-      line-height: var(--tw-comp-document-title-line-height);
+      font: var(--tw-comp-document-title-font);
     }
     button {
       display: inline-flex;
       align-items: center;
       gap: var(--tw-space-xs);
+      ${QUIET_BUTTON}
       padding: var(--tw-space-xs) 10px;
-      border: 1px solid var(--tw-ink-faint);
-      border-radius: var(--tw-rounded-sm);
+      border-color: var(--tw-ink-faint);
       background: none;
       color: var(--tw-ink-soft);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
-      letter-spacing: var(--tw-typo-label-md-letter-spacing);
-      cursor: pointer;
     }
     button:focus-visible {
       outline: 2px solid var(--tw-focus-ring);
@@ -167,10 +158,7 @@ export class TwEntryView extends LitElement {
     .body h4 {
       margin-top: var(--tw-space-sm);
       color: var(--tw-comp-document-heading-text-color);
-      font-family: var(--tw-comp-document-heading-font-family);
-      font-size: var(--tw-comp-document-heading-font-size);
-      font-weight: var(--tw-comp-document-heading-font-weight);
-      line-height: var(--tw-comp-document-heading-line-height);
+      font: var(--tw-comp-document-heading-font);
     }
     .body h3,
     .body h4 {
@@ -239,10 +227,7 @@ export class TwEntryView extends LitElement {
       padding-bottom: var(--tw-space-xs);
       border-bottom: 1px solid var(--tw-paper-shade);
       color: var(--tw-ink-soft);
-      font-family: var(--tw-typo-document-label-font-family);
-      font-size: var(--tw-typo-document-label-font-size);
-      font-weight: var(--tw-typo-document-label-font-weight);
-      line-height: var(--tw-typo-document-label-line-height);
+      font: var(--tw-typo-document-label-font);
       letter-spacing: var(--tw-typo-document-label-letter-spacing);
       text-transform: uppercase;
     }
@@ -338,7 +323,7 @@ export class TwEntryView extends LitElement {
       return;
     }
     this.open = false;
-    this.dispatchEvent(new CustomEvent("tw-close", { bubbles: true, composed: true }));
+    emit(this, "tw-close");
   }
 
   override connectedCallback(): void {
@@ -359,10 +344,7 @@ export class TwEntryView extends LitElement {
     const preview = previewOf(entry);
     // "Spell — Cantrip", "Monster — CR 1/4", "Magic Item — Rare": the kind as
     // words, then the one fact the category leads with.
-    const kind = entry.type
-      .split("-")
-      .map((word) => (word.length === 0 ? word : word[0]?.toUpperCase() + word.slice(1)))
-      .join(" ");
+    const kind = wordsCase(entry.type);
     const detail =
       preview.ring === "C"
         ? "Cantrip"
@@ -453,25 +435,13 @@ export class TwEntryView extends LitElement {
     if (this.entry === undefined || version === this.entry.version) {
       return;
     }
-    this.dispatchEvent(
-      new CustomEvent("tw-version", {
-        detail: { id: this.entry.id, version },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    emit(this, "tw-version", { id: this.entry.id, version });
   }
 
   // A creature can stand on the board; the host decides where.
   #place = (): void => {
     if (this.entry !== undefined) {
-      this.dispatchEvent(
-        new CustomEvent<EntryDocument>("tw-place", {
-          detail: this.entry,
-          bubbles: true,
-          composed: true,
-        })
-      );
+      emit(this, "tw-place", this.entry);
     }
   };
 }
@@ -481,5 +451,10 @@ customElements.define("tw-entry-view", TwEntryView);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-entry-view": TwEntryView;
+  }
+  interface HTMLElementEventMap {
+    "tw-close": CustomEvent<null>;
+    "tw-version": CustomEvent<{ id: string; version: string }>;
+    "tw-place": CustomEvent<EntryDocument>;
   }
 }

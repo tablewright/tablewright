@@ -6,6 +6,8 @@
 // `tw-dash` carries whether the dash was used.
 
 import { LitElement, css, html } from "lit";
+import { emit } from "../events.js";
+import { FOCUS_RING, QUIET_BUTTON } from "../styles.js";
 
 export class TwDashAsk extends LitElement {
   static override properties = {
@@ -43,10 +45,7 @@ export class TwDashAsk extends LitElement {
       border-radius: var(--tw-rounded-sm);
       background: var(--tw-comp-panel-background-color, var(--tw-surface));
       color: var(--tw-on-surface);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       white-space: nowrap;
     }
@@ -58,13 +57,11 @@ export class TwDashAsk extends LitElement {
     }
     button {
       margin: 0;
+      ${QUIET_BUTTON}
       padding: 4px 10px;
-      border: 1px solid var(--tw-outline-variant);
-      border-radius: var(--tw-rounded-sm);
+      border-color: var(--tw-outline-variant);
       background: none;
       color: var(--tw-on-surface-variant);
-      font: inherit;
-      cursor: pointer;
     }
     button:hover {
       background: var(--tw-surface-container-high);
@@ -75,10 +72,7 @@ export class TwDashAsk extends LitElement {
       background: var(--tw-primary);
       color: var(--tw-on-primary);
     }
-    button:focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
-      outline-offset: 2px;
-    }
+    ${FOCUS_RING}
   `;
 
   override render() {
@@ -90,9 +84,7 @@ export class TwDashAsk extends LitElement {
   }
 
   #answer(use: boolean): void {
-    this.dispatchEvent(
-      new CustomEvent("tw-dash", { detail: { use }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-dash", { use });
   }
 }
 
@@ -101,5 +93,8 @@ customElements.define("tw-dash-ask", TwDashAsk);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-dash-ask": TwDashAsk;
+  }
+  interface HTMLElementEventMap {
+    "tw-dash": CustomEvent<{ use: boolean }>;
   }
 }

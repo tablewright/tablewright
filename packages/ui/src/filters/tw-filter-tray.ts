@@ -10,10 +10,11 @@
  */
 
 import { LitElement, css, html, nothing } from "lit";
-import type { Cell, ControlSpec, Stop } from "@tablewright/schema";
+import type { ControlSpec, Stop } from "@tablewright/schema";
 import { titleCase } from "../text.js";
 import { activeCount, besideIndex, cellKey, chipValues, valueText } from "./state.js";
 import type { ControlState, TrayState, Tri } from "./state.js";
+import { emit } from "../events.js";
 
 /** How many chips show before the rest fold behind "more". */
 const CHIPS_SHOWN = 12;
@@ -98,10 +99,7 @@ export class TwFilterTray extends LitElement {
       justify-content: space-between;
       align-items: center;
       color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       text-transform: uppercase;
     }
@@ -190,10 +188,7 @@ export class TwFilterTray extends LitElement {
       border-radius: var(--tw-rounded-sm);
       background: var(--tw-surface-container-high);
       color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       white-space: nowrap;
       cursor: pointer;
@@ -438,7 +433,7 @@ export class TwFilterTray extends LitElement {
   }
 
   #expand = (): void => {
-    this.dispatchEvent(new CustomEvent("tw-expand", { bubbles: true, composed: true }));
+    emit(this, "tw-expand");
   };
 
   // The tray's own state for a control wins; otherwise the words' selection.
@@ -722,16 +717,12 @@ export class TwFilterTray extends LitElement {
   #commit(index: number, next: ControlState): void {
     const state: TrayState = { ...this.state, [index]: next };
     this.state = state;
-    this.dispatchEvent(
-      new CustomEvent<TrayState>("tw-filter", { detail: state, bubbles: true, composed: true })
-    );
+    emit(this, "tw-filter", state);
   }
 
   #clear = (): void => {
     this.state = {};
-    this.dispatchEvent(
-      new CustomEvent<TrayState>("tw-filter", { detail: {}, bubbles: true, composed: true })
-    );
+    emit(this, "tw-filter", {});
   };
 }
 
@@ -742,12 +733,14 @@ function labelOf(stop: Stop | undefined): string {
   return stop.label ?? valueText(stop.value);
 }
 
-export type { Cell };
-
 customElements.define("tw-filter-tray", TwFilterTray);
 
 declare global {
   interface HTMLElementTagNameMap {
     "tw-filter-tray": TwFilterTray;
+  }
+  interface HTMLElementEventMap {
+    "tw-expand": CustomEvent<null>;
+    "tw-filter": CustomEvent<TrayState>;
   }
 }

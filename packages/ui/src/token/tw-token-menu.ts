@@ -13,6 +13,8 @@
 import { LitElement, css, html, nothing } from "lit";
 import type { Visibility } from "@tablewright/schema";
 import { ICON_STYLES, KEPT_ICON, SHOWN_ICON } from "../rail/icons.js";
+import { emit } from "../events.js";
+import { MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../styles.js";
 
 export class TwTokenMenu extends LitElement {
   static override properties = {
@@ -45,31 +47,25 @@ export class TwTokenMenu extends LitElement {
       flex-direction: column;
       min-width: 168px;
       padding: var(--tw-space-xs);
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-comp-panel-rounded);
-      background: var(--tw-comp-panel-background-color);
+      ${PANEL_CHROME}
     }
     button {
       display: flex;
       align-items: center;
       gap: var(--tw-space-sm);
       padding: var(--tw-comp-button-quiet-padding) var(--tw-space-sm);
-      border: 0;
-      border-radius: var(--tw-comp-button-quiet-rounded);
-      background: none;
+      ${MENU_ITEM}
       color: var(--tw-comp-button-quiet-text-color);
       font-family: var(--tw-typo-label-md-font-family);
       font-size: var(--tw-typo-label-md-font-size);
-      text-align: left;
       white-space: nowrap;
-      cursor: pointer;
     }
     button .glyph {
       flex: none;
       color: var(--tw-on-surface-variant);
     }
     button:hover {
-      background: var(--tw-surface-container-highest);
+      ${QUIET_BUTTON_HOVER}
     }
   `;
 
@@ -118,9 +114,7 @@ export class TwTokenMenu extends LitElement {
 
   #mark = (): void => {
     const visibility: Visibility = this.kept ? "party" : "dm";
-    this.dispatchEvent(
-      new CustomEvent("tw-token-mark", { detail: { visibility }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-token-mark", { visibility });
     this.close();
   };
 
@@ -147,5 +141,8 @@ customElements.define("tw-token-menu", TwTokenMenu);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-token-menu": TwTokenMenu;
+  }
+  interface HTMLElementEventMap {
+    "tw-token-mark": CustomEvent<{ visibility: Visibility }>;
   }
 }

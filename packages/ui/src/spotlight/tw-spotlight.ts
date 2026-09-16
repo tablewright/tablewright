@@ -19,6 +19,8 @@ import { categoryOf, groupHits, previewOf } from "./preview.js";
 import type { Taxonomy } from "./preview.js";
 import type { HitGroup } from "./preview.js";
 import type { SearchAnswer, Searcher, SpotlightHit } from "./searcher.js";
+import { emit } from "../events.js";
+import { QUIET_BUTTON } from "../styles.js";
 
 type Status = "idle" | "searching" | "done" | "error";
 
@@ -246,17 +248,11 @@ export class TwSpotlight extends LitElement {
       display: none;
     }
     .tab {
+      ${QUIET_BUTTON}
       padding: var(--tw-space-xs) 10px;
       border: 0;
-      border-radius: var(--tw-rounded-sm);
       background: var(--tw-surface-container-high);
       color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
-      letter-spacing: var(--tw-typo-label-md-letter-spacing);
-      cursor: pointer;
     }
     .tab[aria-pressed="true"] {
       background: var(--tw-primary-container);
@@ -285,10 +281,7 @@ export class TwSpotlight extends LitElement {
       justify-content: space-between;
       padding: var(--tw-space-md) var(--tw-space-lg) var(--tw-space-xs);
       color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       text-transform: uppercase;
     }
@@ -350,10 +343,7 @@ export class TwSpotlight extends LitElement {
       border-radius: var(--tw-rounded-sm);
       background: var(--tw-surface-container);
       color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       white-space: nowrap;
     }
@@ -366,10 +356,7 @@ export class TwSpotlight extends LitElement {
       border: 1px dashed var(--tw-outline-variant);
       border-radius: var(--tw-rounded-sm);
       color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       white-space: nowrap;
     }
@@ -404,17 +391,11 @@ export class TwSpotlight extends LitElement {
       display: inline-flex;
       align-items: center;
       gap: var(--tw-space-xs);
+      ${QUIET_BUTTON}
       padding: 2px var(--tw-space-sm);
-      border: 1px solid currentColor;
-      border-radius: var(--tw-rounded-sm);
+      border-color: currentColor;
       background: none;
       color: inherit;
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
-      letter-spacing: var(--tw-typo-label-md-letter-spacing);
-      cursor: pointer;
     }
     .share:focus-visible {
       outline: 2px solid var(--tw-focus-ring);
@@ -750,8 +731,8 @@ export class TwSpotlight extends LitElement {
     }
   }
 
-  #onTrayFilter = (event: Event): void => {
-    this.trayState = (event as CustomEvent<TrayState>).detail;
+  #onTrayFilter = (event: HTMLElementEventMap["tw-filter"]): void => {
+    this.trayState = event.detail;
     void this.#search(performance.now());
   };
 
@@ -955,16 +936,12 @@ export class TwSpotlight extends LitElement {
     if (hit === undefined) {
       return;
     }
-    this.dispatchEvent(
-      new CustomEvent<SpotlightHit>("tw-select", { detail: hit, bubbles: true, composed: true })
-    );
+    emit(this, "tw-select", hit);
   }
 
   // The host turns the hit into a card for the table.
   #share(hit: SpotlightHit): void {
-    this.dispatchEvent(
-      new CustomEvent<SpotlightHit>("tw-share", { detail: hit, bubbles: true, composed: true })
-    );
+    emit(this, "tw-share", hit);
     // Sharing is a side act; typing and the arrows carry on from the input.
     this.#input()?.focus();
   }
@@ -1090,5 +1067,9 @@ customElements.define("tw-spotlight", TwSpotlight);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-spotlight": TwSpotlight;
+  }
+  interface HTMLElementEventMap {
+    "tw-select": CustomEvent<SpotlightHit>;
+    "tw-share": CustomEvent<SpotlightHit>;
   }
 }

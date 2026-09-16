@@ -9,3 +9,20 @@ export function titleCase(text: string): string {
     )
     .join(" ");
 }
+
+/** A value as a heading: every hyphen-separated word capitalised, hyphens as spaces. */
+export function wordsCase(text: string): string {
+  return text
+    .split("-")
+    .map((word) => (word.length === 0 ? word : word[0]?.toUpperCase() + word.slice(1)))
+    .join(" ");
+}
+
+/** The name a form was given, trimmed, or nothing when it is blank or `form` is not a form. */
+export function nameFrom(form: EventTarget | null): string | undefined {
+  if (!(form instanceof HTMLFormElement)) {
+    return undefined;
+  }
+  const name = new FormData(form).get("name");
+  return typeof name === "string" && name.trim() !== "" ? name.trim() : undefined;
+}

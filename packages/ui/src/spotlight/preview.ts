@@ -5,6 +5,7 @@
 // data arrives. Pure functions, so the rules are unit-tested without a DOM.
 
 import type { SpotlightHit } from "./searcher.js";
+import { wordsCase } from "../text.js";
 
 /** Kind to the category label it is grouped under, from the system manifest. */
 export type Taxonomy = Readonly<Record<string, string>>;
@@ -29,7 +30,7 @@ const RARITIES = new Set(["common", "uncommon", "rare", "very-rare", "legendary"
 
 /** The category a kind is grouped under. A kind the taxonomy does not name groups by itself. */
 export function categoryOf(kind: string, taxonomy?: Taxonomy): string {
-  return taxonomy?.[kind] ?? titleCase(kind);
+  return taxonomy?.[kind] ?? wordsCase(kind);
 }
 
 /** What a tile shows for `hit`. A hit found by one of its parts leads with it. */
@@ -57,7 +58,7 @@ function fieldsPreview(hit: SpotlightHit, taxonomy?: Taxonomy): TilePreview {
     case "item":
     case "magic-item": {
       const rarity = hit.tags.find((tag) => RARITIES.has(tag));
-      const badge = rarity === undefined ? undefined : titleCase(rarity);
+      const badge = rarity === undefined ? undefined : wordsCase(rarity);
       return { category, meta: joinOr(without(hit.tags, rarity), hit.source), badge };
     }
     default:
@@ -91,11 +92,4 @@ function without(tags: readonly string[], tag: string | undefined): string[] {
 
 function joinOr(tags: readonly string[], fallback: string): string {
   return tags.length > 0 ? tags.join(", ") : fallback;
-}
-
-function titleCase(text: string): string {
-  return text
-    .split("-")
-    .map((word) => (word.length === 0 ? word : word[0]?.toUpperCase() + word.slice(1)))
-    .join(" ");
 }

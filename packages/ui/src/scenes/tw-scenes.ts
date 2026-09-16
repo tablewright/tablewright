@@ -8,6 +8,9 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { SceneSummary } from "@tablewright/schema";
+import { emit } from "../events.js";
+import { FOCUS_RING, MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../styles.js";
+import { nameFrom } from "../text.js";
 
 export class TwScenes extends LitElement {
   static override properties = {
@@ -50,10 +53,7 @@ export class TwScenes extends LitElement {
       border-radius: var(--tw-comp-button-quiet-rounded);
       background: var(--tw-comp-panel-background-color);
       color: var(--tw-on-surface);
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
     }
     button.tab {
@@ -61,7 +61,7 @@ export class TwScenes extends LitElement {
     }
     button.tab:hover,
     button.tab[aria-expanded="true"] {
-      background: var(--tw-surface-container-highest);
+      ${QUIET_BUTTON_HOVER}
     }
     .tab svg {
       display: block;
@@ -74,9 +74,7 @@ export class TwScenes extends LitElement {
       z-index: 150;
       min-width: 240px;
       padding: var(--tw-space-xs);
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-comp-panel-rounded);
-      background: var(--tw-comp-panel-background-color);
+      ${PANEL_CHROME}
       color: var(--tw-comp-panel-text-color);
       box-shadow: 0 8px 24px var(--tw-shadow-panel);
     }
@@ -84,16 +82,12 @@ export class TwScenes extends LitElement {
       display: block;
       width: 100%;
       padding: var(--tw-space-sm) var(--tw-space-md);
-      border: 0;
-      border-radius: var(--tw-rounded-sm);
-      background: transparent;
+      ${MENU_ITEM}
       color: inherit;
       font: inherit;
-      text-align: left;
-      cursor: pointer;
     }
     .menu button:hover {
-      background: var(--tw-surface-container-highest);
+      ${QUIET_BUTTON_HOVER}
     }
     .menu button[aria-current="true"] {
       color: var(--tw-primary);
@@ -101,10 +95,7 @@ export class TwScenes extends LitElement {
     .label {
       margin: var(--tw-space-sm) var(--tw-space-md) var(--tw-space-xs);
       color: var(--tw-comp-panel-title-text-color);
-      font-family: var(--tw-comp-panel-title-font-family);
-      font-size: var(--tw-comp-panel-title-font-size);
-      font-weight: var(--tw-comp-panel-title-font-weight);
-      line-height: var(--tw-comp-panel-title-line-height);
+      font: var(--tw-comp-panel-title-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       text-transform: uppercase;
     }
@@ -126,10 +117,7 @@ export class TwScenes extends LitElement {
     .menu form button {
       width: auto;
     }
-    :focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
-      outline-offset: 2px;
-    }
+    ${FOCUS_RING}
   `;
 
   override connectedCallback(): void {
@@ -223,41 +211,23 @@ export class TwScenes extends LitElement {
   #choose(id: string): void {
     this.open = false;
     if (id !== this.current) {
-      this.dispatchEvent(
-        new CustomEvent("tw-scene-open", { detail: { id }, bubbles: true, composed: true })
-      );
+      emit(this, "tw-scene-open", { id });
     }
   }
 
   #create = (event: Event): void => {
     event.preventDefault();
-    const form = event.currentTarget;
-    if (!(form instanceof HTMLFormElement)) {
-      return;
-    }
-    const name = new FormData(form).get("name");
-    if (typeof name !== "string" || name.trim() === "") {
+    const name = nameFrom(event.currentTarget);
+    if (name === undefined) {
       return;
     }
     this.open = false;
-    this.dispatchEvent(
-      new CustomEvent("tw-scene-create", {
-        detail: { name: name.trim() },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    emit(this, "tw-scene-create", { name });
   };
 
   #reference(name: string): void {
     this.open = false;
-    this.dispatchEvent(
-      new CustomEvent("tw-scene-create", {
-        detail: { name, reference: name },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    emit(this, "tw-scene-create", { name, reference: name });
   }
 
   #keydown = (event: KeyboardEvent): void => {
@@ -280,5 +250,9 @@ customElements.define("tw-scenes", TwScenes);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-scenes": TwScenes;
+  }
+  interface HTMLElementEventMap {
+    "tw-scene-open": CustomEvent<{ id: string }>;
+    "tw-scene-create": CustomEvent<{ name: string; reference?: string }>;
   }
 }

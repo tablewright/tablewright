@@ -42,7 +42,7 @@ export function cellKey(facet: string, value: FacetValue | string): string {
 }
 
 /** Whether a control has any state that filters. */
-export function isActive(state: ControlState | undefined): boolean {
+function isActive(state: ControlState | undefined): boolean {
   if (state === undefined) {
     return false;
   }
@@ -331,6 +331,6 @@ function numberOf(value: string): number | undefined {
 }
 
 /** The facet a control edits, with the manifest's absent and null read alike. */
-export function facetOf(control: ControlSpec): string | undefined {
+function facetOf(control: ControlSpec): string | undefined {
   return control.facet === null || control.facet === undefined ? undefined : control.facet;
 }

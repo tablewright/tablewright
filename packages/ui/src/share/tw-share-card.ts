@@ -11,6 +11,7 @@
 import { LitElement, css, html, nothing } from "lit";
 import { previewOf } from "../spotlight/preview.js";
 import type { SpotlightHit } from "../spotlight/searcher.js";
+import { emit } from "../events.js";
 
 export class TwShareCard extends LitElement {
   static override properties = {
@@ -86,19 +87,13 @@ export class TwShareCard extends LitElement {
     }
     .label {
       color: var(--tw-comp-document-label-text-color);
-      font-family: var(--tw-comp-document-label-font-family);
-      font-size: var(--tw-comp-document-label-font-size);
-      font-weight: var(--tw-comp-document-label-font-weight);
-      line-height: var(--tw-comp-document-label-line-height);
+      font: var(--tw-comp-document-label-font);
       letter-spacing: var(--tw-typo-document-label-letter-spacing);
       text-transform: uppercase;
     }
     .title {
       color: var(--tw-comp-document-title-text-color);
-      font-family: var(--tw-comp-document-title-font-family);
-      font-size: var(--tw-comp-document-title-font-size);
-      font-weight: var(--tw-comp-document-title-font-weight);
-      line-height: var(--tw-comp-document-title-line-height);
+      font: var(--tw-comp-document-title-font);
     }
     .meta {
       color: var(--tw-ink-soft);
@@ -160,21 +155,19 @@ export class TwShareCard extends LitElement {
   };
 
   #open = (): void => {
-    this.#emit("tw-open");
+    this.#tell("tw-open");
   };
 
   #dismiss = (): void => {
-    this.#emit("tw-dismiss");
+    this.#tell("tw-dismiss");
   };
 
   // Both carry the hit; the host opens it, or removes the card.
-  #emit(name: "tw-open" | "tw-dismiss"): void {
+  #tell(name: "tw-open" | "tw-dismiss"): void {
     if (this.hit === undefined) {
       return;
     }
-    this.dispatchEvent(
-      new CustomEvent<SpotlightHit>(name, { detail: this.hit, bubbles: true, composed: true })
-    );
+    emit(this, name, this.hit);
   }
 }
 
@@ -183,5 +176,9 @@ customElements.define("tw-share-card", TwShareCard);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-share-card": TwShareCard;
+  }
+  interface HTMLElementEventMap {
+    "tw-open": CustomEvent<SpotlightHit>;
+    "tw-dismiss": CustomEvent<SpotlightHit>;
   }
 }

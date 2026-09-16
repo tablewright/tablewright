@@ -62,6 +62,8 @@ import {
   shapeIcon,
 } from "./icons.js";
 import { thresholdSwatch } from "./swatches.js";
+import { emit } from "../events.js";
+import { FOCUS_RING, PANEL_CHROME, QUIET_BUTTON, QUIET_BUTTON_HOVER } from "../styles.js";
 
 const HINTS: Record<Ink, string> = {
   ground: "Paint or drag what can be stood on",
@@ -213,10 +215,7 @@ export class TwToolRail extends LitElement {
       /* Only the rail and the panels take the pointer; the board shows
          through under the palette. */
       pointer-events: none;
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
     }
     :host([hidden]) {
@@ -228,9 +227,7 @@ export class TwToolRail extends LitElement {
       gap: var(--tw-space-xs);
       padding: var(--tw-space-xs);
       pointer-events: auto;
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-comp-panel-rounded);
-      background: var(--tw-comp-panel-background-color);
+      ${PANEL_CHROME}
     }
     .icon {
       position: relative;
@@ -312,9 +309,7 @@ export class TwToolRail extends LitElement {
       width: 236px;
       padding: 10px;
       pointer-events: auto;
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-comp-panel-rounded);
-      background: var(--tw-comp-panel-background-color);
+      ${PANEL_CHROME}
       color: var(--tw-comp-panel-text-color);
     }
     header {
@@ -435,18 +430,13 @@ export class TwToolRail extends LitElement {
     }
     .reset {
       margin-left: auto;
+      ${QUIET_BUTTON}
       padding: var(--tw-space-xs) var(--tw-space-sm);
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-comp-button-quiet-background-color);
-      color: var(--tw-comp-button-quiet-text-color);
-      font: inherit;
       font-size: 11px;
       letter-spacing: inherit;
-      cursor: pointer;
     }
     .reset:hover {
-      background: var(--tw-surface-container-highest);
+      ${QUIET_BUTTON_HOVER}
     }
     ol {
       display: flex;
@@ -541,10 +531,7 @@ export class TwToolRail extends LitElement {
       letter-spacing: 0;
       font-variant-numeric: tabular-nums;
     }
-    :focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
-      outline-offset: 2px;
-    }
+    ${FOCUS_RING}
   `;
 
   override connectedCallback(): void {
@@ -1196,9 +1183,7 @@ export class TwToolRail extends LitElement {
   // The scene's height display is set from the Height pen's palette, since
   // that is where heights are.
   #emitDisplay(change: Partial<HeightDisplay>): void {
-    this.dispatchEvent(
-      new CustomEvent("tw-display", { detail: change, bubbles: true, composed: true })
-    );
+    emit(this, "tw-display", change);
   }
 
   #sizeInput = (event: Event): void => {
@@ -1211,8 +1196,8 @@ export class TwToolRail extends LitElement {
   // A strip reports a value as a string; only one of the values it was
   // given can come back, so the typed one is looked up rather than trusted.
   #choose<T extends string>(values: readonly T[], apply: (value: T) => void) {
-    return (event: Event): void => {
-      const { value } = (event as CustomEvent<{ value: string }>).detail;
+    return (event: HTMLElementEventMap["tw-cell"]): void => {
+      const { value } = event.detail;
       const chosen = values.find((candidate) => candidate === value);
       if (chosen !== undefined) {
         apply(chosen);
@@ -1245,9 +1230,7 @@ export class TwToolRail extends LitElement {
       return;
     }
     this.play = tool;
-    this.dispatchEvent(
-      new CustomEvent("tw-play", { detail: { tool }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-play", { tool });
   }
 
   // A number typed or dragged is taken as it comes; a field emptied or
@@ -1263,32 +1246,24 @@ export class TwToolRail extends LitElement {
 
   #setMarking(marking: Visibility): void {
     this.marking = marking;
-    this.dispatchEvent(
-      new CustomEvent("tw-marking", { detail: { marking }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-marking", { marking });
   }
 
   #setSeen(seen: Visibility): void {
     this.seen = seen;
-    this.dispatchEvent(
-      new CustomEvent("tw-seen", { detail: { seen }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-seen", { seen });
   }
 
   #setSnap(snap: OriginSnap): void {
     this.snap = snap;
-    this.dispatchEvent(
-      new CustomEvent("tw-snap", { detail: { snap }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-snap", { snap });
   }
 
   // The area is the rail's while the column holds it, and the board hears
   // every change: there is nothing to commit, only what it is now.
   #reshape(change: Record<string, unknown>): void {
     this.area = clamped({ ...this.area, ...change } as Area, this.rule);
-    this.dispatchEvent(
-      new CustomEvent("tw-area", { detail: { area: this.area }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-area", { area: this.area });
   }
 
   #setMode(mode: RulerMode): void {
@@ -1296,47 +1271,31 @@ export class TwToolRail extends LitElement {
       return;
     }
     this.mode = mode;
-    this.dispatchEvent(
-      new CustomEvent("tw-ruler", { detail: { mode }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-ruler", { mode });
   }
 
   // The tool held, or undefined once the pen is down.
   #emitTool(): void {
-    this.dispatchEvent(
-      new CustomEvent("tw-tool", {
-        detail: { tool: this.held ? this.tool : undefined },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    emit(this, "tw-tool", { tool: this.held ? this.tool : undefined });
   }
 
   // The Topology view is the DM's way of looking, so the rail reports the
   // ask and the board keeps it; nothing about it reaches the scene.
   #topology = (): void => {
-    this.dispatchEvent(
-      new CustomEvent("tw-topology", {
-        detail: { on: !this.topology },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    emit(this, "tw-topology", { on: !this.topology });
   };
 
   #undo = (): void => {
-    this.dispatchEvent(new CustomEvent("tw-undo", { bubbles: true, composed: true }));
+    emit(this, "tw-undo");
   };
 
   // A reset is a stroke of its own, so it stays in the history.
   #reset = (): void => {
-    this.dispatchEvent(new CustomEvent("tw-reset", { bubbles: true, composed: true }));
+    emit(this, "tw-reset");
   };
 
   #remove(index: number): void {
-    this.dispatchEvent(
-      new CustomEvent("tw-remove", { detail: { index }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-remove", { index });
   }
 
   // Esc puts the pen down, unless something else took the key: a gesture
@@ -1358,5 +1317,19 @@ customElements.define("tw-tool-rail", TwToolRail);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-tool-rail": TwToolRail;
+  }
+  interface HTMLElementEventMap {
+    "tw-tool": CustomEvent<{ tool: DrawTool | undefined }>;
+    "tw-play": CustomEvent<{ tool: PlayTool }>;
+    "tw-ruler": CustomEvent<{ mode: RulerMode }>;
+    "tw-area": CustomEvent<{ area: Area }>;
+    "tw-snap": CustomEvent<{ snap: OriginSnap }>;
+    "tw-seen": CustomEvent<{ seen: Visibility }>;
+    "tw-marking": CustomEvent<{ marking: Visibility }>;
+    "tw-topology": CustomEvent<{ on: boolean }>;
+    "tw-display": CustomEvent<Partial<HeightDisplay>>;
+    "tw-undo": CustomEvent<null>;
+    "tw-reset": CustomEvent<null>;
+    "tw-remove": CustomEvent<{ index: number }>;
   }
 }

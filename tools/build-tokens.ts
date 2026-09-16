@@ -47,6 +47,21 @@ function formatFontFamily(value: string): string {
     .join(", ");
 }
 
+// The four as one `font` value, so a rule takes a slot in a line: weight,
+// size over line height, family.
+function fontShorthand(props: Record<string, Primitive>): string | undefined {
+  const { fontWeight, fontSize, lineHeight, fontFamily } = props;
+  if (
+    fontWeight === undefined ||
+    fontSize === undefined ||
+    lineHeight === undefined ||
+    fontFamily === undefined
+  ) {
+    return undefined;
+  }
+  return `${fontWeight} ${fontSize}/${lineHeight} ${formatFontFamily(String(fontFamily))}`;
+}
+
 function varName(group: string, token: string, suffix = ""): string {
   return `${PREFIX}-${GROUP_PREFIX[group] ?? `${group}-`}${token}${suffix}`;
 }
@@ -76,6 +91,9 @@ function componentLines(component: string, props: Record<string, Primitive>): st
           `  ${PREFIX}-comp-${component}-${typoProp}: var(${varName("typography", ref.token, `-${typoProp}`)});`
         );
       }
+      lines.push(
+        `  ${PREFIX}-comp-${component}-font: var(${varName("typography", ref.token, "-font")});`
+      );
     } else {
       lines.push(`  ${name}: var(${varName(ref.group, ref.token)});`);
     }
@@ -120,12 +138,16 @@ function render(fm: Frontmatter): string {
   );
   group(
     "Typography",
-    Object.entries(fm.typography ?? {}).flatMap(([name, props]) =>
-      Object.entries(props).map(([prop, value]) => {
+    Object.entries(fm.typography ?? {}).flatMap(([name, props]) => {
+      const longhands = Object.entries(props).map(([prop, value]) => {
         const css = prop === "fontFamily" ? formatFontFamily(String(value)) : String(value);
         return `  ${varName("typography", name, `-${toKebab(prop)}`)}: ${css};`;
-      })
-    )
+      });
+      const font = fontShorthand(props);
+      return font === undefined
+        ? longhands
+        : [...longhands, `  ${varName("typography", name, "-font")}: ${font};`];
+    })
   );
   group(
     "Components",

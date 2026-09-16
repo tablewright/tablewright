@@ -9,6 +9,9 @@
 
 import { LitElement, css, html } from "lit";
 import type { CampaignSummary } from "@tablewright/schema";
+import { emit } from "../events.js";
+import { FOCUS_RING, QUIET_BUTTON, QUIET_BUTTON_HOVER } from "../styles.js";
+import { nameFrom } from "../text.js";
 
 export class TwCampaigns extends LitElement {
   static override properties = {
@@ -45,10 +48,7 @@ export class TwCampaigns extends LitElement {
     }
     h1 {
       margin: 0;
-      font-family: var(--tw-typo-headline-md-font-family);
-      font-size: var(--tw-typo-headline-md-font-size);
-      font-weight: var(--tw-typo-headline-md-font-weight);
-      line-height: var(--tw-typo-headline-md-line-height);
+      font: var(--tw-typo-headline-md-font);
     }
     .lede,
     .hint,
@@ -59,18 +59,12 @@ export class TwCampaigns extends LitElement {
     .hint {
       flex: 1;
       min-width: 12em;
-      font-family: var(--tw-typo-body-sm-font-family);
-      font-size: var(--tw-typo-body-sm-font-size);
-      font-weight: var(--tw-typo-body-sm-font-weight);
-      line-height: var(--tw-typo-body-sm-line-height);
+      font: var(--tw-typo-body-sm-font);
     }
     h2 {
       margin: 0 0 var(--tw-space-sm);
       color: var(--tw-comp-panel-title-text-color);
-      font-family: var(--tw-comp-panel-title-font-family);
-      font-size: var(--tw-comp-panel-title-font-size);
-      font-weight: var(--tw-comp-panel-title-font-weight);
-      line-height: var(--tw-comp-panel-title-line-height);
+      font: var(--tw-comp-panel-title-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
       text-transform: uppercase;
     }
@@ -98,20 +92,14 @@ export class TwCampaigns extends LitElement {
     }
     .name {
       display: block;
-      font-family: var(--tw-typo-label-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-label-md-font-weight);
-      line-height: var(--tw-typo-label-md-line-height);
+      font: var(--tw-typo-label-md-font);
       letter-spacing: var(--tw-typo-label-md-letter-spacing);
     }
     .meta {
       display: block;
       overflow-wrap: anywhere;
       color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-body-sm-font-family);
-      font-size: var(--tw-typo-body-sm-font-size);
-      font-weight: var(--tw-typo-body-sm-font-weight);
-      line-height: var(--tw-typo-body-sm-line-height);
+      font: var(--tw-typo-body-sm-font);
     }
     .empty {
       padding: var(--tw-space-md);
@@ -131,27 +119,14 @@ export class TwCampaigns extends LitElement {
       border-radius: var(--tw-comp-input-rounded);
       background: var(--tw-comp-input-background-color);
       color: var(--tw-comp-input-text-color);
-      font-family: var(--tw-comp-input-font-family);
-      font-size: var(--tw-comp-input-font-size);
-      font-weight: var(--tw-comp-input-font-weight);
-      line-height: var(--tw-comp-input-line-height);
+      font: var(--tw-comp-input-font);
     }
     button {
-      padding: var(--tw-comp-button-quiet-padding) var(--tw-space-md);
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-comp-button-quiet-rounded);
-      background: var(--tw-comp-button-quiet-background-color);
-      color: var(--tw-comp-button-quiet-text-color);
-      font-family: var(--tw-comp-button-quiet-font-family);
-      font-size: var(--tw-comp-button-quiet-font-size);
-      font-weight: var(--tw-comp-button-quiet-font-weight);
-      line-height: var(--tw-comp-button-quiet-line-height);
-      letter-spacing: var(--tw-typo-label-md-letter-spacing);
+      ${QUIET_BUTTON}
       white-space: nowrap;
-      cursor: pointer;
     }
     button:hover {
-      background: var(--tw-surface-container-highest);
+      ${QUIET_BUTTON_HOVER}
     }
     button.primary {
       padding: var(--tw-comp-button-primary-padding);
@@ -159,10 +134,7 @@ export class TwCampaigns extends LitElement {
       border-radius: var(--tw-comp-button-primary-rounded);
       background: var(--tw-comp-button-primary-background-color);
       color: var(--tw-comp-button-primary-text-color);
-      font-family: var(--tw-comp-button-primary-font-family);
-      font-size: var(--tw-comp-button-primary-font-size);
-      font-weight: var(--tw-comp-button-primary-font-weight);
-      line-height: var(--tw-comp-button-primary-line-height);
+      font: var(--tw-comp-button-primary-font);
     }
     button.primary:hover {
       background: var(--tw-comp-button-primary-hover-background-color);
@@ -174,10 +146,7 @@ export class TwCampaigns extends LitElement {
       gap: var(--tw-space-sm);
       margin-top: var(--tw-space-sm);
     }
-    :focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
-      outline-offset: 2px;
-    }
+    ${FOCUS_RING}
   `;
 
   override render() {
@@ -246,14 +215,12 @@ export class TwCampaigns extends LitElement {
   }
 
   #open(path: string): void {
-    this.dispatchEvent(
-      new CustomEvent("tw-campaign-open", { detail: { path }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-campaign-open", { path });
   }
 
   #create = (event: Event): void => {
     event.preventDefault();
-    const name = this.#nameOf(event.currentTarget);
+    const name = nameFrom(event.currentTarget);
     if (name !== undefined) {
       this.#dispatchCreate(name, false);
     }
@@ -266,34 +233,20 @@ export class TwCampaigns extends LitElement {
     if (form === null || !form.reportValidity()) {
       return;
     }
-    const name = this.#nameOf(form);
+    const name = nameFrom(form);
     if (name !== undefined) {
       this.#dispatchCreate(name, true);
     }
   };
 
   #dispatchCreate(name: string, elsewhere: boolean): void {
-    this.dispatchEvent(
-      new CustomEvent("tw-campaign-create", {
-        detail: { name, elsewhere },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    emit(this, "tw-campaign-create", { name, elsewhere });
   }
 
   // Choosing a folder is the app's, since only the desktop shell has a dialog for it.
   #browse = (): void => {
-    this.dispatchEvent(new CustomEvent("tw-campaign-browse", { bubbles: true, composed: true }));
+    emit(this, "tw-campaign-browse");
   };
-
-  #nameOf(form: EventTarget | null): string | undefined {
-    if (!(form instanceof HTMLFormElement)) {
-      return undefined;
-    }
-    const name = new FormData(form).get("name");
-    return typeof name === "string" && name.trim() !== "" ? name.trim() : undefined;
-  }
 }
 
 customElements.define("tw-campaigns", TwCampaigns);
@@ -301,5 +254,10 @@ customElements.define("tw-campaigns", TwCampaigns);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-campaigns": TwCampaigns;
+  }
+  interface HTMLElementEventMap {
+    "tw-campaign-open": CustomEvent<{ path: string }>;
+    "tw-campaign-create": CustomEvent<{ name: string; elsewhere: boolean }>;
+    "tw-campaign-browse": CustomEvent<null>;
   }
 }

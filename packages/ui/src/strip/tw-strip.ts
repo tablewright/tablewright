@@ -7,6 +7,7 @@
 
 import { LitElement, css, html } from "lit";
 import { titleCase } from "../text.js";
+import { emit } from "../events.js";
 
 export class TwStrip extends LitElement {
   static override properties = {
@@ -98,9 +99,7 @@ export class TwStrip extends LitElement {
   }
 
   #pick(value: string): void {
-    this.dispatchEvent(
-      new CustomEvent("tw-cell", { detail: { value }, bubbles: true, composed: true })
-    );
+    emit(this, "tw-cell", { value });
   }
 }
 
@@ -109,5 +108,8 @@ customElements.define("tw-strip", TwStrip);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-strip": TwStrip;
+  }
+  interface HTMLElementEventMap {
+    "tw-cell": CustomEvent<{ value: string }>;
   }
 }
