@@ -17,6 +17,7 @@ import {
   type Cell,
   type SquareGrid,
 } from "../grid/square-grid.js";
+import { Listeners } from "../stage/listeners.js";
 import type { PackedColor } from "../theme/css-color.js";
 import {
   beginGesture,
@@ -51,8 +52,8 @@ export class DrawLayer {
   private readonly canvas: HTMLElement;
   private readonly graphics = new Graphics();
   private readonly toWorld: (screen: Point) => Point;
-  private readonly strokeListeners = new Set<StrokeListener>();
-  private readonly hoverListeners = new Set<HoverListener>();
+  private readonly strokeListeners = new Listeners<Stroke>();
+  private readonly hoverListeners = new Listeners<Cell | undefined>();
   private grid: SquareGrid;
   private style: DrawStyle = DEFAULT_STYLE;
   private tool: DrawTool | undefined;
@@ -121,14 +122,12 @@ export class DrawLayer {
 
   /** Hear every finished stroke. Returns the unsubscribe. */
   onStroke(listener: StrokeListener): () => void {
-    this.strokeListeners.add(listener);
-    return () => this.strokeListeners.delete(listener);
+    return this.strokeListeners.add(listener);
   }
 
   /** Hear the cell under the pointer as it changes. Returns the unsubscribe. */
   onHover(listener: HoverListener): () => void {
-    this.hoverListeners.add(listener);
-    return () => this.hoverListeners.delete(listener);
+    return this.hoverListeners.add(listener);
   }
 
   destroy(): void {
@@ -206,9 +205,7 @@ export class DrawLayer {
     if (stroke === undefined) {
       return;
     }
-    for (const listener of this.strokeListeners) {
-      listener(stroke);
-    }
+    this.strokeListeners.emit(stroke);
   }
 
   private release(): void {
@@ -235,9 +232,7 @@ export class DrawLayer {
       return;
     }
     this.hoverCell = cell;
-    for (const listener of this.hoverListeners) {
-      listener(cell);
-    }
+    this.hoverListeners.emit(cell);
   }
 
   // Canvas pixels to world pixels through the camera, then to cells.

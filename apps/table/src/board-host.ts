@@ -51,6 +51,7 @@ import {
   pointOn,
   worldToCell,
   worldToCellPoint,
+  Listeners,
   type BoardStage,
   type BoardTheme,
   type Budget,
@@ -256,12 +257,12 @@ export class BoardHost {
   private readonly ruler: RulerTool;
   private readonly dragRoute: DragRoute;
   private readonly target: HTMLElement;
-  private readonly moveListeners = new Set<TokenMoveListener>();
-  private readonly strokeListeners = new Set<StrokeListener>();
-  private readonly hoverListeners = new Set<HoverListener>();
-  private readonly thresholdListeners = new Set<ThresholdListener>();
-  private readonly dashListeners = new Set<DashAskListener>();
-  private readonly areaListeners = new Set<AreaListener>();
+  private readonly moveListeners = new Listeners<TokenMove>();
+  private readonly strokeListeners = new Listeners<Stroke>();
+  private readonly hoverListeners = new Listeners<CellReadout | undefined>();
+  private readonly thresholdListeners = new Listeners<ThresholdEdge>();
+  private readonly dashListeners = new Listeners<DashAsk | undefined>();
+  private readonly areaListeners = new Listeners<PlacedArea | undefined>();
   private asking: DashAsk | undefined;
   private play: readonly ThresholdPlay[] = [];
   private display: HeightDisplay = { mode: "shaded", strength: 80 };
@@ -315,9 +316,7 @@ export class BoardHost {
     this.tokenLayer.onDashAsk((ask) => {
       this.asking = ask;
       stage.requestFrame();
-      for (const listener of this.dashListeners) {
-        listener(ask);
-      }
+      this.dashListeners.emit(ask);
     });
     this.drawLayer = new DrawLayer(stage.app.canvas, stage.layers.overlay, this.grid, (screen) =>
       this.camera.toWorld(screen)
@@ -379,23 +378,17 @@ export class BoardHost {
     // A finished stroke is the DM's to record; the hovered cell is read
     // off the topology so the tool can say what it is over.
     this.drawLayer.onStroke((stroke) => {
-      for (const listener of this.strokeListeners) {
-        listener(stroke);
-      }
+      this.strokeListeners.emit(stroke);
     });
     this.drawLayer.onHover((cell) => {
       const readout = cell === undefined ? undefined : this.readout(cell);
-      for (const listener of this.hoverListeners) {
-        listener(readout);
-      }
+      this.hoverListeners.emit(readout);
     });
 
     // The layer has already snapped the token; the host passes the drop on and
     // the scene answers.
     this.tokenLayer.onMove((move) => {
-      for (const listener of this.moveListeners) {
-        listener(move);
-      }
+      this.moveListeners.emit(move);
     });
     // The hold-to-turn timer selects the token it turns, on no input of
     // its own; the selection is what the frame has to show.
@@ -553,14 +546,12 @@ export class BoardHost {
 
   /** Hear every finished move gesture. Returns the unsubscribe. */
   onTokenMove(listener: TokenMoveListener): () => void {
-    this.moveListeners.add(listener);
-    return () => this.moveListeners.delete(listener);
+    return this.moveListeners.add(listener);
   }
 
   /** Hear the dash question a drop asks, and its answer. Returns the unsubscribe. */
   onDashAsk(listener: DashAskListener): () => void {
-    this.dashListeners.add(listener);
-    return () => this.dashListeners.delete(listener);
+    return this.dashListeners.add(listener);
   }
 
   /** Answer the dash question: the token moves and spends the action, or stays. */
@@ -686,8 +677,7 @@ export class BoardHost {
 
   /** Hear the area as it is turned and laid down, so a palette can follow it. */
   onArea(listener: AreaListener): () => void {
-    this.areaListeners.add(listener);
-    return () => this.areaListeners.delete(listener);
+    return this.areaListeners.add(listener);
   }
 
   /** Hear the measure as it is drawn out and pinned, so a palette can follow it. */
@@ -758,20 +748,17 @@ export class BoardHost {
 
   /** Hear every stroke the tool finishes. Returns the unsubscribe. */
   onStroke(listener: StrokeListener): () => void {
-    this.strokeListeners.add(listener);
-    return () => this.strokeListeners.delete(listener);
+    return this.strokeListeners.add(listener);
   }
 
   /** Hear what the tool is over as it moves. Returns the unsubscribe. */
   onHover(listener: HoverListener): () => void {
-    this.hoverListeners.add(listener);
-    return () => this.hoverListeners.delete(listener);
+    return this.hoverListeners.add(listener);
   }
 
   /** Hear every threshold tapped in Play. Returns the unsubscribe. */
   onThreshold(listener: ThresholdListener): () => void {
-    this.thresholdListeners.add(listener);
-    return () => this.thresholdListeners.delete(listener);
+    return this.thresholdListeners.add(listener);
   }
 
   // A tap near a threshold's edge is for the threshold; anywhere else it
@@ -779,9 +766,7 @@ export class BoardHost {
   private tap(at: Point): void {
     const threshold = this.thresholdNear(at);
     if (threshold !== undefined) {
-      for (const listener of this.thresholdListeners) {
-        listener(threshold);
-      }
+      this.thresholdListeners.emit(threshold);
       return;
     }
     this.tokenLayer.select(undefined);
@@ -933,9 +918,7 @@ export class BoardHost {
 
   // An area laid down or turning: what it covers, and who it holds.
   private showArea(placed: PlacedArea | undefined): void {
-    for (const listener of this.areaListeners) {
-      listener(placed);
-    }
+    this.areaListeners.emit(placed);
     if (placed === undefined) {
       this.areaLayer.clear();
       this.stage.requestFrame();

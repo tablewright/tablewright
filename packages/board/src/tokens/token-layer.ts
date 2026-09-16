@@ -20,6 +20,7 @@ import {
   type SquareGrid,
 } from "../grid/square-grid.js";
 import type { DragRoute } from "../move/drag-route.js";
+import { Listeners } from "../stage/listeners.js";
 import type { Mover } from "../topology/cost.js";
 import type { Budget } from "../topology/route.js";
 import { facingBetween, facingToward, normalizeDegrees } from "./facing.js";
@@ -134,11 +135,11 @@ export class TokenLayer {
   private readonly container: Container;
   private readonly ghost = new Graphics();
   private readonly sprites = new Map<string, TokenSprite>();
-  private readonly moveListeners = new Set<TokenMoveListener>();
-  private readonly selectListeners = new Set<TokenSelectListener>();
-  private readonly askListeners = new Set<TokenAskListener>();
+  private readonly moveListeners = new Listeners<TokenMove>();
+  private readonly selectListeners = new Listeners<string | undefined>();
+  private readonly askListeners = new Listeners<TokenAsk>();
   private movable = true;
-  private readonly dashListeners = new Set<DashAskListener>();
+  private readonly dashListeners = new Listeners<DashAsk | undefined>();
   private readonly route: DragRoute;
   private grid: SquareGrid;
   private style: TokenStyle;
@@ -223,37 +224,25 @@ export class TokenLayer {
     this.sprites.get(this.selected ?? "")?.setSelected(false);
     this.selected = id;
     this.sprites.get(id ?? "")?.setSelected(true);
-    for (const listener of this.selectListeners) {
-      listener(id);
-    }
+    this.selectListeners.emit(id);
   }
 
   onMove(listener: TokenMoveListener): () => void {
-    this.moveListeners.add(listener);
-    return () => {
-      this.moveListeners.delete(listener);
-    };
+    return this.moveListeners.add(listener);
   }
 
   /** Hear the right button ask what may be done with one. */
   onAsk(listener: TokenAskListener): () => void {
-    this.askListeners.add(listener);
-    return () => this.askListeners.delete(listener);
+    return this.askListeners.add(listener);
   }
 
   onSelect(listener: TokenSelectListener): () => void {
-    this.selectListeners.add(listener);
-    return () => {
-      this.selectListeners.delete(listener);
-    };
+    return this.selectListeners.add(listener);
   }
 
   /** Hear the dash question as it is asked and answered. Returns the unsubscribe. */
   onDashAsk(listener: DashAskListener): () => void {
-    this.dashListeners.add(listener);
-    return () => {
-      this.dashListeners.delete(listener);
-    };
+    return this.dashListeners.add(listener);
   }
 
   /** Answer the dash question: the token moves and spends the action, or stays. */
@@ -301,9 +290,7 @@ export class TokenLayer {
       // The right button asks what may be done with this one instead of moving it.
       if (event.button === 2) {
         event.stopPropagation();
-        for (const listener of this.askListeners) {
-          listener({ id: token.id, at: { x: event.global.x, y: event.global.y } });
-        }
+        this.askListeners.emit({ id: token.id, at: { x: event.global.x, y: event.global.y } });
         return;
       }
       // A selected token covers its whole cell: outside the disc is a turn handle.
@@ -552,9 +539,7 @@ export class TokenLayer {
     travelFacing: number | undefined
   ): void {
     const facing = this.place(sprite, cell, travelFacing);
-    for (const listener of this.moveListeners) {
-      listener({ id, cell, facing });
-    }
+    this.moveListeners.emit({ id, cell, facing });
   }
 
   // Stand the sprite on a cell, facing the way it travelled. The scene keeps
@@ -567,9 +552,7 @@ export class TokenLayer {
   }
 
   private askDash(ask: DashAsk | undefined): void {
-    for (const listener of this.dashListeners) {
-      listener(ask);
-    }
+    this.dashListeners.emit(ask);
   }
 
   private cancelPress(): void {

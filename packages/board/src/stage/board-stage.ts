@@ -12,6 +12,7 @@
 
 import { Application, Container, Text } from "pixi.js";
 import { FrameScheduler } from "./frame-scheduler.js";
+import { Listeners } from "./listeners.js";
 
 export interface BoardStageOptions {
   /** Canvas clear colour as 0xRRGGBB. The theme bridge supplies it once it exists. */
@@ -81,8 +82,8 @@ export class BoardStage {
   private readonly host: HTMLElement;
   private readonly scheduler: FrameScheduler;
   private readonly resizeObserver: ResizeObserver;
-  private readonly resizeListeners = new Set<() => void>();
-  private readonly beforeDrawListeners = new Set<() => void>();
+  private readonly resizeListeners = new Listeners<void>();
+  private readonly beforeDrawListeners = new Listeners<void>();
   private resolveFirstFrame: () => void = () => {};
   private sharpenAt: ReturnType<typeof setTimeout> | undefined;
   private sharpenedFor = 0;
@@ -183,10 +184,7 @@ export class BoardStage {
    * camera move. Returns the unsubscribe function.
    */
   onBeforeDraw(listener: () => void): () => void {
-    this.beforeDrawListeners.add(listener);
-    return () => {
-      this.beforeDrawListeners.delete(listener);
-    };
+    return this.beforeDrawListeners.add(listener);
   }
 
   /** Change the canvas clear colour, for example on a theme switch. */
@@ -197,10 +195,7 @@ export class BoardStage {
 
   /** Subscribe to canvas size changes; returns the unsubscribe function. */
   onResize(listener: () => void): () => void {
-    this.resizeListeners.add(listener);
-    return () => {
-      this.resizeListeners.delete(listener);
-    };
+    return this.resizeListeners.add(listener);
   }
 
   private readonly onInput = (): void => {
@@ -209,9 +204,7 @@ export class BoardStage {
 
   // One frame: the work that waited for it, then the render.
   private draw(): void {
-    for (const listener of this.beforeDrawListeners) {
-      listener();
-    }
+    this.beforeDrawListeners.emit();
     this.app.render();
     this.resolveFirstFrame();
     this.watchScale();
@@ -242,9 +235,7 @@ export class BoardStage {
       this.host.clientHeight,
       window.devicePixelRatio
     );
-    for (const listener of this.resizeListeners) {
-      listener();
-    }
+    this.resizeListeners.emit();
     // Resizing blanks the canvas, so this frame cannot wait for the next refresh.
     this.scheduler.drawNow();
   }

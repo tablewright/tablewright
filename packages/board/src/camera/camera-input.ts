@@ -10,6 +10,7 @@
  */
 
 import { pointOn, type Point } from "../geometry.js";
+import { Listeners } from "../stage/listeners.js";
 import type { Camera } from "./camera.js";
 import { pinchStep } from "./pinch-math.js";
 import { wheelDeltaToPixels, wheelZoomFactor } from "./wheel-math.js";
@@ -31,7 +32,7 @@ export class CameraInput {
   private readonly target: HTMLElement;
   private readonly pointers = new Map<number, Point>();
   private readonly pressOrigins = new Map<number, Point>();
-  private readonly tapListeners = new Set<BoardTapListener>();
+  private readonly tapListeners = new Listeners<Point>();
 
   constructor(camera: Camera, target: HTMLElement) {
     this.camera = camera;
@@ -59,10 +60,7 @@ export class CameraInput {
 
   /** Subscribe to taps on empty board; returns the unsubscribe function. */
   onTap(listener: BoardTapListener): () => void {
-    this.tapListeners.add(listener);
-    return () => {
-      this.tapListeners.delete(listener);
-    };
+    return this.tapListeners.add(listener);
   }
 
   private readonly onContextMenu = (event: Event): void => {
@@ -127,9 +125,7 @@ export class CameraInput {
       Math.hypot(event.clientX - origin.x, event.clientY - origin.y) < TAP_THRESHOLD_PX;
     if (isTap) {
       const at = pointOn(this.target, event);
-      for (const listener of this.tapListeners) {
-        listener(at);
-      }
+      this.tapListeners.emit(at);
     }
   };
 

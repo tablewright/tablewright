@@ -10,6 +10,7 @@
 
 import type { Container } from "pixi.js";
 import type { Point, WorldRect } from "../geometry.js";
+import { Listeners } from "../stage/listeners.js";
 import {
   fitToRect,
   pan,
@@ -30,7 +31,7 @@ const DEFAULT_LIMITS: ZoomLimits = { min: 0.1, max: 8 };
 export class Camera {
   private readonly world: Container;
   private readonly limits: ZoomLimits;
-  private readonly listeners = new Set<CameraListener>();
+  private readonly listeners = new Listeners<CameraState>();
   private state: CameraState = { x: 0, y: 0, zoom: 1 };
 
   constructor(world: Container, limits: ZoomLimits = DEFAULT_LIMITS) {
@@ -65,9 +66,7 @@ export class Camera {
   set(state: CameraState): void {
     this.state = state;
     this.apply();
-    for (const listener of this.listeners) {
-      listener(state);
-    }
+    this.listeners.emit(state);
   }
 
   toWorld(screen: Point): Point {
@@ -80,10 +79,7 @@ export class Camera {
 
   /** Subscribe to changes; returns the unsubscribe function. */
   onChange(listener: CameraListener): () => void {
-    this.listeners.add(listener);
-    return () => {
-      this.listeners.delete(listener);
-    };
+    return this.listeners.add(listener);
   }
 
   private apply(): void {

@@ -15,6 +15,7 @@ import type { Container } from "pixi.js";
 import { pointOn, type Point } from "../geometry.js";
 import { NOBODY, allows, seesIt, type Seat } from "../seen.js";
 import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
+import { Listeners } from "../stage/listeners.js";
 import type { Measurement } from "./measure.js";
 import { MeasureView, type RulerStyle } from "./measure-view.js";
 import type { RulerMode } from "./mode.js";
@@ -39,7 +40,7 @@ export class RulerTool {
   private readonly drawn: MeasureView;
   private readonly toWorld: (screen: Point) => Point;
   private readonly measurer: Measurer;
-  private readonly listeners = new Set<MeasureListener>();
+  private readonly listeners = new Listeners<ShownMeasure | undefined>();
   private grid: SquareGrid;
   private mode: RulerMode = "line";
   private isActive = false;
@@ -158,8 +159,7 @@ export class RulerTool {
 
   /** Hear the measure as it changes. Returns the unsubscribe. */
   onMeasure(listener: MeasureListener): () => void {
-    this.listeners.add(listener);
-    return () => this.listeners.delete(listener);
+    return this.listeners.add(listener);
   }
 
   /** Take the measure off the board. */
@@ -243,10 +243,7 @@ export class RulerTool {
   }
 
   private notify(): void {
-    const measurement = this.measurement;
-    for (const listener of this.listeners) {
-      listener(measurement);
-    }
+    this.listeners.emit(this.measurement);
   }
 
   private cellUnder(event: PointerEvent): Cell {

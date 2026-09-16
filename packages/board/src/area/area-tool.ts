@@ -21,6 +21,7 @@ import {
   type Cell,
   type SquareGrid,
 } from "../grid/square-grid.js";
+import { Listeners } from "../stage/listeners.js";
 import { facingToward, normalizeDegrees } from "../tokens/facing.js";
 import type { GridRule } from "../topology/distance.js";
 import {
@@ -66,7 +67,7 @@ export class AreaTool {
   private readonly canvas: HTMLElement;
   private readonly toWorld: (screen: Point) => Point;
   private readonly originFor: OriginFor;
-  private readonly listeners = new Set<AreaListener>();
+  private readonly listeners = new Listeners<PlacedArea | undefined>();
   private rule: GridRule;
   private grid: SquareGrid;
   private area: Area | undefined;
@@ -203,10 +204,7 @@ export class AreaTool {
   }
 
   onChange(listener: AreaListener): () => void {
-    this.listeners.add(listener);
-    return () => {
-      this.listeners.delete(listener);
-    };
+    return this.listeners.add(listener);
   }
 
   /** Take the area off the board. */
@@ -351,10 +349,7 @@ export class AreaTool {
   }
 
   private notify(): void {
-    const placed = this.placed;
-    for (const listener of this.listeners) {
-      listener(placed);
-    }
+    this.listeners.emit(this.placed);
   }
 }
 
