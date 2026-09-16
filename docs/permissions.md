@@ -1,175 +1,128 @@
 # Permissions
 
-Who is at the table, what each may do, and who each thing is for.
+Who is at the table, what each person may do, and who each thing is for.
 
-This is the design. The rules themselves are a file the app reads,
-`docs/permissions.toml`, so a DM can read them, change them for their
-own campaign, and see what changed as a diff. Everything in the app
-that asks "may they?" or "may they see it?" answers from here.
+The rules live in `docs/permissions.toml`, which the app reads. A DM can
+read it, change it for their campaign, and see the change as a diff.
+Everything in the app that asks "may they?" or "may they see it?"
+answers from it.
 
-## Three words, and no more
+## Roles, permissions and reach
 
-- **Role** — a named set of permissions. The DM, a player, a
-  spectator, a stand-in DM. A person holds one role at a time.
-- **Permission** — one thing a hand may do, the thing first and then
-  what is done to it: `token:move`, `scene:change`, `history:read`.
-  The spelling an OAuth or GitHub token uses, and never a bare verb
-  or a bare noun, so a reader is not left wondering whether `history`
-  means seeing it or rewriting it.
-- **Reach** — how far a permission carries: over one's own things, the
-  party's, the DM's, or anyone's. Called reach rather than scope,
-  since a scope elsewhere in the world (an OAuth token's, a GitHub
-  token's) is what this calls a permission.
+- **Role**: a named set of permissions, such as the DM, a player or a
+  spectator. A person holds one role at a time.
+- **Permission**: one thing a person may do, written as the thing and
+  then the verb: `token:move`, `ink:threshold:open`, `history:read`.
+- **Reach**: how far a permission carries: over your own things, the
+  party's, the DM's, or anyone's.
 
-That is the whole vocabulary. Anything a person may do is a
-permission; anything about how far it carries is a reach. There is no
-third mechanism and no minus sign.
+There is nothing else, and nothing takes a permission away.
 
-## One list for who a thing is for
+## Who a thing is for
 
-A permission says what a hand may do. It cannot say that one
-particular wall is a secret, so a thing carries its own marking, and
-it uses the same four words a reach does:
+Everything on the table carries one of four words:
 
-- `world` — anyone, including someone who has never sat at this table
-- `party` — everyone at the table
-- `dm` — the DM alone
-- `own` — the one who made it, and nobody else
+- `world`: anyone, including someone who has never sat at this table
+- `party`: everyone at the table
+- `dm`: the DM alone
+- `own`: the person who made it, and nobody else
 
-The first three are a ladder: a viewer sees everything at or below
-their own. The fourth is not on that ladder, since it is about whose
-a thing is rather than how open it is, so it is the one value read
-against the maker instead of the tier. That is the whole rule, and it
-is one comparison in one place.
+The first three are a ladder: a person sees everything at or below
+their role's place on it. `own` is not on the ladder, because it is
+about whose a thing is, so it is checked against the maker. Strokes,
+tokens, entries, measures and areas all carry these words and go
+through the same check.
 
-This list replaces two vocabularies that meant the same things in
-different words: the tiers on a stroke, a token and an entry, and the
-`SeenBy` a measure or an area carried. A measure marked `dm` and a
-wall marked `dm` now mean the same thing and are judged the same way.
+## The owner
 
-## The owner is not a role
-
-Whoever made the campaign keeps every permission over it, whatever
-the file says. The file may reshape a DM, a stand-in DM or a player,
-but it cannot lock the owner out of their own table, and the ability
-to change permissions is never itself governed by permissions. Every
-other table-top that got this wrong ended with a game master editing
-a database by hand to get back in.
+Whoever made the campaign keeps every permission over it, whatever the
+file says. The file can reshape any role but cannot lock the owner out,
+and changing permissions is not itself a permission.
 
 ## The file
 
-```toml
-# The app's own. A campaign may say otherwise; the owner always keeps
-# everything.
+A piece of `docs/permissions.toml`:
 
-[roles.dm]
-name = "The DM"
-permissions = ["map:draw", "map:undo", "history:read", "scene:change",
-               "scene:map:set", "topology:read", "token:place",
-               "token:move", "door:open", "ruler:use",
-               "compendium:read"]
-reach = { content = "dm" }
+```toml
+[features.ruler]
+use = "Measure, and lay templates down."
+show = "Let others see what was measured."
 
 [roles.player]
 name = "Player"
-permissions = ["token:move", "door:open", "ruler:use", "compendium:read"]
-reach = { content = "party", token = "own" }
+sees = "party"
+permissions = [
+  "ink:free:draw",
+  "ink:threshold:open",
+  "token:move",
+  "ruler:use",
+  "ruler:show",
+  "compendium:read",
+]
 
 [roles.spectator]
 name = "Spectator"
+sees = "party"
 permissions = ["ruler:use", "compendium:read"]
-reach = { content = "party", ruler = "own" }
 ```
 
-A role's permissions are a flat list, because a thing takes more than
-one verb: a DM both moves tokens and places them. The list is closed,
-so a name the app does not know is an error rather than a rule that
-quietly does nothing.
+`[features]` lists every permission the app knows, grouped by the thing
+it acts on. A role can name only what is listed there, and the app
+checks only what is listed there.
 
-A spectator watches and looks things up. They may measure, because a
-measure that reaches nobody costs the table nothing, and `ruler =
-"own"` under `reach` is what makes it theirs alone: they cannot
-offer it to the table, and nobody else is shown it.
+A role has:
 
-TOML rather than YAML for two reasons, neither of them taste. The
-crate is already inside the build, so the file costs no new
-dependency; and when a key is mistyped the error names the line and
-lists the keys that would have worked, which YAML cannot do.
+- `sees`: its place on the ladder.
+- `permissions`: a flat list. A name the app does not know is an error.
+- `reach`: written only where a permission carries past the role's own
+  things, like the DM's `reach = { "token:move" = "world" }`.
+
+A spectator may measure but has no `ruler:show`, so what they measure
+stays theirs.
+
+The file is TOML because its parser is already in the build, and a
+mistyped key gets an error that names the line and the keys that would
+have worked.
 
 ## Layers
 
-Three files, each replacing what it names:
+Up to three files apply, each replacing what it names:
 
-1. the app's own, shipped with it
+1. the app's own, built into the app
 2. the campaign's, written by its DM
-3. an add-on's, later, when add-ons exist
+3. an add-on's, once there are add-ons
 
-A later layer that names a role replaces that role whole. To take a
-permission away, write the role out without it. Nothing subtracts, so
-a role means what it says where it is written, and a reader never has
-to hold three files in their head to know the answer.
+A role named in a later file replaces that role whole. To take a
+permission away, write the role out without it.
 
 ## When the file is wrong
 
-A person writes this by hand, so it will be wrong sometimes.
+- An unknown key, permission or reach word is an error, never ignored.
+- A campaign file that will not load is refused. The app's own file is
+  used instead, and the DM is told which line is wrong and why.
+- The app's own file failing is a bug in the app, and it says so.
 
-- An unknown key, an unknown permission or a reach that is not one of
-  the four words is an error. Nothing is ignored quietly: a rule that
-  does nothing because of a typo is the worst failure this file has.
-- A campaign's file that will not load is refused, the app's own is
-  used, and the DM is told which line is wrong and why.
-- The app's own file failing is a fault in the app, not in the table,
-  and it says so.
-
-Failing this way is deliberate: it never fails open, handing powers
-to whoever asks, and it never fails so closed that a DM cannot open
-their own campaign.
+It never fails open, and it never locks a DM out of their own campaign.
 
 ## How a person gets a role
 
-One page is one person. The Tauri window is the owner's. Until the
-table is networked there is nobody else to be, so a dev build offers
-a way to sit as another role and see the table as they see it: the
-board, the rail, the chrome and the compendium all follow from that
-one choice rather than from a flag apiece.
+One page is one person, and the Tauri window is the owner's. A dev
+build can sit as another role to see the table the way that role does:
+the board, the rail, the chrome and the compendium all follow from that
+one choice, and a check fails the build if a surface decides for
+itself.
 
-Once a page is served to players rather than opened by the DM, a role
-has to be proved rather than asked for. A query string is something a
-player can type.
+Once the table is served to players, a role has to be proved, since a
+player can type a query string. A player joins by picking a name and
+giving the password the DM hands out. The name is their seat, and the
+seat's role says what they may do.
 
-The DM's client is the DM's: it is the process holding the campaign,
-so nothing has to prove that. A player joins by picking a name for
-themselves and giving the password the DM handed out, which is enough
-to tell one person from another without pretending to be a login
-system, and it sits well with an invite secret shared out of band
-(design §6). The name a player picks is the seat, and what they may do
-follows from the role that seat holds.
+## Not yet
 
-That is why the core does not yet ask who is calling: until people
-join, there is one hand per process and the question has no answer
-worth checking. The check belongs in the step that lets people in.
-
-## What this replaces
-
-Six improvised flags, each of which decided some of this on its own:
-`canManage` on the scene tab, `viewer === "dm"` in the rail and the
-entry page, a bare `hidden` on the chrome, the board's own tier, and
-`SeenBy`'s `own` with the page's side of the table standing in for a
-person. One derivation replaces them, and a check fails the build
-when a surface decides for itself again.
-
-## Deliberately later
-
-- **Named people.** Sharing with one player rather than the party
-  needs people to name, which needs the network layer. The design has
-  called this grants since the start; when it lands it sits beside
-  the four words rather than inside them.
-- **Sharing as an act.** Showing a thing to the table is something a
-  person does, not a rule about what they may see, and every
-  table-top that folded the two together had to pull them apart
-  again. The permission says whether you may offer at all; the
-  offering is its own gesture.
-- **The core's own redaction.** The scene command hands out
-  everything today and the frontend declines to look. That is the
-  house rule honoured by good manners rather than by the core, and it
-  is the third step of this pass.
+- **The core does not check who is calling.** Until people can join
+  there is one person per process, so the scene command sends
+  everything and the page filters what it shows.
+- **Sharing with one player** needs people to name, which needs the
+  network layer.
+- **Showing something to the table** will be a gesture of its own. The
+  permission only says whether a person may offer at all.

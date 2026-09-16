@@ -1,11 +1,11 @@
 # Stories
 
-What a person at the table does, and what they see, starting from the
-base: the example campaign with the tavern open. *(later)* marks a
-story not yet tested. How a story becomes a test is in
+What a person at the table does and sees, starting from the example
+campaign with the tavern open. *(later)* marks a story or a line not
+yet tested. How a story becomes a test is in
 [.ai/TESTING.md](../.ai/TESTING.md). The stories run against a
-stand-in for the core; the core's own types and files are proved by
-the logic tests.
+stand-in for the core; logic tests prove the core's own types and
+files.
 
 ## Search
 
@@ -234,10 +234,9 @@ the logic tests.
 
 ## Budgets
 
-Not stories. The perf project, `bun run e2e:perf`, drives the tavern,
-a world map fitted to the window, and the same map zoomed in, with
-fifty tokens, and reports frame times against a sixty hertz budget
-with hitches counted. It also counts the frames drawn in one second
-with nothing happening: the board draws only on request, so the count
-should be none. That number is reported, not judged. It runs on
-demand on a machine with a GPU.
+Not stories. `bun run perf` drives the tavern, a world map fitted to
+the window and the same map zoomed in, with fifty tokens, and reports
+frame times against a 60 Hz budget with hitches counted. It also counts
+the frames drawn in an idle second, which should be none, since the
+board draws only on request; that count is reported, not judged. It
+runs on demand, on a machine with a graphics card.

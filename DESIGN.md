@@ -222,48 +222,44 @@ components:
 
 ## Overview
 
-Tablewright is a virtual tabletop and worldbuilding suite. The
-governing idea is that using it should feel like sitting at a
-physical table. It cannot be that one to one, and it should not try
-to be, but every element is based on a thing a real table has: a
-desk, paper, ink, brass instruments, glass, dice, a map. Nothing is
-a generic widget when it could be an object.
+Tablewright is a virtual tabletop and worldbuilding suite that should
+feel like sitting at a real table. Not one to one, but every element is
+based on something a table has: a desk, paper, ink, brass instruments,
+glass, dice, a map. Nothing is a generic widget when it could be an
+object.
 
-Its look is therefore a desk with paper on it. The desk is the tool
-chrome: dark, warm, worn, and quiet, so it never competes with the
-map. The paper is every document a player or DM reads: character
-sheets, handouts, notes, compendium entries. Paper is light,
-textured, and lively, and it lies on the desk the way a printed
-sheet lies on a table.
+So the look is a desk with paper on it. The desk is the tool chrome:
+dark, warm and quiet, so it never competes with the map. The paper is
+everything a player or DM reads: sheets, handouts, notes, compendium
+entries. It is light and textured, and lies on the desk like a printed
+sheet.
 
 Four qualities govern every decision:
 
 - **Recessive desk.** Tool surfaces are close in tone, outlines are
-  hairlines, and brass is used sparingly: the selected token, the one
-  primary action in a panel, the active tool.
-- **Objects, not widgets.** Paper should read as paper, brass as brass,
-  glass as glass. Materials carry texture, edge, and light; flat
-  colour is the placeholder we ship first, not the destination.
+  hairlines, and brass is kept for the selected token, the one primary
+  action in a panel, and the active tool.
+- **Objects, not widgets.** Paper reads as paper, brass as brass, glass
+  as glass. Flat colour is what ships first, not the destination.
 - **Instruments, not cards.** Every section of a document has its own
   silhouette, chosen for what it holds and for the character's class:
   a spiral gauge for hit points, bolts and gears for an artificer's
   scores, chained rings for equipment. Uniform rounded cards are the
-  failure mode.
-- **Instant.** Panels are pre-mounted and open in the same frame.
-  Materials are painted once and never animated. No spinners between
-  local interactions.
+  failure.
+- **Instant.** Panels are mounted ahead of time and open in the same
+  frame. Materials are painted once and never animated. No spinners
+  between local actions.
 
-The board keeps a neutral cool ground so map art is never tinted by
-the desk. Fantasy craft is the first skin; other genres arrive later
-as skins over the same tokens, and each character class gets a small
-skin of its own for accent metal, washes, and instrument shapes.
+The board keeps a neutral cool ground so map art is never tinted.
+Fantasy is the first skin. Other genres come later as skins over the
+same tokens, and each character class gets a small skin of its own for
+accent metal, washes and instrument shapes.
 
-The system is implemented as Lit web components with hand-written CSS
-in `packages/ui`; the board reads the same tokens into PixiJS through
-a bridge in `packages/board`. Tokens are generated from the front
-matter above into `packages/ui/src/tokens.css` as `--tw-*` custom
-properties by `tools/build-tokens.ts`; that file is never edited by
-hand.
+The system is Lit web components with hand-written CSS in
+`packages/ui`, and the board reads the same tokens into PixiJS through
+`packages/board`. `tools/build-tokens.ts` generates
+`packages/ui/src/tokens.css` from the front matter as `--tw-*` custom
+properties; that file is never edited by hand.
 
 ## Colors
 
@@ -271,148 +267,144 @@ Two palettes share one document: the desk and the paper.
 
 The desk is a warm near-black ramp, `background` through the
 `surface-container-*` steps, with `on-surface` in warm cream and
-hairlines in `outline`. Panels, toolbars, search, and menus live here.
+hairlines in `outline`. Panels, toolbars, search and menus live here.
 
-- **primary**, brass, is selection and emphasis on the desk and the
-  metal of the paper's fittings.
-- **secondary**, teal glass, is information and secondary affordances:
-  links, readouts, measurement, the inactive tool.
-- **tertiary**, copper, is warmth and rank: the artificer's accent,
-  rules under titles, proficiency marks.
-- **error** is failure and destruction only.
+- **primary**, brass: selection and emphasis on the desk, and the metal
+  of the paper's fittings.
+- **secondary**, teal glass: information and secondary affordances,
+  such as links, readouts, measurement and the inactive tool.
+- **tertiary**, copper: warmth and rank, such as the artificer's
+  accent, rules under titles and proficiency marks.
+- **error**: failure and destruction only.
 
-The paper is `paper` with `paper-deep` and `paper-shade` for depth,
-and `ink`, `ink-soft`, `ink-faint` for text and linework. The washes,
-peach, rose, sky, moss, and lilac, tint whole sections at low contrast
-so a busy sheet separates by hue temperature rather than by borders.
-Each wash has a light stop for gradients, and washes are always soft
-two-stop gradients, never flat fills.
+The paper is `paper`, with `paper-deep` and `paper-shade` for depth,
+and `ink`, `ink-soft` and `ink-faint` for text and lines. The washes,
+peach, rose, sky, moss and lilac, tint whole sections at low contrast,
+so a busy sheet separates by hue rather than by borders. Each wash has
+a light stop, and a wash is always a soft two-stop gradient, never a
+flat fill.
 
-The board tokens stay neutral: `board-ground` is a cool dark step,
-`board-grid` carries its own alpha in eight-digit hex, and
-`board-selection` and `board-hover` are brass so the one accent is the
-same on the desk and on the map. What the DM draws over the map stays
-quiet under play: `board-wall` is paper at a low alpha, a hint over art
-that draws its own walls; `board-threshold` is brass, since doors and
-arches are what the data adds; `board-sight` is the secondary teal for
-what sight passes through, windows; `board-difficult` and `board-air`
-are faint tints carrying their own alpha. Height is shown in the
-scene's chosen mode: `board-height-shade` is the shadow on the low
-side of a rise, black laid on soft; `board-height-line` the hairline
-along a contour, paper at a low alpha; `board-height-up` and
-`board-height-down` the warm and cool washes of ground above and
-below zero, their alpha set by the height; `board-height-tag` the
-small edge tag's text over a ground-coloured pill. A stroke drawn as
-texture too is the same paper made firm: `board-floor` is the painted
-floor of ground drawn where the picture has none, and the wall,
-threshold and difficult tokens are drawn solid and hatched rather
-than hinted. The ruler is `board-ruler`, paper laid over the map like
-a tape; a way within a dash wears `board-selection`, the brass of a
-chosen token; `board-beyond` is the one red on the board: a way past
-even a dash, which a player reads as where they cannot go this turn.
+The board tokens stay neutral, and brass is the one accent on the desk
+and the map alike:
 
-Colour never carries meaning alone. Every status colour is paired with
-an icon, a label, a shape, or a position.
+- `board-ground` is a cool dark step, and `board-grid` carries its own
+  alpha. `board-selection` and `board-hover` are brass.
+- `board-wall` is paper at a low alpha, a hint over art that draws its
+  own walls. `board-threshold` is brass, since doors and arches are
+  what the data adds. `board-sight` is teal, for windows.
+  `board-difficult` and `board-air` are faint tints with their own
+  alpha.
+- Height: `board-height-shade` is the shadow on the low side of a rise,
+  `board-height-line` a contour hairline, `board-height-up` and
+  `board-height-down` the warm and cool washes above and below zero
+  with their alpha set by the height, and `board-height-tag` the text
+  of a small edge tag.
+- A stroke drawn as texture is the same paper made firm: `board-floor`
+  is floor painted where the picture has none, and walls, thresholds
+  and difficult ground are drawn solid and hatched rather than hinted.
+- `board-ruler` is paper laid over the map like a tape, and a way
+  within a dash wears `board-selection`. `board-beyond` is the one red
+  on the board: a way past even a dash.
+
+Colour never carries meaning alone. Every status colour comes with an
+icon, a label, a shape or a position.
 
 ## Typography
 
-System sans-serif for the desk, so tool text never argues with a
-map's lettering. A serif for document titles, so paper reads as
-print; `document-title` uses system serifs until a bundled face is
-chosen. A tabular monospace for numbers that change, so digits stay
-still.
+Five faces, chosen by where the reader is. The reasons are in
+[docs/typography.md](docs/typography.md).
 
-- `headline-md` and `headline-sm` name panels and sections on the desk.
-- `body-md` is the default reading size; `body-sm` for dense lists.
-- `label-md` is buttons, tabs, and field labels; `document-label` is
-  the tracked small capitals of a sheet's section names.
-- `numeric-md` is any live number.
-- `document-title` is the character's name and handout headings.
+- **Cinzel Decorative** for headings on paper: `document-title` and
+  `document-heading`.
+- **EB Garamond** for the body of a page: `document-body`.
+- **Libertinus Sans** for all of the chrome: `headline-md`,
+  `headline-sm`, `body-md`, `body-sm`, `label-md` and
+  `document-label`.
+- **Fira Code** for every figure and the tags beside it: `numeric-md`,
+  so digits stay still while they change.
+- **Material Symbols** for icons: `icon-md`.
 
-Two weights only, regular and semibold. No italics for emphasis.
+Libertinus Sans comes in 400 and 700, so labels are 700. No italics for
+emphasis.
 
 ## Layout
 
-An 8 px rhythm with a 4 px half step. Desk panels are 320 px wide,
-dock to the window edges, and float over the board without dimming
-it. Documents are wider and laid out as designed compositions, not
-auto-grids: a sheet has a large central instrument and smaller ones
-around it, asymmetric on purpose, the way the reference sheet gives
-the spiral a whole quadrant.
+An 8 px rhythm with a 4 px half step: `xs` 4, `sm` 8, `md` 12, `lg` 16,
+`xl` 24, `xxl` 32. Panel padding is `lg`, document padding is `xl`, and
+controls sit on `sm` gaps.
 
-- `xs` 4, `sm` 8, `md` 12, `lg` 16, `xl` 24, `xxl` 32.
-- Panel padding is `lg`; document padding is `xl`; controls sit on
-  `sm` gaps.
+Desk panels are 320 px wide, dock to the window edges and float over
+the board without dimming it. Documents are laid out as designed
+compositions, not auto-grids: a sheet has a large central instrument
+with smaller ones around it, asymmetric on purpose.
 
 ## Elevation & Depth
 
-Depth on the desk is tonal: a lighter container on a darker ground
-with a hairline border; nothing casts a drop shadow over the map.
-Paper is the one thing that sits above the desk, and it earns a
-soft contact shadow because a sheet on a table has one. Materials
-supply the rest of the depth: bevel and specular on brass, a fibre
-texture and edge darkening on paper, translucency on glass.
+Depth on the desk is tonal: a lighter container on a darker ground with
+a hairline border, and nothing casts a shadow over the map. Paper is
+the one thing above the desk, with a soft contact shadow like a sheet
+on a table. Materials supply the rest: bevel and highlight on brass,
+fibre and darkened edges on paper, translucency on glass.
 
 ## Shapes
 
-Desk controls use small radii: `sm` for controls, `md` for panels,
-`lg` for paper corners. On paper, shape is meaning. Instruments are
-drawn as vector frames with material fills: hexagonal nuts and bolts,
-gears, rings, spirals, pipes and chains as separators. Tokens on the
-board are circles with a brass ring. Never mix sharp and rounded
-corners inside one surface.
+Desk controls use small radii: `sm` for controls, `md` for panels and
+`lg` for paper corners. On paper, shape is meaning: instruments are
+vector frames with material fills, such as hexagonal nuts and bolts,
+gears, rings and spirals, with pipes and chains as separators. Tokens
+on the board are circles with a brass ring. Never mix sharp and rounded
+corners in one surface.
 
 ## Materials
 
-This section is direction for the finished product; the PoC ships
-flat colour from the tokens above.
+Direction for the finished product. For now everything ships in flat
+colour from the tokens.
 
-- **Paper**: a static fibre texture at low contrast, a faint vignette,
-  slightly uneven edges by SVG mask, ink lines with a hand-inked
-  waver from a static displacement filter, washes blended with
+- **Paper**: a static low-contrast fibre texture, a faint vignette,
+  slightly uneven edges from an SVG mask, ink lines with a hand-inked
+  waver from a static displacement filter, and washes blended with
   multiply and darkened at their edges the way watercolour dries.
-- **Brass and copper**: multi-stop metallic gradients with a single
-  top-left specular, a bevel from inset shadow or an SVG lighting
-  filter over a bump map, and a light patina noise. Rivets are small
-  radial highlights.
-- **Glass**: translucent teal over whatever sits beneath, an inner
-  glow, and one highlight streak.
-- **Rules**: materials are static assets or static SVG filters,
-  painted once and cached. Nothing animates a filter, and nothing on
-  the board uses them. Textures are small tiles, never full-size
-  images.
+- **Brass and copper**: multi-stop metallic gradients with one top-left
+  highlight, a bevel from an inset shadow or an SVG lighting filter,
+  and a light patina noise. Rivets are small radial highlights.
+- **Glass**: translucent teal over whatever sits beneath, an inner glow
+  and one highlight streak.
+- **Rules**: materials are static assets or static SVG filters, painted
+  once and cached, from small tiles rather than full-size images.
+  Nothing animates a filter, and nothing on the board uses materials.
 
 ## Components
 
-- **panel**: desk container for search, tools, and settings. Container
-  tone, hairline border, `md` corners, `lg` padding, a small tracked
-  label as its title.
-- **button-primary**: brass on dark text, `label-md`, one per panel at
-  most. Hover uses the pale brass container tone.
+- **panel**: the desk container for search, tools and settings.
+  Container tone, hairline border, `md` corners, `lg` padding, and a
+  small tracked label as its title.
+- **button-primary**: brass with dark text in `label-md`, one per panel
+  at most. Hover uses the pale brass container tone.
 - **button-quiet**: the default button, a tonal step up from the panel.
-- **input**: the lowest desk tone so the field reads as a well, with
+- **input**: the lowest desk tone, so the field reads as a well, with
   `focus-ring` on focus.
-- **document**: paper, ink text, `lg` corners, `xl` padding, a serif
-  `document-title`, and `document-label` section names.
-- **section-peach**, **section-rose**, **section-sky**, **section-moss**:
-  washed regions inside a document, each drawn as an instrument frame
-  rather than a card.
-- **board**: the canvas; its ground and grid come from the board tokens
+- **document**: paper, ink text in `document-body`, `lg` corners, `xl`
+  padding, a `document-title`, and `document-label` section names.
+- **document-heading**: subheadings inside a document, in `ink-soft`.
+- **section-peach**, **section-rose**, **section-sky**,
+  **section-moss**: washed regions inside a document, each drawn as an
+  instrument frame rather than a card.
+- **board**: the canvas. Its ground and grid come from the board tokens
   through the bridge, not from CSS.
-- **notice-error**: an inline error strip that says what went wrong,
-  what was expected, and what to do; never a modal.
+- **notice-error**: an inline strip that says what went wrong, what was
+  expected and what to do; never a modal.
 
 ## Do's and Don'ts
 
-- Do keep the desk recessive: if a control competes with the map, it
-  is too loud.
+- Do keep the desk recessive: if a control competes with the map, it is
+  too loud.
 - Do give every document section its own silhouette; if two sections
   could swap frames without loss, the design is not done.
 - Do reference semantic tokens in components (`{colors.primary}`),
   never raw hex, so a skin is a handful of overrides.
-- Do drive visual state with attributes and custom properties; never
-  write inline styles for state.
-- Do pair colour with shape, icon, or label for every status.
+- Do drive visual state with attributes and custom properties, never
+  inline styles.
+- Do pair colour with a shape, an icon or a label for every status.
 - Do keep numbers in `numeric-md` so they stay still while they change.
 - Don't tint the board with the desk palette; map art is never warmed.
 - Don't use uniform rounded cards on paper.

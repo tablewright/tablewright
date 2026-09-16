@@ -1,8 +1,8 @@
 # Dev fixtures
 
 - `araitael-world.jpg`: the Araitael world map, 9600 by 6248 pixels,
-  the author's own campaign art. Re-encoded from the 65 MB PNG as a
-  JPEG at quality 86 so the repository stays light; the pixel size is
-  unchanged, so the texture and grid stress are the same. Used by
-  `bun run perf` and available to a dev build as
+  the author's own campaign art. A JPEG at quality 86, re-encoded from
+  a 65 MB PNG at the same pixel size, so it stresses the texture and
+  the grid just the same while keeping the repo light. `bun run perf`
+  uses it, and a dev build can load it with
   `?map=/dev/fixtures/araitael-world.jpg`.

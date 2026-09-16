@@ -975,13 +975,16 @@ turn start; DM preview inside Table; timing relative to multiplayer.
   the rail without the pens, undo or history; no Open map and no
   Campaigns; and the compendium answering as it would for a player. It
   is how a DM sees their own table as the party does without a second
-  machine. Two things are open (user, 2026-09-12): visibility wants a
-  pass of its own so that one notion runs through every surface rather
-  than each keeping a flag, and once a page is served to players what
-  makes a view the DM's has to be proved rather than asked for, since a
-  query string is something a player can type. Whether the DM client
-  keeps a way to see what a player sees, once there are real players to
-  see it for, belongs to that pass too.
+  machine. Visibility has had its own pass (user, 2026-09-12): one list
+  of who a thing is for runs through every surface, following from the
+  role the page sits as rather than a flag apiece, and
+  [docs/permissions.md](permissions.md) holds it. Once a page is served
+  to players, what makes a view the DM's has to be proved rather than
+  asked for, since a query string is something a player can type;
+  permissions.md settles that as a name the player picks and a password
+  the DM hands out, and it lands with the step that lets people join.
+  Whether the DM client keeps a way to see what a player sees, once
+  there are real players to see it for, is still open.
 - **Serve mode.** The same installed binary has a second entry
   point, `table --serve`: it runs the core plus a local HTTP and
   WebSocket server from crates/net without creating a WebView,
