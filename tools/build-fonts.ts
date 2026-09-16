@@ -68,9 +68,13 @@ const FACES: Face[] = [
 const ICONS = [
   "arrow_downward",
   "arrow_upward",
+  "close",
+  "filter_alt",
   "grid_on",
   "history",
+  "map",
   "open_with",
+  "share",
   "straighten",
   "undo",
   "visibility",

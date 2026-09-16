@@ -12,7 +12,7 @@
 
 import { css, html, svg, type CSSResult, type TemplateResult } from "lit";
 import type { DrawShape, Ink, RulerMode } from "@tablewright/board";
-import { GLYPH } from "../glyphs.js";
+import { GLYPH } from "./glyphs.js";
 
 const frame = (body: TemplateResult): TemplateResult =>
   svg`<svg class="glyph" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
@@ -24,24 +24,33 @@ const symbol = (glyph: string): TemplateResult =>
 /**
  * What a host has to add to its own styles for either hand to sit right.
  * A drawn glyph is already 20 px square; a symbol is a character, so it is
- * given the same square to stand in.
+ * given the same square to stand in. A host that wants a smaller one sets
+ * `--glyph-size` where it is used.
  */
 export const ICON_STYLES: CSSResult = css`
   .glyph {
     display: block;
-    width: 20px;
-    height: 20px;
+    width: var(--glyph-size, 20px);
+    height: var(--glyph-size, 20px);
   }
   .symbol {
     font-family: var(--tw-typo-icon-md-font-family);
     font-weight: var(--tw-typo-icon-md-font-weight);
-    font-size: 20px;
-    line-height: 20px;
+    font-size: var(--glyph-size, 20px);
+    line-height: var(--glyph-size, 20px);
     text-align: center;
     /* Reached by codepoint, so nothing here should ever be ligated. */
     font-variant-ligatures: none;
   }
 `;
+
+export const MAP_ICON = symbol(GLYPH.map);
+
+export const CLOSE_ICON = symbol(GLYPH.close);
+
+export const FILTER_ICON = symbol(GLYPH.filter_alt);
+
+export const SHARE_ICON = symbol(GLYPH.share);
 
 export const MOVE_ICON = symbol(GLYPH.open_with);
 

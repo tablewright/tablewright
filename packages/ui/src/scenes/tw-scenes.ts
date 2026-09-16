@@ -8,7 +8,9 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { SceneSummary } from "@tablewright/schema";
+import { DismissWhenOutside } from "../dismiss.js";
 import { emit } from "../events.js";
+import { ICON_STYLES, MAP_ICON } from "../icons.js";
 import { FOCUS_RING, MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../styles.js";
 import { nameFrom } from "../text.js";
 
@@ -37,14 +39,26 @@ export class TwScenes extends LitElement {
     this.references = [];
     this.canManage = false;
     this.open = false;
+    // A click anywhere else shuts the list, as a menu does.
+    this.addController(
+      new DismissWhenOutside(this, {
+        event: "click",
+        isOpen: () => this.open,
+        close: () => {
+          this.open = false;
+        },
+      })
+    );
   }
 
   static override styles = css`
+    ${ICON_STYLES}
     :host {
       position: relative;
       display: inline-block;
     }
     .tab {
+      --glyph-size: 14px;
       display: inline-flex;
       align-items: center;
       gap: var(--tw-space-sm);
@@ -63,8 +77,7 @@ export class TwScenes extends LitElement {
     button.tab[aria-expanded="true"] {
       ${QUIET_BUTTON_HOVER}
     }
-    .tab svg {
-      display: block;
+    .tab .glyph {
       color: var(--tw-primary);
     }
     .menu {
@@ -120,33 +133,12 @@ export class TwScenes extends LitElement {
     ${FOCUS_RING}
   `;
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    document.addEventListener("click", this.#outside, { capture: true });
-  }
-
-  override disconnectedCallback(): void {
-    document.removeEventListener("click", this.#outside, { capture: true });
-    super.disconnectedCallback();
-  }
-
   override render() {
     const name = this.scenes.find((scene) => scene.id === this.current)?.name ?? "Scene";
-    const icon = html`<svg
-      width="14"
-      height="14"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M1.5 3.5 6 2l4 1.5L14.5 2v10.5L10 14l-4-1.5L1.5 14z"></path>
-      <path d="M6 2v10.5M10 3.5V14"></path>
-    </svg>`;
     if (!this.canManage) {
-      return html`<span class="tab" aria-label="Current scene">${icon}<span>${name}</span></span>`;
+      return html`<span class="tab" aria-label="Current scene"
+        >${MAP_ICON}<span>${name}</span></span
+      >`;
     }
     return html`
       <button
@@ -156,7 +148,7 @@ export class TwScenes extends LitElement {
         aria-expanded=${this.open ? "true" : "false"}
         @click=${this.#toggle}
       >
-        ${icon}<span>${name}</span>
+        ${MAP_ICON}<span>${name}</span>
       </button>
       ${this.open ? this.#menu() : nothing}
     `;
@@ -233,13 +225,6 @@ export class TwScenes extends LitElement {
   #keydown = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       event.stopPropagation();
-      this.open = false;
-    }
-  };
-
-  // A click anywhere else shuts the list, as a menu does.
-  #outside = (event: Event): void => {
-    if (this.open && !event.composedPath().includes(this)) {
       this.open = false;
     }
   };

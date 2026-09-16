@@ -60,7 +60,7 @@ import {
   inkIcon,
   rulerIcon,
   shapeIcon,
-} from "./icons.js";
+} from "../icons.js";
 import { thresholdSwatch } from "./swatches.js";
 import { emit } from "../events.js";
 import { FOCUS_RING, PANEL_CHROME, QUIET_BUTTON, QUIET_BUTTON_HOVER } from "../styles.js";

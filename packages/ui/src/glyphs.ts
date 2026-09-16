@@ -8,9 +8,13 @@
 export const GLYPH = {
   arrow_downward: "\uE5DB",
   arrow_upward: "\uE5D8",
+  close: "\uE5CD",
+  filter_alt: "\uEF4F",
   grid_on: "\uE3EC",
   history: "\uE8B3",
+  map: "\uE55B",
   open_with: "\uE89F",
+  share: "\uE80D",
   straighten: "\uE41C",
   undo: "\uE166",
   visibility: "\uE8F4",

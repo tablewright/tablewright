@@ -12,6 +12,7 @@ import { LitElement, css, html, nothing } from "lit";
 import { previewOf } from "../spotlight/preview.js";
 import type { SpotlightHit } from "../spotlight/searcher.js";
 import { emit } from "../events.js";
+import { CLOSE_ICON, ICON_STYLES } from "../icons.js";
 
 export class TwShareCard extends LitElement {
   static override properties = {
@@ -33,6 +34,7 @@ export class TwShareCard extends LitElement {
   }
 
   static override styles = css`
+    ${ICON_STYLES}
     :host {
       display: block;
       background: var(--tw-comp-document-background-color);
@@ -57,6 +59,7 @@ export class TwShareCard extends LitElement {
       line-height: var(--tw-typo-body-sm-line-height);
     }
     button {
+      --glyph-size: 14px;
       display: inline-flex;
       align-items: center;
       gap: var(--tw-space-xs);
@@ -116,21 +119,7 @@ export class TwShareCard extends LitElement {
     return html`
       <header>
         <span>Shared by <strong>${this.sharedBy}</strong>${waiting}</span>
-        <button type="button" @click=${this.#dismiss}>
-          Dismiss
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"
-            aria-hidden="true"
-          >
-            <path d="M4 4l8 8M12 4l-8 8"></path>
-          </svg>
-        </button>
+        <button type="button" @click=${this.#dismiss}>Dismiss ${CLOSE_ICON}</button>
       </header>
       <div
         class="body"

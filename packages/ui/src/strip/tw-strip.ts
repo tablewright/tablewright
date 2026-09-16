@@ -5,9 +5,67 @@
 //
 // `tw-cell` carries the value clicked.
 
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, type CSSResult } from "lit";
 import { titleCase } from "../text.js";
 import { emit } from "../events.js";
+
+// The rail's chrome: on the strip itself, and on a rail a host draws by hand.
+const RAIL = css`
+  display: flex;
+  border: 1px solid var(--tw-outline-variant);
+  border-radius: var(--tw-rounded-sm);
+  background: var(--tw-surface-container-lowest, var(--tw-surface));
+  overflow: hidden;
+`;
+
+const CELLS = css`
+  .cell {
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 0;
+    padding: 5px 0;
+    border: 0;
+    border-right: 1px solid var(--tw-outline-variant);
+    background: none;
+    color: var(--tw-on-surface-variant);
+    font-family: var(--tw-typo-numeric-md-font-family);
+    font-size: var(--tw-typo-label-md-font-size);
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    user-select: none;
+  }
+  .cell:last-child {
+    border-right: 0;
+  }
+  .cell.wide {
+    flex-grow: 1.6;
+  }
+  .cell:hover {
+    background: var(--tw-surface-container-high);
+    color: var(--tw-on-surface);
+  }
+  .cell[aria-pressed="true"] {
+    background: var(--tw-primary);
+    color: var(--tw-on-primary);
+    font-weight: var(--tw-typo-label-md-font-weight);
+  }
+  .cell:focus-visible {
+    outline: 2px solid var(--tw-focus-ring);
+    outline-offset: 1px;
+  }
+`;
+
+/** The strip's rail and cells as rules, for a host that draws the same cells by hand. */
+export const STRIP_STYLES: CSSResult = css`
+  .rail {
+    ${RAIL}
+  }
+  ${CELLS}
+`;
 
 export class TwStrip extends LitElement {
   static override properties = {
@@ -36,50 +94,9 @@ export class TwStrip extends LitElement {
 
   static override styles = css`
     :host {
-      display: flex;
-      border: 1px solid var(--tw-outline-variant);
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-surface-container-lowest, var(--tw-surface));
-      overflow: hidden;
+      ${RAIL}
     }
-    .cell {
-      flex: 1 1 0;
-      min-width: 0;
-      margin: 0;
-      padding: 5px 0;
-      border: 0;
-      border-right: 1px solid var(--tw-outline-variant);
-      background: none;
-      color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-numeric-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      line-height: 1.2;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-      user-select: none;
-    }
-    .cell:last-child {
-      border-right: 0;
-    }
-    .cell.wide {
-      flex-grow: 1.6;
-    }
-    .cell:hover {
-      background: var(--tw-surface-container-high);
-      color: var(--tw-on-surface);
-    }
-    .cell[aria-pressed="true"] {
-      background: var(--tw-primary);
-      color: var(--tw-on-primary);
-      font-weight: var(--tw-typo-label-md-font-weight);
-    }
-    .cell:focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
-      outline-offset: 1px;
-    }
+    ${CELLS}
   `;
 
   override render() {

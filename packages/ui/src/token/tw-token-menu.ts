@@ -12,7 +12,8 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { Visibility } from "@tablewright/schema";
-import { ICON_STYLES, KEPT_ICON, SHOWN_ICON } from "../rail/icons.js";
+import { ICON_STYLES, KEPT_ICON, SHOWN_ICON } from "../icons.js";
+import { DismissWhenOutside } from "../dismiss.js";
 import { emit } from "../events.js";
 import { MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../styles.js";
 
@@ -31,6 +32,15 @@ export class TwTokenMenu extends LitElement {
     super();
     this.at = undefined;
     this.kept = false;
+    // A press anywhere else shuts it, as a menu does: a press rather than a
+    // click, since it opens under a held right button.
+    this.addController(
+      new DismissWhenOutside(this, {
+        event: "pointerdown",
+        isOpen: () => this.at !== undefined,
+        close: () => this.close(),
+      })
+    );
   }
 
   static override styles = css`
@@ -89,13 +99,11 @@ export class TwTokenMenu extends LitElement {
     // The opening right-click releases over the menu; swallow its contextmenu
     // or the browser's own arrives.
     this.addEventListener("contextmenu", this.#ownMenu);
-    window.addEventListener("pointerdown", this.#elsewhere, true);
     window.addEventListener("keydown", this.#escape);
   }
 
   override disconnectedCallback(): void {
     this.removeEventListener("contextmenu", this.#ownMenu);
-    window.removeEventListener("pointerdown", this.#elsewhere, true);
     window.removeEventListener("keydown", this.#escape);
     super.disconnectedCallback();
   }
@@ -120,13 +128,6 @@ export class TwTokenMenu extends LitElement {
 
   #ownMenu = (event: Event): void => {
     event.preventDefault();
-  };
-
-  // A press anywhere else shuts it, as a menu does.
-  #elsewhere = (event: PointerEvent): void => {
-    if (this.at !== undefined && !event.composedPath().includes(this)) {
-      this.close();
-    }
   };
 
   #escape = (event: KeyboardEvent): void => {

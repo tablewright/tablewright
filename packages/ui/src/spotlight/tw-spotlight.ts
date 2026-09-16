@@ -20,42 +20,12 @@ import type { Taxonomy } from "./preview.js";
 import type { HitGroup } from "./preview.js";
 import type { SearchAnswer, Searcher, SpotlightHit } from "./searcher.js";
 import { emit } from "../events.js";
+import { FILTER_ICON, ICON_STYLES, SHARE_ICON } from "../icons.js";
 import { QUIET_BUTTON } from "../styles.js";
 
 type Status = "idle" | "searching" | "done" | "error";
 
-const FUNNEL_ICON = html`<svg
-  width="12"
-  height="12"
-  viewBox="0 0 12 12"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="1.4"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-  aria-hidden="true"
->
-  <path d="M1 2h10L7.5 6.5V10l-3 1V6.5z"></path>
-</svg>`;
-
 const HANDLED_KEYS = new Set(["ArrowDown", "ArrowUp", "Home", "End", "Enter", "Escape"]);
-
-const SHARE_ICON = html`<svg
-  width="14"
-  height="14"
-  viewBox="0 0 16 16"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="1.5"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-  aria-hidden="true"
->
-  <circle cx="6" cy="5.5" r="2.5"></circle>
-  <path d="M1.5 13.5c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4"></path>
-  <circle cx="11.5" cy="6" r="2"></circle>
-  <path d="M14.5 13.5c0-2-1.3-3.4-3.2-3.8"></path>
-</svg>`;
 
 export class TwSpotlight extends LitElement {
   static override properties = {
@@ -147,6 +117,7 @@ export class TwSpotlight extends LitElement {
   }
 
   static override styles = css`
+    ${ICON_STYLES}
     :host {
       position: fixed;
       inset: 0;
@@ -227,6 +198,7 @@ export class TwSpotlight extends LitElement {
       opacity: 0.6;
     }
     .funnel {
+      --glyph-size: 12px;
       display: inline-flex;
       align-items: center;
       gap: var(--tw-space-xs);
@@ -388,6 +360,7 @@ export class TwSpotlight extends LitElement {
       opacity: 1;
     }
     .share {
+      --glyph-size: 14px;
       display: inline-flex;
       align-items: center;
       gap: var(--tw-space-xs);
@@ -568,7 +541,7 @@ export class TwSpotlight extends LitElement {
                             aria-pressed=${this.trayOpen ? "true" : "false"}
                             @click=${this.#toggleTray}
                           >
-                            ${FUNNEL_ICON} ${this.#filterCount(controls)}
+                            ${FILTER_ICON} ${this.#filterCount(controls)}
                           </button>
                         `
                   }
