@@ -121,6 +121,25 @@ const PLACE_LABELS = { level: "Ground level", raised: "A height" } as const;
 const SIZE_PX = { min: 1, max: 300, step: 1 } as const;
 // How much of the history shows until all of it is asked for.
 const RECENT = 3;
+// A strip given no labels reads its values as words.
+const NO_LABELS: Readonly<Record<string, string>> = {};
+
+// A number or a slider in a field: `change` hears the value as it is typed
+// or dragged, and `release` hears a slider let go.
+interface FieldSpec {
+  readonly aria: string;
+  readonly value: number;
+  readonly unit: string;
+  readonly min?: number;
+  readonly max?: number;
+  readonly step: number;
+  readonly change: (next: number) => void;
+  readonly release?: (next: number) => void;
+}
+
+interface RowSpec extends FieldSpec {
+  readonly cap: string;
+}
 
 export class TwToolRail extends LitElement {
   static override properties = {
@@ -691,16 +710,13 @@ export class TwToolRail extends LitElement {
       </header>
       ${
         isLaid
-          ? html`<section>
-              <span class="cap">Starts at</span>
-              <tw-strip
-                label="Starts at"
-                .values=${ORIGIN_SNAPS}
-                .labels=${SNAP_LABELS}
-                .pressed=${[this.snap]}
-                @tw-cell=${this.#choose(ORIGIN_SNAPS, (snap) => this.#setSnap(snap))}
-              ></tw-strip>
-            </section>`
+          ? this.#stripRow(
+              "Starts at",
+              ORIGIN_SNAPS,
+              this.snap,
+              (snap) => this.#setSnap(snap),
+              SNAP_LABELS
+            )
           : nothing
       }
       ${
@@ -714,119 +730,140 @@ export class TwToolRail extends LitElement {
       ${
         isLaid && area.kind === "cone"
           ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
-              <section>
-                <span class="cap">Spread</span>
-                <div class="field">
-                  <input
-                    class="range"
-                    type="range"
-                    min="0"
-                    max="90"
-                    step="1"
-                    aria-label="Spread"
-                    .value=${String(area.spread)}
-                    @input=${this.#number((spread) => this.#reshape({ spread }))}
-                  />
-                  <span class="unit">${area.spread}°</span>
-                </div>
-              </section>
-              <section>
-                <span class="cap">Far edge</span>
-                <tw-strip
-                  label="Far edge"
-                  .values=${EDGES}
-                  .pressed=${[area.edge]}
-                  @tw-cell=${this.#choose(EDGES, (edge) => this.#reshape({ edge }))}
-                ></tw-strip>
-              </section>
-              <section>
-                <span class="cap">Stands as</span>
-                <tw-strip
-                  label="Stands as"
-                  .values=${CONE_FORMS}
-                  .labels=${CONE_LABELS}
-                  .pressed=${[area.form]}
-                  @tw-cell=${this.#choose(CONE_FORMS, (form) => this.#reshape({ form }))}
-                ></tw-strip>
-              </section>
-              ${
-                area.form === "flat"
-                  ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
-                  : nothing
-              }
-              ${this.#aimRow(area.aim, (aim) => this.#reshape({ aim }))}`
+            ${this.#rangeRow({
+              cap: "Spread",
+              aria: "Spread",
+              value: area.spread,
+              unit: `${area.spread}°`,
+              min: 0,
+              max: 90,
+              step: 1,
+              change: (spread) => this.#reshape({ spread }),
+            })}
+            ${this.#stripRow("Far edge", EDGES, area.edge, (edge) => this.#reshape({ edge }))}
+            ${this.#stripRow("Stands as", CONE_FORMS, area.form, (form) => this.#reshape({ form }), CONE_LABELS)}
+            ${
+              area.form === "flat"
+                ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
+                : nothing
+            }
+            ${this.#aimRow(area.aim, (aim) => this.#reshape({ aim }))}`
           : nothing
       }
       ${
         isLaid && area.kind === "circle"
           ? html`${this.#sizeRow("Radius", area.radius, (radius) => this.#reshape({ radius }))}
-              ${this.#sizeRow("Inner", area.inner, (inner) => this.#reshape({ inner }), area.radius - this.rule.cellSize)}
-              <section>
-                <span class="cap">Stands as</span>
-                <tw-strip
-                  label="Stands as"
-                  .values=${CIRCLE_FORMS}
-                  .pressed=${[area.form]}
-                  @tw-cell=${this.#choose(CIRCLE_FORMS, (form) => this.#reshape({ form }))}
-                ></tw-strip>
-              </section>
-              ${
-                area.form === "cylinder"
-                  ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
-                  : nothing
-              }`
+            ${this.#sizeRow("Inner", area.inner, (inner) => this.#reshape({ inner }), area.radius - this.rule.cellSize)}
+            ${this.#stripRow("Stands as", CIRCLE_FORMS, area.form, (form) => this.#reshape({ form }))}
+            ${
+              area.form === "cylinder"
+                ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
+                : nothing
+            }`
           : nothing
       }
-      <section>
-        <span class="cap">Seen by</span>
-        <tw-strip
-          label="Seen by"
-          .values=${allows(this.twRole, "ruler:show") ? SEEN_BY : OWN_ONLY}
-          .labels=${SEEN_LABELS}
-          .pressed=${[this.seen]}
-          @tw-cell=${this.#choose(SEEN_BY, (seen) => this.#setSeen(seen))}
-        ></tw-strip>
-      </section>
+      ${this.#stripRow(
+        "Seen by",
+        allows(this.twRole, "ruler:show") ? SEEN_BY : OWN_ONLY,
+        this.seen,
+        (seen) => this.#setSeen(seen),
+        SEEN_LABELS
+      )}
     </div>`;
   }
 
   // The aim, for a hand that would rather type a bearing than turn one.
   #aimRow(value: number, change: (next: number) => void) {
-    return html`<section>
-      <span class="cap">Aim</span>
-      <div class="field">
-        <input
-          class="number"
-          type="number"
-          min="0"
-          max="359"
-          step="5"
-          aria-label="Aim"
-          .value=${String(Math.round(value))}
-          @input=${this.#number(change)}
-        />
-        <span class="unit">°</span>
-      </div>
-    </section>`;
+    return this.#numberRow({
+      cap: "Aim",
+      aria: "Aim",
+      value: Math.round(value),
+      unit: "°",
+      min: 0,
+      max: 359,
+      step: 5,
+      change,
+    });
   }
 
   #sizeRow(label: string, value: number, change: (next: number) => void, most?: number) {
+    return this.#numberRow({
+      cap: label,
+      aria: label,
+      value,
+      unit: this.rule.unit,
+      min: 0,
+      max: most === undefined ? undefined : Math.max(0, most),
+      step: this.rule.cellSize,
+      change,
+    });
+  }
+
+  // A strip of choices under its caption, which names the strip unless an
+  // `aria` says otherwise.
+  #stripRow<T extends string>(
+    cap: string,
+    values: readonly T[],
+    pressed: T,
+    apply: (value: T) => void,
+    labels?: Readonly<Record<string, string>>,
+    aria = cap
+  ) {
     return html`<section>
-      <span class="cap">${label}</span>
-      <div class="field">
-        <input
-          class="number"
-          type="number"
-          min="0"
-          max=${most === undefined ? nothing : String(Math.max(0, most))}
-          step=${this.rule.cellSize}
-          aria-label=${label}
-          .value=${String(value)}
-          @input=${this.#number(change)}
-        />
-        <span class="unit">${this.rule.unit}</span>
-      </div>
+      <span class="cap">${cap}</span>
+      ${this.#strip(aria, values, pressed, apply, labels)}
     </section>`;
+  }
+
+  #strip<T extends string>(
+    aria: string,
+    values: readonly T[],
+    pressed: T,
+    apply: (value: T) => void,
+    labels: Readonly<Record<string, string>> = NO_LABELS
+  ) {
+    return html`<tw-strip
+      label=${aria}
+      .values=${values}
+      .labels=${labels}
+      .pressed=${[pressed]}
+      @tw-cell=${this.#choose(values, apply)}
+    ></tw-strip>`;
+  }
+
+  #numberRow({ cap, ...spec }: RowSpec) {
+    return html`<section>
+      <span class="cap">${cap}</span>
+      ${this.#field("number", spec)}
+    </section>`;
+  }
+
+  #rangeRow({ cap, ...spec }: RowSpec) {
+    return html`<section>
+      <span class="cap">${cap}</span>
+      ${this.#field("range", spec)}
+    </section>`;
+  }
+
+  // A number typed into a box or dragged along a slider, with its unit after it.
+  #field(
+    kind: "number" | "range",
+    { aria, value, unit, min, max, step, change, release }: FieldSpec
+  ) {
+    return html`<div class="field">
+      <input
+        class=${kind}
+        type=${kind}
+        min=${min ?? nothing}
+        max=${max ?? nothing}
+        step=${step}
+        aria-label=${aria}
+        .value=${String(value)}
+        @input=${this.#number(change, { min })}
+        @change=${release === undefined ? nothing : this.#number(release, { min })}
+      />
+      <span class="unit">${unit}</span>
+    </div>`;
   }
 
   // The ruler's modes, a second column beside the rail once the ruler is
@@ -866,31 +903,29 @@ export class TwToolRail extends LitElement {
   }
 
   // Every shape shows it, like the Height pen's amount; only brush size is a shape's own.
+  // The amount is kept while the ink is put back on the ground, so turning
+  // it off and on again does not lose it.
   #place() {
     const { tool } = this;
     if (hasHeight(tool.ink)) {
       return html`<section>
         <span class="cap">Sits at</span>
-        <tw-strip
-          label="Sits at"
-          .values=${PLACES}
-          .labels=${PLACE_LABELS}
-          .pressed=${[tool.raised ? "raised" : "level"]}
-          @tw-cell=${this.#choose(PLACES, (place) => this.#update({ raised: place === "raised" }))}
-        ></tw-strip>
+        ${this.#strip(
+          "Sits at",
+          PLACES,
+          tool.raised ? "raised" : "level",
+          (place) => this.#update({ raised: place === "raised" }),
+          PLACE_LABELS
+        )}
         ${
           tool.raised
-            ? html`<div class="field">
-                <input
-                  class="number"
-                  type="number"
-                  step="5"
-                  aria-label="Height of the ground"
-                  .value=${String(tool.at)}
-                  @input=${this.#atInput}
-                />
-                <span class="unit">ft: ${signed(tool.at)}</span>
-              </div>`
+            ? this.#field("number", {
+                aria: "Height of the ground",
+                value: tool.at,
+                unit: `ft: ${signed(tool.at)}`,
+                step: 5,
+                change: (at) => this.#update({ at }),
+              })
             : nothing
         }
       </section>`;
@@ -898,21 +933,16 @@ export class TwToolRail extends LitElement {
     if (!hasTall(tool.ink)) {
       return nothing;
     }
-    return html`<section>
-      <span class="cap">Stands</span>
-      <div class="field">
-        <input
-          class="number"
-          type="number"
-          min="0"
-          step="5"
-          aria-label="How tall it stands"
-          .value=${String(tool.tall)}
-          @input=${this.#tallInput}
-        />
-        <span class="unit">ft tall</span>
-      </div>
-    </section>`;
+    // No upper limit; nothing stands below its own foot.
+    return this.#numberRow({
+      cap: "Stands",
+      aria: "How tall it stands",
+      value: tool.tall,
+      unit: "ft tall",
+      min: 0,
+      step: 5,
+      change: (tall) => this.#update({ tall }),
+    });
   }
 
   // Whether the stroke also paints what it means onto the picture: for a
@@ -921,16 +951,13 @@ export class TwToolRail extends LitElement {
     if (!hasLook(this.tool.ink)) {
       return nothing;
     }
-    return html`<section>
-      <span class="cap">Shows as</span>
-      <tw-strip
-        label="Shows as"
-        .values=${LOOKS}
-        .labels=${LOOK_LABELS}
-        .pressed=${[this.tool.look]}
-        @tw-cell=${this.#choose(LOOKS, (look) => this.#update({ look }))}
-      ></tw-strip>
-    </section>`;
+    return this.#stripRow(
+      "Shows as",
+      LOOKS,
+      this.tool.look,
+      (look) => this.#update({ look }),
+      LOOK_LABELS
+    );
   }
 
   // A threshold has one shape, the click, so its tile shows what the click
@@ -966,105 +993,81 @@ export class TwToolRail extends LitElement {
   // the radius in cells so the stroke means the same on any grid.
   #size() {
     const px = Math.max(SIZE_PX.min, Math.round(this.tool.radius * 2 * this.cellSize));
-    return html`<section>
-      <span class="cap">Size</span>
-      <div class="field">
-        <input
-          class="range"
-          type="range"
-          min=${SIZE_PX.min}
-          max=${SIZE_PX.max}
-          step=${SIZE_PX.step}
-          aria-label="Brush size in pixels"
-          .value=${String(px)}
-          @input=${this.#sizeInput}
-        />
-        <span class="unit">${px} px</span>
-      </div>
-    </section>`;
+    return this.#rangeRow({
+      cap: "Size",
+      aria: "Brush size in pixels",
+      value: px,
+      unit: `${px} px`,
+      ...SIZE_PX,
+      change: (next) => {
+        if (this.cellSize > 0) {
+          this.#update({ radius: next / 2 / this.cellSize });
+        }
+      },
+    });
   }
 
   #options() {
-    switch (this.tool.ink) {
+    const { tool } = this;
+    switch (tool.ink) {
       case "ground":
-        return html`<section>
-          <span class="cap">State</span>
-          <tw-strip
-            label="Ground state"
-            .values=${GROUND_STATES}
-            .pressed=${[this.tool.ground]}
-            @tw-cell=${this.#choose(GROUND_STATES, (ground) => this.#update({ ground }))}
-          ></tw-strip>
-        </section>`;
+        return this.#stripRow(
+          "State",
+          GROUND_STATES,
+          tool.ground,
+          (ground) => this.#update({ ground }),
+          undefined,
+          "Ground state"
+        );
       case "threshold":
-        return html`<section>
-            <span class="cap">Kind</span>
-            <tw-strip
-              label="Kind"
-              .values=${THRESHOLD_KINDS}
-              .pressed=${[this.tool.threshold.kind]}
-              @tw-cell=${this.#choose(THRESHOLD_KINDS, (kind) => this.#threshold({ kind }))}
-            ></tw-strip>
-          </section>
-          <section>
-            <span class="cap">State</span>
-            <tw-strip
-              label="State"
-              .values=${THRESHOLD_STATES}
-              .pressed=${[this.tool.threshold.state]}
-              @tw-cell=${this.#choose(THRESHOLD_STATES, (state) => this.#threshold({ state }))}
-            ></tw-strip>
-          </section>
-          <section>
-            <span class="cap">Window size</span>
-            <tw-strip
-              label="Size"
-              .values=${OPENING_SIZES}
-              .pressed=${[this.tool.threshold.size]}
-              @tw-cell=${this.#choose(OPENING_SIZES, (size) => this.#threshold({ size }))}
-            ></tw-strip>
-          </section>`;
+        return html`${this.#stripRow("Kind", THRESHOLD_KINDS, tool.threshold.kind, (kind) => this.#threshold({ kind }))}
+        ${this.#stripRow("State", THRESHOLD_STATES, tool.threshold.state, (state) => this.#threshold({ state }))}
+        ${this.#stripRow(
+          "Window size",
+          OPENING_SIZES,
+          tool.threshold.size,
+          (size) => this.#threshold({ size }),
+          undefined,
+          "Size"
+        )}`;
       case "height":
-        return html`<section>
-            <span class="cap">Amount</span>
-            <div class="field">
-              <input
-                class="number"
-                type="number"
-                step="5"
-                aria-label="Height amount"
-                .value=${String(this.tool.height)}
-                @input=${this.#heightInput}
-              />
-              <span class="unit">ft: ${signed(this.tool.height)}</span>
-            </div>
-          </section>
+        return html`${this.#numberRow({
+            cap: "Amount",
+            aria: "Height amount",
+            value: tool.height,
+            unit: `ft: ${signed(tool.height)}`,
+            step: 5,
+            change: (height) => this.#update({ height }),
+          })}
           <section>
             <span class="cap">Display — this scene</span>
-            <tw-strip
-              label="Height display"
-              .values=${HEIGHT_MODES}
-              .pressed=${[this.display.mode]}
-              @tw-cell=${this.#choose(HEIGHT_MODES, (mode) => this.#emitDisplay({ mode }))}
-            ></tw-strip>
-            <div class="field">
-              <input
-                class="range"
-                type="range"
-                min="0"
-                max="100"
-                step="5"
-                aria-label="Height display strength"
-                .value=${String(this.strength ?? this.display.strength)}
-                @input=${this.#strengthInput}
-                @change=${this.#strengthChange}
-              />
-              <span class="unit">${this.strength ?? this.display.strength}%</span>
-            </div>
+            ${this.#strip("Height display", HEIGHT_MODES, this.display.mode, (mode) => this.#emitDisplay({ mode }))}
+            ${this.#strengthField()}
           </section>`;
       default:
         return nothing;
     }
+  }
+
+  // The slider's number follows the drag; the scene hears it on release,
+  // so a drag is one change to the scene and not a hundred.
+  #strengthField() {
+    const strength = this.strength ?? this.display.strength;
+    return this.#field("range", {
+      aria: "Height display strength",
+      value: strength,
+      unit: `${strength}%`,
+      min: 0,
+      max: 100,
+      step: 5,
+      change: (next) => {
+        this.strength = next;
+      },
+      release: (next) => {
+        this.strength = undefined;
+        this.#emitDisplay({ strength: next });
+      },
+    });
   }
 
   // Newest first: what was just drawn is what the DM wants back or gone.
@@ -1139,59 +1142,11 @@ export class TwToolRail extends LitElement {
     this.#update({ shape });
   }
 
-  #heightInput = (event: Event): void => {
-    const height = Number((event.target as HTMLInputElement).value);
-    if (Number.isFinite(height)) {
-      this.#update({ height });
-    }
-  };
-
-  // Where an area ink sits. The amount is kept while the ink is put back on
-  // the ground, so turning it off and on again does not lose it.
-  #atInput = (event: Event): void => {
-    const at = Number((event.target as HTMLInputElement).value);
-    if (Number.isFinite(at)) {
-      this.#update({ at });
-    }
-  };
-
-  // No upper limit; nothing stands below its own foot.
-  #tallInput = (event: Event): void => {
-    const tall = Number((event.target as HTMLInputElement).value);
-    if (Number.isFinite(tall) && tall >= 0) {
-      this.#update({ tall });
-    }
-  };
-
-  // The slider's number follows the drag; the scene hears it on release,
-  // so a drag is one change to the scene and not a hundred.
-  #strengthInput = (event: Event): void => {
-    const strength = Number((event.target as HTMLInputElement).value);
-    if (Number.isFinite(strength)) {
-      this.strength = strength;
-    }
-  };
-
-  #strengthChange = (event: Event): void => {
-    const strength = Number((event.target as HTMLInputElement).value);
-    this.strength = undefined;
-    if (Number.isFinite(strength)) {
-      this.#emitDisplay({ strength });
-    }
-  };
-
   // The scene's height display is set from the Height pen's palette, since
   // that is where heights are.
   #emitDisplay(change: Partial<HeightDisplay>): void {
     emit(this, "tw-display", change);
   }
-
-  #sizeInput = (event: Event): void => {
-    const px = Number((event.target as HTMLInputElement).value);
-    if (Number.isFinite(px) && px > 0 && this.cellSize > 0) {
-      this.#update({ radius: px / 2 / this.cellSize });
-    }
-  };
 
   // A strip reports a value as a string; only one of the values it was
   // given can come back, so the typed one is looked up rather than trusted.
@@ -1234,11 +1189,12 @@ export class TwToolRail extends LitElement {
   }
 
   // A number typed or dragged is taken as it comes; a field emptied or
-  // half-typed changes nothing until it reads as a number again.
-  #number(apply: (next: number) => void) {
+  // half-typed changes nothing until it reads as a number again, and nor
+  // does one under the field's floor.
+  #number(apply: (next: number) => void, { min }: { min?: number } = {}) {
     return (event: Event): void => {
       const next = Number((event.target as HTMLInputElement).value);
-      if (Number.isFinite(next) && next >= 0) {
+      if (Number.isFinite(next) && (min === undefined || next >= min)) {
         apply(next);
       }
     };
