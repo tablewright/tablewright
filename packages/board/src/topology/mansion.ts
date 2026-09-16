@@ -2,12 +2,11 @@
  * ─ The mansion ─
  *
  * The Drawing Room mock's mansion, laid out for the tavern's twenty by
- * fifteen cells: two wings either side of a corridor, a dais hall with
- * arches and stairs, a locked door, windows in the outer walls, a
- * secret door to the gallery, a pit, and a gallery raised over the
- * hall and open to it as a ledge, so a drop is one way down. The
- * reference drawing behind the topology tests and the table's
- * "Draw the mansion" button.
+ * fifteen cells: two wings either side of a corridor, a dais with
+ * stairs, arches, doors of every state, windows, a pit, and a gallery
+ * raised over the hall and open to it, so a drop is one way down. The
+ * reference drawing behind the topology tests and the table's "Draw
+ * the mansion" button.
  */
 
 import type {
@@ -91,7 +90,7 @@ export function mansionStrokes(): Stroke[] {
     threshold("frosted", "closed", east(18, 3)),
     threshold("window", "closed", east(0, 6)),
     threshold("door", "secret", south(16, 11)),
-    // The dais: one stroke, ground at +10, where it took two before.
+    // The dais: ground at +10.
     ground("ground", rect(1, 1, 8, 2), 10),
     {
       ink: "level-change",

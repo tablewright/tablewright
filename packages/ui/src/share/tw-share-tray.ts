@@ -48,7 +48,6 @@ export class TwShareTray extends LitElement {
     return this.queue.length;
   }
 
-  /** The share on show, if any. */
   get current(): Share | undefined {
     return this.queue[0];
   }

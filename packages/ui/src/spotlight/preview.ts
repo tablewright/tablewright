@@ -67,8 +67,7 @@ function fieldsPreview(hit: SpotlightHit, taxonomy?: Taxonomy): TilePreview {
 
 /**
  * Group ranked hits by category. Groups appear in the order of their best
- * hit, and hits keep their rank order within a group: grouping is
- * presentation over the ranked list, never a reordering of it.
+ * hit, and hits keep their rank order within a group.
  */
 export function groupHits(hits: readonly SpotlightHit[], taxonomy?: Taxonomy): HitGroup[] {
   const groups: HitGroup[] = [];

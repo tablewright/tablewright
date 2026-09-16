@@ -1,15 +1,13 @@
-// The Spotlight-style search box (design.md §3): one input pinned to the
-// left edge, the rest of the screen dimmed, results as tiles two per row
-// grouped by category, with groups ordered by their best hit. It is
-// mounted once and hidden, so opening costs nothing but a class change,
-// and every answer that arrives after a newer keystroke is dropped:
-// latest wins.
-//
-// Events, both with the hit as `detail`:
-// - `tw-select`: a tile was activated (Enter or click).
-// - `tw-share`: a tile was dragged out of the box (the whole tile is the
-//   handle), or its Share button pressed. The host turns it into a card
-//   for the table.
+/**
+ * ─ Spotlight ─
+ *
+ * The search box: one input pinned to the left edge, the rest of the screen
+ * dimmed, hits as tiles two per row grouped by category, groups ordered by
+ * their best hit. It is mounted once and hidden, so opening is one attribute
+ * flipped; an answer that lands after a newer keystroke is dropped, so the
+ * latest wins.
+ * Design: docs/design.md §3
+ */
 
 import { LitElement, css, html, nothing } from "lit";
 import type { PropertyValues } from "lit";
@@ -553,8 +551,6 @@ export class TwSpotlight extends LitElement {
             `;
           })}
         </div>
-        <!-- The tabs sit above the results on screen but after them in the
-             tab order, so Tab from the input reaches the selected tile first. -->
         <div class="tabs">
           ${
             this.hits.length === 0 && this.filter === undefined
@@ -627,9 +623,6 @@ export class TwSpotlight extends LitElement {
     }
   }
 
-  // Every tile is a tab stop with its Share button right after it, so Tab
-  // walks tile, share, tile, share. Focus on a tile selects it; the arrows
-  // move selection and focus together.
   // The mask's text is the query itself, cut at the spans the parser
   // reported: understood words underlined, overruled words greyed, the
   // rest plain. Offsets are in chars, as the core counts them.
@@ -732,9 +725,8 @@ export class TwSpotlight extends LitElement {
     this.trayOpen = !this.trayOpen;
   };
 
-  // The words lead: a kind noun lights its category's tab, and a filter
-  // read from the text shows in the tray, folded until the funnel unfolds
-  // it. Neither closes anything.
+  // The words lead: a kind noun lights its category's tab, and a filter read
+  // from the text shows in the tray, folded until the funnel unfolds it.
   #followWords(): void {
     const said = this.understood.filter((item) => item.filter !== null && item.overruled !== true);
     const categories = new Set(
@@ -773,6 +765,9 @@ export class TwSpotlight extends LitElement {
     }
   };
 
+  // Every tile is a tab stop with its Share button right after it, so Tab
+  // walks tile, share, tile, share. Focus on a tile selects it; the arrows
+  // move selection and focus together.
   #renderTile(hit: SpotlightHit, index: number) {
     const preview = previewOf(hit, this.#tax());
     const selected = index === this.selected;
@@ -965,6 +960,7 @@ export class TwSpotlight extends LitElement {
     );
   }
 
+  // The host turns the hit into a card for the table.
   #share(hit: SpotlightHit): void {
     this.dispatchEvent(
       new CustomEvent<SpotlightHit>("tw-share", { detail: hit, bubbles: true, composed: true })
@@ -1047,10 +1043,8 @@ export class TwSpotlight extends LitElement {
     this.catalogueSize = answer.catalogueSize;
     this.status = "done";
     this.#followWords();
-    // The readout is keystroke to paint. The DOM commit is measured first so
-    // the number is always this keystroke's; the frame after it, when one
-    // comes, refines it to the paint. A throttled tab never paints late and
-    // stale.
+    // Measured at DOM commit so the number is this keystroke's; the next
+    // frame refines it to the paint.
     await this.updateComplete;
     if (sequence !== this.#sequence) {
       return;

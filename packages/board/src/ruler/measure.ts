@@ -2,12 +2,10 @@
  * ─ Measure ─
  *
  * The answers a ruler gives between two cells, composed from the rules:
- * the straight distance under the campaign's rule with the rise between
- * the two heights; the way on foot, offered as a move is, in tiers, the
- * safe way if the movement covers it, else the shortest, else either
- * with a dash, else beyond reach; and where the line of effect breaks,
- * if it does. Pure, so a story's numbers and a logic test's are the
- * same numbers.
+ * the straight distance with the rise between the two heights; the way
+ * on foot, offered in tiers as a move is; and where the line of effect
+ * breaks, if it does. Pure, so a story's numbers and a logic test's are
+ * the same numbers.
  * Design: docs/design.md §5 "A measurement gives three answers" and
  * "Moving shows movement only".
  */

@@ -1,17 +1,12 @@
 /**
  * ─ build-fonts ─
  *
- * The faces the app is set in, fetched once and kept in the repo. Google
+ * The faces the app is set in, fetched once and kept in the repo: Google
  * Fonts is asked for the latin cut of each family, the woff2 files land in
  * packages/ui/fonts, and packages/ui/src/fonts.css is generated to point at
  * them. Nothing is fetched at runtime: a table in a cellar with no signal is
  * the case tablewright is built for.
- *
  * Which face holds which slot, and why: docs/typography.md.
- *
- * `bun run fonts` refreshes everything. `--check` verifies the generated CSS
- * against the manifest and that every file it names is on disk, without
- * touching the network.
  */
 
 const FONT_DIR = "packages/ui/fonts";
@@ -220,6 +215,9 @@ async function collect(face: Face): Promise<Cut[]> {
 
 const faces = [...FACES, MATERIAL];
 
+// `bun run fonts` refreshes everything. `--check` verifies the generated CSS
+// against the manifest and that every file it names is on disk, without
+// touching the network.
 if (process.argv.includes("--check")) {
   let stale = false;
   const current = (await Bun.file(OUT_PATH).exists()) ? await Bun.file(OUT_PATH).text() : "";

@@ -258,39 +258,29 @@ export class BoardHost {
   private readonly thresholdListeners = new Set<ThresholdListener>();
   private readonly dashListeners = new Set<DashAskListener>();
   private readonly areaListeners = new Set<AreaListener>();
-  /** The dash question on show, so Escape knows a move is waiting on an answer. */
   private asking: DashAsk | undefined;
   private play: readonly ThresholdPlay[] = [];
-  /** How the scene shows its heights. */
   private display: HeightDisplay = { mode: "shaded", strength: 80 };
-  /** The picture on the map layer, so a scene switch loads only a different one. */
+  // The picture on the map layer, so a scene switch loads only a different one.
   private mapUrl: string | undefined;
   private isToolHeld = false;
   private buildTool: DrawTool | undefined;
   private playTool: PlayTool = "move";
-  /** The scene on show, so a switch to another takes the measure off the board. */
+  // The scene on show, so a switch to another takes the measure off the board.
   private sceneId: string | undefined;
   private highlighted: string | undefined;
-  /** Whose view this is: strokes above this tier are never derived, let alone drawn. */
-  /** Who sits at this board: their role, and the name it goes by. */
   private seat: Seat;
-  /** Who what this hand puts down is for. */
   private putting: Visibility = "party";
   private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
-  /** What a cell measures and how diagonals count: the campaign's, from its system. */
   private rule: GridRule = DEFAULT_RULE;
   private bounds: CellExtent = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
   private tokens: readonly TokenView[] = [];
   private strokes: readonly Stroke[] = [];
   private topology: Topology = derive([], this.bounds);
   private isGridStale = true;
-  /** Whether the DM is reading the scene as numbers; theirs alone, never the scene's. */
   private isTopologyView = false;
-  /** How the ruler's column reads: two measures, then three areas. */
   private rulerMode: RulerMode = "line";
-  /** The area the palette has made, or nothing while no area mode is picked. */
   private area: Area | undefined;
-  /** When the turning ring was last advanced, on the document's clock. */
   private turnedAt = 0;
 
   constructor(stage: BoardStage, target: HTMLElement, seat: Seat = NOBODY) {
@@ -396,8 +386,8 @@ export class BoardHost {
       }
     });
 
-    // A drop is the commit point. The layer has already snapped the token to
-    // its cell; the host only passes the gesture on, and the scene answers.
+    // The layer has already snapped the token; the host passes the drop on and
+    // the scene answers.
     this.tokenLayer.onMove((move) => {
       for (const listener of this.moveListeners) {
         listener(move);
@@ -470,9 +460,8 @@ export class BoardHost {
     this.display = scene.display;
     this.redrawTopology();
     this.setTokens(tokenViews(scene));
-    // A scene opens in the middle of the window rather than in its corner.
-    // A picture frames itself once it has loaded, so this is for the scenes
-    // that are grid and strokes alone.
+    // A scene opens in the middle of the window; a picture frames itself once
+    // it has loaded, so this is for a scene of grid and strokes alone.
     if (isNew && map === undefined) {
       this.frameScene();
     }
@@ -560,10 +549,8 @@ export class BoardHost {
     return this.asking !== undefined;
   }
 
-  // Who is moving, and what their turn allows. Both come from the sheet the
-  // token stands for. Without one it is a placeholder the DM put down: it
-  // walks as a person on foot, so a route still prices, but no movement
-  // holds it, so a drag of any length lands.
+  // Without a sheet a token walks as a person on foot and nothing limits it: a
+  // route still prices, and a drag of any length lands.
   private moverOf(id: string): Mover {
     return this.tokens.find((token) => token.id === id)?.mover ?? DEFAULT_MOVER;
   }
@@ -686,9 +673,7 @@ export class BoardHost {
 
   /**
    * Read the scene as the rules read it: the picture and every texture down
-   * to a hint, and the height printed in each cell that has one. The DM's
-   * own way of looking, kept off the scene, so it survives every change the
-   * scene reports back and no player inherits it.
+   * to a hint, and the height printed in each cell that has one.
    */
   setTopologyView(on: boolean): void {
     if (on === this.isTopologyView) {
@@ -723,8 +708,7 @@ export class BoardHost {
   }
 
   // One hand on the board: a pen held draws, else the ruler measures when
-  // chosen, else the pointer moves tokens. The cursor says which, and a
-  // threshold lights only for the hand that can work it.
+  // chosen, else the pointer moves tokens.
   private applyTools(): void {
     const pen = this.buildTool;
     const inColumn = pen === undefined && this.playTool === "ruler";
@@ -920,20 +904,14 @@ export class BoardHost {
     this.showTokens();
   }
 
-  // Where an area starts when it is pressed on a cell: the place of the
-  // token standing there, so a caster's own cone leaves from them, and
-  // otherwise the floor the pointer found.
-  // Where an area leaves from. It sits in the middle of its own cube, not
-  // on the floor: every cell is judged by the centre of its cube, so an
-  // origin at floor level would start half a cell below everything it is
-  // measured against and lose the cells nearest to it.
+  // An area leaves from the middle of the cube of the token pressed on, else
+  // from the snapped point half a cell up: cells are judged by their cube's
+  // centre, so a floor-level origin loses the nearest ones.
   private originAt(cell: Cell, at: { x: number; y: number }): Spot {
     const token = this.seenTokens().find(
       (one) => one.cell.col === cell.col && one.cell.row === cell.row
     );
     const ground = heightAt(this.topology, cell);
-    // A caster's own area leaves from them, wherever the press landed;
-    // otherwise it takes the place the snap chose.
     if (token !== undefined) {
       return cubeCentre(cell, ground + (token.elevation ?? 0), this.rule);
     }
@@ -969,13 +947,8 @@ export class BoardHost {
     this.heightLayer.draw(this.topology, this.grid, this.display, stepHeight(this.rule));
   }
 
-  // The grid and the numbers both cost what is on screen and nothing more,
-  // so both are redrawn from the same visible extent whenever the camera
-  // moves, on the frame the move asked for.
-  // The ring about a caught token is the one thing here that moves on
-  // its own, so while an area is on show the board asks for the next
-  // frame and advances the ring by the time that actually passed. It
-  // gates nothing: the rest of the drawing is already done.
+  // The ring is the one thing that moves on its own, so while an area shows the
+  // board asks for the next frame and turns it by the time that passed.
   private turnRing(): void {
     if (!this.areaLayer.isShowing) {
       this.turnedAt = 0;
@@ -988,6 +961,9 @@ export class BoardHost {
     this.stage.requestFrame();
   }
 
+  // The grid and the numbers both cost what is on screen and nothing more,
+  // so both are redrawn from the same visible extent whenever the camera
+  // moves, on the frame the move asked for.
   private redrawGrid(): void {
     const { width, height } = this.stage.app.screen;
     const topLeft = this.camera.toWorld({ x: 0, y: 0 });

@@ -105,11 +105,7 @@ function along(at: Point, degrees: number, reach: number): Point {
   return { x: at.x + d.x * reach, y: at.y + d.y * reach };
 }
 
-/**
- * Whether an area's footprint covers a point on the plan, both in cells.
- * This is how one is picked up: a press inside what is drawn takes hold
- * of it, where a press outside starts a new one.
- */
+/** Whether an area's footprint covers a point on the plan, both in cells. */
 export function footprintCovers(area: Area, origin: Spot, at: Point, rule: GridRule): boolean {
   const { ring, hole } = outline(area, origin, rule);
   if (ring.length < 3 || !pointInPolygon(at, ring)) {

@@ -196,10 +196,8 @@ export class AreaLayer {
     return { x: this.grid.originX + point.x * cell, y: this.grid.originY + point.y * cell };
   }
 
-  // The footprint, and an edge that says which of the two this one is:
-  // brass and a touch heavier while the hand is still on it, the paper
-  // white of the ink once it is down, so the one being drawn out and the
-  // one already lying there never read the same.
+  // Brass and heavier under the hand, the ink's white once down, so the
+  // two never read the same.
   private drawShape(shown: ShownArea): void {
     const g = this.shape;
     g.clear();

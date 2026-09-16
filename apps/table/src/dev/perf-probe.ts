@@ -1,13 +1,11 @@
 /**
  * ─ Perf probe ─
  *
- * The frame-time measurement that the perf harness and a person at the
- * console run alike: one wheel step per animation frame, alternating
- * direction, which changes the camera and rebuilds the grid on every
- * frame, while the gaps between frames are recorded. Then a second with
- * nothing happening, counting the frames drawn: the board draws on
- * request, so a person expects none. Dev builds only; the harness reads
- * the result from `window.__tablewrightPerf`.
+ * One wheel step per frame, alternating direction, so every frame moves the
+ * camera and rebuilds the grid; the gaps between frames are the measure.
+ * Then a second of nothing, counting frames drawn: the board draws on
+ * request, so none are expected. Dev builds only; the harness reads the
+ * result from `window.__tablewrightPerf`.
  */
 
 export interface PerfResult {

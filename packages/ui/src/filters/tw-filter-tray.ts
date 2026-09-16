@@ -1,13 +1,13 @@
-// The filter tray (design.md §3 "Linguistic search and filters"): one
-// control per facet the system manifest declares for the category, of
-// five kinds. A span rail paints spans over a short ordered scale; a
-// switch rail is the same strip with each cell its own switch; a slider
-// is two nuts on a long stepped scale; chips are a long unordered set;
-// a select is the one exception. The tray shows two states at once: what
-// the typed words selected, and what the tray itself holds, which wins
-// for that control once a click lands on it. Tauri-agnostic: the host
-// hands in the controls and the values, and hears `tw-filter` with the
-// tray's whole state as `detail`.
+/**
+ * ─ Filter tray ─
+ *
+ * One control per facet the system manifest declares for the category.
+ * The tray shows two states at once: what the typed words selected, and
+ * what the tray itself holds, which wins for that control once a click
+ * lands on it. Tauri-agnostic: the host hands in the controls and the
+ * values.
+ * Design: docs/design.md §3 "Linguistic search and filters"
+ */
 
 import { LitElement, css, html, nothing } from "lit";
 import type { Cell, ControlSpec, Stop } from "@tablewright/schema";
@@ -324,7 +324,6 @@ export class TwFilterTray extends LitElement {
     `;
   }
 
-  // The tray's own state for a control wins; otherwise the words' selection.
   // Folded: only what is chosen, so the box keeps its room for tiles. A
   // click on any of it, like the funnel, unfolds the whole tray.
   #renderCompact() {
@@ -442,6 +441,7 @@ export class TwFilterTray extends LitElement {
     this.dispatchEvent(new CustomEvent("tw-expand", { bubbles: true, composed: true }));
   };
 
+  // The tray's own state for a control wins; otherwise the words' selection.
   #shown(index: number): ControlState | undefined {
     return this.state[index] ?? this.selection[index];
   }
@@ -510,9 +510,6 @@ export class TwFilterTray extends LitElement {
     `;
   }
 
-  // A click toggles the cell, like a chip; Shift with a click, or a drag,
-  // paints the span from the last cell clicked. A run of adjacent cells
-  // reads as a range, and cells apart read as either.
   // A click toggles the cell, as a chip does, and nothing else: a run of
   // adjacent cells reads as a range, cells apart as either.
   #pickStop(index: number, at: number): void {
@@ -721,6 +718,7 @@ export class TwFilterTray extends LitElement {
     `;
   }
 
+  // The event carries the tray's whole state, so the host replaces rather than merges.
   #commit(index: number, next: ControlState): void {
     const state: TrayState = { ...this.state, [index]: next };
     this.state = state;

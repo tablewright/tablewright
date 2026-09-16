@@ -3,11 +3,10 @@
  *
  * One vocabulary for both halves of the same question. A thing carries
  * one of four words saying who it is for: world, party, dm, own. A role
- * carries how far it sees, in those same words, and what it may do, as
- * the permissions the core's own file names. The first three words are
- * a ladder, so a viewer sees everything at or below their own; the
- * fourth is about whose a thing is rather than how open it is, so it is
- * read against the maker instead.
+ * carries how far it sees, in the same words, and what it may do, as
+ * the permissions the core names. The first three words are a ladder,
+ * so a viewer sees everything at or below their own; the fourth is
+ * about whose a thing is, so it is read against the maker instead.
  * Design: docs/permissions.md
  */
 
@@ -73,9 +72,5 @@ export interface Seat {
   readonly role: Role;
 }
 
-/**
- * The seat a board holds before the app says who is sitting in it: it
- * may do nothing and sees nothing, so a board that is never told fails
- * closed rather than open.
- */
+/** The seat before the app names one: NO_ROLE, so a board fails closed. */
 export const NOBODY: Seat = { id: "", role: NO_ROLE };

@@ -112,18 +112,9 @@ export function readBoardTheme(element: Element): BoardTheme {
 }
 
 /**
- * Ask the browser for the faces the board draws in, and wait until it has
- * them.
- *
- * `document.fonts.ready` is not enough on its own. It settles the loads the
- * document has asked for, and a face is only asked for when an element is
- * set in it — Pixi draws to a canvas, which asks for nothing. A face no
- * element happened to use would still be missing at the first frame, Pixi
- * would measure the fallback, and every badge would keep the fallback's
- * widths for the rest of the session.
- *
- * The weights are the ones the board actually sets: a broken face is not
- * worth refusing to draw over, so a load that fails is let through.
+ * Ask for each face by name and wait: fonts.ready settles only faces an
+ * element asked for, and a canvas asks for none. A failed load is let
+ * through, since a fallback face beats no board.
  */
 export async function loadBoardFaces(theme: BoardTheme): Promise<void> {
   const wanted = [

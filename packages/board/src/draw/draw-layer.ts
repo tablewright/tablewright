@@ -71,7 +71,6 @@ export class DrawLayer {
     container.addChild(this.graphics);
   }
 
-  /** Draw with `tool`, or with nothing: Play mode. */
   /**
    * Who the next stroke is for. A DM setting an ambush up marks what
    * they draw as their own, and the field a player sees is the field
@@ -81,6 +80,7 @@ export class DrawLayer {
     this.marking = marking;
   }
 
+  /** Draw with `tool`, or with nothing: Play mode. */
   setTool(tool: DrawTool | undefined): void {
     const wasOn = this.tool !== undefined;
     this.tool = tool;
@@ -135,7 +135,6 @@ export class DrawLayer {
     if (this.tool === undefined || event.button !== 0 || this.gesture !== undefined) {
       return;
     }
-    // The press is the tool's; the board element must not start a pan.
     event.stopPropagation();
     event.preventDefault();
     const p = this.cellPoint(event);

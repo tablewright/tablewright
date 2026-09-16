@@ -1,13 +1,11 @@
-// The intro: the campaigns the app knows, to bring one to the table, make
-// a new one, or open a folder the DM keeps elsewhere. Shown until a
-// campaign is open, and again when the DM leaves one. Like Foundry's setup
-// screen, it is the whole window, not a panel over the board.
-//
-// `tw-campaign-open` carries the path to open; `tw-campaign-create` the
-// name of the new campaign and whether it goes in a folder of the DM's own
-// (the app asks where); `tw-campaign-browse` asks the app for a folder to
-// open. Choosing a folder is the app's, since only the desktop shell has a
-// dialog for it.
+/**
+ * ─ Campaigns ─
+ *
+ * The intro: the campaigns the app knows, to bring one to the table, make
+ * a new one, or open a folder the DM keeps elsewhere. Shown until a
+ * campaign is open, and again when the DM leaves one. Like Foundry's setup
+ * screen, it is the whole window, not a panel over the board.
+ */
 
 import { LitElement, css, html } from "lit";
 import type { CampaignSummary } from "@tablewright/schema";
@@ -17,7 +15,6 @@ export class TwCampaigns extends LitElement {
     campaigns: { attribute: false },
   };
 
-  /** Every campaign the app knows, by name. */
   declare campaigns: CampaignSummary[];
 
   constructor() {
@@ -285,6 +282,7 @@ export class TwCampaigns extends LitElement {
     );
   }
 
+  // Choosing a folder is the app's, since only the desktop shell has a dialog for it.
   #browse = (): void => {
     this.dispatchEvent(new CustomEvent("tw-campaign-browse", { bubbles: true, composed: true }));
   };

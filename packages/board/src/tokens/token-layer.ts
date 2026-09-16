@@ -1,19 +1,12 @@
 /**
  * ─ Token layer ─
  *
- * Tokens on the board and the gestures on them: hover, select, drag
- * with a live snap preview, drop on a cell centre, arrow or WASD keys
- * stepping the selected token one cell, and two ways to turn in
- * place: press and hold a token, or press the selected token's cell
- * outside its disc, where the corner brackets are, then the facing
- * follows the pointer until release.
- * A press on a token stops the native event so the camera never pans
- * from it (design §5). Movement is reported once per drop, key press,
- * or release of a turn, never per pointer move: the scene commits on
- * gesture end.
- * A drag reads the graph as it goes: the route it would take shows
- * beside it, and the drop lands the token, asks for a dash, or refuses
- * and leaves it where it stood.
+ * Tokens on the board and the gestures on them: hover, select, drag,
+ * step with the keys, and turn in place. A press on a token stops the
+ * native event, so the camera never pans from it. Movement is reported
+ * once per gesture end, never per pointer move. A drag reads the graph
+ * as it goes, and the drop lands, asks for a dash, or refuses.
+ * Design: docs/design.md §5 "Moving shows movement only".
  */
 
 import type { Visibility } from "@tablewright/schema";
@@ -313,8 +306,7 @@ export class TokenLayer {
     sprite.view.on("pointerover", () => sprite.setHovered(true));
     sprite.view.on("pointerout", () => sprite.setHovered(false));
     sprite.view.on("pointerdown", (event: FederatedPointerEvent) => {
-      // The right button asks what may be done with this one instead of
-      // moving it; everything a token carries will hang off that.
+      // The right button asks what may be done with this one instead of moving it.
       if (event.button === 2) {
         event.stopPropagation();
         for (const listener of this.askListeners) {
@@ -335,10 +327,7 @@ export class TokenLayer {
     if (event.button !== 0 || this.press !== undefined) {
       return;
     }
-    // A hand that may not move one still chooses it, and nothing more. The
-    // press is still the token's to claim: let through to the board element,
-    // it would start a pan from under the token and end as a tap on empty
-    // board, which chooses nothing and so takes the choice straight back.
+    // Let through, the press would pan the board and end as a tap that deselects.
     if (!this.movable) {
       if (event.nativeEvent instanceof PointerEvent) {
         event.nativeEvent.stopPropagation();
@@ -355,7 +344,6 @@ export class TokenLayer {
     ) {
       return;
     }
-    // The press belongs to the token; the board element must not start a pan.
     native.stopPropagation();
     const canvas = native.target;
     const rect = canvas.getBoundingClientRect();
@@ -479,8 +467,6 @@ export class TokenLayer {
     }
     const sprite = this.sprites.get(press.id);
     if (sprite !== undefined) {
-      // The release position is the gesture's last word: engines may coalesce
-      // or reorder the final move, so it is applied here rather than trusted.
       if (press.mode !== "pending") {
         this.follow(press, sprite, event);
       }
@@ -538,10 +524,6 @@ export class TokenLayer {
     this.commitMove(id, sprite, cell, facingBetween(from, cell));
   }
 
-  // A token lands where it was dropped or not at all: within the movement it
-  // simply moves; past it the drop asks for the dash and waits at the
-  // destination for the answer; past even a dash, or with no way there, it
-  // goes back where it stood.
   private drop(press: PressState, sprite: TokenSprite, cell: Cell): void {
     const shown = this.route.shown;
     const from = worldToCell(this.grid, press.origin);
@@ -572,8 +554,7 @@ export class TokenLayer {
   }
 
   // A move faces the token along its travel; a move that went nowhere keeps
-  // its facing. The scene keeps whole degrees, so the commit rounds, and the
-  // sprite shows the same so the two agree.
+  // its facing.
   private commitMove(
     id: string,
     sprite: TokenSprite,
@@ -587,7 +568,7 @@ export class TokenLayer {
   }
 
   // Stand the sprite on a cell, facing the way it travelled. The scene keeps
-  // whole degrees, so the sprite shows the same and the two agree.
+  // whole degrees, so the facing rounds here and the sprite shows the same.
   private place(sprite: TokenSprite, cell: Cell, travelFacing: number | undefined): number {
     const facing = Math.round(normalizeDegrees(travelFacing ?? sprite.facing)) % 360;
     sprite.setPosition(cellCenter(this.grid, cell));

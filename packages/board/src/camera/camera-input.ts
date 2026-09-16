@@ -1,15 +1,12 @@
 /**
  * ─ Camera input ─
  *
- * Maps pointer and wheel events on the board element to camera calls
- * the way VTT players expect, for mouse, touch, and pen alike: the
- * wheel zooms about the cursor (a trackpad pinch arrives as ctrl +
- * wheel), one pointer dragging empty board pans, two pointers pinch to
- * zoom and pan together. Anything in the scene that claims a
- * pointerdown stops the native event before it reaches the board
- * element, so the camera only ever moves from empty board. The board
- * element must set `touch-action: none`, or the browser takes touch
- * gestures for itself and cancels these events.
+ * Maps pointer and wheel events on the board element to camera calls,
+ * for mouse, touch and pen alike: the wheel zooms about the cursor, one
+ * pointer pans, two pinch. Anything in the scene that claims a press
+ * stops the native event before it reaches the board element, so the
+ * camera only ever moves from empty board. The element must set
+ * `touch-action: none`, or the browser takes touch gestures for itself.
  */
 
 import type { Point } from "../geometry.js";

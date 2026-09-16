@@ -148,9 +148,6 @@ export class NumbersLayer {
     return { rgb: band.rgb, alpha };
   }
 
-  // One text object per cell printed, kept and reused: a map is thousands of
-  // cells, and making and destroying that many every camera change is the
-  // whole cost of this view.
   private labelAt(index: number): Text {
     const existing = this.pool[index];
     if (existing !== undefined) {

@@ -1,15 +1,12 @@
 /**
  * ─ Height layer ─
  *
- * Shows the elevation field the way the scene asks: Shaded lays a soft
- * shadow on the low side of every rise and a hairline along it; Washed
- * tints the ground warm going up and cool going down; Marked draws the
- * hairline and a small tag at each rise; Data shows nothing. The
- * contours are the field's own iso-lines, one per band, so they follow
- * the art's curve. The shadow and the wash are rasters painted at the
- * field's own resolution and stretched over the map; the rest is drawn.
- * Rebuilt only when the field, the mode or the grid changes; the
- * strength is the overlay's opacity and costs nothing.
+ * Shows the elevation field as the scene's height display asks: a
+ * shadow, a wash, or a tag at each rise, over the field's own contours.
+ * The contours are iso-lines, one per band, so they follow the art's
+ * curve. The shadow and the wash are rasters painted at the field's
+ * resolution and stretched over the map; the rest is drawn. Rebuilt
+ * when the field, the mode or the grid changes; strength is opacity.
  * Design: docs/design.md §5 "Height is displayed per scene".
  */
 

@@ -18,7 +18,6 @@ export interface GridStyle {
   readonly alpha: number;
 }
 
-// Neutral grey until the theme bridge supplies real tokens.
 const DEFAULT_STYLE: GridStyle = { rgb: 0x8b8fa3, alpha: 0.35 };
 
 /** The grid as a single stroked Graphics; call `draw` whenever grid or extent changes. */

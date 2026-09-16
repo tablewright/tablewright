@@ -1,24 +1,13 @@
-// The DM's tool rail: what the pointer does on the board. Move is the
-// rest; picking an ink is picking up a pen, and the palette beside the
-// rail holds the pen's shapes and options. Putting the pen down is Move,
-// or Esc. The history of strokes is the rail's own, opened from its foot,
-// since it is the scene's and not any one ink's. There is no Build mode
-// to enter: the rail is on the desk the way pens are.
-//
-// The ruler sits under Move: measuring instead of moving, and the R key
-// swaps the two. `tw-play` says which the pointer does in Play, and
-// `tw-ruler` how the ruler reads a measure, as a line or as a path,
-// chosen in a second column beside the rail once the ruler is picked.
-//
-// `tw-tool` carries the draw tool held, or undefined once the pen is
-// down; `tw-undo` asks for the last stroke back; `tw-reset` for a reset
-// stroke; `tw-remove` names a stroke by its place in the history;
-// `tw-display` carries a change to how the scene shows its heights,
-// chosen from the Height pen's palette since that is where heights are.
-// `tw-topology` asks for the DM's Topology view, the scene read as the
-// rules read it; it is the DM's own way of looking, so it never reaches
-// the scene the way the display does. `tw-area` carries the area the
-// column would lay down, sizes and all, every time one of them changes.
+/**
+ * ─ Tool rail ─
+ *
+ * What the pointer does on the board. Move is the rest; picking an ink
+ * picks up a pen, and the palette beside the rail holds its shapes and
+ * options. Move or Esc puts the pen down. The ruler sits under Move,
+ * measuring instead of moving. The history of strokes opens from the
+ * rail's foot, since it is the scene's and not any one ink's. There is no
+ * Build mode to enter: the rail is on the desk the way pens are.
+ */
 
 import { LitElement, css, html, nothing } from "lit";
 import type { HeightDisplay, Permission, Role, Stroke, Visibility } from "@tablewright/schema";
@@ -169,18 +158,13 @@ export class TwToolRail extends LitElement {
   declare snap: OriginSnap;
   /** Who the next measure or area is for. */
   declare seen: Visibility;
-  /**
-   * The role this rail serves. Every button asks it rather than deciding
-   * for itself, so the rail holds what the table's own rules say it
-   * holds. Named around the DOM's own `role`, which every element has.
-   */
+  /** The role this rail serves; `tw` because every element already has a DOM `role`. */
   declare twRole: Role;
   /**
    * Who what this hand puts down is for. A DM setting something up the
    * table has not met yet marks it their own and builds as usual.
    */
   declare marking: Visibility;
-  /** The scene's history of strokes, as it stands. */
   declare strokes: Stroke[];
   /** Whether the DM is reading the scene as numbers: their own view, not the scene's. */
   declare topology: boolean;
@@ -188,7 +172,6 @@ export class TwToolRail extends LitElement {
   declare readout: string;
   /** The scene's cell in map pixels, so a brush can be sized in them. */
   declare cellSize: number;
-  /** How the scene shows its heights, as it stands. */
   declare display: HeightDisplay;
   declare historyOpen: boolean;
   declare showAll: boolean;
@@ -227,9 +210,8 @@ export class TwToolRail extends LitElement {
       display: flex;
       align-items: flex-start;
       gap: var(--tw-space-sm);
-      /* The box is as tall as the rail and as wide as the palette; only
-         the rail and the panels are solid, so the board draws in the
-         corner beneath the palette. */
+      /* Only the rail and the panels take the pointer; the board shows
+         through under the palette. */
       pointer-events: none;
       font-family: var(--tw-typo-label-md-font-family);
       font-size: var(--tw-typo-label-md-font-size);
@@ -239,23 +221,6 @@ export class TwToolRail extends LitElement {
     }
     :host([hidden]) {
       display: none;
-    }
-    /* The rail's own column: what this hand is putting down, then the
-       tools themselves. */
-    .column {
-      display: flex;
-      flex-direction: column;
-      gap: var(--tw-space-sm);
-    }
-    .putting {
-      display: flex;
-      flex-direction: column;
-      gap: var(--tw-space-xs);
-      padding: var(--tw-space-xs);
-      pointer-events: auto;
-      border: 1px solid var(--tw-outline);
-      border-radius: var(--tw-comp-panel-rounded);
-      background: var(--tw-comp-panel-background-color);
     }
     .rail {
       display: flex;
@@ -715,12 +680,11 @@ export class TwToolRail extends LitElement {
     `;
   }
 
-  /** Whether the ruler's column has the pointer: every mode there has a panel. */
+  // Whether the ruler's column has the pointer: every mode there has a panel.
   get #inColumn(): boolean {
     return !this.held && this.play === "ruler";
   }
 
-  /** Whether the column is laying an area down rather than measuring. */
   get #isArea(): boolean {
     return this.#inColumn && isArea(this.mode);
   }
@@ -914,10 +878,7 @@ export class TwToolRail extends LitElement {
     </div>`;
   }
 
-  // Where the ink knows its place upward: an area ink sits at a height or
-  // leaves the field alone, an edge ink stands as tall as the place wants.
-  // It shows for every shape the pen takes, as the Height pen's amount does;
-  // only the brush size is a shape's own.
+  // Every shape shows it, like the Height pen's amount; only brush size is a shape's own.
   #place() {
     const { tool } = this;
     if (hasHeight(tool.ink)) {
@@ -1191,8 +1152,6 @@ export class TwToolRail extends LitElement {
     this.#update({ shape });
   }
 
-  // A number typed is taken as it comes; a field emptied or half-typed
-  // changes nothing until it reads as a number again.
   #heightInput = (event: Event): void => {
     const height = Number((event.target as HTMLInputElement).value);
     if (Number.isFinite(height)) {
@@ -1209,9 +1168,7 @@ export class TwToolRail extends LitElement {
     }
   };
 
-  // How tall an edge ink stands. Tallness has no upper limit, a wall being
-  // as grandiose as whoever built the place, but nothing stands below the
-  // ground it has its foot on.
+  // No upper limit; nothing stands below its own foot.
   #tallInput = (event: Event): void => {
     const tall = Number((event.target as HTMLInputElement).value);
     if (Number.isFinite(tall) && tall >= 0) {
@@ -1236,6 +1193,8 @@ export class TwToolRail extends LitElement {
     }
   };
 
+  // The scene's height display is set from the Height pen's palette, since
+  // that is where heights are.
   #emitDisplay(change: Partial<HeightDisplay>): void {
     this.dispatchEvent(
       new CustomEvent("tw-display", { detail: change, bubbles: true, composed: true })
@@ -1342,6 +1301,7 @@ export class TwToolRail extends LitElement {
     );
   }
 
+  // The tool held, or undefined once the pen is down.
   #emitTool(): void {
     this.dispatchEvent(
       new CustomEvent("tw-tool", {
@@ -1368,6 +1328,7 @@ export class TwToolRail extends LitElement {
     this.dispatchEvent(new CustomEvent("tw-undo", { bubbles: true, composed: true }));
   };
 
+  // A reset is a stroke of its own, so it stays in the history.
   #reset = (): void => {
     this.dispatchEvent(new CustomEvent("tw-reset", { bubbles: true, composed: true }));
   };

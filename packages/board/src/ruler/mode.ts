@@ -42,14 +42,8 @@ export const RULER_MODES: readonly RulerModeSpec[] = [
 ];
 
 /**
- * The rise and the fall, drawn from Material Symbols rather than borrowed:
- * no text face carries an arrow, so the one the badge used came from
- * whatever the system keeps its symbols in — another weight, another
- * optical size, and it read as pasted in beside the figures.
- *
- * Asked for by codepoint, not by the `arrow_upward` ligature the same file
- * answers to. The badge's text is read by more than the eye: a story
- * asserts on it and a log prints it, and neither wants the word.
+ * Material Symbols by codepoint: no text face carries an arrow, and the
+ * ligature's name would read as a word where a story or a log reads the badge.
  */
 export const RISE_MARK = "\uE5D8";
 export const FALL_MARK = "\uE5DB";

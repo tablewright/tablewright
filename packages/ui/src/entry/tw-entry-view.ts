@@ -1,14 +1,12 @@
-// A compendium entry as a page: the paper leaf the desk turns to
-// (design.md §3, §4), reduced to what every entry has: a label line, the
-// title, the body, tags, and where it came from. The per-system layout
-// (a spell's casting gauge, a creature's statblock) comes with typed
-// system data. Tauri-agnostic: the host loads the entry and hands it in.
-//
-// Events: `tw-close` when the page is closed; `tw-place` (detail: the
-// entry) when a creature's Place on board button is pressed; `tw-version`
-// (detail: { id, version }) when the footer's rail asks for the same thing
-// in another rule version. The switch is the page's own, per thing: a
-// personal version waits for character sheets (design.md §3).
+/**
+ * ─ Entry view ─
+ *
+ * A compendium entry as a page: the paper leaf the desk turns to. It shows
+ * what every entry has, a label line, the title, the body, tags, and where
+ * it came from; the per-system layout comes with typed system data.
+ * Tauri-agnostic: the host loads the entry and hands it in.
+ * Design: docs/design.md §3, §4
+ */
 
 import { LitElement, css, html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
@@ -163,9 +161,7 @@ export class TwEntryView extends LitElement {
     .body > * {
       margin: 0;
     }
-    /* A heading on the page is inscribed rather than labelled: the face is
-       cut from capitals, so it carries the hierarchy without being shouted
-       in upper case or leaned on for weight. */
+    /* The heading face is already capitals, so no transform and no added weight. */
     .body h2,
     .body h3,
     .body h4 {
@@ -452,7 +448,7 @@ export class TwEntryView extends LitElement {
     }
   };
 
-  // A creature can stand on the board; the host decides where.
+  // The switch is the page's own, per thing; a personal version waits for character sheets.
   #turnTo(version: string): void {
     if (this.entry === undefined || version === this.entry.version) {
       return;
@@ -466,6 +462,7 @@ export class TwEntryView extends LitElement {
     );
   }
 
+  // A creature can stand on the board; the host decides where.
   #place = (): void => {
     if (this.entry !== undefined) {
       this.dispatchEvent(

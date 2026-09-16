@@ -45,12 +45,7 @@ export const SAMPLES_PER_CELL = 8;
 const GROUND_CODES: Record<GroundState, number> = { void: 0, ground: 1, difficult: 2, air: 3 };
 const GROUND_STATES: readonly GroundState[] = ["void", "ground", "difficult", "air"];
 
-// world < party < dm, the same order the core keeps.
-// The four words a thing is marked with. The first three are a ladder,
-// so a viewer sees everything at or below their own; the fourth is
-// about whose a thing is rather than how open it is, so it sits past
-// the end and reaches nobody by tier alone. Who made it is what
-// answers for it, which the board asks separately.
+// The three tiers are a ladder; own sits past the end and is answered by the maker (seen.ts).
 const TIER: Record<Visibility, number> = { world: 0, party: 1, dm: 2, own: 3 };
 
 /** A level change's mark on a sample: none, painted as data, or painted as texture too. */

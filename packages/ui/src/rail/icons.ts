@@ -1,13 +1,14 @@
-// The icons, in two hands that are meant to read as one.
-//
-// Material Symbols is the default, reached by codepoint out of the table the
-// font build writes. Drawn here are only the glyphs Material has no idea
-// about, because they are tablewright's own ideas rather than an app's: a
-// threshold, a change of level, and the kinds of ink. Those are stroke
-// glyphs on a 20 px grid at 1.6, which is the weight Material is asked for,
-// so the two sit together. Both take the current colour.
-//
-// Design: docs/typography.md, "Icons".
+/**
+ * ─ Icons ─
+ *
+ * Two hands meant to read as one. Material Symbols is the default, reached
+ * by codepoint from the table the font build writes. Drawn here are only
+ * the glyphs Material lacks, since they are Tablewright's own ideas: a
+ * threshold, a change of level, the kinds of ink. Those are stroke glyphs
+ * on a 20 px grid at 1.6, the weight Material is asked for, so the two sit
+ * together. Both take the current colour.
+ * Design: docs/typography.md "Icons"
+ */
 
 import { css, html, svg, type CSSResult, type TemplateResult } from "lit";
 import type { DrawShape, Ink, RulerMode } from "@tablewright/board";
@@ -48,13 +49,10 @@ export const UNDO_ICON = symbol(GLYPH.undo);
 
 export const HISTORY_ICON = symbol(GLYPH.history);
 
-// What this hand is putting down: an eye open for the table, and the same
-// eye struck through for the DM keeping something back.
 export const SHOWN_ICON = symbol(GLYPH.visibility);
 
 export const KEPT_ICON = symbol(GLYPH.visibility_off);
 
-// The scene as the rules read it rather than as it is painted.
 export const TOPOLOGY_ICON = symbol(GLYPH.grid_on);
 
 export const RULER_ICON = symbol(GLYPH.straighten);
@@ -77,8 +75,6 @@ const INK_ICONS: Record<Ink, TemplateResult> = {
 };
 
 const SHAPE_ICONS: Record<DrawShape, TemplateResult> = {
-  // A paintbrush: the handle from the top right, a ferrule, and the bristles
-  // splayed at the bottom left.
   brush: frame(
     svg`<path d="M16.6 3.4c.6.6.6 1.6 0 2.2l-6.2 6.2-2.2-2.2 6.2-6.2c.6-.6 1.6-.6 2.2 0z"></path><path d="M8.2 9.6l2.2 2.2"></path><path d="M8 10.2c-1.4-.1-2.6.6-3.1 1.8-.5 1.3-.3 2.8-1.6 3.9 2.2.5 4.2 0 5.3-1.1 1-1 1.3-2.4.7-3.5"></path>`
   ),
@@ -90,7 +86,6 @@ const SHAPE_ICONS: Record<DrawShape, TemplateResult> = {
   click: frame(svg`<path d="M5 3.5l10.5 6.2-4.6 1.2-2.2 4.4z"></path>`),
 };
 
-// The ruler's modes: a line with its arrow, and a path stepping round.
 const RULER_MODE_ICONS: Record<RulerMode, TemplateResult> = {
   line: frame(
     svg`<path d="M4 16L15.5 4.5"></path><path d="M10.5 4h5.5v5.5"></path><circle cx="4" cy="16" r="1.4"></circle>`

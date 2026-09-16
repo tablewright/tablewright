@@ -6,8 +6,7 @@
  * alternating rule. Two hair-thin biases, a turn and straying from the
  * straight line, pick one of the many equal staircases. The safe route
  * never drops; the quick one may. Movement is a budget per turn, and
- * the route offered comes in tiers: safe within it, else shortest, else
- * either with a dash, else refused.
+ * the route offered comes in tiers: within it, with a dash, or refused.
  * Design: docs/design.md §5 "Moving shows movement only".
  */
 

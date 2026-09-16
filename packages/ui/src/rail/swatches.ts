@@ -41,7 +41,6 @@ export function thresholdSwatch(choice: ThresholdChoice): TemplateResult {
   } else {
     parts.push(CAPS);
     if (choice.state === "open") {
-      // The leaf swung sixty degrees into the room.
       parts.push(
         svg`<path d="M${LEFT} ${EDGE}L${LEFT + 8} ${EDGE + 14}" stroke=${BRASS} stroke-width="2" stroke-linecap="round"></path>`
       );

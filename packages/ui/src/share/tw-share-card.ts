@@ -1,11 +1,12 @@
-// The card everyone at the table sees when an entry is shared (design.md
-// §6): paper on the desk, who shared it, the entry's summary, and a way
-// to dismiss it. Pressing the card opens the entry; the host decides who
-// "shared by" is and what a Reveal control does.
-//
-// Events, both with the hit as `detail`:
-// - `tw-open`: the card body was pressed.
-// - `tw-dismiss`: Dismiss was pressed. The host removes the card.
+/**
+ * ─ Share card ─
+ *
+ * The card everyone at the table sees when an entry is shared: paper on
+ * the desk, who shared it, the entry's summary, and a way to dismiss it.
+ * Pressing the card opens the entry; the host decides who "shared by" is
+ * and what a Reveal control does.
+ * Design: docs/design.md §6
+ */
 
 import { LitElement, css, html, nothing } from "lit";
 import { previewOf } from "../spotlight/preview.js";
@@ -166,6 +167,7 @@ export class TwShareCard extends LitElement {
     this.#emit("tw-dismiss");
   };
 
+  // Both carry the hit; the host opens it, or removes the card.
   #emit(name: "tw-open" | "tw-dismiss"): void {
     if (this.hit === undefined) {
       return;

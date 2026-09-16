@@ -18,7 +18,6 @@ export class TwScenes extends LitElement {
     open: { state: true },
   };
 
-  /** Every scene, by name. */
   declare scenes: SceneSummary[];
   /** The id of the scene on show. */
   declare current: string;

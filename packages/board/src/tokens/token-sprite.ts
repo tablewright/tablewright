@@ -3,12 +3,10 @@
  *
  * One token as Pixi display objects: a disc, its label, and a ring
  * open at the rear with an arrow at the front, so facing reads at a
- * glance the way an FF14 target ring does, instead of rotating the
- * art. The ring is always present, dim at rest and lit by hover or
- * selection; a selected token also shows corner brackets, and its
- * hit area grows from the disc to the whole cell so a press in the
- * corners can become a turn. The layer decides state and position;
- * the sprite only knows how a token looks and what it covers.
+ * glance instead of rotating the art. The ring is always drawn, dim at
+ * rest and lit by hover or selection; a selected token adds corner
+ * brackets and a hit area the whole cell, so a press in the corners can
+ * become a turn. The layer decides state; the sprite knows how it looks.
  */
 
 import { Circle, Container, Graphics, Rectangle, Text } from "pixi.js";

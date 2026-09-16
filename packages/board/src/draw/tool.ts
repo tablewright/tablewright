@@ -102,11 +102,7 @@ export interface DrawTool {
   readonly look: Look;
 }
 
-// Every pen keeps its own amount, since a map is built one pen at a time:
-// the Height pen's, where an area ink sits, and how tall an edge ink
-// stands. An area ink starts level, so a map thrown down needs no setting
-// up; ten feet is the dungeon ceiling of convention, as the core's own
-// default is (design §5 "Every ink knows its place upward").
+// An area ink starts level, so a map thrown down needs no setting up.
 export const DEFAULT_TOOL: DrawTool = {
   ink: "ground",
   shape: "rect",

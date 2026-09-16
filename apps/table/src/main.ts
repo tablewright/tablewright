@@ -42,14 +42,8 @@ import type { EntryDocument, Searcher, SpotlightHit } from "@tablewright/ui";
 import { BoardHost, type CellReadout } from "./board-host.js";
 import { documentOf } from "./entry-document.js";
 
-// The window opens onto the wordmark rather than onto nothing.
-//
-// It is held back — tauri.conf.json keeps it hidden — but only until the page
-// has painted once, which is a frame away: the loader is inline in index.html
-// and owes nothing to a font, a stylesheet or a module. Letting the window be
-// visible from the start would show the webview's own blank white first, and
-// waiting instead for the board's first frame would keep the screen empty for
-// exactly as long as the loader exists to fill.
+// Shown after the first paint: sooner shows the webview's blank white, later
+// leaves the loader's wait unfilled.
 if ("__TAURI_INTERNALS__" in window) {
   await new Promise<number>((painted) => requestAnimationFrame(painted));
   try {
@@ -169,10 +163,8 @@ function workThreshold(threshold: ThresholdEdge): { state: PlayState } | { notic
   }
 }
 
-// A scene keeps its picture by a path within the campaign, which the
-// webview reaches through the asset protocol from the campaign's folder, or
-// an address the page loads as it is. Only a Tauri window has the protocol;
-// the plain page takes every url as it comes.
+// A scene keeps its picture by a path within the campaign's folder, which only
+// a Tauri window reaches, through the asset protocol; an address loads as it is.
 function mapUrlOf(map: MapImage | null, campaignPath: string | undefined): string | undefined {
   if (map === null) {
     return undefined;
@@ -215,11 +207,9 @@ async function openMap(board: BoardHost, core: Core, show: (scene: Scene) => voi
   }
 }
 
-// The query string can put another map on the board for a look, seed
-// tokens, and start a performance probe: ?map=<url>&tokens=<count>&perf=
-// <scenario>. The scene's own picture is the fixture's business; a map
-// named here is shown over it and not kept. One that fails to load is a
-// notice, not a failure of the board.
+// The query string can put another map on the board, seed tokens and start a
+// performance probe: ?map=<url>&tokens=<count>&perf=<scenario>. A map named
+// here is shown in place of the scene's own and not kept.
 async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void> {
   const { SCENARIOS, runPerfProbe } = await import("./dev/perf-probe.js");
   const params = new URLSearchParams(window.location.search);
@@ -246,9 +236,6 @@ async function loadDevFixture(board: BoardHost, host: HTMLElement): Promise<void
   }
 }
 
-// The core behind the panels. In a Tauri window it is one typed call away;
-// under plain Vite it is the dev fixture, so everything can be driven in a
-// browser and by Playwright without a core.
 // The rule version the box folds to, until character sheets bring each
 // person their own (design.md §3 "Two rule versions"). 2024 is what shipped
 // first, not a preference; the page's own rail turns any thing to the other.
@@ -259,9 +246,8 @@ const VERSION = "2024";
 // no DM chrome. Under plain Vite, `?role=dm` keeps the DM's view reachable
 // for Playwright and for looking at it in a browser.
 const OWN_SEAT: string = whoseSeat();
-// The seat this page is sitting in. Its own, until the dev toggle moves
-// it round the table. Nobody until the roles have been read, so a page
-// that never reads them may do nothing rather than everything.
+// Nobody until the roles are read, so a page that never reads them may do
+// nothing rather than everything.
 let seat: Seat = NOBODY;
 
 function whoseSeat(): string {
@@ -276,27 +262,21 @@ function whoseSeat(): string {
 
 interface Core {
   search: Searcher;
-  /** Who may do what at this table: the app's own rules under the campaign's. */
+  // Who may do what at this table: the app's own rules under the campaign's.
   permissions: () => Promise<Record<string, Role>>;
-  /** The system the compendium was seeded for, or null when the seeder had none. */
   system: () => Promise<SystemManifest | null>;
-  /** Facet name to the text values the compendium holds, for the tray's chips. */
   facetValues: () => Promise<Record<string, string[]>>;
-  /** One entry; with a version, the same thing in that rule version when it exists. */
+  // One entry; with a version, the same thing in that rule version when it exists.
   entry: (id: string, version?: string) => Promise<EntryDocument>;
-  /** Every campaign the app knows: under the home, and opened from elsewhere. */
   listCampaigns: () => Promise<CampaignSummary[]>;
-  /** The campaign at the table, or null when the intro is where the table is. */
   currentCampaign: () => Promise<CampaignSummary | null>;
   openCampaign: (path: string) => Promise<CampaignSummary>;
-  /** A new campaign under the home, or under `location` when the DM chose a folder. */
+  // A new campaign under the home, or under `location` when the DM chose a folder.
   createCampaign: (name: string, location: string | null) => Promise<CampaignSummary>;
   closeCampaign: () => Promise<void>;
   scene: () => Promise<Scene>;
   moveToken: (id: string, col: number, row: number, facing: number) => Promise<Scene>;
-  /** Mark who may see a token: the party, or the DM keeping it back. */
   setTokenVisibility: (id: string, visibility: Visibility) => Promise<Scene>;
-  /** Take a token off the board altogether. */
   removeToken: (id: string) => Promise<Scene>;
   placeEntry: (entry: EntryDocument, col: number, row: number) => Promise<Scene>;
   addStroke: (stroke: Stroke) => Promise<Scene>;
@@ -304,13 +284,15 @@ interface Core {
   removeStroke: (index: number) => Promise<Scene>;
   setThresholdState: (edge: Edge, state: PlayState) => Promise<Scene>;
   setMap: (map: MapImage | null) => Promise<Scene>;
-  /** How the scene shows its heights: the mode and the overlay's strength. */
   setDisplay: (display: HeightDisplay) => Promise<Scene>;
   listScenes: () => Promise<SceneSummary[]>;
   openScene: (id: string) => Promise<Scene>;
   createScene: (name: string, strokes: Stroke[]) => Promise<Scene>;
 }
 
+// The core behind the panels. In a Tauri window it is one typed call away;
+// under plain Vite it is the dev fixture, so everything can be driven in a
+// browser and by Playwright without a core.
 function connectCore(): Core {
   if (!("__TAURI_INTERNALS__" in window)) {
     if (__DEV_BUILD__) {
@@ -470,8 +452,6 @@ function exposeSearchProbe(): void {
   };
 }
 
-// The window starts hidden (tauri.conf.json) and shows only after the board
-// has rendered its first frame, so the user never sees an empty frame.
 try {
   const theme = readBoardTheme(host);
   // Pixi measures text as it draws it, so the faces have to be in hand before
@@ -512,9 +492,8 @@ try {
   };
   // The campaign at the table, whose folder the scene's picture is within.
   let campaign: CampaignSummary | undefined;
-  // The board shows the core's scene and asks it to record every gesture.
-  // A move the scene refuses is undone by showing the scene as it stands.
-  // The scene tab names what is shown and, for the DM, lists the rest.
+  // The board shows the core's scene; a move it refuses is undone by showing
+  // the scene as it stands.
   let display: HeightDisplay = { mode: "shaded", strength: 80 };
   const showScene = (scene: Scene): void => {
     display = scene.display;
@@ -616,9 +595,7 @@ try {
   });
   openButton.addEventListener("click", () => void openMap(board, core, showScene));
   // The rail is the DM's hand: an ink held is a pen held, the board draws
-  // with it and the tokens go inert; the pen down, the pointer moves
-  // tokens again. Every finished stroke is a command to the core, and the
-  // record shown is the scene's own.
+  // with it and the tokens go inert.
   const applyTool = (event: Event): void => {
     const { tool } = (event as CustomEvent<{ tool: DrawTool | undefined }>).detail;
     if (tool !== undefined) {
@@ -665,12 +642,7 @@ try {
   toolRail.addEventListener("tw-snap", (event) => {
     board.setOriginSnap((event as CustomEvent<{ snap: OriginSnap }>).detail.snap);
   });
-  // Who a measure or an area is for. The choice marks the one on the board
-  // as well as the next, so a measure already taken is shared by saying so
-  // rather than by taking it again (user, 2026-09-12).
-  // What this hand is putting down: a DM setting an ambush up marks what
-  // they draw and place as their own until they say otherwise. Changing
-  // something already down is the thing's own business, not this one's.
+  // Who what this hand puts down is for.
   toolRail.addEventListener("tw-marking", (event) => {
     board.setMarking((event as CustomEvent<{ marking: Visibility }>).detail.marking);
   });
@@ -699,6 +671,8 @@ try {
       }
     })();
   });
+  // Who the next measure or area is for; it marks the one on the board too, so
+  // what is down is shared by saying so.
   toolRail.addEventListener("tw-seen", (event) => {
     board.chooseSeenBy((event as CustomEvent<{ seen: Visibility }>).detail.seen);
   });
@@ -801,17 +775,8 @@ try {
       }
     })();
   });
-  // Everything this page shows follows the view it is standing at: the
-  // board and its tiers, the rail, whose chrome is on show, and what the
-  // compendium answers. The rail itself is everyone's, minus the pens, the
-  // record and the DM's reading of the field (user, 2026-09-12).
-  //
-  // Dev only, until the table is networked: the toggle under the campaign
-  // chrome stands this page at the other side of it, mirroring what a
-  // player has, so the DM can see their table as the party does without a
-  // second machine (user, 2026-09-12). Making one notion of visibility run
-  // through every surface, and settling what proves a view is the DM's once
-  // a page is served rather than opened, want a step of their own.
+  // Dev only, until the table is networked: the toggle stands the DM's page at
+  // another seat, so they see the table as that seat does.
   let chromeShown = false;
   // On the page, or off it altogether. Each remembers where it stood, so
   // it goes back where it was rather than to the end.
@@ -829,7 +794,6 @@ try {
       element.remove();
     }
   };
-  // A button a seat, filled once the sitting is defined below.
   const seats = new Map<string, HTMLButtonElement>();
   const sitAs = (id: string): void => {
     const role = roles[id];
@@ -846,8 +810,6 @@ try {
       board.setBuildTool(undefined);
       toolRail.held = false;
     }
-    // Reading the field as numbers is the DM's own: it goes off the board
-    // in a seat that may not, and is waiting where it was left on return.
     if (allows(role, "topology:read")) {
       setTopology(dmNumbers);
     } else {
@@ -865,18 +827,13 @@ try {
     toolRail.twRole = role;
     roleLabel.textContent = role.name;
     roleLabel.hidden = id === OWN_SEAT && allows(role, "scene:change");
-    // What a seat may not reach is taken out of the page rather than
-    // hidden in it: a hidden button is one stylesheet away from being a
-    // pressed button, and the rail's own buttons are already built or
-    // not built rather than shown or not shown (user, 2026-09-12). The
-    // core refusing the command is what actually holds the line; this is
-    // so nothing is lying about on the page inviting a try.
+    // Taken out of the page, not hidden: the core refuses the command anyway;
+    // this leaves nothing on the page inviting a try.
     const chromeOnRight = chromeShown && allows(role, "scene:change");
     show(dmChrome, chromeOnRight);
     toolRail.hidden = !chromeShown;
-    // A page that is not the owner's has nowhere else to sit. The seats
-    // sit under the DM's chrome, and take its place in a seat that has
-    // none, so the corner is never a gap with something under it.
+    // The seats sit under the DM's chrome, and take its place in a seat that
+    // has none, so the corner is never a gap.
     show(viewAs, chromeShown && __DEV_BUILD__ && OWN_SEAT === "dm");
     viewAs.classList.toggle("chrome-under", chromeOnRight);
     for (const [at, button] of seats) {
@@ -993,8 +950,6 @@ try {
     ) {
       setPlay(play === "ruler" ? "move" : "ruler");
     }
-    // The Topology view is the DM's alone: a player has no rail to reach it
-    // from, so the key must not reach it either.
     if (
       (event.key === "t" || event.key === "T") &&
       !event.ctrlKey &&
@@ -1060,9 +1015,6 @@ try {
       undo();
     }
   });
-  // The campaign at the table. Entering one shows its scenes and the
-  // chrome; leaving closes it in the core and shows the intro over an empty
-  // board. The window's title says which is open.
   const setTitle = (): void => {
     document.title = [campaign?.name, TITLE, seat.id === "dm" ? undefined : seat.role.name]
       .filter((part) => part !== undefined)
@@ -1212,18 +1164,9 @@ const DRAW_MS = 1150;
 const SECOND_LETTER_MS = 180;
 const OPEN_MS = 520;
 
-/**
- * Resolves once the mark has been drawn through, which is the last letter's
- * animation ending.
- *
- * Nothing is animated while a page is not being painted — a window still
- * hidden, a tab in the background — so the animation may never start at all.
- * The timer is what keeps that from becoming a wait without an end.
- */
+// Nothing animates while the page is unpainted, so a timer bounds the wait;
+// reduced motion draws the mark still, and waits for nothing.
 function drawnOnce(mark: Element): Promise<void> {
-  // Asked for stillness, the mark stands drawn from the start and nothing is
-  // playing: there is no animation to end, and waiting out the timer would
-  // give the person who asked for less motion the longest wait of anyone.
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return Promise.resolve();
   }
@@ -1235,13 +1178,10 @@ function drawnOnce(mark: Element): Promise<void> {
   });
 }
 
-// The wordmark comes off whatever happened above: a board that failed to
-// start has a notice to show, and it cannot be read through the loader.
+// The wordmark comes off whatever happened above: a failed board's notice
+// cannot be read through it.
 const loading = document.querySelector<HTMLElement>("#loading");
 if (loading !== null) {
-  // The board is usually ready before the mark has finished drawing, so the
-  // wait here is on the drawing. A mark cut off half-drawn reads as a fault
-  // rather than as a wait, which is the opposite of what it is for.
   await drawnOnce(loading);
   loading.classList.add("done");
   // Taken off on a timer rather than on transitionend, which does not fire

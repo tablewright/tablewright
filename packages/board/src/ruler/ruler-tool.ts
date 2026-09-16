@@ -1,14 +1,12 @@
 /**
  * ─ Ruler ─
  *
- * Measuring is its own tool: a press on the board starts a measure at
- * the cell under it, from a token or the floor without moving anything,
- * the pointer draws it out, and the release pins it until Escape or the
- * next measure. A measure is the table's unless the palette says
- * otherwise, and Alt at the press keeps that one to oneself. What shows
- * is the mode's answer alone, drawn by the measure view a token's drag
- * draws through too. The tool takes the left button on the canvas before
- * the camera can, as the drawing tool does.
+ * Measuring is its own tool: a press starts a measure at the cell under
+ * it without moving anything, the drag draws it out, and the release
+ * pins it until Escape or the next measure. A measure is the table's
+ * unless the palette says otherwise; Alt at the press keeps it to
+ * oneself. The tool takes the left button before the camera can, and
+ * draws through the measure view a token's drag draws through too.
  * Design: docs/design.md §5 "Measuring is its own tool".
  */
 

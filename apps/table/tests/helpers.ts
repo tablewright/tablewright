@@ -19,9 +19,8 @@ export async function openTable(page: Page, role: "dm" | "player" = "dm"): Promi
 }
 
 /**
- * The wordmark covers the whole window until it has drawn once and parted,
- * and until then a press lands on it rather than on the board. The board is
- * ready well before that, so being ready is not the same as taking input.
+ * The wordmark covers the window until it has drawn and parted, and a press
+ * before that lands on it.
  */
 export async function curtainOpen(page: Page): Promise<void> {
   await page.waitForFunction(() => {

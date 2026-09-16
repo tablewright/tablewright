@@ -213,11 +213,9 @@ export function snapOrigin(
 }
 
 /**
- * An area with its sizes made sensible. A ring's hole must sit inside
- * its radius: an inner radius as wide as the area swallows it, and a
- * ring that catches nothing is not a shape anyone meant to draw. One
- * rule covers both hands, so raising the inner clamps it and lowering
- * the radius pulls it down.
+ * An area with its sizes made sensible: a ring's hole sits at least a
+ * cell inside its radius. One rule covers both hands, so raising the
+ * inner clamps it and lowering the radius pulls it down.
  */
 export function clamped(area: Area, rule: GridRule): Area {
   if (area.kind !== "circle") {

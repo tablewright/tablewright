@@ -40,8 +40,6 @@ export type AreaListener = (placed: PlacedArea | undefined) => void;
  */
 export type OriginFor = (cell: Cell, at: { x: number; y: number }) => Spot;
 
-// A press that neither aims nor reaches: laying one down without moving
-// leaves it at the length the palette already holds.
 type Phase = "idle" | "placing" | "moving";
 
 // How far the wheel turns an area under the hand, and how far with a
@@ -60,7 +58,8 @@ export class AreaTool {
   private area: Area | undefined;
   private origin: Spot | undefined;
   private aim = 0;
-  /** How far the drag reached, in the rule's unit; unset until it moves. */
+  // How far the drag reached, in the rule's unit. Unset until it moves, so
+  // one laid down without moving keeps the length the palette holds.
   private reach: number | undefined;
   private snap: OriginSnap = "centre";
   /** Who the palette says the next one is for, and who the one on the board is for. */
@@ -150,12 +149,6 @@ export class AreaTool {
     this.seenBy = seenBy;
   }
 
-  /**
-   * The hand's own choice: the next area, and the one on the board, which
-   * is how an area already down is shared without laying it again. Only an
-   * area this view can see is re-marked, so nobody re-marks what they are
-   * not being shown.
-   */
   chooseSeenBy(seenBy: Visibility): void {
     this.seenBy = this.canShow ? seenBy : "own";
     if (this.placed === undefined) {
@@ -165,10 +158,6 @@ export class AreaTool {
     this.notify();
   }
 
-  /**
-   * Who sits at this board. An area another seat kept to itself is not
-   * shown here, and comes back when that seat returns.
-   */
   setSeat(seat: Seat): void {
     if (seat.id === this.seat.id) {
       return;
@@ -228,7 +217,6 @@ export class AreaTool {
     if (event.button !== 0 || this.area === undefined || this.pointerId !== undefined) {
       return;
     }
-    // The press belongs to the tool; the board element must not pan.
     event.stopPropagation();
     event.preventDefault();
     this.canvas.setPointerCapture(event.pointerId);
@@ -250,8 +238,6 @@ export class AreaTool {
     this.phase = "placing";
     this.reach = undefined;
     this.grab = undefined;
-    // Alt is the shortcut for one's own, whatever the palette holds, and
-    // a seat that may not show what it lays down keeps it either way.
     this.made = this.canShow && !event.altKey ? this.seenBy : "own";
     this.madeBy = this.seat.id;
     this.moveOrigin(event);
@@ -276,7 +262,6 @@ export class AreaTool {
     this.notify();
   };
 
-  // The release is the gesture's last word: the area stays where it is.
   private readonly onPointerUp = (event: PointerEvent): void => {
     if (event.pointerId !== this.pointerId) {
       return;
@@ -308,8 +293,6 @@ export class AreaTool {
   };
 
   // Put the origin where the pointer says, as near as the snap allows.
-  // While one is being moved the hand carries it by the offset it was
-  // taken hold of at, so it does not jump under the pointer.
   private moveOrigin(event: PointerEvent): void {
     const world = this.worldUnder(event);
     const under = this.inUnit(world);

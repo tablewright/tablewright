@@ -2,12 +2,11 @@
  * ─ Measure view ─
  *
  * A measurement drawn on the board, without the gesture that made it.
- * As a line: the crow-flies distance with an arrow at the far end, a bar
- * across it where a wall or a shut door breaks the line of effect and the
- * rest faint. As a path: the way on foot, in the plain colour as far as
- * the movement left reaches, brass within a dash, red past even that, and
- * dashed where it drops. One badge beside the far end carries the number.
- * The ruler and a token's drag both show their answer through this.
+ * As a line: the crow-flies distance, faint past where the line of
+ * effect breaks. As a path: the way on foot, coloured by how much of
+ * the turn's movement each step has spent, and dashed where it drops.
+ * One badge beside the far end carries the number. The ruler and a
+ * token's drag both show their answer through this.
  * Design: docs/design.md §5 "Measuring is its own tool".
  */
 
@@ -138,8 +137,6 @@ export class MeasureView {
     this.view.destroy({ children: true });
   }
 
-  // The crow-flies line with an arrow at its far end. Past where the line
-  // of effect breaks it goes faint, with a bar across it at the wall.
   private drawLine(g: Graphics, shown: Measurement): void {
     const { line } = this.style;
     const near = cellCenter(this.grid, shown.from);
@@ -160,11 +157,7 @@ export class MeasureView {
     this.arrowhead(g, near, far, line, isBroken);
   }
 
-  // The way on foot as the turn offers it, step by step: in the line's
-  // colour within what the movement left reaches, brass within a dash,
-  // red past even that, and dashed where it drops. Refused, the shortest
-  // way shows so the badge has a number to name; no way at all shows the
-  // two ends alone.
+  // Refused, the shortest way still shows so the badge has a number.
   private drawPath(g: Graphics, shown: Measurement): void {
     const { line } = this.style;
     const near = cellCenter(this.grid, shown.from);
@@ -243,14 +236,8 @@ export class MeasureView {
       .fill({ color: this.style.ground, alpha: PILL_ALPHA });
   }
 
-  /**
-   * How far the mark comes down to sit on the figures' middle.
-   *
-   * Laying the pieces at one height would put their baselines apart, since
-   * the two faces carry different ascents. Pixi's own measure says where
-   * each baseline falls; the mark then drops by as much as its middle sits
-   * above a figure's.
-   */
+  // The two faces carry different ascents, so the mark drops by the gap
+  // between its middle and a figure's.
   private markDrop(size: number): number {
     if (this.mark.text === "") {
       return 0;

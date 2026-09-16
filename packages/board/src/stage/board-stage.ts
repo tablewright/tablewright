@@ -217,16 +217,8 @@ export class BoardStage {
     this.watchScale();
   }
 
-  /**
-   * Text is drawn once into a texture and the world then magnifies it, so at
-   * four times in it is four times the pixels it was drawn with. The way out
-   * is the one Figma and Miro take: do not magnify, draw again at the scale
-   * being looked at.
-   *
-   * Drawing again is a canvas redraw and an upload for every piece of text on
-   * the board, which is no way to spend a pinch. So it waits until the zoom
-   * has settled (user, 2026-09-13), and only for a change worth the work.
-   */
+  // Text is a texture the world magnifies, so once the zoom settles it is
+  // drawn again at that scale; every piece redraws, so never mid-pinch.
   private watchScale(): void {
     const wanted = this.world.scale.x;
     if (Math.abs(Math.log2(wanted / this.sharpenedFor)) < SCALE_STEP) {

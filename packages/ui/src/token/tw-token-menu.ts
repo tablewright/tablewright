@@ -1,14 +1,12 @@
 /**
  * ─ What may be done with a token ─
  *
- * The right button on a token opens this beside it. One thing hangs off
- * it today, moving it between the layer the table sees and the DM's own,
- * and everything else a token carries will hang off it in time. A seat
- * that may not keep things back never opens it at all.
- *
- * Layers are what the words say, since that is what every other table
- * calls this; underneath there are no layers, only the marking a thing
- * carries, so nothing can be in two states at once.
+ * The right button on a token opens this beside it. Today it moves the
+ * token between the layer the table sees and the DM's own; a seat that
+ * may not keep things back never opens it. Layers are what the words say,
+ * since that is what every other table calls this; underneath there are
+ * no layers, only the marking a thing carries, so nothing can be in two
+ * states at once.
  * Design: docs/permissions.md
  */
 
@@ -66,8 +64,6 @@ export class TwTokenMenu extends LitElement {
       white-space: nowrap;
       cursor: pointer;
     }
-    /* The icon says which, as it does on the rail; the words say what,
-       since a menu is read rather than learned by position. */
     button .glyph {
       flex: none;
       color: var(--tw-on-surface-variant);
@@ -94,9 +90,8 @@ export class TwTokenMenu extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
     this.hidden = true;
-    // The menu opens under the pointer, so the button that opened it is
-    // released over this rather than over the board: without this the
-    // browser's own menu arrives on the way up.
+    // The opening right-click releases over the menu; swallow its contextmenu
+    // or the browser's own arrives.
     this.addEventListener("contextmenu", this.#ownMenu);
     window.addEventListener("pointerdown", this.#elsewhere, true);
     window.addEventListener("keydown", this.#escape);
