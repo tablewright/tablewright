@@ -9,23 +9,26 @@
  * Design: docs/design.md §3
  */
 
-import { LitElement, css, html, nothing } from "lit";
+import { LitElement, html, nothing } from "lit";
 import type { PropertyValues } from "lit";
 import type { ControlSpec, SystemManifest, Understood } from "@tablewright/schema";
 import "../filters/tw-filter-tray.js";
+import "./tw-hit-tile.js";
 import { activeCount, filtersOf, selectionOf } from "../filters/state.js";
 import type { TrayState } from "../filters/state.js";
-import { categoryOf, groupHits, previewOf } from "./preview.js";
+import { answerKey } from "./keys.js";
+import { categoryOf, groupHits } from "./preview.js";
 import type { Taxonomy } from "./preview.js";
 import type { HitGroup } from "./preview.js";
 import type { SearchAnswer, Searcher, SpotlightHit } from "./searcher.js";
+import { SPOTLIGHT_STYLES } from "./styles.js";
 import { emit } from "../events.js";
-import { FILTER_ICON, ICON_STYLES, SHARE_ICON } from "../icons.js";
-import { QUIET_BUTTON } from "../styles.js";
+import { FILTER_ICON } from "../icons.js";
 
 type Status = "idle" | "searching" | "done" | "error";
 
-const HANDLED_KEYS = new Set(["ArrowDown", "ArrowUp", "Home", "End", "Enter", "Escape"]);
+// The list is derived from these; a change to any of them redraws it.
+const LIST_KEYS = ["hits", "filter", "taxonomy", "system"] as const;
 
 export class TwSpotlight extends LitElement {
   static override properties = {
@@ -87,7 +90,9 @@ export class TwSpotlight extends LitElement {
   #dragging: SpotlightHit | undefined;
   // Set when the arrows were pressed on a tile, so focus follows the selection.
   #focusTile = false;
-  // Derived from hits and filter once per update, not per render call.
+  // Derived from hits and filter once per update, not per render call: every
+  // group, those the tab in force keeps, and their hits in order.
+  #all: HitGroup[] = [];
   #groups: HitGroup[] = [];
   #visible: SpotlightHit[] = [];
   // Kind to category label, from the system when no taxonomy was given.
@@ -116,282 +121,7 @@ export class TwSpotlight extends LitElement {
     this.paintMs = 0;
   }
 
-  static override styles = css`
-    ${ICON_STYLES}
-    :host {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: block;
-    }
-    :host(:not([open])) {
-      display: none;
-    }
-    .scrim {
-      position: absolute;
-      inset: 0;
-      background: var(--tw-scrim);
-    }
-    .box {
-      position: absolute;
-      top: var(--tw-space-lg);
-      bottom: var(--tw-space-lg);
-      left: var(--tw-space-lg);
-      width: min(440px, calc(100vw - 2 * var(--tw-space-lg)));
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      background: var(--tw-comp-panel-background-color);
-      color: var(--tw-comp-panel-text-color);
-      font-family: var(--tw-comp-panel-font-family);
-      font-size: var(--tw-comp-panel-font-size);
-      line-height: var(--tw-comp-panel-line-height);
-      border: 1px solid var(--tw-outline-variant);
-      border-radius: var(--tw-comp-panel-rounded);
-      overflow: hidden;
-    }
-    .field {
-      position: relative;
-    }
-    /* The words stay the words: the input's own text is painted transparent
-       and the mask over it draws the same text with what the parser
-       understood underlined, and what the tray overruled greyed. */
-    input,
-    .mask {
-      box-sizing: border-box;
-      width: 100%;
-      margin: 0;
-      padding: var(--tw-space-md) var(--tw-space-lg);
-      border: 0;
-      border-bottom: 1px solid var(--tw-outline-variant);
-      font-family: var(--tw-comp-input-font-family);
-      font-size: var(--tw-typo-headline-sm-font-size);
-      font-weight: var(--tw-comp-input-font-weight);
-      line-height: var(--tw-typo-headline-sm-line-height);
-    }
-    input {
-      outline: none;
-      background: var(--tw-comp-input-background-color);
-      color: transparent;
-      caret-color: var(--tw-comp-input-text-color);
-    }
-    input::placeholder {
-      color: var(--tw-on-surface-variant);
-    }
-    .mask {
-      position: absolute;
-      inset: 0;
-      border-bottom-color: transparent;
-      overflow: hidden;
-      white-space: pre;
-      pointer-events: none;
-      color: var(--tw-comp-input-text-color);
-    }
-    .mask u {
-      text-decoration: underline;
-      text-decoration-color: var(--tw-primary);
-      text-decoration-thickness: 1.5px;
-      text-underline-offset: 4px;
-    }
-    .mask .masked {
-      color: var(--tw-on-surface-variant);
-      opacity: 0.6;
-    }
-    .funnel {
-      --glyph-size: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: var(--tw-space-xs);
-      margin-left: auto;
-    }
-    .funnel[aria-pressed="true"] {
-      border: 1px solid var(--tw-primary);
-    }
-    /* Screen order: input, tabs, results, footer. DOM order puts the tabs after
-       the results so the tab key reaches the selected tile before them. */
-    .tabs {
-      order: 1;
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--tw-space-sm);
-      padding: var(--tw-space-sm) var(--tw-space-lg) var(--tw-space-xs);
-    }
-    .tabs:empty {
-      display: none;
-    }
-    .tab {
-      ${QUIET_BUTTON}
-      padding: var(--tw-space-xs) 10px;
-      border: 0;
-      background: var(--tw-surface-container-high);
-      color: var(--tw-on-surface-variant);
-    }
-    .tab[aria-pressed="true"] {
-      background: var(--tw-primary-container);
-      color: var(--tw-on-primary-container);
-    }
-    .results {
-      order: 2;
-      flex: 1 1 auto;
-      overflow-y: auto;
-      padding-bottom: var(--tw-space-sm);
-    }
-    /* Empty, the box is just the search bar and its hint; it grows to the
-       full panel once there is anything to show. */
-    .box.idle {
-      bottom: auto;
-    }
-    .box.idle .results {
-      display: none;
-    }
-    li:focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
-      outline-offset: -2px;
-    }
-    .group {
-      display: flex;
-      justify-content: space-between;
-      padding: var(--tw-space-md) var(--tw-space-lg) var(--tw-space-xs);
-      color: var(--tw-on-surface-variant);
-      font: var(--tw-typo-label-md-font);
-      letter-spacing: var(--tw-typo-label-md-letter-spacing);
-      text-transform: uppercase;
-    }
-    .group .hint {
-      text-transform: none;
-      letter-spacing: 0;
-      font-weight: var(--tw-typo-body-sm-font-weight);
-    }
-    ul {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--tw-space-sm);
-      margin: 0;
-      padding: var(--tw-space-xs) var(--tw-space-lg) var(--tw-space-sm);
-      list-style: none;
-    }
-    li {
-      display: flex;
-      flex-direction: column;
-      gap: var(--tw-space-xs);
-      padding: 10px var(--tw-space-md);
-      border: 1px solid var(--tw-outline-variant);
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-surface-container-high);
-      cursor: pointer;
-    }
-    li[aria-selected="true"] {
-      background: var(--tw-primary-container);
-      border-color: var(--tw-primary);
-      color: var(--tw-on-primary-container);
-    }
-    .name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .meta {
-      color: var(--tw-on-surface-variant);
-      font-size: var(--tw-typo-body-sm-font-size);
-      line-height: var(--tw-typo-body-sm-line-height);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    li[aria-selected="true"] .meta {
-      color: inherit;
-      opacity: 0.8;
-    }
-    .foot {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: var(--tw-space-sm);
-      min-height: 24px;
-      margin-top: var(--tw-space-xs);
-    }
-    .badge {
-      padding: 1px var(--tw-space-sm);
-      border-radius: var(--tw-rounded-sm);
-      background: var(--tw-surface-container);
-      color: var(--tw-on-surface-variant);
-      font: var(--tw-typo-label-md-font);
-      letter-spacing: var(--tw-typo-label-md-letter-spacing);
-      white-space: nowrap;
-    }
-    li[aria-selected="true"] .badge {
-      background: var(--tw-primary);
-      color: var(--tw-on-primary);
-    }
-    .year {
-      padding: 1px var(--tw-space-sm);
-      border: 1px dashed var(--tw-outline-variant);
-      border-radius: var(--tw-rounded-sm);
-      color: var(--tw-on-surface-variant);
-      font: var(--tw-typo-label-md-font);
-      letter-spacing: var(--tw-typo-label-md-letter-spacing);
-      white-space: nowrap;
-    }
-    .ring {
-      display: inline-flex;
-      width: 24px;
-      height: 24px;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--tw-primary);
-      border-radius: var(--tw-rounded-full);
-      color: var(--tw-on-primary-container);
-      font-family: var(--tw-typo-numeric-md-font-family);
-      font-size: var(--tw-typo-label-md-font-size);
-      font-weight: var(--tw-typo-numeric-md-font-weight);
-    }
-    /* Every tile has a Share button; it shows on the selected, hovered, or
-       focused tile and stays a tab stop on all of them. */
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: var(--tw-space-sm);
-      margin-left: auto;
-      opacity: 0;
-    }
-    li[aria-selected="true"] .actions,
-    li:hover .actions,
-    li:focus-within .actions {
-      opacity: 1;
-    }
-    .share {
-      --glyph-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: var(--tw-space-xs);
-      ${QUIET_BUTTON}
-      padding: 2px var(--tw-space-sm);
-      border-color: currentColor;
-      background: none;
-      color: inherit;
-    }
-    .share:focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
-      outline-offset: 2px;
-    }
-    footer {
-      order: 3;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 2px var(--tw-space-md);
-      padding: var(--tw-space-xs) var(--tw-space-lg);
-      border-top: 1px solid var(--tw-outline-variant);
-      color: var(--tw-on-surface-variant);
-      font-family: var(--tw-typo-numeric-md-font-family);
-      font-size: var(--tw-typo-body-sm-font-size);
-      line-height: var(--tw-typo-body-sm-line-height);
-      font-variant-numeric: tabular-nums;
-    }
-    footer[data-status="error"] {
-      color: var(--tw-error);
-    }
-  `;
+  static override styles = SPOTLIGHT_STYLES;
 
   /** Open the box with the previous query selected, ready to be replaced. */
   show(): void {
@@ -426,12 +156,7 @@ export class TwSpotlight extends LitElement {
     if (changed.has("system") || changed.has("taxonomy")) {
       this.#derived = deriveTaxonomy(this.system);
     }
-    if (
-      changed.has("hits") ||
-      changed.has("filter") ||
-      changed.has("taxonomy") ||
-      changed.has("system")
-    ) {
+    if (this.#listChanged(changed)) {
       const groups = groupHits(this.hits, this.#tax());
       // A tab that no longer matches anything falls back to all, unless
       // nothing matched at all: then the tab and its tray stay, so a
@@ -443,6 +168,7 @@ export class TwSpotlight extends LitElement {
       ) {
         this.filter = undefined;
       }
+      this.#all = groups;
       this.#groups =
         this.filter === undefined
           ? groups
@@ -454,8 +180,12 @@ export class TwSpotlight extends LitElement {
     }
   }
 
+  #listChanged(changed: PropertyValues<this>): boolean {
+    return LIST_KEYS.some((key) => changed.has(key));
+  }
+
   protected override render() {
-    const all = groupHits(this.hits, this.#tax());
+    const all = this.#all;
     const controls = this.#controls();
     const tabs =
       this.filter !== undefined && !all.some((group) => group.category === this.filter)
@@ -560,14 +290,8 @@ export class TwSpotlight extends LitElement {
     if (changed.has("query") || changed.has("understood")) {
       this.#syncMask();
     }
-    if (
-      changed.has("selected") ||
-      changed.has("hits") ||
-      changed.has("filter") ||
-      changed.has("taxonomy") ||
-      changed.has("system")
-    ) {
-      const tile = this.renderRoot.querySelector<HTMLElement>(`#hit-${this.selected}`);
+    if (changed.has("selected") || this.#listChanged(changed)) {
+      const tile = this.#tileAt(this.selected);
       tile?.scrollIntoView({ block: "nearest" });
       // Focus follows the selection only when it was already on a tile.
       if (this.#focusTile) {
@@ -723,7 +447,6 @@ export class TwSpotlight extends LitElement {
   // walks tile, share, tile, share. Focus on a tile selects it; the arrows
   // move selection and focus together.
   #renderTile(hit: SpotlightHit, index: number) {
-    const preview = previewOf(hit, this.#tax());
     const selected = index === this.selected;
     return html`
       <li
@@ -742,41 +465,26 @@ export class TwSpotlight extends LitElement {
         @dragstart=${(event: DragEvent) => this.#onDragStart(event, hit)}
         @dragend=${this.#onDragEnd}
       >
-        <span class="name">${hit.name}</span>
-        <span class="meta">${preview.meta}</span>
-        <span class="foot">
-          ${preview.ring === undefined ? nothing : html`<span class="ring">${preview.ring}</span>`}
-          ${preview.badge === undefined ? nothing : html`<span class="badge">${preview.badge}</span>`}
-          ${
-            this.#standsIn(hit)
-              ? html`<span class="year" title=${`From the ${hit.version} rules`}
-                  >${hit.version}</span
-                >`
-              : nothing
-          }
-          <span class="actions">
-            <button
-              type="button"
-              class="share"
-              aria-label=${`Share ${hit.name} with the table`}
-              @click=${(event: Event) => {
-                event.stopPropagation();
-                this.#share(hit);
-              }}
-            >
-              ${SHARE_ICON} Share
-            </button>
-          </span>
-        </span>
+        <tw-hit-tile
+          .hit=${hit}
+          .taxonomy=${this.#tax()}
+          .version=${this.version}
+          ?selected=${selected}
+          @tw-share=${this.#onTileShare}
+        ></tw-hit-tile>
       </li>
     `;
   }
 
-  // A hit of another version than the viewer reads is standing in for a
-  // thing their version lacks.
-  #standsIn(hit: SpotlightHit): boolean {
-    const version = hit.version ?? "";
-    return version !== "" && this.version !== "" && version !== this.version;
+  // The tile's own event ends here; the box raises the one the host hears,
+  // as it does for a drop.
+  #onTileShare = (event: HTMLElementEventMap["tw-share"]): void => {
+    event.stopPropagation();
+    this.#share(event.detail);
+  };
+
+  #tileAt(index: number): HTMLElement | null {
+    return this.renderRoot.querySelector<HTMLElement>(`#hit-${index}`);
   }
 
   #readout(): string {
@@ -824,76 +532,42 @@ export class TwSpotlight extends LitElement {
   };
 
   #onKeydown = (event: KeyboardEvent): void => {
-    this.#navigate(event, false);
+    this.#answer(event, false);
   };
 
   #onTileKeydown = (event: KeyboardEvent): void => {
-    // Space activates a focused tile, as it does a button.
-    if (event.key === " ") {
-      event.preventDefault();
-      event.stopPropagation();
-      this.#choose(this.selected);
-      return;
-    }
-    this.#navigate(event, true);
+    this.#answer(event, true);
   };
 
-  // The keys the box answers, from the input or from a tile. Keys it handles
+  // The keys the box answers, from the input or from a tile. Keys it keeps
   // are its own; nothing behind it may act on them.
-  #navigate(event: KeyboardEvent, fromTile: boolean): void {
-    if (HANDLED_KEYS.has(event.key)) {
+  #answer(event: KeyboardEvent, fromTile: boolean): void {
+    const answer = answerKey(
+      { key: event.key, shift: event.shiftKey },
+      { count: this.#visible.length, selected: this.selected, fromTile }
+    );
+    if (answer.own) {
       event.stopPropagation();
     }
-    switch (event.key) {
-      case "Tab":
-        // From the input, Tab lands on the selected tile rather than the
-        // first; from there the native order takes over.
-        if (!fromTile && !event.shiftKey && this.#visible.length > 0) {
-          event.preventDefault();
-          this.renderRoot.querySelector<HTMLElement>(`#hit-${this.selected}`)?.focus();
-        }
+    if (answer.effect === "none") {
+      return;
+    }
+    event.preventDefault();
+    switch (answer.effect) {
+      case "select":
+        this.#focusTile = answer.focus;
+        this.#select(answer.index);
         break;
-      case "ArrowDown":
-        event.preventDefault();
-        this.#focusTile = fromTile;
-        this.#select(this.#step(1));
+      case "focus":
+        this.#tileAt(this.selected)?.focus();
         break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.#focusTile = fromTile;
-        this.#select(this.#step(-1));
-        break;
-      case "Home":
-      case "End":
-        // In the input these move the caret, as in any text field; on a
-        // tile they jump to the first or the last tile.
-        if (!fromTile) {
-          break;
-        }
-        event.preventDefault();
-        this.#focusTile = true;
-        this.#select(event.key === "Home" ? 0 : this.#visible.length - 1);
-        break;
-      case "Enter":
-        event.preventDefault();
+      case "choose":
         this.#choose(this.selected);
         break;
-      case "Escape":
-        event.preventDefault();
+      case "close":
         this.hide();
         break;
-      default:
-        break;
     }
-  }
-
-  // Wraps at both ends, as Spotlight does.
-  #step(delta: number): number {
-    const count = this.#visible.length;
-    if (count === 0) {
-      return 0;
-    }
-    return (this.selected + delta + count) % count;
   }
 
   #select(index: number): void {
