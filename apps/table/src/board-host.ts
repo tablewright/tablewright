@@ -48,7 +48,9 @@ import {
   seenAt,
   visibleTo,
   watchBoardTheme,
+  pointOn,
   worldToCell,
+  worldToCellPoint,
   type BoardStage,
   type BoardTheme,
   type Budget,
@@ -114,6 +116,8 @@ export interface CellReadout {
   readonly cell: Cell;
   readonly ground: GroundState;
   readonly height: number;
+  /** The rule's unit, which the height is read in. */
+  readonly unit: string;
   readonly isLevelChange: boolean;
 }
 
@@ -786,14 +790,7 @@ export class BoardHost {
   // The threshold a point on the board is over, if it is one a tap can
   // work: an arch is always open, so it is not offered.
   private thresholdNear(at: Point): ThresholdEdge | undefined {
-    const world = this.camera.toWorld(at);
-    const edge = edgeNear(
-      {
-        x: (world.x - this.grid.originX) / this.grid.cellSize,
-        y: (world.y - this.grid.originY) / this.grid.cellSize,
-      },
-      TAP_REACH
-    );
+    const edge = edgeNear(worldToCellPoint(this.grid, this.camera.toWorld(at)), TAP_REACH);
     const data = edge === undefined ? undefined : edgeAt(this.topology, edge);
     return data?.kind === "threshold" && data.threshold !== "arch" ? data : undefined;
   }
@@ -802,12 +799,7 @@ export class BoardHost {
     if (this.isToolHeld) {
       return;
     }
-    const rect = this.target.getBoundingClientRect();
-    const threshold = this.thresholdNear({
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    });
-    this.setHighlight(threshold?.edge);
+    this.setHighlight(this.thresholdNear(pointOn(this.target, event))?.edge);
   };
 
   private readonly onPointerLeave = (): void => {
@@ -902,6 +894,7 @@ export class BoardHost {
       cell,
       ground: groundAt(this.topology, cell),
       height: heightAt(this.topology, cell),
+      unit: this.rule.unit,
       isLevelChange: isLevelChangeAt(this.topology, cell),
     };
   }

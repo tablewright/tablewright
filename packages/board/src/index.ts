@@ -1,4 +1,4 @@
-export type { Point, WorldRect } from "./geometry.js";
+export { pointOn, type Point, type WorldRect } from "./geometry.js";
 export {
   NOBODY,
   NO_ROLE,

@@ -12,8 +12,16 @@
 
 import { Graphics, type Container } from "pixi.js";
 import type { Edge } from "@tablewright/schema";
+import { dashedLine } from "../draw/strokes.js";
 import type { Point } from "../geometry.js";
-import type { SquareGrid } from "../grid/square-grid.js";
+import { forCellsInExtent } from "../grid/grid-lines.js";
+import {
+  cellPointToWorld,
+  cellToWorld,
+  insetCell,
+  type Cell,
+  type SquareGrid,
+} from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
 import { edgeCells, edgeKey } from "./edges.js";
 import {
@@ -40,7 +48,7 @@ export interface TopologyStyle {
   readonly hover: PackedColor;
 }
 
-interface Segment {
+interface Span {
   readonly x0: number;
   readonly y0: number;
   readonly x1: number;
@@ -174,35 +182,33 @@ export class TopologyLayer {
     const floors: Point[] = [];
     const difficult: Point[] = [];
     const hatched: Point[] = [];
-    const air: Point[] = [];
+    const air: Cell[] = [];
     const holes: Point[] = [];
-    for (let row = bounds.rowMin; row < bounds.rowMin + bounds.rows; row += 1) {
-      for (let col = bounds.colMin; col < bounds.colMin + bounds.cols; col += 1) {
-        const state = groundAt(topology, { col, row });
-        if (state === "void") {
-          continue;
-        }
-        const textured = !this.isMuted && isTexturedAt(topology, { col, row });
-        const p = { x: grid.originX + col * cell, y: grid.originY + row * cell };
-        if (state === "ground") {
-          if (textured) {
-            floors.push(p);
-          }
-          continue;
-        }
-        if (state === "difficult") {
-          difficult.push(p);
-          if (textured) {
-            hatched.push(p);
-          }
-          continue;
-        }
-        air.push(p);
-        if (textured) {
-          holes.push(p);
-        }
+    forCellsInExtent(bounds, (col, row) => {
+      const state = groundAt(topology, { col, row });
+      if (state === "void") {
+        return;
       }
-    }
+      const textured = !this.isMuted && isTexturedAt(topology, { col, row });
+      const p = cellToWorld(grid, { col, row });
+      if (state === "ground") {
+        if (textured) {
+          floors.push(p);
+        }
+        return;
+      }
+      if (state === "difficult") {
+        difficult.push(p);
+        if (textured) {
+          hatched.push(p);
+        }
+        return;
+      }
+      air.push({ col, row });
+      if (textured) {
+        holes.push(p);
+      }
+    });
     const fillCells = (cells: readonly Point[], color: number, alpha: number): void => {
       if (cells.length === 0) {
         return;
@@ -230,10 +236,14 @@ export class TopologyLayer {
       g.stroke({ width: 1, color: this.style.wall.rgb, alpha: 0.6, pixelLine: true });
     }
     if (air.length > 0) {
-      fillCells(air, this.style.air.rgb, this.style.air.alpha);
-      const inset = cell * 0.06;
-      for (const p of air) {
-        g.rect(p.x + inset, p.y + inset, cell - inset * 2, cell - inset * 2);
+      fillCells(
+        air.map((at) => cellToWorld(grid, at)),
+        this.style.air.rgb,
+        this.style.air.alpha
+      );
+      for (const at of air) {
+        const { x, y, size } = insetCell(grid, at, 0.06);
+        g.rect(x, y, size, size);
       }
       g.stroke({ width: 1, color: this.style.air.rgb, alpha: 0.8, pixelLine: true });
     }
@@ -255,8 +265,7 @@ export class TopologyLayer {
         if (mark === 0) {
           continue;
         }
-        const centre = sampleCentre(samples, i, j);
-        const p = { x: grid.originX + centre.x * cell, y: grid.originY + centre.y * cell };
+        const p = cellPointToWorld(grid, sampleCentre(samples, i, j));
         if (!this.isMuted && mark === LEVEL_CHANGE_TEXTURED) {
           treads.push(p);
         } else {
@@ -283,8 +292,8 @@ export class TopologyLayer {
   private drawEdges(g: Graphics, topology: Topology, grid: SquareGrid): void {
     const cell = grid.cellSize;
     const thresholds: Threshold[] = [];
-    const hints: Segment[] = [];
-    const solid: Segment[] = [];
+    const hints: Span[] = [];
+    const solid: Span[] = [];
     for (const data of topology.edges.values()) {
       const [a, b] = edgeCells(data.edge);
       // Between two void cells nothing is crossed, so nothing is drawn.
@@ -319,7 +328,7 @@ export class TopologyLayer {
   // it is heavier and its posts and frame are solid.
   private drawThreshold(
     g: Graphics,
-    s: Segment,
+    s: Span,
     data: Threshold,
     cell: number,
     style: TopologyStyle,
@@ -359,7 +368,7 @@ export class TopologyLayer {
     if (data.state === "secret") {
       // A wall to everyone who may not see it; to the DM, a wall with a hint.
       line(w(0.06), wall, wallAlpha);
-      dashed(g, s, cell * 0.12, cell * 0.12);
+      dashedLine(g, { x: s.x0, y: s.y0 }, { x: s.x1, y: s.y1 }, cell * 0.12, cell * 0.12);
       g.stroke({ width: w(0.03), color: threshold.rgb, alpha: threshold.alpha });
       return;
     }
@@ -381,7 +390,7 @@ export class TopologyLayer {
           return;
         }
         if (data.threshold === "frosted") {
-          dashed(g, s, cell * 0.1, cell * 0.1);
+          dashedLine(g, { x: s.x0, y: s.y0 }, { x: s.x1, y: s.y1 }, cell * 0.1, cell * 0.1);
           g.stroke({ width: w(0.04), color: sight.rgb, alpha: sight.alpha });
         } else {
           line(w(0.04), sight);
@@ -412,10 +421,7 @@ export class TopologyLayer {
 
   private drawFreeInk(g: Graphics, topology: Topology, grid: SquareGrid): void {
     const cell = grid.cellSize;
-    const toWorld = (p: Point): Point => ({
-      x: grid.originX + p.x * cell,
-      y: grid.originY + p.y * cell,
-    });
+    const toWorld = (p: Point): Point => cellPointToWorld(grid, p);
     const style = {
       width: cell * 0.04,
       color: this.style.threshold.rgb,
@@ -462,22 +468,10 @@ export class TopologyLayer {
   }
 }
 
-function segment(grid: SquareGrid, edge: Edge): Segment {
+function segment(grid: SquareGrid, edge: Edge): Span {
   const cell = grid.cellSize;
-  const x = grid.originX + edge.col * cell;
-  const y = grid.originY + edge.row * cell;
+  const { x, y } = cellToWorld(grid, edge);
   return edge.side === "east"
     ? { x0: x + cell, y0: y, x1: x + cell, y1: y + cell }
     : { x0: x, y0: y + cell, x1: x + cell, y1: y + cell };
-}
-
-// Pixi strokes have no dash; the path is laid down in pieces instead.
-function dashed(g: Graphics, s: Segment, dash: number, gap: number): void {
-  const length = Math.hypot(s.x1 - s.x0, s.y1 - s.y0);
-  const ux = (s.x1 - s.x0) / length;
-  const uy = (s.y1 - s.y0) / length;
-  for (let at = 0; at < length; at += dash + gap) {
-    const end = Math.min(length, at + dash);
-    g.moveTo(s.x0 + ux * at, s.y0 + uy * at).lineTo(s.x0 + ux * end, s.y0 + uy * end);
-  }
 }

@@ -10,7 +10,7 @@
  * centre of its cube".
  */
 
-import type { CellExtent } from "../grid/grid-lines.js";
+import { forCellsInExtent, intersectExtents, type CellExtent } from "../grid/grid-lines.js";
 import type { Cell } from "../grid/square-grid.js";
 import type { TokenView } from "../tokens/token-layer.js";
 import { heightAt, type Topology } from "../topology/derive.js";
@@ -67,19 +67,17 @@ export function caughtCells(
   rule: GridRule,
   extent: CellExtent = topology.bounds
 ): Cell[] {
-  const box = clip(reachBox(area, origin, rule), extent);
+  const box = intersectExtents(reachBox(area, origin, rule), extent);
   const cells: Cell[] = [];
   if (box === undefined) {
     return cells;
   }
-  for (let row = box.rowMin; row < box.rowMin + box.rows; row += 1) {
-    for (let col = box.colMin; col < box.colMin + box.cols; col += 1) {
-      const cell = { col, row };
-      if (catchesCell(area, origin, cell, topology, rule)) {
-        cells.push(cell);
-      }
+  forCellsInExtent(box, (col, row) => {
+    const cell = { col, row };
+    if (catchesCell(area, origin, cell, topology, rule)) {
+      cells.push(cell);
     }
-  }
+  });
   return cells;
 }
 
@@ -105,15 +103,4 @@ function flatReach(area: Area): number {
     default:
       return area.radius;
   }
-}
-
-function clip(box: CellExtent, extent: CellExtent): CellExtent | undefined {
-  const colMin = Math.max(box.colMin, extent.colMin);
-  const rowMin = Math.max(box.rowMin, extent.rowMin);
-  const colEnd = Math.min(box.colMin + box.cols, extent.colMin + extent.cols);
-  const rowEnd = Math.min(box.rowMin + box.rows, extent.rowMin + extent.rows);
-  if (colEnd <= colMin || rowEnd <= rowMin) {
-    return undefined;
-  }
-  return { colMin, rowMin, cols: colEnd - colMin, rows: rowEnd - rowMin };
 }

@@ -56,6 +56,22 @@ export function seenByNote(marked: Visibility): string | undefined {
   }
 }
 
+/** `text` with the note for who a thing is for after a dash, when there is one. */
+export function withSeenByNote(text: string, seenBy: Visibility): string {
+  const note = seenByNote(seenBy);
+  return note === undefined ? text : `${text} — ${note}`;
+}
+
+/** How a thing kept back from the table reads: faint when it is, plain when it is not. */
+export function keptAlphaIf(isKept: boolean | undefined): number {
+  return isKept === true ? KEPT_ALPHA : 1;
+}
+
+/** How a measure or an area reads by who it is for: plain for the table, faint for anyone else. */
+export function keptAlpha(seenBy: Visibility): number {
+  return keptAlphaIf(seenBy !== "party");
+}
+
 /**
  * A role that may do nothing and sees nothing, so a surface that is
  * never told which role it serves shows nothing rather than everything.

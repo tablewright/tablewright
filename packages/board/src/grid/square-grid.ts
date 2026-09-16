@@ -59,3 +59,22 @@ export function worldToCellPoint(grid: SquareGrid, point: Point): Point {
     y: (point.y - grid.originY) / grid.cellSize,
   };
 }
+
+/** A point in cell coordinates, fractions and all, back in world pixels: the inverse of `worldToCellPoint`. */
+export function cellPointToWorld(grid: SquareGrid, point: Point): Point {
+  return {
+    x: grid.originX + point.x * grid.cellSize,
+    y: grid.originY + point.y * grid.cellSize,
+  };
+}
+
+/** A cell's square drawn in from its edges by `inset` of a cell, so neighbours stay apart. */
+export function insetCell(
+  grid: SquareGrid,
+  cell: Cell,
+  inset: number
+): { x: number; y: number; size: number } {
+  const corner = cellToWorld(grid, cell);
+  const gap = grid.cellSize * inset;
+  return { x: corner.x + gap, y: corner.y + gap, size: grid.cellSize - gap * 2 };
+}

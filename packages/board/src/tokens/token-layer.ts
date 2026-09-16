@@ -23,8 +23,8 @@ import type { DragRoute } from "../move/drag-route.js";
 import type { Mover } from "../topology/cost.js";
 import type { Budget } from "../topology/route.js";
 import { facingBetween, facingToward, normalizeDegrees } from "./facing.js";
-import { DRAG_THRESHOLD_PX, HOLD_MS, afterHold } from "./press.js";
-import { KEPT_ALPHA } from "../seen.js";
+import { DRAG_THRESHOLD_PX, HOLD_MS, afterHold, isTypingTarget } from "./press.js";
+import { keptAlphaIf } from "../seen.js";
 import { TokenSprite, type TokenStyle } from "./token-sprite.js";
 
 /** What the layer needs to show a token; the scene owns everything else. */
@@ -110,14 +110,6 @@ const STEP_KEYS: Readonly<Record<string, { dc: number; dr: number }>> = {
   D: { dc: 1, dr: 0 },
 };
 
-// Keys typed into a field are text, not token commands.
-function isEditable(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) {
-    return false;
-  }
-  return target.isContentEditable || target.matches("input, textarea, select");
-}
-
 // A press starts undecided and becomes a drag, a turn, or a click on release.
 type PressMode = "pending" | "drag" | "turn";
 
@@ -189,7 +181,7 @@ export class TokenLayer {
       } else {
         existing.setLabel(token.label);
         existing.setBadge(badgeOf(token));
-        existing.view.alpha = token.isKept === true ? KEPT_ALPHA : 1;
+        existing.view.alpha = keptAlphaIf(token.isKept);
         if (this.press?.id !== token.id && this.pending?.id !== token.id) {
           existing.setFacing(token.facing);
           existing.setPosition(cellCenter(this.grid, token.cell));
@@ -299,7 +291,7 @@ export class TokenLayer {
     const sprite = new TokenSprite(token.label, this.grid.cellSize, this.style);
     // Kept back from the table: the seats that may still see it are shown
     // it faintly, as a measure that is not the table's reads faint.
-    sprite.view.alpha = token.isKept === true ? KEPT_ALPHA : 1;
+    sprite.view.alpha = keptAlphaIf(token.isKept);
     sprite.setPosition(cellCenter(this.grid, token.cell));
     sprite.setFacing(token.facing);
     sprite.setBadge(badgeOf(token));
@@ -488,9 +480,7 @@ export class TokenLayer {
   };
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
-    // The first element on the composed path is the real target, even inside
-    // another component's shadow tree; `event.target` is retargeted to its host.
-    if (isEditable(event.composedPath()[0] ?? event.target)) {
+    if (isTypingTarget(event)) {
       return;
     }
     if (event.key === "Escape") {

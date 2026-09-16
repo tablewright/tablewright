@@ -11,9 +11,10 @@
  */
 
 import { CanvasTextMetrics, Container, Graphics, Text } from "pixi.js";
-import type { Point } from "../geometry.js";
-import { KEPT_ALPHA } from "../seen.js";
-import { cellCenter, type SquareGrid } from "../grid/square-grid.js";
+import { dashedLine } from "../draw/strokes.js";
+import { along, lengthOf, type Point } from "../geometry.js";
+import { keptAlpha } from "../seen.js";
+import { cellCenter, cellPointToWorld, type SquareGrid } from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
 import type { Measurement } from "./measure.js";
 import { badgeText, FALL_MARK, RISE_MARK, type RulerMode } from "./mode.js";
@@ -114,7 +115,7 @@ export class MeasureView {
     this.view.visible = true;
     // One that is not the whole table's reads fainter throughout; the badge
     // says which of the two it is.
-    this.view.alpha = measurement.seenBy === "party" ? 1 : KEPT_ALPHA;
+    this.view.alpha = keptAlpha(measurement.seenBy);
     if (mode === "path") {
       this.drawPath(g, measurement);
     } else {
@@ -148,7 +149,7 @@ export class MeasureView {
     // The line ends where the head begins, so the head's tip is the true end.
     const base = this.arrowBase(near, far);
     const isBroken = shown.blockedAt !== undefined;
-    const cut = shown.blockedAt === undefined ? base : this.world(shown.blockedAt);
+    const cut = shown.blockedAt === undefined ? base : cellPointToWorld(this.grid, shown.blockedAt);
     this.strokeLine(g, near, cut, line);
     if (isBroken) {
       this.strokeLine(g, cut, base, line, { isFaint: true });
@@ -259,7 +260,7 @@ export class MeasureView {
 
   // A short bar across the line at `at`: where the line of effect breaks.
   private bar(g: Graphics, from: Point, to: Point, at: Point, color: PackedColor): void {
-    const length = Math.hypot(to.x - from.x, to.y - from.y);
+    const length = lengthOf(from, to);
     if (length === 0) {
       return;
     }
@@ -273,7 +274,7 @@ export class MeasureView {
 
   // Where a line ends and its head begins: one head short of `to`.
   private arrowBase(from: Point, to: Point): Point {
-    const length = Math.hypot(to.x - from.x, to.y - from.y);
+    const length = lengthOf(from, to);
     const size = this.grid.cellSize * ARROW_FRACTION;
     return length <= size ? from : along(from, to, 1 - size / length);
   }
@@ -286,7 +287,7 @@ export class MeasureView {
     color: PackedColor,
     isFaint = false
   ): void {
-    const length = Math.hypot(to.x - from.x, to.y - from.y);
+    const length = lengthOf(from, to);
     if (length === 0) {
       return;
     }
@@ -318,29 +319,12 @@ export class MeasureView {
       g.moveTo(from.x, from.y).lineTo(to.x, to.y).stroke(style);
       return;
     }
-    const length = Math.hypot(to.x - from.x, to.y - from.y);
     const dash = this.grid.cellSize * DASH_FRACTION;
-    for (let start = 0; start < length; start += dash * 2) {
-      const end = Math.min(length, start + dash);
-      const a = along(from, to, start / length);
-      const b = along(from, to, end / length);
-      g.moveTo(a.x, a.y).lineTo(b.x, b.y);
-    }
+    dashedLine(g, from, to, dash, dash);
     g.stroke(style);
   }
 
   private lineWidth(): number {
     return Math.max(2, this.grid.cellSize * LINE_FRACTION);
   }
-
-  private world(point: Point): Point {
-    return {
-      x: this.grid.originX + point.x * this.grid.cellSize,
-      y: this.grid.originY + point.y * this.grid.cellSize,
-    };
-  }
-}
-
-function along(from: Point, to: Point, t: number): Point {
-  return { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t };
 }

@@ -10,7 +10,7 @@
  */
 
 import { signed } from "../draw/tool.js";
-import type { CellExtent } from "../grid/grid-lines.js";
+import { forCellsInExtent, type CellExtent } from "../grid/grid-lines.js";
 import type { Cell } from "../grid/square-grid.js";
 import { heightAt, isLevelChangeAt, type Topology } from "./derive.js";
 
@@ -34,21 +34,19 @@ export interface CellNumber {
  */
 export function cellNumbers(topology: Topology, extent: CellExtent): CellNumber[] {
   const numbers: CellNumber[] = [];
-  for (let row = extent.rowMin; row < extent.rowMin + extent.rows; row += 1) {
-    for (let col = extent.colMin; col < extent.colMin + extent.cols; col += 1) {
-      const cell = { col, row };
-      const isLevelChange = isLevelChangeAt(topology, cell);
-      const height = Math.round(heightAt(topology, cell));
-      if (height === 0 && !isLevelChange) {
-        continue;
-      }
-      numbers.push({
-        cell,
-        text: isLevelChange ? STAIR : signed(height),
-        height,
-        isLevelChange,
-      });
+  forCellsInExtent(extent, (col, row) => {
+    const cell = { col, row };
+    const isLevelChange = isLevelChangeAt(topology, cell);
+    const height = Math.round(heightAt(topology, cell));
+    if (height === 0 && !isLevelChange) {
+      return;
     }
-  }
+    numbers.push({
+      cell,
+      text: isLevelChange ? STAIR : signed(height),
+      height,
+      isLevelChange,
+    });
+  });
   return numbers;
 }

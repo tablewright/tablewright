@@ -9,6 +9,7 @@ export type {
   TokenSelectListener,
   TokenView,
 } from "./token-layer.js";
+export { isTypingTarget } from "./press.js";
 export { TokenSprite, tokenReach } from "./token-sprite.js";
 export type { TokenStyle } from "./token-sprite.js";
 export {

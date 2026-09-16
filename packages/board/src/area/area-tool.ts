@@ -12,12 +12,26 @@
  */
 
 import type { Visibility } from "@tablewright/schema";
-import type { Point } from "../geometry.js";
+import { lengthOf, pointOn, type Point } from "../geometry.js";
 import { NOBODY, allows, seesIt, type Seat } from "../seen.js";
-import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
+import {
+  cellPointToWorld,
+  worldToCell,
+  worldToCellPoint,
+  type Cell,
+  type SquareGrid,
+} from "../grid/square-grid.js";
 import { facingToward, normalizeDegrees } from "../tokens/facing.js";
 import type { GridRule } from "../topology/distance.js";
-import { reached, snapOrigin, snapSize, type Area, type OriginSnap, type Spot } from "./area.js";
+import {
+  reached,
+  snapOrigin,
+  snapSize,
+  spotToCellPoint,
+  type Area,
+  type OriginSnap,
+  type Spot,
+} from "./area.js";
 import { footprintCovers } from "./outline.js";
 
 /** An area with a place and an aim, as the board is to draw it. */
@@ -226,7 +240,12 @@ export class AreaTool {
     const placed = this.placed;
     if (
       placed !== undefined &&
-      footprintCovers(placed.area, placed.origin, this.inCells(this.worldUnder(event)), this.rule)
+      footprintCovers(
+        placed.area,
+        placed.origin,
+        worldToCellPoint(this.grid, this.worldUnder(event)),
+        this.rule
+      )
     ) {
       this.phase = "moving";
       // The area moves with the hand rather than jumping under it: what
@@ -256,8 +275,7 @@ export class AreaTool {
     const at = this.worldUnder(event);
     const from = this.worldOf(this.origin);
     this.aim = facingToward(from, at) ?? this.aim;
-    const away =
-      (Math.hypot(at.x - from.x, at.y - from.y) / this.grid.cellSize) * this.rule.cellSize;
+    const away = (lengthOf(from, at) / this.grid.cellSize) * this.rule.cellSize;
     this.reach = snapSize(away, this.rule);
     this.notify();
   };
@@ -313,31 +331,18 @@ export class AreaTool {
   // The canvas may sit anywhere on the page, so the press is read from
   // the client's own corner, as the ruler reads it.
   private worldUnder(event: PointerEvent): Point {
-    const rect = this.canvas.getBoundingClientRect();
-    return this.toWorld({ x: event.clientX - rect.left, y: event.clientY - rect.top });
+    return this.toWorld(pointOn(this.canvas, event));
   }
 
   // An origin sits in the rule's unit; the pointer is in world pixels,
   // so the grid does the one conversion between them.
   private worldOf(origin: Spot): Point {
-    return {
-      x: this.grid.originX + (origin.x / this.rule.cellSize) * this.grid.cellSize,
-      y: this.grid.originY + (origin.y / this.rule.cellSize) * this.grid.cellSize,
-    };
+    return cellPointToWorld(this.grid, spotToCellPoint(origin, this.rule));
   }
 
   private inUnit(at: Point): { x: number; y: number } {
-    return {
-      x: ((at.x - this.grid.originX) / this.grid.cellSize) * this.rule.cellSize,
-      y: ((at.y - this.grid.originY) / this.grid.cellSize) * this.rule.cellSize,
-    };
-  }
-
-  private inCells(at: Point): Point {
-    return {
-      x: (at.x - this.grid.originX) / this.grid.cellSize,
-      y: (at.y - this.grid.originY) / this.grid.cellSize,
-    };
+    const cells = worldToCellPoint(this.grid, at);
+    return { x: cells.x * this.rule.cellSize, y: cells.y * this.rule.cellSize };
   }
 
   // Whether this seat may let the table see what it lays down at all.

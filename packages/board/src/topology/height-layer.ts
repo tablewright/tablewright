@@ -14,8 +14,8 @@ import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
 import type { HeightDisplay, HeightMode } from "@tablewright/schema";
 import { signed } from "../draw/tool.js";
 import type { Point } from "../geometry.js";
-import type { SquareGrid } from "../grid/square-grid.js";
-import type { PackedColor } from "../theme/css-color.js";
+import { cellPointToWorld, cellToWorld, type SquareGrid } from "../grid/square-grid.js";
+import { channelsOf, type PackedColor } from "../theme/css-color.js";
 import type { Topology } from "./derive.js";
 import { contourGroups, isoLines, type Segment } from "./iso.js";
 import { sampleHeight, sampleWidth } from "./shapes.js";
@@ -172,8 +172,9 @@ export class HeightLayer {
     let count = 0;
     for (const { segments } of contours) {
       for (const { from, to } of segments) {
-        g.moveTo(grid.originX + from.x * grid.cellSize, grid.originY + from.y * grid.cellSize);
-        g.lineTo(grid.originX + to.x * grid.cellSize, grid.originY + to.y * grid.cellSize);
+        const a = cellPointToWorld(grid, from);
+        const b = cellPointToWorld(grid, to);
+        g.moveTo(a.x, a.y).lineTo(b.x, b.y);
         count += 1;
       }
     }
@@ -273,7 +274,8 @@ export class HeightLayer {
       .stroke({ width: 1, color: this.style.tag.rgb, alpha: 0.5 });
     const holder = new Container();
     holder.addChild(pill, text);
-    holder.position.set(grid.originX + at.x * cell, grid.originY + at.y * cell + size * 0.9);
+    const world = cellPointToWorld(grid, at);
+    holder.position.set(world.x, world.y + size * 0.9);
     return holder;
   }
 
@@ -283,10 +285,8 @@ export class HeightLayer {
     const { samples } = topology;
     const cell = grid.cellSize;
     this.raster.texture = texture;
-    this.raster.position.set(
-      grid.originX + samples.bounds.colMin * cell,
-      grid.originY + samples.bounds.rowMin * cell
-    );
+    const corner = cellToWorld(grid, { col: samples.bounds.colMin, row: samples.bounds.rowMin });
+    this.raster.position.set(corner.x, corner.y);
     this.raster.scale.set(cell / samples.per);
     this.raster.visible = true;
   }
@@ -345,7 +345,7 @@ function shadowCanvas(
   const out = contextOf(result);
   const maskContext = contextOf(mask);
   const scratchContext = contextOf(scratch);
-  const [r, g, b] = channels(shade.rgb);
+  const [r, g, b] = channelsOf(shade.rgb);
   for (const threshold of thresholds) {
     const image = maskContext.createImageData(width, height);
     const { field } = topology;
@@ -388,8 +388,8 @@ function washCanvas(topology: Topology, band: number, style: HeightStyle): HTMLC
   const canvas = canvasOf(width, height);
   const context = contextOf(canvas);
   const image = context.createImageData(width, height);
-  const up = channels(style.up.rgb);
-  const down = channels(style.down.rgb);
+  const up = channelsOf(style.up.rgb);
+  const down = channelsOf(style.down.rgb);
   const { field } = topology;
   for (let index = 0; index < width * height; index += 1) {
     const value = field[index] ?? 0;
@@ -423,8 +423,4 @@ function contextOf(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
     throw new Error("The height display needs a 2D canvas context.");
   }
   return context;
-}
-
-function channels(rgb: number): [number, number, number] {
-  return [(rgb >> 16) & 0xff, (rgb >> 8) & 0xff, rgb & 0xff];
 }

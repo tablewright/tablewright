@@ -10,6 +10,8 @@
  * same column".
  */
 
+import { tidy } from "../draw/tool.js";
+import type { Point } from "../geometry.js";
 import type { GridRule } from "../topology/distance.js";
 import type { Cell } from "../grid/square-grid.js";
 
@@ -108,6 +110,11 @@ export function floorSpot(cell: Cell, ground: number, rule: GridRule): Spot {
   return { x: (cell.col + 0.5) * rule.cellSize, y: (cell.row + 0.5) * rule.cellSize, z: ground };
 }
 
+/** A spot's place across the map in cells, fractions and all: the grid's own measure. */
+export function spotToCellPoint(spot: Spot, rule: GridRule): Point {
+  return { x: spot.x / rule.cellSize, y: spot.y / rule.cellSize };
+}
+
 /**
  * One line for the badge beside an area: what it is and how big, in the
  * DM's words. The form is named only where it changes what is caught,
@@ -128,12 +135,6 @@ export function describeArea(area: Area, rule: GridRule): string {
       return `${tidy(area.radius)} ${unit} ${shape}${ring}`;
     }
   }
-}
-
-// Whole numbers stay whole; a fractional size keeps two places, as the
-// ruler's own badge does.
-function tidy(value: number): string {
-  return String(Math.round(value * 100) / 100);
 }
 
 /**

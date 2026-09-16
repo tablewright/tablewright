@@ -12,7 +12,7 @@
 import type { Point } from "../geometry.js";
 import type { GridRule } from "../topology/distance.js";
 import { pointInPolygon } from "../topology/shapes.js";
-import { aimVector, type Area, type Spot } from "./area.js";
+import { aimVector, spotToCellPoint, type Area, type Spot } from "./area.js";
 
 /** What an area covers on the plan: its ring, and the hole a ring keeps. */
 export interface Outline {
@@ -27,7 +27,7 @@ const ARC_STEP = 4;
 
 /** The footprint `area` covers, laid down at `origin`, in cells. */
 export function outline(area: Area, origin: Spot, rule: GridRule): Outline {
-  const at = { x: origin.x / rule.cellSize, y: origin.y / rule.cellSize };
+  const at = spotToCellPoint(origin, rule);
   const cells = (feet: number): number => feet / rule.cellSize;
   switch (area.kind) {
     case "rect":

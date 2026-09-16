@@ -182,6 +182,11 @@ export function signed(value: number): string {
   return value > 0 ? `+${value}` : String(value);
 }
 
+/** A length as a badge shows it: whole numbers stay whole, the rest keep two places. */
+export function tidy(value: number): string {
+  return String(Math.round(value * 100) / 100);
+}
+
 function area(shape: Shape): string {
   switch (shape.kind) {
     case "rect":

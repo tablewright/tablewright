@@ -1,6 +1,6 @@
 import type { WorldRect } from "../geometry.js";
-import type { CellExtent } from "./grid-lines.js";
-import type { SquareGrid } from "./square-grid.js";
+import { intersectExtents, type CellExtent } from "./grid-lines.js";
+import { worldToCellPoint, type SquareGrid } from "./square-grid.js";
 
 /** The cells of `bounds` that touch `view`, or undefined when none do. */
 export function visibleExtent(
@@ -8,20 +8,16 @@ export function visibleExtent(
   view: WorldRect,
   bounds: CellExtent
 ): CellExtent | undefined {
-  const colMin = Math.max(bounds.colMin, Math.floor((view.left - grid.originX) / grid.cellSize));
-  const rowMin = Math.max(bounds.rowMin, Math.floor((view.top - grid.originY) / grid.cellSize));
-  const colEnd = Math.min(
-    bounds.colMin + bounds.cols,
-    Math.ceil((view.right - grid.originX) / grid.cellSize)
-  );
-  const rowEnd = Math.min(
-    bounds.rowMin + bounds.rows,
-    Math.ceil((view.bottom - grid.originY) / grid.cellSize)
-  );
-  if (colEnd <= colMin || rowEnd <= rowMin) {
-    return undefined;
-  }
-  return { colMin, rowMin, cols: colEnd - colMin, rows: rowEnd - rowMin };
+  const near = worldToCellPoint(grid, { x: view.left, y: view.top });
+  const far = worldToCellPoint(grid, { x: view.right, y: view.bottom });
+  const colMin = Math.floor(near.x);
+  const rowMin = Math.floor(near.y);
+  return intersectExtents(bounds, {
+    colMin,
+    rowMin,
+    cols: Math.ceil(far.x) - colMin,
+    rows: Math.ceil(far.y) - rowMin,
+  });
 }
 
 /** The cells, from the grid origin, needed to cover `width` x `height` world pixels. */

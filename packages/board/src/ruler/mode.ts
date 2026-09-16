@@ -9,8 +9,9 @@
  * Design: docs/design.md §5 "Measuring is its own tool".
  */
 
+import { tidy } from "../draw/tool.js";
 import type { Route } from "../topology/route.js";
-import { seenByNote } from "../seen.js";
+import { withSeenByNote } from "../seen.js";
 import type { Measurement } from "./measure.js";
 
 /**
@@ -55,9 +56,7 @@ export const FALL_MARK = "\uE5DB";
  * dash the shortest way is named as such, and no way at all says so.
  */
 export function badgeText(measurement: Measurement, mode: RulerMode): string {
-  const note = seenByNote(measurement.seenBy);
-  const said = reading(measurement, mode);
-  return note === undefined ? said : `${said} — ${note}`;
+  return withSeenByNote(reading(measurement, mode), measurement.seenBy);
 }
 
 // The numbers themselves, as the mode reads them.
@@ -100,9 +99,4 @@ function climbed(route: Route, unit: string): string {
     .filter((step) => step.kind === "climb")
     .reduce((sum, step) => sum + step.rise, 0);
   return risen > 0 ? `, ${tidy(risen)} ${unit} climbed` : "";
-}
-
-// Whole numbers stay whole; the exact rule's lengths keep two places.
-function tidy(value: number): string {
-  return String(Math.round(value * 100) / 100);
 }

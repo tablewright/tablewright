@@ -9,8 +9,8 @@
  */
 
 import type { CellRect, Point as Coordinate, Shape } from "@tablewright/schema";
-import type { Point } from "../geometry.js";
-import type { CellExtent } from "../grid/grid-lines.js";
+import { along, lengthOf, type Point } from "../geometry.js";
+import { intersectExtents, type CellExtent } from "../grid/grid-lines.js";
 
 /** The field's samples over an extent: `per` to a cell along each axis. */
 export interface SampleGrid {
@@ -146,10 +146,9 @@ export function forCellsTouchedByBrush(
       continue;
     }
     const b = placed[i + 1] ?? a;
-    const steps = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / SWEEP_STEP));
+    const steps = Math.max(1, Math.ceil(lengthOf(a, b) / SWEEP_STEP));
     for (let s = 0; s <= steps; s += 1) {
-      const t = s / steps;
-      touch({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
+      touch(along(a, b, s / steps));
     }
   }
 }
@@ -230,12 +229,27 @@ function forSamplesWhere(
   }
 }
 
+// A rect is corner to corner inclusive where an extent is a corner and a
+// count, so the two are traded across the one intersection.
 function clip(box: CellRect, bounds: CellExtent): CellRect | undefined {
-  const col0 = Math.max(box.col0, bounds.colMin);
-  const row0 = Math.max(box.row0, bounds.rowMin);
-  const col1 = Math.min(box.col1, bounds.colMin + bounds.cols - 1);
-  const row1 = Math.min(box.row1, bounds.rowMin + bounds.rows - 1);
-  return col0 <= col1 && row0 <= row1 ? { col0, row0, col1, row1 } : undefined;
+  const shared = intersectExtents(
+    {
+      colMin: box.col0,
+      rowMin: box.row0,
+      cols: box.col1 - box.col0 + 1,
+      rows: box.row1 - box.row0 + 1,
+    },
+    bounds
+  );
+  if (shared === undefined) {
+    return undefined;
+  }
+  return {
+    col0: shared.colMin,
+    row0: shared.rowMin,
+    col1: shared.colMin + shared.cols - 1,
+    row1: shared.rowMin + shared.rows - 1,
+  };
 }
 
 // The cells a polygon can touch, a cell wider than its corners on every side.
@@ -268,5 +282,5 @@ function discBox(centre: Point, radius: number): CellRect {
 }
 
 function within(p: Point, centre: Point, radius: number): boolean {
-  return Math.hypot(p.x - centre.x, p.y - centre.y) <= radius;
+  return lengthOf(centre, p) <= radius;
 }

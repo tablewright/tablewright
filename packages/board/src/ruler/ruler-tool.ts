@@ -12,7 +12,7 @@
 
 import type { Visibility } from "@tablewright/schema";
 import type { Container } from "pixi.js";
-import type { Point } from "../geometry.js";
+import { pointOn, type Point } from "../geometry.js";
 import { NOBODY, allows, seesIt, type Seat } from "../seen.js";
 import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import type { Measurement } from "./measure.js";
@@ -250,9 +250,7 @@ export class RulerTool {
   }
 
   private cellUnder(event: PointerEvent): Cell {
-    const rect = this.canvas.getBoundingClientRect();
-    const world = this.toWorld({ x: event.clientX - rect.left, y: event.clientY - rect.top });
-    return worldToCell(this.grid, world);
+    return worldToCell(this.grid, this.toWorld(pointOn(this.canvas, event)));
   }
 
   // Whether this seat may let the table see what it measures at all.

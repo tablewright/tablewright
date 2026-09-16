@@ -20,3 +20,14 @@ export const HOLD_MS = 400;
 export function afterHold(moveStamp: number, holdStamp: number, travel: number): "drag" | "turn" {
   return travel >= DRAG_THRESHOLD_PX && moveStamp < holdStamp ? "drag" : "turn";
 }
+
+/** Whether a key event was typed into a field, where keys are text rather than commands. */
+export function isTypingTarget(event: Event): boolean {
+  // The first element on the composed path is the real target, even inside
+  // another component's shadow tree; `event.target` is retargeted to its host.
+  const target = event.composedPath()[0] ?? event.target;
+  return (
+    target instanceof HTMLElement &&
+    (target.isContentEditable || target.matches("input, textarea, select"))
+  );
+}

@@ -10,7 +10,7 @@
  * Design: docs/design.md §5 "Moving shows movement only".
  */
 
-import type { Point } from "../geometry.js";
+import { along, lengthOf, type Point } from "../geometry.js";
 import { cellCentre } from "../topology/effect.js";
 import type { Route, Routes } from "../topology/route.js";
 
@@ -73,7 +73,7 @@ export function trailScore(trail: readonly Point[], route: Route): number {
     weight += w;
     const previous = trail[i - 1];
     if (previous !== undefined) {
-      back += Math.hypot(point.x - previous.x, point.y - previous.y);
+      back += lengthOf(previous, point);
     }
   }
   return weight === 0 ? Number.POSITIVE_INFINITY : sum / weight;
@@ -101,5 +101,5 @@ function toSegment(point: Point, from: Point, to: Point): number {
     length === 0
       ? 0
       : Math.max(0, Math.min(1, ((point.x - from.x) * vx + (point.y - from.y) * vy) / length));
-  return Math.hypot(point.x - (from.x + vx * t), point.y - (from.y + vy * t));
+  return lengthOf(along(from, to, t), point);
 }

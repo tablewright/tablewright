@@ -12,12 +12,19 @@
 
 import type { Visibility } from "@tablewright/schema";
 import { Container, Graphics, Text } from "pixi.js";
-import type { Cell, SquareGrid } from "../grid/square-grid.js";
+import type { Point } from "../geometry.js";
+import {
+  cellCenter,
+  cellPointToWorld,
+  insetCell,
+  type Cell,
+  type SquareGrid,
+} from "../grid/square-grid.js";
 import { tokenReach } from "../tokens/token-sprite.js";
 import type { PackedColor } from "../theme/css-color.js";
-import { KEPT_ALPHA, seenByNote } from "../seen.js";
+import { keptAlpha, withSeenByNote } from "../seen.js";
 import type { GridRule } from "../topology/distance.js";
-import { describeArea, type Area, type Spot } from "./area.js";
+import { describeArea, spotToCellPoint, type Area, type Spot } from "./area.js";
 import { outline } from "./outline.js";
 
 /** The colours an area draws in. */
@@ -131,7 +138,7 @@ export class AreaLayer {
   show(shown: ShownArea): void {
     this.shown = shown;
     this.view.visible = true;
-    this.view.alpha = shown.seenBy === "party" ? 1 : KEPT_ALPHA;
+    this.view.alpha = keptAlpha(shown.seenBy);
     this.redraw();
   }
 
@@ -191,11 +198,6 @@ export class AreaLayer {
     this.drawBadge(shown);
   }
 
-  private world(point: { x: number; y: number }): { x: number; y: number } {
-    const cell = this.grid.cellSize;
-    return { x: this.grid.originX + point.x * cell, y: this.grid.originY + point.y * cell };
-  }
-
   // Brass and heavier under the hand, the ink's white once down, so the
   // two never read the same.
   private drawShape(shown: ShownArea): void {
@@ -206,20 +208,15 @@ export class AreaLayer {
       return;
     }
     const { line, caught } = this.style;
-    g.poly(ring.map((point) => this.world(point)));
+    const world = (point: Point): Point => cellPointToWorld(this.grid, point);
+    g.poly(ring.map(world));
     if (hole !== undefined) {
-      g.poly(hole.map((point) => this.world(point)));
+      g.poly(hole.map(world));
     }
     g.fill({ color: line.rgb, alpha: FILL_ALPHA * line.alpha });
-    g.poly(
-      ring.map((point) => this.world(point)),
-      true
-    );
+    g.poly(ring.map(world), true);
     if (hole !== undefined) {
-      g.poly(
-        hole.map((point) => this.world(point)),
-        true
-      );
+      g.poly(hole.map(world), true);
     }
     const edge = shown.isPlaced ? line : caught;
     g.stroke({
@@ -238,12 +235,9 @@ export class AreaLayer {
     if (cells.length === 0) {
       return;
     }
-    const cell = this.grid.cellSize;
-    const inset = cell * CELL_INSET;
     for (const at of cells) {
-      const x = this.grid.originX + at.col * cell;
-      const y = this.grid.originY + at.row * cell;
-      g.rect(x + inset, y + inset, cell - inset * 2, cell - inset * 2);
+      const { x, y, size } = insetCell(this.grid, at, CELL_INSET);
+      g.rect(x, y, size, size);
     }
     const { caught } = this.style;
     g.fill({ color: caught.rgb, alpha: CELL_ALPHA * caught.alpha });
@@ -262,8 +256,7 @@ export class AreaLayer {
     const arc = Math.PI / RING_DASHES;
     const lead = this.turned * Math.PI * 2;
     for (const at of tokens) {
-      const cx = this.grid.originX + (at.col + 0.5) * cell;
-      const cy = this.grid.originY + (at.row + 0.5) * cell;
+      const { x: cx, y: cy } = cellCenter(this.grid, at);
       for (let dash = 0; dash < RING_DASHES; dash += 1) {
         const from = lead + (dash * Math.PI * 2) / RING_DASHES;
         g.moveTo(cx + Math.cos(from) * radius, cy + Math.sin(from) * radius);
@@ -279,15 +272,10 @@ export class AreaLayer {
   private drawBadge(shown: ShownArea): void {
     const cell = this.grid.cellSize;
     this.pill.clear();
-    const note = seenByNote(shown.seenBy);
-    const said = describeArea(shown.area, this.rule);
-    this.badge.text = note === undefined ? said : `${said} — ${note}`;
+    this.badge.text = withSeenByNote(describeArea(shown.area, this.rule), shown.seenBy);
     this.badge.style.fontSize = Math.max(11, Math.round(cell * BADGE_FRACTION));
     this.badge.style.fill = this.style.line.rgb;
-    const at = this.world({
-      x: shown.origin.x / this.rule.cellSize,
-      y: shown.origin.y / this.rule.cellSize,
-    });
+    const at = cellPointToWorld(this.grid, spotToCellPoint(shown.origin, this.rule));
     const pad = cell * 0.12;
     const x = at.x + cell * 0.55;
     const y = at.y - cell * 0.55 - this.badge.height;

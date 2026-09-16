@@ -11,7 +11,7 @@
 
 import { Container, Graphics, Text } from "pixi.js";
 import type { CellExtent } from "../grid/grid-lines.js";
-import type { SquareGrid } from "../grid/square-grid.js";
+import { cellCenter, insetCell, type SquareGrid } from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
 import type { Topology } from "./derive.js";
 import { cellNumbers } from "./numbers.js";
@@ -80,22 +80,21 @@ export class NumbersLayer {
     const numbers = cellNumbers(topology, extent);
     const cell = grid.cellSize;
     const size = Math.max(TEXT_LEAST, Math.round(cell * TEXT_FRACTION));
-    const inset = cell * WASH_INSET;
     this.washes.clear();
     let heights = 0;
     let stairs = 0;
     for (const [index, number] of numbers.entries()) {
-      const x = grid.originX + number.cell.col * cell;
-      const y = grid.originY + number.cell.row * cell;
+      const box = insetCell(grid, number.cell, WASH_INSET);
       const wash = this.washOf(number.isLevelChange, number.height);
       this.washes
-        .rect(x + inset, y + inset, cell - inset * 2, cell - inset * 2)
+        .rect(box.x, box.y, box.size, box.size)
         .fill({ color: wash.rgb, alpha: wash.alpha });
       const label = this.labelAt(index);
       label.text = number.text;
       label.style.fontSize = size;
       label.style.fill = this.style.ground;
-      label.position.set(x + cell / 2, y + cell / 2);
+      const centre = cellCenter(grid, number.cell);
+      label.position.set(centre.x, centre.y);
       label.visible = true;
       if (number.isLevelChange) {
         stairs += 1;

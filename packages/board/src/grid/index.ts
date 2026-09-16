@@ -1,12 +1,14 @@
 export {
   cellCenter,
+  cellPointToWorld,
   cellToWorld,
+  insetCell,
   snapToCellCenter,
   worldToCell,
   worldToCellPoint,
 } from "./square-grid.js";
 export type { Cell, SquareGrid } from "./square-grid.js";
-export { gridLines } from "./grid-lines.js";
+export { forCellsInExtent, gridLines, intersectExtents } from "./grid-lines.js";
 export type { CellExtent, GridLines } from "./grid-lines.js";
 export { extentCovering, visibleExtent } from "./visible-extent.js";
 export { GridLayer } from "./grid-layer.js";

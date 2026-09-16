@@ -10,8 +10,13 @@
 
 import { Graphics, type Container } from "pixi.js";
 import type { Stroke, Visibility } from "@tablewright/schema";
-import type { Point } from "../geometry.js";
-import type { Cell, SquareGrid } from "../grid/square-grid.js";
+import { pointOn, type Point } from "../geometry.js";
+import {
+  cellPointToWorld,
+  worldToCellPoint,
+  type Cell,
+  type SquareGrid,
+} from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
 import {
   beginGesture,
@@ -237,19 +242,7 @@ export class DrawLayer {
 
   // Canvas pixels to world pixels through the camera, then to cells.
   private cellPoint(event: PointerEvent): Point {
-    const rect = this.canvas.getBoundingClientRect();
-    const world = this.toWorld({ x: event.clientX - rect.left, y: event.clientY - rect.top });
-    return {
-      x: (world.x - this.grid.originX) / this.grid.cellSize,
-      y: (world.y - this.grid.originY) / this.grid.cellSize,
-    };
-  }
-
-  private world(p: Point): Point {
-    return {
-      x: this.grid.originX + p.x * this.grid.cellSize,
-      y: this.grid.originY + p.y * this.grid.cellSize,
-    };
+    return worldToCellPoint(this.grid, this.toWorld(pointOn(this.canvas, event)));
   }
 
   private preview(): void {
@@ -263,26 +256,26 @@ export class DrawLayer {
     const gesture = this.gesture;
     if (gesture?.kind === "rect") {
       const r = normRect(gesture.a, gesture.b);
-      const corner = this.world({ x: r.col0, y: r.row0 });
+      const corner = cellPointToWorld(this.grid, { x: r.col0, y: r.row0 });
       g.rect(corner.x, corner.y, (r.col1 - r.col0 + 1) * cell, (r.row1 - r.row0 + 1) * cell)
         .fill({ color: hover.rgb, alpha: 0.12 })
         .stroke({ width: 2, color: hover.rgb, alpha: hover.alpha, pixelLine: true });
     } else if (gesture?.kind === "line") {
       const [a, b] = lockLine(gesture.a, gesture.b);
-      const from = this.world(a);
-      const to = this.world(b);
+      const from = cellPointToWorld(this.grid, a);
+      const to = cellPointToWorld(this.grid, b);
       g.moveTo(from.x, from.y)
         .lineTo(to.x, to.y)
         .stroke({ width: cell * 0.08, color: hover.rgb, alpha: hover.alpha, cap: "round" });
     } else if (gesture?.kind === "free") {
-      const points = gesture.points.map((p) => this.world(p));
+      const points = gesture.points.map((p) => cellPointToWorld(this.grid, p));
       if (points.length >= 2) {
         g.poly(points, true)
           .fill({ color: hover.rgb, alpha: 0.15 })
           .stroke({ width: 2, color: hover.rgb, alpha: hover.alpha, pixelLine: true });
       }
     } else if (gesture?.kind === "brush") {
-      const points = gesture.points.map((p) => this.world(p));
+      const points = gesture.points.map((p) => cellPointToWorld(this.grid, p));
       const [first, ...rest] = points;
       if (first !== undefined) {
         g.moveTo(first.x, first.y);
@@ -307,7 +300,7 @@ export class DrawLayer {
     // At rest, the tool shows what a press would take: the brush's disc, or
     // the edge nearest the pointer.
     if (this.tool.shape === "brush") {
-      const at = this.world(this.hover);
+      const at = cellPointToWorld(this.grid, this.hover);
       g.circle(at.x, at.y, this.tool.radius * cell).stroke({
         width: 1.5,
         color: ink.rgb,
@@ -319,7 +312,7 @@ export class DrawLayer {
       if (edge === undefined) {
         return;
       }
-      const at = this.world({ x: edge.col, y: edge.row });
+      const at = cellPointToWorld(this.grid, { x: edge.col, y: edge.row });
       const from = edge.side === "east" ? { x: at.x + cell, y: at.y } : { x: at.x, y: at.y + cell };
       const to = { x: at.x + cell, y: at.y + cell };
       g.moveTo(from.x, from.y)

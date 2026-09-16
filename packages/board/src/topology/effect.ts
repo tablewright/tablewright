@@ -10,7 +10,7 @@
  * Design: docs/design.md §5 "A measurement gives three answers".
  */
 
-import type { Point } from "../geometry.js";
+import { along, type Point } from "../geometry.js";
 import type { Cell } from "../grid/square-grid.js";
 import type { Edge } from "@tablewright/schema";
 import type { EdgeData, Topology } from "./derive.js";
@@ -77,11 +77,7 @@ export function firstBlock(
     }
     const t = crossingOf(from, to, data.edge);
     if (t !== undefined && (first === undefined || t < first.t)) {
-      first = {
-        edge: data,
-        at: { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t },
-        t,
-      };
+      first = { edge: data, at: along(from, to, t), t };
     }
   }
   return first;

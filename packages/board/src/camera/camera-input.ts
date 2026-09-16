@@ -9,7 +9,7 @@
  * `touch-action: none`, or the browser takes touch gestures for itself.
  */
 
-import type { Point } from "../geometry.js";
+import { pointOn, type Point } from "../geometry.js";
 import type { Camera } from "./camera.js";
 import { pinchStep } from "./pinch-math.js";
 import { wheelDeltaToPixels, wheelZoomFactor } from "./wheel-math.js";
@@ -71,10 +71,9 @@ export class CameraInput {
 
   private readonly onWheel = (event: WheelEvent): void => {
     event.preventDefault();
-    const rect = this.target.getBoundingClientRect();
-    const dy = wheelDeltaToPixels(event.deltaY, event.deltaMode, rect.height);
-    const anchor = { x: event.clientX - rect.left, y: event.clientY - rect.top };
-    this.camera.zoomAt(anchor, wheelZoomFactor(dy));
+    const { height } = this.target.getBoundingClientRect();
+    const dy = wheelDeltaToPixels(event.deltaY, event.deltaMode, height);
+    this.camera.zoomAt(pointOn(this.target, event), wheelZoomFactor(dy));
   };
 
   private readonly onPointerDown = (event: PointerEvent): void => {
@@ -127,8 +126,7 @@ export class CameraInput {
       this.pointers.size === 0 &&
       Math.hypot(event.clientX - origin.x, event.clientY - origin.y) < TAP_THRESHOLD_PX;
     if (isTap) {
-      const rect = this.target.getBoundingClientRect();
-      const at = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+      const at = pointOn(this.target, event);
       for (const listener of this.tapListeners) {
         listener(at);
       }
@@ -140,9 +138,9 @@ export class CameraInput {
     if (other === undefined) {
       return;
     }
-    const rect = this.target.getBoundingClientRect();
     const step = pinchStep([previous, other[1]], [current, other[1]]);
     this.camera.panBy(step.dx, step.dy);
-    this.camera.zoomAt({ x: step.anchor.x - rect.left, y: step.anchor.y - rect.top }, step.factor);
+    const anchor = pointOn(this.target, { clientX: step.anchor.x, clientY: step.anchor.y });
+    this.camera.zoomAt(anchor, step.factor);
   }
 }

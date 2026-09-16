@@ -34,12 +34,15 @@ export function parseCssColor(value: string): PackedColor | undefined {
 /** Blend `from` toward `to` by `amount` in [0, 1], channel by channel; alpha stays 1. */
 export function mixColors(from: number, to: number, amount: number): number {
   const t = Math.min(1, Math.max(0, amount));
-  const channel = (shift: number): number => {
-    const a = (from >> shift) & 0xff;
-    const b = (to >> shift) & 0xff;
-    return Math.round(a + (b - a) * t);
-  };
-  return (channel(16) << 16) | (channel(8) << 8) | channel(0);
+  const a = channelsOf(from);
+  const b = channelsOf(to);
+  const mix = (index: 0 | 1 | 2): number => Math.round(a[index] + (b[index] - a[index]) * t);
+  return (mix(0) << 16) | (mix(1) << 8) | mix(2);
+}
+
+/** The red, green and blue of a packed 0xRRGGBB, each 0 to 255. */
+export function channelsOf(rgb: number): [number, number, number] {
+  return [(rgb >> 16) & 0xff, (rgb >> 8) & 0xff, rgb & 0xff];
 }
 
 function fromHex(digits: string): PackedColor {

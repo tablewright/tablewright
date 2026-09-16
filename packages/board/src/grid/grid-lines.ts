@@ -50,3 +50,27 @@ export function gridLines(grid: SquareGrid, extent: CellExtent): GridLines {
     bottom: top + extent.rows * grid.cellSize,
   };
 }
+
+/** The cells two extents share, or undefined when they share none. */
+export function intersectExtents(a: CellExtent, b: CellExtent): CellExtent | undefined {
+  const colMin = Math.max(a.colMin, b.colMin);
+  const rowMin = Math.max(a.rowMin, b.rowMin);
+  const colEnd = Math.min(a.colMin + a.cols, b.colMin + b.cols);
+  const rowEnd = Math.min(a.rowMin + a.rows, b.rowMin + b.rows);
+  if (colEnd <= colMin || rowEnd <= rowMin) {
+    return undefined;
+  }
+  return { colMin, rowMin, cols: colEnd - colMin, rows: rowEnd - rowMin };
+}
+
+/** Visit every cell of `extent`, row by row and left to right within a row. */
+export function forCellsInExtent(
+  extent: CellExtent,
+  visit: (col: number, row: number) => void
+): void {
+  for (let row = extent.rowMin; row < extent.rowMin + extent.rows; row += 1) {
+    for (let col = extent.colMin; col < extent.colMin + extent.cols; col += 1) {
+      visit(col, row);
+    }
+  }
+}

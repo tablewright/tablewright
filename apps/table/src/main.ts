@@ -9,6 +9,7 @@ import {
   BoardStage,
   REFERENCE_SCENES,
   gridRuleOf,
+  isTypingTarget,
   loadBoardFaces,
   readBoardTheme,
   signed,
@@ -129,7 +130,8 @@ function describeCell(readout: CellReadout): string {
   if (readout.ground === "void") {
     return "Void: outside the scene";
   }
-  const height = readout.height === 0 ? "ground level" : `${signed(Math.round(readout.height))} ft`;
+  const height =
+    readout.height === 0 ? "ground level" : `${signed(Math.round(readout.height))} ${readout.unit}`;
   return `${readout.ground}, ${height}${readout.isLevelChange ? ", level change" : ""}`;
 }
 
@@ -935,12 +937,8 @@ try {
       event.preventDefault();
       void openMap(board, core, showScene);
     }
-    // A letter typed into a field is text; the first element on the composed
-    // path is the real target, even inside another component.
-    const typing = event.composedPath()[0];
-    const isTyping =
-      typing instanceof HTMLElement &&
-      (typing.isContentEditable || typing.matches("input, textarea, select"));
+    // A letter typed into a field is text.
+    const isTyping = isTypingTarget(event);
     if (
       (event.key === "r" || event.key === "R") &&
       !event.ctrlKey &&
