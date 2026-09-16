@@ -11,7 +11,7 @@
  */
 
 import type { Visibility } from "@tablewright/schema";
-import { Container, Graphics, Text } from "pixi.js";
+import { Container, Graphics } from "pixi.js";
 import type { Point } from "../geometry.js";
 import {
   cellCenter,
@@ -22,6 +22,7 @@ import {
 } from "../grid/square-grid.js";
 import { tokenReach } from "../tokens/token-sprite.js";
 import type { PackedColor } from "../theme/css-color.js";
+import { Badge } from "../ruler/badge.js";
 import { keptAlpha, withSeenByNote } from "../seen.js";
 import type { GridRule } from "../topology/distance.js";
 import { describeArea, spotToCellPoint, type Area, type Spot } from "./area.js";
@@ -67,8 +68,6 @@ const TURN_SECONDS = 9;
 // The heavier edge an area wears while the hand is still on it, over the
 // hairline it settles to once it is down.
 const LIVE_WIDTH = 0.05;
-const BADGE_FRACTION = 0.26;
-const PILL_ALPHA = 0.8;
 
 /** An area as the board shows it. */
 export interface ShownArea {
@@ -98,8 +97,7 @@ export class AreaLayer {
   private readonly shape = new Graphics();
   private readonly cells = new Graphics();
   private readonly rings = new Graphics();
-  private readonly pill = new Graphics();
-  private readonly badge: Text;
+  private readonly badge = new Badge(DEFAULT_STYLE.face);
   private style: AreaStyle = DEFAULT_STYLE;
   private grid: SquareGrid;
   private rule: GridRule;
@@ -109,12 +107,8 @@ export class AreaLayer {
   constructor(container: Container, grid: SquareGrid, rule: GridRule) {
     this.grid = grid;
     this.rule = rule;
-    this.badge = new Text({
-      text: "",
-      style: { fontFamily: DEFAULT_STYLE.face, fontWeight: "600", align: "left" },
-    });
     this.view.visible = false;
-    this.view.addChild(this.cells, this.shape, this.rings, this.pill, this.badge);
+    this.view.addChild(this.cells, this.shape, this.rings, this.badge.view);
     container.addChild(this.view);
   }
 
@@ -130,7 +124,7 @@ export class AreaLayer {
 
   setStyle(style: AreaStyle): void {
     this.style = style;
-    this.badge.style.fontFamily = style.face;
+    this.badge.setFace(style.face);
     this.redraw();
   }
 
@@ -178,8 +172,7 @@ export class AreaLayer {
     this.shape.clear();
     this.cells.clear();
     this.rings.clear();
-    this.pill.clear();
-    this.badge.text = "";
+    this.badge.clear();
     this.view.visible = false;
   }
 
@@ -267,21 +260,14 @@ export class AreaLayer {
     g.stroke({ width: cell * RING_WIDTH, color: caught.rgb, alpha: caught.alpha, cap: "round" });
   }
 
-  // One line beside the area, on a pill of the ground's darkness, as the
-  // ruler's badge is.
+  // One line beside the area's origin, as the ruler's badge is.
   private drawBadge(shown: ShownArea): void {
-    const cell = this.grid.cellSize;
-    this.pill.clear();
-    this.badge.text = withSeenByNote(describeArea(shown.area, this.rule), shown.seenBy);
-    this.badge.style.fontSize = Math.max(11, Math.round(cell * BADGE_FRACTION));
-    this.badge.style.fill = this.style.line.rgb;
-    const at = cellPointToWorld(this.grid, spotToCellPoint(shown.origin, this.rule));
-    const pad = cell * 0.12;
-    const x = at.x + cell * 0.55;
-    const y = at.y - cell * 0.55 - this.badge.height;
-    this.badge.position.set(x, y);
-    this.pill
-      .roundRect(x - pad, y - pad, this.badge.width + pad * 2, this.badge.height + pad * 2, pad)
-      .fill({ color: this.style.ground, alpha: PILL_ALPHA });
+    this.badge.show(
+      cellPointToWorld(this.grid, spotToCellPoint(shown.origin, this.rule)),
+      this.grid.cellSize,
+      withSeenByNote(describeArea(shown.area, this.rule), shown.seenBy),
+      this.style.line.rgb,
+      this.style.ground
+    );
   }
 }

@@ -16,6 +16,7 @@ import { along, lengthOf, type Point } from "../geometry.js";
 import { keptAlpha } from "../seen.js";
 import { cellCenter, cellPointToWorld, type SquareGrid } from "../grid/square-grid.js";
 import type { PackedColor } from "../theme/css-color.js";
+import { Badge, figuresStyle } from "./badge.js";
 import type { Measurement } from "./measure.js";
 import { badgeText, FALL_MARK, RISE_MARK, type RulerMode } from "./mode.js";
 
@@ -60,8 +61,6 @@ const DASH_FRACTION = 0.25;
 const BAR_FRACTION = 0.35;
 const END_FRACTION = 0.08;
 const ARROW_FRACTION = 0.3;
-const BADGE_FRACTION = 0.26;
-const PILL_ALPHA = 0.8;
 // Where each face puts the middle of what it draws, above the baseline and
 // as a share of the size, measured off the two files in packages/ui/fonts.
 // An icon fills its square and a figure only reaches its cap, so laid on
@@ -73,8 +72,7 @@ const FIGURE_MIDDLE = 0.344;
 export class MeasureView {
   private readonly view = new Container();
   private readonly graphics = new Graphics();
-  private readonly pill = new Graphics();
-  private readonly badge: Text;
+  private readonly badge = new Badge(DEFAULT_STYLE.face);
   // The mark is set apart from the figures so it can be brought down onto
   // their middle; the tail is whatever the badge says after it.
   private readonly mark: Text;
@@ -84,14 +82,12 @@ export class MeasureView {
 
   constructor(container: Container, grid: SquareGrid) {
     this.grid = grid;
-    const figures = { fontFamily: DEFAULT_STYLE.face, fontWeight: "600", align: "left" } as const;
-    this.badge = new Text({ text: "", style: figures });
-    this.tail = new Text({ text: "", style: figures });
+    this.tail = new Text({ text: "", style: figuresStyle(DEFAULT_STYLE.face) });
     this.mark = new Text({
       text: "",
-      style: { ...figures, fontFamily: `${DEFAULT_STYLE.face}, ${DEFAULT_STYLE.marks}` },
+      style: figuresStyle(`${DEFAULT_STYLE.face}, ${DEFAULT_STYLE.marks}`),
     });
-    this.view.addChild(this.graphics, this.pill, this.badge, this.mark, this.tail);
+    this.view.addChild(this.graphics, this.badge.view, this.mark, this.tail);
     this.view.visible = false;
     container.addChild(this.view);
   }
@@ -102,7 +98,7 @@ export class MeasureView {
 
   setStyle(style: RulerStyle): void {
     this.style = style;
-    this.badge.style.fontFamily = style.face;
+    this.badge.setFace(style.face);
     this.tail.style.fontFamily = style.face;
     this.mark.style.fontFamily = `${style.face}, ${style.marks}`;
   }
@@ -111,7 +107,6 @@ export class MeasureView {
   show(measurement: Measurement, mode: RulerMode): void {
     const g = this.graphics;
     g.clear();
-    this.pill.clear();
     this.view.visible = true;
     // One that is not the whole table's reads fainter throughout; the badge
     // says which of the two it is.
@@ -127,8 +122,7 @@ export class MeasureView {
   /** Take whatever is drawn off the board. */
   clear(): void {
     this.graphics.clear();
-    this.pill.clear();
-    this.badge.text = "";
+    this.badge.clear();
     this.mark.text = "";
     this.tail.text = "";
     this.view.visible = false;
@@ -204,37 +198,33 @@ export class MeasureView {
     return spent <= shown.dashReach ? dash : beyond;
   }
 
-  // One number on a pill of the ground's darkness, beside the far end.
+  // One number beside the far end. The badge is one line read in two faces:
+  // the figures in theirs, and the rise or fall in the one that has an
+  // arrow. Cut at the mark so the mark can be set down onto the figures'
+  // middle; with no mark to find, the whole line is figures.
   private drawBadge(shown: Measurement, mode: RulerMode): void {
-    const cell = this.grid.cellSize;
-    const far = cellCenter(this.grid, shown.to);
     const said = badgeText(shown, mode);
-    // The badge is one line read in two faces: the figures in theirs, and
-    // the rise or fall in the one that has an arrow. Cut at the mark so the
-    // mark can be set down onto the figures' middle; with no mark to find,
-    // the whole line is figures and the other two draw nothing.
     const rise = said.indexOf(RISE_MARK);
     const at = rise < 0 ? said.indexOf(FALL_MARK) : rise;
-    const size = Math.max(11, Math.round(cell * BADGE_FRACTION));
-    for (const [part, text] of [
-      [this.badge, at < 0 ? said : said.slice(0, at)],
-      [this.mark, at < 0 ? "" : said.slice(at, at + 1)],
-      [this.tail, at < 0 ? "" : said.slice(at + 1)],
-    ] as const) {
-      part.text = text;
-      part.style.fontSize = size;
-      part.style.fill = this.style.line.rgb;
-    }
-    const pad = cell * 0.12;
-    const x = far.x + cell * 0.55;
-    const y = far.y - cell * 0.55 - this.badge.height;
-    this.badge.position.set(x, y);
-    this.mark.position.set(x + this.badge.width, y + this.markDrop(size));
-    this.tail.position.set(x + this.badge.width + this.mark.width, y);
-    const width = this.badge.width + this.mark.width + this.tail.width;
-    this.pill
-      .roundRect(x - pad, y - pad, width + pad * 2, this.badge.height + pad * 2, pad)
-      .fill({ color: this.style.ground, alpha: PILL_ALPHA });
+    this.mark.text = at < 0 ? "" : said.slice(at, at + 1);
+    this.tail.text = at < 0 ? "" : said.slice(at + 1);
+    const colour = this.style.line.rgb;
+    this.badge.show(
+      cellCenter(this.grid, shown.to),
+      this.grid.cellSize,
+      at < 0 ? said : said.slice(0, at),
+      colour,
+      this.style.ground,
+      ({ x, y, size, width }) => {
+        for (const part of [this.mark, this.tail]) {
+          part.style.fontSize = size;
+          part.style.fill = colour;
+        }
+        this.mark.position.set(x + width, y + this.markDrop(size));
+        this.tail.position.set(x + width + this.mark.width, y);
+        return this.mark.width + this.tail.width;
+      }
+    );
   }
 
   // The two faces carry different ascents, so the mark drops by the gap
@@ -247,7 +237,9 @@ export class MeasureView {
       CanvasTextMetrics.measureText(part.text === "" ? standIn : part.text, part.style)
         .fontProperties.ascent;
     return (
-      ascent(this.badge, "0") - ascent(this.mark, RISE_MARK) + (MARK_MIDDLE - FIGURE_MIDDLE) * size
+      ascent(this.badge.figures, "0") -
+      ascent(this.mark, RISE_MARK) +
+      (MARK_MIDDLE - FIGURE_MIDDLE) * size
     );
   }
 
