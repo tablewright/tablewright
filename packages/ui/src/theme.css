@@ -4,10 +4,6 @@
 @import "./fonts.css";
 @import "./tokens.css";
 
-:root {
-  color-scheme: dark;
-}
-
 body {
   margin: 0;
   background: var(--tw-background);

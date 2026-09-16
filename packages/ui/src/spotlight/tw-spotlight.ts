@@ -157,7 +157,7 @@ export class TwSpotlight extends LitElement {
     .scrim {
       position: absolute;
       inset: 0;
-      background: rgb(0 0 0 / 0.35);
+      background: var(--tw-scrim);
     }
     .box {
       position: absolute;

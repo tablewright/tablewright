@@ -20,6 +20,8 @@ interface Frontmatter {
   spacing?: Record<string, Primitive>;
   rounded?: Record<string, Primitive>;
   components?: Record<string, Record<string, Primitive>>;
+  /** The other desks: each names only the colours it changes. */
+  themes?: Record<string, { colors?: Record<string, string> }>;
 }
 
 // Where each token group lands in CSS: `{spacing.sm}` becomes `var(--tw-space-sm)`.
@@ -88,6 +90,7 @@ function render(fm: Frontmatter): string {
     ":root,",
     '[data-theme="dark"] {',
     `  ${PREFIX}-theme-name: dark;`,
+    "  color-scheme: dark;",
     "",
   ];
   const group = (title: string, entries: string[]): void => {
@@ -130,6 +133,21 @@ function render(fm: Frontmatter): string {
   );
 
   lines.push("}", "");
+
+  // A second desk overrides colours only; everything else it inherits.
+  for (const [name, theme] of Object.entries(fm.themes ?? {})) {
+    lines.push(
+      `[data-theme="${name}"] {`,
+      `  ${PREFIX}-theme-name: ${name};`,
+      `  color-scheme: ${name};`,
+      "",
+      ...Object.entries(theme.colors ?? {}).map(
+        ([token, value]) => `  ${varName("colors", token)}: ${value};`
+      ),
+      "}",
+      ""
+    );
+  }
   return lines.join("\n");
 }
 

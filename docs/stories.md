@@ -232,6 +232,13 @@ files.
 - A player's entry page has no Place on board.
 - A player measures with the R key.
 
+## The desk
+
+### A person turns the desk light
+
+- Pressing the desk button turns the desk light, and the board with it.
+- The choice is kept for next time.
+
 ## Budgets
 
 Not stories. `bun run perf` drives the tavern, a world map fitted to

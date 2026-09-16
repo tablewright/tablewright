@@ -21,6 +21,7 @@ export function tokenStyle(theme: BoardTheme): TokenStyle {
   return {
     fill: theme.token,
     label: theme.tokenLabel,
+    ring: theme.tokenRing,
     hover: theme.hover,
     selection: theme.selection,
     labelFace: theme.labels,

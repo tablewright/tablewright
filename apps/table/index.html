@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tablewright Table</title>
+    <!-- The desk chosen last time, set before the first paint so the loader wears it too. -->
+    <script>
+      try {
+        const desk = localStorage.getItem("tablewright.desk");
+        if (desk === "light" || desk === "dark") {
+          document.documentElement.dataset.theme = desk;
+        }
+      } catch {
+        // A page with no storage opens on the dark desk.
+      }
+    </script>
     <style>
       html,
       body {
@@ -59,6 +70,10 @@
       .chrome-right {
         left: auto;
         right: var(--tw-space-md);
+      }
+      /* A group inside the row lays its buttons out as the row's own. */
+      .chrome .group {
+        display: contents;
       }
       /* A second row on the right, under the first. */
       .chrome-under {
@@ -229,6 +244,14 @@
           opacity: 0;
         }
       }
+      /* The light desk's ground and brass, by hand: the tokens are not loaded yet. */
+      [data-theme="light"] #loading,
+      [data-theme="light"] #loading .marks {
+        background: #dde1e5;
+      }
+      [data-theme="light"] #loading use {
+        stroke: #8a6a1e;
+      }
     </style>
   </head>
   <body>
@@ -303,19 +326,16 @@
         </svg>
       </button>
     </div>
-    <!-- Scene controls, the DM side: opening a map changes the scene under everyone. -->
-    <div id="dm-chrome" class="chrome chrome-right">
-      <button id="open-map" type="button">Open map</button>
-      <button id="campaigns" type="button" title="Back to the campaigns">Campaigns</button>
+    <!-- The right corner: the DM's scene controls, and the desk's switch for everyone. -->
+    <div id="desk-chrome" class="chrome chrome-right">
+      <span id="dm-chrome" class="group">
+        <button id="open-map" type="button">Open map</button>
+        <button id="campaigns" type="button" title="Back to the campaigns">Campaigns</button>
+      </span>
+      <button id="desk-theme" type="button">Light desk</button>
     </div>
     <!-- Dev only, until the table is networked: the page stands at either side of it. -->
-    <div
-      id="view-as"
-      class="chrome chrome-right chrome-under"
-      role="group"
-      aria-label="Sit as"
-      hidden
-    >
+    <div id="view-as" class="chrome chrome-right" role="group" aria-label="Sit as" hidden>
       <span class="role">Sit as</span>
     </div>
     <!-- The intro: the whole window until a campaign is open, and again when the DM leaves one. -->

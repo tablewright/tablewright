@@ -151,6 +151,8 @@ export interface BoardDebug {
   area(): AreaDrawing;
   /** Frames the board has drawn; still while nothing changes. */
   framesDrawn(): number;
+  /** The board's clear colour, as the desk's theme last set it. */
+  ground(): number;
   /** The measure the ruler shows, in the mode it is read in, or nothing. */
   measurement(): ShownMeasure | undefined;
 }
@@ -198,6 +200,7 @@ export class BoardHost {
   private readonly dashListeners = new Listeners<DashAsk | undefined>();
   private readonly areaListeners = new Listeners<PlacedArea | undefined>();
   private asking: DashAsk | undefined;
+  private ground = 0;
   private play: readonly ThresholdPlay[] = [];
   private display: HeightDisplay = { mode: "shaded", strength: 80 };
   // The picture on the map layer, so a scene switch loads only a different one.
@@ -414,6 +417,7 @@ export class BoardHost {
   // Every layer takes its colours and faces from the one theme, read at
   // start and again on a switch.
   private applyTheme(theme: BoardTheme): void {
+    this.ground = theme.ground;
     this.stage.setBackground(theme.ground);
     this.gridLayer.setStyle(theme.grid);
     this.tokenLayer.setStyle(tokenStyle(theme));
@@ -770,6 +774,7 @@ export class BoardHost {
       numbers: () => this.numbersLayer.drawing(),
       area: () => this.areaLayer.drawing(),
       framesDrawn: () => this.stage.framesDrawn,
+      ground: () => this.ground,
       measurement: () => this.ruler.measurement,
     };
   }

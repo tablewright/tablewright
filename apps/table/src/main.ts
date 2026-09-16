@@ -60,6 +60,8 @@ const campaignsButton = document.getElementById("campaigns");
 const toolRail = document.querySelector("tw-tool-rail");
 const sceneChrome = document.querySelector<HTMLElement>(".chrome");
 const dmChrome = document.getElementById("dm-chrome");
+const deskChrome = document.getElementById("desk-chrome");
+const deskButton = document.getElementById("desk-theme");
 const roleLabel = document.getElementById("role");
 const viewAs = document.getElementById("view-as");
 const searchButton = document.getElementById("search");
@@ -77,6 +79,8 @@ if (
   toolRail === null ||
   sceneChrome === null ||
   dmChrome === null ||
+  deskChrome === null ||
+  deskButton === null ||
   roleLabel === null ||
   viewAs === null ||
   searchButton === null ||
@@ -89,7 +93,7 @@ if (
   tokenMenu === null
 ) {
   throw new Error(
-    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #role, #view-as, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, and <tw-entry-view>"
+    "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #desk-chrome, #desk-theme, #role, #view-as, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, and <tw-entry-view>"
   );
 }
 
@@ -596,6 +600,24 @@ try {
     })();
   });
   openButton.addEventListener("click", () => void openMap(board, core, showScene));
+  // The desk is a person's own choice, so it is kept in this browser, not
+  // in the campaign; index.html reads it back before the first paint.
+  const deskOf = (): "dark" | "light" =>
+    document.documentElement.dataset["theme"] === "light" ? "light" : "dark";
+  const nameDesk = (): void => {
+    deskButton.textContent = deskOf() === "dark" ? "Light desk" : "Dark desk";
+  };
+  deskButton.addEventListener("click", () => {
+    const desk = deskOf() === "dark" ? "light" : "dark";
+    document.documentElement.dataset["theme"] = desk;
+    nameDesk();
+    try {
+      localStorage.setItem("tablewright.desk", desk);
+    } catch {
+      // A page with no storage still switches; it just opens dark next time.
+    }
+  });
+  nameDesk();
   // The rail is the DM's hand: an ink held is a pen held, the board draws
   // with it and the tokens go inert.
   const applyTool = (event: Event): void => {
@@ -831,13 +853,13 @@ try {
     roleLabel.hidden = id === OWN_SEAT && allows(role, "scene:change");
     // Taken out of the page, not hidden: the core refuses the command anyway;
     // this leaves nothing on the page inviting a try.
-    const chromeOnRight = chromeShown && allows(role, "scene:change");
-    show(dmChrome, chromeOnRight);
+    show(dmChrome, chromeShown && allows(role, "scene:change"));
+    show(deskChrome, chromeShown);
     toolRail.hidden = !chromeShown;
-    // The seats sit under the DM's chrome, and take its place in a seat that
-    // has none, so the corner is never a gap.
-    show(viewAs, chromeShown && __DEV_BUILD__ && OWN_SEAT === "dm");
-    viewAs.classList.toggle("chrome-under", chromeOnRight);
+    // The seats sit above the desk's corner, which steps down to make room.
+    const seatsShown = chromeShown && __DEV_BUILD__ && OWN_SEAT === "dm";
+    show(viewAs, seatsShown);
+    deskChrome.classList.toggle("chrome-under", seatsShown);
     for (const [at, button] of seats) {
       button.setAttribute("aria-pressed", String(at === id));
     }

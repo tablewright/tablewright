@@ -11,12 +11,14 @@
 
 import { Circle, Container, Graphics, Rectangle, Text } from "pixi.js";
 import type { Point } from "../geometry.js";
-import { mixColors, type PackedColor } from "../theme/css-color.js";
+import type { PackedColor } from "../theme/css-color.js";
 import { facingToRadians, ringArc } from "./facing.js";
 
 export interface TokenStyle {
   readonly fill: PackedColor;
   readonly label: PackedColor;
+  /** The facing ring and its arrow at rest, one quiet outline. */
+  readonly ring: PackedColor;
   readonly hover: PackedColor;
   readonly selection: PackedColor;
   /** What a token is called: a name, so it is set in the chrome's face. */
@@ -34,9 +36,6 @@ const RING_GAP_DEGREES = 90;
 // Arrow proportions relative to the disc radius.
 const ARROW_LENGTH = 0.32;
 const ARROW_HALF_WIDTH = 0.22;
-// At rest the ring and its arrow are one quiet outline: the label colour
-// mixed this far toward the disc colour, opaque.
-const IDLE_MIX = 0.45;
 // The height badge under the disc: its text as a fraction of the cell, on a dark pill.
 const BADGE_FRACTION = 0.2;
 const BADGE_BACK_ALPHA = 0.6;
@@ -208,13 +207,13 @@ export class TokenSprite {
   private redrawRing(): void {
     const g = this.ring.clear();
     const r = this.discRadius;
-    // At rest the colour is dimmed by mixing, not by alpha: the arrow overlaps
-    // the ring band, and two translucent layers would double-print there.
+    // The arrow overlaps the ring band, so the resting colour is opaque: two
+    // translucent layers would double-print there.
     const colour = this.isSelected
       ? this.style.selection
       : this.isHovered
         ? this.style.hover
-        : { rgb: mixColors(this.style.label.rgb, this.style.fill.rgb, IDLE_MIX), alpha: 1 };
+        : this.style.ring;
     const arc = ringArc(this.currentFacing, RING_GAP_DEGREES);
     g.arc(0, 0, r + RING_WIDTH / 2, arc.start, arc.end).stroke({
       width: RING_WIDTH,

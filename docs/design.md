@@ -522,8 +522,10 @@ crates/net        WebRTC sync + content-addressed assets (later)
   instruments and rendered as materials, and a board that keeps a
   neutral ground so map art is never tinted. Fantasy craft is the
   first skin; other genres and per-class accents are skins over the
-  same tokens *(later)*. The PoC ships flat colour; materials and
-  instrument frames are a post-PoC stage.
+  same tokens *(later)*. A light desk is the first second skin, chosen
+  per person from the top right corner and kept in the browser; it
+  changes colours only, and DESIGN.md says which. The PoC ships flat
+  colour; materials and instrument frames are a post-PoC stage.
 - **Two surfaces on the desk.** Beyond the board and the small tool
   menus (drawing and the like), each role has one place where its
   content lives. The DM has the *DM screen*: three leaves standing

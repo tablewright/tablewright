@@ -78,7 +78,7 @@ export class TwScenes extends LitElement {
       border-radius: var(--tw-comp-panel-rounded);
       background: var(--tw-comp-panel-background-color);
       color: var(--tw-comp-panel-text-color);
-      box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+      box-shadow: 0 8px 24px var(--tw-shadow-panel);
     }
     .menu button {
       display: block;

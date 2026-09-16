@@ -3,6 +3,7 @@
 :root,
 [data-theme="dark"] {
   --tw-theme-name: dark;
+  color-scheme: dark;
 
   /* Colors */
   --tw-primary: #C9A24E;
@@ -35,6 +36,9 @@
   --tw-outline: #4A3E33;
   --tw-outline-variant: #362D25;
   --tw-focus-ring: #E4C57A;
+  --tw-shadow-paper: #00000073;
+  --tw-shadow-panel: #00000059;
+  --tw-scrim: #00000059;
   --tw-paper: #F1E6D2;
   --tw-paper-deep: #E6D6BC;
   --tw-paper-shade: #D9C5A6;
@@ -57,6 +61,7 @@
   --tw-board-hover: #E4C57A;
   --tw-board-token: #B5683E;
   --tw-board-token-label: #F1E6D2;
+  --tw-board-token-ring: #D6AD8F;
   --tw-board-wall: #F1E6D266;
   --tw-board-threshold: #C9A24E;
   --tw-board-sight: #5FA8BD;
@@ -215,4 +220,58 @@
   --tw-comp-notice-error-line-height: var(--tw-typo-body-sm-line-height);
   --tw-comp-notice-error-padding: var(--tw-space-md);
 
+}
+
+[data-theme="light"] {
+  --tw-theme-name: light;
+  color-scheme: light;
+
+  --tw-primary: #8A6A1E;
+  --tw-on-primary: #FBF6EA;
+  --tw-primary-container: #F0DFA8;
+  --tw-on-primary-container: #5C4310;
+  --tw-secondary: #2F7A8E;
+  --tw-on-secondary: #F2FAFC;
+  --tw-secondary-container: #D6ECF0;
+  --tw-on-secondary-container: #123A45;
+  --tw-tertiary: #2E2118;
+  --tw-on-tertiary: #FAF7F0;
+  --tw-tertiary-container: #E2DACB;
+  --tw-on-tertiary-container: #2E2118;
+  --tw-error: #B7412F;
+  --tw-on-error: #FFF4F2;
+  --tw-error-container: #F7D2CE;
+  --tw-on-error-container: #5A1E1A;
+  --tw-background: #DDE1E5;
+  --tw-on-background: #1F2226;
+  --tw-surface: #E4E7EA;
+  --tw-on-surface: #1F2226;
+  --tw-surface-variant: #D8DDE2;
+  --tw-on-surface-variant: #4E565E;
+  --tw-surface-container-lowest: #F7F8F9;
+  --tw-surface-container-low: #E4E7EA;
+  --tw-surface-container: #DCE0E4;
+  --tw-surface-container-high: #CFD4DA;
+  --tw-surface-container-highest: #C1C7CE;
+  --tw-outline: #5F6770;
+  --tw-outline-variant: #A4ABB3;
+  --tw-focus-ring: #6B520F;
+  --tw-shadow-paper: #00000033;
+  --tw-shadow-panel: #00000026;
+  --tw-scrim: #00000033;
+  --tw-paper: #FAF7F0;
+  --tw-paper-deep: #F0EBE0;
+  --tw-paper-shade: #E2DACB;
+  --tw-board-ground: #D9DDE2;
+  --tw-board-grid: #3B424C40;
+  --tw-board-selection: #8A6A1E;
+  --tw-board-hover: #B8902E;
+  --tw-board-token: #2E2118;
+  --tw-board-token-label: #FAF7F0;
+  --tw-board-token-ring: #2E2118;
+  --tw-board-wall: #2E2118B3;
+  --tw-board-threshold: #8A6A1E;
+  --tw-board-sight: #2F7A8E;
+  --tw-board-ruler: #2E2118;
+  --tw-board-beyond: #B7412F;
 }

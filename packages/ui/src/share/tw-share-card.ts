@@ -40,7 +40,7 @@ export class TwShareCard extends LitElement {
       font-size: var(--tw-comp-document-font-size);
       line-height: var(--tw-comp-document-line-height);
       border-radius: var(--tw-comp-document-rounded);
-      box-shadow: 0 10px 28px rgb(0 0 0 / 0.45);
+      box-shadow: 0 10px 28px var(--tw-shadow-paper);
       overflow: hidden;
     }
     header {

@@ -40,6 +40,9 @@ colors:
   outline: "#4A3E33"
   outline-variant: "#362D25"
   focus-ring: "#E4C57A"
+  shadow-paper: "#00000073"
+  shadow-panel: "#00000059"
+  scrim: "#00000059"
 
   paper: "#F1E6D2"
   paper-deep: "#E6D6BC"
@@ -65,6 +68,7 @@ colors:
   board-hover: "#E4C57A"
   board-token: "#B5683E"
   board-token-label: "#F1E6D2"
+  board-token-ring: "#D6AD8F"
   board-wall: "#F1E6D266"
   board-threshold: "#C9A24E"
   board-sight: "#5FA8BD"
@@ -78,6 +82,58 @@ colors:
   board-floor: "#F1E6D214"
   board-ruler: "#F1E6D2"
   board-beyond: "#C8553D"
+
+themes:
+  light:
+    colors:
+      primary: "#8A6A1E"
+      on-primary: "#FBF6EA"
+      primary-container: "#F0DFA8"
+      on-primary-container: "#5C4310"
+      secondary: "#2F7A8E"
+      on-secondary: "#F2FAFC"
+      secondary-container: "#D6ECF0"
+      on-secondary-container: "#123A45"
+      tertiary: "#2E2118"
+      on-tertiary: "#FAF7F0"
+      tertiary-container: "#E2DACB"
+      on-tertiary-container: "#2E2118"
+      error: "#B7412F"
+      on-error: "#FFF4F2"
+      error-container: "#F7D2CE"
+      on-error-container: "#5A1E1A"
+      background: "#DDE1E5"
+      on-background: "#1F2226"
+      surface: "#E4E7EA"
+      on-surface: "#1F2226"
+      surface-variant: "#D8DDE2"
+      on-surface-variant: "#4E565E"
+      surface-container-lowest: "#F7F8F9"
+      surface-container-low: "#E4E7EA"
+      surface-container: "#DCE0E4"
+      surface-container-high: "#CFD4DA"
+      surface-container-highest: "#C1C7CE"
+      outline: "#5F6770"
+      outline-variant: "#A4ABB3"
+      focus-ring: "#6B520F"
+      shadow-paper: "#00000033"
+      shadow-panel: "#00000026"
+      scrim: "#00000033"
+      paper: "#FAF7F0"
+      paper-deep: "#F0EBE0"
+      paper-shade: "#E2DACB"
+      board-ground: "#D9DDE2"
+      board-grid: "#3B424C40"
+      board-selection: "#8A6A1E"
+      board-hover: "#B8902E"
+      board-token: "#2E2118"
+      board-token-label: "#FAF7F0"
+      board-token-ring: "#2E2118"
+      board-wall: "#2E2118B3"
+      board-threshold: "#8A6A1E"
+      board-sight: "#2F7A8E"
+      board-ruler: "#2E2118"
+      board-beyond: "#B7412F"
 
 typography:
   headline-md:
@@ -308,6 +364,15 @@ and the map alike:
 
 Colour never carries meaning alone. Every status colour comes with an
 icon, a label, a shape or a position.
+
+The light desk is the same tokens under `themes: light`, and only the
+colours that change: a cool pale stone with ink hairlines drawing the
+chrome, the board as graph paper, ivory paper, and the dark desk's
+bronze become ink throughout, token and accent alike. Brass on a light
+desk is a dark brass, so a pressed button carries cream text. Paper,
+ink and the washes stay as they are. `shadow-paper`, `shadow-panel`
+and `scrim` carry the shadows, since a light desk wants lighter ones,
+and `board-token-ring` is a token's facing ring at rest.
 
 ## Typography
 
