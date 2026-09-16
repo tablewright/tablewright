@@ -54,8 +54,6 @@ impl Shelf {
         own: Option<Store>,
         modules: &[String],
     ) -> Result<Self, StoreError> {
-        // The campaign's own entries first, then the library's that are
-        // listed and not already there as the same thing in the same version.
         let mut summaries = Vec::new();
         let mut taken: HashSet<(String, String)> = HashSet::new();
         if let Some(store) = &own {
@@ -96,10 +94,12 @@ impl Shelf {
         self.system.as_ref()
     }
 
+    /// How many entries the table may search.
     pub fn len(&self) -> usize {
         self.catalogue.len()
     }
 
+    /// Whether the table has nothing to search.
     pub fn is_empty(&self) -> bool {
         self.catalogue.is_empty()
     }

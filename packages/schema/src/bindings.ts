@@ -9,8 +9,7 @@ import { invoke as __TAURI_INVOKE } from "@tauri-apps/api/core";
 export const commands = {
 	/**
 	 *  Rank the compendium against `query` for a viewer of `viewer` tier who
-	 *  reads the rules of `version` (one hit per thing; the version's own entry
-	 *  when it has one, else another version's, which carries its version).
+	 *  reads the rules of `version`.
 	 */
 	search: (query: string, viewer: Visibility, limit: number | null, filters: Filter[] | null, version: string | null) => typedError<SearchResponse, CommandError>(__TAURI_INVOKE("search", { query, viewer, limit, filters, version })),
 	/**
@@ -244,15 +243,16 @@ export type ControlSpec = {
 };
 
 /**
- *  How an area of effect decides which cells it catches. One rule today:
- *  a cell is caught when the volume holds the centre of that cell's
- *  cube, and then everything standing in the cell is caught. It is one
- *  test in three dimensions rather than a family of grid rules, and it
- *  reads plainly at the table; a system that counts differently brings
- *  its own (design.md §5 "A cell is caught when the volume holds the
- *  centre of its cube").
+ *  How an area of effect decides which cells it catches. One test in three
+ *  dimensions rather than a family of grid rules; a system that counts
+ *  differently brings its own.
  */
-export type CoverRule = "cube-centre";
+export type CoverRule = 
+/**
+ *  A cell is caught when the volume holds the centre of its cube
+ *  (design.md §5).
+ */
+"cube-centre";
 
 /**
  *  How a diagonal counts against distance: every square the same
@@ -277,17 +277,11 @@ export type Entry = {
 	/**  Provenance: the book, module, or homebrew collection the entry came from. */
 	source: string,
 	/**
-	 *  The rule version the entry belongs to, its module's: "2014", "2024".
-	 *  An entry is a version of a thing, and `<kind>:<slug>` is the thing's
-	 *  identity across versions (design.md §3 "Two rule versions"). Filled
-	 *  from the module manifest when the module is read; empty means unversioned.
+	 *  The rule version the entry belongs to, its module's: "2014", "2024",
+	 *  or empty for unversioned.
 	 */
 	version?: string,
-	/**
-	 *  Every rule version this thing exists in, its own among them, so a
-	 *  page can offer the switch. Filled when one entry is read; never
-	 *  stored, and a list carries none.
-	 */
+	/**  Every rule version this thing exists in, so a page can offer the switch. */
 	versions?: string[],
 	tags: string[],
 	/**  Who may see the entry at all: its name, tags, and body. */
@@ -297,26 +291,20 @@ export type Entry = {
 	/**  Prose body, markdown. */
 	body: string,
 	/**
-	 *  The body as HTML, rendered by the core's one renderer as the entry
-	 *  leaves the store (`render`). Empty on the way in and never stored:
-	 *  the markdown is the record, the HTML is derived from it.
+	 *  The body as HTML, rendered as the entry leaves the store; the
+	 *  markdown is the record.
 	 */
 	html?: string,
 	/**
 	 *  The named parts of `data` as the page shows them, rendered as the
-	 *  entry leaves the store from the lists the system manifest names.
-	 *  Empty on the way in and never stored; empty whenever `data` is
-	 *  hidden from the viewer, since they are read out of it.
+	 *  entry leaves the store; none when `data` is hidden from the viewer.
 	 */
 	sections?: Section[],
 	/**  The per-system structured blob; its schema belongs to the game system, not the envelope. */
 	data: JsonValue,
 	/**  Filterable facts read from `data` by the system manifest at seed time. */
 	facets?: { [key in string]: FacetValue },
-	/**
-	 *  Named parts of `data` read by the system manifest at seed time, so
-	 *  search can find an entry by a trait, an action, or a feature.
-	 */
+	/**  Named parts of `data`, read at seed time. */
 	parts?: Part[],
 };
 
@@ -337,10 +325,7 @@ export type EntrySummary = {
 	tags: string[],
 	visibility: Visibility,
 	facets?: { [key in string]: FacetValue },
-	/**
-	 *  Named parts of `data` read by the system manifest at seed time, so
-	 *  search can find an entry by a trait, an action, or a feature.
-	 */
+	/**  Named parts of `data`, read at seed time. */
 	parts?: Part[],
 };
 
@@ -465,13 +450,9 @@ export type Hit = {
 };
 
 /**
- *  The TypeScript shape of `serde_json::Value`, used only as a type witness
- *  through `#[specta(type = JsonValue)]`; the fields themselves stay
- *  `serde_json::Value`. The exporter refuses the 64-bit integers inside
- *  `serde_json::Number` because JavaScript would truncate them; JSON numbers
- *  are JavaScript numbers on that side whatever we say, so this names that
- *  truth once. JSON `null` needs no variant: specta renders an untagged enum
- *  with `null` in its union.
+ *  The TypeScript shape of `serde_json::Value`, a type witness for
+ *  `#[specta(type = JsonValue)]`: the exporter refuses 64-bit integers, and
+ *  a JSON number is a JavaScript number on that side whatever we say.
  */
 export type JsonValue = boolean | number | null | string | JsonValue[] | { [key in string]: JsonValue };
 
@@ -701,13 +682,6 @@ export type Stop = {
  *  rules stroke also says whether it paints its texture onto the picture
  *  (design.md §5 "Data, and texture too"); height's texture is the scene's
  *  display, and free ink is texture and nothing else.
- * 
- *  Every ink knows its place upward (design.md §5): an area ink may sit at
- *  a height and has none by default, an edge ink says how tall it stands
- *  and is ten feet by default. Both defaults hold when the field is absent,
- *  so a map thrown down as a picture needs no setting up: the ground is at
- *  nought, the walls reach the ceiling, and changing either is the DM's
- *  deliberate act.
  */
 export type Stroke = 
 /**  What can be stood on, and by whom. */

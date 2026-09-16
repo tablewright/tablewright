@@ -137,10 +137,8 @@ impl AppState {
         }
     }
 
-    // The shelf is the library, showing the modules the campaign lists,
-    // under the campaign's own store when it has one. A library that will
-    // not open is replaced from the bundle once; only then does the session
-    // go without a shelf.
+    // A library that will not open is replaced from the bundle once; only
+    // then does the session go without a shelf.
     fn open_shelf(&self, campaign: &Campaign) -> Option<Shelf> {
         let own = campaign.compendium_path();
         let modules = &campaign.manifest().modules;

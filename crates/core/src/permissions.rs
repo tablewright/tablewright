@@ -1,15 +1,11 @@
 //! ─ Permissions ─
 //!
-//! Who sits at the table, what each may do, and how far it reaches.
-//! The rules are a file a person writes, `docs/permissions.toml`: the
-//! app's own is built into the binary, and a campaign may keep its own
-//! beside its scenes, where a role it names replaces the app's whole.
-//!
-//! The file carries its own vocabulary. Every permission the app knows
-//! is listed under `[features]`, grouped by the thing it acts on, so
-//! one block says everything that thing can have. A role may name
-//! nothing else, and the app may check nothing the file does not list:
-//! the two are compared here, so neither can drift into fiction.
+//! Who sits at the table, what each may do, and how far it reaches. The
+//! rules are a file a person writes, `docs/permissions.toml`: the app's
+//! own is built in, and a campaign may keep one beside its scenes, where
+//! a role it names replaces the app's whole. `[features]` lists the
+//! vocabulary, and the app's own checks are compared with it so neither
+//! can drift.
 //!
 //! Design: docs/permissions.md
 
@@ -20,7 +16,6 @@ use std::path::{Path, PathBuf};
 
 use crate::compendium::Visibility;
 
-/// The app's own rules, read at build time so they are never missing.
 const APP: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/../../docs/permissions.toml"
@@ -159,13 +154,12 @@ impl Role {
     }
 }
 
-/// What a feature holds: something done to it, or things under it.
+// A feature in the file is a line saying what is done, or a table of the
+// things under it, so the file reads as a tree and a leaf's path is its name.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 #[serde(untagged)]
 enum Feature {
-    /// A leaf: what is done, and what that means in a line.
     Does(String),
-    /// A branch: the things under it, each with their own.
     Holds(BTreeMap<String, Feature>),
 }
 

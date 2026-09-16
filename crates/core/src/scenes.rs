@@ -67,7 +67,7 @@ impl Scenes {
         Ok(())
     }
 
-    /// The scene open.
+    /// The scene the table is on; `current_mut` to edit it.
     pub fn current(&self) -> &Scene {
         &self.current
     }
@@ -166,10 +166,7 @@ impl Scenes {
         std::fs::write(&pointer, &self.current.id).map_err(|source| io(&pointer, source))
     }
 
-    // The pointer names the scene to come back to; without one, or with
-    // one naming a scene that is gone or will not load, the first by name
-    // among those that do; none if there is no such scene. A file that
-    // will not load is not the library's problem: it is left where it is.
+    // A file that will not load is left where it is.
     fn last_open(&self) -> Result<Option<Scene>, SceneError> {
         if let Ok(id) = std::fs::read_to_string(self.dir.join(POINTER)) {
             if let Ok(scene) = Scene::load(&self.path_of(id.trim())) {

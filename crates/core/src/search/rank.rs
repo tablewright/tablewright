@@ -165,7 +165,6 @@ fn number(value: &str) -> Option<f64> {
 struct Hit {
     rank: i32,
     offset: u32,
-    /// The part whose name matched, when the best field was a part.
     part: Option<usize>,
 }
 

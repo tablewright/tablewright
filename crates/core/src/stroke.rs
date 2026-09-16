@@ -14,13 +14,6 @@ use crate::compendium::Visibility;
 /// rules stroke also says whether it paints its texture onto the picture
 /// (design.md §5 "Data, and texture too"); height's texture is the scene's
 /// display, and free ink is texture and nothing else.
-///
-/// Every ink knows its place upward (design.md §5): an area ink may sit at
-/// a height and has none by default, an edge ink says how tall it stands
-/// and is ten feet by default. Both defaults hold when the field is absent,
-/// so a map thrown down as a picture needs no setting up: the ground is at
-/// nought, the walls reach the ceiling, and changing either is the DM's
-/// deliberate act.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 #[serde(tag = "ink", rename_all = "kebab-case")]
 pub enum Stroke {

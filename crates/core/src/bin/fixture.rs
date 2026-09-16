@@ -1,12 +1,8 @@
-//! Writes the cast of the stand-in (design.md §3 "The stand-in's cast").
-//!
-//! Usage: `fixture <compendium.sqlite> <cast.json> <output.json>
-//! <roles.json>`, where the cast names things as `<kind>:<slug>`. The
-//! compendium is read from a copy, since opening a store turns its
-//! write-ahead log on and the sealed bundle must stay as the seed left
-//! it. The roles are the app's own permissions, so the page the stand-in
-//! serves asks the same file the core would. Both outputs are committed,
-//! and CI fails when either is stale, as it does for the bindings.
+//! Writes the cast of the stand-in. Usage: `fixture <compendium.sqlite>
+//! <cast.json> <output.json> <roles.json>`, where the cast names things as
+//! `<kind>:<slug>`. The compendium is read from a copy, since opening a
+//! store turns its write-ahead log on. Design: design.md §3 "The stand-in's
+//! cast".
 
 use std::error::Error;
 use std::path::{Path, PathBuf};

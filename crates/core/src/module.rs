@@ -59,9 +59,8 @@ pub enum ModuleError {
     Invalid { path: PathBuf, reason: String },
 }
 
-/// An entry as written in a module file: the envelope, with the visibility
-/// fields optional. An entry that does not say who may see it takes its
-/// kind's default from the system manifest, else the world.
+// An entry that does not say who may see it takes its kind's default from
+// the system manifest, else the world.
 #[derive(Debug, Deserialize)]
 struct EntryFile {
     id: EntryId,

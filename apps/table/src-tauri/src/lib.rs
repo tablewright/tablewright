@@ -97,12 +97,7 @@ fn specta_builder() -> Builder<tauri::Wry> {
         ])
 }
 
-// Where things live: campaigns and the library under the Tablewright home
-// in the user's documents, the app's own memory in its data directory, the
-// bundled compendium among the resources, installed into the library at
-// start. The campaign open when the app last closed is opened again;
-// otherwise the intro screen is where the table starts. A missing path is
-// reported and stood in for, never fatal.
+// A missing path is reported and stood in for, never fatal.
 fn boot(app: &tauri::App) -> AppState {
     let home = match app.path().document_dir() {
         Ok(documents) => documents.join("Tablewright"),

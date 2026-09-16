@@ -141,11 +141,12 @@ impl Campaign {
         dir
     }
 
-    /// The campaign's folder.
+    /// Where the campaign lives on disk.
     pub fn dir(&self) -> &Path {
         &self.dir
     }
 
+    /// What the campaign plays: its system, version and modules.
     pub fn manifest(&self) -> &CampaignManifest {
         &self.manifest
     }
@@ -160,7 +161,7 @@ impl Campaign {
         }
     }
 
-    /// The campaign's scenes.
+    /// The scene library under the campaign, to read.
     pub fn scenes(&self) -> &Scenes {
         &self.scenes
     }

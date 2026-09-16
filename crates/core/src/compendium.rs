@@ -14,12 +14,12 @@ use specta::Type;
 pub struct EntryId(pub String);
 
 impl EntryId {
-    /// Wrap an id string.
+    /// An id from its text, `<module>:<kind>:<slug>`.
     pub fn new(id: impl Into<String>) -> Self {
         Self(id.into())
     }
 
-    /// The id as text.
+    /// The text, for splitting into module, kind and slug.
     pub fn as_str(&self) -> &str {
         &self.0
     }
@@ -74,13 +74,9 @@ impl Visibility {
     }
 }
 
-/// The TypeScript shape of `serde_json::Value`, used only as a type witness
-/// through `#[specta(type = JsonValue)]`; the fields themselves stay
-/// `serde_json::Value`. The exporter refuses the 64-bit integers inside
-/// `serde_json::Number` because JavaScript would truncate them; JSON numbers
-/// are JavaScript numbers on that side whatever we say, so this names that
-/// truth once. JSON `null` needs no variant: specta renders an untagged enum
-/// with `null` in its union.
+/// The TypeScript shape of `serde_json::Value`, a type witness for
+/// `#[specta(type = JsonValue)]`: the exporter refuses 64-bit integers, and
+/// a JSON number is a JavaScript number on that side whatever we say.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 #[serde(untagged)]
 pub enum JsonValue {
@@ -116,15 +112,11 @@ pub struct Entry {
     pub name: String,
     /// Provenance: the book, module, or homebrew collection the entry came from.
     pub source: String,
-    /// The rule version the entry belongs to, its module's: "2014", "2024".
-    /// An entry is a version of a thing, and `<kind>:<slug>` is the thing's
-    /// identity across versions (design.md §3 "Two rule versions"). Filled
-    /// from the module manifest when the module is read; empty means unversioned.
+    /// The rule version the entry belongs to, its module's: "2014", "2024",
+    /// or empty for unversioned.
     #[serde(default)]
     pub version: String,
-    /// Every rule version this thing exists in, its own among them, so a
-    /// page can offer the switch. Filled when one entry is read; never
-    /// stored, and a list carries none.
+    /// Every rule version this thing exists in, so a page can offer the switch.
     #[serde(default)]
     pub versions: Vec<String>,
     pub tags: Vec<String>,
@@ -134,15 +126,12 @@ pub struct Entry {
     pub data_visibility: Visibility,
     /// Prose body, markdown.
     pub body: String,
-    /// The body as HTML, rendered by the core's one renderer as the entry
-    /// leaves the store (`render`). Empty on the way in and never stored:
-    /// the markdown is the record, the HTML is derived from it.
+    /// The body as HTML, rendered as the entry leaves the store; the
+    /// markdown is the record.
     #[serde(default)]
     pub html: String,
     /// The named parts of `data` as the page shows them, rendered as the
-    /// entry leaves the store from the lists the system manifest names.
-    /// Empty on the way in and never stored; empty whenever `data` is
-    /// hidden from the viewer, since they are read out of it.
+    /// entry leaves the store; none when `data` is hidden from the viewer.
     #[serde(default)]
     pub sections: Vec<Section>,
     /// The per-system structured blob; its schema belongs to the game system, not the envelope.
@@ -151,8 +140,7 @@ pub struct Entry {
     /// Filterable facts read from `data` by the system manifest at seed time.
     #[serde(default)]
     pub facets: BTreeMap<String, FacetValue>,
-    /// Named parts of `data` read by the system manifest at seed time, so
-    /// search can find an entry by a trait, an action, or a feature.
+    /// Named parts of `data`, read at seed time.
     #[serde(default)]
     pub parts: Vec<Part>,
 }
@@ -226,8 +214,7 @@ pub struct EntrySummary {
     pub visibility: Visibility,
     #[serde(default)]
     pub facets: BTreeMap<String, FacetValue>,
-    /// Named parts of `data` read by the system manifest at seed time, so
-    /// search can find an entry by a trait, an action, or a feature.
+    /// Named parts of `data`, read at seed time.
     #[serde(default)]
     pub parts: Vec<Part>,
 }

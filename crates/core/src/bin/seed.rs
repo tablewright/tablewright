@@ -2,12 +2,7 @@
 //! store API, so the store format lives in exactly one place.
 //!
 //! Usage: `seed <output.sqlite> <system.json> <module directory>...`. The
-//! output is rewritten from scratch on every run and holds every module
-//! given, in order. Each entry's facets and parts are read from its data by
-//! the system manifest unless the entry file already names them, an entry
-//! that does not say who may see it takes its kind's default, and the
-//! manifest itself is stored so the app can read kinds, facets and
-//! controls from the store.
+//! output is rewritten from scratch on every run.
 
 use std::collections::BTreeMap;
 use std::error::Error;

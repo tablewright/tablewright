@@ -2,13 +2,6 @@
 //! and is copied into the library under the Tablewright home on first run,
 //! so the app never writes inside its own install and a newer bundle
 //! replaces an older copy on the next start.
-//!
-//! Replacing a SQLite file is more than a copy. A write-ahead log or its
-//! shared-memory index left beside the file by a killed process (routine
-//! under `tauri dev`, which restarts the app on every rebuild) belongs to
-//! the old file, and SQLite would apply it to the new one on open and
-//! corrupt it. So the sidecars go first, and the new file arrives whole by
-//! a rename.
 //! Design: docs/design.md §3 "Systems and modules".
 
 use std::io;
@@ -53,9 +46,8 @@ fn target_path(bundled: &Path, data_dir: &Path) -> io::Result<PathBuf> {
     Ok(data_dir.join("compendium").join(name))
 }
 
-// Sidecars first, then the copy lands under a staging name and is renamed
-// into place, so the target is never half-written, and a copy another
-// process holds open fails the rename rather than being overwritten.
+// A stale log beside the file would be applied to the new one on open and
+// corrupt it, so the sidecars go first and the file arrives by rename.
 fn replace(bundled: &Path, target: &Path) -> io::Result<()> {
     let dir = target.parent().ok_or_else(|| {
         io::Error::new(io::ErrorKind::InvalidInput, "install path has no directory")

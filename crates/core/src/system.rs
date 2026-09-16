@@ -1,14 +1,8 @@
-//! A game system's manifest, `systems/<system>/system.json` (design §3
-//! "Systems and modules" and "Linguistic search and filters"): the
-//! declarative part of a system, as much of it as the core reads.
-//!
-//! - `categories` and `kinds` name what the box groups and what a kind is
-//!   called, and give each kind its default visibility.
-//! - `facets` name, per kind, the facts of an entry's `data` that search
-//!   may filter on, as dotted paths. The seeder reads them once and stores
-//!   the values on each entry, so a query never opens `data`.
-//! - `controls` say how the tray shows those facets: which control, in what
-//!   order, with which stops. The UI renders whatever is declared.
+//! A game system's manifest, `systems/<system>/system.json`: the
+//! declarative part of a system, as much as the core reads. Facets are
+//! read once by the seeder and stored on the entry, so a query never opens
+//! `data`. Design: docs/design.md §3 "Systems and modules" and "Linguistic
+//! search and filters".
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
@@ -94,16 +88,14 @@ pub enum DiagonalRule {
     Exact,
 }
 
-/// How an area of effect decides which cells it catches. One rule today:
-/// a cell is caught when the volume holds the centre of that cell's
-/// cube, and then everything standing in the cell is caught. It is one
-/// test in three dimensions rather than a family of grid rules, and it
-/// reads plainly at the table; a system that counts differently brings
-/// its own (design.md §5 "A cell is caught when the volume holds the
-/// centre of its cube").
+/// How an area of effect decides which cells it catches. One test in three
+/// dimensions rather than a family of grid rules; a system that counts
+/// differently brings its own.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize, Type)]
 #[serde(rename_all = "kebab-case")]
 pub enum CoverRule {
+    /// A cell is caught when the volume holds the centre of its cube
+    /// (design.md §5).
     #[default]
     CubeCentre,
 }
@@ -880,8 +872,6 @@ mod tests {
         );
     }
 
-    // The grid block is the one place a system says how the board
-    // measures and how an area of effect catches a cell.
     #[test]
     fn the_grid_block_keeps_its_cover_rule_and_falls_back_without_one() {
         let named: SystemManifest = serde_json::from_str(
@@ -896,8 +886,6 @@ mod tests {
             serde_json::json!("cube-centre")
         );
 
-        // A system that says nothing about it gets the rule the table
-        // reads plainly, rather than failing to load.
         let quiet: SystemManifest = serde_json::from_str(
             r#"{"id":"x","name":"X","grid":{"type":"square","cellSize":5,
                 "unit":"ft","diagonals":"equal"}}"#,

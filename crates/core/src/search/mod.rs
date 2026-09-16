@@ -354,9 +354,7 @@ impl Catalogue {
         }
     }
 
-    // Scores the pool, keeps every id that matched (in id order, for the next
-    // narrowing), folds versions of one thing into one hit, and returns the
-    // top `limit` in rule 6 order.
+    // `matched` stays in id order for the next narrowing.
     fn rank(
         &self,
         query: &Query,
@@ -378,7 +376,7 @@ impl Catalogue {
             Pool::Ids(ids) => ids.into_iter().for_each(consider),
         }
         let matched: Vec<u32> = scored.iter().map(|(_, id)| *id).collect();
-        // Rule 6: score, then name length, then name, then id as a last resort.
+        // Rule 6.
         let by_rule_6 = |a: &(Score, u32), b: &(Score, u32)| {
             let (left, right) = (&self.entries[a.1 as usize], &self.entries[b.1 as usize]);
             a.0.cmp(&b.0)

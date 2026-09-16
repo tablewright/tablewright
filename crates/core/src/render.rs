@@ -1,15 +1,9 @@
 //! Markdown to HTML: the one renderer every piece of HTML in the product
-//! comes out of (design.md §3 "Body text is markdown, rendered by the
-//! core" and "One renderer, two surfaces"). The store calls it as an entry
-//! leaves, a module import and the Vault's preview will call it on demand,
-//! and the page only ever inserts what it wrote.
-//!
-//! The dialect is Obsidian's, grown one transform at a time; this first
-//! cut is plain GFM: tables, strikethrough, task lists, bare links, and a
-//! newline is a line break, as Obsidian reads one and as a statblock's
-//! lines or a class's hit point block are written. Raw HTML in a body is
-//! dropped, not passed through, so the output holds nothing this renderer
-//! did not write and the page may insert it as is.
+//! comes out of, so the page only ever inserts what it wrote. The dialect
+//! is Obsidian's, grown one transform at a time; for now it is plain GFM
+//! with a newline as a line break, as Obsidian reads one. Design: design.md
+//! §3 "Body text is markdown, rendered by the core" and "One renderer, two
+//! surfaces".
 
 use comrak::{Options, markdown_to_html};
 

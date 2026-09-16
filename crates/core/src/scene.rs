@@ -209,10 +209,8 @@ impl Scene {
             row,
             facing: 0,
             entry: Some(entry.id.clone()),
-            // The party's, whatever the entry's own tier is: looking a
-            // goblin up and seeing one on the table are different
-            // questions, and putting it down is showing it. A DM who
-            // wants it out of sight says so (`scene:hide`).
+            // The party's whatever the entry's tier: putting a thing on the
+            // table is showing it, and `scene:hide` takes it back.
             visibility: Visibility::Party,
         });
         self.tokens.last().expect("just pushed")

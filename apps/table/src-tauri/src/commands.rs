@@ -87,8 +87,6 @@ impl From<CampaignError> for CommandError {
     }
 }
 
-// Every command that needs a campaign: lock the session, and say so when
-// there is none.
 fn with_session<T>(
     state: &AppState,
     answer: impl FnOnce(&mut Session) -> Result<T, CommandError>,
@@ -105,8 +103,7 @@ fn shelf(session: &Session) -> Result<&Shelf, CommandError> {
 // ── The compendium ──
 
 /// Rank the compendium against `query` for a viewer of `viewer` tier who
-/// reads the rules of `version` (one hit per thing; the version's own entry
-/// when it has one, else another version's, which carries its version).
+/// reads the rules of `version`.
 #[tauri::command]
 #[specta::specta]
 pub fn search(
@@ -277,8 +274,6 @@ pub fn close_campaign(state: State<'_, AppState>) -> Result<(), CommandError> {
 
 // ── The scene ──
 
-// Every change to the open scene: change it, save it, and answer with the
-// scene as it now stands.
 fn edit_scene(
     state: &AppState,
     change: impl FnOnce(&mut Scene) -> Result<(), SceneError>,

@@ -1,9 +1,8 @@
 //! The cast of the stand-in: what the core answers for a short list of
 //! things, for the page served without Tauri to read in place of a core.
-//! It is read off a shelf as a new campaign has it, every module and no
-//! store of the campaign's own, for the DM and for the party alike, with
-//! the fields search reads, the system manifest and the facet values. The
-//! seed writes it out as JSON; the page reads the file.
+//! It is read off a shelf for the DM and for the party alike, with the
+//! fields search reads, the system manifest and the facet values. The seed
+//! writes it out as JSON; the page reads the file.
 //! Design: docs/design.md §3 "The stand-in's cast".
 
 use std::collections::BTreeMap;
