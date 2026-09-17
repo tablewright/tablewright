@@ -7,7 +7,9 @@ refinement. Where they disagree, this file governs.
 ## Principles (all languages)
 
 - Readability over cleverness; start simple, earn complexity — don't
-  abstract until there's a second use case.
+  abstract until there's a second use case. The second use is the
+  moment to share, and [REUSE.md](REUSE.md) says how: look before you
+  write, where things live, and what refuses a second copy.
 - Prefer classes where the language supports them well (Lit components
   are classes); pure logic modules may stay plain functions.
 - **Split files early.** One concern per file. ~250 lines: look for a

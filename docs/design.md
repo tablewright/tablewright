@@ -516,6 +516,17 @@ crates/net        WebRTC sync + content-addressed assets (later)
   generated.
 - `packages/ui` and `packages/board` stay Tauri-agnostic for the
   browser player client.
+- **How the code is sorted.** A folder says what kind of thing is in
+  it, so what exists is seen at a glance and used again rather than
+  written again. `packages/ui` sorts by atomic design: an atom is one
+  control or one look and knows nothing of the game, a molecule is a
+  few atoms with one purpose, a component owns a piece of the screen
+  and its flow, and utils hold what is not an element. The board and
+  the core sort by domain, with what two domains share at the root.
+  An app is glue: what a second app could use belongs in a package.
+  The rules are in `.ai/REUSE.md`, with a generated catalogue of the
+  shared names and a check that refuses a second copy *(both being
+  built)*.
 - App chrome stays visually recessive: map art and tokens are the
   star. The look is a desk with paper on it (DESIGN.md): dark warm
   tool chrome, light paper documents whose sections are shaped like

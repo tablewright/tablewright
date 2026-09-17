@@ -33,7 +33,9 @@ See [STYLE.md](STYLE.md). Formatting is oxfmt's / rustfmt's job,
 linting is oxlint's / clippy's — style review is about what tools
 can't check. Tests follow [TESTING.md](TESTING.md): logic tests for
 complex pure logic, and stories from `docs/stories.md` for everything
-a person does.
+a person does. Reuse follows [REUSE.md](REUSE.md): look for what
+exists before writing, put a thing in the folder that says what it is,
+and end every report on what was reused.
 
 ## House rules
 
@@ -59,6 +61,8 @@ a person does.
 - `docs/templates.md` — templates in three dimensions, and a spell
   aimed at one creature
 - `.ai/STYLE.md` — code style rules
+- `.ai/REUSE.md` — how code stays in one place: the layers, the
+  catalogue, the reuse check
 - `.plan/` — local-only plans (gitignored)
 - `apps/table`, `apps/vault` — Tauri shells
 - `packages/schema` — generated types (never hand-edited);
