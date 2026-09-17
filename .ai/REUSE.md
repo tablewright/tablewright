@@ -66,22 +66,26 @@ vocabulary.
 ### An engine or a core: by domain
 
 `packages/board/src` and `crates/core/src` sort by domain: topology,
-ruler, draw; store, shelf, search. What two domains use lives at the
-root of the package or the crate, where a glance finds it.
+ruler, draw; store, shelf, search. What a second domain uses is shared
+wherever it sits, and the catalogue lists it there. A new shared piece
+goes at the root of the package or the crate, where a glance finds it.
 
 ### An app: glue
 
 An app's source wires packages together. What a second app could use
 belongs in a package, since Vault and the player client are coming.
 
-## The catalogue *(not built yet)*
+## The catalogue
 
-`.ai/CATALOGUE.md` lists each shared name with the one line its doc
-comment opens with, grouped by folder. `bun run catalogue` writes it,
-`bun run check` refuses a stale one, and CLAUDE.md imports it, so every
-session starts knowing what exists. This is why an exported name's doc
-comment opens with one plain line saying what it is for: that line is
-what the next person searches.
+[CATALOGUE.md](CATALOGUE.md) lists the shared names, each with the
+sentence its doc comment opens on: the UI's atoms, molecules and utils,
+its components by element, the board's root files, and from each of the
+board's domains the names another domain runs. `bun run catalogue`
+writes it, `bun run check` refuses a stale one, and CLAUDE.md imports
+it, so every session starts knowing what exists. A listed function or
+class with no doc comment fails the run. This is why an exported name's
+doc comment opens with one plain sentence saying what it is for: that
+sentence is what the next person searches.
 
 ## The reuse check *(not built yet)*
 

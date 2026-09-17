@@ -91,9 +91,11 @@ export function forSamplesInShape(shape: Shape, samples: SampleGrid, visit: Samp
   }
 }
 
-// JSON has no NaN or infinity, so the record types every float as nullable.
-// A null coordinate is not a place: such points are dropped here, at the
-// boundary, and nothing past it sees a null.
+/**
+ * The points of a record that are places. JSON has no NaN or infinity, so
+ * the record types every float as nullable; a null coordinate is dropped
+ * here, at the boundary, and nothing past it sees a null.
+ */
 export function placedPoints(points: readonly Coordinate[]): Point[] {
   const placed: Point[] = [];
   for (const { x, y } of points) {

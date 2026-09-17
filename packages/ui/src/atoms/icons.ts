@@ -111,14 +111,17 @@ const RULER_MODE_ICONS: Record<RulerMode, TemplateResult> = {
   ),
 };
 
+/** The glyph for a way of measuring. */
 export function rulerIcon(mode: RulerMode): TemplateResult {
   return RULER_MODE_ICONS[mode];
 }
 
+/** The glyph for an ink. */
 export function inkIcon(ink: Ink): TemplateResult {
   return INK_ICONS[ink];
 }
 
+/** The glyph for a shape an ink is drawn in. */
 export function shapeIcon(shape: DrawShape): TemplateResult {
   return SHAPE_ICONS[shape];
 }

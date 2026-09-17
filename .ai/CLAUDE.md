@@ -37,6 +37,12 @@ a person does. Reuse follows [REUSE.md](REUSE.md): look for what
 exists before writing, put a thing in the folder that says what it is,
 and end every report on what was reused.
 
+## What exists
+
+The shared names, generated; look here before writing anything new.
+
+@CATALOGUE.md
+
 ## House rules
 
 - Bun only — `bun add` / `bun run`; never npm or yarn.
@@ -63,6 +69,8 @@ and end every report on what was reused.
 - `.ai/STYLE.md` — code style rules
 - `.ai/REUSE.md` — how code stays in one place: the layers, the
   catalogue, the reuse check
+- `.ai/CATALOGUE.md` — the shared names, written by `bun run
+  catalogue` (never hand-edited)
 - `.plan/` — local-only plans (gitignored)
 - `apps/table`, `apps/vault` — Tauri shells
 - `packages/schema` — generated types (never hand-edited);
