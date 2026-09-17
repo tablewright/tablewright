@@ -77,15 +77,17 @@ belongs in a package, since Vault and the player client are coming.
 
 ## The catalogue
 
-[CATALOGUE.md](CATALOGUE.md) lists the shared names, each with the
-sentence its doc comment opens on: the UI's atoms, molecules and utils,
-its components by element, the board's root files, and from each of the
-board's domains the names another domain runs. `bun run catalogue`
-writes it, `bun run check` refuses a stale one, and CLAUDE.md imports
-it, so every session starts knowing what exists. A listed function or
-class with no doc comment fails the run. This is why an exported name's
-doc comment opens with one plain sentence saying what it is for: that
-sentence is what the next person searches.
+[CATALOGUE.md](CATALOGUE.md) lists what exists, each name with the
+sentence its doc comment opens on, grouped by feature, then file, then
+name. A UI file sits under the one feature whose imports reach it, and
+under `shared` once a second feature takes it, so the list shows what
+is truly shared and what only looks it. The board lists its root files,
+and under each domain the names another domain runs. `bun run
+catalogue` writes it, `bun run check` refuses a stale one, and
+CLAUDE.md imports it, so every session starts knowing what exists. A
+listed function or class with no doc comment fails the run. This is why
+an exported name's doc comment opens with one plain sentence saying
+what it is for: that sentence is what the next person searches.
 
 ## The reuse check *(not built yet)*
 

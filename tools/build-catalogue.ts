@@ -1,8 +1,8 @@
 // Writes .ai/CATALOGUE.md: the shared names of the packages, each with
 // the sentence its doc comment opens on, so a session starts knowing what
 // exists before it writes anything (.ai/REUSE.md). Listed are the UI's
-// atoms, molecules and utils, its components by element, and the board's
-// root files with the names a second domain runs. A listed
+// files by the feature they serve, and the board's root files with the
+// names a second domain runs, by domain. A listed
 // function or class with no doc comment fails the run, so the sentence
 // gets written; a constant without one is listed by its name, which is
 // all STYLE.md asks of a constant. `--check` refuses a stale file; run by
@@ -215,65 +215,131 @@ function render(listed: Listed, base: string): string[] {
   return lines;
 }
 
+// Any import of a file beside this one: named, whole, or for its side effect.
+const ANY_IMPORT = /^(?:import|export)\s[^"']*?"(\.[^"]+)"/gm;
+const SHARED = "shared";
+// An element the app places itself, held by no component, names its feature here.
+const PLACED_BY_THE_APP: Readonly<Record<string, string>> = {
+  [`${UI}/molecules/tw-token-menu.ts`]: "tokens",
+  [`${UI}/molecules/tw-dash-ask.ts`]: "tokens",
+  [`${UI}/atoms/tw-readout.ts`]: "rail",
+};
+
+// The UI's files by the feature they serve. A feature is a component's
+// folder, or an element the app places; a file belongs to the one feature
+// whose imports reach it, and to `shared` once a second feature does.
+async function uiByFeature(): Promise<Map<string, string[]>> {
+  const files = filesUnder(UI);
+  const reaches = new Map<string, string[]>();
+  for (const path of files) {
+    const targets: string[] = [];
+    for (const found of (await read(path)).matchAll(ANY_IMPORT)) {
+      targets.push(posix.join(dirname(path), found[1]!).replace(/\.js$/, ".ts"));
+    }
+    reaches.set(path, targets);
+  }
+  const served = new Map<string, Set<string>>();
+  const walk = (feature: string, from: string): void => {
+    const features = served.get(from) ?? new Set<string>();
+    if (features.has(feature)) {
+      return;
+    }
+    features.add(feature);
+    served.set(from, features);
+    for (const target of reaches.get(from) ?? []) {
+      walk(feature, target);
+    }
+  };
+  for (const path of files) {
+    const inComponent = /\/components\/([^/]+)\//.exec(path);
+    const feature = inComponent?.[1] ?? PLACED_BY_THE_APP[path];
+    if (feature !== undefined) {
+      walk(feature, path);
+    }
+  }
+  const byFeature = new Map<string, string[]>();
+  for (const path of files) {
+    const features = [...(served.get(path) ?? [])];
+    if (features.length === 0) {
+      console.error(`build-catalogue: ${path} serves no feature; a component takes it in, or`);
+      console.error("  PLACED_BY_THE_APP names the feature the app places it for");
+      process.exit(1);
+    }
+    const feature = features.length === 1 ? features[0]! : SHARED;
+    byFeature.set(feature, [...(byFeature.get(feature) ?? []), path]);
+  }
+  return byFeature;
+}
+
 async function section(
   title: string,
-  note: string,
+  note: string | undefined,
   base: string,
-  paths: string[],
+  paths: readonly string[],
   only?: (named: Named, path: string) => boolean
-) {
-  const lines = [`## ${title}`, "", note, ""];
+): Promise<string[]> {
+  const lines = note === undefined ? [`## ${title}`, ""] : [`## ${title}`, "", note, ""];
   for (const path of paths) {
     lines.push(...render(await list(path, only), base));
   }
   return lines;
 }
 
+// Shared first, since it is what every feature may take; the rest by name.
+function inOrder(groups: ReadonlyMap<string, unknown>, first: string): string[] {
+  return [...groups.keys()].sort((a, b) =>
+    a === first ? -1 : b === first ? 1 : a.localeCompare(b)
+  );
+}
+
+const ui = await uiByFeature();
 const board = await sharedInBoard();
+const boardByDomain = new Map<string, string[]>();
+for (const path of board.keys()) {
+  const parts = relative(BOARD, path).split(/[\\/]/);
+  const domain = parts.length > 1 ? parts[0]! : SHARED;
+  boardByDomain.set(domain, [...(boardByDomain.get(domain) ?? []), path]);
+}
 const domains = readdirSync(join(ROOT, BOARD))
   .filter((entry) => statSync(join(ROOT, BOARD, entry)).isDirectory())
   .sort();
 
+const sections: string[] = [];
+for (const feature of inOrder(ui, SHARED)) {
+  sections.push(
+    ...(await section(
+      `UI: ${feature}`,
+      feature === SHARED ? "What more than one feature takes. `packages/ui/src`." : undefined,
+      UI,
+      ui.get(feature)!
+    ))
+  );
+}
+for (const domain of inOrder(boardByDomain, SHARED)) {
+  sections.push(
+    ...(await section(
+      `Board: ${domain}`,
+      domain === SHARED
+        ? "The root files, whole. Under each domain after this, only the names that code in another domain runs. `packages/board/src`."
+        : undefined,
+      BOARD,
+      boardByDomain.get(domain)!,
+      (named, path) => board.get(path) === "all" || (board.get(path) as Set<string>).has(named.name)
+    ))
+  );
+}
+
 const output = [
   "# Catalogue: what exists, before you write",
   "",
-  "Written by `bun run catalogue` from the doc comments, never by hand. It",
-  "lists what is shared, not everything: look here first, then search the",
+  "Written by `bun run catalogue` from the doc comments, never by hand.",
+  "Grouped by feature, then file, then name; a file's folder says its",
+  "layer. A UI file sits under the one feature that takes it in, and",
+  "under `shared` once a second does. Look here first, then search the",
   "package, then write. [REUSE.md](REUSE.md) says why.",
   "",
-  ...(await section(
-    "UI atoms",
-    "One control or one look, knowing nothing of the domain. `packages/ui/src/atoms`.",
-    `${UI}/atoms`,
-    filesUnder(`${UI}/atoms`)
-  )),
-  ...(await section(
-    "UI molecules",
-    "A few atoms with one purpose, owning no flow. `packages/ui/src/molecules`.",
-    `${UI}/molecules`,
-    filesUnder(`${UI}/molecules`)
-  )),
-  ...(await section(
-    "UI utils",
-    "No elements. `packages/ui/src/utils`.",
-    `${UI}/utils`,
-    filesUnder(`${UI}/utils`)
-  )),
-  ...(await section(
-    "UI components",
-    "The pieces of the screen, by element; what only one of them uses is in its folder. `packages/ui/src/components`.",
-    `${UI}/components`,
-    filesUnder(`${UI}/components`),
-    (named) => named.kind === "class"
-  )),
-  ...(await section(
-    "Board, shared",
-    "The root files, and from each domain the names that code in another domain runs. `packages/board/src`.",
-    BOARD,
-    [...board.keys()],
-    (named, path) => board.get(path) === "all" || (board.get(path) as Set<string>).has(named.name)
-  )),
-  "## Board, by domain",
+  ...sections,
+  "## Board: every domain",
   "",
   `Each has an \`index.ts\` naming what it offers: ${domains.map((name) => `\`${name}\``).join(", ")}.`,
   "",
