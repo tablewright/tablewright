@@ -28,11 +28,11 @@ import {
   type Ink,
   type ThresholdChoice,
 } from "@tablewright/board";
-import { ICON_STYLES, inkIcon, shapeIcon } from "../icons.js";
+import { ICON_STYLES, inkIcon, shapeIcon } from "../../atoms/icons.js";
 import { thresholdSwatch } from "./swatches.js";
-import { emit } from "../events.js";
-import { PANEL_STYLES } from "./panel-styles.js";
-import { field, numberRow, rangeRow, strip, stripRow } from "./inputs.js";
+import { emit } from "../../utils/events.js";
+import { PANEL_STYLES } from "../../atoms/panel-styles.js";
+import { field, numberRow, rangeRow, strip, stripRow } from "../panel-inputs.js";
 
 const HINTS: Record<Ink, string> = {
   ground: "Paint or drag what can be stood on",

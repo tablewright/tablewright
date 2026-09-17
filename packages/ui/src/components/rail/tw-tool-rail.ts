@@ -39,13 +39,13 @@ import {
   UNDO_ICON,
   inkIcon,
   rulerIcon,
-} from "../icons.js";
-import { emit } from "../events.js";
-import { FOCUS_RING, PANEL_CHROME } from "../styles.js";
-import { COUNT_PILL } from "./panel-styles.js";
-import "./tw-pen-palette.js";
-import "./tw-ruler-column.js";
-import "./tw-stroke-history.js";
+} from "../../atoms/icons.js";
+import { emit } from "../../utils/events.js";
+import { FOCUS_RING, PANEL_CHROME } from "../../atoms/styles.js";
+import { COUNT_PILL } from "../../atoms/panel-styles.js";
+import "../../molecules/pen-palette/tw-pen-palette.js";
+import "../../molecules/tw-ruler-column.js";
+import "../../molecules/tw-stroke-history.js";
 
 // Which permission each pen wants. The rail shows the pens a hand holds
 // and no others, so a table that lets its players draw freely and nothing

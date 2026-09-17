@@ -11,12 +11,12 @@
  */
 
 import { LitElement, css, html, nothing } from "lit";
-import { previewOf } from "./preview.js";
-import type { Taxonomy } from "./preview.js";
-import type { SpotlightHit } from "./searcher.js";
-import { emit } from "../events.js";
-import { ICON_STYLES, SHARE_ICON } from "../icons.js";
-import { QUIET_BUTTON } from "../styles.js";
+import { previewOf } from "../utils/preview.js";
+import type { Taxonomy } from "../utils/preview.js";
+import type { SpotlightHit } from "../utils/searcher.js";
+import { emit } from "../utils/events.js";
+import { ICON_STYLES, SHARE_ICON } from "../atoms/icons.js";
+import { QUIET_BUTTON } from "../atoms/styles.js";
 
 export class TwHitTile extends LitElement {
   static override properties = {

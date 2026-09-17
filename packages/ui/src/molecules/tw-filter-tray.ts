@@ -11,11 +11,11 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { ControlSpec, Stop } from "@tablewright/schema";
-import { STRIP_STYLES } from "../strip/tw-strip.js";
-import { titleCase } from "../text.js";
-import { activeCount, besideIndex, cellKey, chipValues, valueText } from "./state.js";
-import type { ControlState, TrayState, Tri } from "./state.js";
-import { emit } from "../events.js";
+import { STRIP_STYLES } from "../atoms/tw-strip.js";
+import { titleCase } from "../utils/text.js";
+import { activeCount, besideIndex, cellKey, chipValues, valueText } from "../utils/filter-state.js";
+import type { ControlState, TrayState, Tri } from "../utils/filter-state.js";
+import { emit } from "../utils/events.js";
 
 /** How many chips show before the rest fold behind "more". */
 const CHIPS_SHOWN = 12;

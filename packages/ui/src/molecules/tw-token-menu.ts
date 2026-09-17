@@ -12,10 +12,10 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { Visibility } from "@tablewright/schema";
-import { ICON_STYLES, KEPT_ICON, SHOWN_ICON } from "../icons.js";
-import { DismissWhenOutside } from "../dismiss.js";
-import { emit } from "../events.js";
-import { MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../styles.js";
+import { ICON_STYLES, KEPT_ICON, SHOWN_ICON } from "../atoms/icons.js";
+import { DismissWhenOutside } from "../utils/dismiss.js";
+import { emit } from "../utils/events.js";
+import { MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../atoms/styles.js";
 
 export class TwTokenMenu extends LitElement {
   static override properties = {

@@ -12,11 +12,11 @@ import { LitElement, css, html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import type { Role, Section } from "@tablewright/schema";
 import { NO_ROLE, allows } from "@tablewright/board";
-import { previewOf } from "../spotlight/preview.js";
+import { previewOf } from "../../utils/preview.js";
 import { groups } from "./sections.js";
-import { emit } from "../events.js";
-import { QUIET_BUTTON } from "../styles.js";
-import { wordsCase } from "../text.js";
+import { emit } from "../../utils/events.js";
+import { QUIET_BUTTON } from "../../atoms/styles.js";
+import { wordsCase } from "../../utils/text.js";
 
 /** What the page shows: the envelope without the system data. */
 export interface EntryDocument {

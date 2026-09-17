@@ -5,7 +5,7 @@
 // data arrives. Pure functions, so the rules are unit-tested without a DOM.
 
 import type { SpotlightHit } from "./searcher.js";
-import { wordsCase } from "../text.js";
+import { wordsCase } from "./text.js";
 
 /** Kind to the category label it is grouped under, from the system manifest. */
 export type Taxonomy = Readonly<Record<string, string>>;

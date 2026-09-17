@@ -8,7 +8,7 @@
  */
 
 import { html, nothing } from "lit";
-import "../strip/tw-strip.js";
+import "../atoms/tw-strip.js";
 
 // A strip given no labels reads its values as words.
 const NO_LABELS: Readonly<Record<string, string>> = {};

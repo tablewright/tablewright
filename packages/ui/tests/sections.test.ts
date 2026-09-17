@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { groups } from "../src/entry/sections.js";
+import { groups } from "../src/components/entry/sections.js";
 
 describe("groups", () => {
   test("consecutive labels share a heading and order is kept", () => {

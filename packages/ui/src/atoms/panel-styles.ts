@@ -6,7 +6,7 @@
  */
 
 import { css, type CSSResult } from "lit";
-import { FOCUS_RING, PANEL_CHROME } from "../styles.js";
+import { FOCUS_RING, PANEL_CHROME } from "./styles.js";
 
 /** The count pill: a number in the rail's colour, on the rail's foot and the history's head. */
 export const COUNT_PILL: CSSResult = css`

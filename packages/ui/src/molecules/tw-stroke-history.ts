@@ -9,9 +9,9 @@
 import { LitElement, css, html, nothing } from "lit";
 import type { Stroke } from "@tablewright/schema";
 import { describeStroke } from "@tablewright/board";
-import { emit } from "../events.js";
-import { QUIET_BUTTON, QUIET_BUTTON_HOVER } from "../styles.js";
-import { COUNT_PILL, PANEL_STYLES } from "./panel-styles.js";
+import { emit } from "../utils/events.js";
+import { QUIET_BUTTON, QUIET_BUTTON_HOVER } from "../atoms/styles.js";
+import { COUNT_PILL, PANEL_STYLES } from "../atoms/panel-styles.js";
 
 // How much of the history shows until all of it is asked for.
 const RECENT = 3;

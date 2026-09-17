@@ -8,8 +8,8 @@
  */
 
 import { css, type CSSResult } from "lit";
-import { ICON_STYLES } from "../icons.js";
-import { QUIET_BUTTON } from "../styles.js";
+import { ICON_STYLES } from "../../atoms/icons.js";
+import { QUIET_BUTTON } from "../../atoms/styles.js";
 
 /** The box, whole. */
 export const SPOTLIGHT_STYLES: CSSResult = css`

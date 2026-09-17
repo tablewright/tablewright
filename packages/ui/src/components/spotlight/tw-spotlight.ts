@@ -12,18 +12,18 @@
 import { LitElement, html, nothing } from "lit";
 import type { PropertyValues } from "lit";
 import type { ControlSpec, SystemManifest, Understood } from "@tablewright/schema";
-import "../filters/tw-filter-tray.js";
-import "./tw-hit-tile.js";
-import { activeCount, filtersOf, selectionOf } from "../filters/state.js";
-import type { TrayState } from "../filters/state.js";
+import "../../molecules/tw-filter-tray.js";
+import "../../molecules/tw-hit-tile.js";
+import { activeCount, filtersOf, selectionOf } from "../../utils/filter-state.js";
+import type { TrayState } from "../../utils/filter-state.js";
 import { answerKey } from "./keys.js";
-import { categoryOf, groupHits } from "./preview.js";
-import type { Taxonomy } from "./preview.js";
-import type { HitGroup } from "./preview.js";
-import type { SearchAnswer, Searcher, SpotlightHit } from "./searcher.js";
+import { categoryOf, groupHits } from "../../utils/preview.js";
+import type { Taxonomy } from "../../utils/preview.js";
+import type { HitGroup } from "../../utils/preview.js";
+import type { SearchAnswer, Searcher, SpotlightHit } from "../../utils/searcher.js";
 import { SPOTLIGHT_STYLES } from "./styles.js";
-import { emit } from "../events.js";
-import { FILTER_ICON } from "../icons.js";
+import { emit } from "../../utils/events.js";
+import { FILTER_ICON } from "../../atoms/icons.js";
 
 type Status = "idle" | "searching" | "done" | "error";
 

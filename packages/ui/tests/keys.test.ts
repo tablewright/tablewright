@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { answerKey, step } from "../src/spotlight/keys.js";
-import type { KeyPlace, KeyPress } from "../src/spotlight/keys.js";
+import { answerKey, step } from "../src/components/spotlight/keys.js";
+import type { KeyPlace, KeyPress } from "../src/components/spotlight/keys.js";
 
 function press(key: string, shift = false): KeyPress {
   return { key, shift };

@@ -6,8 +6,8 @@
 // `tw-dash` carries whether the dash was used.
 
 import { LitElement, css, html } from "lit";
-import { emit } from "../events.js";
-import { FOCUS_RING, QUIET_BUTTON } from "../styles.js";
+import { emit } from "../utils/events.js";
+import { FOCUS_RING, QUIET_BUTTON } from "../atoms/styles.js";
 
 export class TwDashAsk extends LitElement {
   static override properties = {

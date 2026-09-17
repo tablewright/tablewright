@@ -85,7 +85,7 @@ const ICONS = [
 const CODEPOINTS =
   "https://raw.githubusercontent.com/google/material-design-icons/master/variablefont/" +
   "MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints";
-const GLYPHS_PATH = "packages/ui/src/glyphs.ts";
+const GLYPHS_PATH = "packages/ui/src/atoms/glyphs.ts";
 
 const MATERIAL: Face = {
   family: "Material Symbols Rounded",

@@ -8,7 +8,7 @@ import {
   filtersOf,
   selectionOf,
   valueText,
-} from "../src/filters/state.js";
+} from "../src/utils/filter-state.js";
 
 const level: ControlSpec = {
   control: "rail",

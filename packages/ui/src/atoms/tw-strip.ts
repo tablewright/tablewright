@@ -6,8 +6,8 @@
 // `tw-cell` carries the value clicked.
 
 import { LitElement, css, html, type CSSResult } from "lit";
-import { titleCase } from "../text.js";
-import { emit } from "../events.js";
+import { titleCase } from "../utils/text.js";
+import { emit } from "../utils/events.js";
 
 // The rail's chrome: on the strip itself, and on a rail a host draws by hand.
 const RAIL = css`

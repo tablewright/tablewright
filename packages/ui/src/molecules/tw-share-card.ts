@@ -9,10 +9,10 @@
  */
 
 import { LitElement, css, html, nothing } from "lit";
-import { previewOf } from "../spotlight/preview.js";
-import type { SpotlightHit } from "../spotlight/searcher.js";
-import { emit } from "../events.js";
-import { CLOSE_ICON, ICON_STYLES } from "../icons.js";
+import { previewOf } from "../utils/preview.js";
+import type { SpotlightHit } from "../utils/searcher.js";
+import { emit } from "../utils/events.js";
+import { CLOSE_ICON, ICON_STYLES } from "../atoms/icons.js";
 
 export class TwShareCard extends LitElement {
   static override properties = {

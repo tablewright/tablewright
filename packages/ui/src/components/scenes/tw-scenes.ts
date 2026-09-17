@@ -8,11 +8,11 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { SceneSummary } from "@tablewright/schema";
-import { DismissWhenOutside } from "../dismiss.js";
-import { emit } from "../events.js";
-import { ICON_STYLES, MAP_ICON } from "../icons.js";
-import { FOCUS_RING, MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../styles.js";
-import { nameFrom } from "../text.js";
+import { DismissWhenOutside } from "../../utils/dismiss.js";
+import { emit } from "../../utils/events.js";
+import { ICON_STYLES, MAP_ICON } from "../../atoms/icons.js";
+import { FOCUS_RING, MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../../atoms/styles.js";
+import { nameFrom } from "../../utils/text.js";
 
 export class TwScenes extends LitElement {
   static override properties = {

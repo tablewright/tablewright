@@ -34,7 +34,7 @@ bun install
 bun run check       # format, lint, typecheck, tests and build, both languages
 bun run dev:table   # run the Table app
 bun run tokens      # regenerate packages/ui/src/tokens.css from DESIGN.md
-bun run fonts       # rebuild the bundled fonts and packages/ui/src/glyphs.ts
+bun run fonts       # rebuild the bundled fonts and packages/ui/src/atoms/glyphs.ts
 bun run import:srd  # rebuild systems/5e/content/2024/srd from Open5e, cached in data/srd
 bun run seed        # write the bundled compendium database from systems/ (gitignored)
 bun run schema      # regenerate packages/schema/src/bindings.ts from the Rust commands

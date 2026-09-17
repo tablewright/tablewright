@@ -51,9 +51,13 @@ vocabulary.
 - Imports go down that list, never up: an atom takes atoms and utils,
   a molecule takes atoms, utils and other molecules, a component takes
   anything below it.
-- A helper only one element uses sits beside that element and is named
-  for it. Once a second element needs it, it moves to `utils/`, or to
-  `atoms/` when it is a look, and loses the name.
+- Each component has a folder of its own in `components/`, holding the
+  element and what only it uses. Atoms and molecules are flat files;
+  one that needs a helper of its own gets a folder the same way. Once
+  a second element needs the helper, it moves to `utils/`, or to
+  `atoms/` when it is a look.
+- A panel that lives inside one component is a molecule: the rail's
+  palette, the search box's filter tray.
 - A repeated run of CSS is an atom: a fragment exported once and taken
   into each stylesheet that needs it.
 - "Element" here is a custom element. In a React repo read

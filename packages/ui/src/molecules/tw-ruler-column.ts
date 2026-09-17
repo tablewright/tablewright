@@ -24,9 +24,9 @@ import {
   NO_ROLE,
   allows,
 } from "@tablewright/board";
-import { emit } from "../events.js";
-import { PANEL_STYLES } from "./panel-styles.js";
-import { numberRow, rangeRow, stripRow } from "./inputs.js";
+import { emit } from "../utils/events.js";
+import { PANEL_STYLES } from "../atoms/panel-styles.js";
+import { numberRow, rangeRow, stripRow } from "./panel-inputs.js";
 
 // An area's own choices: how a cone's far edge is cut, and how each
 // shape stands upward.

@@ -71,8 +71,8 @@ refinement. Where they disagree, this file governs.
 - JSDoc on exported APIs: prose purpose plus the tags the type alone
   doesn't carry. Non-exported functions need none.
 - Private class members use the `private` keyword, not `_` prefix.
-- Explicit `.js` extensions on relative imports; barrel `index.ts`
-  per feature.
+- Explicit `.js` extensions on relative imports; one barrel
+  `index.ts` per package, and one per domain in the board.
 - Guard at the boundary; early returns; no defensive re-checks deep
   inside.
 - **The TS layer stays thin.** Domain logic — content model, search,

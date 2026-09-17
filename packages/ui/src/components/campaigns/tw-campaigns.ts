@@ -9,9 +9,9 @@
 
 import { LitElement, css, html } from "lit";
 import type { CampaignSummary } from "@tablewright/schema";
-import { emit } from "../events.js";
-import { FOCUS_RING, QUIET_BUTTON, QUIET_BUTTON_HOVER } from "../styles.js";
-import { nameFrom } from "../text.js";
+import { emit } from "../../utils/events.js";
+import { FOCUS_RING, QUIET_BUTTON, QUIET_BUTTON_HOVER } from "../../atoms/styles.js";
+import { nameFrom } from "../../utils/text.js";
 
 export class TwCampaigns extends LitElement {
   static override properties = {

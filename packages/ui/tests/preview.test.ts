@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import { categoryOf, groupHits, previewOf } from "../src/spotlight/preview.js";
-import type { Taxonomy } from "../src/spotlight/preview.js";
-import type { SpotlightHit } from "../src/spotlight/searcher.js";
+import { categoryOf, groupHits, previewOf } from "../src/utils/preview.js";
+import type { Taxonomy } from "../src/utils/preview.js";
+import type { SpotlightHit } from "../src/utils/searcher.js";
 
 // What a 5e manifest hands the box: kind to category label.
 const TAXONOMY: Taxonomy = {

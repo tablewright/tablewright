@@ -6,8 +6,8 @@
 // entry; opening also dismisses the card.
 
 import { LitElement, css, html, nothing } from "lit";
-import type { SpotlightHit } from "../spotlight/searcher.js";
-import "./tw-share-card.js";
+import type { SpotlightHit } from "../../utils/searcher.js";
+import "../../molecules/tw-share-card.js";
 
 export interface Share {
   hit: SpotlightHit;
