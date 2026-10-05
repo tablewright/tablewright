@@ -420,6 +420,13 @@ gears, rings and spirals, with pipes and chains as separators. Tokens
 on the board are circles with a brass ring. Never mix sharp and rounded
 corners in one surface.
 
+Every instrument keeps an index corner, as a playing card does: its
+figure, plain and in `numeric-md`, in the same corner every time. The
+shape can be anything so long as the number reads at a glance without
+it. A value read off a spiral or a ring is slow, and two values
+compared on concentric arcs are slower still, so the corner carries
+the figure and the shape carries the character.
+
 ## Materials
 
 Direction for the finished product. For now everything ships in flat
@@ -471,6 +478,8 @@ colour from the tokens.
   inline styles.
 - Do pair colour with a shape, an icon or a label for every status.
 - Do keep numbers in `numeric-md` so they stay still while they change.
+- Do give every instrument an index corner with its figure; never ask a
+  reader to read a value off the shape alone.
 - Don't tint the board with the desk palette; map art is never warmed.
 - Don't use uniform rounded cards on paper.
 - Don't show a spinner for a local read; show the content or a named
