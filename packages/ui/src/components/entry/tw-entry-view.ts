@@ -15,7 +15,7 @@ import { NO_ROLE, allows } from "@tablewright/board";
 import { previewOf } from "../../utils/preview.js";
 import { groups } from "./sections.js";
 import { emit } from "../../utils/events.js";
-import { QUIET_BUTTON } from "../../atoms/styles.js";
+import { FOCUS_OUTLINE, QUIET_BUTTON } from "../../atoms/styles.js";
 import { wordsCase } from "../../utils/text.js";
 
 /** What the page shows: the envelope without the system data. */
@@ -134,7 +134,7 @@ export class TwEntryView extends LitElement {
       color: var(--tw-ink-soft);
     }
     button:focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
+      ${FOCUS_OUTLINE}
       outline-offset: 2px;
     }
     article {

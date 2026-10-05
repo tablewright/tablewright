@@ -9,7 +9,7 @@
 
 import { css, type CSSResult } from "lit";
 import { ICON_STYLES } from "../../atoms/icons.js";
-import { QUIET_BUTTON } from "../../atoms/styles.js";
+import { FOCUS_OUTLINE, QUIET_BUTTON } from "../../atoms/styles.js";
 
 /** The box, whole. */
 export const SPOTLIGHT_STYLES: CSSResult = css`
@@ -141,7 +141,7 @@ export const SPOTLIGHT_STYLES: CSSResult = css`
     display: none;
   }
   li:focus-visible {
-    outline: 2px solid var(--tw-focus-ring);
+    ${FOCUS_OUTLINE}
     outline-offset: -2px;
   }
   .group {

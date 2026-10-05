@@ -16,7 +16,7 @@ import type { Taxonomy } from "../utils/preview.js";
 import type { SpotlightHit } from "../utils/searcher.js";
 import { emit } from "../utils/events.js";
 import { ICON_STYLES, SHARE_ICON } from "../atoms/icons.js";
-import { QUIET_BUTTON } from "../atoms/styles.js";
+import { FOCUS_RING, QUIET_BUTTON } from "../atoms/styles.js";
 
 export class TwHitTile extends LitElement {
   static override properties = {
@@ -135,10 +135,7 @@ export class TwHitTile extends LitElement {
       background: none;
       color: inherit;
     }
-    .share:focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
-      outline-offset: 2px;
-    }
+    ${FOCUS_RING}
   `;
 
   protected override render() {

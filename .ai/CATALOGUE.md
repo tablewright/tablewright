@@ -22,6 +22,7 @@ What more than one feature takes. `packages/ui/src`.
 - `QUIET_BUTTON`: The quiet button: an outlined label on the desk, for every action but the one.
 - `QUIET_BUTTON_HOVER`: How a quiet button lights under the pointer.
 - `MENU_ITEM`: A menu's item: borderless and left-aligned, lit only under the pointer.
+- `FOCUS_OUTLINE`: The focus ring's outline alone, for a rule that rings one kind of thing at an offset of its own.
 - `FOCUS_RING`: The focus ring, as one rule for a whole shadow root.
 
 **atoms/tw-strip.ts**

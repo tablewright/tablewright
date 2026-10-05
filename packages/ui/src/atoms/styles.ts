@@ -36,10 +36,15 @@ export const MENU_ITEM = css`
   cursor: pointer;
 `;
 
+/** The focus ring's outline alone, for a rule that rings one kind of thing at an offset of its own. */
+export const FOCUS_OUTLINE = css`
+  outline: 2px solid var(--tw-focus-ring);
+`;
+
 /** The focus ring, as one rule for a whole shadow root. */
 export const FOCUS_RING = css`
   :focus-visible {
-    outline: 2px solid var(--tw-focus-ring);
+    ${FOCUS_OUTLINE}
     outline-offset: 2px;
   }
 `;

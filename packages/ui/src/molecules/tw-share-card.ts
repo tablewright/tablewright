@@ -13,6 +13,7 @@ import { previewOf } from "../utils/preview.js";
 import type { SpotlightHit } from "../utils/searcher.js";
 import { emit } from "../utils/events.js";
 import { CLOSE_ICON, ICON_STYLES } from "../atoms/icons.js";
+import { FOCUS_OUTLINE } from "../atoms/styles.js";
 
 export class TwShareCard extends LitElement {
   static override properties = {
@@ -75,7 +76,7 @@ export class TwShareCard extends LitElement {
     }
     button:focus-visible,
     .body:focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
+      ${FOCUS_OUTLINE}
       outline-offset: -2px;
     }
     .body {

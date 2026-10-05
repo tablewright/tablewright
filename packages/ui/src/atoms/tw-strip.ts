@@ -8,6 +8,7 @@
 import { LitElement, css, html, type CSSResult } from "lit";
 import { titleCase } from "../utils/text.js";
 import { emit } from "../utils/events.js";
+import { FOCUS_OUTLINE } from "./styles.js";
 
 // The rail's chrome: on the strip itself, and on a rail a host draws by hand.
 const RAIL = css`
@@ -54,7 +55,7 @@ const CELLS = css`
     font-weight: var(--tw-typo-label-md-font-weight);
   }
   .cell:focus-visible {
-    outline: 2px solid var(--tw-focus-ring);
+    ${FOCUS_OUTLINE}
     outline-offset: 1px;
   }
 `;

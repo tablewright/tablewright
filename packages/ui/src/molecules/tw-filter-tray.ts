@@ -11,6 +11,7 @@
 
 import { LitElement, css, html, nothing } from "lit";
 import type { ControlSpec, Stop } from "@tablewright/schema";
+import { FOCUS_OUTLINE } from "../atoms/styles.js";
 import { STRIP_STYLES } from "../atoms/tw-strip.js";
 import { titleCase } from "../utils/text.js";
 import { activeCount, besideIndex, cellKey, chipValues, valueText } from "../utils/filter-state.js";
@@ -121,7 +122,7 @@ export class TwFilterTray extends LitElement {
     button:focus-visible,
     select:focus-visible,
     input:focus-visible {
-      outline: 2px solid var(--tw-focus-ring);
+      ${FOCUS_OUTLINE}
       outline-offset: 1px;
     }
     ${STRIP_STYLES}
