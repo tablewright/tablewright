@@ -81,6 +81,45 @@ const TABLE: readonly Row[] = [
     home: `${BOARD}/tokens/press.ts`,
     instead: "`isTypingTarget()`",
   },
+  {
+    what: "an error's reason read out by hand",
+    pattern: /instanceof Error \? \w+\.message : String\(/,
+    home: `${APP}/shell/notice.ts`,
+    instead: "`reasonOf()`",
+    within: [APP],
+  },
+  {
+    what: "a failure caught and said by hand",
+    pattern: /void \(async \(\) => \{\s*try \{/,
+    home: `${APP}/shell/notice.ts`,
+    instead: "`attempt()`",
+    excused: {
+      [`${APP}/parts/scene.ts`]:
+        "a move the core refuses is said, and then the scene is shown as it stands",
+    },
+  },
+  {
+    what: "the desktop app asked after by hand",
+    pattern: /__TAURI_INTERNALS__/,
+    home: `${APP}/core/core.ts`,
+    instead: "`IS_DESKTOP`",
+  },
+  {
+    what: "the default height display written out",
+    pattern: /mode:\s*"shaded",\s*strength:/,
+    home: `${BOARD}/topology/height-layer.ts`,
+    instead: "`DEFAULT_DISPLAY`",
+  },
+  {
+    what: "a scene's starting grid written out",
+    pattern: /cols:\s*20,\s*rows:\s*15/,
+    home: `${APP}/host/board-host.ts`,
+    instead: "the host's `clearScene()`",
+    excused: {
+      [`${APP}/dev/campaign-fixture.ts`]:
+        "stands in for the core's `Scene::blank`, which no TypeScript can call",
+    },
+  },
 ];
 
 // What each layer of the UI package may take in (.ai/REUSE.md): imports go
