@@ -15,6 +15,12 @@ refinement. Where they disagree, this file governs.
 - **Split files early.** One concern per file. ~250 lines: look for a
   sensible seam; ~400: finding one is a priority. Judgment thresholds,
   not lint rules. Tests and scripts exempt.
+- **Fold folders early.** A folder past about ten files gets
+  subfolders named for what a reader looks for (the shell, the parts,
+  the host), and keeps its face at the root: the entry, the barrel. A
+  package's logic tests mirror the same folders. A folder is read by a
+  person before it is read by a tool, so the names are plain words,
+  never abbreviations.
 - Minimal dependencies. Planned runtime deps: `lit`, `pixi.js`,
   `tauri` (+ plugins), `rusqlite`. Any further dependency needs a
   strong written case; the default answer is no.

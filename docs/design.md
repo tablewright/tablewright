@@ -524,9 +524,10 @@ crates/net        WebRTC sync + content-addressed assets (later)
   and its flow, and utils hold what is not an element. The board and
   the core sort by domain, with what two domains share at the root.
   An app is glue: what a second app could use belongs in a package.
-  The rules are in `.ai/REUSE.md`, with a generated catalogue of the
-  shared names and a check that refuses a second copy *(both being
-  built)*.
+  A folder past about ten files folds again, into subfolders named
+  for what a reader looks for, with its face left at the root. The
+  rules are in `.ai/REUSE.md`, with a generated catalogue of the
+  shared names and a check that refuses a second copy.
 - App chrome stays visually recessive: map art and tokens are the
   star. The look is a desk with paper on it (DESIGN.md): dark warm
   tool chrome, light paper documents whose sections are shaped like

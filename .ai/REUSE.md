@@ -66,14 +66,29 @@ vocabulary.
 ### An engine or a core: by domain
 
 `packages/board/src` and `crates/core/src` sort by domain: topology,
-ruler, draw; store, shelf, search. What a second domain uses is shared
-wherever it sits, and the catalogue lists it there. A new shared piece
-goes at the root of the package or the crate, where a glance finds it.
+ruler, draw; store, shelf, search. A domain past about ten files sorts
+again into subfolders named for what a reader looks for, with the
+domain's face left at its root; STYLE.md says when. What a second
+domain uses is shared wherever it sits, and the catalogue lists it
+there. A new shared piece goes at the root of the package or the
+crate, where a glance finds it.
 
 ### An app: glue
 
-An app's source wires packages together. What a second app could use
-belongs in a package, since Vault and the player client are coming.
+An app's source wires packages together, and folds by what a reader
+looks for. In `apps/table/src`:
+
+- **`shell/`**: what every part is handed, and the page itself. The
+  table, the page's elements, the notices, the loader.
+- **`core/`**: the way to the core, real or stand-in.
+- **`parts/`**: one file for each part that wires the page. The scene,
+  the seat, the campaign, the desk, the keys.
+- **`host/`**: the board's host.
+- **`dev/`**: what only a dev build has.
+
+`main.ts` stays at the root as the folder's face. What a second app
+could use belongs in a package, since Vault and the player client are
+coming.
 
 ## The catalogue
 
