@@ -89,12 +89,15 @@ listed function or class with no doc comment fails the run. This is why
 an exported name's doc comment opens with one plain sentence saying
 what it is for: that sentence is what the next person searches.
 
-## The reuse check *(not built yet)*
+## The reuse check
 
-`tools/check-reuse.ts` holds a table: a pattern, where it is allowed,
-and what to use instead. When a shared piece replaces copies, its row
-goes in with it, so the copies cannot come back. It also refuses an
-import that goes up a layer. It runs in `bun run check`.
+`tools/check-reuse.ts` holds a table: what a copy looks like, the one
+file that writes it, and what to use instead. When a shared piece
+replaces copies, its row goes in with it, so the copies cannot come
+back. A file with a reason of its own to write the pattern is named in
+the row with that reason, and a row that names a file which no longer
+writes the pattern fails, so the table stays true. It also refuses an
+import that goes up a layer in the UI package. `bun run check` runs it.
 
 ## The builder *(not built yet)*
 

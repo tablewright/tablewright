@@ -10,6 +10,7 @@
 
 import { readdirSync, statSync } from "node:fs";
 import { dirname, join, posix, relative } from "node:path";
+import { filesUnder } from "./files.js";
 
 const ROOT = join(import.meta.dir, "..");
 const OUT_PATH = ".ai/CATALOGUE.md";
@@ -34,17 +35,11 @@ interface Listed {
   readonly tags: ReadonlyMap<string, string>;
 }
 
-function filesUnder(folder: string): string[] {
-  const found: string[] = [];
-  for (const entry of readdirSync(join(ROOT, folder)).sort()) {
-    const path = posix.join(folder, entry);
-    if (statSync(join(ROOT, path)).isDirectory()) {
-      found.push(...filesUnder(path));
-    } else if (entry.endsWith(".ts") && entry !== "index.ts" && !SKIPPED.has(path)) {
-      found.push(path);
-    }
-  }
-  return found;
+// The sources the catalogue reads: every one but a barrel and a generated table.
+function sourcesUnder(folder: string): string[] {
+  return filesUnder(ROOT, folder).filter(
+    (path) => path.endsWith(".ts") && posix.basename(path) !== "index.ts" && !SKIPPED.has(path)
+  );
 }
 
 // A doc comment's words, without the gutter or the tags that follow them.
@@ -144,7 +139,7 @@ const IMPORT = /^import\s+(type\s+)?\{([^}]*)\}\s+from\s+"(\.[^"]+)"/gm;
 // domain's file the names that code in another domain runs. A type
 // borrowed is a shape, not a use, so type imports do not count.
 async function sharedInBoard(): Promise<Map<string, Set<string> | "all">> {
-  const files = filesUnder(BOARD);
+  const files = sourcesUnder(BOARD);
   const domainOf = (path: string): string => {
     const parts = relative(BOARD, path).split(/[\\/]/);
     return parts.length > 1 ? parts[0]! : "";
@@ -229,7 +224,7 @@ const PLACED_BY_THE_APP: Readonly<Record<string, string>> = {
 // folder, or an element the app places; a file belongs to the one feature
 // whose imports reach it, and to `shared` once a second feature does.
 async function uiByFeature(): Promise<Map<string, string[]>> {
-  const files = filesUnder(UI);
+  const files = sourcesUnder(UI);
   const reaches = new Map<string, string[]>();
   for (const path of files) {
     const targets: string[] = [];
