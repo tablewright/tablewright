@@ -61,6 +61,7 @@ export {
   type Passage,
 } from "./effect.js";
 export {
+  DEFAULT_DISPLAY,
   HEIGHT_MODES,
   HeightLayer,
   thresholdsOf,
@@ -69,6 +70,8 @@ export {
 } from "./height-layer.js";
 export { contourGroups, isoLines, type Segment } from "./iso.js";
 export { STAIR, cellNumbers, type CellNumber } from "./numbers.js";
+export { worked } from "./play.js";
+export { readoutAt, type CellReadout } from "./readout.js";
 export {
   NO_LIMIT,
   chooseRoute,

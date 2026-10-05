@@ -14,6 +14,7 @@ import {
   isTexturedAt,
   mansionStrokes,
   pointInPolygon,
+  readoutAt,
   rectEdges,
   terraceHillStrokes,
   visibleTo,
@@ -328,6 +329,34 @@ describe("the field", () => {
     expect(isLevelChangeAt(topology, { col: 3, row: 2 })).toBe(true);
     expect(isLevelChangeAt(topology, { col: 2, row: 2 })).toBe(false);
     expect(heightAt(topology, { col: 2, row: 2 })).toBe(10);
+  });
+
+  test("a cell reads out its ground, its height and its level change, and void outside", () => {
+    const stairs: Stroke = {
+      ink: "level-change",
+      look: "data",
+      shape: { kind: "brush", points: [{ x: 3.5, y: 2.5 }], radius: 0.6 },
+      visibility: "party",
+    };
+    const topology = derive(
+      [heightRect(10, 0, 0, 3, 5), groundRect("difficult", 2, 2, 2, 2), stairs],
+      bounds
+    );
+    const rise = { col: 2, row: 2 };
+    expect(readoutAt(topology, rise)).toEqual({
+      cell: rise,
+      ground: "difficult",
+      height: 10,
+      isLevelChange: false,
+    });
+    expect(readoutAt(topology, { col: 3, row: 2 }).isLevelChange).toBe(true);
+    const outside = { col: -1, row: -1 };
+    expect(readoutAt(topology, outside)).toEqual({
+      cell: outside,
+      ground: "void",
+      height: 0,
+      isLevelChange: false,
+    });
   });
 });
 

@@ -24,6 +24,9 @@ import { sampleHeight, sampleWidth } from "./shapes.js";
 
 export const HEIGHT_MODES: readonly HeightMode[] = ["shaded", "washed", "marked", "data"];
 
+/** How a scene shows its heights until its DM says otherwise, as the core's own default has it. */
+export const DEFAULT_DISPLAY: HeightDisplay = { mode: "shaded", strength: 80 };
+
 export interface HeightStyle {
   /** The board's ground, behind a tag. */
   readonly ground: number;
