@@ -299,7 +299,7 @@ Four qualities govern every decision:
   as glass. Flat colour is what ships first, not the destination.
 - **Instruments, not cards.** Every section of a document has its own
   silhouette, chosen for what it holds and for the character's class:
-  a spiral gauge for hit points, bolts and gears for an artificer's
+  a filled bar for hit points, bolts and gears for an artificer's
   scores, chained rings for equipment. Uniform rounded cards are the
   failure.
 - **Instant.** Panels are mounted ahead of time and open in the same
@@ -416,16 +416,16 @@ fibre and darkened edges on paper, translucency on glass.
 Desk controls use small radii: `sm` for controls, `md` for panels and
 `lg` for paper corners. On paper, shape is meaning: instruments are
 vector frames with material fills, such as hexagonal nuts and bolts,
-gears, rings and spirals, with pipes and chains as separators. Tokens
-on the board are circles with a brass ring. Never mix sharp and rounded
+gears and rings, with pipes and chains as separators. Tokens on the
+board are circles with a brass ring. Never mix sharp and rounded
 corners in one surface.
 
 Every instrument keeps an index corner, as a playing card does: its
 figure, plain and in `numeric-md`, in the same corner every time. The
 shape can be anything so long as the number reads at a glance without
-it. A value read off a spiral or a ring is slow, and two values
-compared on concentric arcs are slower still, so the corner carries
-the figure and the shape carries the character.
+it. A value read off a round shape is slow, and two values compared
+on concentric arcs are slower still, so the corner carries the figure
+and the shape carries the character.
 
 ## Materials
 
