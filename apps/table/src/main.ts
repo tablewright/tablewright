@@ -1029,7 +1029,7 @@ try {
       (event.ctrlKey || event.metaKey) &&
       allows(seat.role, "history:undo") &&
       toolRail.held &&
-      !(event.target instanceof HTMLElement && event.target.matches("input, textarea"))
+      !isTyping
     ) {
       event.preventDefault();
       undo();
