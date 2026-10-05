@@ -1,9 +1,10 @@
-// A stand-in for the core when the page runs without Tauri: the example
-// campaign the first run makes, the tavern with the mansion and the hill,
-// and the campaigns made since, held in memory with their scenes. The
-// shapes are the generated types, so the app treats both alike.
+// A stand-in for the core when the page runs without Tauri: the campaigns
+// made since the page loaded, held in memory with their scenes. It starts
+// with none, as a fresh install does, and the page makes the example as a
+// first run does. The shapes are the generated types, so the app treats
+// both alike.
 
-import { REFERENCE_SCENES } from "@tablewright/board";
+import { DEFAULT_DISPLAY } from "@tablewright/board";
 import type {
   Visibility,
   CampaignSummary,
@@ -31,19 +32,6 @@ const HOME = "Documents/Tablewright/campaigns";
 
 const campaigns = new Map<string, Campaign>();
 let open: string | undefined;
-
-seed();
-
-// The example as the first run makes it: the tavern, then the mansion and
-// the hill from their reference drawings, open on the tavern.
-function seed(): void {
-  const example = create("The Rusty Flagon", HOME);
-  for (const reference of REFERENCE_SCENES) {
-    addScene(example, reference.name, reference.strokes());
-  }
-  example.current = "tavern";
-  open = example.summary.path;
-}
 
 // ── Campaigns ──
 
@@ -249,7 +237,7 @@ function blank(id: string, name: string): Scene {
     map: null,
     tokens: [],
     strokes: [],
-    display: { mode: "shaded", strength: 80 },
+    display: DEFAULT_DISPLAY,
     play: [],
     next_token: 1,
   };
@@ -268,12 +256,6 @@ function tavern(): Scene {
   });
   return {
     ...blank("tavern", "The Rusty Flagon"),
-    // The bundled tavern picture, twenty by fifteen cells at fifty pixels.
-    map: {
-      url: new URL("../../src-tauri/resources/example/tavern.svg", import.meta.url).href,
-      width: 1000,
-      height: 750,
-    },
     tokens: [
       token("seed-a", "A", 4, 5, 90),
       token("seed-b", "B", 7, 6, 0),

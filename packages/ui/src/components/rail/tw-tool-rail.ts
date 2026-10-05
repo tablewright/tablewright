@@ -13,6 +13,7 @@ import { LitElement, css, html, nothing } from "lit";
 import type { HeightDisplay, Permission, Role, Stroke, Visibility } from "@tablewright/schema";
 import type { GridRule } from "@tablewright/board";
 import {
+  DEFAULT_DISPLAY,
   DEFAULT_RULE,
   DEFAULT_TOOL,
   INKS,
@@ -124,7 +125,7 @@ export class TwToolRail extends LitElement {
     this.strokes = [];
     this.topology = false;
     this.cellPx = 50;
-    this.display = { mode: "shaded", strength: 80 };
+    this.display = DEFAULT_DISPLAY;
     this.historyOpen = false;
   }
 

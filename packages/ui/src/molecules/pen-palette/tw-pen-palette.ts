@@ -9,6 +9,7 @@
 import { LitElement, html, nothing } from "lit";
 import type { HeightDisplay } from "@tablewright/schema";
 import {
+  DEFAULT_DISPLAY,
   DEFAULT_TOOL,
   DRAW_SHAPES,
   GROUND_STATES,
@@ -81,7 +82,7 @@ export class TwPenPalette extends LitElement {
     super();
     this.tool = DEFAULT_TOOL;
     this.cellPx = 50;
-    this.display = { mode: "shaded", strength: 80 };
+    this.display = DEFAULT_DISPLAY;
     this.strength = undefined;
   }
 
@@ -277,9 +278,10 @@ export class TwPenPalette extends LitElement {
   }
 
   // The scene's height display is set from the Height pen's palette, since
-  // that is where heights are.
+  // that is where heights are. It sends the whole display, changed, so
+  // nothing after it merges a change into a copy of its own.
   #emitDisplay(change: Partial<HeightDisplay>): void {
-    emit(this, "tw-display", change);
+    emit(this, "tw-display", { ...this.display, ...change });
   }
 
   #threshold(change: Partial<ThresholdChoice>): void {
@@ -300,6 +302,6 @@ declare global {
   }
   interface HTMLElementEventMap {
     "tw-tool-change": CustomEvent<{ tool: DrawTool }>;
-    "tw-display": CustomEvent<Partial<HeightDisplay>>;
+    "tw-display": CustomEvent<HeightDisplay>;
   }
 }

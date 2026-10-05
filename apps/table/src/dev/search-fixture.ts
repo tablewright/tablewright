@@ -15,7 +15,7 @@ import type {
   Visibility,
 } from "@tablewright/schema";
 import type { EntryDocument, SearchAnswer, SpotlightHit } from "@tablewright/ui";
-import { documentOf } from "../entry-document.js";
+import { documentOf } from "../core/entry-document.js";
 import raw from "./fixture.json";
 
 // The file is what the seed wrote from the type the bindings carry; the

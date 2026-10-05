@@ -10,6 +10,7 @@
 import {
   Camera,
   CameraInput,
+  DEFAULT_DISPLAY,
   DEFAULT_MOVER,
   DragRoute,
   DEFAULT_RULE,
@@ -34,13 +35,12 @@ import {
   extentCovering,
   cubeCentre,
   findRoute,
-  groundAt,
   heightAt,
   isArea,
-  isLevelChangeAt,
   NO_LIMIT,
   measure,
   readBoardTheme,
+  readoutAt,
   stepHeight,
   visibleExtent,
   NOBODY,
@@ -63,6 +63,7 @@ import {
   type Budget,
   type CameraState,
   type Cell,
+  type CellReadout,
   type Area,
   type OriginSnap,
   type Seat,
@@ -95,7 +96,7 @@ import {
 } from "@tablewright/board";
 import type {
   Edge,
-  GroundState,
+  Grid,
   HeightDisplay,
   Scene,
   Stroke,
@@ -110,16 +111,6 @@ export type ThresholdListener = (threshold: ThresholdEdge) => void;
 // rather than the cell; tighter than the pen's reach, since a tap on a cell
 // is also how a selection is cleared.
 const TAP_REACH = 0.25;
-
-/** What the topology says about the cell under the tool. */
-export interface CellReadout {
-  readonly cell: Cell;
-  readonly ground: GroundState;
-  readonly height: number;
-  /** The rule's unit, which the height is read in. */
-  readonly unit: string;
-  readonly isLevelChange: boolean;
-}
 
 export type HoverListener = (readout: CellReadout | undefined) => void;
 
@@ -168,6 +159,29 @@ const FIT_PADDING = 24;
 // as the map itself.
 const MUTED_ALPHA = 0.15;
 
+// What the board shows before a scene and under the intro: nothing to select,
+// so no key moves anything while a campaign is being chosen.
+const NO_SCENE: Scene = {
+  id: "",
+  name: "",
+  grid: { cell_size: 50, origin_x: 0, origin_y: 0, cols: 20, rows: 15 },
+  map: null,
+  tokens: [],
+  strokes: [],
+  display: DEFAULT_DISPLAY,
+  play: [],
+  next_token: 1,
+};
+
+// A scene's grid as the board measures by it, and as the cells it covers.
+function squareGridOf(grid: Grid): SquareGrid {
+  return { cellSize: grid.cell_size, originX: grid.origin_x, originY: grid.origin_y };
+}
+
+function boundsOf(grid: Grid): CellExtent {
+  return { colMin: 0, rowMin: 0, cols: grid.cols, rows: grid.rows };
+}
+
 function tokenViews(scene: Scene): TokenView[] {
   return scene.tokens.map((token) => ({
     id: token.id,
@@ -202,7 +216,7 @@ export class BoardHost {
   private asking: DashAsk | undefined;
   private ground = 0;
   private play: readonly ThresholdPlay[] = [];
-  private display: HeightDisplay = { mode: "shaded", strength: 80 };
+  private display: HeightDisplay = DEFAULT_DISPLAY;
   // The picture on the map layer, so a scene switch loads only a different one.
   private mapUrl: string | undefined;
   private isToolHeld = false;
@@ -213,9 +227,9 @@ export class BoardHost {
   private highlighted: string | undefined;
   private seat: Seat;
   private putting: Visibility = "party";
-  private grid: SquareGrid = { cellSize: 50, originX: 0, originY: 0 };
+  private grid: SquareGrid = squareGridOf(NO_SCENE.grid);
   private rule: GridRule = DEFAULT_RULE;
-  private bounds: CellExtent = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
+  private bounds: CellExtent = boundsOf(NO_SCENE.grid);
   private tokens: readonly TokenView[] = [];
   private strokes: readonly Stroke[] = [];
   private topology: Topology = derive([], this.bounds);
@@ -302,7 +316,7 @@ export class BoardHost {
       this.strokeListeners.emit(stroke);
     });
     this.drawLayer.onHover((cell) => {
-      const readout = cell === undefined ? undefined : this.readout(cell);
+      const readout = cell === undefined ? undefined : readoutAt(this.topology, cell);
       this.hoverListeners.emit(readout);
     });
 
@@ -346,11 +360,7 @@ export class BoardHost {
       this.ruler.clear();
       this.areaTool.clear();
     }
-    const grid: SquareGrid = {
-      cellSize: scene.grid.cell_size,
-      originX: scene.grid.origin_x,
-      originY: scene.grid.origin_y,
-    };
+    const grid = squareGridOf(scene.grid);
     if (
       grid.cellSize !== this.grid.cellSize ||
       grid.originX !== this.grid.originX ||
@@ -369,7 +379,7 @@ export class BoardHost {
       }
     }
     if (map === undefined) {
-      this.bounds = { colMin: 0, rowMin: 0, cols: scene.grid.cols, rows: scene.grid.rows };
+      this.bounds = boundsOf(scene.grid);
       this.isGridStale = true;
     }
     this.strokes = scene.strokes;
@@ -383,6 +393,11 @@ export class BoardHost {
       this.frameScene();
     }
     this.stage.requestFrame();
+  }
+
+  /** Show no scene: the board as it starts, with nothing on it. */
+  clearScene(): void {
+    this.setScene(NO_SCENE, undefined);
   }
 
   /** Put the whole scene in the middle of the view, at most life size. */
@@ -811,16 +826,6 @@ export class BoardHost {
     // The picture arrived in its own time, on no input; it needs a frame of its own.
     this.stage.requestFrame();
     return size;
-  }
-
-  private readout(cell: Cell): CellReadout {
-    return {
-      cell,
-      ground: groundAt(this.topology, cell),
-      height: heightAt(this.topology, cell),
-      unit: this.rule.unit,
-      isLevelChange: isLevelChangeAt(this.topology, cell),
-    };
   }
 
   // The strokes are the record; what the board reads is derived from them

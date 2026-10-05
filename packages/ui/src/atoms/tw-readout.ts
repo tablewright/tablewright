@@ -2,22 +2,28 @@
  * ─ Readout ─
  *
  * What is under the pointer, in words, in the corner below the rail. The
- * shell writes the text; while it is empty nothing shows.
+ * shell hands it what the topology says of the cell; over no cell nothing
+ * shows.
  */
 
 import { LitElement, css, html, nothing } from "lit";
+import { DEFAULT_RULE, signed, type CellReadout } from "@tablewright/board";
 
 export class TwReadout extends LitElement {
   static override properties = {
-    text: { type: String },
+    readout: { attribute: false },
+    unit: { type: String },
   };
 
-  /** What is under the pointer, in words. */
-  declare text: string;
+  /** What the topology says about the cell under the pointer, or nothing over none. */
+  declare readout: CellReadout | undefined;
+  /** The rule's unit, which the height is read in. */
+  declare unit: string;
 
   constructor() {
     super();
-    this.text = "";
+    this.readout = undefined;
+    this.unit = DEFAULT_RULE.unit;
   }
 
   static override styles = css`
@@ -45,7 +51,21 @@ export class TwReadout extends LitElement {
   `;
 
   override render() {
-    return this.text === "" ? nothing : html`<div class="readout">${this.text}</div>`;
+    const { readout } = this;
+    return readout === undefined
+      ? nothing
+      : html`<div class="readout">${this.#words(readout)}</div>`;
+  }
+
+  // The ground state, the height the rules give the cell, and whether a level
+  // change was painted there.
+  #words(readout: CellReadout): string {
+    if (readout.ground === "void") {
+      return "Void: outside the scene";
+    }
+    const height =
+      readout.height === 0 ? "ground level" : `${signed(Math.round(readout.height))} ${this.unit}`;
+    return `${readout.ground}, ${height}${readout.isLevelChange ? ", level change" : ""}`;
   }
 }
 
