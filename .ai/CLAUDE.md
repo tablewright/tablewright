@@ -71,6 +71,7 @@ The shared names, generated; look here before writing anything new.
   catalogue, the reuse check
 - `.ai/CATALOGUE.md` — the shared names, written by `bun run
   catalogue` (never hand-edited)
+- `.ai/BUILDER.md` — the brief a building agent starts from
 - `.plan/` — local-only plans (gitignored)
 - `apps/table`, `apps/vault` — Tauri shells
 - `packages/schema` — generated types (never hand-edited);

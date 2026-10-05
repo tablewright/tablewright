@@ -99,8 +99,10 @@ the row with that reason, and a row that names a file which no longer
 writes the pattern fails, so the table stays true. It also refuses an
 import that goes up a layer in the UI package. `bun run check` runs it.
 
-## The builder *(not built yet)*
+## The builder
 
-`.ai/BUILDER.md` is the brief every building agent starts from: read
-the `.ai` files and the catalogue, build from the plan step, run the
-checks, never run a story or commit, and end on the reuse reading.
+[BUILDER.md](BUILDER.md) is the brief every building agent starts
+from: read the `.ai` files and the catalogue, build from the plan
+step, run the checks, never run a story or commit, and end on the
+reuse reading. An agent is new every time, so the brief is what makes
+it look before it writes.
