@@ -5,7 +5,8 @@
  * and says where an area lies and which way it aims; the layer draws what
  * it covers and whom it catches, judged against the scene as it stands.
  * The ring about a caught token is the one thing on the board that moves
- * on its own, so while an area shows each frame asks for the next.
+ * on its own, so while an area shows each frame asks for the next, unless
+ * the person asked for less motion: then it stands still and the board rests.
  * Design: docs/design.md §5 "Templates are areas, laid down from the
  * same column".
  */
@@ -35,6 +36,7 @@ import {
   type Topology,
 } from "@tablewright/board";
 import type { Visibility } from "@tablewright/schema";
+import { REDUCED_MOTION } from "../shell/motion.js";
 
 /** The area tool and its layer over one stage, reading the scene as the host holds it now. */
 export class AreaHost {
@@ -69,6 +71,9 @@ export class AreaHost {
       this.originAt(cell, at)
     );
     this.tool.onChange((placed) => this.show(placed));
+    // The wish for less motion can turn mid-show; the next frame answers it
+    // either way, so it is asked for.
+    REDUCED_MOTION.addEventListener("change", () => this.stage.requestFrame());
   }
 
   setGrid(grid: SquareGrid): void {
@@ -140,10 +145,11 @@ export class AreaHost {
 
   /**
    * The ring is the one thing that moves on its own, so while an area shows the
-   * board asks for the next frame and turns it by the time that passed.
+   * board asks for the next frame and turns it by the time that passed. Asked
+   * for less motion, it stands still and asks for none, so the board rests.
    */
   turnRing(): void {
-    if (!this.layer.isShowing) {
+    if (!this.layer.isShowing || REDUCED_MOTION.matches) {
       this.turnedAt = 0;
       return;
     }

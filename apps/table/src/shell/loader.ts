@@ -1,5 +1,6 @@
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { IS_DESKTOP } from "../core/core.js";
+import { REDUCED_MOTION } from "./motion.js";
 
 /**
  * Show the desktop app's window. Shown after the first paint: sooner shows
@@ -27,7 +28,7 @@ const OPEN_MS = 520;
 // Nothing animates while the page is unpainted, so a timer bounds the wait;
 // reduced motion draws the mark still, and waits for nothing.
 function drawnOnce(mark: Element): Promise<void> {
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (REDUCED_MOTION.matches) {
     return Promise.resolve();
   }
   return new Promise((resolve) => {
