@@ -56,7 +56,7 @@ export const LEVEL_CHANGE_TEXTURED = 2;
 export type EdgeData = {
   readonly edge: Edge;
   readonly look: Look;
-  /** How tall it stands from the ground under it. Nothing reads it yet. */
+  /** How tall it stands from the ground under it: a line in three dimensions passes over its top. */
   readonly tall: number;
 } & (
   | { readonly kind: "wall" }

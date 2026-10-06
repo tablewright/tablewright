@@ -115,6 +115,10 @@ export function radiusOf(radius: number | null): number {
 // skipped however thin the brush.
 const SWEEP_STEP = 0.1;
 
+// A span shorter than this along a segment is a touch at a corner, not a
+// crossing: the two boundaries met there can differ by a rounding error.
+const TOUCH = 1e-9;
+
 /**
  * Visit every cell within `bounds` that a brush's sweep touches: each dab
  * and the path between dabs, `radius` wide, each cell once. Ground converts
@@ -183,6 +187,69 @@ export function sampleCentre(samples: SampleGrid, i: number, j: number): Point {
     x: samples.bounds.colMin + (i + 0.5) / samples.per,
     y: samples.bounds.rowMin + (j + 0.5) / samples.per,
   };
+}
+
+/** One sample a segment crosses, and the stretch of the segment inside it. */
+export interface SampleSpan {
+  /** The sample's place in the field, or undefined beyond the grid. */
+  readonly index: number | undefined;
+  readonly i: number;
+  readonly j: number;
+  /** How far along the segment the sample is entered, 0 at the segment's start. */
+  readonly tIn: number;
+  /** How far along it is left, 1 at the segment's end. */
+  readonly tOut: number;
+}
+
+/**
+ * Visit each sample the segment from `from` to `to` crosses, in order
+ * from `from`, until `visit` returns true. The spans tile the segment
+ * end to end; a sample the segment only touches, at a corner or along
+ * one side, is not crossed. Samples beyond the grid are visited too,
+ * with no index, so a line that leaves the map is walked whole.
+ */
+export function forSamplesAlong(
+  from: Point,
+  to: Point,
+  samples: SampleGrid,
+  visit: (span: SampleSpan) => boolean
+): void {
+  const { per, bounds } = samples;
+  const width = sampleWidth(samples);
+  const height = sampleHeight(samples);
+  const x0 = (from.x - bounds.colMin) * per;
+  const y0 = (from.y - bounds.rowMin) * per;
+  const x1 = (to.x - bounds.colMin) * per;
+  const y1 = (to.y - bounds.rowMin) * per;
+  const dx = x1 - x0;
+  const dy = y1 - y0;
+  let i = Math.floor(x0);
+  let j = Math.floor(y0);
+  // Each boundary's t is taken fresh from its whole number, never summed
+  // step by step, so the last span ends at 1 exactly and no sliver of the
+  // sample beyond the end is visited.
+  const nextI = (): number => (dx === 0 ? Infinity : ((dx > 0 ? i + 1 : i) - x0) / dx);
+  const nextJ = (): number => (dy === 0 ? Infinity : ((dy > 0 ? j + 1 : j) - y0) / dy);
+  const crossings = Math.abs(Math.floor(x1) - i) + Math.abs(Math.floor(y1) - j);
+  let tIn = 0;
+  for (let n = 0; n <= crossings; n += 1) {
+    const tI = nextI();
+    const tJ = nextJ();
+    const tOut = n === crossings ? 1 : Math.min(tI, tJ);
+    const inside = i >= 0 && j >= 0 && i < width && j < height;
+    if (
+      tOut - tIn > TOUCH &&
+      visit({ index: inside ? j * width + i : undefined, i, j, tIn, tOut })
+    ) {
+      return;
+    }
+    tIn = tOut;
+    if (tI < tJ) {
+      i += dx > 0 ? 1 : -1;
+    } else {
+      j += dy > 0 ? 1 : -1;
+    }
+  }
 }
 
 // The cells of `box` inside `bounds` whose centre passes `test`.

@@ -54,11 +54,14 @@ export {
 export {
   cellCentre,
   firstBlock,
+  firstStop,
   hasLineOfEffect,
   hasLineOfSight,
   passes,
+  type CellSpot,
   type Crossing,
   type Passage,
+  type Stop,
 } from "./rules/effect.js";
 export {
   DEFAULT_DISPLAY,
@@ -92,6 +95,7 @@ export { terraceHillStrokes } from "./references/terrace-hill.js";
 export {
   forCellsInShape,
   forCellsTouchedByBrush,
+  forSamplesAlong,
   forSamplesInCell,
   forSamplesInShape,
   placedPoints,
@@ -101,6 +105,7 @@ export {
   sampleHeight,
   sampleWidth,
   type SampleGrid,
+  type SampleSpan,
 } from "./shapes.js";
 export { NumbersLayer, type NumbersDrawing, type NumbersStyle } from "./layers/numbers-layer.js";
 export { TopologyLayer, type TopologyStyle } from "./layers/topology-layer.js";

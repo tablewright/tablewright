@@ -8,6 +8,7 @@ import {
   edgeAt,
   edgeBetween,
   edgeKey,
+  forSamplesAlong,
   groundAt,
   heightAt,
   isLevelChangeAt,
@@ -18,6 +19,7 @@ import {
   rectEdges,
   terraceHillStrokes,
   visibleTo,
+  type SampleSpan,
 } from "../src/index.js";
 
 const bounds = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
@@ -232,6 +234,77 @@ describe("ground", () => {
     }
     expect(groundAt(topology, { col: 1, row: 3 })).toBe("ground");
     expect(groundAt(topology, { col: 5, row: 2 })).toBe("ground");
+  });
+});
+
+describe("the samples along a segment", () => {
+  const samples = { bounds, per: SAMPLES_PER_CELL };
+  const width = bounds.cols * SAMPLES_PER_CELL;
+  const spansOf = (from: { x: number; y: number }, to: { x: number; y: number }) => {
+    const spans: SampleSpan[] = [];
+    forSamplesAlong(from, to, samples, (span) => {
+      spans.push(span);
+      return false;
+    });
+    return spans;
+  };
+
+  test("crosses each sample of a row in order, the spans tiling the segment", () => {
+    const spans = spansOf({ x: 0, y: 0.5 }, { x: 2, y: 0.5 });
+    expect(spans.length).toBe(16);
+    spans.forEach((span, n) => {
+      expect(span.i).toBe(n);
+      expect(span.j).toBe(4);
+      expect(span.index).toBe(4 * width + n);
+      expect(span.tIn).toBeCloseTo(n / 16, 12);
+      expect(span.tOut).toBeCloseTo((n + 1) / 16, 12);
+    });
+    expect(spans[15]?.tOut).toBe(1);
+  });
+
+  test("through the corners it crosses no sample it only touches", () => {
+    const spans = spansOf({ x: 0, y: 0 }, { x: 1, y: 1 });
+    expect(spans.map((span) => [span.i, span.j])).toEqual(
+      Array.from({ length: 8 }, (_, k) => [k, k])
+    );
+    spans.forEach((span, k) => {
+      expect(span.tIn).toBeCloseTo(k / 8, 12);
+      expect(span.tOut).toBeCloseTo((k + 1) / 8, 12);
+    });
+  });
+
+  test("walked backwards it is the same samples in reverse", () => {
+    // This segment passes through a sample's corner at its midpoint, where
+    // the two boundaries' times can differ by a rounding error.
+    const forward = spansOf({ x: 0.3, y: 1.1 }, { x: 3.7, y: 2.4 });
+    const back = spansOf({ x: 3.7, y: 2.4 }, { x: 0.3, y: 1.1 }).reverse();
+    expect(back.map((span) => span.index)).toEqual(forward.map((span) => span.index));
+    forward.forEach((span, n) => {
+      expect(1 - (back[n]?.tOut ?? NaN)).toBeCloseTo(span.tIn, 12);
+      expect(1 - (back[n]?.tIn ?? NaN)).toBeCloseTo(span.tOut, 12);
+    });
+  });
+
+  test("a segment with no length is one sample, whole", () => {
+    expect(spansOf({ x: 1.3, y: 2.7 }, { x: 1.3, y: 2.7 })).toEqual([
+      { index: 21 * width + 10, i: 10, j: 21, tIn: 0, tOut: 1 },
+    ]);
+  });
+
+  test("beyond the grid the samples have no index, and the walk goes on", () => {
+    const spans = spansOf({ x: -1, y: 0.5 }, { x: 0.5, y: 0.5 });
+    expect(spans.length).toBe(12);
+    expect(spans.slice(0, 8).every((span) => span.index === undefined && span.i < 0)).toBe(true);
+    expect(spans.slice(8).every((span) => span.index === 4 * width + span.i)).toBe(true);
+  });
+
+  test("stops where the visitor says it is done", () => {
+    let visited = 0;
+    forSamplesAlong({ x: 0, y: 0.5 }, { x: 2, y: 0.5 }, samples, (span) => {
+      visited += 1;
+      return span.i === 2;
+    });
+    expect(visited).toBe(3);
   });
 });
 
