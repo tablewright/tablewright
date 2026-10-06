@@ -712,10 +712,12 @@ the rounds are in the local research file.
   either side, inferred as the foot of a wall is.
   An edge ink carries how tall it stands instead: a wall or a
   threshold has its foot on the ground under it, read from the
-  field, so what it needs is its tallness, and that has no limit. A
-  door may be two feet tall or twenty, a wall grandiose, by the size
-  of whoever built the place. Nothing reads tallness yet; sight
-  over a low wall and the first-person view will. Every pen keeps
+  field, the higher of its two cells where they differ, so what it
+  needs is its tallness, and that has no limit. A door may be two
+  feet tall or twenty, a wall grandiose, by the size of whoever
+  built the place. The straight line in three dimensions reads
+  tallness, so it passes over a low wall; the first-person view
+  will read it too. Every pen keeps
   its own amount, since a map is built one pen at a time. Decided
   2026-09-11 (user): a map built in Tablewright puts its ground at a
   height in one stroke, and its walls and doors as tall as the

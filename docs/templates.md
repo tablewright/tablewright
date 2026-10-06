@@ -4,7 +4,7 @@ A template is the shape a spell or a breath covers: a cone, a line, a
 circle, and the solids they stand for. This is the design for templates
 that tilt as well as turn, stop at what is in their way, and read as
 solids on a board seen from above, and for testing a spell aimed at one
-creature. None of it is built yet.
+creature. Of it, only the straight-line test at the end is built.
 
 ## Why
 
@@ -34,8 +34,9 @@ So the palette has **Reaches: Line of sight** or **Around corners**.
 The rules call the first one line of effect; the palette says line of
 sight because people already know the phrase.
 
-- A wall stops it up to the wall's height.
-- A shut door stops it.
+- A wall stops it up to the wall's height, which rises from the higher
+  of the two cells it stands between.
+- A shut door stops it the same way, up to its own height.
 - Raised ground stops it as a solid.
 - A window counts as a hole, shut or not. By the rules glass stops an
   effect, so a line under Reaches says windows count as holes and the
