@@ -126,6 +126,13 @@ const TABLE: readonly Row[] = [
     home: `${BOARD}/topology/derive.ts`,
     instead: "`seenAt()`",
   },
+  {
+    what: "the wish for less motion read by hand",
+    pattern: /matchMedia\(\s*["'`]\(prefers-reduced-motion/,
+    home: `${APP}/shell/motion.ts`,
+    instead: "`REDUCED_MOTION`",
+    within: [APP],
+  },
 ];
 
 // What each layer of the UI package may take in (.ai/REUSE.md): imports go
