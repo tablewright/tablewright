@@ -120,6 +120,12 @@ const TABLE: readonly Row[] = [
         "stands in for the core's `Scene::blank`, which no TypeScript can call",
     },
   },
+  {
+    what: "the visibility tiers ranked by hand",
+    pattern: /"party"\s*\?\s*1|party:\s*1\b/,
+    home: `${BOARD}/topology/derive.ts`,
+    instead: "`seenAt()`",
+  },
 ];
 
 // What each layer of the UI package may take in (.ai/REUSE.md): imports go
