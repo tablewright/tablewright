@@ -70,8 +70,8 @@ ruler, draw; store, shelf, search. A domain past about ten files sorts
 again into subfolders named for what a reader looks for, with the
 domain's face left at its root; STYLE.md says when. What a second
 domain uses is shared wherever it sits, and the catalogue lists it
-there. A new shared piece goes at the root of the package or the
-crate, where a glance finds it.
+there. A new shared piece goes in the package's `shared/` folder, or
+at the root of the crate, where a glance finds it.
 
 ### An app: glue
 
@@ -96,8 +96,8 @@ coming.
 sentence its doc comment opens on, grouped by feature, then file, then
 name. A UI file sits under the one feature whose imports reach it, and
 under `shared` once a second feature takes it, so the list shows what
-is truly shared and what only looks it. The board lists its root files,
-and under each domain the names another domain runs. `bun run
+is truly shared and what only looks it. The board lists its `shared/`
+files, and under each domain the names another domain runs. `bun run
 catalogue` writes it, `bun run check` refuses a stale one, and
 CLAUDE.md imports it, so every session starts knowing what exists. A
 listed function or class with no doc comment fails the run. This is why

@@ -522,7 +522,8 @@ crates/net        WebRTC sync + content-addressed assets (later)
   control or one look and knows nothing of the game, a molecule is a
   few atoms with one purpose, a component owns a piece of the screen
   and its flow, and utils hold what is not an element. The board and
-  the core sort by domain, with what two domains share at the root.
+  the core sort by domain, with what two domains share in the board's
+  `shared/` folder and at the crate's root.
   An app is glue: what a second app could use belongs in a package.
   A folder past about ten files folds again, into subfolders named
   for what a reader looks for, with its face left at the root. The
