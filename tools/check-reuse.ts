@@ -64,6 +64,18 @@ const TABLE: readonly Row[] = [
     },
   },
   {
+    what: "two segments crossed by hand",
+    pattern: /denominator\s*=\s*\w+\s*\*\s*\w+\s*-\s*\w+\s*\*\s*\w+/,
+    home: `${BOARD}/shared/geometry.ts`,
+    instead: "`segmentsMeet()`",
+  },
+  {
+    what: "an edge's ends worked out by hand",
+    pattern: /\?\s*\{\s*x:\s*\w+\.col \+ 1,\s*y:\s*\w+\.row\s*\}/,
+    home: `${BOARD}/topology/edges.ts`,
+    instead: "`edgeEnds()`",
+  },
+  {
     what: "a set of listeners kept by hand",
     pattern: /\bSet<(?:[^\n>]*Listener|\([^\n)]*\)\s*=>)/,
     home: `${BOARD}/shared/listeners.ts`,
