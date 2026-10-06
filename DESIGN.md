@@ -81,6 +81,8 @@ colors:
   board-height-tag: "#F1E6D2"
   board-floor: "#F1E6D214"
   board-ruler: "#F1E6D2"
+  board-area-light: "#F6EEDE"
+  board-area-shade: "#160F0A"
   board-beyond: "#C8553D"
 
 themes:
@@ -133,6 +135,8 @@ themes:
       board-threshold: "#8A6A1E"
       board-sight: "#2F7A8E"
       board-ruler: "#2E2118"
+      board-area-light: "#FAF7F0"
+      board-area-shade: "#2E2118"
       board-beyond: "#B7412F"
 
 typography:
@@ -361,6 +365,10 @@ and the map alike:
 - `board-ruler` is paper laid over the map like a tape, and a way
   within a dash wears `board-selection`. `board-beyond` is the one red
   on the board: a way past even a dash.
+- A template that stands up is lit from above over a wash of
+  `board-ruler`: `board-area-light` is its lit side and the lines of
+  equal height across it, `board-area-shade` its shaded side and the
+  short shadow it throws.
 
 Colour never carries meaning alone. Every status colour comes with an
 icon, a label, a shape or a position.

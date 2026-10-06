@@ -74,6 +74,8 @@
   --tw-board-height-tag: #F1E6D2;
   --tw-board-floor: #F1E6D214;
   --tw-board-ruler: #F1E6D2;
+  --tw-board-area-light: #F6EEDE;
+  --tw-board-area-shade: #160F0A;
   --tw-board-beyond: #C8553D;
 
   /* Spacing */
@@ -294,5 +296,7 @@
   --tw-board-threshold: #8A6A1E;
   --tw-board-sight: #2F7A8E;
   --tw-board-ruler: #2E2118;
+  --tw-board-area-light: #FAF7F0;
+  --tw-board-area-shade: #2E2118;
   --tw-board-beyond: #B7412F;
 }
