@@ -129,6 +129,8 @@ can still hide in:
   a press inside one moves it.
 - An area lights up every token it holds, and a dome leaves out the one
   standing in the pit.
+- A cone breathed down the hall stops at a wall and a shut door, and
+  reaches past both set to around corners.
 - A measure or an area says who sees it: everyone, the DM, or just the
   one who made it.
 - The one on the board can be shared after the fact, without taking it

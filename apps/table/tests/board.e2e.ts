@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import {
   cellOnScreen,
   drag,
+  edgeCount,
   edgeOnScreen,
   openHallowayHouse,
   openTable,
@@ -450,6 +451,36 @@ test("A DM or a player measures", async ({ page }) => {
       .getByRole("button", { name: "Dome" })
       .click();
     await expect.poll(async () => (await area())?.tokens).toBe(2);
+    await page.keyboard.press("Escape");
+  });
+
+  await test.step("A cone breathed down the hall stops at a wall and a shut door, and reaches past both set to around corners.", async () => {
+    const area = () => page.evaluate(() => window.__tablewright?.area());
+    // Back to Halloway House, in the campaign since the line measure: the
+    // hall runs along its south side, two cells wide, with the gallery
+    // raised over its east half.
+    const tab = page.locator("tw-scenes");
+    await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
+    await tab.getByRole("menuitem", { name: "Halloway House", exact: true }).click();
+    await expect.poll(() => edgeCount(page)).toBe(110);
+    await tools.getByRole("button", { name: "Cone", exact: true }).click();
+    // From the hall's west end, aimed east by the drag, then given the
+    // hall's whole length.
+    await drag(
+      page,
+      await cellOnScreen(page, { col: 2, row: 12 }),
+      await cellOnScreen(page, { col: 12, row: 12 })
+    );
+    await tools.getByLabel("Length").fill("90");
+    // Stopped by the hall's walls and the secret door in the north one,
+    // it takes the hall and what the arches let through.
+    await expect.poll(async () => (await area())?.cells).toBe(34);
+    const reaches = tools.getByRole("group", { name: "Reaches" });
+    await reaches.getByRole("button", { name: "Around corners" }).click();
+    // Spreading, it takes the rooms beyond as well.
+    await expect.poll(async () => (await area())?.cells).toBe(107);
+    await reaches.getByRole("button", { name: "Line of sight" }).click();
+    await expect.poll(async () => (await area())?.cells).toBe(34);
     await page.keyboard.press("Escape");
   });
 
