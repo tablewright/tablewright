@@ -59,8 +59,17 @@ type:spell level<=3 fire => type:spell level<=3 ; fire
 school:evocation => school=evocation ;
 1 minute spells => duration=1 minute type:spell ;
 
+# a comparator or a connective with nothing to bind to is set aside, not a word to hold
+small beasts below => ; small beasts
+below 3 => ; 3
+wands or => ; wands
+fire and => ; fire
+
+# unless nothing else is left to search by: the list must not empty on a keystroke
+no => ; no
+below => ; below
+
 # what the grammar does not know is plain text
 fire bolt => ; fire bolt
 silver crown 7 => ; silver crown 7
 12:30 => ; 12:30
-below 3 => ; below 3

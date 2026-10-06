@@ -63,11 +63,7 @@ fn lower(tokens: &[Token], lexicon: &Lexicon) -> Query {
     let Ok(mut pairs) = Grammar::parse(Rule::query, &text) else {
         // Cannot happen, since every class is a word; but a query must
         // never fail, so the tokens become plain words.
-        let mut query = Query::default();
-        for token in tokens {
-            query.word((token.start, token.end), &token.text);
-        }
-        return query;
+        return plain_words(tokens);
     };
     let query = pairs.next().expect("the query rule");
     let items: Vec<Item> = query
@@ -79,6 +75,21 @@ fn lower(tokens: &[Token], lexicon: &Lexicon) -> Query {
     let mut query = Query::default();
     for item in items {
         item.lower(tokens, lexicon, &in_play, &mut query);
+    }
+    // Only a comparator or a connective standing alone lowers to nothing,
+    // and the search narrows as text is typed: a query set aside whole
+    // would empty the list on a keystroke, so its words stay words.
+    if query.is_empty() {
+        return plain_words(tokens);
+    }
+    query
+}
+
+// Every token as a plain word, nothing understood.
+fn plain_words(tokens: &[Token]) -> Query {
+    let mut query = Query::default();
+    for token in tokens {
+        query.word((token.start, token.end), &token.text);
     }
     query
 }
@@ -186,12 +197,10 @@ impl Item {
             Rule::range => self.lower_range(tokens, query),
             Rule::value_bound => self.lower_value_bound(tokens, lexicon, in_play, query),
             Rule::alternation => self.lower_alternation(tokens, lexicon, in_play, query),
-            _ => {
-                for (_, index) in &self.parts {
-                    let token = &tokens[*index];
-                    query.word((token.start, token.end), &token.text);
-                }
-            }
+            // A word on its own: a comparator or a connective with nothing
+            // to bind to ("below" in "small beasts below", before "cr 4"
+            // follows) is set aside, never a word every hit must hold.
+            _ => self.as_words(tokens, query),
         }
     }
 
@@ -351,8 +360,8 @@ impl Item {
         for (_, index) in &self.parts {
             let token = &tokens[*index];
             match token.tag {
-                // The connectives of a run that meant nothing carry no
-                // search text of their own.
+                // A connective or a comparator carries no search text of
+                // its own, in a run that meant nothing or standing alone.
                 Tag::Or | Tag::Not | Tag::And | Tag::Cmp(_) => {
                     query
                         .understood
@@ -489,6 +498,33 @@ mod tests {
         let query = parse("type:spell level<=3 fire", &Lexicon::empty());
         assert_eq!(query.describe(), "type:spell level<=3 ; fire");
         let query = parse("below level 3", &Lexicon::empty());
-        assert_eq!(query.describe(), "; below level 3");
+        assert_eq!(query.describe(), "; level 3");
+    }
+
+    // The stretches the parser set aside: understood, with no filter.
+    fn set_aside(query: &Query) -> Vec<(usize, usize)> {
+        query
+            .understood
+            .iter()
+            .filter(|u| u.filter.is_none())
+            .map(|u| (u.start as usize, u.end as usize))
+            .collect()
+    }
+
+    #[test]
+    fn a_comparator_standing_alone_is_set_aside() {
+        let query = parse("small beasts below", &lexicon());
+        assert_eq!(query.tokens, vec!["small", "beasts"]);
+        assert_eq!(set_aside(&query), vec![(13, 18)]);
+    }
+
+    #[test]
+    fn a_connective_standing_alone_is_set_aside_unless_nothing_else_is_left() {
+        let query = parse("wands or", &lexicon());
+        assert_eq!(query.tokens, vec!["wands"]);
+        assert_eq!(set_aside(&query), vec![(6, 8)]);
+        let query = parse("no", &lexicon());
+        assert_eq!(query.tokens, vec!["no"]);
+        assert!(set_aside(&query).is_empty());
     }
 }
