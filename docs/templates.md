@@ -4,8 +4,9 @@ A template is the shape a spell or a breath covers: a cone, a line, a
 circle, and the solids they stand for. This is the design for templates
 that tilt as well as turn, stop at what is in their way, and read as
 solids on a board seen from above, and for testing a spell aimed at one
-creature. Of it, the straight-line test at the end is built, and a
-template is stopped by it unless it is set to spread; the rest is not.
+creature. Of it, the straight-line test at the end is built, a
+template is stopped by it unless it is set to spread, and a form that
+stands up is lit from above; the rest is not.
 
 ## Why
 
