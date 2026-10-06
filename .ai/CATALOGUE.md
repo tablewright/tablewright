@@ -236,6 +236,9 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `normalizeDegrees()`: Normalise any angle in degrees into [0, 360).
 - `facingToward()`: Facing that points from `from` to `to` in world space, or undefined when they coincide.
 
+**tokens/press.ts**
+- `isTypingTarget()`: Whether a key event was typed into a field, where keys are text rather than commands.
+
 **tokens/token-sprite.ts**
 - `tokenReach()`: How far a token's drawing reaches from its centre: past the disc and its ring, out to the tip of the arrow that shows which way it faces.
 

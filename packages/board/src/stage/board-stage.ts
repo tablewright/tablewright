@@ -14,6 +14,7 @@ import { Application, Container, Text } from "pixi.js";
 import { FALLBACK } from "../theme/board-theme.js";
 import { FrameScheduler } from "./frame-scheduler.js";
 import { Listeners } from "../shared/listeners.js";
+import { isTypingTarget } from "../tokens/press.js";
 
 export interface BoardStageOptions {
   /** Canvas clear colour as 0xRRGGBB. The theme bridge supplies it once it exists. */
@@ -125,8 +126,10 @@ export class BoardStage {
     for (const type of INPUT_EVENTS) {
       host.addEventListener(type, this.onInput, INPUT_OPTIONS);
     }
-    // The board acts on key presses; a release changes nothing it shows.
-    window.addEventListener("keydown", this.onInput, INPUT_OPTIONS);
+    // The board acts on a key press, never on a release, and hears it where
+    // its layers do: on the window as the key bubbles, so one a control
+    // keeps to itself never arrives. A key typed into a field is text.
+    window.addEventListener("keydown", this.onKey);
 
     this.resizeObserver = new ResizeObserver(() => this.fit());
     this.resizeObserver.observe(host);
@@ -162,7 +165,7 @@ export class BoardStage {
     for (const type of INPUT_EVENTS) {
       this.host.removeEventListener(type, this.onInput, INPUT_OPTIONS);
     }
-    window.removeEventListener("keydown", this.onInput, INPUT_OPTIONS);
+    window.removeEventListener("keydown", this.onKey);
     this.resizeObserver.disconnect();
     this.dprQuery?.removeEventListener("change", this.onDprChange);
     this.app.destroy({ removeView: true }, { children: true });
@@ -200,6 +203,12 @@ export class BoardStage {
 
   private readonly onInput = (): void => {
     this.requestFrame();
+  };
+
+  private readonly onKey = (event: KeyboardEvent): void => {
+    if (!isTypingTarget(event)) {
+      this.requestFrame();
+    }
   };
 
   // One frame: the work that waited for it, then the render.
