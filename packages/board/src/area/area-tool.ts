@@ -24,6 +24,7 @@ import {
 import { Listeners } from "../shared/listeners.js";
 import { PointerSession } from "../shared/pointer-session.js";
 import { facingToward, normalizeDegrees } from "../tokens/facing.js";
+import type { Topology } from "../topology/derive.js";
 import type { GridRule } from "../topology/rules/distance.js";
 import {
   reached,
@@ -66,6 +67,7 @@ const FINE_TURN = 5;
 /** Takes the pointer while an area is being laid down or moved. */
 export class AreaTool {
   private readonly originFor: OriginFor;
+  private readonly topology: () => Topology;
   private readonly listeners = new Listeners<PlacedArea | undefined>();
   private readonly session: PointerSession;
   private rule: GridRule;
@@ -82,15 +84,18 @@ export class AreaTool {
   private grab: { x: number; y: number } | undefined;
   private phase: Phase = "idle";
 
+  /** `topology` is asked at each press, since the scene changes under the tool. */
   constructor(
     canvas: HTMLElement,
     grid: SquareGrid,
     toWorld: (screen: Point) => Point,
     rule: GridRule,
+    topology: () => Topology,
     originFor: OriginFor
   ) {
     this.grid = grid;
     this.rule = rule;
+    this.topology = topology;
     this.originFor = originFor;
     this.session = new PointerSession(canvas, toWorld, {
       takes: () => this.area !== undefined,
@@ -214,7 +219,13 @@ export class AreaTool {
     const placed = this.placed;
     if (
       placed !== undefined &&
-      footprintCovers(placed.area, placed.origin, worldToCellPoint(this.grid, at), this.rule)
+      footprintCovers(
+        placed.area,
+        placed.origin,
+        worldToCellPoint(this.grid, at),
+        this.topology(),
+        this.rule
+      )
     ) {
       this.phase = "moving";
       // The area moves with the hand rather than jumping under it: what

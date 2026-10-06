@@ -4,15 +4,19 @@
  * The ring an area draws on the plan, in cells, so the layer beside it
  * has only points to stroke. A cone's far edge follows its own choice,
  * round or flat, and a ring keeps the hole in its middle as a second
- * loop. The volume decides what is caught; this decides what is seen.
+ * loop. Set to line of sight the ring is swept from the origin, so what
+ * a wall cuts off is not drawn. The volume decides what is caught; this
+ * decides what is seen.
  * Design: docs/design.md §5 "Templates are areas, laid down from the
- * same column".
+ * same column"; docs/templates.md "What stops it".
  */
 
 import type { Point } from "../shared/geometry.js";
+import type { Topology } from "../topology/derive.js";
 import type { GridRule } from "../topology/rules/distance.js";
+import { sweep } from "../topology/rules/sweep.js";
 import { pointInPolygon } from "../topology/shapes.js";
-import { aimVector, spotToCellPoint, type Area, type Spot } from "./area.js";
+import { aimVector, spotToCellPoint, spotToCellSpot, type Area, type Spot } from "./area.js";
 
 /** What an area covers on the plan: its ring, and the hole a ring keeps. */
 export interface Outline {
@@ -25,8 +29,24 @@ export interface Outline {
 // points rather than a thousand.
 const ARC_STEP = 4;
 
-/** The footprint `area` covers, laid down at `origin`, in cells. */
-export function outline(area: Area, origin: Spot, rule: GridRule): Outline {
+/**
+ * The footprint `area` covers, laid down at `origin`, in cells. Set to
+ * line of sight, its ring is cut where the line from the origin is
+ * stopped, on the plan at the origin's height; a ring's hole is kept as
+ * it is.
+ */
+export function outline(area: Area, origin: Spot, topology: Topology, rule: GridRule): Outline {
+  const footprint = footprintOf(area, origin, rule);
+  if (area.reaches === "around-corners" || footprint.ring.length < 3) {
+    return footprint;
+  }
+  const from = spotToCellSpot(origin, rule);
+  const far = footprint.ring.map((point) => ({ ...point, z: from.z }));
+  return { ...footprint, ring: sweep(topology, from, far) };
+}
+
+// The footprint whole, with nothing in its way.
+function footprintOf(area: Area, origin: Spot, rule: GridRule): Outline {
   const at = spotToCellPoint(origin, rule);
   const cells = (feet: number): number => feet / rule.cellSize;
   switch (area.kind) {
@@ -105,9 +125,15 @@ function along(at: Point, degrees: number, reach: number): Point {
   return { x: at.x + d.x * reach, y: at.y + d.y * reach };
 }
 
-/** Whether an area's footprint covers a point on the plan, both in cells. */
-export function footprintCovers(area: Area, origin: Spot, at: Point, rule: GridRule): boolean {
-  const { ring, hole } = outline(area, origin, rule);
+/** Whether an area's footprint, as drawn, covers a point on the plan, both in cells. */
+export function footprintCovers(
+  area: Area,
+  origin: Spot,
+  at: Point,
+  topology: Topology,
+  rule: GridRule
+): boolean {
+  const { ring, hole } = outline(area, origin, topology, rule);
   if (ring.length < 3 || !pointInPolygon(at, ring)) {
     return false;
   }

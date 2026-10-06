@@ -13,6 +13,7 @@
 import { tidy } from "../draw/tool.js";
 import type { Point } from "../shared/geometry.js";
 import type { GridRule } from "../topology/rules/distance.js";
+import type { CellSpot } from "../topology/rules/effect.js";
 import type { Cell } from "../grid/square-grid.js";
 
 /**
@@ -31,12 +32,26 @@ export type Anchor =
   | { readonly kind: "token"; readonly id: string };
 
 /**
+ * What stops an area: a straight line from its origin stopped by a wall,
+ * a shut door or the ground, as the rules have it, or nothing, spreading
+ * around corners as a few spells do.
+ */
+export type Reach = "line-of-sight" | "around-corners";
+
+export const REACHES: readonly Reach[] = ["line-of-sight", "around-corners"];
+
+// What every area has whatever its shape.
+interface AnyArea {
+  readonly reaches: Reach;
+}
+
+/**
  * A straight run in three sizes: as long as it is aimed, as wide across
  * and as tall upward, the height rising from the origin as a wall of
  * fire does. It is a rectangle rather than a line, since Line in the
  * column measures and lays nothing down.
  */
-export interface RectArea {
+export interface RectArea extends AnyArea {
   readonly kind: "rect";
   /** Degrees clockwise from north, as a token's facing is. */
   readonly aim: number;
@@ -52,7 +67,7 @@ export interface RectArea {
  * the corners. Flat is the footprint given a height; 3D spreads upward
  * as it spreads across.
  */
-export interface ConeArea {
+export interface ConeArea extends AnyArea {
   readonly kind: "cone";
   readonly aim: number;
   readonly length: number;
@@ -68,7 +83,7 @@ export interface ConeArea {
  * the floor it sits on, a cylinder is a column rising from it. The
  * inner radius makes a ring; nought is a full disc.
  */
-export interface CircleArea {
+export interface CircleArea extends AnyArea {
   readonly kind: "circle";
   readonly radius: number;
   readonly inner: number;
@@ -115,6 +130,11 @@ export function spotToCellPoint(spot: Spot, rule: GridRule): Point {
   return { x: spot.x / rule.cellSize, y: spot.y / rule.cellSize };
 }
 
+/** A spot as a line in three dimensions takes it: across the map in cells, up in the rule's unit. */
+export function spotToCellSpot(spot: Spot, rule: GridRule): CellSpot {
+  return { ...spotToCellPoint(spot, rule), z: spot.z };
+}
+
 /**
  * One line for the badge beside an area: what it is and how big, in the
  * DM's words. The form is named only where it changes what is caught,
@@ -144,12 +164,21 @@ export function describeArea(area: Area, rule: GridRule): string {
  */
 export function defaultArea(kind: Area["kind"], rule: GridRule): Area {
   const cells = (count: number): number => count * rule.cellSize;
+  const reaches = "line-of-sight";
   switch (kind) {
     case "rect":
-      return { kind: "rect", aim: 0, length: cells(12), width: cells(1), height: cells(4) };
+      return {
+        kind: "rect",
+        reaches,
+        aim: 0,
+        length: cells(12),
+        width: cells(1),
+        height: cells(4),
+      };
     case "cone":
       return {
         kind: "cone",
+        reaches,
         aim: 0,
         length: cells(6),
         spread: 53,
@@ -158,7 +187,14 @@ export function defaultArea(kind: Area["kind"], rule: GridRule): Area {
         height: cells(1),
       };
     default:
-      return { kind: "circle", radius: cells(4), inner: 0, form: "sphere", height: cells(4) };
+      return {
+        kind: "circle",
+        reaches,
+        radius: cells(4),
+        inner: 0,
+        form: "sphere",
+        height: cells(4),
+      };
   }
 }
 

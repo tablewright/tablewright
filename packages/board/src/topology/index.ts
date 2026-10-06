@@ -107,5 +107,6 @@ export {
   type SampleGrid,
   type SampleSpan,
 } from "./shapes.js";
+export { sweep } from "./rules/sweep.js";
 export { NumbersLayer, type NumbersDrawing, type NumbersStyle } from "./layers/numbers-layer.js";
 export { TopologyLayer, type TopologyStyle } from "./layers/topology-layer.js";

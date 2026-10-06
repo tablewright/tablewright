@@ -90,7 +90,7 @@ What more than one feature takes. `packages/ui/src`.
 - `TwPenPalette`, `<tw-pen-palette>`: The panel beside a held pen: its shapes, what it shows as, where it sits, and its own options.
 
 **molecules/tw-ruler-column.ts**
-- `TwRulerColumn`, `<tw-ruler-column>`: The panel beside the ruler's modes: an area's own sizes, and for every mode who sees it.
+- `TwRulerColumn`, `<tw-ruler-column>`: The panel beside the ruler's modes: an area's own sizes, what stops it, and for every mode who sees it.
 
 **molecules/tw-stroke-history.ts**
 - `TwStrokeHistory`, `<tw-stroke-history>`: The scene's strokes, newest first, opened from the rail's foot: what was just drawn is what the DM wants back or gone.
@@ -154,6 +154,7 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `pointOn()`: Where a pointer event landed on `element`, in pixels from its top-left corner.
 - `lengthOf()`: The straight distance from `from` to `to`, in whichever space both are in.
 - `along()`: The point `t` of the way from `from` to `to`: 0 is `from`, 1 is `to`.
+- `segmentsMeet()`: Where the segment `p` to `q` meets the segment `a` to `b`: `t` along the first and `u` along the second, each 0 at its start and 1 at its end, or undefined when they are parallel or do not meet.
 - Types: `Point`, `WorldRect`
 
 **shared/listeners.ts**
@@ -257,10 +258,14 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 **topology/rules/effect.ts**
 - `cellCentre()`: The centre of a cell, in cell coordinates.
 - `firstBlock()`: The first edge along the segment that stops `passage`, if any.
+- `firstStop()`: What first stops a straight line in three dimensions from `from` to `to`, if anything: a wall or a shut door where the line crosses it below the top, or the ground where the line runs under the field.
 
 **topology/rules/route.ts**
 - `routes()`: The safe and the quick route, the quick one only when it beats the safe one.
 - `chooseRoute()`: Which route this turn takes, in tiers: the safe one if the movement left covers it, else the shortest; failing both, either with a dash; failing that, refused.
+
+**topology/rules/sweep.ts**
+- `sweep()`: The ring of what a straight line from `origin` reaches, out to the footprint whose edge runs through `far` in order: each point is where the line to it is stopped, else the point itself, and the ends of the solid edges inside the footprint cut the ring between them.
 
 **topology/shapes.ts**
 - `pointInPolygon()`: Whether a point lies inside a polygon, by the even-odd rule.

@@ -19,6 +19,7 @@ import {
   caughtCells,
   cubeCentre,
   heightAt,
+  outline,
   type Area,
   type AreaDrawing,
   type AreaListener,
@@ -67,7 +68,7 @@ export class AreaHost {
     this.topology = topology;
     this.tokens = tokens;
     this.layer = new AreaLayer(stage.layers.overlay, grid, rule);
-    this.tool = new AreaTool(stage.app.canvas, grid, toWorld, rule, (cell, at) =>
+    this.tool = new AreaTool(stage.app.canvas, grid, toWorld, rule, topology, (cell, at) =>
       this.originAt(cell, at)
     );
     this.tool.onChange((placed) => this.show(placed));
@@ -174,7 +175,8 @@ export class AreaHost {
     return { x: at.x, y: at.y, z: ground + this.rule.cellSize / 2 };
   }
 
-  // An area laid down or turning: what it covers, and who it holds.
+  // An area laid down or turning: what it covers, what it reaches of that,
+  // and who it holds.
   private show(placed: PlacedArea | undefined): void {
     this.listeners.emit(placed);
     if (placed === undefined) {
@@ -182,13 +184,16 @@ export class AreaHost {
       this.stage.requestFrame();
       return;
     }
-    const cells = caughtCells(placed.area, placed.origin, this.topology(), this.rule);
+    const { area, origin } = placed;
+    const topology = this.topology();
+    const cells = caughtCells(area, origin, topology, this.rule);
     const tokens = this.tokens()
-      .filter((token) => catchesToken(placed.area, placed.origin, token, this.rule))
+      .filter((token) => catchesToken(area, origin, token, topology, this.rule))
       .map((token) => token.cell);
     this.layer.show({
-      area: placed.area,
-      origin: placed.origin,
+      area,
+      origin,
+      outline: outline(area, origin, topology, this.rule),
       cells,
       tokens,
       seenBy: placed.seenBy,

@@ -4,10 +4,12 @@
  * Which cells an area takes, and which tokens stand in them. A cell is
  * caught when the volume holds the centre of that cell's cube, and then
  * everything standing in the cell is caught: one test in three
- * dimensions rather than a family of grid rules. The rule is named so a
- * system that counts differently can bring its own.
+ * dimensions rather than a family of grid rules. An area set to line of
+ * sight asks one thing more, that a straight line from its origin reach
+ * that centre; one that spreads around corners does not. The rule is
+ * named so a system that counts differently can bring its own.
  * Design: docs/design.md §5 "A cell is caught when the volume holds the
- * centre of its cube".
+ * centre of its cube"; docs/templates.md "What stops it".
  */
 
 import { forCellsInExtent, intersectExtents, type CellExtent } from "../grid/grid-lines.js";
@@ -16,7 +18,8 @@ import type { TokenView } from "../tokens/token-layer.js";
 import { heightAt, type Topology } from "../topology/derive.js";
 import type { CoverRule } from "@tablewright/schema";
 import type { GridRule } from "../topology/rules/distance.js";
-import { cubeCentre, type Area, type Spot } from "./area.js";
+import { firstStop } from "../topology/rules/effect.js";
+import { cubeCentre, spotToCellSpot, type Area, type Spot } from "./area.js";
 import { holds } from "./volume.js";
 
 // The place in a cell the rule asks about. A second rule joins here
@@ -42,7 +45,13 @@ export function catchesCell(
   topology: Topology,
   rule: GridRule
 ): boolean {
-  return holds(area, origin, testPoint(rule.cover, cell, heightAt(topology, cell), rule));
+  return catches(
+    area,
+    origin,
+    testPoint(rule.cover, cell, heightAt(topology, cell), rule),
+    topology,
+    rule
+  );
 }
 
 /**
@@ -51,8 +60,38 @@ export function catchesCell(
  * it holds above that floor, so a flier is not caught by what washes
  * the ground beneath them.
  */
-export function catchesToken(area: Area, origin: Spot, token: TokenView, rule: GridRule): boolean {
-  return holds(area, origin, testPoint(rule.cover, token.cell, placeOf(token), rule));
+export function catchesToken(
+  area: Area,
+  origin: Spot,
+  token: TokenView,
+  topology: Topology,
+  rule: GridRule
+): boolean {
+  return catches(
+    area,
+    origin,
+    testPoint(rule.cover, token.cell, placeOf(token), rule),
+    topology,
+    rule
+  );
+}
+
+// The volume must hold the spot; set to line of sight, the straight line
+// from the origin must reach it too.
+function catches(
+  area: Area,
+  origin: Spot,
+  spot: Spot,
+  topology: Topology,
+  rule: GridRule
+): boolean {
+  if (!holds(area, origin, spot)) {
+    return false;
+  }
+  return (
+    area.reaches === "around-corners" ||
+    firstStop(topology, spotToCellSpot(origin, rule), spotToCellSpot(spot, rule)) === undefined
+  );
 }
 
 /**

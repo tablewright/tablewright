@@ -20,10 +20,15 @@ import {
 const bounds = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
 const rule = DEFAULT_RULE;
 const at = (x: number, y: number, z = 0): Spot => ({ x, y, z });
+// A map with nothing on it, where nothing stops a line.
+const bare = derive([], bounds);
+const has = (cells: readonly { col: number; row: number }[], col: number, row: number) =>
+  cells.some((cell) => cell.col === col && cell.row === row);
 
 // Aimed east, so along the axis is +x and across it is ±y.
 const cone = (over: Partial<Extract<Area, { kind: "cone" }>> = {}): Area => ({
   kind: "cone",
+  reaches: "line-of-sight",
   aim: 90,
   length: 30,
   spread: 53.13,
@@ -35,6 +40,7 @@ const cone = (over: Partial<Extract<Area, { kind: "cone" }>> = {}): Area => ({
 
 const circle = (over: Partial<Extract<Area, { kind: "circle" }>> = {}): Area => ({
   kind: "circle",
+  reaches: "line-of-sight",
   radius: 20,
   inner: 0,
   form: "sphere",
@@ -44,6 +50,7 @@ const circle = (over: Partial<Extract<Area, { kind: "circle" }>> = {}): Area => 
 
 const rect = (over: Partial<Extract<Area, { kind: "rect" }>> = {}): Area => ({
   kind: "rect",
+  reaches: "line-of-sight",
   aim: 90,
   length: 60,
   width: 5,
@@ -142,7 +149,7 @@ describe("what an area catches", () => {
   test("a cell is caught when the volume holds the centre of its cube", () => {
     // The hall floor is at nought; a cube's centre sits half a cell up.
     const cells = caughtCells(
-      circle({ radius: 10, form: "cylinder", height: 10 }),
+      circle({ radius: 10, form: "cylinder", height: 10, reaches: "around-corners" }),
       at(25, 30),
       topology,
       rule
@@ -171,17 +178,18 @@ describe("what an area catches", () => {
   });
 
   test("the dais at ten feet is reached by a cone once it has risen that far", () => {
-    // From the hall, twenty-five feet south of the dais, aimed north.
+    // From the hall, twenty-five feet south of the dais, aimed north and
+    // spreading, since this is the volume's question and not the lip's.
     const from = at(22.5, 32.5, 0);
     const onDais = { id: "a", label: "A", cell: { col: 4, row: 1 }, facing: 0, height: 10 };
     const north = (over: Partial<Extract<Area, { kind: "cone" }>>) =>
-      cone({ aim: 0, length: 40, ...over });
-    expect(catchesToken(north({ spread: 70 }), from, onDais, rule)).toBe(true);
-    expect(catchesToken(north({ spread: 20 }), from, onDais, rule)).toBe(false);
+      cone({ aim: 0, length: 40, reaches: "around-corners", ...over });
+    expect(catchesToken(north({ spread: 70 }), from, onDais, topology, rule)).toBe(true);
+    expect(catchesToken(north({ spread: 20 }), from, onDais, topology, rule)).toBe(false);
     // Flat at five feet tall never reaches it, however wide it opens.
-    expect(catchesToken(north({ spread: 90, form: "flat", height: 5 }), from, onDais, rule)).toBe(
-      false
-    );
+    expect(
+      catchesToken(north({ spread: 90, form: "flat", height: 5 }), from, onDais, topology, rule)
+    ).toBe(false);
   });
 
   test("a token is judged where it stands, so a flier escapes what washes the ground", () => {
@@ -191,15 +199,50 @@ describe("what an area catches", () => {
     const blast = circle({ radius: 20, form: "dome" });
     expect(placeOf(ground)).toBe(0);
     expect(placeOf(flier)).toBe(30);
-    expect(catchesToken(blast, from, ground, rule)).toBe(true);
-    expect(catchesToken(blast, from, flier, rule)).toBe(false);
+    expect(catchesToken(blast, from, ground, topology, rule)).toBe(true);
+    expect(catchesToken(blast, from, flier, topology, rule)).toBe(false);
+  });
+
+  test("a cone breathed down the hall stops at the wall, and reaches past it set to around corners", () => {
+    // From the middle of the cube at the hall's west end, aimed east, ninety
+    // feet: the hall's whole length, and the gallery five feet up at its
+    // east half.
+    const from = at(12.5, 62.5, 2.5);
+    const down = (reaches: Area["reaches"]) => cone({ aim: 90, length: 90, spread: 53, reaches });
+    const sight = caughtCells(down("line-of-sight"), from, topology, rule);
+    const spread = caughtCells(down("around-corners"), from, topology, rule);
+    expect(sight).toHaveLength(34);
+    expect(spread).toHaveLength(107);
+    expect(sight.every((cell) => has(spread, cell.col, cell.row))).toBe(true);
+    // The hall itself, end to end, the gallery included: the line climbs
+    // onto it.
+    expect(has(sight, 10, 12)).toBe(true);
+    expect(has(sight, 17, 13)).toBe(true);
+    // Through the arch at col 4, the west wing just past it.
+    expect(has(sight, 6, 11)).toBe(true);
+    // Beyond the north wall, and beyond the secret door in it, only by
+    // spreading.
+    expect(has(sight, 12, 11)).toBe(false);
+    expect(has(spread, 12, 11)).toBe(true);
+    expect(has(sight, 16, 11)).toBe(false);
+    expect(has(spread, 16, 11)).toBe(true);
+  });
+
+  test("a token beyond the wall is caught only by a cone that spreads", () => {
+    const from = at(12.5, 62.5, 2.5);
+    const down = (reaches: Area["reaches"]) => cone({ aim: 90, length: 90, spread: 53, reaches });
+    const beyond = { id: "d", label: "D", cell: { col: 12, row: 11 }, facing: 0, height: 0 };
+    const onGallery = { id: "e", label: "E", cell: { col: 12, row: 12 }, facing: 0, height: 5 };
+    expect(catchesToken(down("line-of-sight"), from, beyond, topology, rule)).toBe(false);
+    expect(catchesToken(down("around-corners"), from, beyond, topology, rule)).toBe(true);
+    expect(catchesToken(down("line-of-sight"), from, onGallery, topology, rule)).toBe(true);
   });
 });
 
 describe("what an area draws", () => {
   test("a rectangle is the four corners of its run", () => {
     // Aimed east, sixty feet long and ten wide: twelve cells by two.
-    const ring = outline(rect({ width: 10 }), at(0, 0), rule).ring;
+    const ring = outline(rect({ width: 10 }), at(0, 0), bare, rule).ring;
     const corners = [
       [0, -1],
       [12, -1],
@@ -214,7 +257,7 @@ describe("what an area draws", () => {
   });
 
   test("a flat far edge reaches past the length at its corners", () => {
-    const flat = outline(cone({ edge: "flat", spread: 60, length: 30 }), at(0, 0), rule).ring;
+    const flat = outline(cone({ edge: "flat", spread: 60, length: 30 }), at(0, 0), bare, rule).ring;
     expect(flat).toHaveLength(3);
     // Six cells along the axis, and the corners a seventh further out.
     const corner = flat[1] ?? { x: 0, y: 0 };
@@ -222,7 +265,12 @@ describe("what an area draws", () => {
   });
 
   test("a round far edge keeps every point at the length", () => {
-    const round = outline(cone({ edge: "round", spread: 60, length: 30 }), at(0, 0), rule).ring;
+    const round = outline(
+      cone({ edge: "round", spread: 60, length: 30 }),
+      at(0, 0),
+      bare,
+      rule
+    ).ring;
     expect(round.length).toBeGreaterThan(3);
     expect(round[0]).toEqual({ x: 0, y: 0 });
     for (const point of round.slice(1)) {
@@ -231,17 +279,44 @@ describe("what an area draws", () => {
   });
 
   test("a spread of nought draws nothing, as it holds nothing", () => {
-    expect(outline(cone({ spread: 0 }), at(0, 0), rule).ring).toHaveLength(0);
+    expect(outline(cone({ spread: 0 }), at(0, 0), bare, rule).ring).toHaveLength(0);
   });
 
   test("a ring keeps the hole in its middle as a loop of its own", () => {
-    const plain = outline(circle({ radius: 20, inner: 0 }), at(50, 50), rule);
+    const plain = outline(circle({ radius: 20, inner: 0 }), at(50, 50), bare, rule);
     expect(plain.hole).toBeUndefined();
-    const ring = outline(circle({ radius: 20, inner: 10 }), at(50, 50), rule);
+    const ring = outline(circle({ radius: 20, inner: 10 }), at(50, 50), bare, rule);
     expect(ring.hole).toBeDefined();
     for (const point of ring.hole ?? []) {
       expect(Math.hypot(point.x - 10, point.y - 10)).toBeCloseTo(2, 6);
     }
+  });
+
+  test("the outline is cut where the line from the origin is stopped, and whole around corners", () => {
+    // The cone breathed down the hall from its west end: the hall's north
+    // wall is the line y = 12, its south wall y = 14.
+    const house = derive(mansionStrokes(), bounds);
+    const from = at(12.5, 62.5, 2.5);
+    const down = (reaches: Area["reaches"]) => cone({ aim: 90, length: 90, spread: 53, reaches });
+    const cut = outline(down("line-of-sight"), from, house, rule).ring;
+    const whole = outline(down("around-corners"), from, house, rule).ring;
+    expect(cut.length).toBeGreaterThan(whole.length);
+    expect(cut[0]).toEqual({ x: 2.5, y: 12.5 });
+    expect(cut.some((point) => Math.abs(point.y - 12) < 1e-6)).toBe(true);
+    expect(cut.some((point) => Math.abs(point.y - 14) < 1e-6)).toBe(true);
+    // Nothing north of the wall but through the arches and the open door.
+    for (const point of cut) {
+      if (point.y < 12 - 1e-6) {
+        expect(point.x).toBeGreaterThanOrEqual(4 - 1e-6);
+      }
+    }
+    // Spreading, every far point stands at the length, as it always did.
+    for (const point of whole.slice(1)) {
+      expect(Math.hypot(point.x - 2.5, point.y - 12.5)).toBeCloseTo(18, 6);
+    }
+    // A ring's hole is kept as it is.
+    const donut = outline(circle({ radius: 20, inner: 10 }), at(50, 50, 2.5), house, rule);
+    expect(donut.hole).toHaveLength(90);
   });
 });
 
@@ -292,14 +367,11 @@ describe("where an area starts", () => {
   test("from a cell's middle the cells straight ahead are caught, as a player expects", () => {
     const from = at(12.5, 17.5, 2.5);
     const east = cone({ aim: 90, spread: 53, length: 30 });
-    const topology = derive([], bounds);
-    const cells = caughtCells(east, from, topology, rule);
-    const has = (col: number, row: number) =>
-      cells.some((cell) => cell.col === col && cell.row === row);
+    const cells = caughtCells(east, from, bare, rule);
     // The origin's own cell, and the three straight down the axis.
-    expect(has(3, 3)).toBe(true);
-    expect(has(4, 3)).toBe(true);
-    expect(has(5, 3)).toBe(true);
+    expect(has(cells, 3, 3)).toBe(true);
+    expect(has(cells, 4, 3)).toBe(true);
+    expect(has(cells, 5, 3)).toBe(true);
   });
 });
 
@@ -308,17 +380,31 @@ describe("taking hold of an area", () => {
     const from = at(0, 0, 2.5);
     const east = cone({ aim: 90, spread: 60, length: 30 });
     // In cells: the origin is at nought and the cone runs six cells east.
-    expect(footprintCovers(east, from, { x: 3, y: 0 }, rule)).toBe(true);
-    expect(footprintCovers(east, from, { x: 3, y: 2.5 }, rule)).toBe(false);
-    expect(footprintCovers(east, from, { x: -2, y: 0 }, rule)).toBe(false);
+    expect(footprintCovers(east, from, { x: 3, y: 0 }, bare, rule)).toBe(true);
+    expect(footprintCovers(east, from, { x: 3, y: 2.5 }, bare, rule)).toBe(false);
+    expect(footprintCovers(east, from, { x: -2, y: 0 }, bare, rule)).toBe(false);
   });
 
   test("a ring is hollow to the hand as well as to the rules", () => {
     const from = at(50, 50, 2.5);
     const donut = circle({ radius: 20, inner: 10 });
-    expect(footprintCovers(donut, from, { x: 10, y: 10 }, rule)).toBe(false);
-    expect(footprintCovers(donut, from, { x: 13, y: 10 }, rule)).toBe(true);
-    expect(footprintCovers(donut, from, { x: 20, y: 10 }, rule)).toBe(false);
+    expect(footprintCovers(donut, from, { x: 10, y: 10 }, bare, rule)).toBe(false);
+    expect(footprintCovers(donut, from, { x: 13, y: 10 }, bare, rule)).toBe(true);
+    expect(footprintCovers(donut, from, { x: 20, y: 10 }, bare, rule)).toBe(false);
+  });
+
+  test("what a wall cuts off is not there to take hold of", () => {
+    // The cone down the hall from its west end, and a press in the room
+    // beyond the north wall, under its footprint but outside its ring.
+    const house = derive(mansionStrokes(), bounds);
+    const from = at(12.5, 62.5, 2.5);
+    const down = (reaches: Area["reaches"]) => cone({ aim: 90, length: 90, spread: 53, reaches });
+    const beyond = { x: 12.5, y: 11.5 };
+    expect(footprintCovers(down("around-corners"), from, beyond, house, rule)).toBe(true);
+    expect(footprintCovers(down("line-of-sight"), from, beyond, house, rule)).toBe(false);
+    expect(footprintCovers(down("line-of-sight"), from, { x: 7.5, y: 12.5 }, house, rule)).toBe(
+      true
+    );
   });
 });
 

@@ -14,10 +14,10 @@
  * docs/templates.md "What stops it".
  */
 
-import { along, type Point } from "../../shared/geometry.js";
+import { along, segmentsMeet, type Point } from "../../shared/geometry.js";
 import type { Cell } from "../../grid/square-grid.js";
 import type { Edge } from "@tablewright/schema";
-import { edgeCells } from "../edges.js";
+import { edgeCells, edgeEnds } from "../edges.js";
 import { heightAt, type EdgeData, type Topology } from "../derive.js";
 import { forSamplesAlong, type SampleSpan } from "../shapes.js";
 
@@ -54,7 +54,8 @@ export type Stop =
       readonly height: number;
     };
 
-// Parallel lines and end points within this much of an edge count as met.
+// An edge and the ground that stop a line within this much of one point
+// stop it at one point.
 const EPSILON = 1e-9;
 
 /** Whether an edge, or none, lets `passage` through. */
@@ -195,19 +196,6 @@ function topOf(topology: Topology, data: EdgeData): number {
 // undefined when it does not. A segment running along an edge is beside
 // it, not through it.
 function crossingOf(p: Point, q: Point, edge: Edge): number | undefined {
-  const a =
-    edge.side === "east" ? { x: edge.col + 1, y: edge.row } : { x: edge.col, y: edge.row + 1 };
-  const b = { x: edge.col + 1, y: edge.row + 1 };
-  const rx = q.x - p.x;
-  const ry = q.y - p.y;
-  const sx = b.x - a.x;
-  const sy = b.y - a.y;
-  const denominator = rx * sy - ry * sx;
-  if (Math.abs(denominator) < EPSILON) {
-    return undefined;
-  }
-  const t = ((a.x - p.x) * sy - (a.y - p.y) * sx) / denominator;
-  const u = ((a.x - p.x) * ry - (a.y - p.y) * rx) / denominator;
-  const within = (value: number): boolean => value >= -EPSILON && value <= 1 + EPSILON;
-  return within(t) && within(u) ? Math.min(1, Math.max(0, t)) : undefined;
+  const met = segmentsMeet(p, q, ...edgeEnds(edge));
+  return met === undefined ? undefined : Math.min(1, Math.max(0, met.t));
 }

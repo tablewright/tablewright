@@ -1,10 +1,11 @@
 /**
  * ─ Ruler column ─
  *
- * The panel beside the ruler's modes: an area's own sizes, and for every
- * mode who sees it. What an area catches is shown by lighting the tokens
- * on the board, not by a paragraph in a panel. The rail keeps the mode,
- * the area and the choices; the column shows them and asks for changes.
+ * The panel beside the ruler's modes: an area's own sizes, what stops it,
+ * and for every mode who sees it. What an area catches is shown by
+ * lighting the tokens on the board, not by a paragraph in a panel. The
+ * rail keeps the mode, the area and the choices; the column shows them
+ * and asks for changes.
  */
 
 import { LitElement, html, nothing } from "lit";
@@ -13,6 +14,7 @@ import type { GridRule } from "@tablewright/board";
 import {
   DEFAULT_RULE,
   ORIGIN_SNAPS,
+  REACHES,
   RULER_MODES,
   SEEN_BY,
   clamped,
@@ -143,6 +145,11 @@ export class TwRulerColumn extends LitElement {
                 ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
                 : nothing
             }`
+          : nothing
+      }
+      ${
+        isLaid
+          ? stripRow("Reaches", REACHES, area.reaches, (reaches) => this.#reshape({ reaches }))
           : nothing
       }
       ${stripRow(

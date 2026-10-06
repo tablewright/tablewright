@@ -28,7 +28,7 @@ import { FALLBACK } from "../theme/board-theme.js";
 import { areaStyle } from "../theme/styles.js";
 import type { GridRule } from "../topology/rules/distance.js";
 import { describeArea, spotToCellPoint, type Area, type Spot } from "./area.js";
-import { outline } from "./outline.js";
+import type { Outline } from "./outline.js";
 
 /** The colours an area draws in. */
 export interface AreaStyle {
@@ -70,6 +70,8 @@ const LIVE_WIDTH = 0.05;
 export interface ShownArea {
   readonly area: Area;
   readonly origin: Spot;
+  /** What it covers on the plan, cut to what it reaches. */
+  readonly outline: Outline;
   /** The cells it catches. */
   readonly cells: readonly Cell[];
   /** Where the tokens it holds stand, each wearing a turning ring. */
@@ -193,7 +195,7 @@ export class AreaLayer {
   private drawShape(shown: ShownArea): void {
     const g = this.shape;
     g.clear();
-    const { ring, hole } = outline(shown.area, shown.origin, this.rule);
+    const { ring, hole } = shown.outline;
     if (ring.length < 3) {
       return;
     }

@@ -27,3 +27,33 @@ export function lengthOf(from: Point, to: Point): number {
 export function along(from: Point, to: Point, t: number): Point {
   return { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t };
 }
+
+// Parallel segments, and an end within this much of the other segment,
+// are told apart from a crossing by this.
+const EPSILON = 1e-9;
+
+/**
+ * Where the segment `p` to `q` meets the segment `a` to `b`: `t` along
+ * the first and `u` along the second, each 0 at its start and 1 at its
+ * end, or undefined when they are parallel or do not meet. An end that
+ * touches the other segment counts as meeting it.
+ */
+export function segmentsMeet(
+  p: Point,
+  q: Point,
+  a: Point,
+  b: Point
+): { readonly t: number; readonly u: number } | undefined {
+  const rx = q.x - p.x;
+  const ry = q.y - p.y;
+  const sx = b.x - a.x;
+  const sy = b.y - a.y;
+  const denominator = rx * sy - ry * sx;
+  if (Math.abs(denominator) < EPSILON) {
+    return undefined;
+  }
+  const t = ((a.x - p.x) * sy - (a.y - p.y) * sx) / denominator;
+  const u = ((a.x - p.x) * ry - (a.y - p.y) * rx) / denominator;
+  const within = (value: number): boolean => value >= -EPSILON && value <= 1 + EPSILON;
+  return within(t) && within(u) ? { t, u } : undefined;
+}

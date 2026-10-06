@@ -10,6 +10,7 @@
 
 import type { CellRect, Edge } from "@tablewright/schema";
 import type { Cell } from "../grid/square-grid.js";
+import type { Point } from "../shared/geometry.js";
 
 /** The key an edge is stored under. */
 export function edgeKey(edge: Edge): string {
@@ -43,6 +44,13 @@ export function edgeCells(edge: Edge): [Cell, Cell] {
   return edge.side === "east"
     ? [near, { col: edge.col + 1, row: edge.row }]
     : [near, { col: edge.col, row: edge.row + 1 }];
+}
+
+/** The two corners an edge runs between, in cells: its north or west end, then its south-east one. */
+export function edgeEnds(edge: Edge): [Point, Point] {
+  const near =
+    edge.side === "east" ? { x: edge.col + 1, y: edge.row } : { x: edge.col, y: edge.row + 1 };
+  return [near, { x: edge.col + 1, y: edge.row + 1 }];
 }
 
 /** The edges around a block of cells: a wall rect draws all four sides at once. */

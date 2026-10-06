@@ -1,4 +1,5 @@
 export {
+  REACHES,
   SPREAD_RANGE,
   aimVector,
   clamped,
@@ -10,11 +11,13 @@ export {
   reached,
   snapOrigin,
   snapSize,
+  spotToCellSpot,
   type Anchor,
   type OriginSnap,
   type Area,
   type CircleArea,
   type ConeArea,
+  type Reach,
   type RectArea,
   type Spot,
 } from "./area.js";
