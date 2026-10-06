@@ -72,6 +72,7 @@ export { contourGroups, isoLines, type Segment } from "./iso.js";
 export { STAIR, cellNumbers, type CellNumber } from "./numbers.js";
 export { worked } from "./play.js";
 export { readoutAt, type CellReadout } from "./readout.js";
+export { ThresholdTap, type ThresholdListener } from "./threshold-tap.js";
 export {
   NO_LIMIT,
   chooseRoute,

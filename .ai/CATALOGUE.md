@@ -173,6 +173,9 @@ The root files, whole. Under each domain after this, only the names that code in
 
 ## Board: draw
 
+**draw/gestures.ts**
+- `edgeNear()`: The edge nearest a point, if one is within `reach` cells of it.
+
 **draw/strokes.ts**
 - `dashedLine()`: Lay the line from `from` to `to` down in dashes, since Pixi strokes have none; the caller strokes it.
 
