@@ -7,6 +7,23 @@ yet tested. How a story becomes a test is in
 stand-in for the core; logic tests prove the core's own types and
 files.
 
+The stand-in copies a few of the core's rules, since no TypeScript
+can call them, and does one thing the core never does. On these a
+story proves the stand-in and not the core; they are the seam a bug
+can still hide in:
+
+- A token's label: the initials of the first two words of its name,
+  passing over a word that opens on anything but a letter or a digit.
+- A campaign's folder and a scene's id: the name as a slug, made
+  unique by a number when it is taken.
+- A token's id: `tok-` and a number counted up as tokens are placed.
+- A secret threshold becomes the DM's as it is added, whoever it was
+  drawn for.
+- One hit per thing across rule versions: the version read when the
+  thing has it, else the one that ranked first stands in.
+- A player's page makes the example campaign for itself before it
+  starts, since no DM's page is behind it.
+
 ## Search
 
 ### A player searches the compendium
