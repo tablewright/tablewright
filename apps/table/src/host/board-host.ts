@@ -17,27 +17,15 @@ import {
   DrawLayer,
   GridLayer,
   HeightLayer,
-  AreaLayer,
-  AreaTool,
   MapLayer,
   NumbersLayer,
   RulerTool,
+  ThresholdTap,
   TokenLayer,
   TopologyLayer,
-  catchesToken,
-  caughtCells,
-  cellCenter,
   derive,
-  distance,
-  edgeAt,
-  edgeKey,
-  edgeNear,
   extentCovering,
-  cubeCentre,
-  findRoute,
-  heightAt,
   isArea,
-  NO_LIMIT,
   measure,
   readBoardTheme,
   readoutAt,
@@ -45,7 +33,6 @@ import {
   visibleExtent,
   NOBODY,
   allows,
-  seenAt,
   visibleTo,
   watchBoardTheme,
   areaStyle,
@@ -56,46 +43,35 @@ import {
   tokenStyle,
   topologyStyle,
   worldToCell,
-  worldToCellPoint,
   Listeners,
   type BoardStage,
   type BoardTheme,
-  type Budget,
-  type CameraState,
   type Cell,
   type CellReadout,
   type Area,
   type OriginSnap,
   type Seat,
-  type AreaDrawing,
   type CellExtent,
   type DrawTool,
   type GridRule,
-  type HeightDrawing,
   type MapSize,
   type MeasureListener,
-  type NumbersDrawing,
-  type Mover,
   type PlayTool,
   type AreaListener,
-  type PlacedArea,
   type Point,
-  type Route,
-  type RouteOptions,
   type RulerMode,
   type ShownMeasure,
-  type Spot,
   type SquareGrid,
   type StrokeListener,
-  type ThresholdEdge,
+  type ThresholdListener,
   type DashAsk,
   type DashAskListener,
   type TokenMove,
+  type TokenMoveListener,
   type TokenView,
   type Topology,
 } from "@tablewright/board";
 import type {
-  Edge,
   Grid,
   HeightDisplay,
   Scene,
@@ -103,53 +79,9 @@ import type {
   ThresholdPlay,
   Visibility,
 } from "@tablewright/schema";
-
-/** A tap in Play landed on a threshold: what it is, and where. */
-export type ThresholdListener = (threshold: ThresholdEdge) => void;
-
-// How near a tap must be to an edge, in cells, to mean the threshold on it
-// rather than the cell; tighter than the pen's reach, since a tap on a cell
-// is also how a selection is cleared.
-const TAP_REACH = 0.25;
-
-export type HoverListener = (readout: CellReadout | undefined) => void;
-
-/** What a dev build exposes on `window.__tablewright` for tests: reads only, no mutation. */
-export interface BoardDebug {
-  tokens(): readonly TokenView[];
-  selectedId(): string | undefined;
-  camera(): CameraState;
-  bounds(): CellExtent;
-  /** The picture on the board by its pixel size, once it has loaded. */
-  picture(): MapSize | undefined;
-  /** The scene's strokes in the order drawn: the record the board derives from. */
-  strokes(): readonly Stroke[];
-  /** What the strokes derived to, as this viewer sees it. */
-  topology(): Topology;
-  /** Screen position of a cell's centre, for pointing a test's mouse at it. */
-  cellToScreen(cell: Cell): Point;
-  /** The grid rule the board measures by. */
-  rule(): GridRule;
-  /** The cheapest route for a person on foot, as the rules read this viewer's scene. */
-  route(from: Cell, to: Cell, options?: RouteOptions): Route | undefined;
-  /** The straight distance between two cells' centres at the field's heights. */
-  distance(from: Cell, to: Cell): number;
-  /** What the height display last drew. */
-  heights(): HeightDrawing;
-  /** What the DM's Topology view last printed; nothing while it is off. */
-  numbers(): NumbersDrawing;
-  /** The area on the board, or nothing while none is laid down. */
-  area(): AreaDrawing;
-  /** Frames the board has drawn; still while nothing changes. */
-  framesDrawn(): number;
-  /** The board's clear colour, as the desk's theme last set it. */
-  ground(): number;
-  /** The measure the ruler shows, in the mode it is read in, or nothing. */
-  measurement(): ShownMeasure | undefined;
-}
-
-/** A finished gesture the scene should record: which token, where, facing what. */
-export type TokenMoveListener = (move: TokenMove) => void;
+import { AreaHost } from "./area-host.js";
+import { debugView, placeholderTokens, type BoardDebug } from "./board-debug.js";
+import { budgetOf, moverOf, tokenViews, tokensWithHeights } from "./token-views.js";
 
 // Screen pixels kept clear around a map when the camera fits to it.
 const FIT_PADDING = 24;
@@ -182,18 +114,8 @@ function boundsOf(grid: Grid): CellExtent {
   return { colMin: 0, rowMin: 0, cols: grid.cols, rows: grid.rows };
 }
 
-function tokenViews(scene: Scene): TokenView[] {
-  return scene.tokens.map((token) => ({
-    id: token.id,
-    label: token.label,
-    cell: { col: token.col, row: token.row },
-    facing: token.facing,
-    visibility: token.visibility,
-  }));
-}
-
 export class BoardHost {
-  readonly camera: Camera;
+  private readonly camera: Camera;
   private readonly stage: BoardStage;
   private readonly gridLayer: GridLayer;
   private readonly mapLayer: MapLayer;
@@ -201,19 +123,16 @@ export class BoardHost {
   private readonly topologyLayer: TopologyLayer;
   private readonly heightLayer: HeightLayer;
   private readonly numbersLayer: NumbersLayer;
-  private readonly areaLayer: AreaLayer;
-  private readonly areaTool: AreaTool;
+  private readonly area: AreaHost;
   private readonly drawLayer: DrawLayer;
   private readonly ruler: RulerTool;
+  private readonly thresholdTap: ThresholdTap;
   private readonly dragRoute: DragRoute;
   private readonly target: HTMLElement;
   private readonly moveListeners = new Listeners<TokenMove>();
   private readonly strokeListeners = new Listeners<Stroke>();
   private readonly hoverListeners = new Listeners<CellReadout | undefined>();
-  private readonly thresholdListeners = new Listeners<ThresholdEdge>();
   private readonly dashListeners = new Listeners<DashAsk | undefined>();
-  private readonly areaListeners = new Listeners<PlacedArea | undefined>();
-  private asking: DashAsk | undefined;
   private ground = 0;
   private play: readonly ThresholdPlay[] = [];
   private display: HeightDisplay = DEFAULT_DISPLAY;
@@ -224,9 +143,7 @@ export class BoardHost {
   private playTool: PlayTool = "move";
   // The scene on show, so a switch to another takes the measure off the board.
   private sceneId: string | undefined;
-  private highlighted: string | undefined;
   private seat: Seat;
-  private putting: Visibility = "party";
   private grid: SquareGrid = squareGridOf(NO_SCENE.grid);
   private rule: GridRule = DEFAULT_RULE;
   private bounds: CellExtent = boundsOf(NO_SCENE.grid);
@@ -236,14 +153,13 @@ export class BoardHost {
   private isGridStale = true;
   private isTopologyView = false;
   private rulerMode: RulerMode = "line";
-  private area: Area | undefined;
-  private turnedAt = 0;
 
   constructor(stage: BoardStage, target: HTMLElement, seat: Seat = NOBODY) {
     this.stage = stage;
     this.target = target;
     this.seat = seat;
     this.camera = new Camera(stage.world);
+    const toWorld = (screen: Point): Point => this.camera.toWorld(screen);
     this.gridLayer = new GridLayer(stage.layers.grid);
     this.mapLayer = new MapLayer(stage.layers.map);
     this.topologyLayer = new TopologyLayer(stage.layers.topology);
@@ -255,8 +171,8 @@ export class BoardHost {
     this.dragRoute = new DragRoute(
       stage.layers.overlay,
       this.grid,
-      (id, from, to) => measure(this.topology, from, to, this.rule, this.moverOf(id)),
-      (id) => this.budgetOf(id)
+      (id, from, to) => measure(this.topology, from, to, this.rule, moverOf(this.tokens, id)),
+      (id) => budgetOf(this.tokens, id)
     );
     this.tokenLayer = new TokenLayer(
       stage.layers.tokens,
@@ -265,34 +181,30 @@ export class BoardHost {
       this.dragRoute
     );
     this.tokenLayer.onDashAsk((ask) => {
-      this.asking = ask;
       stage.requestFrame();
       this.dashListeners.emit(ask);
     });
-    this.drawLayer = new DrawLayer(stage.app.canvas, stage.layers.overlay, this.grid, (screen) =>
-      this.camera.toWorld(screen)
-    );
+    this.drawLayer = new DrawLayer(stage.app.canvas, stage.layers.overlay, this.grid, toWorld);
     // The ruler asks the scene as it stands: the topology derived, the rule
     // the campaign plays by, and a person on foot until sheets say otherwise.
     this.ruler = new RulerTool(
       stage.app.canvas,
       stage.layers.overlay,
       this.grid,
-      (screen) => this.camera.toWorld(screen),
+      toWorld,
       (from, to, seenBy) => measure(this.topology, from, to, this.rule, DEFAULT_MOVER, seenBy)
     );
     this.ruler.onMeasure(() => stage.requestFrame());
-    this.areaLayer = new AreaLayer(stage.layers.overlay, this.grid, this.rule);
-    this.areaTool = new AreaTool(
-      stage.app.canvas,
+    this.area = new AreaHost(
+      stage,
       this.grid,
-      (screen) => this.camera.toWorld(screen),
       this.rule,
-      (cell, at) => this.originAt(cell, at)
+      toWorld,
+      () => this.topology,
+      () => tokensWithHeights(this.tokens, this.topology, this.seat)
     );
-    this.areaTool.onChange((placed) => this.showArea(placed));
     this.ruler.setSeat(seat);
-    this.areaTool.setSeat(seat);
+    this.area.setSeat(seat);
     // The right button belongs to the board: it asks a token what may be
     // done with it, so the browser's own menu never opens over it.
     stage.app.canvas.addEventListener("contextmenu", (event) => event.preventDefault());
@@ -300,9 +212,27 @@ export class BoardHost {
     // A tap on a threshold works it; a tap on empty board clears the
     // selection, the same as pressing Escape. The pointer over a threshold
     // brightens it first, so a door reads as something to work.
-    input.onTap((at) => this.tap(at));
-    input.onMove((at) => this.hover(at));
-    target.addEventListener("pointerleave", this.onPointerLeave);
+    this.thresholdTap = new ThresholdTap(this.grid, toWorld, () => this.topology);
+    input.onTap((at) => {
+      if (!this.thresholdTap.tap(at)) {
+        this.tokenLayer.select(undefined);
+      }
+    });
+    input.onMove((at) => {
+      if (!this.isToolHeld) {
+        this.thresholdTap.hover(at);
+      }
+    });
+    target.addEventListener("pointerleave", () => this.thresholdTap.clear());
+    this.thresholdTap.onHighlight((edge) => {
+      this.topologyLayer.setHighlight(edge);
+      if (edge === undefined) {
+        delete this.target.dataset["threshold"];
+      } else {
+        this.target.dataset["threshold"] = "true";
+      }
+      stage.requestFrame();
+    });
 
     this.applyTheme(theme);
     watchBoardTheme(target, (next) => {
@@ -344,7 +274,7 @@ export class BoardHost {
         this.isGridStale = false;
         this.redrawGrid();
       }
-      this.turnRing();
+      this.area.turnRing();
     });
   }
 
@@ -358,7 +288,7 @@ export class BoardHost {
     if (isNew) {
       this.sceneId = scene.id;
       this.ruler.clear();
-      this.areaTool.clear();
+      this.area.clear();
     }
     const grid = squareGridOf(scene.grid);
     if (
@@ -420,12 +350,12 @@ export class BoardHost {
   // and the tools read the pointer through it.
   private applyGrid(grid: SquareGrid): void {
     this.grid = grid;
-    this.tokenLayer.setGrid(grid, this.tokensWithHeights());
+    this.tokenLayer.setGrid(grid, tokensWithHeights(this.tokens, this.topology, this.seat));
     this.drawLayer.setGrid(grid);
     this.ruler.setGrid(grid);
     this.dragRoute.setGrid(grid);
-    this.areaLayer.setGrid(grid);
-    this.areaTool.setGrid(grid);
+    this.area.setGrid(grid);
+    this.thresholdTap.setGrid(grid);
     this.isGridStale = true;
   }
 
@@ -439,7 +369,7 @@ export class BoardHost {
     this.topologyLayer.setStyle(topologyStyle(theme));
     this.heightLayer.setStyle(heightStyle(theme));
     this.numbersLayer.setStyle(numbersStyle(theme));
-    this.areaLayer.setStyle(areaStyle(theme));
+    this.area.setStyle(areaStyle(theme));
     this.drawLayer.setStyle(drawStyle(theme));
     this.ruler.setStyle(rulerStyle(theme));
     this.dragRoute.setStyle(rulerStyle(theme));
@@ -448,14 +378,9 @@ export class BoardHost {
   /** Measure by `rule`: the campaign's setting, the system's default until then. */
   setRule(rule: GridRule): void {
     this.rule = rule;
-    this.areaLayer.setRule(rule);
-    this.areaTool.setRule(rule);
-    // The ruler and the drag read the rule as they measure; an area already
-    // down is measured again, since what it catches is in the rule's unit.
-    const placed = this.areaTool.placed;
-    if (placed !== undefined) {
-      this.showArea(placed);
-    }
+    // The ruler and the drag read the rule as they measure; the area host
+    // measures again what it has down.
+    this.area.setRule(rule);
     this.redrawHeights();
     this.stage.requestFrame();
   }
@@ -469,23 +394,7 @@ export class BoardHost {
 
   // Every token wears the height of the ground under it.
   private showTokens(): void {
-    this.tokenLayer.set(this.tokensWithHeights());
-  }
-
-  // What stands on the board as this viewer sees it: a token kept for the
-  // DM is not on a player's board at all, so it cannot be seen, caught by
-  // an area, or dragged.
-  private seenTokens(): readonly TokenView[] {
-    return this.tokens.filter((token) => seenAt(token.visibility ?? "party", this.seat.role.sees));
-  }
-
-  private tokensWithHeights(): TokenView[] {
-    return this.seenTokens().map((token) => ({
-      ...token,
-      height: heightAt(this.topology, token.cell),
-      // Still on this seat's board, but not on the table's.
-      isKept: (token.visibility ?? "party") !== "party",
-    }));
+    this.tokenLayer.set(tokensWithHeights(this.tokens, this.topology, this.seat));
   }
 
   /** Hear the right button ask what may be done with a token. */
@@ -509,21 +418,6 @@ export class BoardHost {
   /** Answer the dash question: the token moves and spends the action, or stays. */
   answerDash(use: boolean): void {
     this.tokenLayer.answerDash(use);
-  }
-
-  /** Whether a move is waiting on the dash question. */
-  get isAskingDash(): boolean {
-    return this.asking !== undefined;
-  }
-
-  // Without a sheet a token walks as a person on foot and nothing limits it: a
-  // route still prices, and a drag of any length lands.
-  private moverOf(id: string): Mover {
-    return this.tokens.find((token) => token.id === id)?.mover ?? DEFAULT_MOVER;
-  }
-
-  private budgetOf(id: string): Budget {
-    return this.tokens.find((token) => token.id === id)?.budget ?? NO_LIMIT;
   }
 
   /** Draw with `tool`, or with nothing: Play, where the pointer moves tokens or measures. */
@@ -555,13 +449,12 @@ export class BoardHost {
 
   /** The area the palette has made: its kind, its sizes and its form. */
   setArea(area: Area | undefined): void {
-    this.area = area;
-    this.areaTool.setArea(area);
+    this.area.setArea(area);
   }
 
   /** Where an area's origin may sit when one is put down. */
   setOriginSnap(snap: OriginSnap): void {
-    this.areaTool.setSnap(snap);
+    this.area.setSnap(snap);
   }
 
   /**
@@ -571,7 +464,7 @@ export class BoardHost {
    */
   chooseSeenBy(seenBy: Visibility): void {
     this.ruler.chooseSeenBy(seenBy);
-    this.areaTool.chooseSeenBy(seenBy);
+    this.area.chooseSeenBy(seenBy);
   }
 
   /**
@@ -580,24 +473,12 @@ export class BoardHost {
    * and by the scene after that.
    */
   setMarking(marking: Visibility): void {
-    this.putting = marking;
     this.drawLayer.setMarking(marking);
-  }
-
-  /** What this hand is putting down as, for whoever places a token. */
-  get marking(): Visibility {
-    return this.putting;
   }
 
   /** The token the pointer has chosen, when one is chosen. */
   get selected(): string | undefined {
     return this.tokenLayer.selectedId;
-  }
-
-  /** Who the next measure or area is for, leaving what is on the board alone. */
-  setSeenBy(seenBy: Visibility): void {
-    this.ruler.setSeenBy(seenBy);
-    this.areaTool.setSeenBy(seenBy);
   }
 
   /**
@@ -611,25 +492,20 @@ export class BoardHost {
     }
     this.seat = seat;
     this.ruler.setSeat(seat);
-    this.areaTool.setSeat(seat);
+    this.area.setSeat(seat);
     this.applyTools();
     this.redrawTopology();
     this.stage.requestFrame();
   }
 
-  /** Take the area off the board, as Escape does. */
-  clearArea(): void {
-    this.areaTool.clear();
-  }
-
   /** Whether an area is on the board. */
   get hasArea(): boolean {
-    return this.areaLayer.isShowing;
+    return this.area.isShowing;
   }
 
   /** Hear the area as it is turned and laid down, so a palette can follow it. */
   onArea(listener: AreaListener): () => void {
-    return this.areaListeners.add(listener);
+    return this.area.onArea(listener);
   }
 
   /** Hear the measure as it is drawn out and pinned, so a palette can follow it. */
@@ -683,9 +559,9 @@ export class BoardHost {
     const isArea_ = inColumn && isArea(this.rulerMode);
     const isRuler = inColumn && !isArea_;
     this.isToolHeld = pen !== undefined || inColumn;
-    this.setHighlight(undefined);
+    this.thresholdTap.clear();
     this.ruler.setActive(isRuler);
-    this.areaTool.setActive(isArea_);
+    this.area.setActive(isArea_);
     this.tokenLayer.setInteractive(!this.isToolHeld);
     this.tokenLayer.setMovable(allows(this.seat.role, "token:move"));
     if (pen !== undefined) {
@@ -704,59 +580,13 @@ export class BoardHost {
   }
 
   /** Hear what the tool is over as it moves. Returns the unsubscribe. */
-  onHover(listener: HoverListener): () => void {
+  onHover(listener: (readout: CellReadout | undefined) => void): () => void {
     return this.hoverListeners.add(listener);
   }
 
   /** Hear every threshold tapped in Play. Returns the unsubscribe. */
   onThreshold(listener: ThresholdListener): () => void {
-    return this.thresholdListeners.add(listener);
-  }
-
-  // A tap near a threshold's edge is for the threshold; anywhere else it
-  // is a tap on nothing, which clears the selection.
-  private tap(at: Point): void {
-    const threshold = this.thresholdNear(at);
-    if (threshold !== undefined) {
-      this.thresholdListeners.emit(threshold);
-      return;
-    }
-    this.tokenLayer.select(undefined);
-  }
-
-  // The threshold a point on the board is over, if it is one a tap can
-  // work: an arch is always open, so it is not offered.
-  private thresholdNear(at: Point): ThresholdEdge | undefined {
-    const edge = edgeNear(worldToCellPoint(this.grid, this.camera.toWorld(at)), TAP_REACH);
-    const data = edge === undefined ? undefined : edgeAt(this.topology, edge);
-    return data?.kind === "threshold" && data.threshold !== "arch" ? data : undefined;
-  }
-
-  // The pointer over a threshold brightens it, for the hand that can work it.
-  private hover(at: Point): void {
-    if (this.isToolHeld) {
-      return;
-    }
-    this.setHighlight(this.thresholdNear(at)?.edge);
-  }
-
-  private readonly onPointerLeave = (): void => {
-    this.setHighlight(undefined);
-  };
-
-  private setHighlight(edge: Edge | undefined): void {
-    const key = edge === undefined ? undefined : edgeKey(edge);
-    if (key === this.highlighted) {
-      return;
-    }
-    this.highlighted = key;
-    this.topologyLayer.setHighlight(edge);
-    if (edge === undefined) {
-      delete this.target.dataset["threshold"];
-    } else {
-      this.target.dataset["threshold"] = "true";
-    }
-    this.stage.requestFrame();
+    return this.thresholdTap.onThreshold(listener);
   }
 
   /** The cell under the middle of the view: where a placed token lands. */
@@ -767,48 +597,28 @@ export class BoardHost {
 
   /** Read-only view of the scene for dev builds and end-to-end tests. */
   debug(): BoardDebug {
-    return {
-      tokens: () => this.tokensWithHeights(),
-      selectedId: () => this.tokenLayer.selectedId,
-      camera: () => this.camera.current,
-      bounds: () => this.bounds,
-      picture: () => this.mapLayer.size(),
-      strokes: () => this.strokes,
-      topology: () => this.topology,
-      cellToScreen: (cell) => this.camera.toScreen(cellCenter(this.grid, cell)),
+    return debugView({
+      stage: this.stage,
+      camera: this.camera,
+      tokenLayer: this.tokenLayer,
+      mapLayer: this.mapLayer,
+      heightLayer: this.heightLayer,
+      numbersLayer: this.numbersLayer,
+      area: this.area,
+      ruler: this.ruler,
+      grid: () => this.grid,
       rule: () => this.rule,
-      route: (from, to, options) =>
-        findRoute(this.topology, from, to, DEFAULT_MOVER, this.rule, options),
-      distance: (from, to) =>
-        distance(
-          { ...from, height: heightAt(this.topology, from) },
-          { ...to, height: heightAt(this.topology, to) },
-          this.rule
-        ),
-      heights: () => this.heightLayer.drawing(),
-      numbers: () => this.numbersLayer.drawing(),
-      area: () => this.areaLayer.drawing(),
-      framesDrawn: () => this.stage.framesDrawn,
+      bounds: () => this.bounds,
+      topology: () => this.topology,
+      strokes: () => this.strokes,
+      tokens: () => tokensWithHeights(this.tokens, this.topology, this.seat),
       ground: () => this.ground,
-      measurement: () => this.ruler.measurement,
-    };
+    });
   }
 
   /** Replace the tokens with `count` placeholders spread over the map, for stress runs. */
   seedTokens(count: number): void {
-    const step = 2;
-    const perRow = Math.max(1, Math.floor((this.bounds.cols - 2) / step));
-    this.setTokens(
-      Array.from({ length: count }, (_, index) => ({
-        id: `seed-${index}`,
-        label: String(index + 1),
-        cell: {
-          col: 1 + (index % perRow) * step,
-          row: Math.min(this.bounds.rows - 1, 1 + Math.floor(index / perRow) * step),
-        },
-        facing: (index * 37) % 360,
-      }))
-    );
+    this.setTokens(placeholderTokens(count, this.bounds));
   }
 
   /** Load a map image, size the grid to it, and frame it in the view. */
@@ -846,59 +656,8 @@ export class BoardHost {
     this.showTokens();
   }
 
-  // An area leaves from the middle of the cube of the token pressed on, else
-  // from the snapped point half a cell up: cells are judged by their cube's
-  // centre, so a floor-level origin loses the nearest ones.
-  private originAt(cell: Cell, at: { x: number; y: number }): Spot {
-    const token = this.seenTokens().find(
-      (one) => one.cell.col === cell.col && one.cell.row === cell.row
-    );
-    const ground = heightAt(this.topology, cell);
-    if (token !== undefined) {
-      return cubeCentre(cell, ground + (token.elevation ?? 0), this.rule);
-    }
-    return { x: at.x, y: at.y, z: ground + this.rule.cellSize / 2 };
-  }
-
-  // An area laid down or turning: what it covers, and who it holds.
-  private showArea(placed: PlacedArea | undefined): void {
-    this.areaListeners.emit(placed);
-    if (placed === undefined) {
-      this.areaLayer.clear();
-      this.stage.requestFrame();
-      return;
-    }
-    const cells = caughtCells(placed.area, placed.origin, this.topology, this.rule);
-    const tokens = this.tokensWithHeights()
-      .filter((token) => catchesToken(placed.area, placed.origin, token, this.rule))
-      .map((token) => token.cell);
-    this.areaLayer.show({
-      area: placed.area,
-      origin: placed.origin,
-      cells,
-      tokens,
-      seenBy: placed.seenBy,
-      isPlaced: placed.isPlaced,
-    });
-    this.stage.requestFrame();
-  }
-
   private redrawHeights(): void {
     this.heightLayer.draw(this.topology, this.grid, this.display, stepHeight(this.rule));
-  }
-
-  // The ring is the one thing that moves on its own, so while an area shows the
-  // board asks for the next frame and turns it by the time that passed.
-  private turnRing(): void {
-    if (!this.areaLayer.isShowing) {
-      this.turnedAt = 0;
-      return;
-    }
-    const now = performance.now();
-    const since = this.turnedAt === 0 ? 0 : (now - this.turnedAt) / 1000;
-    this.turnedAt = now;
-    this.areaLayer.turn(since);
-    this.stage.requestFrame();
   }
 
   // The grid and the numbers both cost what is on screen and nothing more,
