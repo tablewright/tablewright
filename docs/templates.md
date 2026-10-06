@@ -4,7 +4,8 @@ A template is the shape a spell or a breath covers: a cone, a line, a
 circle, and the solids they stand for. This is the design for templates
 that tilt as well as turn, stop at what is in their way, and read as
 solids on a board seen from above, and for testing a spell aimed at one
-creature. Of it, only the straight-line test at the end is built.
+creature. Of it, the straight-line test at the end is built, and a
+template is stopped by it unless it is set to spread; the rest is not.
 
 ## Why
 
@@ -38,11 +39,15 @@ sight because people already know the phrase.
   of the two cells it stands between.
 - A shut door stops it the same way, up to its own height.
 - Raised ground stops it as a solid.
-- A window counts as a hole, shut or not. By the rules glass stops an
-  effect, so a line under Reaches says windows count as holes and the
-  DM can rule otherwise.
+- A window counts as a hole, shut or not, though by the rules glass
+  stops an effect. The palette says nothing of it; a DM who rules
+  otherwise says so at the table, or sets the template to spread.
 
-What is cut off is not part of the template and is not drawn.
+What is cut off is not part of the template and is not drawn. The
+outline is cut by rays cast from the origin, each stopped where the
+line from the origin to the footprint's edge is stopped, with a ray at
+each end of a solid edge so a wall's end cuts cleanly. The sweep is
+kept apart from the template, so dynamic lighting can take it later.
 
 The ruler's Line mode is not a template. It keeps measuring the way it
 does, since a raw measure is still useful.
