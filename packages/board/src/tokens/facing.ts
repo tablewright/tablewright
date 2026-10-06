@@ -7,7 +7,7 @@
  * here and nowhere else.
  */
 
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 import type { Cell } from "../grid/square-grid.js";
 
 const FULL_TURN = 360;

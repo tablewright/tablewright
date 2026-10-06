@@ -8,7 +8,7 @@
  * Design: docs/design.md §5, engine/skin split.
  */
 
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 
 /** Grid geometry in world pixels. The origin is the top-left corner of cell (0, 0). */
 export interface SquareGrid {

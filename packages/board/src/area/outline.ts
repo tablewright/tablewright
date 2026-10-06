@@ -9,8 +9,8 @@
  * same column".
  */
 
-import type { Point } from "../geometry.js";
-import type { GridRule } from "../topology/distance.js";
+import type { Point } from "../shared/geometry.js";
+import type { GridRule } from "../topology/rules/distance.js";
 import { pointInPolygon } from "../topology/shapes.js";
 import { aimVector, spotToCellPoint, type Area, type Spot } from "./area.js";
 

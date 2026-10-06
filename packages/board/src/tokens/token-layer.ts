@@ -10,22 +10,17 @@
  */
 
 import type { Visibility } from "@tablewright/schema";
-import { Graphics, type Container, type FederatedPointerEvent } from "pixi.js";
-import type { Point } from "../geometry.js";
-import {
-  cellCenter,
-  snapToCellCenter,
-  worldToCell,
-  type Cell,
-  type SquareGrid,
-} from "../grid/square-grid.js";
+import type { Container, FederatedPointerEvent } from "pixi.js";
+import type { Point } from "../shared/geometry.js";
+import { cellCenter, worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import type { DragRoute } from "../move/drag-route.js";
-import { Listeners } from "../stage/listeners.js";
-import type { Mover } from "../topology/cost.js";
-import type { Budget } from "../topology/route.js";
-import { facingBetween, facingToward, normalizeDegrees } from "./facing.js";
-import { DRAG_THRESHOLD_PX, HOLD_MS, afterHold, isTypingTarget } from "./press.js";
-import { keptAlphaIf } from "../seen.js";
+import { Listeners } from "../shared/listeners.js";
+import type { Mover } from "../topology/rules/cost.js";
+import type { Budget } from "../topology/rules/route.js";
+import { facingBetween, normalizeDegrees } from "./facing.js";
+import { isTypingTarget } from "./press.js";
+import { keptAlphaIf } from "../shared/seen.js";
+import { TokenPress, type PressState } from "./token-press.js";
 import { TokenSprite, type TokenStyle } from "./token-sprite.js";
 
 /** What the layer needs to show a token; the scene owns everything else. */
@@ -92,9 +87,6 @@ interface PendingDash extends DashAsk {
   readonly originFacing: number;
 }
 
-const GHOST_WIDTH = 2;
-const GHOST_ALPHA = 0.7;
-
 // Arrow keys and WASD both step the selected token one cell.
 const STEP_KEYS: Readonly<Record<string, { dc: number; dr: number }>> = {
   ArrowUp: { dc: 0, dr: -1 },
@@ -111,29 +103,9 @@ const STEP_KEYS: Readonly<Record<string, { dc: number; dr: number }>> = {
   D: { dc: 1, dr: 0 },
 };
 
-// A press starts undecided and becomes a drag, a turn, or a click on release.
-type PressMode = "pending" | "drag" | "turn";
-
-interface PressState {
-  readonly id: string;
-  readonly pointerId: number;
-  readonly canvas: HTMLElement;
-  readonly canvasLeft: number;
-  readonly canvasTop: number;
-  readonly startX: number;
-  readonly startY: number;
-  readonly origin: Point;
-  readonly originFacing: number;
-  mode: PressMode;
-  holdTimer: number | undefined;
-  /** When the hold timer ran, until the next move has judged it; unset for a corner turn. */
-  holdStamp: number | undefined;
-}
-
 /** Renders `TokenView`s into a container and turns gestures into move and select events. */
 export class TokenLayer {
   private readonly container: Container;
-  private readonly ghost = new Graphics();
   private readonly sprites = new Map<string, TokenSprite>();
   private readonly moveListeners = new Listeners<TokenMove>();
   private readonly selectListeners = new Listeners<string | undefined>();
@@ -144,7 +116,7 @@ export class TokenLayer {
   private grid: SquareGrid;
   private style: TokenStyle;
   private selected: string | undefined;
-  private press: PressState | undefined;
+  private readonly press: TokenPress;
   private pending: PendingDash | undefined;
 
   constructor(container: Container, grid: SquareGrid, style: TokenStyle, route: DragRoute) {
@@ -152,8 +124,16 @@ export class TokenLayer {
     this.grid = grid;
     this.style = style;
     this.route = route;
-    this.ghost.visible = false;
-    container.addChild(this.ghost);
+    this.press = new TokenPress(container, route, {
+      grid: () => this.grid,
+      style: () => this.style,
+      isMovable: () => this.movable,
+      spriteOf: (id) => this.sprites.get(id),
+      select: (id) => this.select(id),
+      answerDash: (use) => this.answerDash(use),
+      drop: (press, sprite, cell) => this.drop(press, sprite, cell),
+      commitMove: (id, sprite, cell, facing) => this.commitMove(id, sprite, cell, facing),
+    });
     window.addEventListener("keydown", this.onKeyDown);
   }
 
@@ -183,7 +163,7 @@ export class TokenLayer {
         existing.setLabel(token.label);
         existing.setBadge(badgeOf(token));
         existing.view.alpha = keptAlphaIf(token.isKept);
-        if (this.press?.id !== token.id && this.pending?.id !== token.id) {
+        if (this.press.held?.id !== token.id && this.pending?.id !== token.id) {
           existing.setFacing(token.facing);
           existing.setPosition(cellCenter(this.grid, token.cell));
         }
@@ -266,14 +246,13 @@ export class TokenLayer {
   }
 
   destroy(): void {
-    this.endPress();
+    this.press.destroy();
     this.route.end();
     window.removeEventListener("keydown", this.onKeyDown);
     for (const sprite of this.sprites.values()) {
       sprite.destroy();
     }
     this.sprites.clear();
-    this.ghost.destroy();
   }
 
   private add(token: TokenView): void {
@@ -296,175 +275,11 @@ export class TokenLayer {
       // A selected token covers its whole cell: outside the disc is a turn handle.
       const local = sprite.view.toLocal(event.global);
       const isOnDisc = Math.hypot(local.x, local.y) <= sprite.discRadius;
-      this.beginPress(token.id, event, isOnDisc ? "pending" : "turn");
+      this.press.beginPress(token.id, event, isOnDisc ? "pending" : "turn");
     });
     this.container.addChild(sprite.view);
     this.sprites.set(token.id, sprite);
   }
-
-  private beginPress(id: string, event: FederatedPointerEvent, mode: PressMode): void {
-    if (event.button !== 0 || this.press !== undefined) {
-      return;
-    }
-    // Let through, the press would pan the board and end as a tap that deselects.
-    if (!this.movable) {
-      if (event.nativeEvent instanceof PointerEvent) {
-        event.nativeEvent.stopPropagation();
-      }
-      this.select(id);
-      return;
-    }
-    const sprite = this.sprites.get(id);
-    const native = event.nativeEvent;
-    if (
-      sprite === undefined ||
-      !(native instanceof PointerEvent) ||
-      !(native.target instanceof HTMLElement)
-    ) {
-      return;
-    }
-    native.stopPropagation();
-    const canvas = native.target;
-    const rect = canvas.getBoundingClientRect();
-    canvas.setPointerCapture(native.pointerId);
-    canvas.addEventListener("pointermove", this.onPointerMove);
-    canvas.addEventListener("pointerup", this.onPointerUp);
-    canvas.addEventListener("pointercancel", this.onPointerCancel);
-    this.press = {
-      id,
-      pointerId: native.pointerId,
-      canvas,
-      canvasLeft: rect.left,
-      canvasTop: rect.top,
-      startX: native.clientX,
-      startY: native.clientY,
-      origin: sprite.position,
-      originFacing: sprite.facing,
-      mode,
-      holdTimer: undefined,
-      holdStamp: undefined,
-    };
-    if (mode === "turn") {
-      this.enterTurn(sprite);
-    } else {
-      this.press.holdTimer = window.setTimeout(() => this.onHoldElapsed(id), HOLD_MS);
-    }
-  }
-
-  private onHoldElapsed(id: string): void {
-    const press = this.press;
-    const sprite = this.sprites.get(id);
-    if (
-      press === undefined ||
-      press.id !== id ||
-      press.mode !== "pending" ||
-      sprite === undefined
-    ) {
-      return;
-    }
-    press.holdTimer = undefined;
-    press.holdStamp = performance.now();
-    press.mode = "turn";
-    this.enterTurn(sprite);
-  }
-
-  private enterTurn(sprite: TokenSprite): void {
-    if (this.press !== undefined) {
-      this.select(this.press.id);
-    }
-    sprite.setRotating(true);
-  }
-
-  private toWorld(press: PressState, event: PointerEvent): Point {
-    return this.container.toLocal({
-      x: event.clientX - press.canvasLeft,
-      y: event.clientY - press.canvasTop,
-    });
-  }
-
-  private readonly onPointerMove = (event: PointerEvent): void => {
-    const press = this.press;
-    if (press === undefined || event.pointerId !== press.pointerId) {
-      return;
-    }
-    const sprite = this.sprites.get(press.id);
-    if (sprite === undefined) {
-      return;
-    }
-    if (press.mode === "pending") {
-      const travel = Math.hypot(event.clientX - press.startX, event.clientY - press.startY);
-      if (travel < DRAG_THRESHOLD_PX) {
-        return;
-      }
-      window.clearTimeout(press.holdTimer);
-      press.holdTimer = undefined;
-      this.beginDrag(press, sprite);
-    } else if (press.mode === "turn" && press.holdStamp !== undefined) {
-      // The timer may have run before a move that was already on its way: the
-      // move's own clock decides whether this press was a drag all along.
-      const travel = Math.hypot(event.clientX - press.startX, event.clientY - press.startY);
-      const verdict = afterHold(event.timeStamp, press.holdStamp, travel);
-      press.holdStamp = undefined;
-      if (verdict === "drag") {
-        sprite.setRotating(false);
-        sprite.setFacing(press.originFacing);
-        this.beginDrag(press, sprite);
-      }
-    }
-    this.follow(press, sprite, event);
-  };
-
-  private beginDrag(press: PressState, sprite: TokenSprite): void {
-    press.mode = "drag";
-    sprite.setDragging(true);
-    this.container.addChild(sprite.view);
-    this.ghost.visible = true;
-    // A new drag drops whatever question the last one left standing.
-    this.answerDash(false);
-    this.route.begin(press.id, worldToCell(this.grid, press.origin));
-  }
-
-  // Move the token or its facing to where the pointer is now.
-  private follow(press: PressState, sprite: TokenSprite, event: PointerEvent): void {
-    const world = this.toWorld(press, event);
-    if (press.mode === "turn") {
-      const facing = facingToward(sprite.position, world);
-      if (facing !== undefined) {
-        sprite.setFacing(facing);
-      }
-      return;
-    }
-    sprite.setPosition(world);
-    this.drawGhost(snapToCellCenter(this.grid, world));
-    this.route.show(worldToCell(this.grid, world), world);
-  }
-
-  private readonly onPointerUp = (event: PointerEvent): void => {
-    const press = this.press;
-    if (press === undefined || event.pointerId !== press.pointerId) {
-      return;
-    }
-    const sprite = this.sprites.get(press.id);
-    if (sprite !== undefined) {
-      if (press.mode !== "pending") {
-        this.follow(press, sprite, event);
-      }
-      if (press.mode === "drag") {
-        this.drop(press, sprite, worldToCell(this.grid, sprite.position));
-      } else if (press.mode === "turn") {
-        this.commitMove(press.id, sprite, worldToCell(this.grid, sprite.position), sprite.facing);
-      } else {
-        this.select(press.id);
-      }
-    }
-    this.endPress();
-  };
-
-  private readonly onPointerCancel = (event: PointerEvent): void => {
-    if (this.press !== undefined && event.pointerId === this.press.pointerId) {
-      this.cancelPress();
-    }
-  };
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
     if (isTypingTarget(event)) {
@@ -474,15 +289,15 @@ export class TokenLayer {
       if (this.pending !== undefined) {
         event.preventDefault();
         this.answerDash(false);
-      } else if (this.press !== undefined) {
-        this.cancelPress();
+      } else if (this.press.held !== undefined) {
+        this.press.cancelPress();
       } else {
         this.select(undefined);
       }
       return;
     }
     const step = this.movable ? STEP_KEYS[event.key] : undefined;
-    if (step !== undefined && this.press === undefined) {
+    if (step !== undefined && this.press.held === undefined) {
       event.preventDefault();
       this.moveSelectedBy(step.dc, step.dr);
     }
@@ -553,44 +368,6 @@ export class TokenLayer {
 
   private askDash(ask: DashAsk | undefined): void {
     this.dashListeners.emit(ask);
-  }
-
-  private cancelPress(): void {
-    const press = this.press;
-    this.route.end();
-    if (press !== undefined) {
-      const sprite = this.sprites.get(press.id);
-      sprite?.setPosition(press.origin);
-      sprite?.setFacing(press.originFacing);
-    }
-    this.endPress();
-  }
-
-  private endPress(): void {
-    const press = this.press;
-    if (press === undefined) {
-      return;
-    }
-    window.clearTimeout(press.holdTimer);
-    const sprite = this.sprites.get(press.id);
-    sprite?.setDragging(false);
-    sprite?.setRotating(false);
-    this.ghost.visible = false;
-    press.canvas.removeEventListener("pointermove", this.onPointerMove);
-    press.canvas.removeEventListener("pointerup", this.onPointerUp);
-    press.canvas.removeEventListener("pointercancel", this.onPointerCancel);
-    if (press.canvas.hasPointerCapture(press.pointerId)) {
-      press.canvas.releasePointerCapture(press.pointerId);
-    }
-    this.press = undefined;
-  }
-
-  private drawGhost(centre: Point): void {
-    const radius = (this.grid.cellSize * 0.8) / 2 + GHOST_WIDTH;
-    this.ghost
-      .clear()
-      .circle(centre.x, centre.y, radius)
-      .stroke({ width: GHOST_WIDTH, color: this.style.hover.rgb, alpha: GHOST_ALPHA });
   }
 }
 

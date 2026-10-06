@@ -11,12 +11,12 @@
  */
 
 import type { Visibility } from "@tablewright/schema";
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 import type { Cell } from "../grid/square-grid.js";
-import { speedOf, type Mover } from "../topology/cost.js";
+import { speedOf, type Mover } from "../topology/rules/cost.js";
 import { heightAt, type Topology } from "../topology/derive.js";
-import { distance, type GridRule } from "../topology/distance.js";
-import { cellCentre, firstBlock } from "../topology/effect.js";
+import { distance, type GridRule } from "../topology/rules/distance.js";
+import { cellCentre, firstBlock } from "../topology/rules/effect.js";
 import {
   chooseRoute,
   routes,
@@ -24,7 +24,7 @@ import {
   type Choice,
   type Route,
   type Routes,
-} from "../topology/route.js";
+} from "../topology/rules/route.js";
 
 export interface Measurement {
   readonly from: Cell;

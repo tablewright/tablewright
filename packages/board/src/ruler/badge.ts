@@ -8,7 +8,7 @@
  */
 
 import { Container, Graphics, Text } from "pixi.js";
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 
 // The figures' size and the pill's padding, as shares of a cell.
 const BADGE_FRACTION = 0.26;

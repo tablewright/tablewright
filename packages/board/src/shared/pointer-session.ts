@@ -8,7 +8,7 @@
  * points and turns them into cells itself.
  */
 
-import { pointOn, type Point } from "../geometry.js";
+import { pointOn, type Point } from "./geometry.js";
 
 /** What a tool does with the pointer the session hands it. */
 export interface PointerSessionOwner {

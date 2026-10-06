@@ -13,7 +13,7 @@
 import { Application, Container, Text } from "pixi.js";
 import { FALLBACK } from "../theme/board-theme.js";
 import { FrameScheduler } from "./frame-scheduler.js";
-import { Listeners } from "./listeners.js";
+import { Listeners } from "../shared/listeners.js";
 
 export interface BoardStageOptions {
   /** Canvas clear colour as 0xRRGGBB. The theme bridge supplies it once it exists. */

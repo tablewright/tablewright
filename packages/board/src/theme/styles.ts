@@ -11,9 +11,9 @@ import type { AreaStyle } from "../area/area-layer.js";
 import type { DrawStyle } from "../draw/draw-layer.js";
 import type { RulerStyle } from "../ruler/measure-view.js";
 import type { TokenStyle } from "../tokens/token-sprite.js";
-import type { HeightStyle } from "../topology/height-layer.js";
-import type { NumbersStyle } from "../topology/numbers-layer.js";
-import type { TopologyStyle } from "../topology/topology-layer.js";
+import type { HeightStyle } from "../topology/layers/height-layer.js";
+import type { NumbersStyle } from "../topology/layers/numbers-layer.js";
+import type { TopologyStyle } from "../topology/layers/topology-layer.js";
 import type { BoardTheme } from "./board-theme.js";
 
 /** The token layer's colours and faces. */

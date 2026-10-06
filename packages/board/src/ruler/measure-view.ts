@@ -12,8 +12,8 @@
 
 import { CanvasTextMetrics, Container, Graphics, Text } from "pixi.js";
 import { dashedLine } from "../draw/strokes.js";
-import { along, lengthOf, type Point } from "../geometry.js";
-import { keptAlpha } from "../seen.js";
+import { along, lengthOf, type Point } from "../shared/geometry.js";
+import { keptAlpha } from "../shared/seen.js";
 import { cellCenter, cellPointToWorld, type SquareGrid } from "../grid/square-grid.js";
 import { FALLBACK } from "../theme/board-theme.js";
 import type { PackedColor } from "../theme/css-color.js";

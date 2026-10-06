@@ -9,7 +9,7 @@
  */
 
 import type { CellRect, Point as Coordinate, Shape } from "@tablewright/schema";
-import { along, lengthOf, type Point } from "../geometry.js";
+import { along, lengthOf, type Point } from "../shared/geometry.js";
 import { intersectExtents, type CellExtent } from "../grid/grid-lines.js";
 
 /** The field's samples over an extent: `per` to a cell along each axis. */

@@ -1,4 +1,4 @@
-import type { WorldRect } from "../geometry.js";
+import type { WorldRect } from "../shared/geometry.js";
 import { intersectExtents, type CellExtent } from "./grid-lines.js";
 import { worldToCellPoint, type SquareGrid } from "./square-grid.js";
 

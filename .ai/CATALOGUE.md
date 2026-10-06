@@ -148,15 +148,22 @@ What more than one feature takes. `packages/ui/src`.
 
 ## Board: shared
 
-The root files, whole. Under each domain after this, only the names that code in another domain runs. `packages/board/src`.
+The `shared/` files, whole. Under each domain after this, only the names that code in another domain runs. `packages/board/src`.
 
-**geometry.ts**
+**shared/geometry.ts**
 - `pointOn()`: Where a pointer event landed on `element`, in pixels from its top-left corner.
 - `lengthOf()`: The straight distance from `from` to `to`, in whichever space both are in.
 - `along()`: The point `t` of the way from `from` to `to`: 0 is `from`, 1 is `to`.
 - Types: `Point`, `WorldRect`
 
-**seen.ts**
+**shared/listeners.ts**
+- `Listeners`: The listeners of one event, added one at a time and told together.
+
+**shared/pointer-session.ts**
+- `PointerSession`: Binds a tool's pointer handling to the canvas while active.
+- Types: `PointerSessionOwner`
+
+**shared/seen.ts**
 - `SEEN_BY`: What a measure or an area may be made for, as the palette offers them.
 - `seesIt()`: Whether a role sees a thing marked `marked`, `isMine` when it is theirs.
 - `allows()`: Whether a role may do this at all.
@@ -207,14 +214,6 @@ The root files, whole. Under each domain after this, only the names that code in
 **ruler/measure-view.ts**
 - `MeasureView`: Draws one measurement into a container, in the mode it is read in.
 
-## Board: stage
-
-**stage/listeners.ts**
-- `Listeners`: The listeners of one event, added one at a time and told together.
-
-**stage/pointer-session.ts**
-- `PointerSession`: Binds a tool's pointer handling to the canvas while active.
-
 ## Board: theme
 
 **theme/board-theme.ts**
@@ -242,21 +241,21 @@ The root files, whole. Under each domain after this, only the names that code in
 
 ## Board: topology
 
-**topology/cost.ts**
-- `speedOf()`: The speed a turn budgets: the fly speed of a flier, else the walk.
-
 **topology/derive.ts**
 - `seenAt()`: Whether a thing kept at `tier` reaches `viewer`: a viewer sees everything at or below their own.
 - `heightAt()`: The field at a cell's centre: the height the rules give the cell.
 
-**topology/distance.ts**
+**topology/rules/cost.ts**
+- `speedOf()`: The speed a turn budgets: the fly speed of a flier, else the walk.
+
+**topology/rules/distance.ts**
 - `distance()`: The distance between two places under `rule`, in the rule's unit.
 
-**topology/effect.ts**
+**topology/rules/effect.ts**
 - `cellCentre()`: The centre of a cell, in cell coordinates.
 - `firstBlock()`: The first edge along the segment that stops `passage`, if any.
 
-**topology/route.ts**
+**topology/rules/route.ts**
 - `routes()`: The safe and the quick route, the quick one only when it beats the safe one.
 - `chooseRoute()`: Which route this turn takes, in tiers: the safe one if the movement left covers it, else the shortest; failing both, either with a dash; failing that, refused.
 
@@ -265,4 +264,4 @@ The root files, whole. Under each domain after this, only the names that code in
 
 ## Board: every domain
 
-Each has an `index.ts` naming what it offers: `area`, `camera`, `draw`, `grid`, `map`, `move`, `ruler`, `stage`, `theme`, `tokens`, `topology`.
+Each has an `index.ts` naming what it offers: `area`, `camera`, `draw`, `grid`, `map`, `move`, `ruler`, `shared`, `stage`, `theme`, `tokens`, `topology`.

@@ -9,9 +9,9 @@
  * Design: docs/design.md §5 "The record is strokes".
  */
 
-import type { CellExtent } from "../grid/grid-lines.js";
-import type { Cell } from "../grid/square-grid.js";
-import { cellIndex, heightAt, isLevelChangeAt, type Topology } from "./derive.js";
+import type { CellExtent } from "../../grid/grid-lines.js";
+import type { Cell } from "../../grid/square-grid.js";
+import { cellIndex, heightAt, isLevelChangeAt, type Topology } from "../derive.js";
 import { passes } from "./effect.js";
 
 /** Ground codes as `Topology.ground` keeps them. */

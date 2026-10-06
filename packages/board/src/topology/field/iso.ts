@@ -8,9 +8,9 @@
  * Design: docs/design.md §5 "Elevation is a field".
  */
 
-import type { Point } from "../geometry.js";
-import type { Topology } from "./derive.js";
-import { sampleCentre, sampleHeight, sampleWidth } from "./shapes.js";
+import type { Point } from "../../shared/geometry.js";
+import type { Topology } from "../derive.js";
+import { sampleCentre, sampleHeight, sampleWidth } from "../shapes.js";
 
 export interface Segment {
   readonly from: Point;
@@ -124,4 +124,27 @@ export function contourGroups(segments: readonly Segment[]): Segment[][] {
     }
   });
   return [...groups.values()];
+}
+
+/** The band thresholds the field crosses: halfway through each band it reaches. */
+export function thresholdsOf(field: Float32Array, band: number): number[] {
+  let lowest = Infinity;
+  let highest = -Infinity;
+  for (const value of field) {
+    lowest = Math.min(lowest, value);
+    highest = Math.max(highest, value);
+  }
+  if (lowest === highest) {
+    return [];
+  }
+  const thresholds: number[] = [];
+  const first = Math.floor(lowest / band);
+  const last = Math.ceil(highest / band);
+  for (let k = first; k < last; k += 1) {
+    const threshold = (k + 0.5) * band;
+    if (threshold > lowest && threshold <= highest) {
+      thresholds.push(threshold);
+    }
+  }
+  return thresholds;
 }

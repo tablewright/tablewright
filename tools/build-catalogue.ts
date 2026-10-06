@@ -1,8 +1,8 @@
 // Writes .ai/CATALOGUE.md: the shared names of the packages, each with
 // the sentence its doc comment opens on, so a session starts knowing what
 // exists before it writes anything (.ai/REUSE.md). Listed are the UI's
-// files by the feature they serve, and the board's root files with the
-// names a second domain runs, by domain. A listed
+// files by the feature they serve, and the board's `shared/` files with
+// the names a second domain runs, by domain. A listed
 // function or class with no doc comment fails the run, so the sentence
 // gets written; a constant without one is listed by its name, which is
 // all STYLE.md asks of a constant. `--check` refuses a stale file; run by
@@ -16,6 +16,7 @@ const ROOT = join(import.meta.dir, "..");
 const OUT_PATH = ".ai/CATALOGUE.md";
 const UI = "packages/ui/src";
 const BOARD = "packages/board/src";
+const SHARED = "shared";
 // Generated tables are data, not vocabulary.
 const SKIPPED = new Set(["packages/ui/src/atoms/glyphs.ts"]);
 
@@ -135,7 +136,7 @@ async function list(path: string, only?: (named: Named, path: string) => boolean
 // A named import, braces and all; braces never nest in one.
 const IMPORT = /^import\s+(type\s+)?\{([^}]*)\}\s+from\s+"(\.[^"]+)"/gm;
 
-// What the board shares, by file: every name of a root file, and of a
+// What the board shares, by file: every name of a `shared/` file, and of a
 // domain's file the names that code in another domain runs. A type
 // borrowed is a shape, not a use, so type imports do not count.
 async function sharedInBoard(): Promise<Map<string, Set<string> | "all">> {
@@ -163,7 +164,7 @@ async function sharedInBoard(): Promise<Map<string, Set<string> | "all">> {
   }
   const shared = new Map<string, Set<string> | "all">();
   for (const path of files) {
-    if (domainOf(path) === "") {
+    if (domainOf(path) === SHARED) {
       shared.set(path, "all");
     } else if ((taken.get(path)?.size ?? 0) > 0) {
       shared.set(path, taken.get(path)!);
@@ -212,7 +213,6 @@ function render(listed: Listed, base: string): string[] {
 
 // Any import of a file beside this one: named, whole, or for its side effect.
 const ANY_IMPORT = /^(?:import|export)\s[^"']*?"(\.[^"]+)"/gm;
-const SHARED = "shared";
 // An element the app places itself, held by no component, names its feature here.
 const PLACED_BY_THE_APP: Readonly<Record<string, string>> = {
   [`${UI}/molecules/tw-token-menu.ts`]: "tokens",
@@ -315,7 +315,7 @@ for (const domain of inOrder(boardByDomain, SHARED)) {
     ...(await section(
       `Board: ${domain}`,
       domain === SHARED
-        ? "The root files, whole. Under each domain after this, only the names that code in another domain runs. `packages/board/src`."
+        ? "The `shared/` files, whole. Under each domain after this, only the names that code in another domain runs. `packages/board/src`."
         : undefined,
       BOARD,
       boardByDomain.get(domain)!,

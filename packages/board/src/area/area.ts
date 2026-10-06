@@ -11,8 +11,8 @@
  */
 
 import { tidy } from "../draw/tool.js";
-import type { Point } from "../geometry.js";
-import type { GridRule } from "../topology/distance.js";
+import type { Point } from "../shared/geometry.js";
+import type { GridRule } from "../topology/rules/distance.js";
 import type { Cell } from "../grid/square-grid.js";
 
 /**

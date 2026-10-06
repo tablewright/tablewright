@@ -12,11 +12,11 @@
 
 import type { Visibility } from "@tablewright/schema";
 import type { Container } from "pixi.js";
-import type { Point } from "../geometry.js";
-import { Marking, type Seat } from "../seen.js";
+import type { Point } from "../shared/geometry.js";
+import { Marking, type Seat } from "../shared/seen.js";
 import { worldToCell, type Cell, type SquareGrid } from "../grid/square-grid.js";
-import { Listeners } from "../stage/listeners.js";
-import { PointerSession } from "../stage/pointer-session.js";
+import { Listeners } from "../shared/listeners.js";
+import { PointerSession } from "../shared/pointer-session.js";
 import type { Measurement } from "./measure.js";
 import { MeasureView, type RulerStyle } from "./measure-view.js";
 import type { RulerMode } from "./mode.js";

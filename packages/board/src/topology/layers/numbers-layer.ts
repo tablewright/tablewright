@@ -10,13 +10,13 @@
  */
 
 import { Container, Graphics, Text } from "pixi.js";
-import type { CellExtent } from "../grid/grid-lines.js";
-import { cellCenter, insetCell, type SquareGrid } from "../grid/square-grid.js";
-import { FALLBACK } from "../theme/board-theme.js";
-import type { PackedColor } from "../theme/css-color.js";
-import { numbersStyle } from "../theme/styles.js";
-import type { Topology } from "./derive.js";
-import { cellNumbers } from "./numbers.js";
+import type { CellExtent } from "../../grid/grid-lines.js";
+import { cellCenter, insetCell, type SquareGrid } from "../../grid/square-grid.js";
+import { FALLBACK } from "../../theme/board-theme.js";
+import type { PackedColor } from "../../theme/css-color.js";
+import { numbersStyle } from "../../theme/styles.js";
+import type { Topology } from "../derive.js";
+import { cellNumbers } from "../field/numbers.js";
 
 /** The colours the numbers view draws in; all of them the board's own. */
 export interface NumbersStyle {

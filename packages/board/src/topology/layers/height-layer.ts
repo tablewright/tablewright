@@ -12,15 +12,16 @@
 
 import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
 import type { HeightDisplay, HeightMode } from "@tablewright/schema";
-import { signed } from "../draw/tool.js";
-import type { Point } from "../geometry.js";
-import { cellPointToWorld, cellToWorld, type SquareGrid } from "../grid/square-grid.js";
-import { FALLBACK } from "../theme/board-theme.js";
-import { channelsOf, type PackedColor } from "../theme/css-color.js";
-import { heightStyle } from "../theme/styles.js";
-import type { Topology } from "./derive.js";
-import { contourGroups, isoLines, type Segment } from "./iso.js";
-import { sampleHeight, sampleWidth } from "./shapes.js";
+import { signed } from "../../draw/tool.js";
+import type { Point } from "../../shared/geometry.js";
+import { cellPointToWorld, cellToWorld, type SquareGrid } from "../../grid/square-grid.js";
+import { FALLBACK } from "../../theme/board-theme.js";
+import type { PackedColor } from "../../theme/css-color.js";
+import { heightStyle } from "../../theme/styles.js";
+import type { Topology } from "../derive.js";
+import { contourGroups, isoLines, thresholdsOf, type Segment } from "../field/iso.js";
+import { sampleHeight, sampleWidth } from "../shapes.js";
+import { shadowCanvas, washCanvas } from "./height-raster.js";
 
 export const HEIGHT_MODES: readonly HeightMode[] = ["shaded", "washed", "marked", "data"];
 
@@ -50,16 +51,6 @@ export interface HeightDrawing {
 
 const DEFAULT_STYLE: HeightStyle = heightStyle(FALLBACK);
 
-// The shadow: the raised region's mask spread this many samples in every
-// direction and softened, with the region itself cut out, each band this
-// dark on its own.
-const SHADOW_SPREAD = 1.5;
-const SHADOW_BLUR = 1;
-const SHADOW_ALPHA = 0.5;
-const SHADOW_DIRECTIONS = 8;
-// The wash: how much tint one band adds, and the most it reaches.
-const WASH_UP = { perBand: 0.125, most: 0.4 };
-const WASH_DOWN = { perBand: 0.175, most: 0.5 };
 // A tag reads the ground this many samples either side of its contour.
 const TAG_REACH = 1.5;
 // A contour shorter than this many cells of line is a speck of a slope,
@@ -71,6 +62,12 @@ interface Drawn {
   readonly grid: SquareGrid;
   readonly mode: HeightMode;
   readonly band: number;
+}
+
+// Where a tag goes, and the level it names.
+interface TagPlace {
+  readonly level: number;
+  readonly top: Point;
 }
 
 /** The scene's height display; call `draw` whenever the topology, grid or display changes. */
@@ -182,65 +179,17 @@ export class HeightLayer {
     this.counts = { ...this.counts, contours: count };
   }
 
-  // One tag per contour, at its top, naming the level beyond the line: the
-  // ground above a rise, the floor below a drop. Two bands ringing the same
-  // rise at the same spot give one tag, the higher level's.
   private drawTags(
     topology: Topology,
     contours: readonly { readonly threshold: number; readonly segments: readonly Segment[] }[],
     grid: SquareGrid,
     band: number
   ): void {
-    const { samples, field } = topology;
-    const width = sampleWidth(samples);
-    const height = sampleHeight(samples);
-    const at = (x: number, y: number): number => {
-      const i = Math.max(
-        0,
-        Math.min(width - 1, Math.floor((x - samples.bounds.colMin) * samples.per))
-      );
-      const j = Math.max(
-        0,
-        Math.min(height - 1, Math.floor((y - samples.bounds.rowMin) * samples.per))
-      );
-      return field[j * width + i] ?? 0;
-    };
-    const seen = new Set<string>();
-    let count = 0;
-    const reach = TAG_REACH / samples.per;
-    const least = TAG_LEAST_CELLS * samples.per;
-    for (const { threshold, segments } of contours) {
-      for (const contour of contourGroups(segments)) {
-        if (contour.length < least) {
-          continue;
-        }
-        let top: Point | undefined;
-        for (const { from, to } of contour) {
-          const mid = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
-          if (top === undefined || mid.y < top.y) {
-            top = mid;
-          }
-        }
-        if (top === undefined) {
-          continue;
-        }
-        const above = at(top.x, top.y - reach);
-        const below = at(top.x, top.y + reach);
-        const beyond = threshold > 0 ? Math.max(above, below) : Math.min(above, below);
-        const level = Math.round(beyond / band) * band;
-        if (level === 0) {
-          continue;
-        }
-        const key = `${level}:${Math.round(top.x)}:${Math.round(top.y)}`;
-        if (seen.has(key)) {
-          continue;
-        }
-        seen.add(key);
-        this.tags.addChild(this.tag(signed(level), grid, top));
-        count += 1;
-      }
+    const places = tagPlaces(topology, contours, band);
+    for (const { level, top } of places) {
+      this.tags.addChild(this.tag(signed(level), grid, top));
     }
-    this.counts = { ...this.counts, tags: count };
+    this.counts = { ...this.counts, tags: places.length };
   }
 
   private tag(label: string, grid: SquareGrid, at: Point): Container {
@@ -304,120 +253,61 @@ export class HeightLayer {
   }
 }
 
-/** The band thresholds the field crosses: halfway through each band it reaches. */
-export function thresholdsOf(field: Float32Array, band: number): number[] {
-  let lowest = Infinity;
-  let highest = -Infinity;
-  for (const value of field) {
-    lowest = Math.min(lowest, value);
-    highest = Math.max(highest, value);
-  }
-  if (lowest === highest) {
-    return [];
-  }
-  const thresholds: number[] = [];
-  const first = Math.floor(lowest / band);
-  const last = Math.ceil(highest / band);
-  for (let k = first; k < last; k += 1) {
-    const threshold = (k + 0.5) * band;
-    if (threshold > lowest && threshold <= highest) {
-      thresholds.push(threshold);
-    }
-  }
-  return thresholds;
-}
-
-// The raised region of each band, spread outward and softened, minus the
-// region itself: a shadow on the low side, darker where bands stack.
-function shadowCanvas(
+// One tag per contour, at its top, naming the level beyond the line: the
+// ground above a rise, the floor below a drop. Two bands ringing the same
+// rise at the same spot give one tag, the higher level's.
+function tagPlaces(
   topology: Topology,
-  thresholds: readonly number[],
-  shade: PackedColor
-): HTMLCanvasElement {
-  const width = sampleWidth(topology.samples);
-  const height = sampleHeight(topology.samples);
-  const result = canvasOf(width, height);
-  const mask = canvasOf(width, height);
-  const scratch = canvasOf(width, height);
-  const out = contextOf(result);
-  const maskContext = contextOf(mask);
-  const scratchContext = contextOf(scratch);
-  const [r, g, b] = channelsOf(shade.rgb);
-  for (const threshold of thresholds) {
-    const image = maskContext.createImageData(width, height);
-    const { field } = topology;
-    for (let index = 0; index < width * height; index += 1) {
-      if ((field[index] ?? 0) >= threshold) {
-        const o = index * 4;
-        image.data[o] = r;
-        image.data[o + 1] = g;
-        image.data[o + 2] = b;
-        image.data[o + 3] = 255;
+  contours: readonly { readonly threshold: number; readonly segments: readonly Segment[] }[],
+  band: number
+): TagPlace[] {
+  const { samples, field } = topology;
+  const width = sampleWidth(samples);
+  const height = sampleHeight(samples);
+  const at = (x: number, y: number): number => {
+    const i = Math.max(
+      0,
+      Math.min(width - 1, Math.floor((x - samples.bounds.colMin) * samples.per))
+    );
+    const j = Math.max(
+      0,
+      Math.min(height - 1, Math.floor((y - samples.bounds.rowMin) * samples.per))
+    );
+    return field[j * width + i] ?? 0;
+  };
+  const seen = new Set<string>();
+  const places: TagPlace[] = [];
+  const reach = TAG_REACH / samples.per;
+  const least = TAG_LEAST_CELLS * samples.per;
+  for (const { threshold, segments } of contours) {
+    for (const contour of contourGroups(segments)) {
+      if (contour.length < least) {
+        continue;
       }
+      let top: Point | undefined;
+      for (const { from, to } of contour) {
+        const mid = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
+        if (top === undefined || mid.y < top.y) {
+          top = mid;
+        }
+      }
+      if (top === undefined) {
+        continue;
+      }
+      const above = at(top.x, top.y - reach);
+      const below = at(top.x, top.y + reach);
+      const beyond = threshold > 0 ? Math.max(above, below) : Math.min(above, below);
+      const level = Math.round(beyond / band) * band;
+      if (level === 0) {
+        continue;
+      }
+      const key = `${level}:${Math.round(top.x)}:${Math.round(top.y)}`;
+      if (seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      places.push({ level, top });
     }
-    maskContext.putImageData(image, 0, 0);
-    scratchContext.clearRect(0, 0, width, height);
-    scratchContext.save();
-    scratchContext.filter = `blur(${SHADOW_BLUR}px)`;
-    scratchContext.globalAlpha = SHADOW_ALPHA * shade.alpha;
-    for (let k = 0; k < SHADOW_DIRECTIONS; k += 1) {
-      const angle = (k / SHADOW_DIRECTIONS) * Math.PI * 2;
-      scratchContext.drawImage(
-        mask,
-        Math.cos(angle) * SHADOW_SPREAD,
-        Math.sin(angle) * SHADOW_SPREAD
-      );
-    }
-    scratchContext.restore();
-    scratchContext.save();
-    scratchContext.globalCompositeOperation = "destination-out";
-    scratchContext.drawImage(mask, 0, 0);
-    scratchContext.restore();
-    out.drawImage(scratch, 0, 0);
   }
-  return result;
-}
-
-// A tint per sample: warm above zero, cool below, stronger by the band.
-function washCanvas(topology: Topology, band: number, style: HeightStyle): HTMLCanvasElement {
-  const width = sampleWidth(topology.samples);
-  const height = sampleHeight(topology.samples);
-  const canvas = canvasOf(width, height);
-  const context = contextOf(canvas);
-  const image = context.createImageData(width, height);
-  const up = channelsOf(style.up.rgb);
-  const down = channelsOf(style.down.rgb);
-  const { field } = topology;
-  for (let index = 0; index < width * height; index += 1) {
-    const value = field[index] ?? 0;
-    if (value === 0) {
-      continue;
-    }
-    const o = index * 4;
-    const bands = Math.abs(value) / band;
-    const [r, g, b] = value > 0 ? up : down;
-    const wash = value > 0 ? WASH_UP : WASH_DOWN;
-    const tint = value > 0 ? style.up.alpha : style.down.alpha;
-    image.data[o] = r;
-    image.data[o + 1] = g;
-    image.data[o + 2] = b;
-    image.data[o + 3] = Math.round(Math.min(wash.most, bands * wash.perBand) * tint * 255);
-  }
-  context.putImageData(image, 0, 0);
-  return canvas;
-}
-
-function canvasOf(width: number, height: number): HTMLCanvasElement {
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, width);
-  canvas.height = Math.max(1, height);
-  return canvas;
-}
-
-function contextOf(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
-  const context = canvas.getContext("2d");
-  if (context === null) {
-    throw new Error("The height display needs a 2D canvas context.");
-  }
-  return context;
+  return places;
 }

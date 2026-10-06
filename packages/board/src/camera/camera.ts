@@ -9,8 +9,8 @@
  */
 
 import type { Container } from "pixi.js";
-import type { Point, WorldRect } from "../geometry.js";
-import { Listeners } from "../stage/listeners.js";
+import type { Point, WorldRect } from "../shared/geometry.js";
+import { Listeners } from "../shared/listeners.js";
 import {
   fitToRect,
   pan,

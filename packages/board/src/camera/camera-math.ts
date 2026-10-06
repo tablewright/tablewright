@@ -8,7 +8,7 @@
  * Design: docs/design.md §5, one camera for canvas and DOM overlay.
  */
 
-import type { Point, WorldRect } from "../geometry.js";
+import type { Point, WorldRect } from "../shared/geometry.js";
 
 /** Screen position of the world origin, and screen pixels per world pixel. Zoom is positive. */
 export interface CameraState {

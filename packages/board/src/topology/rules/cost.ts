@@ -9,8 +9,8 @@
  * Design: docs/design.md §5 "Vertical edges have kinds".
  */
 
-import type { Cell } from "../grid/square-grid.js";
-import type { Topology } from "./derive.js";
+import type { Cell } from "../../grid/square-grid.js";
+import type { Topology } from "../derive.js";
 import { diagonalCost, distance, type GridRule } from "./distance.js";
 import {
   AIR,

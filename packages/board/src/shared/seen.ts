@@ -11,7 +11,7 @@
  */
 
 import type { Permission, Role, Visibility } from "@tablewright/schema";
-import { seenAt } from "./topology/derive.js";
+import { seenAt } from "../topology/derive.js";
 
 /** What a measure or an area may be made for, as the palette offers them. */
 export const SEEN_BY: readonly Visibility[] = ["party", "dm", "own"];

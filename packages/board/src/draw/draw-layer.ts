@@ -10,28 +10,15 @@
 
 import { Graphics, type Container } from "pixi.js";
 import type { Stroke, Visibility } from "@tablewright/schema";
-import type { Point } from "../geometry.js";
-import {
-  cellPointToWorld,
-  worldToCellPoint,
-  type Cell,
-  type SquareGrid,
-} from "../grid/square-grid.js";
-import { Listeners } from "../stage/listeners.js";
-import { PointerSession } from "../stage/pointer-session.js";
+import type { Point } from "../shared/geometry.js";
+import { worldToCellPoint, type Cell, type SquareGrid } from "../grid/square-grid.js";
+import { Listeners } from "../shared/listeners.js";
+import { PointerSession } from "../shared/pointer-session.js";
 import { FALLBACK } from "../theme/board-theme.js";
 import type { PackedColor } from "../theme/css-color.js";
 import { drawStyle } from "../theme/styles.js";
-import {
-  beginGesture,
-  cellOf,
-  edgeNear,
-  lockLine,
-  moveGesture,
-  normRect,
-  strokeOf,
-  type Gesture,
-} from "./gestures.js";
+import { beginGesture, cellOf, moveGesture, strokeOf, type Gesture } from "./gestures.js";
+import { gesturePreview, hoverPreview } from "./preview.js";
 import type { DrawTool } from "./tool.js";
 
 export type StrokeListener = (stroke: Stroke) => void;
@@ -211,73 +198,10 @@ export class DrawLayer {
     if (this.tool === undefined) {
       return;
     }
-    const cell = this.grid.cellSize;
-    const { hover, ink } = this.style;
-    const gesture = this.gesture;
-    if (gesture?.kind === "rect") {
-      const r = normRect(gesture.a, gesture.b);
-      const corner = cellPointToWorld(this.grid, { x: r.col0, y: r.row0 });
-      g.rect(corner.x, corner.y, (r.col1 - r.col0 + 1) * cell, (r.row1 - r.row0 + 1) * cell)
-        .fill({ color: hover.rgb, alpha: 0.12 })
-        .stroke({ width: 2, color: hover.rgb, alpha: hover.alpha, pixelLine: true });
-    } else if (gesture?.kind === "line") {
-      const [a, b] = lockLine(gesture.a, gesture.b);
-      const from = cellPointToWorld(this.grid, a);
-      const to = cellPointToWorld(this.grid, b);
-      g.moveTo(from.x, from.y)
-        .lineTo(to.x, to.y)
-        .stroke({ width: cell * 0.08, color: hover.rgb, alpha: hover.alpha, cap: "round" });
-    } else if (gesture?.kind === "free") {
-      const points = gesture.points.map((p) => cellPointToWorld(this.grid, p));
-      if (points.length >= 2) {
-        g.poly(points, true)
-          .fill({ color: hover.rgb, alpha: 0.15 })
-          .stroke({ width: 2, color: hover.rgb, alpha: hover.alpha, pixelLine: true });
-      }
-    } else if (gesture?.kind === "brush") {
-      const points = gesture.points.map((p) => cellPointToWorld(this.grid, p));
-      const [first, ...rest] = points;
-      if (first !== undefined) {
-        g.moveTo(first.x, first.y);
-        for (const p of rest) {
-          g.lineTo(p.x, p.y);
-        }
-        if (rest.length === 0) {
-          g.lineTo(first.x + 0.01, first.y);
-        }
-        g.stroke({
-          width: this.tool.radius * 2 * cell,
-          color: ink.rgb,
-          alpha: 0.35,
-          cap: "round",
-          join: "round",
-        });
-      }
-    }
-    if (this.hover === undefined || gesture !== undefined) {
-      return;
-    }
-    // At rest, the tool shows what a press would take: the brush's disc, or
-    // the edge nearest the pointer.
-    if (this.tool.shape === "brush") {
-      const at = cellPointToWorld(this.grid, this.hover);
-      g.circle(at.x, at.y, this.tool.radius * cell).stroke({
-        width: 1.5,
-        color: ink.rgb,
-        alpha: ink.alpha,
-        pixelLine: true,
-      });
-    } else if (this.tool.shape === "click") {
-      const edge = edgeNear(this.hover);
-      if (edge === undefined) {
-        return;
-      }
-      const at = cellPointToWorld(this.grid, { x: edge.col, y: edge.row });
-      const from = edge.side === "east" ? { x: at.x + cell, y: at.y } : { x: at.x, y: at.y + cell };
-      const to = { x: at.x + cell, y: at.y + cell };
-      g.moveTo(from.x, from.y)
-        .lineTo(to.x, to.y)
-        .stroke({ width: cell * 0.12, color: hover.rgb, alpha: 0.8, cap: "round" });
+    if (this.gesture !== undefined) {
+      gesturePreview(g, this.grid, this.style, this.tool, this.gesture);
+    } else if (this.hover !== undefined) {
+      hoverPreview(g, this.grid, this.style, this.tool, this.hover);
     }
   }
 }

@@ -12,7 +12,7 @@
 
 import type { Visibility } from "@tablewright/schema";
 import { Container, Graphics } from "pixi.js";
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 import {
   cellCenter,
   cellPointToWorld,
@@ -23,10 +23,10 @@ import {
 import { tokenReach } from "../tokens/token-sprite.js";
 import type { PackedColor } from "../theme/css-color.js";
 import { Badge } from "../ruler/badge.js";
-import { keptAlpha, withSeenByNote } from "../seen.js";
+import { keptAlpha, withSeenByNote } from "../shared/seen.js";
 import { FALLBACK } from "../theme/board-theme.js";
 import { areaStyle } from "../theme/styles.js";
-import type { GridRule } from "../topology/distance.js";
+import type { GridRule } from "../topology/rules/distance.js";
 import { describeArea, spotToCellPoint, type Area, type Spot } from "./area.js";
 import { outline } from "./outline.js";
 

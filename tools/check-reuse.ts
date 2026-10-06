@@ -53,20 +53,20 @@ const TABLE: readonly Row[] = [
   {
     what: "an element measured by hand",
     pattern: /getBoundingClientRect\(/,
-    home: `${BOARD}/geometry.ts`,
+    home: `${BOARD}/shared/geometry.ts`,
     instead: "`pointOn()` for where a pointer landed",
     within: [BOARD],
     excused: {
       [`${BOARD}/camera/camera-input.ts`]:
         "reads the target's height, to turn a wheel's lines and pages into pixels",
-      [`${BOARD}/tokens/token-layer.ts`]:
+      [`${BOARD}/tokens/token-press.ts`]:
         "measures the canvas once at the press, so a drag reads no layout on each move",
     },
   },
   {
     what: "a set of listeners kept by hand",
     pattern: /\bSet<(?:[^\n>]*Listener|\([^\n)]*\)\s*=>)/,
-    home: `${BOARD}/stage/listeners.ts`,
+    home: `${BOARD}/shared/listeners.ts`,
     instead: "`Listeners`",
   },
   {
@@ -107,7 +107,7 @@ const TABLE: readonly Row[] = [
   {
     what: "the default height display written out",
     pattern: /mode:\s*"shaded",\s*strength:/,
-    home: `${BOARD}/topology/height-layer.ts`,
+    home: `${BOARD}/topology/layers/height-layer.ts`,
     instead: "`DEFAULT_DISPLAY`",
   },
   {

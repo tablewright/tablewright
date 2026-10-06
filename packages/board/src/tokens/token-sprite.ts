@@ -10,7 +10,7 @@
  */
 
 import { Circle, Container, Graphics, Rectangle, Text } from "pixi.js";
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 import type { PackedColor } from "../theme/css-color.js";
 import { facingToRadians, ringArc } from "./facing.js";
 

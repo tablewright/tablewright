@@ -1,6 +1,6 @@
 import type { GroundState } from "@tablewright/schema";
-import type { Cell } from "../grid/square-grid.js";
-import { groundAt, heightAt, isLevelChangeAt, type Topology } from "./derive.js";
+import type { Cell } from "../../grid/square-grid.js";
+import { groundAt, heightAt, isLevelChangeAt, type Topology } from "../derive.js";
 
 /** What the topology says about the cell under the tool. */
 export interface CellReadout {

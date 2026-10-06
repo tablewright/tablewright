@@ -9,8 +9,8 @@
  * `touch-action: none`, or the browser takes touch gestures for itself.
  */
 
-import { pointOn, type Point } from "../geometry.js";
-import { Listeners } from "../stage/listeners.js";
+import { pointOn, type Point } from "../shared/geometry.js";
+import { Listeners } from "../shared/listeners.js";
 import type { Camera } from "./camera.js";
 import { pinchStep } from "./pinch-math.js";
 import { wheelDeltaToPixels, wheelZoomFactor } from "./wheel-math.js";

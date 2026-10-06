@@ -10,11 +10,11 @@
  */
 
 import type { Container } from "pixi.js";
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 import { worldToCellPoint, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import { MeasureView, type RulerStyle } from "../ruler/measure-view.js";
 import type { Measurement } from "../ruler/measure.js";
-import { chooseRoute, type Budget } from "../topology/route.js";
+import { chooseRoute, type Budget } from "../topology/rules/route.js";
 import { pickRoute, type RoutePreference } from "./trail.js";
 
 /** Answers a measure for a moving token, from where it stands to where the pointer is. */

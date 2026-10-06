@@ -10,9 +10,9 @@
  * Design: docs/design.md §5 "Moving shows movement only".
  */
 
-import { along, lengthOf, type Point } from "../geometry.js";
-import { cellCentre } from "../topology/effect.js";
-import type { Route, Routes } from "../topology/route.js";
+import { along, lengthOf, type Point } from "../shared/geometry.js";
+import { cellCentre } from "../topology/rules/effect.js";
+import type { Route, Routes } from "../topology/rules/route.js";
 
 /** Which of the two ways a move takes: the one that never drops, or the shortest. */
 export type RoutePreference = "safe" | "quick";

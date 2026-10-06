@@ -10,8 +10,8 @@
  */
 
 import { tidy } from "../draw/tool.js";
-import type { Route } from "../topology/route.js";
-import { withSeenByNote } from "../seen.js";
+import type { Route } from "../topology/rules/route.js";
+import { withSeenByNote } from "../shared/seen.js";
 import type { Measurement } from "./measure.js";
 
 /**

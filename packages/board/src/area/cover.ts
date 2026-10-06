@@ -15,7 +15,7 @@ import type { Cell } from "../grid/square-grid.js";
 import type { TokenView } from "../tokens/token-layer.js";
 import { heightAt, type Topology } from "../topology/derive.js";
 import type { CoverRule } from "@tablewright/schema";
-import type { GridRule } from "../topology/distance.js";
+import type { GridRule } from "../topology/rules/distance.js";
 import { cubeCentre, type Area, type Spot } from "./area.js";
 import { holds } from "./volume.js";
 

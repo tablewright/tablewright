@@ -9,10 +9,10 @@
  * Design: docs/design.md §5 "Height is displayed per scene".
  */
 
-import { signed } from "../draw/tool.js";
-import { forCellsInExtent, type CellExtent } from "../grid/grid-lines.js";
-import type { Cell } from "../grid/square-grid.js";
-import { heightAt, isLevelChangeAt, type Topology } from "./derive.js";
+import { signed } from "../../draw/tool.js";
+import { forCellsInExtent, type CellExtent } from "../../grid/grid-lines.js";
+import type { Cell } from "../../grid/square-grid.js";
+import { heightAt, isLevelChangeAt, type Topology } from "../derive.js";
 
 /** What a level change prints instead of a height, as the mock names it. */
 export const STAIR = "stair";

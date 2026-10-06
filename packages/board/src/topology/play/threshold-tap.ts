@@ -10,12 +10,12 @@
  */
 
 import type { Edge } from "@tablewright/schema";
-import { edgeNear } from "../draw/gestures.js";
-import type { Point } from "../geometry.js";
-import { worldToCellPoint, type SquareGrid } from "../grid/square-grid.js";
-import { Listeners } from "../stage/listeners.js";
-import { edgeAt, type ThresholdEdge, type Topology } from "./derive.js";
-import { edgeKey } from "./edges.js";
+import { edgeNear } from "../../draw/gestures.js";
+import type { Point } from "../../shared/geometry.js";
+import { worldToCellPoint, type SquareGrid } from "../../grid/square-grid.js";
+import { Listeners } from "../../shared/listeners.js";
+import { edgeAt, type ThresholdEdge, type Topology } from "../derive.js";
+import { edgeKey } from "../edges.js";
 
 // How near a tap must be to an edge, in cells, to mean the threshold on it
 // rather than the cell; tighter than the pen's reach, since a tap on a cell

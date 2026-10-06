@@ -1,5 +1,5 @@
 import type { Graphics } from "pixi.js";
-import { along, lengthOf, type Point } from "../geometry.js";
+import { along, lengthOf, type Point } from "../shared/geometry.js";
 
 /** Lay the line from `from` to `to` down in dashes, since Pixi strokes have none; the caller strokes it. */
 export function dashedLine(g: Graphics, from: Point, to: Point, dash: number, gap: number): void {

@@ -10,10 +10,10 @@
  * Design: docs/design.md §5 "A measurement gives three answers".
  */
 
-import { along, type Point } from "../geometry.js";
-import type { Cell } from "../grid/square-grid.js";
+import { along, type Point } from "../../shared/geometry.js";
+import type { Cell } from "../../grid/square-grid.js";
 import type { Edge } from "@tablewright/schema";
-import type { EdgeData, Topology } from "./derive.js";
+import type { EdgeData, Topology } from "../derive.js";
 
 export type Passage = "move" | "sight" | "effect";
 

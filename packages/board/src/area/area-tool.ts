@@ -12,8 +12,8 @@
  */
 
 import type { Visibility } from "@tablewright/schema";
-import { lengthOf, type Point } from "../geometry.js";
-import { Marking, type Seat } from "../seen.js";
+import { lengthOf, type Point } from "../shared/geometry.js";
+import { Marking, type Seat } from "../shared/seen.js";
 import {
   cellPointToWorld,
   worldToCell,
@@ -21,10 +21,10 @@ import {
   type Cell,
   type SquareGrid,
 } from "../grid/square-grid.js";
-import { Listeners } from "../stage/listeners.js";
-import { PointerSession } from "../stage/pointer-session.js";
+import { Listeners } from "../shared/listeners.js";
+import { PointerSession } from "../shared/pointer-session.js";
 import { facingToward, normalizeDegrees } from "../tokens/facing.js";
-import type { GridRule } from "../topology/distance.js";
+import type { GridRule } from "../topology/rules/distance.js";
 import {
   reached,
   snapOrigin,

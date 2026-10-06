@@ -9,7 +9,7 @@
  */
 
 import type { CellRect, Edge, Stroke, Visibility } from "@tablewright/schema";
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 import type { Cell } from "../grid/square-grid.js";
 import type { DrawTool } from "./tool.js";
 

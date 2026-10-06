@@ -7,7 +7,7 @@
  * keeps the world under the fingers still.
  */
 
-import type { Point } from "../geometry.js";
+import type { Point } from "../shared/geometry.js";
 
 export interface PinchStep {
   /** Screen point to zoom about after panning: the new midpoint. */

@@ -1,5 +1,5 @@
 import type { PlayState } from "@tablewright/schema";
-import type { ThresholdEdge } from "./derive.js";
+import type { ThresholdEdge } from "../derive.js";
 
 /**
  * What a tap does to a threshold in Play: either a state for the scene, or
