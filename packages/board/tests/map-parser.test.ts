@@ -3,9 +3,9 @@ import { parserFor } from "../src/index.js";
 
 describe("parserFor", () => {
   test("svg files and svg data urls take the svg parser", () => {
-    expect(parserFor("/dev/tavern.svg")).toBe("loadSVG");
-    expect(parserFor("http://asset.localhost/maps/keep.SVG?v=2")).toBe("loadSVG");
-    expect(parserFor("data:image/svg+xml;base64,PHN2Zz4=")).toBe("loadSVG");
+    expect(parserFor("/dev/tavern.svg")).toBe("svg");
+    expect(parserFor("http://asset.localhost/maps/keep.SVG?v=2")).toBe("svg");
+    expect(parserFor("data:image/svg+xml;base64,PHN2Zz4=")).toBe("svg");
   });
 
   test("known raster extensions are left for the loader to detect", () => {
@@ -15,7 +15,7 @@ describe("parserFor", () => {
   });
 
   test("an extension-less url names the texture parser", () => {
-    expect(parserFor("http://localhost:1423/")).toBe("loadTextures");
-    expect(parserFor("http://asset.localhost/sha256/9f1c")).toBe("loadTextures");
+    expect(parserFor("http://localhost:1423/")).toBe("texture");
+    expect(parserFor("http://asset.localhost/sha256/9f1c")).toBe("texture");
   });
 });

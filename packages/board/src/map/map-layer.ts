@@ -23,11 +23,11 @@ const SVG_URL = /(\.svg(\?.*)?$)|(^data:image\/svg\+xml)/i;
  * URL without one, such as a content-addressed asset, needs the texture parser
  * named; SVG needs its own parser even as a data URL.
  */
-export function parserFor(url: string): "loadSVG" | "loadTextures" | undefined {
+export function parserFor(url: string): "svg" | "texture" | undefined {
   if (SVG_URL.test(url)) {
-    return "loadSVG";
+    return "svg";
   }
-  return IMAGE_EXTENSION.test(url) ? undefined : "loadTextures";
+  return IMAGE_EXTENSION.test(url) ? undefined : "texture";
 }
 
 /** Holds the current map sprite; `setImage` swaps it for another. */
@@ -44,9 +44,9 @@ export class MapLayer {
    * Rejects when the image cannot be fetched or decoded; the previous map stays.
    */
   async setImage(url: string): Promise<MapSize> {
-    const loadParser = parserFor(url);
+    const parser = parserFor(url);
     const texture: Texture | undefined = await Assets.load(
-      loadParser === undefined ? url : { src: url, loadParser }
+      parser === undefined ? url : { src: url, parser }
     );
     if (!texture) {
       throw new Error(`no image could be decoded from ${url}`);
