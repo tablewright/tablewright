@@ -7,12 +7,15 @@ import {
   derive,
   footprintCovers,
   holds,
+  isSolid,
   mansionStrokes,
   outline,
   placeOf,
   reached,
   snapOrigin,
   snapSize,
+  surface,
+  tallest,
   type Area,
   type Spot,
 } from "../src/index.js";
@@ -97,6 +100,70 @@ describe("a cone", () => {
     expect(holds(cone(), at(0, 0), at(20, 8))).toBe(true);
     expect(holds(cone(), at(0, 0), at(20, 0, 8))).toBe(true);
     expect(holds(cone(), at(0, 0), at(20, 8, 8))).toBe(false);
+  });
+});
+
+describe("the top of a solid", () => {
+  const plan = (x: number, y: number) => ({ x, y });
+
+  test("a 3D cone rises with its spread and is capped by its length", () => {
+    // Twenty feet along a 53.13° cone its top is ten feet up, and six
+    // feet across it is eight: the wedge's radius less the way across.
+    expect(surface(cone(), at(0, 0), plan(20, 0))).toBeCloseTo(10, 3);
+    expect(surface(cone(), at(0, 0), plan(20, 6))).toBeCloseTo(8, 3);
+    // Near the far edge the length's sphere caps it, a flat edge does not.
+    expect(surface(cone(), at(0, 0), plan(29, 0))).toBeCloseTo(Math.sqrt(900 - 841), 6);
+    expect(surface(cone({ edge: "flat" }), at(0, 0), plan(29, 0))).toBeCloseTo(14.5, 3);
+    // Past the wedge, past the length, or behind the apex there is none.
+    expect(surface(cone(), at(0, 0), plan(20, 10.1))).toBeUndefined();
+    expect(surface(cone(), at(0, 0), plan(31, 0))).toBeUndefined();
+    expect(surface(cone(), at(0, 0), plan(-1, 0))).toBeUndefined();
+    // Nor under a flat cone or a rectangle, which lie on the plan.
+    expect(surface(cone({ form: "flat" }), at(0, 0), plan(20, 0))).toBeUndefined();
+    expect(surface(rect(), at(0, 0), plan(20, 0))).toBeUndefined();
+  });
+
+  test("a sphere and a dome rise to the radius and fall to nought at the rim; a cylinder is its height", () => {
+    expect(surface(circle(), at(0, 0), plan(0, 0))).toBeCloseTo(20, 6);
+    expect(surface(circle({ form: "dome" }), at(0, 0), plan(12, 0))).toBeCloseTo(16, 6);
+    expect(surface(circle(), at(0, 0), plan(12, 16))).toBeUndefined();
+    const column = circle({ form: "cylinder", inner: 10 });
+    expect(surface(column, at(0, 0), plan(15, 0))).toBe(20);
+    expect(surface(column, at(0, 0), plan(5, 0))).toBeUndefined();
+    expect(surface(circle({ form: "cylinder" }), at(0, 0), plan(0, 0))).toBe(20);
+  });
+
+  test("the top and the volume agree: just under it is held and just over it is not", () => {
+    const forms = [cone(), cone({ edge: "flat" }), circle(), circle({ form: "dome" })];
+    for (const form of forms) {
+      for (const [x, y] of [
+        [5, 1],
+        [12, -4],
+        [18, 3],
+      ] as const) {
+        const top = surface(form, at(0, 0), plan(x, y));
+        expect(top).toBeDefined();
+        expect(holds(form, at(0, 0), at(x, y, (top ?? 0) - 0.01))).toBe(true);
+        expect(holds(form, at(0, 0), at(x, y, (top ?? 0) + 0.01))).toBe(false);
+      }
+    }
+  });
+
+  test("a solid stands up, a flat form lies down, and the tallest point is known", () => {
+    expect(isSolid(cone())).toBe(true);
+    expect(isSolid(cone({ form: "flat" }))).toBe(false);
+    expect(isSolid(rect())).toBe(false);
+    for (const form of ["sphere", "dome", "cylinder"] as const) {
+      expect(isSolid(circle({ form }))).toBe(true);
+    }
+    expect(tallest(cone({ spread: 60, length: 30 }))).toBeCloseTo(15, 6);
+    expect(tallest(cone({ spread: 60, length: 30, edge: "flat" }))).toBeCloseTo(
+      30 * Math.tan(Math.PI / 6),
+      6
+    );
+    expect(tallest(circle())).toBe(20);
+    expect(tallest(circle({ form: "cylinder", height: 15 }))).toBe(15);
+    expect(tallest(rect())).toBe(0);
   });
 });
 

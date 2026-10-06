@@ -225,16 +225,14 @@ export function forSamplesAlong(
   const dy = y1 - y0;
   let i = Math.floor(x0);
   let j = Math.floor(y0);
-  // Each boundary's t is taken fresh from its whole number, never summed
-  // step by step, so the last span ends at 1 exactly and no sliver of the
-  // sample beyond the end is visited.
-  const nextI = (): number => (dx === 0 ? Infinity : ((dx > 0 ? i + 1 : i) - x0) / dx);
-  const nextJ = (): number => (dy === 0 ? Infinity : ((dy > 0 ? j + 1 : j) - y0) / dy);
   const crossings = Math.abs(Math.floor(x1) - i) + Math.abs(Math.floor(y1) - j);
   let tIn = 0;
   for (let n = 0; n <= crossings; n += 1) {
-    const tI = nextI();
-    const tJ = nextJ();
+    // Each boundary's t is taken fresh from its whole number, never summed
+    // step by step, so the last span ends at 1 exactly and no sliver of the
+    // sample beyond the end is visited.
+    const tI = dx === 0 ? Infinity : ((dx > 0 ? i + 1 : i) - x0) / dx;
+    const tJ = dy === 0 ? Infinity : ((dy > 0 ? j + 1 : j) - y0) / dy;
     const tOut = n === crossings ? 1 : Math.min(tI, tJ);
     const inside = i >= 0 && j >= 0 && i < width && j < height;
     if (

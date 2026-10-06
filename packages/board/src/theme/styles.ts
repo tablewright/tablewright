@@ -73,7 +73,14 @@ export function numbersStyle(theme: BoardTheme): NumbersStyle {
 
 /** The area layer's colours and face. */
 export function areaStyle(theme: BoardTheme): AreaStyle {
-  return { ground: theme.ground, line: theme.ruler, caught: theme.selection, face: theme.figures };
+  return {
+    ground: theme.ground,
+    line: theme.ruler,
+    caught: theme.selection,
+    light: theme.areaLight,
+    shade: theme.areaShade,
+    face: theme.figures,
+  };
 }
 
 /** The height display's colours and face. */

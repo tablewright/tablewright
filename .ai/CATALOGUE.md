@@ -251,6 +251,7 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 
 **topology/rules/cost.ts**
 - `speedOf()`: The speed a turn budgets: the fly speed of a flier, else the walk.
+- `stepHeight()`: A step is walked when the rise is within this; more is a climb or a drop.
 
 **topology/rules/distance.ts**
 - `distance()`: The distance between two places under `rule`, in the rule's unit.
@@ -268,7 +269,10 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `sweep()`: The ring of what a straight line from `origin` reaches, out to the footprint whose edge runs through `far` in order: each point is where the line to it is stopped, else the point itself, and the ends of the solid edges inside the footprint cut the ring between them.
 
 **topology/shapes.ts**
+- `sampleWidth()`: Samples across the field.
+- `sampleHeight()`: Samples down the field.
 - `pointInPolygon()`: Whether a point lies inside a polygon, by the even-odd rule.
+- `forSamplesAlong()`: Visit each sample the segment from `from` to `to` crosses, in order from `from`, until `visit` returns true.
 
 ## Board: every domain
 

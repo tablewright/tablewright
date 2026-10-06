@@ -36,17 +36,17 @@ const ARC_STEP = 4;
  * it is.
  */
 export function outline(area: Area, origin: Spot, topology: Topology, rule: GridRule): Outline {
-  const footprint = footprintOf(area, origin, rule);
-  if (area.reaches === "around-corners" || footprint.ring.length < 3) {
-    return footprint;
+  const whole = footprint(area, origin, rule);
+  if (area.reaches === "around-corners" || whole.ring.length < 3) {
+    return whole;
   }
   const from = spotToCellSpot(origin, rule);
-  const far = footprint.ring.map((point) => ({ ...point, z: from.z }));
-  return { ...footprint, ring: sweep(topology, from, far) };
+  const far = whole.ring.map((point) => ({ ...point, z: from.z }));
+  return { ...whole, ring: sweep(topology, from, far) };
 }
 
-// The footprint whole, with nothing in its way.
-function footprintOf(area: Area, origin: Spot, rule: GridRule): Outline {
+/** The footprint `area` covers laid down at `origin`, in cells, with nothing in its way. */
+export function footprint(area: Area, origin: Spot, rule: GridRule): Outline {
   const at = spotToCellPoint(origin, rule);
   const cells = (feet: number): number => feet / rule.cellSize;
   switch (area.kind) {

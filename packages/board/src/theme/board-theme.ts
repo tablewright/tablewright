@@ -37,6 +37,9 @@ export interface BoardTheme {
   readonly heightTag: PackedColor;
   /** The ruler: its line, its ends and its numbers. */
   readonly ruler: PackedColor;
+  /** A solid template's lit side, and its shaded side with the shadow it throws. */
+  readonly areaLight: PackedColor;
+  readonly areaShade: PackedColor;
   /** The one red on the board: a way past what this turn's movement reaches. */
   readonly beyond: PackedColor;
   /**
@@ -75,6 +78,8 @@ export const FALLBACK: BoardTheme = {
   heightDown: { rgb: 0x5fa8bd, alpha: 1 },
   heightTag: { rgb: 0xf1e6d2, alpha: 1 },
   ruler: { rgb: 0xf1e6d2, alpha: 1 },
+  areaLight: { rgb: 0xf6eede, alpha: 1 },
+  areaShade: { rgb: 0x160f0a, alpha: 1 },
   beyond: { rgb: 0xc8553d, alpha: 1 },
   figures: "ui-monospace, monospace",
   labels: "system-ui, sans-serif",
@@ -108,6 +113,8 @@ export function readBoardTheme(element: Element): BoardTheme {
     heightDown: token("height-down", FALLBACK.heightDown),
     heightTag: token("height-tag", FALLBACK.heightTag),
     ruler: token("ruler", FALLBACK.ruler),
+    areaLight: token("area-light", FALLBACK.areaLight),
+    areaShade: token("area-shade", FALLBACK.areaShade),
     beyond: token("beyond", FALLBACK.beyond),
     figures: face("numeric-md", FALLBACK.figures),
     labels: face("label-md", FALLBACK.labels),

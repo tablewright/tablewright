@@ -18,8 +18,9 @@ import {
   catchesToken,
   caughtCells,
   cubeCentre,
+  cutOf,
+  footprint,
   heightAt,
-  outline,
   type Area,
   type AreaDrawing,
   type AreaListener,
@@ -190,10 +191,13 @@ export class AreaHost {
     const tokens = this.tokens()
       .filter((token) => catchesToken(area, origin, token, topology, this.rule))
       .map((token) => token.cell);
+    const whole = footprint(area, origin, this.rule);
     this.layer.show({
       area,
       origin,
-      outline: outline(area, origin, topology, this.rule),
+      topology,
+      footprint: whole,
+      cut: cutOf(area, origin, whole, topology, this.rule),
       cells,
       tokens,
       seenBy: placed.seenBy,

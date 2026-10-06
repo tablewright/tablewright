@@ -13,7 +13,7 @@
 import { along, lengthOf, segmentsMeet, type Point } from "../../shared/geometry.js";
 import type { Topology } from "../derive.js";
 import { edgeEnds } from "../edges.js";
-import { firstStop, passes, type CellSpot } from "./effect.js";
+import { firstStop, passes, type Against, type CellSpot } from "./effect.js";
 
 // How far either side of a solid edge's end a ray is cast, in radians:
 // enough that one ray meets the edge and the other misses it, too little
@@ -36,8 +36,14 @@ interface Ray {
  * the line to it is stopped, else the point itself, and the ends of the
  * solid edges inside the footprint cut the ring between them. The
  * footprint is star-shaped about the origin, as every template's is.
+ * Cast `against` the edges alone, the ground stops no ray.
  */
-export function sweep(topology: Topology, origin: CellSpot, far: readonly CellSpot[]): Point[] {
+export function sweep(
+  topology: Topology,
+  origin: CellSpot,
+  far: readonly CellSpot[],
+  against: Against = "all"
+): Point[] {
   const rays: Ray[] = far.map((to, side) => ({ side, u: 0, to }));
   const reach = far.reduce((most, to) => Math.max(most, lengthOf(origin, to)), 0) * 2 + 1;
   for (const end of solidEnds(topology)) {
@@ -54,7 +60,7 @@ export function sweep(topology: Topology, origin: CellSpot, far: readonly CellSp
       continue;
     }
     const lift = (straight.to.z - origin.z) * (away / lengthOf(origin, straight.to));
-    const stop = firstStop(topology, origin, { ...end, z: origin.z + lift });
+    const stop = firstStop(topology, origin, { ...end, z: origin.z + lift }, against);
     if (stop !== undefined && lengthOf(origin, stop.at) < away - AT_ORIGIN) {
       continue;
     }
@@ -66,15 +72,15 @@ export function sweep(topology: Topology, origin: CellSpot, far: readonly CellSp
     }
   }
   rays.sort((a, b) => a.side - b.side || a.u - b.u);
-  return rays.map(({ to }) => stopOf(topology, origin, to));
+  return rays.map(({ to }) => stopOf(topology, origin, to, against));
 }
 
 // Where the line from the origin to `to` is stopped, else `to` itself.
-function stopOf(topology: Topology, origin: CellSpot, to: CellSpot): Point {
+function stopOf(topology: Topology, origin: CellSpot, to: CellSpot, against: Against): Point {
   if (lengthOf(origin, to) < AT_ORIGIN) {
     return { x: to.x, y: to.y };
   }
-  const stop = firstStop(topology, origin, to);
+  const stop = firstStop(topology, origin, to, against);
   return stop === undefined ? { x: to.x, y: to.y } : stop.at;
 }
 

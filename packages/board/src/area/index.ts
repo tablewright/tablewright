@@ -24,5 +24,14 @@ export {
 export { catchesCell, catchesToken, caughtCells, placeOf } from "./cover.js";
 export { AreaLayer, type AreaDrawing, type AreaStyle, type ShownArea } from "./area-layer.js";
 export { AreaTool, type AreaListener, type OriginFor, type PlacedArea } from "./area-tool.js";
-export { footprintCovers, outline, type Outline } from "./outline.js";
-export { holds } from "./volume.js";
+export {
+  clearance,
+  clearanceAt,
+  cutOf,
+  risesTo,
+  type AreaCut,
+  type Clearance,
+  type SampleBox,
+} from "./cut.js";
+export { footprint, footprintCovers, outline, type Outline } from "./outline.js";
+export { holds, isSolid, surface, tallest } from "./volume.js";

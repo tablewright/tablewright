@@ -132,4 +132,14 @@ describe("a cone breathed down the mansion's hall", () => {
     // Down the hall to its west wall, over the floor five feet below.
     expect(ring.some((point) => Math.abs(point.x - 1) < 1e-6)).toBe(true);
   });
+
+  test("cast against the edges alone, a ray passes over the lip of the dais to the wall beyond", () => {
+    // From the hall floor straight north through the arch: the dais's lip
+    // stops the level ray at y = 3, and the north wall at y = 1 is all
+    // that stops one cast against the edges.
+    const from = spot(4.5, 12.5, 2.5);
+    const far = [spot(4.5, 0.5, 2.5)];
+    expect(sweep(house, from, far)[0]?.y).toBeCloseTo(3, 9);
+    expect(sweep(house, from, far, "edges")[0]?.y).toBeCloseTo(1, 9);
+  });
 });
