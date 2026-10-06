@@ -209,6 +209,7 @@ test("Opening a result", async ({ page }) => {
 
 test("Sharing an entry", async ({ page, browserName }) => {
   await openTable(page);
+  const tiles = page.locator(`${box} li`);
   const shown = page.locator(card);
   const heading = page.locator(`${entryPage} h1`);
 
@@ -228,6 +229,26 @@ test("Sharing an entry", async ({ page, browserName }) => {
       await expect(shown).toHaveCount(1);
       await expect(shown).toContainText("Fireball");
       await shown.getByRole("button", { name: "Dismiss" }).click();
+      await expect(shown).toHaveCount(0);
+    }
+  });
+
+  await test.step("Tab reaches a tile's Share button, where Enter or Space raises a card and opens no entry.", async () => {
+    // Typed afresh so the first tile is the selected one, whichever the
+    // drag above left selected; Tab from the input lands on the selected tile.
+    await retype(page, "fire");
+    await expect(tiles.first()).toHaveAttribute("aria-selected", "true");
+    for (const key of ["Enter", "Space"]) {
+      await searchField(page).focus();
+      await page.keyboard.press("Tab");
+      await expect(tiles.first()).toBeFocused();
+      await page.keyboard.press("Tab");
+      await page.keyboard.press(key);
+      await expect(shown).toHaveCount(1);
+      await expect(shown).toContainText("Fire Bolt");
+      await expect(page.locator(entryPage)).not.toHaveAttribute("open", "");
+      // The share hands focus back to the input; Escape takes the card off.
+      await page.keyboard.press("Escape");
       await expect(shown).toHaveCount(0);
     }
   });

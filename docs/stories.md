@@ -69,6 +69,8 @@ can still hide in:
 
 - A share from a tile, or a tile dragged out of the box, raises a card
   on the table.
+- Tab reaches a tile's Share button, where Enter or Space raises a card
+  and opens no entry.
 - Cards queue one at a time; dismissing one lets the next up.
 - Opening a card's entry dismisses the card: the reader has it now.
 - Sharing the entry already open as a page raises no card.
