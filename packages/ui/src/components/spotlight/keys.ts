@@ -3,7 +3,8 @@
  *
  * What a key does in the box, from the input or from a tile, answered as
  * data for the box to apply: the arrows step the selection and wrap at
- * both ends, Home and End jump on a tile, Enter chooses, Escape closes.
+ * both ends, Home and End jump on a tile, Enter chooses, Escape closes,
+ * and on a tile's Share button Enter and Space are the button's own click.
  * Pure, so the wrap-around is tested without a DOM.
  * Design: docs/design.md §3
  */
@@ -14,11 +15,15 @@ export interface KeyPress {
   shift: boolean;
 }
 
-/** Where the press landed: how many tiles show, which is selected, and whether a tile had focus. */
+/**
+ * Where the press landed: how many tiles show, which is selected, whether a
+ * tile had focus, and whether it was the tile's Share button that had it.
+ */
 export interface KeyPlace {
   count: number;
   selected: number;
   fromTile: boolean;
+  fromShare: boolean;
 }
 
 /**
@@ -51,6 +56,11 @@ export function step(selected: number, delta: number, count: number): number {
 /** What the box does with `press` at `place`. */
 export function answerKey(press: KeyPress, place: KeyPlace): KeyAnswer {
   const own = OWN_KEYS.has(press.key);
+  // On the Share button, Enter and Space are the button's click: the box
+  // leaves their default alone so the click comes, and chooses nothing.
+  if (place.fromShare && (press.key === "Enter" || press.key === " ")) {
+    return { own: true, effect: "none" };
+  }
   switch (press.key) {
     case "Tab":
       // From the input, Tab lands on the selected tile rather than the

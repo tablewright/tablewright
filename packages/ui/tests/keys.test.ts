@@ -6,8 +6,8 @@ function press(key: string, shift = false): KeyPress {
   return { key, shift };
 }
 
-function at(count: number, selected: number, fromTile = false): KeyPlace {
-  return { count, selected, fromTile };
+function at(count: number, selected: number, fromTile = false, fromShare = false): KeyPlace {
+  return { count, selected, fromTile, fromShare };
 }
 
 describe("step", () => {
@@ -87,6 +87,21 @@ describe("answerKey", () => {
   test("Space chooses on a tile and types in the input", () => {
     expect(answerKey(press(" "), at(5, 2, true))).toEqual({ own: true, effect: "choose" });
     expect(answerKey(press(" "), at(5, 2))).toEqual({ own: false, effect: "none" });
+  });
+
+  test("Enter and Space on a tile's Share button are left to the button; the arrows still step from it", () => {
+    expect(answerKey(press("Enter"), at(5, 2, true, true))).toEqual({ own: true, effect: "none" });
+    expect(answerKey(press(" "), at(5, 2, true, true))).toEqual({ own: true, effect: "none" });
+    expect(answerKey(press("ArrowDown"), at(5, 2, true, true))).toEqual({
+      own: true,
+      effect: "select",
+      index: 3,
+      focus: true,
+    });
+    expect(answerKey(press("Escape"), at(5, 2, true, true))).toEqual({
+      own: true,
+      effect: "close",
+    });
   });
 
   test("any other key is left to whoever has it", () => {

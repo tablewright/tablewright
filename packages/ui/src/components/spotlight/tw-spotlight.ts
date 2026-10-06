@@ -538,19 +538,22 @@ export class TwSpotlight extends LitElement {
   };
 
   #onKeydown = (event: KeyboardEvent): void => {
-    this.#answer(event, false);
+    this.#answer(event, false, false);
   };
 
+  // The option's own presses have the option as their target; one from
+  // inside the tile is retargeted to the tile, and the Share button is the
+  // one thing in there that takes focus.
   #onTileKeydown = (event: KeyboardEvent): void => {
-    this.#answer(event, true);
+    this.#answer(event, true, event.target !== event.currentTarget);
   };
 
   // The keys the box answers, from the input or from a tile. Keys it keeps
   // are its own; nothing behind it may act on them.
-  #answer(event: KeyboardEvent, fromTile: boolean): void {
+  #answer(event: KeyboardEvent, fromTile: boolean, fromShare: boolean): void {
     const answer = answerKey(
       { key: event.key, shift: event.shiftKey },
-      { count: this.#visible.length, selected: this.selected, fromTile }
+      { count: this.#visible.length, selected: this.selected, fromTile, fromShare }
     );
     if (answer.own) {
       event.stopPropagation();
