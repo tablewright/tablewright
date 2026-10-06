@@ -5,6 +5,7 @@
 // matches first, then tags, then type), the operator filters, and one hit
 // per thing, as the core folds.
 
+import { seenAt } from "@tablewright/board";
 import type {
   Cast,
   CastEntry,
@@ -67,7 +68,10 @@ export const fixtureSearcher = async (
     ...filters,
   ];
   const scored = CAST.flatMap(({ summary }) => {
-    if (!seenBy(summary, viewer) || !applied.every((filter) => passes(summary, filter))) {
+    if (
+      !seenAt(summary.visibility, viewer) ||
+      !applied.every((filter) => passes(summary, filter))
+    ) {
       return [];
     }
     let score = 0;
@@ -218,15 +222,6 @@ export function fixtureEntry(
     asked;
   const entry = viewer === "dm" ? found.dm : found.party;
   return entry === null ? undefined : documentOf(entry);
-}
-
-// The tiers in order, as the core keeps them: world < party < dm.
-function seenBy(summary: EntrySummary, viewer: Visibility): boolean {
-  return rank(viewer) >= rank(summary.visibility);
-}
-
-function rank(tier: Visibility): number {
-  return tier === "dm" ? 2 : tier === "party" ? 1 : 0;
 }
 
 // `<kind>:<slug>`, the thing an entry is a version of, as the core reads it.

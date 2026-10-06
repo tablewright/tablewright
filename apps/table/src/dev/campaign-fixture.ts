@@ -272,11 +272,14 @@ function slug(name: string): string {
   return kept === "" ? "scene" : kept;
 }
 
+// A token's label, as the core writes it: the first character of the first
+// two words that open on a letter or a digit. "Goblin Warrior" reads GW.
 function initials(name: string): string {
   return name
     .split(/\s+/)
-    .filter((word) => word !== "")
+    .map((word) => [...word][0] ?? "")
+    .filter((first) => /[\p{L}\p{N}]/u.test(first))
     .slice(0, 2)
-    .map((word) => word[0]?.toUpperCase() ?? "")
+    .map((first) => first.toUpperCase())
     .join("");
 }
