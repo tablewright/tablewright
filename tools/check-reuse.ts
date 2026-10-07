@@ -139,6 +139,12 @@ const TABLE: readonly Row[] = [
     instead: "`seenAt()`",
   },
   {
+    what: "the tokens a seat sees picked out by hand",
+    pattern: /seenAt\(\s*token\.visibility/,
+    home: `${APP}/host/token-views.ts`,
+    instead: "`seenTokens()`",
+  },
+  {
     what: "the wish for less motion read by hand",
     pattern: /matchMedia\(\s*["'`]\(prefers-reduced-motion/,
     home: `${APP}/shell/motion.ts`,

@@ -13,6 +13,7 @@ export { TwTokenMenu } from "./molecules/tw-token-menu.js";
 export { TwStrip } from "./atoms/tw-strip.js";
 export { TwDashAsk } from "./molecules/tw-dash-ask.js";
 export { TwSideView } from "./molecules/side-view/tw-side-view.js";
+export { TwTemplateCards } from "./components/templates/tw-template-cards.js";
 export type { EntryDocument } from "./components/entry/tw-entry-view.js";
 export { TwFilterTray } from "./molecules/tw-filter-tray.js";
 export type { SearchAnswer, Searcher, SpotlightHit } from "./utils/searcher.js";

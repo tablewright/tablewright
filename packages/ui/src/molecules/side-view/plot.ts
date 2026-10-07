@@ -1,13 +1,14 @@
 /**
  * ─ The side view's plot ─
  *
- * The slice drawn into a box at one scale both ways, so a pitch reads at
- * its true angle. The template's cut goes down first and the ground over
- * it, so what lies under the ground is not there, as on the board; then
- * the stretches it lands on, the walls and doors, the distance marks along
- * the foot, the tilt at the origin, and the tokens as cubes with their
- * labels at their middles, the point the rule asks about. The token the
- * template leaves from stands at the origin with no ring and no line.
+ * The slice, or a card's window on it, drawn into a box at one scale both
+ * ways, so a pitch reads at its true angle. The template's cut goes down
+ * first and the ground over it, so what lies under the ground is not
+ * there, as on the board; then the stretches it lands on, the walls and
+ * doors, the distance marks along the foot, the tilt at the origin, and
+ * the tokens as cubes with their labels at their middles, the point the
+ * rule asks about. The token the template leaves from stands at the
+ * origin with no ring and no line.
  * Design: docs/templates.md "The side view".
  */
 
@@ -19,6 +20,7 @@ import {
   type SideView,
   type Verdict,
 } from "@tablewright/board";
+import { scaleIn, wholeWindow, type PlotRoom, type PlotWindow } from "./window.js";
 
 // Room kept clear inside the box, in pixels: the distance marks under the
 // lowest ground, and a little at the sides and the top.
@@ -37,46 +39,49 @@ const LEVEL = 40;
 /** Where the slice lands in the box: one scale, `k` pixels to the unit, both ways. */
 interface Scale {
   readonly k: number;
-  /** The box's line under the lowest ground, where the distance marks hang. */
+  /** The box's line under the window's foot, where the distance marks hang. */
   readonly base: number;
+  /** The stretch along the slice the window shows, for the marks. */
+  readonly from: number;
+  readonly to: number;
   x(along: number): number;
   y(z: number): number;
 }
 
-// The largest scale that fits the whole slice, from its start to its end
-// and from the lowest ground or token to the highest of anything, with the
-// lowest ground on the base.
-function scaleOf(view: SideView, width: number, height: number): Scale {
-  const placed: readonly SidePlace[] =
-    view.source === undefined ? view.tokens : [...view.tokens, view.source];
-  const low = Math.min(
-    view.origin,
-    ...view.ground.map((point) => point.z),
-    ...placed.map((token) => token.z)
-  );
-  const high = Math.max(
-    view.origin,
-    ...view.ground.map((point) => point.z),
-    ...view.area.map((point) => point.z),
-    ...view.uprights.map((upright) => upright.top),
-    ...placed.map((token) => token.z + view.cell)
-  );
-  const k = Math.min(
-    (width - PAD.left - PAD.right) / Math.max(view.to - view.from, 1),
-    (height - PAD.top - PAD.bottom) / Math.max(high - low, 1)
-  );
+/**
+ * The room a plot draws its slice in, inside a box `width` by `height`
+ * pixels: the box less what is kept clear.
+ */
+export function plotRoom(width: number, height: number): PlotRoom {
+  return { width: width - PAD.left - PAD.right, height: height - PAD.top - PAD.bottom };
+}
+
+// The largest scale that fits the window whole, its start at the left and
+// its foot on the base.
+function scaleOf(shown: PlotWindow, width: number, height: number): Scale {
+  const k = scaleIn(shown, plotRoom(width, height));
   const base = height - PAD.bottom;
   return {
     k,
     base,
-    x: (along) => PAD.left + (along - view.from) * k,
-    y: (z) => base - (z - low) * k,
+    from: shown.from,
+    to: shown.to,
+    x: (along) => PAD.left + (along - shown.from) * k,
+    y: (z) => base - (z - shown.low) * k,
   };
 }
 
-/** The whole plot, for an `svg` element `width` by `height` pixels to hold. */
-export function plotOf(view: SideView, width: number, height: number): SVGTemplateResult {
-  const scale = scaleOf(view, width, height);
+/**
+ * The plot, for an `svg` element `width` by `height` pixels to hold: the
+ * whole slice, or only the window `shown`.
+ */
+export function plotOf(
+  view: SideView,
+  width: number,
+  height: number,
+  shown: PlotWindow = wholeWindow(view)
+): SVGTemplateResult {
+  const scale = scaleOf(shown, width, height);
   const line = (points: readonly SidePoint[]): string =>
     points.map((point) => `${scale.x(point.along)},${scale.y(point.z)}`).join(" ");
   const first = view.ground[0];
@@ -94,7 +99,7 @@ export function plotOf(view: SideView, width: number, height: number): SVGTempla
       (upright) =>
         svg`<line class=${upright.kind} x1=${scale.x(upright.along)} y1=${scale.y(upright.foot)} x2=${scale.x(upright.along)} y2=${scale.y(upright.top)}></line>`
     )}
-    ${marksOf(view, scale)}
+    ${marksOf(scale)}
     ${tiltOf(view, scale)}
     ${view.source === undefined ? nothing : tokenOf(view.source, undefined, view, scale)}
     ${view.tokens.map((token) => tokenOf(token, token.verdict, view, scale))}
@@ -109,12 +114,12 @@ export function discOf(x: number, y: number, label: string): SVGTemplateResult {
 
 // The distances along the foot, from the origin out, as far apart as the
 // scale needs to keep their figures from meeting.
-function marksOf(view: SideView, scale: Scale): SVGTemplateResult[] {
+function marksOf(scale: Scale): SVGTemplateResult[] {
   const step = MARK_STEPS.find((one) => one * scale.k >= MARK_GAP) ?? 1000;
   const marks: SVGTemplateResult[] = [];
   for (
-    let along = Math.max(0, Math.ceil(view.from / step) * step);
-    along <= view.to;
+    let along = Math.max(0, Math.ceil(scale.from / step) * step);
+    along <= scale.to;
     along += step
   ) {
     const x = scale.x(along);

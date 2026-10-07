@@ -1,33 +1,49 @@
 /**
  * ─ Side view styles ─
  *
- * The strip's looks: the panel docked along the board's foot, its head,
- * the plot's box and the lines beside it, and every mark the plot draws,
- * each in the board's own colours so the slice reads as the board does.
+ * The strip's looks and a card's: the panel docked along the board's foot
+ * or the small one beside a token, its head, the plot's box and the lines,
+ * and every mark the plot draws, each in the board's own colours so the
+ * slice reads as the board does.
  * Design: docs/templates.md "The side view".
  */
 
 import { css, type CSSResult } from "lit";
-import { PANEL_CHROME } from "../../atoms/styles.js";
+import { ICON_STYLES } from "../../atoms/icons.js";
+import { FOCUS_RING, MENU_ITEM, PANEL_CHROME, QUIET_BUTTON_HOVER } from "../../atoms/styles.js";
 
-/** The strip, whole. */
+/** The strip and the card, whole. */
 export const SIDE_VIEW_STYLES: CSSResult = css`
+  ${ICON_STYLES}
   :host {
+    box-sizing: border-box;
+    ${PANEL_CHROME}
+    color: var(--tw-comp-panel-text-color);
+  }
+  :host(:not([card])) {
     position: fixed;
     right: var(--tw-space-md);
     bottom: var(--tw-space-md);
     left: var(--tw-space-md);
     /* Under the rail, so a palette tall enough to reach it stays on top. */
     z-index: 110;
-    box-sizing: border-box;
     display: grid;
     grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
     grid-template-rows: auto minmax(0, 1fr);
     gap: var(--tw-space-xs) var(--tw-space-lg);
     height: 200px;
     padding: var(--tw-space-sm) var(--tw-space-md) var(--tw-space-md);
-    ${PANEL_CHROME}
-    color: var(--tw-comp-panel-text-color);
+  }
+  /* A card is placed by what holds it, beside its token. */
+  :host([card]) {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: var(--tw-space-sm);
+    width: 280px;
+    padding: var(--tw-space-sm) var(--tw-space-sm) var(--tw-space-md) var(--tw-space-md);
+    box-shadow: 0 8px 24px var(--tw-shadow-panel);
+    pointer-events: auto;
   }
   :host([hidden]) {
     display: none;
@@ -38,6 +54,36 @@ export const SIDE_VIEW_STYLES: CSSResult = css`
     align-items: baseline;
     gap: var(--tw-space-sm);
   }
+  :host([card]) header {
+    align-items: center;
+  }
+  :host([card]) .label {
+    flex: 1;
+    color: var(--tw-comp-panel-text-color);
+    font: var(--tw-typo-headline-sm-font);
+  }
+  .close {
+    --glyph-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    ${MENU_ITEM}
+    color: var(--tw-on-surface-variant);
+  }
+  .close:hover {
+    ${QUIET_BUTTON_HOVER}
+    color: var(--tw-on-surface);
+  }
+  :host([card]) .plot {
+    height: 120px;
+  }
+  :host([card]) .lines {
+    padding: 0;
+  }
+  ${FOCUS_RING}
   .cap {
     color: var(--tw-comp-panel-title-text-color);
     font: var(--tw-comp-panel-title-font);

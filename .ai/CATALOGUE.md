@@ -145,18 +145,32 @@ What more than one feature takes. `packages/ui/src`.
 
 ## UI: templates
 
+**components/templates/places.ts**
+- `placeCards()`: Where each card goes, in the order given, each clear of the ones before it; a card with nowhere free goes to its first spot all the same.
+- Types: `CardAnchor`, `ScreenBox`, `CardToPlace`, `PlacedCard`
+
+**components/templates/tw-template-cards.ts**
+- `TwTemplateCards`, `<tw-template-cards>`: The cards a template laid in another seat deals this one: a small side view for each token it names, beside the token on screen with a thin line to it, stepping aside rather than covering another card.
+
 **molecules/side-view/lines.ts**
 - `lineOf()`: What a side view says of a token, in the rule's unit.
 
 **molecules/side-view/plot.ts**
-- `plotOf()`: The whole plot, for an `svg` element `width` by `height` pixels to hold.
+- `plotRoom()`: The room a plot draws its slice in, inside a box `width` by `height` pixels: the box less what is kept clear.
+- `plotOf()`: The plot, for an `svg` element `width` by `height` pixels to hold: the whole slice, or only the window `shown`.
 - `discOf()`: A token's label on its disc, centred on a point of an `svg` element.
 
 **molecules/side-view/styles.ts**
-- `SIDE_VIEW_STYLES`: The strip, whole.
+- `SIDE_VIEW_STYLES`: The strip and the card, whole.
 
 **molecules/side-view/tw-side-view.ts**
-- `TwSideView`, `<tw-side-view>`: The slice along a template's aim, docked along the board's foot while the seat that lays it has one with a direction on the board: the plot on the left, the ground and the tokens and the template's cut at one scale both ways, and on the right a line for each token near it.
+- `TwSideView`, `<tw-side-view>`: The slice along a template's aim at one scale both ways, as a strip along the board's foot for the seat that lays it, or as a card about one token for the others.
+
+**molecules/side-view/window.ts**
+- `wholeWindow()`: The whole slice: from its start to its end, and from the lowest ground or token to the highest of anything in it.
+- `scaleIn()`: How many pixels a unit takes when `shown` is fit whole into `room` at one scale both ways.
+- `cardWindow()`: What a card about `token` closes in on, shaped to fill `room`: the token and what decides it, the ground beneath, and the origin while a cell stays readable with it in.
+- Types: `PlotWindow`, `PlotRoom`
 
 ## UI: tokens
 
