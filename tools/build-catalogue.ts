@@ -218,6 +218,7 @@ const PLACED_BY_THE_APP: Readonly<Record<string, string>> = {
   [`${UI}/molecules/tw-token-menu.ts`]: "tokens",
   [`${UI}/molecules/tw-dash-ask.ts`]: "tokens",
   [`${UI}/atoms/tw-readout.ts`]: "rail",
+  [`${UI}/molecules/side-view/tw-side-view.ts`]: "templates",
 };
 
 // The UI's files by the feature they serve. A feature is a component's

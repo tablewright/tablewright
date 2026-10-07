@@ -1,0 +1,175 @@
+/**
+ * ─ The side view's plot ─
+ *
+ * The slice drawn into a box at one scale both ways, so a pitch reads at
+ * its true angle. The template's cut goes down first and the ground over
+ * it, so what lies under the ground is not there, as on the board; then
+ * the stretches it lands on, the walls and doors, the distance marks along
+ * the foot, the tilt at the origin, and the tokens as cubes with their
+ * labels at their middles, the point the rule asks about. The token the
+ * template leaves from stands at the origin with no ring and no line.
+ * Design: docs/templates.md "The side view".
+ */
+
+import { nothing, svg, type SVGTemplateResult } from "lit";
+import {
+  signed,
+  type SidePlace,
+  type SidePoint,
+  type SideView,
+  type Verdict,
+} from "@tablewright/board";
+
+// Room kept clear inside the box, in pixels: the distance marks under the
+// lowest ground, and a little at the sides and the top.
+const PAD = { left: 18, right: 14, top: 14, bottom: 22 };
+// The closest two distance marks may sit, in pixels, and the steps a mark
+// may take, in the rule's unit.
+const MARK_GAP = 40;
+const MARK_STEPS = [5, 10, 20, 25, 50, 100, 200, 500, 1000];
+// A label's disc and the ring about a caught token's, in pixels.
+const DISC = 8.5;
+const RING = 13;
+// The tilt's arc and its level line, in pixels from the origin.
+const ARC = 24;
+const LEVEL = 40;
+
+/** Where the slice lands in the box: one scale, `k` pixels to the unit, both ways. */
+interface Scale {
+  readonly k: number;
+  /** The box's line under the lowest ground, where the distance marks hang. */
+  readonly base: number;
+  x(along: number): number;
+  y(z: number): number;
+}
+
+// The largest scale that fits the whole slice, from its start to its end
+// and from the lowest ground or token to the highest of anything, with the
+// lowest ground on the base.
+function scaleOf(view: SideView, width: number, height: number): Scale {
+  const placed: readonly SidePlace[] =
+    view.source === undefined ? view.tokens : [...view.tokens, view.source];
+  const low = Math.min(
+    view.origin,
+    ...view.ground.map((point) => point.z),
+    ...placed.map((token) => token.z)
+  );
+  const high = Math.max(
+    view.origin,
+    ...view.ground.map((point) => point.z),
+    ...view.area.map((point) => point.z),
+    ...view.uprights.map((upright) => upright.top),
+    ...placed.map((token) => token.z + view.cell)
+  );
+  const k = Math.min(
+    (width - PAD.left - PAD.right) / Math.max(view.to - view.from, 1),
+    (height - PAD.top - PAD.bottom) / Math.max(high - low, 1)
+  );
+  const base = height - PAD.bottom;
+  return {
+    k,
+    base,
+    x: (along) => PAD.left + (along - view.from) * k,
+    y: (z) => base - (z - low) * k,
+  };
+}
+
+/** The whole plot, for an `svg` element `width` by `height` pixels to hold. */
+export function plotOf(view: SideView, width: number, height: number): SVGTemplateResult {
+  const scale = scaleOf(view, width, height);
+  const line = (points: readonly SidePoint[]): string =>
+    points.map((point) => `${scale.x(point.along)},${scale.y(point.z)}`).join(" ");
+  const first = view.ground[0];
+  const last = view.ground[view.ground.length - 1];
+  const ground =
+    first === undefined || last === undefined
+      ? nothing
+      : svg`<polygon class="ground" points=${`${scale.x(first.along)},${height} ${line(view.ground)} ${scale.x(last.along)},${height}`}></polygon>
+          <polyline class="ground-line" points=${line(view.ground)}></polyline>`;
+  return svg`
+    <polygon class="area" points=${line(view.area)}></polygon>
+    ${ground}
+    ${view.lands.map((stretch) => svg`<polyline class="lands" points=${line(stretch)}></polyline>`)}
+    ${view.uprights.map(
+      (upright) =>
+        svg`<line class=${upright.kind} x1=${scale.x(upright.along)} y1=${scale.y(upright.foot)} x2=${scale.x(upright.along)} y2=${scale.y(upright.top)}></line>`
+    )}
+    ${marksOf(view, scale)}
+    ${tiltOf(view, scale)}
+    ${view.source === undefined ? nothing : tokenOf(view.source, undefined, view, scale)}
+    ${view.tokens.map((token) => tokenOf(token, token.verdict, view, scale))}
+  `;
+}
+
+/** A token's label on its disc, centred on a point of an `svg` element. */
+export function discOf(x: number, y: number, label: string): SVGTemplateResult {
+  return svg`<circle class="disc" cx=${x} cy=${y} r=${DISC}></circle>
+    <text class="disc-label" x=${x} y=${y + 3.5}>${label}</text>`;
+}
+
+// The distances along the foot, from the origin out, as far apart as the
+// scale needs to keep their figures from meeting.
+function marksOf(view: SideView, scale: Scale): SVGTemplateResult[] {
+  const step = MARK_STEPS.find((one) => one * scale.k >= MARK_GAP) ?? 1000;
+  const marks: SVGTemplateResult[] = [];
+  for (
+    let along = Math.max(0, Math.ceil(view.from / step) * step);
+    along <= view.to;
+    along += step
+  ) {
+    const x = scale.x(along);
+    marks.push(svg`<line class="mark" x1=${x} y1=${scale.base} x2=${x} y2=${scale.base + 5}></line>
+      <text class="mark-label" x=${x} y=${scale.base + 17}>${along}</text>`);
+  }
+  return marks;
+}
+
+// The origin, and for a form that tilts its pitch from level: an arc from
+// a level line to the pitch, and the angle beside it.
+function tiltOf(view: SideView, scale: Scale): SVGTemplateResult {
+  const x = scale.x(0);
+  const y = scale.y(view.origin);
+  const origin = svg`<circle class="origin" cx=${x} cy=${y} r="3.5"></circle>`;
+  const { pitch } = view;
+  if (pitch === undefined) {
+    return origin;
+  }
+  const tilt = (pitch * Math.PI) / 180;
+  const end = { x: x + ARC * Math.cos(tilt), y: y - ARC * Math.sin(tilt) };
+  // Down is clockwise on screen, which draws y downward.
+  const sweep = pitch < 0 ? 1 : 0;
+  return svg`<line class="level" x1=${x} y1=${y} x2=${x + LEVEL} y2=${y}></line>
+    <path class="tilt" d=${`M${x + ARC} ${y} A${ARC} ${ARC} 0 0 ${sweep} ${end.x} ${end.y}`}></path>
+    ${origin}
+    <text class="tilt-label" x=${x + ARC + 6} y=${pitch < 0 ? y - 6 : y + 14}>${signed(Math.round(pitch))}°</text>`;
+}
+
+// A token as its cube, to scale, with its label on a disc at the cube's
+// middle and a ring about it when it is caught; one cut off from the
+// origin has the line to it drawn as far as it is stopped, and the source,
+// with no verdict, has neither.
+function tokenOf(
+  token: SidePlace,
+  verdict: Verdict | undefined,
+  view: SideView,
+  scale: Scale
+): SVGTemplateResult {
+  const half = view.cell / 2;
+  const left = scale.x(token.along - half);
+  const top = scale.y(token.z + view.cell);
+  const x = scale.x(token.along);
+  const y = scale.y(token.z + half);
+  const sight =
+    verdict?.kind === "hidden"
+      ? svg`<line class="sight" x1=${scale.x(0)} y1=${scale.y(view.origin)} x2=${scale.x(verdict.at.along)} y2=${scale.y(verdict.at.z)}></line>
+          <circle class="stop" cx=${scale.x(verdict.at.along)} cy=${scale.y(verdict.at.z)} r="2.6"></circle>`
+      : nothing;
+  const ring =
+    verdict?.kind === "caught"
+      ? svg`<circle class="ring" cx=${x} cy=${y} r=${RING}></circle>`
+      : nothing;
+  return svg`${sight}
+    <rect class="cube" x=${left} y=${top} width=${view.cell * scale.k} height=${view.cell * scale.k}></rect>
+    ${ring}
+    ${discOf(x, y, token.label)}`;
+}

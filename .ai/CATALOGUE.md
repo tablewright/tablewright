@@ -143,6 +143,21 @@ What more than one feature takes. `packages/ui/src`.
 - `selectionOf()`: What the typed words selected, as tray state: a display the tray shows until its own state for that control takes over.
 - Types: `Tri`, `ControlState`, `TrayState`
 
+## UI: templates
+
+**molecules/side-view/lines.ts**
+- `lineOf()`: What a side view says of a token, in the rule's unit.
+
+**molecules/side-view/plot.ts**
+- `plotOf()`: The whole plot, for an `svg` element `width` by `height` pixels to hold.
+- `discOf()`: A token's label on its disc, centred on a point of an `svg` element.
+
+**molecules/side-view/styles.ts**
+- `SIDE_VIEW_STYLES`: The strip, whole.
+
+**molecules/side-view/tw-side-view.ts**
+- `TwSideView`, `<tw-side-view>`: The slice along a template's aim, docked along the board's foot while the seat that lays it has one with a direction on the board: the plot on the left, the ground and the tokens and the template's cut at one scale both ways, and on the right a line for each token near it.
+
 ## UI: tokens
 
 **molecules/tw-dash-ask.ts**
@@ -252,6 +267,7 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 
 **topology/derive.ts**
 - `seenAt()`: Whether a thing kept at `tier` reaches `viewer`: a viewer sees everything at or below their own.
+- `cellIndex()`: A cell's place in the ground array, or undefined outside the bounds.
 - `heightAt()`: The field at a cell's centre: the height the rules give the cell.
 
 **topology/rules/cost.ts**
@@ -267,6 +283,7 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `firstBlock()`: The first edge along the segment that stops `passage`, if any.
 - `firstStop()`: What first stops a straight line in three dimensions from `from` to `to`, if anything: a wall or a shut door where the line crosses it below the top, or the ground where the line runs under the field.
 - `topOf()`: An edge's top: its tallness above the higher of the two cells it sits between, which a line passes over.
+- `crossingOf()`: Where the segment `p` to `q` meets an edge, as how far along it, 0 at `p` and 1 at `q`, or undefined when it does not.
 
 **topology/rules/route.ts**
 - `routes()`: The safe and the quick route, the quick one only when it beats the safe one.
@@ -279,6 +296,7 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `sampleWidth()`: Samples across the field.
 - `sampleHeight()`: Samples down the field.
 - `pointInPolygon()`: Whether a point lies inside a polygon, by the even-odd rule.
+- `forSamplesAlong()`: Visit each sample the segment from `from` to `to` crosses, in order from `from`, until `visit` returns true.
 
 ## Board: every domain
 
