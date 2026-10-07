@@ -36,10 +36,12 @@ import {
   visibleTo,
   watchBoardTheme,
   areaStyle,
+  cellCenter,
   drawStyle,
   heightStyle,
   numbersStyle,
   rulerStyle,
+  tokenReach,
   tokenStyle,
   topologyStyle,
   worldToCell,
@@ -82,7 +84,7 @@ import type {
 } from "@tablewright/schema";
 import { AreaHost } from "./area-host.js";
 import { debugView, placeholderTokens, type BoardDebug } from "./board-debug.js";
-import { budgetOf, moverOf, tokenViews, tokensWithHeights } from "./token-views.js";
+import { budgetOf, moverOf, seenTokens, tokenViews, tokensWithHeights } from "./token-views.js";
 
 // Screen pixels kept clear around a map when the camera fits to it.
 const FIT_PADDING = 24;
@@ -134,6 +136,7 @@ export class BoardHost {
   private readonly strokeListeners = new Listeners<Stroke>();
   private readonly hoverListeners = new Listeners<CellReadout | undefined>();
   private readonly dashListeners = new Listeners<DashAsk | undefined>();
+  private readonly viewListeners = new Listeners<void>();
   private ground = 0;
   private play: readonly ThresholdPlay[] = [];
   private display: HeightDisplay = DEFAULT_DISPLAY;
@@ -266,9 +269,11 @@ export class BoardHost {
     this.camera.onChange(() => {
       this.isGridStale = true;
       stage.requestFrame();
+      this.viewListeners.emit();
     });
     stage.onResize(() => {
       this.isGridStale = true;
+      this.viewListeners.emit();
     });
     stage.onBeforeDraw(() => {
       if (this.isGridStale) {
@@ -358,6 +363,7 @@ export class BoardHost {
     this.area.setGrid(grid);
     this.thresholdTap.setGrid(grid);
     this.isGridStale = true;
+    this.viewListeners.emit();
   }
 
   // Every layer takes its colours and faces from the one theme, read at
@@ -391,6 +397,7 @@ export class BoardHost {
     this.tokens = tokens;
     this.showTokens();
     this.stage.requestFrame();
+    this.viewListeners.emit();
   }
 
   // Every token wears the height of the ground under it.
@@ -513,6 +520,43 @@ export class BoardHost {
   /** Hear the side view of this seat's own area with a direction, and its going. */
   onSideView(listener: (view: SideView | undefined) => void): () => void {
     return this.area.onSideView(listener);
+  }
+
+  /**
+   * Hear the cards another seat's area deals this one: its side view, with
+   * only the tokens whose cards are still open, or nothing.
+   */
+  onCards(listener: (cards: SideView | undefined) => void): () => void {
+    return this.area.onCards(listener);
+  }
+
+  /** Close this seat's card for the token `id`. */
+  closeCard(id: string): void {
+    this.area.closeCard(id);
+  }
+
+  /**
+   * Where each of the tokens `ids` this seat sees stands on screen, and how
+   * far its drawing reaches from there, for what is laid beside it.
+   */
+  tokensOnScreen(ids: readonly string[]): Map<string, Point & { readonly reach: number }> {
+    const wanted = new Set(ids);
+    const reach = tokenReach(this.grid.cellSize) * this.camera.current.zoom;
+    const places = new Map<string, Point & { readonly reach: number }>();
+    for (const token of seenTokens(this.tokens, this.seat)) {
+      if (wanted.has(token.id)) {
+        places.set(token.id, { ...this.camera.toScreen(cellCenter(this.grid, token.cell)), reach });
+      }
+    }
+    return places;
+  }
+
+  /**
+   * Hear the board move under what is laid beside its tokens: panned,
+   * zoomed, resized, or its tokens set again.
+   */
+  onViewMove(listener: () => void): () => void {
+    return this.viewListeners.add(listener);
   }
 
   /** Hear the measure as it is drawn out and pinned, so a palette can follow it. */

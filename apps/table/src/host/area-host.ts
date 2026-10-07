@@ -8,7 +8,8 @@
  * on its own, so while an area shows each frame asks for the next, unless
  * the person asked for less motion: then it stands still and the board rests.
  * An area with a direction that this seat laid has a side view too, worked
- * out from the same scene.
+ * out from the same scene; one another seat laid deals this one its cards,
+ * unless this is the DM's seat.
  * Design: docs/design.md §5 "Templates are areas, laid down from the
  * same column"; docs/templates.md "The side view".
  */
@@ -16,6 +17,7 @@
 import {
   AreaLayer,
   AreaTool,
+  CardDeck,
   Listeners,
   NOBODY,
   catchesToken,
@@ -24,6 +26,7 @@ import {
   cutOf,
   footprint,
   heightAt,
+  isDealt,
   sideViewOf,
   type Area,
   type AreaDrawing,
@@ -45,6 +48,9 @@ import {
 import type { Visibility } from "@tablewright/schema";
 import { REDUCED_MOTION } from "../shell/motion.js";
 
+// The side view a seat is dealt cards from, and the laying it came from.
+type Dealt = { readonly view: SideView; readonly laying: number };
+
 /** The area tool and its layer over one stage, reading the scene as the host holds it now. */
 export class AreaHost {
   private readonly stage: BoardStage;
@@ -52,6 +58,10 @@ export class AreaHost {
   private readonly tool: AreaTool;
   private readonly listeners = new Listeners<PlacedArea | undefined>();
   private readonly sideViews = new Listeners<SideView | undefined>();
+  private readonly cards = new Listeners<SideView | undefined>();
+  private readonly deck = new CardDeck();
+  // What this seat was last dealt, so a card closed is closed for that laying.
+  private dealt: Dealt | undefined;
   private readonly topology: () => Topology;
   private readonly tokens: () => readonly TokenView[];
   private rule: GridRule;
@@ -109,8 +119,8 @@ export class AreaHost {
   }
 
   /**
-   * Who sits here: the area shows to the seats that see it, and its side
-   * view to the seat that laid it.
+   * Who sits here: the area shows to the seats that see it, its side view
+   * to the seat that laid it, and its cards to the rest but the DM's.
    */
   setSeat(seat: Seat): void {
     this.seat = seat;
@@ -157,6 +167,23 @@ export class AreaHost {
     return this.sideViews.add(listener);
   }
 
+  /**
+   * Hear the cards another seat's area deals this one: its side view, with
+   * only the tokens whose cards are still open, or nothing.
+   */
+  onCards(listener: (cards: SideView | undefined) => void): () => void {
+    return this.cards.add(listener);
+  }
+
+  /** Close this seat's card for the token `id`, for the laying it came from. */
+  closeCard(id: string): void {
+    if (this.dealt === undefined) {
+      return;
+    }
+    this.deck.close(id, this.dealt.laying, this.seat.id);
+    this.deal(this.dealt);
+  }
+
   /** What the layer last drew, for a dev build to read. */
   drawing(): AreaDrawing {
     return this.layer.drawing();
@@ -196,12 +223,14 @@ export class AreaHost {
   }
 
   // An area laid down or turning: what it covers, what it reaches of that,
-  // and who it holds, and for the seat that laid it the side view.
+  // and who it holds, and for the seat that laid it the side view, or for
+  // another its cards.
   private show(placed: PlacedArea | undefined): void {
     this.listeners.emit(placed);
     if (placed === undefined) {
       this.layer.clear();
       this.sideViews.emit(undefined);
+      this.deal(undefined);
       this.stage.requestFrame();
       return;
     }
@@ -225,9 +254,19 @@ export class AreaHost {
       isPlaced: placed.isPlaced,
     });
     const isMine = placed.madeBy === this.seat.id;
-    this.sideViews.emit(
-      isMine ? sideViewOf(area, origin, topology, seen, this.rule, source) : undefined
-    );
+    const hasCards = isDealt(placed, this.seat);
+    const view =
+      isMine || hasCards ? sideViewOf(area, origin, topology, seen, this.rule, source) : undefined;
+    this.sideViews.emit(isMine ? view : undefined);
+    this.deal(hasCards && view !== undefined ? { view, laying: placed.laying } : undefined);
     this.stage.requestFrame();
+  }
+
+  // Hand this seat the cards still open from `dealt`, or none.
+  private deal(dealt: Dealt | undefined): void {
+    this.dealt = dealt;
+    this.cards.emit(
+      dealt === undefined ? undefined : this.deck.deal(dealt.view, dealt.laying, this.seat.id)
+    );
   }
 }

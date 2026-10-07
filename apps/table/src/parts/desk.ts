@@ -18,7 +18,8 @@ export function raise(element: HTMLElement): void {
 /** The desk's own listeners: the search box, the shared cards, the entry page, and the layers they peel back in. */
 export async function wireDesk(table: Table): Promise<void> {
   const { core, board } = table;
-  const { deskButton, searchButton, spotlight, shares, entryView, sceneChrome } = table.page;
+  const { deskButton, searchButton, spotlight, shares, entryView, sceneChrome, templateCards } =
+    table.page;
   // Opening an entry is the same act from the box and from a shared card:
   // the page the desk turns to, until the surfaces exist.
   const openEntry = (hit: SpotlightHit): void => {
@@ -87,8 +88,11 @@ export async function wireDesk(table: Table): Promise<void> {
   shares.addEventListener("tw-open", (event) => {
     openEntry(event.detail);
   });
-  // Escape peels the layers back one at a time: the shared card, then the
-  // search box, then the page. Seen first, before any panel's own handler.
+  // Escape peels the layers back one at a time: a template's cards, newest
+  // first, then the shared card, then the search box, then the page. The
+  // cards lie under the box and the page, so while either is open Escape
+  // closes what is on top instead. Seen first, before any panel's own
+  // handler or the board's.
   window.addEventListener(
     "keydown",
     (event) => {
@@ -103,7 +107,9 @@ export async function wireDesk(table: Table): Promise<void> {
       ) {
         return;
       }
-      if (shares.length > 0) {
+      if (templateCards.length > 0 && !spotlight.open && !entryView.open) {
+        templateCards.closeNewest();
+      } else if (shares.length > 0) {
         shares.dismiss();
       } else if (spotlight.open) {
         spotlight.hide();
@@ -120,7 +126,8 @@ export async function wireDesk(table: Table): Promise<void> {
   // A click outside the page closes it, as Escape does, once the box is
   // shut: while the box is open its scrim takes the click and the page
   // stays, so the layers still peel one at a time. The chrome is not
-  // outside: its buttons open things.
+  // outside: its buttons open things; nor is a template's card, closed by
+  // its own X.
   window.addEventListener(
     "click",
     (event) => {
@@ -128,7 +135,12 @@ export async function wireDesk(table: Table): Promise<void> {
         return;
       }
       const path = event.composedPath();
-      if (path.includes(entryView) || path.includes(shares) || path.includes(sceneChrome)) {
+      if (
+        path.includes(entryView) ||
+        path.includes(shares) ||
+        path.includes(sceneChrome) ||
+        path.includes(templateCards)
+      ) {
         return;
       }
       entryView.hide();

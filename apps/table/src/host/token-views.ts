@@ -22,10 +22,12 @@ export function tokenViews(scene: Scene): TokenView[] {
   }));
 }
 
-// What stands on the board as this viewer sees it: a token kept for the
-// DM is not on a player's board at all, so it cannot be seen, caught by
-// an area, or dragged.
-function seenTokens(tokens: readonly TokenView[], seat: Seat): readonly TokenView[] {
+/**
+ * What stands on the board as `seat` sees it: a token kept for the DM is
+ * not on a player's board at all, so it cannot be seen, caught by an
+ * area, dragged, or have a card laid beside it.
+ */
+export function seenTokens(tokens: readonly TokenView[], seat: Seat): readonly TokenView[] {
   return tokens.filter((token) => seenAt(token.visibility ?? "party", seat.role.sees));
 }
 
