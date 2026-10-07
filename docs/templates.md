@@ -7,8 +7,9 @@ solids on a board seen from above, and for testing a spell aimed at one
 creature. Of it, the straight-line test at the end is built, a
 template is stopped by it unless it is set to spread, a form that
 stands up is lit from above, a cone turns by yaw and tilts by pitch on
-the palette's dials, and a rectangle stands as a wall or as a beam that
-tilts as well; the rest is not.
+the palette's dials, a rectangle stands as a wall or as a beam that
+tilts as well, and the seat that lays a template has its side view;
+the rest is not.
 
 ## Why
 
@@ -36,6 +37,10 @@ A template is stopped by what is in its way unless it is set to spread.
 That is the rules' default: a place is caught only if an unblocked
 straight line reaches it from the point of origin. Some spells spread
 around corners instead, such as the 2014 Fireball.
+
+The point of origin is not in a cone or a line, so a cone, a wall or a
+beam never catches the token it is laid from. A circle laid on a token
+still catches it, since a sphere's origin is inside it.
 
 So the palette has **Reaches: Line of sight** or **Around corners**.
 The rules call the first one line of effect; the palette says line of
@@ -101,18 +106,34 @@ confusing, a plain word such as "turn" or "tilt" goes under each.
 
 A tilted template is hard to read from above, so there is a side view.
 
-The DM gets a strip beneath the board: the slice along the template's
-aim, with the ground, the raised parts and the tokens, and a line per
-token saying caught or clear and why, such as "Caught: 34 ft out, on
-the floor where it lands". It is there to read the board by, so it has
-no controls.
+The seat laying or holding a template with a direction, DM or player,
+gets a strip along the board's foot: the slice along its yaw at one
+scale both ways, so its angles are true, with the ground, the walls and
+raised parts, the tokens near it, and a line per token saying caught or
+clear and why, such as "Caught: 30 ft out, on the floor" or "Clear:
+raised ground at +10 ft hides it". It is built only from what that seat
+sees, and it says caught of exactly the tokens the board catches. It is
+there to read the board by, so it has no controls. A circle has no
+direction, so it has no strip.
 
-Players get a card instead: a small side view of what matters and one
-line about what happened. It pops up when the measuring happens and
-stays until it is closed with the X in its corner or with Escape. A
-card is for the player whose token is involved, but tokens have no
-owners yet, so until they do every seat but the DM's gets a card for
-each token involved.
+Clear gives the first reason that holds: the token is off the
+footprint, beside it, past its end or behind its start; or the
+template over its square passes above or below the middle of its cube;
+or the template holds it but a wall, a shut door or the ground stops
+the line from the origin. The token a template is laid from is neither
+caught nor clear: it stands at the origin as the source, with no line.
+
+The strip is where a cone that runs into raised ground is explained:
+its side strikes the face and its top spills over the lip, so it
+catches only who stands at the edge, and the line to anyone further
+back is drawn stopped at the lip. The board stays plain there.
+
+A player whose token another seat's template catches gets a card
+instead: a small side view of what matters and one line about what
+happened. It pops up when the measuring happens and stays until it is
+closed with the X in its corner or with Escape. A card is for the
+player whose token is involved, but tokens have no owners yet, so until
+they do every seat but the DM's gets a card for each token involved.
 
 ## A spell aimed at one creature
 
