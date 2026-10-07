@@ -32,7 +32,8 @@ const has = (cells: readonly { col: number; row: number }[], col: number, row: n
 const cone = (over: Partial<Extract<Area, { kind: "cone" }>> = {}): Area => ({
   kind: "cone",
   reaches: "line-of-sight",
-  aim: 90,
+  yaw: 90,
+  pitch: 0,
   length: 30,
   spread: 53.13,
   edge: "round",
@@ -54,7 +55,7 @@ const circle = (over: Partial<Extract<Area, { kind: "circle" }>> = {}): Area => 
 const rect = (over: Partial<Extract<Area, { kind: "rect" }>> = {}): Area => ({
   kind: "rect",
   reaches: "line-of-sight",
-  aim: 90,
+  yaw: 90,
   length: 60,
   width: 5,
   height: 20,
@@ -250,7 +251,7 @@ describe("what an area catches", () => {
     const from = at(22.5, 32.5, 0);
     const onDais = { id: "a", label: "A", cell: { col: 4, row: 1 }, facing: 0, height: 10 };
     const north = (over: Partial<Extract<Area, { kind: "cone" }>>) =>
-      cone({ aim: 0, length: 40, reaches: "around-corners", ...over });
+      cone({ yaw: 0, length: 40, reaches: "around-corners", ...over });
     expect(catchesToken(north({ spread: 70 }), from, onDais, topology, rule)).toBe(true);
     expect(catchesToken(north({ spread: 20 }), from, onDais, topology, rule)).toBe(false);
     // Flat at five feet tall never reaches it, however wide it opens.
@@ -275,7 +276,7 @@ describe("what an area catches", () => {
     // feet: the hall's whole length, and the gallery five feet up at its
     // east half.
     const from = at(12.5, 62.5, 2.5);
-    const down = (reaches: Area["reaches"]) => cone({ aim: 90, length: 90, spread: 53, reaches });
+    const down = (reaches: Area["reaches"]) => cone({ yaw: 90, length: 90, spread: 53, reaches });
     const sight = caughtCells(down("line-of-sight"), from, topology, rule);
     const spread = caughtCells(down("around-corners"), from, topology, rule);
     expect(sight).toHaveLength(34);
@@ -297,7 +298,7 @@ describe("what an area catches", () => {
 
   test("a token beyond the wall is caught only by a cone that spreads", () => {
     const from = at(12.5, 62.5, 2.5);
-    const down = (reaches: Area["reaches"]) => cone({ aim: 90, length: 90, spread: 53, reaches });
+    const down = (reaches: Area["reaches"]) => cone({ yaw: 90, length: 90, spread: 53, reaches });
     const beyond = { id: "d", label: "D", cell: { col: 12, row: 11 }, facing: 0, height: 0 };
     const onGallery = { id: "e", label: "E", cell: { col: 12, row: 12 }, facing: 0, height: 5 };
     expect(catchesToken(down("line-of-sight"), from, beyond, topology, rule)).toBe(false);
@@ -364,7 +365,7 @@ describe("what an area draws", () => {
     // wall is the line y = 12, its south wall y = 14.
     const house = derive(mansionStrokes(), bounds);
     const from = at(12.5, 62.5, 2.5);
-    const down = (reaches: Area["reaches"]) => cone({ aim: 90, length: 90, spread: 53, reaches });
+    const down = (reaches: Area["reaches"]) => cone({ yaw: 90, length: 90, spread: 53, reaches });
     const cut = outline(down("line-of-sight"), from, house, rule).ring;
     const whole = outline(down("around-corners"), from, house, rule).ring;
     expect(cut.length).toBeGreaterThan(whole.length);
@@ -419,9 +420,9 @@ describe("where an area starts", () => {
     // 53° cone by a hair: 2.5 up over 5 along wants tan(half) of 0.5, and
     // 53° gives 0.4986.
     const ahead = at(5, 0, 2.5);
-    expect(holds(cone({ aim: 90, spread: 53 }), at(0, 0, 0), ahead)).toBe(false);
+    expect(holds(cone({ yaw: 90, spread: 53 }), at(0, 0, 0), ahead)).toBe(false);
     // Started from the middle of its own cube, it is dead on the axis.
-    expect(holds(cone({ aim: 90, spread: 53 }), at(0, 0, 2.5), ahead)).toBe(true);
+    expect(holds(cone({ yaw: 90, spread: 53 }), at(0, 0, 2.5), ahead)).toBe(true);
   });
 
   test("an origin snaps to a cell's middle, to a corner, or to neither", () => {
@@ -433,7 +434,7 @@ describe("where an area starts", () => {
 
   test("from a cell's middle the cells straight ahead are caught, as a player expects", () => {
     const from = at(12.5, 17.5, 2.5);
-    const east = cone({ aim: 90, spread: 53, length: 30 });
+    const east = cone({ yaw: 90, spread: 53, length: 30 });
     const cells = caughtCells(east, from, bare, rule);
     // The origin's own cell, and the three straight down the axis.
     expect(has(cells, 3, 3)).toBe(true);
@@ -445,7 +446,7 @@ describe("where an area starts", () => {
 describe("taking hold of an area", () => {
   test("a press inside what is drawn takes hold of it, one outside does not", () => {
     const from = at(0, 0, 2.5);
-    const east = cone({ aim: 90, spread: 60, length: 30 });
+    const east = cone({ yaw: 90, spread: 60, length: 30 });
     // In cells: the origin is at nought and the cone runs six cells east.
     expect(footprintCovers(east, from, { x: 3, y: 0 }, bare, rule)).toBe(true);
     expect(footprintCovers(east, from, { x: 3, y: 2.5 }, bare, rule)).toBe(false);
@@ -465,7 +466,7 @@ describe("taking hold of an area", () => {
     // beyond the north wall, under its footprint but outside its ring.
     const house = derive(mansionStrokes(), bounds);
     const from = at(12.5, 62.5, 2.5);
-    const down = (reaches: Area["reaches"]) => cone({ aim: 90, length: 90, spread: 53, reaches });
+    const down = (reaches: Area["reaches"]) => cone({ yaw: 90, length: 90, spread: 53, reaches });
     const beyond = { x: 12.5, y: 11.5 };
     expect(footprintCovers(down("around-corners"), from, beyond, house, rule)).toBe(true);
     expect(footprintCovers(down("line-of-sight"), from, beyond, house, rule)).toBe(false);

@@ -53,8 +53,8 @@ interface AnyArea {
  */
 export interface RectArea extends AnyArea {
   readonly kind: "rect";
-  /** Degrees clockwise from north, as a token's facing is. */
-  readonly aim: number;
+  /** The turn about the vertical: degrees clockwise from north, as a token's facing is. */
+  readonly yaw: number;
   readonly length: number;
   readonly width: number;
   readonly height: number;
@@ -69,7 +69,13 @@ export interface RectArea extends AnyArea {
  */
 export interface ConeArea extends AnyArea {
   readonly kind: "cone";
-  readonly aim: number;
+  readonly yaw: number;
+  /**
+   * The tilt from level in degrees, up positive: -90 is straight down
+   * and 90 straight up. Only a 3D cone tilts; a flat one stays level and
+   * keeps its pitch for when it stands up again.
+   */
+  readonly pitch: number;
   readonly length: number;
   readonly spread: number;
   readonly edge: "round" | "flat";
@@ -97,14 +103,20 @@ export type Area = RectArea | ConeArea | CircleArea;
 /** The widest an area may open, in degrees. */
 export const SPREAD_RANGE = { min: 0, max: 90 } as const;
 
+/** How far a cone tilts, in degrees: from straight down to straight up. */
+export const PITCH_RANGE = { min: -90, max: 90 } as const;
+
 /**
- * The way an area faces as a unit vector across the map. Degrees run
- * clockwise from north, and north is up the map, so a quarter turn
- * leads east.
+ * The way an area faces as a unit vector, across the map and up. Yaw
+ * runs clockwise from north, and north is up the map, so a quarter turn
+ * leads east; pitch tilts it up from level. Left level, it lies on the
+ * plan and does not rise.
  */
-export function aimVector(degrees: number): { x: number; y: number } {
-  const radians = (degrees * Math.PI) / 180;
-  return { x: Math.sin(radians), y: -Math.cos(radians) };
+export function aimVector(yaw: number, pitch = 0): { x: number; y: number; z: number } {
+  const turn = (yaw * Math.PI) / 180;
+  const tilt = (pitch * Math.PI) / 180;
+  const level = Math.cos(tilt);
+  return { x: level * Math.sin(turn), y: -level * Math.cos(turn), z: Math.sin(tilt) };
 }
 
 /**
@@ -170,7 +182,7 @@ export function defaultArea(kind: Area["kind"], rule: GridRule): Area {
       return {
         kind: "rect",
         reaches,
-        aim: 0,
+        yaw: 0,
         length: cells(12),
         width: cells(1),
         height: cells(4),
@@ -179,7 +191,8 @@ export function defaultArea(kind: Area["kind"], rule: GridRule): Area {
       return {
         kind: "cone",
         reaches,
-        aim: 0,
+        yaw: 0,
+        pitch: 0,
         length: cells(6),
         spread: 53,
         edge: "round",
@@ -251,10 +264,15 @@ export function snapOrigin(
 
 /**
  * An area with its sizes made sensible: a ring's hole sits at least a
- * cell inside its radius. One rule covers both hands, so raising the
- * inner clamps it and lowering the radius pulls it down.
+ * cell inside its radius, and a cone tilts no further than straight up
+ * or down. One rule covers both hands, so raising the inner clamps it
+ * and lowering the radius pulls it down.
  */
 export function clamped(area: Area, rule: GridRule): Area {
+  if (area.kind === "cone") {
+    const pitch = Math.min(PITCH_RANGE.max, Math.max(PITCH_RANGE.min, area.pitch));
+    return pitch === area.pitch ? area : { ...area, pitch };
+  }
   if (area.kind !== "circle") {
     return area;
   }

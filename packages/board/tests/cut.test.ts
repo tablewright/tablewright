@@ -24,7 +24,8 @@ const tan = (degrees: number) => Math.tan((degrees * Math.PI) / 180);
 const cone = (over: Partial<Extract<Area, { kind: "cone" }>> = {}): Area => ({
   kind: "cone",
   reaches: "line-of-sight",
-  aim: 0,
+  yaw: 0,
+  pitch: 0,
   length: 40,
   spread: 53.13,
   edge: "round",
@@ -83,7 +84,7 @@ describe("a cone laid beside the dais", () => {
 
 describe("a cone breathed down the hall", () => {
   const origin = at(12.5, 62.5, 2.5);
-  const area = cone({ aim: 90, length: 90, spread: 53 });
+  const area = cone({ yaw: 90, length: 90, spread: 53 });
   const down = (reaches: Area["reaches"]) => laid({ ...area, reaches }, origin);
 
   test("is cut everywhere beyond the north wall set to line of sight, and drawn through it spreading", () => {
@@ -126,9 +127,9 @@ describe("a sphere on open ground", () => {
 describe("how an area is cut", () => {
   test("a flat form is cut by its ring and a solid pixel by pixel", () => {
     const origin = at(12.5, 62.5, 2.5);
-    const ring = cutOf(cone({ aim: 90, form: "flat" }), origin, house, rule);
+    const ring = cutOf(cone({ yaw: 90, form: "flat" }), origin, house, rule);
     expect(ring.kind).toBe("ring");
-    expect(cutOf(cone({ aim: 90 }), origin, house, rule).kind).toBe("solid");
+    expect(cutOf(cone({ yaw: 90 }), origin, house, rule).kind).toBe("solid");
     expect(cutOf(sphere(), origin, house, rule).kind).toBe("solid");
   });
 });

@@ -30,8 +30,8 @@ export interface SolidStyle {
   readonly shade: PackedColor;
 }
 
-// The wash is fullest at six cells of height, thirty feet on a five-foot
-// grid, as round two drew it.
+// The wash is fullest at six cells of height above the ground, thirty
+// feet on a five-foot grid, as round two drew it.
 const LIFT_CELLS = 6;
 // The quad reaches a cell past the footprint, so the shadow has room.
 const QUAD_PAD = 1;
@@ -44,14 +44,14 @@ export class SolidView {
     uOrigin: { value: new Float32Array(3), type: "vec3<f32>" },
     uCell: { value: 1, type: "f32" },
     uForm: { value: 0, type: "f32" },
-    uAim: { value: new Float32Array(2), type: "vec2<f32>" },
+    uAxis: { value: new Float32Array(3), type: "vec3<f32>" },
     uTan: { value: 0, type: "f32" },
     uLength: { value: 0, type: "f32" },
     uRoundEdge: { value: 1, type: "f32" },
     uRadius: { value: 0, type: "f32" },
     uInner: { value: 0, type: "f32" },
     uHeight: { value: 0, type: "f32" },
-    uTallest: { value: 0, type: "f32" },
+    uHighest: { value: 0, type: "f32" },
     uStep: { value: 1, type: "f32" },
     uLift: { value: 1, type: "f32" },
     uReaches: { value: 1, type: "f32" },
@@ -69,6 +69,8 @@ export class SolidView {
   private readonly edges = floatTexture("area-edges", "rg32float");
   private readonly shader: Shader;
   private sceneOf: Topology | undefined;
+  // The lowest ground in the scene, the map's edge at nought included.
+  private lowest = 0;
 
   constructor() {
     this.shader = new Shader({
@@ -114,7 +116,6 @@ export class SolidView {
     u.uCell = rule.cellSize;
     u.uStep = stepHeight(rule);
     u.uLift = LIFT_CELLS * rule.cellSize;
-    u.uTallest = tallest(area);
     u.uReaches = area.reaches === "line-of-sight" ? 1 : 0;
     this.setForm(area);
     const { samples } = topology;
@@ -126,7 +127,11 @@ export class SolidView {
       const tops = edgeTops(topology);
       upload(this.edges, tops.values, tops.cols, tops.rows);
       u.uEdgeSize.set([tops.cols, tops.rows]);
+      this.lowest = lowestOf(topology.field);
     }
+    // The shadow is cast from heights above the ground, so its levels run
+    // up to the most the solid can stand over the lowest ground there is.
+    u.uHighest = Math.max(0, origin.z + tallest(area) - this.lowest);
     u.uFieldOrigin.set([samples.bounds.colMin, samples.bounds.rowMin]);
     u.uFieldSize.set([width, height]);
     u.uPer = samples.per;
@@ -144,14 +149,15 @@ export class SolidView {
     this.edges.destroy();
   }
 
-  // The form's own numbers: a cone's aim, spread and length and how its
-  // far edge is cut; a round form's radii and a cylinder's height.
+  // The form's own numbers: a cone's axis, tilted by its pitch, its spread
+  // and length and how its far edge is cut; a round form's radii and a
+  // cylinder's height.
   private setForm(area: Area): void {
     const u = this.uniforms.uniforms;
     if (area.kind === "cone") {
-      const aim = aimVector(area.aim);
+      const axis = aimVector(area.yaw, area.pitch);
       u.uForm = 0;
-      u.uAim.set([aim.x, aim.y]);
+      u.uAxis.set([axis.x, axis.y, axis.z]);
       u.uTan = Math.tan(((area.spread / 2) * Math.PI) / 180);
       u.uLength = area.length;
       u.uRoundEdge = area.edge === "round" ? 1 : 0;
@@ -193,6 +199,16 @@ function upload(
   if (!source.resize(width, height)) {
     source.update();
   }
+}
+
+// The lowest of the field's samples, and nought, which the field reads as
+// off the map.
+function lowestOf(field: Float32Array): number {
+  let lowest = 0;
+  for (const height of field) {
+    lowest = Math.min(lowest, height);
+  }
+  return lowest;
 }
 
 function setColor(target: Float32Array, color: PackedColor): void {

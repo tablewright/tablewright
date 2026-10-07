@@ -2,11 +2,11 @@
  * ─ An area's footprint ─
  *
  * The ring an area draws on the plan, in cells, so the layer beside it
- * has only points to stroke. A cone's far edge follows its own choice,
- * round or flat, and a ring keeps the hole in its middle as a second
- * loop. Set to line of sight the ring is swept from the origin, so what
- * a wall cuts off is not drawn. The volume decides what is caught; this
- * decides what is seen.
+ * has only points to stroke. A cone's far edge is round or flat, a 3D
+ * cone that tilts covers the shadow of its volume, and a ring keeps its
+ * hole as a second loop. Set to line of sight the ring is swept from the
+ * origin, so what a wall cuts off is not drawn. The volume decides what
+ * is caught; this decides what is seen.
  * Design: docs/design.md §5 "Templates are areas, laid down from the
  * same column"; docs/templates.md "What stops it".
  */
@@ -64,7 +64,7 @@ function rectRing(
   at: Point,
   cells: (feet: number) => number
 ): Point[] {
-  const d = aimVector(area.aim);
+  const d = aimVector(area.yaw);
   const across = { x: -d.y, y: d.x };
   const length = cells(area.length);
   const half = cells(area.width) / 2;
@@ -75,29 +75,109 @@ function rectRing(
   return [corner(0, -half), corner(length, -half), corner(length, half), corner(0, half)];
 }
 
-function coneRing(
-  area: Extract<Area, { kind: "cone" }>,
-  at: Point,
-  cells: (feet: number) => number
-): Point[] {
+type Cone = Extract<Area, { kind: "cone" }>;
+
+// A level cone is its wedge on the plan, flat or 3D; a 3D cone that tilts
+// is the shadow of its volume.
+function coneRing(area: Cone, at: Point, cells: (feet: number) => number): Point[] {
   if (area.spread <= 0) {
     return [];
   }
+  if (area.form === "3d" && area.pitch !== 0) {
+    return tiltedRing(area, at, cells);
+  }
   const length = cells(area.length);
   const half = area.spread / 2;
-  const aim = area.aim;
+  const yaw = area.yaw;
   if (area.edge === "flat") {
     // As wide as it is long at the far edge, so its corners reach past
     // the length; the two rays meet a straight line across.
     const reach = length / Math.cos((half * Math.PI) / 180);
-    return [at, along(at, aim - half, reach), along(at, aim + half, reach)];
+    return [at, along(at, yaw - half, reach), along(at, yaw + half, reach)];
   }
   const ring: Point[] = [at];
   for (let turn = -half; turn < half; turn += ARC_STEP) {
-    ring.push(along(at, aim + turn, length));
+    ring.push(along(at, yaw + turn, length));
   }
-  ring.push(along(at, aim + half, length));
+  ring.push(along(at, yaw + half, length));
   return ring;
+}
+
+// A 3D cone tilted up or down, seen from above. It is everything between
+// its apex and its far end, so its footprint is the plan shadow of the
+// two: a flat edge's disc square to the axis, or a round edge's cap of
+// the length's sphere, which its rim bounds and, where the cap reaches
+// level, the sphere's widest ring. The cone is convex, so the hull of
+// those points is the footprint, and it holds the apex.
+function tiltedRing(area: Cone, at: Point, cells: (feet: number) => number): Point[] {
+  const length = cells(area.length);
+  const half = ((area.spread / 2) * Math.PI) / 180;
+  const tilt = (area.pitch * Math.PI) / 180;
+  const axis = aimVector(area.yaw, area.pitch);
+  const ahead = aimVector(area.yaw);
+  // Two ways square to the axis, seen from above: level across it, and up
+  // the upright plane through it, which runs back along the yaw as the
+  // cone tilts up and shrinks to nothing as it levels.
+  const across = { x: -ahead.y, y: ahead.x };
+  const up = { x: -Math.sin(tilt) * ahead.x, y: -Math.sin(tilt) * ahead.y };
+  const isRound = area.edge === "round";
+  const out = isRound ? length * Math.cos(half) : length;
+  const radius = isRound ? length * Math.sin(half) : length * Math.tan(half);
+  const centre = { x: at.x + axis.x * out, y: at.y + axis.y * out };
+  const points: Point[] = [at];
+  for (let turn = 0; turn < 360; turn += ARC_STEP) {
+    const side = Math.cos((turn * Math.PI) / 180) * radius;
+    const rise = Math.sin((turn * Math.PI) / 180) * radius;
+    points.push({
+      x: centre.x + across.x * side + up.x * rise,
+      y: centre.y + across.y * side + up.y * rise,
+    });
+  }
+  // The level bearings the cap holds are those within the half spread of
+  // the axis: turned from the yaw by no more than the angle whose cosine
+  // is the half spread's over the tilt's. A cone tilted past its half
+  // spread holds none.
+  const level = Math.cos(half) / Math.cos(tilt);
+  if (isRound && level <= 1) {
+    const widest = (Math.acos(level) * 180) / Math.PI;
+    for (let turn = -widest; turn < widest; turn += ARC_STEP) {
+      points.push(along(at, area.yaw + turn, length));
+    }
+    points.push(along(at, area.yaw + widest, length));
+  }
+  return hull(points);
+}
+
+// The convex hull of a set of points, in order round it: the lower chain
+// left to right and the upper chain back, by Andrew's monotone chain.
+function hull(points: readonly Point[]): Point[] {
+  const sorted = [...points].sort((a, b) => a.x - b.x || a.y - b.y);
+  const lower = chain(sorted);
+  const upper = chain(sorted.reverse());
+  return [...lower.slice(0, -1), ...upper.slice(0, -1)];
+}
+
+// One chain of the hull: each point in turn, after dropping every point
+// it shows was not a left turn.
+function chain(points: readonly Point[]): Point[] {
+  const kept: Point[] = [];
+  for (const point of points) {
+    while (bendsBack(kept, point)) {
+      kept.pop();
+    }
+    kept.push(point);
+  }
+  return kept;
+}
+
+// Whether the last two points kept and the next one fail to turn left.
+function bendsBack(kept: readonly Point[], next: Point): boolean {
+  const a = kept[kept.length - 2];
+  const b = kept[kept.length - 1];
+  if (a === undefined || b === undefined) {
+    return false;
+  }
+  return (b.x - a.x) * (next.y - a.y) - (b.y - a.y) * (next.x - a.x) <= 0;
 }
 
 function circleRings(
@@ -119,7 +199,7 @@ function loop(at: Point, radius: number): Point[] {
 }
 
 // A point `reach` away from `at`, in the direction `degrees` clockwise
-// from north, as an aim is read everywhere else on the board.
+// from north, as a yaw is read everywhere else on the board.
 function along(at: Point, degrees: number, reach: number): Point {
   const d = aimVector(degrees);
   return { x: at.x + d.x * reach, y: at.y + d.y * reach };

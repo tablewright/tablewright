@@ -20,6 +20,7 @@
  */
 
 import { GlProgram } from "pixi.js";
+import { CONE_AT } from "./solid-cone.js";
 
 /** Where the light comes from: above, and from the top left of the board. */
 export const LIGHT = normalised(-0.55, -0.7, 0.62);
@@ -59,14 +60,14 @@ out vec4 finalColor;
 uniform vec3 uOrigin;
 uniform float uCell;
 uniform float uForm;
-uniform vec2 uAim;
+uniform vec3 uAxis;
 uniform float uTan;
 uniform float uLength;
 uniform float uRoundEdge;
 uniform float uRadius;
 uniform float uInner;
 uniform float uHeight;
-uniform float uTallest;
+uniform float uHighest;
 uniform float uStep;
 uniform float uLift;
 uniform float uReaches;
@@ -98,25 +99,13 @@ const float NO_HORIZON = -1e9;
 const float BURIED = 1e9;
 // A span shorter than this along a line is a touch at a corner, not a crossing.
 const float TOUCH = 1e-9;
+${CONE_AT}
 
 // The top of the form at a point taken from the origin, how far inside
 // the form the point lies, and the top's slope across the plan.
 float surfaceAt(vec2 plan, out float margin, out vec2 slope) {
   if (uForm == FORM_CONE) {
-    float along = dot(plan, uAim);
-    vec2 side = vec2(-uAim.y, uAim.x);
-    float across = dot(plan, side);
-    float wedge = uTan * along;
-    float rise = wedge * wedge - across * across;
-    float cap = uLength * uLength - along * along - across * across;
-    bool isRound = uRoundEdge > 0.5;
-    bool isCapped = isRound && cap < rise;
-    margin = min(wedge - abs(across), isRound ? uLength - length(plan) : uLength - along);
-    float top = sqrt(max(isCapped ? cap : rise, 0.0));
-    float safe = max(top, 1e-3);
-    vec2 g = isCapped ? vec2(-along, -across) / safe : vec2(uTan * uTan * along, -across) / safe;
-    slope = g.x * uAim + g.y * side;
-    return top;
+    return coneAt(plan, margin, slope);
   }
   float d = length(plan);
   if (uForm == FORM_ROUND) {
@@ -224,36 +213,41 @@ float horizonTo(vec2 cell) {
   return horizon;
 }
 
-// Whether the solid is drawn at a point in cells, and its top there: the
-// top stands above the ground under it, and the line from the origin to
-// creature height there, the ground and half a cell up, is not stopped,
-// which is the test the caught cells make, so the solid is cut where
-// they are and climbs where they do. The horizon is the pixel's own: a
-// tap a pixel or a short cast away is read against the line to this
-// pixel rather than marched afresh, an approximation only a hairline
-// edge and a soft shadow could hide.
-bool drawnAt(vec2 cell, float horizon, out float top) {
+// Whether the solid is drawn at a point in cells, and how high its top
+// stands there above the ground under it: the top stands above that
+// ground, and the line from the origin to creature height there, the
+// ground and half a cell up, is not stopped, which is the test the
+// caught cells make, so the solid is cut where they are and climbs where
+// they do. The horizon is the pixel's own: a tap a pixel or a short cast
+// away is read against the line to this pixel rather than marched
+// afresh, an approximation only a hairline edge and a soft shadow could
+// hide.
+bool drawnAt(vec2 cell, float horizon, out float rise) {
   float margin;
   vec2 slope;
-  top = surfaceAt((cell - uOrigin.xy) * uCell, margin, slope);
+  float top = surfaceAt((cell - uOrigin.xy) * uCell, margin, slope);
+  float ground = groundAt(cell);
+  rise = uOrigin.z + top - ground;
   if (margin <= 0.0) {
     return false;
   }
-  float ground = groundAt(cell);
   float reach = uOrigin.z + length(cell - uOrigin.xy) * horizon;
-  return uOrigin.z + top > ground && ground + uCell * 0.5 >= reach;
+  return rise > 0.0 && ground + uCell * 0.5 >= reach;
 }
 
-// How deep the shadow falls at a point: every level of the solid cast a
-// short way in the light's direction, soft where it ends. It falls only
+// How deep the shadow falls at a point: every level of the solid, counted
+// up from the ground beneath it, cast a short way in the light's
+// direction, soft where it ends. Counted from the ground, a cone breathed
+// from high up throws its shadow as far as it stands above the floor,
+// and a top tilted below its origin still throws one. It falls only
 // within the footprint, since a pixel outside the form draws nothing.
 float shadowAt(vec2 cell, float horizon) {
   float best = -1e9;
   for (int k = 0; k <= SHADOW_STEPS; k += 1) {
-    float z = uTallest * float(k) / float(SHADOW_STEPS);
-    float top;
-    if (drawnAt(cell - uShadowCast * z / uCell, horizon, top)) {
-      best = max(best, top - z);
+    float z = uHighest * float(k) / float(SHADOW_STEPS);
+    float rise;
+    if (drawnAt(cell - uShadowCast * z / uCell, horizon, rise)) {
+      best = max(best, rise - z);
     }
   }
   float soft = uCell * 0.1;
@@ -274,10 +268,12 @@ void main() {
   float above = uOrigin.z + top;
   // Derivatives are taken where every fragment reaches them, before any
   // branch, as the spec asks: a pixel's step in cells, and how fast the
-  // lines of equal height come round.
+  // lines of equal height come round. Those lines fall at whole steps of
+  // height from the scene's nought, as the height display's bands do, so
+  // they stay put as the origin moves.
   vec2 px = dFdx(vCell) * EDGE_PIXELS;
   vec2 py = dFdy(vCell) * EDGE_PIXELS;
-  float level = top / uStep;
+  float level = above / uStep;
   float width = fwidth(level);
   // Outside the form nothing is drawn, the shadow included, so the trace
   // sits on the solid's true edge, and no line is marched.
@@ -292,8 +288,9 @@ void main() {
   // height here, the ground and half a cell up, is not stopped: the
   // caught cells' own test, so the solid is cut where they are.
   float ground = groundAt(vCell);
+  float rise = above - ground;
   float reach = uOrigin.z + length(vCell - uOrigin.xy) * horizon;
-  bool drawn = above > ground && ground + uCell * 0.5 >= reach;
+  bool drawn = rise > 0.0 && ground + uCell * 0.5 >= reach;
   vec4 color = vec4(0.0);
   float shadow = shadowAt(vCell, horizon) * SHADOW_ALPHA * (drawn ? SHADOW_UNDER : 1.0);
   color = over(color, uShade.rgb, shadow * uShade.a);
@@ -306,14 +303,17 @@ void main() {
     );
     float hi = clamp((lambert - neutral) / (1.0 - neutral), 0.0, 1.0);
     float lo = clamp((neutral - lambert) / neutral, 0.0, 1.0);
-    float lift = clamp(top / uLift, 0.0, 1.0);
+    // The wash deepens with the top's height above the ground under it.
+    float lift = clamp(rise / uLift, 0.0, 1.0);
     color = over(color, uBase.rgb, (0.07 + 0.05 * lift) * uBase.a);
     color = over(color, uLight.rgb, 0.34 * hi * uLight.a);
     color = over(color, uShade.rgb, 0.34 * lo * uShade.a);
-    // Lines of equal height, brighter on the lit side, left out where the
-    // top falls away too steeply for them to mean anything.
+    // Lines of equal height, brighter on the lit side, from half a step
+    // above the ground, and left out where the top falls away too steeply
+    // for them to mean anything or they come round faster than a pixel.
     float toLine = abs(level - floor(level + 0.5));
-    float isLevel = width > 1e-6 && level > 0.5 && length(slope) < STEEP ? 1.0 : 0.0;
+    bool isReadable = width > 1e-6 && width < 1.0 && length(slope) < STEEP;
+    float isLevel = isReadable && rise > uStep * 0.5 ? 1.0 : 0.0;
     float line = isLevel * (1.0 - smoothstep(0.0, width * 1.2, toLine));
     float lineAlpha = clamp(0.14 + 0.42 * hi + 0.10 * (1.0 - lo), 0.0, 0.5);
     color = over(color, uLight.rgb, line * lineAlpha * uLight.a);

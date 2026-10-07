@@ -6,7 +6,7 @@ const bounds = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
 const spot = (x: number, y: number, z: number): CellSpot => ({ x, y, z });
 
 // A fan of far points `reach` cells out, every `step` degrees from `from`
-// to `to`, degrees clockwise from north as an aim is read.
+// to `to`, degrees clockwise from north as a yaw is read.
 const fan = (origin: CellSpot, reach: number, from: number, to: number, step: number) => {
   const far: CellSpot[] = [];
   for (let turn = from; turn <= to + 1e-9; turn += step) {

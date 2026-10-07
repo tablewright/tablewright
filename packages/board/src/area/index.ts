@@ -1,4 +1,5 @@
 export {
+  PITCH_RANGE,
   REACHES,
   SPREAD_RANGE,
   aimVector,

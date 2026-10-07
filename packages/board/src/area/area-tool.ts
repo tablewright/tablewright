@@ -74,7 +74,7 @@ export class AreaTool {
   private grid: SquareGrid;
   private area: Area | undefined;
   private origin: Spot | undefined;
-  private aim = 0;
+  private yaw = 0;
   // How far the drag reached, in the rule's unit. Unset until it moves, so
   // one laid down without moving keeps the length the palette holds.
   private reach: number | undefined;
@@ -122,15 +122,15 @@ export class AreaTool {
   }
 
   /**
-   * The area the palette has made: its kind, its sizes and its form. An
-   * aim typed there is taken as the hand's own, so the number in the
+   * The area the palette has made: its kind, its sizes, its form and its
+   * pitch. A yaw set there is taken as the hand's own, so the dial in the
    * palette and the gesture turn the same thing.
    */
   setArea(area: Area | undefined): void {
-    if (area !== undefined && area.kind !== "circle" && area.aim !== this.aim) {
-      this.aim = area.aim;
+    if (area !== undefined && area.kind !== "circle" && area.yaw !== this.yaw) {
+      this.yaw = area.yaw;
     }
-    // Sizes typed into the palette are the hand's own, as a typed aim is:
+    // Sizes typed into the palette are the hand's own, as a typed yaw is:
     // they replace how far the drag reached rather than being overruled by
     // it, or the fields would do nothing to what is already down.
     this.reach = undefined;
@@ -180,7 +180,7 @@ export class AreaTool {
     if (area === undefined || origin === undefined || !this.marking.isSeen) {
       return undefined;
     }
-    const turned = aimed(area, this.aim);
+    const turned = turnedTo(area, this.yaw);
     const sized = this.reach === undefined ? turned : reached(turned, this.reach, this.rule);
     return {
       area: sized,
@@ -253,7 +253,7 @@ export class AreaTool {
       return;
     }
     const from = this.worldOf(this.origin);
-    this.aim = facingToward(from, at) ?? this.aim;
+    this.yaw = facingToward(from, at) ?? this.yaw;
     const away = (lengthOf(from, at) / this.grid.cellSize) * this.rule.cellSize;
     this.reach = snapSize(away, this.rule);
     this.notify();
@@ -265,8 +265,9 @@ export class AreaTool {
     this.notify();
   }
 
-  // The wheel turns what is under the hand. It is taken only while the
-  // pointer is down, so the camera keeps the wheel the rest of the time.
+  // The wheel turns what is under the hand by its yaw; pitch is the
+  // palette's. It is taken only while the pointer is down, so the camera
+  // keeps the wheel the rest of the time.
   private turn(event: WheelEvent): void {
     if (this.origin === undefined) {
       return;
@@ -274,7 +275,7 @@ export class AreaTool {
     event.preventDefault();
     event.stopPropagation();
     const step = event.shiftKey ? FINE_TURN : TURN_STEP;
-    this.aim = normalizeDegrees(this.aim + (event.deltaY > 0 ? step : -step));
+    this.yaw = normalizeDegrees(this.yaw + (event.deltaY > 0 ? step : -step));
     this.notify();
   }
 
@@ -304,7 +305,7 @@ export class AreaTool {
   }
 }
 
-// An area turned to face `aim`; a circle faces nowhere.
-function aimed(area: Area, aim: number): Area {
-  return area.kind === "circle" ? area : { ...area, aim };
+// An area turned to `yaw`, its pitch left as it is; a circle faces nowhere.
+function turnedTo(area: Area, yaw: number): Area {
+  return area.kind === "circle" ? area : { ...area, yaw };
 }
