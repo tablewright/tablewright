@@ -53,6 +53,7 @@ export {
 } from "./rules/graph.js";
 export {
   cellCentre,
+  crossingOf,
   firstBlock,
   firstStop,
   hasLineOfEffect,

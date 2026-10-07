@@ -5,7 +5,7 @@
  * beam catches as a box about its line but is drawn as the round tube
  * inside it, so it shades as a cone does: the stretch of height the
  * upright line there cuts from the tube, and the slope of its top for the
- * light. `tubeSpan` in volume.ts makes the same cuts in TypeScript, where
+ * light. `beamSpan` in volume.ts makes the same cuts in TypeScript, where
  * the tests reach them; the reuse check cannot see across the two
  * languages, so both files say so.
  * Design: docs/templates.md "Which shapes turn" and "How it is worked out".
@@ -45,7 +45,7 @@ void cutBetween(
 
 // A beam's tube over a point of the plan taken from the origin: the upper
 // end of the stretch of height inside its end caps, its sides across and
-// its round side, in tubeSpan's order and sums. Up is the line crossed
+// its round side, in beamSpan's order and sums. Up is the line crossed
 // with the way across, as beamFrame has it. Across is level, so how far
 // across the line the point stands, s, holds at every height, and there
 // the tube reaches up and down the line by the rim, (h/2)·√(1 − (2s/w)²).

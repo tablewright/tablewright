@@ -58,22 +58,37 @@ export function catchesCell(
  * Whether `area` catches `token` where it stands. A token is judged by
  * the cube it occupies, which sits at the ground under it plus whatever
  * it holds above that floor, so a flier is not caught by what washes
- * the ground beneath them.
+ * the ground beneath them. `source` is the token the area was laid
+ * from, if it was laid from one, which `isSource` leaves out.
  */
 export function catchesToken(
   area: Area,
   origin: Spot,
   token: TokenView,
   topology: Topology,
-  rule: GridRule
+  rule: GridRule,
+  source?: string
 ): boolean {
-  return catches(
-    area,
-    origin,
-    testPoint(rule.cover, token.cell, placeOf(token), rule),
-    topology,
-    rule
-  );
+  if (isSource(area, token, source)) {
+    return false;
+  }
+  return catches(area, origin, tokenSpot(token, rule), topology, rule);
+}
+
+/**
+ * Whether `token` is the one `area` was laid from and so stands outside
+ * it. A cone, a wall and a beam never catch the token they leave from, as
+ * the rules have it for a cone's and a line's point of origin; a circle
+ * laid on a token still holds it, a sphere's origin being inside it. The
+ * token is known by who it is, not by where its cube lies.
+ */
+export function isSource(area: Area, token: TokenView, source: string | undefined): boolean {
+  return area.kind !== "circle" && source !== undefined && token.id === source;
+}
+
+/** The place in a token's cube the cover rule asks about, where it stands. */
+export function tokenSpot(token: TokenView, rule: GridRule): Spot {
+  return testPoint(rule.cover, token.cell, placeOf(token), rule);
 }
 
 // The volume must hold the spot; set to line of sight, the straight line

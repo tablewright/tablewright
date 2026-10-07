@@ -16,7 +16,7 @@
  */
 
 import type { Point } from "../shared/geometry.js";
-import { aimVector, type Area, type Spot } from "./area.js";
+import { aimVector, type Area, type ConeArea, type RectArea, type Spot } from "./area.js";
 
 /** Whether `spot` lies inside `area` laid down at `origin`. */
 export function holds(area: Area, origin: Spot, spot: Spot): boolean {
@@ -71,7 +71,7 @@ function inWall(area: Rect, v: Offset): boolean {
 
 // A beam catches as a box: out along its line to the length, half the
 // width either side on the level, and half the height either side of the
-// line. It is drawn as the round tube inside, as tubeSpan says.
+// line. It is drawn as the round tube inside, as beamSpan says.
 function inBeam(area: Rect, v: Offset): boolean {
   const { along, across, up } = beamFrame(area);
   const run = dot(v, along);
@@ -198,12 +198,43 @@ export function surface(area: Area, origin: Spot, at: Point): number | undefined
   const v = { x: at.x - origin.x, y: at.y - origin.y };
   switch (area.kind) {
     case "rect":
-      return area.form === "beam" ? tubeSpan(area, v)?.hi : undefined;
+      return area.form === "beam" ? beamSpan(area, v, true)?.hi : undefined;
     case "cone":
       return coneTop(area, v);
     default:
       return circleTop(area, v);
   }
+}
+
+/** A stretch of height, from `lo` up to `hi`. */
+export interface HeightSpan {
+  readonly lo: number;
+  readonly hi: number;
+}
+
+/**
+ * The stretch of height a cone or a rectangle holds over a point of the
+ * plan, from `lo` to `hi` above its origin, or undefined where it holds
+ * none. A wall and a flat cone stand in one band from the origin up; a
+ * 3D cone is cut exactly; a beam is its box, which it catches with,
+ * rather than the tube it is drawn as.
+ */
+export function heldSpan(
+  area: RectArea | ConeArea,
+  origin: Spot,
+  at: Point
+): HeightSpan | undefined {
+  if (!isSolid(area)) {
+    // The band is the same over every point it covers, so the plan alone
+    // decides, asked at the origin's own height.
+    const isOver = holds(area, origin, { ...at, z: origin.z });
+    return isOver ? { lo: 0, hi: area.height } : undefined;
+  }
+  const v = { x: at.x - origin.x, y: at.y - origin.y };
+  if (area.kind === "rect") {
+    return beamSpan(area, v, false);
+  }
+  return area.spread > 0 ? coneSpan(area, v) : undefined;
 }
 
 /**
@@ -256,7 +287,7 @@ function coneTop(area: Cone, v: Point): number | undefined {
 // within its cap. The cone is convex, so the stretch is one interval or
 // none. The shader's coneAt, in solid-cone.ts, makes the same cuts in
 // the same order.
-function coneSpan(area: Cone, v: Point): { lo: number; hi: number } | undefined {
+function coneSpan(area: Cone, v: Point): HeightSpan | undefined {
   const a = aimVector(area.yaw, area.pitch);
   const cos = Math.cos(((area.spread / 2) * Math.PI) / 180);
   const c2 = cos * cos;
@@ -323,22 +354,24 @@ function coneSpan(area: Cone, v: Point): { lo: number; hi: number } | undefined 
 }
 
 // The stretch of height, from `lo` to `hi` above the origin, that the
-// upright line over a point of the plan cuts from a beam's tube: round
-// about its line, its width across and its height up, inside the box that
-// `inBeam` catches with. It is the box's three pairs of faces with the
-// last pair drawn in to the tube's round side. Across is level, so how far
-// across the line the point stands, s, is the same at every height, and
-// there the tube reaches up and down the line by (h/2)·√(1 − (2s/w)²).
-// Each pair cuts the line in one stretch, from where it crosses one face
-// to where it crosses the other, except a pair standing upright, which
-// keeps all of it or none. The tube is convex, so the overlap is one
-// interval or none. The shader's tubeAt, in solid-beam.ts, makes the same
-// cuts in the same order.
-function tubeSpan(area: Rect, v: Point): { lo: number; hi: number } | undefined {
+// upright line over a point of the plan cuts from a beam's box, which
+// `inBeam` catches with, or, round, from the tube inside it that is drawn:
+// its width across and its height up about its line. It is the box's
+// three pairs of faces, and for the tube the last pair drawn in to the
+// round side. Across is level, so how far across the line the point
+// stands, s, is the same at every height, and there the tube reaches up
+// and down the line by (h/2)·√(1 − (2s/w)²). Each pair cuts the line in
+// one stretch, from where it crosses one face to where it crosses the
+// other, except a pair standing upright, which keeps all of it or none.
+// Box and tube are convex, so the overlap is one interval or none. The
+// shader's tubeAt, in solid-beam.ts, makes the tube's cuts in the same
+// order.
+function beamSpan(area: Rect, v: Point, isRound: boolean): HeightSpan | undefined {
   const { along, across, up } = beamFrame(area);
   const side = v.x * across.x + v.y * across.y;
   const share = area.width > 0 ? (2 * side) / area.width : 1;
-  const rim = (area.height / 2) * Math.sqrt(Math.max(0, 1 - share * share));
+  const round = isRound ? Math.sqrt(Math.max(0, 1 - share * share)) : 1;
+  const rim = (area.height / 2) * round;
   const pairs = [
     [along, 0, area.length],
     [across, -area.width / 2, area.width / 2],

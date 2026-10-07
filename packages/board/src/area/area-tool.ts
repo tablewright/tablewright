@@ -45,17 +45,25 @@ export interface PlacedArea {
   readonly seenBy: Visibility;
   /** The seat it was laid in, which is who counts as its maker. */
   readonly madeBy: string;
+  /** The token it leaves from, when its origin was taken from one. */
+  readonly source: string | undefined;
   /** Left on the board, or still under the hand. */
   readonly isPlaced: boolean;
 }
 
 export type AreaListener = (placed: PlacedArea | undefined) => void;
 
+/** Where an area starts, and the token it was taken from when the press landed on one. */
+export interface Origin {
+  readonly spot: Spot;
+  readonly source: string | undefined;
+}
+
 /**
  * Where an area starts when it is pressed: the place of a token standing
  * on `cell`, or the floor at `at`, which the tool has already snapped.
  */
-export type OriginFor = (cell: Cell, at: { x: number; y: number }) => Spot;
+export type OriginFor = (cell: Cell, at: { x: number; y: number }) => Origin;
 
 type Phase = "idle" | "placing" | "moving";
 
@@ -74,6 +82,8 @@ export class AreaTool {
   private grid: SquareGrid;
   private area: Area | undefined;
   private origin: Spot | undefined;
+  // The token the origin was taken from, asked again at every move of it.
+  private source: string | undefined;
   private yaw = 0;
   // How far the drag reached, in the rule's unit. Unset until it moves, so
   // one laid down without moving keeps the length the palette holds.
@@ -187,6 +197,7 @@ export class AreaTool {
       origin,
       seenBy: this.marking.seenBy,
       madeBy: this.marking.madeBy,
+      source: this.source,
       isPlaced: this.phase === "idle",
     };
   }
@@ -201,6 +212,7 @@ export class AreaTool {
       return;
     }
     this.origin = undefined;
+    this.source = undefined;
     this.reach = undefined;
     this.grab = undefined;
     this.phase = "idle";
@@ -285,7 +297,9 @@ export class AreaTool {
     const wanted =
       this.grab === undefined ? under : { x: under.x - this.grab.x, y: under.y - this.grab.y };
     const at = snapOrigin(wanted, this.snap, this.rule);
-    this.origin = this.originFor(worldToCell(this.grid, this.worldOf({ ...at, z: 0 })), at);
+    const origin = this.originFor(worldToCell(this.grid, this.worldOf({ ...at, z: 0 })), at);
+    this.origin = origin.spot;
+    this.source = origin.source;
     this.notify();
   }
 

@@ -192,10 +192,12 @@ export function topOf(topology: Topology, data: EdgeData): number {
   return Math.max(heightAt(topology, near), heightAt(topology, far)) + data.tall;
 }
 
-// Where the segment p→q meets the edge, as its parameter along p→q, or
-// undefined when it does not. A segment running along an edge is beside
-// it, not through it.
-function crossingOf(p: Point, q: Point, edge: Edge): number | undefined {
+/**
+ * Where the segment `p` to `q` meets an edge, as how far along it, 0 at
+ * `p` and 1 at `q`, or undefined when it does not. A segment running along
+ * an edge is beside it, not through it.
+ */
+export function crossingOf(p: Point, q: Point, edge: Edge): number | undefined {
   const met = segmentsMeet(p, q, ...edgeEnds(edge));
   return met === undefined ? undefined : Math.min(1, Math.max(0, met.t));
 }

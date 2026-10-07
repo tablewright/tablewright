@@ -262,6 +262,29 @@ describe("what an area catches", () => {
     ).toBe(false);
   });
 
+  test("a cone, a wall and a beam laid from a token leave it out, and still catch the one beside it", () => {
+    // A caster on the west wing's floor at (5, 6), aimed east at a token in
+    // the next cell; the origin is the middle of the caster's cube.
+    const caster = { id: "a", label: "A", cell: { col: 5, row: 6 }, facing: 0, height: 0 };
+    const beside = { ...caster, id: "b", label: "B", cell: { col: 6, row: 6 } };
+    const from = at(27.5, 32.5, 2.5);
+    for (const area of [cone(), rect(), rect({ form: "beam", height: 5 })]) {
+      expect(catchesToken(area, from, caster, topology, rule, "a")).toBe(false);
+      expect(catchesToken(area, from, beside, topology, rule, "a")).toBe(true);
+      // It is who the token is that counts: laid from no token, the same
+      // cube is caught where it stands.
+      expect(catchesToken(area, from, caster, topology, rule)).toBe(true);
+    }
+  });
+
+  test("a sphere and a dome laid on a token still catch it, its origin being inside them", () => {
+    const caster = { id: "a", label: "A", cell: { col: 5, row: 6 }, facing: 0, height: 0 };
+    const from = at(27.5, 32.5, 2.5);
+    for (const area of [circle(), circle({ form: "dome" })]) {
+      expect(catchesToken(area, from, caster, topology, rule, "a")).toBe(true);
+    }
+  });
+
   test("a token is judged where it stands, so a flier escapes what washes the ground", () => {
     const ground = { id: "b", label: "B", cell: { col: 5, row: 6 }, facing: 0, height: 0 };
     const flier = { ...ground, id: "c", elevation: 30 };
