@@ -6,8 +6,9 @@ that tilt as well as turn, stop at what is in their way, and read as
 solids on a board seen from above, and for testing a spell aimed at one
 creature. Of it, the straight-line test at the end is built, a
 template is stopped by it unless it is set to spread, a form that
-stands up is lit from above, and a cone turns by yaw and tilts by pitch
-on the palette's dials; the rest is not.
+stands up is lit from above, a cone turns by yaw and tilts by pitch on
+the palette's dials, and a rectangle stands as a wall or as a beam that
+tilts as well; the rest is not.
 
 ## Why
 
@@ -89,7 +90,10 @@ confusing, a plain word such as "turn" or "tilt" goes under each.
   the floor with its height rising from the origin, like a wall of
   fire, and turns by yaw only. A beam is a line in three dimensions
   with its height around that line, like Lightning Bolt's "100 feet
-  long and 5 feet wide", and takes yaw and pitch.
+  long and 5 feet wide", and takes yaw and pitch. It catches as a box
+  about its line, its width across and its height up, and is drawn as
+  the round tube inside that box, so it shades and its lines of equal
+  height curve as a cone's do.
 - **Sphere, dome, cylinder**: the same every way round, so nothing to
   aim.
 
@@ -140,9 +144,12 @@ fingers still do. It has no key for now.
 ## How it is worked out
 
 Exactly, not sampled. A tilted cone is solved at each point of the plan
-for the height of its top and its bottom, and a beam is where three
-pairs of parallel faces overlap. Sampling in slices of height draws
-contour lines that are not there.
+for the height of its top and its bottom. A beam catches where three
+pairs of parallel faces overlap, and its round tube is the same three
+pairs with the last drawn in to the tube's side at each point. The beam
+is the one form whose solid and squares part, on purpose: a box reads
+flat from above, so the tube is drawn and the box catches. Sampling in
+slices of height draws contour lines that are not there.
 
 One test serves templates and targeting: whether a straight line in
 three dimensions is stopped by a wall to its height, a shut door or

@@ -829,12 +829,14 @@ the rounds are in the local research file.
   the sphere is the one that passes through the floor on purpose,
   over a chasm or above an open room. A cone is flat or 3D: flat is
   the footprint given a height, 3D spreads upward as it spreads
-  sideways. A rectangle has no form to choose: its length, width and
-  height already say everything, and the height is whatever the effect
-  says, a wall of fire being twenty feet, falling back to its own width
-  where the effect says nothing. A ring is an inner radius beside the
-  radius rather than a form of its own, nought meaning a full disc; with
-  a cylinder it is a tube and with a sphere a shell.
+  sideways. A rectangle stands as a wall or a beam. A wall's height
+  rises from the origin and is whatever the effect says, a wall of fire
+  being twenty feet, falling back to its own width where the effect says
+  nothing. A beam catches as a box about its own line, its height
+  about that line, as a lightning bolt is, is drawn as the round tube
+  inside that box, and tilts. A ring is an inner radius beside the
+  radius rather than a form of its own, nought meaning a full disc;
+  with a cylinder it is a tube and with a sphere a shell.
   What the world then does to a volume is a second question from its
   shape: clipping it to the ground is what makes a sixty-foot cone
   fired down a ten-foot corridor behave like the one a player
