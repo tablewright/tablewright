@@ -35,5 +35,6 @@ export { OPEN_EDGE, cutOf, edgeTops, risesTo, type AreaCut, type EdgeTops } from
 export { footprint, footprintCovers, outline, type Outline } from "./outline.js";
 export { heldSpan, holds, isSolid, surface, tallest, type HeightSpan } from "./volume.js";
 export { sideViewOf, type SideView } from "./side-view/side-view.js";
+export { CardDeck, isDealt } from "./side-view/cards.js";
 export { type SidePoint, type Upright } from "./side-view/slice.js";
 export { type SidePlace, type SideToken, type Verdict } from "./side-view/verdict.js";

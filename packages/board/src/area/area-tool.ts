@@ -49,6 +49,12 @@ export interface PlacedArea {
   readonly source: string | undefined;
   /** Left on the board, or still under the hand. */
   readonly isPlaced: boolean;
+  /**
+   * Which laying this is: a count that moves on each time the area is let
+   * go of, or changed while it lies there, so a seat can tell a template
+   * laid again from the one it has already seen.
+   */
+  readonly laying: number;
 }
 
 export type AreaListener = (placed: PlacedArea | undefined) => void;
@@ -93,6 +99,7 @@ export class AreaTool {
   /** Where the origin sat under the hand when a move began, in the rule's unit. */
   private grab: { x: number; y: number } | undefined;
   private phase: Phase = "idle";
+  private laying = 0;
 
   /** `topology` is asked at each press, since the scene changes under the tool. */
   constructor(
@@ -146,6 +153,11 @@ export class AreaTool {
     this.reach = undefined;
     this.area = area;
     if (this.origin !== undefined) {
+      // Changed where it lies, it is laid again; under the hand, the
+      // release lays it.
+      if (this.phase === "idle") {
+        this.laying += 1;
+      }
       this.notify();
     }
   }
@@ -199,6 +211,7 @@ export class AreaTool {
       madeBy: this.marking.madeBy,
       source: this.source,
       isPlaced: this.phase === "idle",
+      laying: this.laying,
     };
   }
 
@@ -271,9 +284,10 @@ export class AreaTool {
     this.notify();
   }
 
-  // The release leaves the area where it is.
+  // The release leaves the area where it is, laid down.
   private settle(): void {
     this.phase = "idle";
+    this.laying += 1;
     this.notify();
   }
 
