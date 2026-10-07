@@ -1,14 +1,17 @@
 /**
  * ─ Panel inputs ─
  *
- * The rows a panel is made of: a strip of choices under a caption, and a
+ * The rows a panel is made of: a strip of choices under a caption, a
  * number typed into a box or dragged along a slider, with its unit after
- * it. A strip and a field both report strings, so each is read back into
- * the typed value it was given before the panel hears it.
+ * it, and an angle turned on a dial or typed under it. A strip and a
+ * field both report strings, so each is read back into the typed value
+ * it was given before the panel hears it.
  */
 
 import { html, nothing } from "lit";
 import "../atoms/tw-strip.js";
+import "../atoms/tw-dial.js";
+import type { DialView } from "../atoms/tw-dial.js";
 
 // A strip given no labels reads its values as words.
 const NO_LABELS: Readonly<Record<string, string>> = {};
@@ -28,6 +31,12 @@ interface FieldSpec {
 
 interface RowSpec extends FieldSpec {
   readonly cap: string;
+}
+
+// An angle's row: how its dial is seen, and how wide a wedge it opens.
+interface DialSpec extends RowSpec {
+  readonly view: DialView;
+  readonly spread: number;
 }
 
 /** A strip of choices under its caption, which names the strip unless an `aria` says otherwise. */
@@ -75,6 +84,24 @@ export function rangeRow({ cap, ...spec }: RowSpec) {
   return html`<section>
     <span class="cap">${cap}</span>
     ${field("range", spec)}
+  </section>`;
+}
+
+/**
+ * An angle on a dial under its caption, with the number to type under
+ * the dial. The dial's needle stands at the angle as it is; the number
+ * reads it in whole degrees.
+ */
+export function dialRow({ cap, view, spread, ...spec }: DialSpec) {
+  return html`<section>
+    <span class="cap">${cap}</span>
+    <tw-dial
+      view=${view}
+      .value=${spec.value}
+      .spread=${spread}
+      @tw-dial=${(event: HTMLElementEventMap["tw-dial"]) => spec.change(event.detail.value)}
+    ></tw-dial>
+    ${field("number", { ...spec, value: Math.round(spec.value) })}
   </section>`;
 }
 

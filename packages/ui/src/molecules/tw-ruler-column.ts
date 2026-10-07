@@ -14,6 +14,7 @@ import type { GridRule } from "@tablewright/board";
 import {
   DEFAULT_RULE,
   ORIGIN_SNAPS,
+  PITCH_RANGE,
   REACHES,
   RULER_MODES,
   SEEN_BY,
@@ -28,7 +29,7 @@ import {
 } from "@tablewright/board";
 import { emit } from "../utils/events.js";
 import { PANEL_STYLES } from "../atoms/panel-styles.js";
-import { numberRow, rangeRow, stripRow } from "./panel-inputs.js";
+import { dialRow, numberRow, rangeRow, stripRow } from "./panel-inputs.js";
 
 // An area's own choices: how a cone's far edge is cut, and how each
 // shape stands upward.
@@ -109,7 +110,7 @@ export class TwRulerColumn extends LitElement {
           ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
             ${this.#sizeRow("Width", area.width, (width) => this.#reshape({ width }))}
             ${this.#sizeRow("Height", area.height, (height) => this.#reshape({ height }))}
-            ${this.#aimRow(area.aim, (aim) => this.#reshape({ aim }))}`
+            ${this.#dials(area.yaw, 0)}`
           : nothing
       }
       ${
@@ -132,7 +133,7 @@ export class TwRulerColumn extends LitElement {
                 ? this.#sizeRow("Tall", area.height, (height) => this.#reshape({ height }))
                 : nothing
             }
-            ${this.#aimRow(area.aim, (aim) => this.#reshape({ aim }))}`
+            ${this.#dials(area.yaw, area.spread, area.form === "3d" ? area.pitch : undefined)}`
           : nothing
       }
       ${
@@ -162,18 +163,41 @@ export class TwRulerColumn extends LitElement {
     </div>`;
   }
 
-  // The aim, for a hand that would rather type a bearing than turn one.
-  #aimRow(value: number, change: (next: number) => void) {
-    return numberRow({
-      cap: "Aim",
-      aria: "Aim",
-      value: Math.round(value),
-      unit: "°",
-      min: 0,
-      max: 359,
-      step: 5,
-      change,
-    });
+  // Which way an area faces: its yaw on a compass and, for a cone that
+  // stands up, its pitch from the side, each with its number to type.
+  // The wedge in each opens as wide as the spread; a rectangle has none,
+  // so its compass shows the needle alone.
+  #dials(yaw: number, spread: number, pitch?: number) {
+    return html`<div class="dials">
+      ${dialRow({
+        cap: "Yaw",
+        aria: "Yaw",
+        view: "above",
+        spread,
+        value: yaw,
+        unit: "°",
+        min: 0,
+        max: 359,
+        step: 5,
+        change: (next) => this.#reshape({ yaw: next }),
+      })}
+      ${
+        pitch === undefined
+          ? nothing
+          : dialRow({
+              cap: "Pitch",
+              aria: "Pitch",
+              view: "side",
+              spread,
+              value: pitch,
+              unit: "°",
+              min: PITCH_RANGE.min,
+              max: PITCH_RANGE.max,
+              step: 5,
+              change: (next) => this.#reshape({ pitch: next }),
+            })
+      }
+    </div>`;
   }
 
   #sizeRow(label: string, value: number, change: (next: number) => void, most?: number) {

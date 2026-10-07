@@ -70,6 +70,10 @@ What more than one feature takes. `packages/ui/src`.
 - `COUNT_PILL`: The count pill: a number in the rail's colour, on the rail's foot and the history's head.
 - `PANEL_STYLES`: A panel and everything in it, for each of the rail's panels to take in whole.
 
+**atoms/tw-dial.ts**
+- `TwDial`, `<tw-dial>`: An angle set by dragging round a face.
+- Types: `DialView`
+
 **atoms/tw-readout.ts**
 - `TwReadout`, `<tw-readout>`: What is under the pointer, in words, in the corner below the rail.
 
@@ -81,6 +85,7 @@ What more than one feature takes. `packages/ui/src`.
 - `strip()`: The strip alone, for a section that holds more than one thing.
 - `numberRow()`: A number typed into a box, under its caption.
 - `rangeRow()`: A number dragged along a slider, under its caption.
+- `dialRow()`: An angle on a dial under its caption, with the number to type under the dial.
 - `field()`: The field alone, the box or the slider with its unit after it, for a section that holds more.
 
 **molecules/pen-palette/swatches.ts**

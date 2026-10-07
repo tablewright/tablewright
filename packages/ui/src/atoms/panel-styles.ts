@@ -2,7 +2,8 @@
  * ─ Panel styles ─
  *
  * The looks the rail's panels share: the panel and its head, a captioned
- * section, the tiles, and a number or a slider in a field.
+ * section, the tiles, a number or a slider in a field, and a pair of
+ * dials side by side.
  */
 
 import { css, type CSSResult } from "lit";
@@ -149,6 +150,17 @@ export const PANEL_STYLES: CSSResult = css`
     text-align: right;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
+  }
+  /* Two dials share the width, each over its own number; a degree sign
+     needs none of the room a unit's word is given. */
+  .dials {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--tw-space-sm);
+  }
+  .dials .unit {
+    min-width: 0;
+    text-align: left;
   }
   ${FOCUS_RING}
 `;
