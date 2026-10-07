@@ -8,8 +8,8 @@ creature. Of it, the straight-line test at the end is built, a
 template is stopped by it unless it is set to spread, a form that
 stands up is lit from above, a cone turns by yaw and tilts by pitch on
 the palette's dials, a rectangle stands as a wall or as a beam that
-tilts as well, and the seat that lays a template has its side view;
-the rest is not.
+tilts as well, the seat that lays a template has its side view, and
+every other seat but the DM's has its cards; the rest is not.
 
 ## Why
 
@@ -130,10 +130,20 @@ back is drawn stopped at the lip. The board stays plain there.
 
 A player whose token another seat's template catches gets a card
 instead: a small side view of what matters and one line about what
-happened. It pops up when the measuring happens and stays until it is
-closed with the X in its corner or with Escape. A card is for the
-player whose token is involved, but tokens have no owners yet, so until
-they do every seat but the DM's gets a card for each token involved.
+happened. A card is dealt for each token the side view names, caught or
+clear, when the template is let go of. It has the template's name, the
+slice closed in on the token and what decides it, with the origin when
+it fits, and the token's line. It sits beside its token with a thin line
+to it, follows the board as it pans and zooms, and steps aside rather
+than cover another card. It stays until it is closed with the X in its
+corner or with Escape, which closes the newest first, before anything
+else Escape closes. A card closed stays closed until the template is
+laid again.
+
+A card is for the player whose token is involved, but tokens have no
+owners yet, so until they do every seat but the DM's gets every card,
+spectators too. The DM's seat is the one whose role sees what is kept
+for the DM, and it already sees all a card could say.
 
 ## A spell aimed at one creature
 
