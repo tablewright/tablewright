@@ -61,6 +61,7 @@ import {
   type Point,
   type RulerMode,
   type ShownMeasure,
+  type SideView,
   type SquareGrid,
   type StrokeListener,
   type ThresholdListener,
@@ -484,17 +485,18 @@ export class BoardHost {
   /**
    * Who sits at this board. The scene is derived again as that role sees
    * it, and a measure or an area another seat kept to itself drops off
-   * the board until that seat comes back.
+   * the board until that seat comes back. The scene comes first, so what
+   * the area catches and its side view are judged as the new seat sees.
    */
   setSeat(seat: Seat): void {
     if (seat.id === this.seat.id) {
       return;
     }
     this.seat = seat;
+    this.redrawTopology();
     this.ruler.setSeat(seat);
     this.area.setSeat(seat);
     this.applyTools();
-    this.redrawTopology();
     this.stage.requestFrame();
   }
 
@@ -506,6 +508,11 @@ export class BoardHost {
   /** Hear the area as it is turned and laid down, so a palette can follow it. */
   onArea(listener: AreaListener): () => void {
     return this.area.onArea(listener);
+  }
+
+  /** Hear the side view of this seat's own area with a direction, and its going. */
+  onSideView(listener: (view: SideView | undefined) => void): () => void {
+    return this.area.onSideView(listener);
   }
 
   /** Hear the measure as it is drawn out and pinned, so a palette can follow it. */

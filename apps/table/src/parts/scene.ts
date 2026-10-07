@@ -98,7 +98,8 @@ export function undo(table: Table): void {
 /** The scene's own listeners: the scene tab, what the board reports, the rail's hands, and a token's menu. */
 export function wireScene(table: Table): void {
   const { core, board } = table;
-  const { scenesTab, toolRail, dashAsk, tokenMenu, entryView, openButton, readoutBox } = table.page;
+  const { scenesTab, toolRail, dashAsk, sideView, tokenMenu, entryView, openButton, readoutBox } =
+    table.page;
   scenesTab.references = REFERENCE_SCENES.map((reference) => reference.name);
   scenesTab.addEventListener("click", () => {
     const chrome = scenesTab.parentElement;
@@ -224,6 +225,12 @@ export function wireScene(table: Table): void {
       toolRail.area = placed.area;
       toolRail.seen = placed.seenBy;
     }
+  });
+  // The slice along this seat's own template floats over the board's foot
+  // while one with a direction is down, and goes with it.
+  board.onSideView((view) => {
+    sideView.view = view;
+    sideView.hidden = view === undefined;
   });
   // A measure carries its own choice too, Alt's as much as the palette's,
   // so the row follows whatever is on the board.

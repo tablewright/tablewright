@@ -17,6 +17,7 @@ export function findPage() {
   const scenesTab = document.querySelector("tw-scenes");
   const intro = document.querySelector("tw-campaigns");
   const dashAsk = document.querySelector("tw-dash-ask");
+  const sideView = document.querySelector("tw-side-view");
   const tokenMenu = document.querySelector("tw-token-menu");
   const readoutBox = document.querySelector("tw-readout");
   if (
@@ -37,11 +38,12 @@ export function findPage() {
     scenesTab === null ||
     intro === null ||
     dashAsk === null ||
+    sideView === null ||
     tokenMenu === null ||
     readoutBox === null
   ) {
     throw new Error(
-      "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #desk-chrome, #desk-theme, #role, #view-as, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, <tw-entry-view>, and <tw-readout>"
+      "index.html must contain #board, #open-map, #campaigns, .chrome, #dm-chrome, #desk-chrome, #desk-theme, #role, #view-as, #search, <tw-scenes>, <tw-campaigns>, <tw-tool-rail>, <tw-spotlight>, <tw-share-tray>, <tw-dash-ask>, <tw-side-view>, <tw-entry-view>, and <tw-readout>"
     );
   }
   return {
@@ -62,6 +64,7 @@ export function findPage() {
     scenesTab,
     intro,
     dashAsk,
+    sideView,
     tokenMenu,
     readoutBox,
   };

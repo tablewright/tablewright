@@ -7,20 +7,24 @@
  * The ring about a caught token is the one thing on the board that moves
  * on its own, so while an area shows each frame asks for the next, unless
  * the person asked for less motion: then it stands still and the board rests.
+ * An area with a direction that this seat laid has a side view too, worked
+ * out from the same scene.
  * Design: docs/design.md §5 "Templates are areas, laid down from the
- * same column".
+ * same column"; docs/templates.md "The side view".
  */
 
 import {
   AreaLayer,
   AreaTool,
   Listeners,
+  NOBODY,
   catchesToken,
   caughtCells,
   cubeCentre,
   cutOf,
   footprint,
   heightAt,
+  sideViewOf,
   type Area,
   type AreaDrawing,
   type AreaListener,
@@ -28,11 +32,12 @@ import {
   type BoardStage,
   type Cell,
   type GridRule,
+  type Origin,
   type OriginSnap,
   type PlacedArea,
   type Point,
   type Seat,
-  type Spot,
+  type SideView,
   type SquareGrid,
   type TokenView,
   type Topology,
@@ -46,9 +51,11 @@ export class AreaHost {
   private readonly layer: AreaLayer;
   private readonly tool: AreaTool;
   private readonly listeners = new Listeners<PlacedArea | undefined>();
+  private readonly sideViews = new Listeners<SideView | undefined>();
   private readonly topology: () => Topology;
   private readonly tokens: () => readonly TokenView[];
   private rule: GridRule;
+  private seat: Seat = NOBODY;
   private turnedAt = 0;
 
   /**
@@ -101,7 +108,12 @@ export class AreaHost {
     this.layer.setStyle(style);
   }
 
+  /**
+   * Who sits here: the area shows to the seats that see it, and its side
+   * view to the seat that laid it.
+   */
   setSeat(seat: Seat): void {
+    this.seat = seat;
     this.tool.setSeat(seat);
   }
 
@@ -140,6 +152,11 @@ export class AreaHost {
     return this.listeners.add(listener);
   }
 
+  /** Hear the side view of this seat's own area with a direction, and its going. */
+  onSideView(listener: (view: SideView | undefined) => void): () => void {
+    return this.sideViews.add(listener);
+  }
+
   /** What the layer last drew, for a dev build to read. */
   drawing(): AreaDrawing {
     return this.layer.drawing();
@@ -162,34 +179,38 @@ export class AreaHost {
     this.stage.requestFrame();
   }
 
-  // An area leaves from the middle of the cube of the token pressed on, else
-  // from the snapped point half a cell up: cells are judged by their cube's
-  // centre, so a floor-level origin loses the nearest ones.
-  private originAt(cell: Cell, at: { x: number; y: number }): Spot {
+  // An area leaves from the middle of the cube of the token pressed on, and
+  // names that token as its source, else from the snapped point half a cell
+  // up: cells are judged by their cube's centre, so a floor-level origin
+  // loses the nearest ones.
+  private originAt(cell: Cell, at: { x: number; y: number }): Origin {
     const token = this.tokens().find(
       (one) => one.cell.col === cell.col && one.cell.row === cell.row
     );
     const ground = heightAt(this.topology(), cell);
     if (token !== undefined) {
-      return cubeCentre(cell, ground + (token.elevation ?? 0), this.rule);
+      const spot = cubeCentre(cell, ground + (token.elevation ?? 0), this.rule);
+      return { spot, source: token.id };
     }
-    return { x: at.x, y: at.y, z: ground + this.rule.cellSize / 2 };
+    return { spot: { x: at.x, y: at.y, z: ground + this.rule.cellSize / 2 }, source: undefined };
   }
 
   // An area laid down or turning: what it covers, what it reaches of that,
-  // and who it holds.
+  // and who it holds, and for the seat that laid it the side view.
   private show(placed: PlacedArea | undefined): void {
     this.listeners.emit(placed);
     if (placed === undefined) {
       this.layer.clear();
+      this.sideViews.emit(undefined);
       this.stage.requestFrame();
       return;
     }
-    const { area, origin } = placed;
+    const { area, origin, source } = placed;
     const topology = this.topology();
+    const seen = this.tokens();
     const cells = caughtCells(area, origin, topology, this.rule);
-    const tokens = this.tokens()
-      .filter((token) => catchesToken(area, origin, token, topology, this.rule))
+    const tokens = seen
+      .filter((token) => catchesToken(area, origin, token, topology, this.rule, source))
       .map((token) => token.cell);
     const whole = footprint(area, origin, this.rule);
     this.layer.show({
@@ -203,6 +224,10 @@ export class AreaHost {
       seenBy: placed.seenBy,
       isPlaced: placed.isPlaced,
     });
+    const isMine = placed.madeBy === this.seat.id;
+    this.sideViews.emit(
+      isMine ? sideViewOf(area, origin, topology, seen, this.rule, source) : undefined
+    );
     this.stage.requestFrame();
   }
 }
