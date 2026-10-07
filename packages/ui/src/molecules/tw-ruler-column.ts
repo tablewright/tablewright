@@ -36,6 +36,7 @@ import { dialRow, numberRow, rangeRow, stripRow } from "./panel-inputs.js";
 const EDGES = ["round", "flat"] as const;
 const CONE_FORMS = ["flat", "3d"] as const;
 const CONE_LABELS = { flat: "Flat", "3d": "3D" } as const;
+const RECT_FORMS = ["wall", "beam"] as const;
 const CIRCLE_FORMS = ["sphere", "dome", "cylinder"] as const;
 const SNAP_LABELS = { centre: "Centre", corner: "Corner", free: "Free" } as const;
 // Who a measure or an area is for, as the palette says it: the tiers are
@@ -110,7 +111,8 @@ export class TwRulerColumn extends LitElement {
           ? html`${this.#sizeRow("Length", area.length, (length) => this.#reshape({ length }))}
             ${this.#sizeRow("Width", area.width, (width) => this.#reshape({ width }))}
             ${this.#sizeRow("Height", area.height, (height) => this.#reshape({ height }))}
-            ${this.#dials(area.yaw, 0)}`
+            ${stripRow("Stands as", RECT_FORMS, area.form, (form) => this.#reshape({ form }))}
+            ${this.#dials(area.yaw, 0, area.form === "beam" ? area.pitch : undefined)}`
           : nothing
       }
       ${
@@ -164,9 +166,9 @@ export class TwRulerColumn extends LitElement {
   }
 
   // Which way an area faces: its yaw on a compass and, for a cone that
-  // stands up, its pitch from the side, each with its number to type.
-  // The wedge in each opens as wide as the spread; a rectangle has none,
-  // so its compass shows the needle alone.
+  // stands up or a beam, its pitch from the side, each with its number to
+  // type. The wedge in each opens as wide as the spread; a rectangle has
+  // none, so its dials show the needle alone.
   #dials(yaw: number, spread: number, pitch?: number) {
     return html`<div class="dials">
       ${dialRow({
