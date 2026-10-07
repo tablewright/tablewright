@@ -23,7 +23,10 @@ through the wall in front of it.
 
 Lit from above, and gentle. The solid is shaded the way light falling
 on it would shade it, so its top, its sides and the line where it meets
-the ground read apart, and the map still shows through.
+the ground read apart, and the map still shows through. Its shadow
+falls within its footprint, and the whole footprint is traced in faint
+dashes over it, so the dashes sit on the solid's edge and show what a
+wall or a step cut off.
 
 ## What stops it
 
@@ -44,11 +47,15 @@ sight because people already know the phrase.
   stops an effect. The palette says nothing of it; a DM who rules
   otherwise says so at the table, or sets the template to spread.
 
-What is cut off is not part of the template and is not drawn. The
-outline is cut by rays cast from the origin, each stopped where the
-line from the origin to the footprint's edge is stopped, with a ray at
-each end of a solid edge so a wall's end cuts cleanly. The sweep is
-kept apart from the template, so dynamic lighting can take it later.
+What is cut off is not part of the template and is not drawn. A flat
+form's outline is cut by rays cast from the origin, each stopped where
+the line from the origin to the footprint's edge is stopped, with a ray
+at each end of a solid edge so a wall's end cuts cleanly. The sweep is
+kept apart from the template, so dynamic lighting can take it later. A
+solid is cut at each point of the plan by the same test as the cells:
+the line from the origin to the point half a cell above the ground
+there, so the solid and the caught cells agree, and it climbs onto a
+dais where they do.
 
 The ruler's Line mode is not a template. It keeps measuring the way it
 does, since a raw measure is still useful.
