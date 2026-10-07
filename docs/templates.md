@@ -5,8 +5,9 @@ circle, and the solids they stand for. This is the design for templates
 that tilt as well as turn, stop at what is in their way, and read as
 solids on a board seen from above, and for testing a spell aimed at one
 creature. Of it, the straight-line test at the end is built, a
-template is stopped by it unless it is set to spread, and a form that
-stands up is lit from above; the rest is not.
+template is stopped by it unless it is set to spread, a form that
+stands up is lit from above, and a cone turns by yaw and tilts by pitch
+on the palette's dials; the rest is not.
 
 ## Why
 
