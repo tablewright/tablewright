@@ -40,7 +40,8 @@ export function cutOf(area: Area, origin: Spot, topology: Topology, rule: GridRu
  * point, the ground there and half a cell up as `cubeCentre` has it, is
  * stopped on its way. That is the test the caught cells make, so the
  * solid is cut where they are and climbs where they do. The shader makes
- * the same test for every pixel.
+ * the same test for every pixel. A beam's solid is the round tube inside
+ * the box its cells are caught by, so there the two part on purpose.
  */
 export function risesTo(
   area: Area,

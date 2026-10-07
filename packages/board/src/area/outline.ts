@@ -3,10 +3,10 @@
  *
  * The ring an area draws on the plan, in cells, so the layer beside it
  * has only points to stroke. A cone's far edge is round or flat, a 3D
- * cone that tilts covers the shadow of its volume, and a ring keeps its
- * hole as a second loop. Set to line of sight the ring is swept from the
- * origin, so what a wall cuts off is not drawn. The volume decides what
- * is caught; this decides what is seen.
+ * cone that tilts and a beam cover the shadow of their volume, and a
+ * ring keeps its hole as a second loop. Set to line of sight the ring is
+ * swept from the origin, so what a wall cuts off is not drawn. The volume
+ * decides what is caught; this decides what is seen.
  * Design: docs/design.md §5 "Templates are areas, laid down from the
  * same column"; docs/templates.md "What stops it".
  */
@@ -17,6 +17,7 @@ import type { GridRule } from "../topology/rules/distance.js";
 import { sweep } from "../topology/rules/sweep.js";
 import { pointInPolygon } from "../topology/shapes.js";
 import { aimVector, spotToCellPoint, spotToCellSpot, type Area, type Spot } from "./area.js";
+import { beamCorners } from "./volume.js";
 
 /** What an area covers on the plan: its ring, and the hole a ring keeps. */
 export interface Outline {
@@ -51,7 +52,7 @@ export function footprint(area: Area, origin: Spot, rule: GridRule): Outline {
   const cells = (feet: number): number => feet / rule.cellSize;
   switch (area.kind) {
     case "rect":
-      return { ring: rectRing(area, at, cells) };
+      return { ring: area.form === "beam" ? beamRing(area, at, cells) : rectRing(area, at, cells) };
     case "cone":
       return { ring: coneRing(area, at, cells) };
     default:
@@ -73,6 +74,19 @@ function rectRing(
     y: at.y + d.y * run + across.y * side,
   });
   return [corner(0, -half), corner(length, -half), corner(length, half), corner(0, half)];
+}
+
+// A beam seen from above: a box is convex, so its footprint is the hull of
+// its eight corners' shadows on the plan. Level, the corners fall in pairs
+// on the wall's four.
+function beamRing(
+  area: Extract<Area, { kind: "rect" }>,
+  at: Point,
+  cells: (feet: number) => number
+): Point[] {
+  return hull(
+    beamCorners(area).map((corner) => ({ x: at.x + cells(corner.x), y: at.y + cells(corner.y) }))
+  );
 }
 
 type Cone = Extract<Area, { kind: "cone" }>;

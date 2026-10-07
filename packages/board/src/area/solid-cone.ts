@@ -9,12 +9,11 @@
  * Design: docs/templates.md "Yaw and pitch" and "How it is worked out".
  */
 
-/** The GLSL of `coneAt` and what it needs, for the fragment to take in after its uniforms. */
+/** The GLSL of `coneAt` and what it needs, for the fragment to take in after its uniforms and constants. */
 export const CONE_AT = /* glsl */ `
 // A cone whose side stands this near upright is solved as upright, as
-// coneSpan does; and a height no cut reaches.
+// coneSpan does.
 const float UPRIGHT = 1e-6;
-const float UNBOUNDED = 1e9;
 // Which cut a cone's top lies on: its side, its round cap, or a plane
 // square to its axis, the flat cap or the apex's own.
 const int ON_SIDE = 0;

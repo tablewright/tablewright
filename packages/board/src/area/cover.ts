@@ -20,7 +20,7 @@ import type { CoverRule } from "@tablewright/schema";
 import type { GridRule } from "../topology/rules/distance.js";
 import { firstStop } from "../topology/rules/effect.js";
 import { cubeCentre, spotToCellSpot, type Area, type Spot } from "./area.js";
-import { holds } from "./volume.js";
+import { beamCorners, holds } from "./volume.js";
 
 // The place in a cell the rule asks about. A second rule joins here
 // rather than at every call site.
@@ -121,8 +121,9 @@ export function caughtCells(
 }
 
 // The furthest an area reaches across the map, as a box of cells around
-// its origin. A flat-edged cone overshoots its length at the corners, so
-// it is given the room it actually takes.
+// its origin. A flat-edged cone overshoots its length at the corners, and
+// a tall beam tilted steeply leans its height out past its length, so each
+// is given the room it actually takes.
 function reachBox(area: Area, origin: Spot, rule: GridRule): CellExtent {
   const reach = flatReach(area);
   const cells = Math.ceil(reach / rule.cellSize) + 1;
@@ -134,7 +135,11 @@ function reachBox(area: Area, origin: Spot, rule: GridRule): CellExtent {
 function flatReach(area: Area): number {
   switch (area.kind) {
     case "rect":
-      return area.length + area.width;
+      // A box is convex, so the corner furthest across the map is as far
+      // as any of it reaches.
+      return area.form === "beam"
+        ? Math.max(...beamCorners(area).map((corner) => Math.hypot(corner.x, corner.y)))
+        : area.length + area.width;
     case "cone": {
       const half = ((area.spread / 2) * Math.PI) / 180;
       return area.edge === "flat" ? area.length / Math.max(Math.cos(half), 1e-6) : area.length;

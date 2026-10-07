@@ -14,12 +14,15 @@
  * lit, and it is cut too where that top is under the ground. Outside the
  * form nothing is drawn, the shadow included,
  * so the shadow falls only within the footprint and the dotted trace sits
- * on the solid's true edge. WebGL 2 only, as the board is.
+ * on the solid's true edge. A beam is drawn as the round tube inside the
+ * box that catches, so there the solid and the squares part on purpose.
+ * WebGL 2 only, as the board is.
  * Design: docs/templates.md "How it looks", "What stops it" and "How it
  * is worked out".
  */
 
 import { GlProgram } from "pixi.js";
+import { TUBE_AT } from "./solid-beam.js";
 import { CONE_AT } from "./solid-cone.js";
 
 /** Where the light comes from: above, and from the top left of the board. */
@@ -61,8 +64,10 @@ uniform vec3 uOrigin;
 uniform float uCell;
 uniform float uForm;
 uniform vec3 uAxis;
+uniform vec2 uAcross;
 uniform float uTan;
 uniform float uLength;
+uniform float uWidth;
 uniform float uRoundEdge;
 uniform float uRadius;
 uniform float uInner;
@@ -85,6 +90,7 @@ uniform highp sampler2D uEdges;
 
 const float FORM_CONE = 0.0;
 const float FORM_ROUND = 1.0;
+const float FORM_BEAM = 3.0;
 const float SHADOW_ALPHA = 0.42;
 const float SHADOW_UNDER = 0.35;
 const int SHADOW_STEPS = 8;
@@ -99,13 +105,19 @@ const float NO_HORIZON = -1e9;
 const float BURIED = 1e9;
 // A span shorter than this along a line is a touch at a corner, not a crossing.
 const float TOUCH = 1e-9;
+// A height no cut of a cone or a beam reaches.
+const float UNBOUNDED = 1e9;
 ${CONE_AT}
+${TUBE_AT}
 
 // The top of the form at a point taken from the origin, how far inside
 // the form the point lies, and the top's slope across the plan.
 float surfaceAt(vec2 plan, out float margin, out vec2 slope) {
   if (uForm == FORM_CONE) {
     return coneAt(plan, margin, slope);
+  }
+  if (uForm == FORM_BEAM) {
+    return tubeAt(plan, margin, slope);
   }
   float d = length(plan);
   if (uForm == FORM_ROUND) {

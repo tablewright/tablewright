@@ -56,9 +56,11 @@ const rect = (over: Partial<Extract<Area, { kind: "rect" }>> = {}): Area => ({
   kind: "rect",
   reaches: "line-of-sight",
   yaw: 90,
+  pitch: 0,
   length: 60,
   width: 5,
   height: 20,
+  form: "wall",
   ...over,
 });
 

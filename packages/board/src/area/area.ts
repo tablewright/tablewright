@@ -47,17 +47,25 @@ interface AnyArea {
 
 /**
  * A straight run in three sizes: as long as it is aimed, as wide across
- * and as tall upward, the height rising from the origin as a wall of
- * fire does. It is a rectangle rather than a line, since Line in the
- * column measures and lays nothing down.
+ * and as tall. A wall stands on the floor with its height rising from the
+ * origin, as a wall of fire does; a beam is a box about its own line with
+ * its height about that line, as a lightning bolt is. It is a rectangle
+ * rather than a line, since Line in the column measures and lays nothing
+ * down.
  */
 export interface RectArea extends AnyArea {
   readonly kind: "rect";
   /** The turn about the vertical: degrees clockwise from north, as a token's facing is. */
   readonly yaw: number;
+  /**
+   * The tilt from level in degrees, as a cone's is. Only a beam tilts; a
+   * wall stays level and keeps its pitch for when it is a beam again.
+   */
+  readonly pitch: number;
   readonly length: number;
   readonly width: number;
   readonly height: number;
+  readonly form: "wall" | "beam";
 }
 
 /**
@@ -103,7 +111,7 @@ export type Area = RectArea | ConeArea | CircleArea;
 /** The widest an area may open, in degrees. */
 export const SPREAD_RANGE = { min: 0, max: 90 } as const;
 
-/** How far a cone tilts, in degrees: from straight down to straight up. */
+/** How far a cone or a beam tilts, in degrees: from straight down to straight up. */
 export const PITCH_RANGE = { min: -90, max: 90 } as const;
 
 /**
@@ -156,7 +164,9 @@ export function describeArea(area: Area, rule: GridRule): string {
   const unit = rule.unit;
   switch (area.kind) {
     case "rect":
-      return `${tidy(area.length)} by ${tidy(area.width)} ${unit} rectangle`;
+      return `${tidy(area.length)} by ${tidy(area.width)} ${unit} ${
+        area.form === "beam" ? "beam" : "rectangle"
+      }`;
     case "cone":
       return `${tidy(area.length)} ${unit} cone, ${tidy(area.spread)}°${
         area.form === "flat" ? ", flat" : ""
@@ -183,9 +193,11 @@ export function defaultArea(kind: Area["kind"], rule: GridRule): Area {
         kind: "rect",
         reaches,
         yaw: 0,
+        pitch: 0,
         length: cells(12),
         width: cells(1),
         height: cells(4),
+        form: "wall",
       };
     case "cone":
       return {
@@ -264,17 +276,14 @@ export function snapOrigin(
 
 /**
  * An area with its sizes made sensible: a ring's hole sits at least a
- * cell inside its radius, and a cone tilts no further than straight up
- * or down. One rule covers both hands, so raising the inner clamps it
- * and lowering the radius pulls it down.
+ * cell inside its radius, and a cone or a beam tilts no further than
+ * straight up or down. One rule covers both hands, so raising the inner
+ * clamps it and lowering the radius pulls it down.
  */
 export function clamped(area: Area, rule: GridRule): Area {
-  if (area.kind === "cone") {
+  if (area.kind !== "circle") {
     const pitch = Math.min(PITCH_RANGE.max, Math.max(PITCH_RANGE.min, area.pitch));
     return pitch === area.pitch ? area : { ...area, pitch };
-  }
-  if (area.kind !== "circle") {
-    return area;
   }
   const inner = Math.min(area.inner, Math.max(0, area.radius - rule.cellSize));
   return inner === area.inner ? area : { ...area, inner };

@@ -21,7 +21,7 @@ import { aimVector, spotToCellPoint, type Area, type Spot } from "./area.js";
 import { edgeTops } from "./cut.js";
 import type { Outline } from "./outline.js";
 import { LIGHT, SHADOW_CAST, solidProgram } from "./solid-shader.js";
-import { tallest } from "./volume.js";
+import { beamFrame, tallest } from "./volume.js";
 
 /** The colours a solid is lit in: its wash, its lit side and its shaded side. */
 export interface SolidStyle {
@@ -45,8 +45,10 @@ export class SolidView {
     uCell: { value: 1, type: "f32" },
     uForm: { value: 0, type: "f32" },
     uAxis: { value: new Float32Array(3), type: "vec3<f32>" },
+    uAcross: { value: new Float32Array(2), type: "vec2<f32>" },
     uTan: { value: 0, type: "f32" },
     uLength: { value: 0, type: "f32" },
+    uWidth: { value: 0, type: "f32" },
     uRoundEdge: { value: 1, type: "f32" },
     uRadius: { value: 0, type: "f32" },
     uInner: { value: 0, type: "f32" },
@@ -150,10 +152,21 @@ export class SolidView {
   }
 
   // The form's own numbers: a cone's axis, tilted by its pitch, its spread
-  // and length and how its far edge is cut; a round form's radii and a
-  // cylinder's height.
+  // and length and how its far edge is cut; a beam's line, its way across
+  // and its three sizes; a round form's radii and a cylinder's height.
   private setForm(area: Area): void {
     const u = this.uniforms.uniforms;
+    // A rectangle is lit only when it stands as a beam; a wall is a wash.
+    if (area.kind === "rect") {
+      const { along, across } = beamFrame(area);
+      u.uForm = 3;
+      u.uAxis.set([along.x, along.y, along.z]);
+      u.uAcross.set([across.x, across.y]);
+      u.uLength = area.length;
+      u.uWidth = area.width;
+      u.uHeight = area.height;
+      return;
+    }
     if (area.kind === "cone") {
       const axis = aimVector(area.yaw, area.pitch);
       u.uForm = 0;
