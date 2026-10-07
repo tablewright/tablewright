@@ -257,9 +257,11 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `distance()`: The distance between two places under `rule`, in the rule's unit.
 
 **topology/rules/effect.ts**
+- `passes()`: Whether an edge, or none, lets `passage` through.
 - `cellCentre()`: The centre of a cell, in cell coordinates.
 - `firstBlock()`: The first edge along the segment that stops `passage`, if any.
 - `firstStop()`: What first stops a straight line in three dimensions from `from` to `to`, if anything: a wall or a shut door where the line crosses it below the top, or the ground where the line runs under the field.
+- `topOf()`: An edge's top: its tallness above the higher of the two cells it sits between, which a line passes over.
 
 **topology/rules/route.ts**
 - `routes()`: The safe and the quick route, the quick one only when it beats the safe one.
@@ -272,7 +274,6 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `sampleWidth()`: Samples across the field.
 - `sampleHeight()`: Samples down the field.
 - `pointInPolygon()`: Whether a point lies inside a polygon, by the even-odd rule.
-- `forSamplesAlong()`: Visit each sample the segment from `from` to `to` crosses, in order from `from`, until `visit` returns true.
 
 ## Board: every domain
 

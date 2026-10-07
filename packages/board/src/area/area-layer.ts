@@ -118,6 +118,7 @@ export class AreaLayer {
   private readonly cells = new Graphics();
   private readonly rings = new Graphics();
   private readonly solid = new SolidView();
+  private readonly trace = new Graphics();
   private readonly badge = new Badge(DEFAULT_STYLE.face);
   private style: AreaStyle = DEFAULT_STYLE;
   private grid: SquareGrid;
@@ -129,7 +130,14 @@ export class AreaLayer {
     this.grid = grid;
     this.rule = rule;
     this.view.visible = false;
-    this.view.addChild(this.cells, this.shape, this.solid.view, this.rings, this.badge.view);
+    this.view.addChild(
+      this.cells,
+      this.shape,
+      this.solid.view,
+      this.trace,
+      this.rings,
+      this.badge.view
+    );
     container.addChild(this.view);
     this.solid.setStyle(solidStyleOf(DEFAULT_STYLE));
   }
@@ -196,6 +204,7 @@ export class AreaLayer {
     this.cells.clear();
     this.rings.clear();
     this.solid.clear();
+    this.trace.clear();
     this.badge.clear();
     this.view.visible = false;
   }
@@ -228,7 +237,6 @@ export class AreaLayer {
         shown.area,
         shown.origin,
         shown.footprint,
-        shown.cut.clearance,
         shown.topology,
         this.grid,
         this.rule
@@ -236,6 +244,7 @@ export class AreaLayer {
       return;
     }
     this.solid.clear();
+    this.trace.clear();
     const { ring, hole } = shown.cut.outline;
     if (ring.length < 3) {
       return;
@@ -260,9 +269,11 @@ export class AreaLayer {
     });
   }
 
-  // The whole footprint in faint dashes, in brass while the hand is on it.
+  // The whole footprint in faint dashes over the solid, in brass while the
+  // hand is on it.
   private drawTrace(shown: ShownArea): void {
-    const g = this.shape;
+    const g = this.trace;
+    g.clear();
     const cell = this.grid.cellSize;
     const world = (point: Point): Point => cellPointToWorld(this.grid, point);
     const { ring, hole } = shown.footprint;

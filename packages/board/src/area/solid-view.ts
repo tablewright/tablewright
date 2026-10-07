@@ -2,10 +2,10 @@
  * ─ The solid ─
  *
  * A 3D form drawn as a lit solid: one mesh over the footprint's box, its
- * shader given the area's numbers, the field as a texture built once per
- * scene, and the clearance as a texture built per move. Nothing here
- * decides what is drawn; the shader does, from the same sums `surface`
- * and `risesTo` make on the CPU.
+ * shader given the area's numbers, and the scene as two textures built
+ * once per topology, the field and the tops of the solid edges. Nothing
+ * here decides what is drawn; the shader does, marching the line from
+ * the origin for every pixel as `risesTo` has `firstStop` do on the CPU.
  * Design: docs/templates.md "How it looks".
  */
 
@@ -18,7 +18,7 @@ import { stepHeight } from "../topology/rules/cost.js";
 import type { GridRule } from "../topology/rules/distance.js";
 import { sampleHeight, sampleWidth } from "../topology/shapes.js";
 import { aimVector, spotToCellPoint, type Area, type Spot } from "./area.js";
-import type { Clearance } from "./cut.js";
+import { edgeTops } from "./cut.js";
 import type { Outline } from "./outline.js";
 import { LIGHT, SHADOW_CAST, solidProgram } from "./solid-shader.js";
 import { tallest } from "./volume.js";
@@ -54,26 +54,26 @@ export class SolidView {
     uTallest: { value: 0, type: "f32" },
     uStep: { value: 1, type: "f32" },
     uLift: { value: 1, type: "f32" },
+    uReaches: { value: 1, type: "f32" },
     uLightDir: { value: new Float32Array(LIGHT), type: "vec3<f32>" },
     uFieldOrigin: { value: new Float32Array(2), type: "vec2<f32>" },
     uFieldSize: { value: new Float32Array([1, 1]), type: "vec2<f32>" },
     uPer: { value: 1, type: "f32" },
-    uClearBox: { value: new Float32Array([0, 0, 1, 1]), type: "vec4<f32>" },
+    uEdgeSize: { value: new Float32Array([1, 1]), type: "vec2<f32>" },
     uBase: { value: new Float32Array(4), type: "vec4<f32>" },
     uLight: { value: new Float32Array(4), type: "vec4<f32>" },
     uShade: { value: new Float32Array(4), type: "vec4<f32>" },
     uShadowCast: { value: new Float32Array([SHADOW_CAST.x, SHADOW_CAST.y]), type: "vec2<f32>" },
   });
-  private readonly field = floatTexture("area-field");
-  private readonly clearance = floatTexture("area-clearance");
+  private readonly field = floatTexture("area-field", "r32float");
+  private readonly edges = floatTexture("area-edges", "rg32float");
   private readonly shader: Shader;
-  private fieldOf: Topology | undefined;
-  private clearedBy: Clearance | undefined;
+  private sceneOf: Topology | undefined;
 
   constructor() {
     this.shader = new Shader({
       glProgram: solidProgram(),
-      resources: { solid: this.uniforms, uField: this.field, uClear: this.clearance },
+      resources: { solid: this.uniforms, uField: this.field, uEdges: this.edges },
     });
     this.view = new Mesh({
       geometry: new MeshGeometry({}),
@@ -91,15 +91,14 @@ export class SolidView {
   }
 
   /**
-   * Light `area` laid down at `origin` over its whole `footprint`, cut by
-   * `clearance`, in the scene `topology` holds. The field is uploaded
-   * once per topology and the clearance once per build.
+   * Light `area` laid down at `origin` over its whole `footprint`, in the
+   * scene `topology` holds. The field and the edges are uploaded once per
+   * topology; a move changes numbers alone.
    */
   show(
     area: Area,
     origin: Spot,
     footprint: Outline,
-    clearance: Clearance,
     topology: Topology,
     grid: SquareGrid,
     rule: GridRule
@@ -116,36 +115,33 @@ export class SolidView {
     u.uStep = stepHeight(rule);
     u.uLift = LIFT_CELLS * rule.cellSize;
     u.uTallest = tallest(area);
+    u.uReaches = area.reaches === "line-of-sight" ? 1 : 0;
     this.setForm(area);
     const { samples } = topology;
     const width = sampleWidth(samples);
     const height = sampleHeight(samples);
-    if (this.fieldOf !== topology) {
-      this.fieldOf = topology;
+    if (this.sceneOf !== topology) {
+      this.sceneOf = topology;
       upload(this.field, topology.field, width, height);
+      const tops = edgeTops(topology);
+      upload(this.edges, tops.values, tops.cols, tops.rows);
+      u.uEdgeSize.set([tops.cols, tops.rows]);
     }
     u.uFieldOrigin.set([samples.bounds.colMin, samples.bounds.rowMin]);
     u.uFieldSize.set([width, height]);
     u.uPer = samples.per;
-    if (this.clearedBy !== clearance) {
-      this.clearedBy = clearance;
-      const { box, values } = clearance;
-      upload(this.clearance, values, box.width, box.height);
-      u.uClearBox.set([box.i0, box.j0, box.width, box.height]);
-    }
     this.view.visible = true;
   }
 
   clear(): void {
     this.view.visible = false;
-    this.clearedBy = undefined;
   }
 
   destroy(): void {
     this.view.destroy();
     this.shader.destroy();
     this.field.destroy();
-    this.clearance.destroy();
+    this.edges.destroy();
   }
 
   // The form's own numbers: a cone's aim, spread and length and how its
@@ -170,14 +166,14 @@ export class SolidView {
   }
 }
 
-// One channel of floats per sample, read at the sample and never between
-// two, so the shader sees the field's own numbers.
-function floatTexture(label: string): BufferImageSource {
+// Floats per sample or per cell, read at the texel and never between two,
+// so the shader sees the scene's own numbers.
+function floatTexture(label: string, format: "r32float" | "rg32float"): BufferImageSource {
   return new BufferImageSource({
-    resource: new Float32Array(1),
+    resource: new Float32Array(format === "r32float" ? 1 : 2),
     width: 1,
     height: 1,
-    format: "r32float",
+    format,
     scaleMode: "nearest",
     addressMode: "clamp-to-edge",
     alphaMode: "no-premultiply-alpha",

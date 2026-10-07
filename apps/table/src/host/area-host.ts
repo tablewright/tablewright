@@ -197,7 +197,7 @@ export class AreaHost {
       origin,
       topology,
       footprint: whole,
-      cut: cutOf(area, origin, whole, topology, this.rule),
+      cut: cutOf(area, origin, topology, this.rule),
       cells,
       tokens,
       seenBy: placed.seenBy,

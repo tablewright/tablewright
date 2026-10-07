@@ -4,11 +4,19 @@
  * The program that lights a 3D form, run once per pixel on the GPU. The
  * vertex half places a quad over the footprint and hands each pixel its
  * place in cells; the fragment half works the top of the form out there,
- * exactly as `surface` does, reads the ground and the clearance from two
- * textures at the field's own samples, and lays the wash, the light, the
- * shade, the lines of equal height, the shadow and the edge over one
- * another as round two of the design did. WebGL 2 only, as the board is.
- * Design: docs/templates.md "How it looks" and "How it is worked out".
+ * exactly as `surface` does, marches the straight line from the origin to
+ * creature height at that point, the ground and half a cell up, across
+ * the field's samples and the solid edges, exactly as `firstStop` does
+ * for the caught cells, so the solid is cut where the squares are and
+ * climbs where they do, and lays the wash, the light, the shade, the
+ * lines of equal height, the shadow and the edge over one another as
+ * round two of the design did. The solid's own top is what is drawn and
+ * lit, and it is cut too where that top is under the ground. Outside the
+ * form nothing is drawn, the shadow included,
+ * so the shadow falls only within the footprint and the dotted trace sits
+ * on the solid's true edge. WebGL 2 only, as the board is.
+ * Design: docs/templates.md "How it looks", "What stops it" and "How it
+ * is worked out".
  */
 
 import { GlProgram } from "pixi.js";
@@ -40,8 +48,9 @@ void main() {
 }
 `;
 
-// Every number is in the rule's unit, as the area's sizes are; a point of
-// the plan is taken from cells to that unit with the cell's size.
+// Every height is in the rule's unit, as the area's sizes are; a point of
+// the plan is taken from cells to that unit with the cell's size, and the
+// field and the edges are read at their own samples and cells.
 const FRAGMENT = /* glsl */ `#version 300 es
 in vec2 vCell;
 in vec4 vColor;
@@ -60,17 +69,18 @@ uniform float uHeight;
 uniform float uTallest;
 uniform float uStep;
 uniform float uLift;
+uniform float uReaches;
 uniform vec3 uLightDir;
 uniform vec2 uFieldOrigin;
 uniform vec2 uFieldSize;
 uniform float uPer;
-uniform vec4 uClearBox;
+uniform vec2 uEdgeSize;
 uniform vec4 uBase;
 uniform vec4 uLight;
 uniform vec4 uShade;
 uniform vec2 uShadowCast;
 uniform highp sampler2D uField;
-uniform highp sampler2D uClear;
+uniform highp sampler2D uEdges;
 
 const float FORM_CONE = 0.0;
 const float FORM_ROUND = 1.0;
@@ -80,6 +90,14 @@ const int SHADOW_STEPS = 8;
 const float EDGE_PIXELS = 1.5;
 const float EDGE_ALPHA = 0.5;
 const float STEEP = 2.6;
+// The most samples a line is marched across: about ninety cells of reach
+// on the diagonal at eight samples to a cell.
+const int MARCH_STEPS = 1024;
+// A horizon nothing on the way rises over, and one nothing clears.
+const float NO_HORIZON = -1e9;
+const float BURIED = 1e9;
+// A span shorter than this along a line is a touch at a corner, not a crossing.
+const float TOUCH = 1e-9;
 
 // The top of the form at a point taken from the origin, how far inside
 // the form the point lies, and the top's slope across the plan.
@@ -112,45 +130,129 @@ float surfaceAt(vec2 plan, out float margin, out vec2 slope) {
   return uHeight;
 }
 
-// The ground at a point of the plan in cells, level at nought off the map.
-float groundAt(vec2 cell) {
-  vec2 s = (cell - uFieldOrigin) * uPer;
-  if (s.x < 0.0 || s.y < 0.0 || s.x >= uFieldSize.x || s.y >= uFieldSize.y) {
+// The field at a sample, counted from the field's first; level at nought off the map.
+float fieldAt(vec2 at) {
+  if (at.x < 0.0 || at.y < 0.0 || at.x >= uFieldSize.x || at.y >= uFieldSize.y) {
     return 0.0;
   }
-  return texture(uField, (floor(s) + 0.5) / uFieldSize).r;
+  return texelFetch(uField, ivec2(at), 0).r;
 }
 
-// What a line from the origin must clear at a point of the plan in cells;
-// nothing clears past the box.
-float clearanceAt(vec2 cell) {
-  vec2 s = (cell - uFieldOrigin) * uPer - uClearBox.xy;
-  if (s.x < 0.0 || s.y < 0.0 || s.x >= uClearBox.z || s.y >= uClearBox.w) {
-    return 1e30;
+// The ground under a point of the plan in cells.
+float groundAt(vec2 cell) {
+  return fieldAt(floor((cell - uFieldOrigin) * uPer));
+}
+
+// The top of a cell's east or south edge, the cell counted from the
+// field's first; open past the map. Cell (col, row) is texel (col + 1,
+// row + 1), as edgeTops lays them out.
+float edgeTopAt(vec2 cell, bool isEast) {
+  vec2 texel = cell + 1.0;
+  if (texel.x < 0.0 || texel.y < 0.0 || texel.x >= uEdgeSize.x || texel.y >= uEdgeSize.y) {
+    return NO_HORIZON;
   }
-  return texture(uClear, (floor(s) + 0.5) / uClearBox.zw).r;
+  vec2 tops = texelFetch(uEdges, ivec2(texel), 0).rg;
+  return isEast ? tops.r : tops.g;
 }
 
-// Whether the solid is drawn at a point in cells, and its top there.
-bool drawnAt(vec2 cell, out float top) {
+// The horizon of the straight line from the origin to a point of the plan
+// in cells: the steepest climb anything on its way asks of it, as height
+// over distance in cells, so the line reaches a height z at that distance
+// d exactly when z >= uOrigin.z + d * horizon. One walk over the field's
+// samples, stepping whichever boundary comes first as forSamplesAlong
+// does, each boundary's t taken fresh from its whole number. A sample
+// asks that the line be over its ground where it enters and where it
+// leaves, which is firstStop's test for the ground; a boundary that is a
+// cell's edge asks that the line be over the edge's top where it crosses,
+// which is firstStop's test for a wall or a shut door. Which edge a
+// crossing meets is the convention edgeTops states: across the vertical
+// boundary at x = c cells, the east edge of col c - 1 in the row of the
+// crossing; across the horizontal boundary at y = r, the south edge of
+// row r - 1 in the column of the crossing.
+float horizonTo(vec2 cell) {
+  vec2 p0 = (uOrigin.xy - uFieldOrigin) * uPer;
+  vec2 p1 = (cell - uFieldOrigin) * uPer;
+  vec2 delta = p1 - p0;
+  float run = length(cell - uOrigin.xy);
+  if (run < 1e-6) {
+    return NO_HORIZON;
+  }
+  float z0 = uOrigin.z;
+  float i = floor(p0.x);
+  float j = floor(p0.y);
+  float crossings = abs(floor(p1.x) - i) + abs(floor(p1.y) - j);
+  float horizon = NO_HORIZON;
+  float tIn = 0.0;
+  for (int n = 0; n < MARCH_STEPS; n += 1) {
+    float walked = float(n);
+    float tI = delta.x == 0.0 ? BURIED : ((delta.x > 0.0 ? i + 1.0 : i) - p0.x) / delta.x;
+    float tJ = delta.y == 0.0 ? BURIED : ((delta.y > 0.0 ? j + 1.0 : j) - p0.y) / delta.y;
+    float tOut = walked >= crossings ? 1.0 : min(tI, tJ);
+    if (tOut - tIn > TOUCH) {
+      float ground = fieldAt(vec2(i, j));
+      if (tIn == 0.0) {
+        if (ground > z0) {
+          return BURIED;
+        }
+      } else {
+        horizon = max(horizon, (ground - z0) / (tIn * run));
+      }
+      horizon = max(horizon, (ground - z0) / (tOut * run));
+    }
+    if (walked >= crossings) {
+      break;
+    }
+    tIn = tOut;
+    if (tI < tJ) {
+      float boundary = delta.x > 0.0 ? i + 1.0 : i;
+      if (mod(boundary, uPer) == 0.0) {
+        float row = floor((p0.y + delta.y * tI) / uPer);
+        float top = edgeTopAt(vec2(boundary / uPer - 1.0, row), true);
+        horizon = max(horizon, (top - z0) / (tI * run));
+      }
+      i += delta.x > 0.0 ? 1.0 : -1.0;
+    } else {
+      float boundary = delta.y > 0.0 ? j + 1.0 : j;
+      if (mod(boundary, uPer) == 0.0) {
+        float col = floor((p0.x + delta.x * tJ) / uPer);
+        float top = edgeTopAt(vec2(col, boundary / uPer - 1.0), false);
+        horizon = max(horizon, (top - z0) / (tJ * run));
+      }
+      j += delta.y > 0.0 ? 1.0 : -1.0;
+    }
+  }
+  return horizon;
+}
+
+// Whether the solid is drawn at a point in cells, and its top there: the
+// top stands above the ground under it, and the line from the origin to
+// creature height there, the ground and half a cell up, is not stopped,
+// which is the test the caught cells make, so the solid is cut where
+// they are and climbs where they do. The horizon is the pixel's own: a
+// tap a pixel or a short cast away is read against the line to this
+// pixel rather than marched afresh, an approximation only a hairline
+// edge and a soft shadow could hide.
+bool drawnAt(vec2 cell, float horizon, out float top) {
   float margin;
   vec2 slope;
   top = surfaceAt((cell - uOrigin.xy) * uCell, margin, slope);
   if (margin <= 0.0) {
     return false;
   }
-  float above = uOrigin.z + top;
-  return above > groundAt(cell) && above >= clearanceAt(cell);
+  float ground = groundAt(cell);
+  float reach = uOrigin.z + length(cell - uOrigin.xy) * horizon;
+  return uOrigin.z + top > ground && ground + uCell * 0.5 >= reach;
 }
 
 // How deep the shadow falls at a point: every level of the solid cast a
-// short way in the light's direction, soft where it ends.
-float shadowAt(vec2 cell) {
+// short way in the light's direction, soft where it ends. It falls only
+// within the footprint, since a pixel outside the form draws nothing.
+float shadowAt(vec2 cell, float horizon) {
   float best = -1e9;
   for (int k = 0; k <= SHADOW_STEPS; k += 1) {
     float z = uTallest * float(k) / float(SHADOW_STEPS);
     float top;
-    if (drawnAt(cell - uShadowCast * z / uCell, top)) {
+    if (drawnAt(cell - uShadowCast * z / uCell, horizon, top)) {
       best = max(best, top - z);
     }
   }
@@ -170,7 +272,6 @@ void main() {
   vec2 slope;
   float top = surfaceAt((vCell - uOrigin.xy) * uCell, margin, slope);
   float above = uOrigin.z + top;
-  bool drawn = margin > 0.0 && above > groundAt(vCell) && above >= clearanceAt(vCell);
   // Derivatives are taken where every fragment reaches them, before any
   // branch, as the spec asks: a pixel's step in cells, and how fast the
   // lines of equal height come round.
@@ -178,8 +279,23 @@ void main() {
   vec2 py = dFdy(vCell) * EDGE_PIXELS;
   float level = top / uStep;
   float width = fwidth(level);
+  // Outside the form nothing is drawn, the shadow included, so the trace
+  // sits on the solid's true edge, and no line is marched.
+  if (margin <= 0.0) {
+    finalColor = vec4(0.0);
+    return;
+  }
+  // Set to spread around corners nothing stops the line, and the ground
+  // under each pixel is all that cuts the solid.
+  float horizon = uReaches > 0.5 ? horizonTo(vCell) : NO_HORIZON;
+  // Drawn where the top stands above the ground and the line to creature
+  // height here, the ground and half a cell up, is not stopped: the
+  // caught cells' own test, so the solid is cut where they are.
+  float ground = groundAt(vCell);
+  float reach = uOrigin.z + length(vCell - uOrigin.xy) * horizon;
+  bool drawn = above > ground && ground + uCell * 0.5 >= reach;
   vec4 color = vec4(0.0);
-  float shadow = shadowAt(vCell) * SHADOW_ALPHA * (drawn ? SHADOW_UNDER : 1.0);
+  float shadow = shadowAt(vCell, horizon) * SHADOW_ALPHA * (drawn ? SHADOW_UNDER : 1.0);
   color = over(color, uShade.rgb, shadow * uShade.a);
   if (drawn) {
     float neutral = uLightDir.z;
@@ -203,8 +319,8 @@ void main() {
     color = over(color, uLight.rgb, line * lineAlpha * uLight.a);
     // The solid's own edge: a neighbour a pixel or so away that is not drawn.
     float beside;
-    bool whole = drawnAt(vCell + px, beside) && drawnAt(vCell - px, beside)
-      && drawnAt(vCell + py, beside) && drawnAt(vCell - py, beside);
+    bool whole = drawnAt(vCell + px, horizon, beside) && drawnAt(vCell - px, horizon, beside)
+      && drawnAt(vCell + py, horizon, beside) && drawnAt(vCell - py, horizon, beside);
     if (!whole) {
       color = over(color, uBase.rgb, EDGE_ALPHA * uBase.a);
     }

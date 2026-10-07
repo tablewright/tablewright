@@ -58,7 +58,7 @@ export {
   hasLineOfEffect,
   hasLineOfSight,
   passes,
-  type Against,
+  topOf,
   type CellSpot,
   type Crossing,
   type Passage,

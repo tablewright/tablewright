@@ -58,13 +58,6 @@ export type Stop =
 // stop it at one point.
 const EPSILON = 1e-9;
 
-/**
- * What a line in three dimensions is tested against: everything that
- * stops it, or the edges alone, for a solid that is cut by the ground
- * where it is drawn rather than where its line is.
- */
-export type Against = "all" | "edges";
-
 /** Whether an edge, or none, lets `passage` through. */
 export function passes(data: EdgeData | undefined, passage: Passage): boolean {
   if (data === undefined) {
@@ -127,22 +120,16 @@ export function hasLineOfSight(topology: Topology, from: Cell, to: Cell): boolea
  * on the plan keeps its own answer in `firstBlock`. The top of an edge
  * is its tallness above the higher of its two cells, so a wall on a
  * terrace rises from the terrace, and the edge is named where it and
- * the ground beneath it stop the line at one point. Tested `against`
- * the edges alone, the ground is left out.
+ * the ground beneath it stop the line at one point.
  */
-export function firstStop(
-  topology: Topology,
-  from: CellSpot,
-  to: CellSpot,
-  against: Against = "all"
-): Stop | undefined {
+export function firstStop(topology: Topology, from: CellSpot, to: CellSpot): Stop | undefined {
   const edge = firstCrossing(
     topology,
     from,
     to,
     (data, t) => !passes(data, "sight") && heightAlong(from, to, t) < topOf(topology, data)
   );
-  const ground = against === "edges" ? undefined : groundStop(topology, from, to);
+  const ground = groundStop(topology, from, to);
   if (edge !== undefined && (ground === undefined || edge.t <= ground.t + EPSILON)) {
     return { by: "edge", ...edge };
   }
@@ -199,8 +186,8 @@ function heightAlong(from: CellSpot, to: CellSpot, t: number): number {
   return from.z + (to.z - from.z) * t;
 }
 
-// An edge's top: its tallness above the higher of the two cells it sits between.
-function topOf(topology: Topology, data: EdgeData): number {
+/** An edge's top: its tallness above the higher of the two cells it sits between, which a line passes over. */
+export function topOf(topology: Topology, data: EdgeData): number {
   const [near, far] = edgeCells(data.edge);
   return Math.max(heightAt(topology, near), heightAt(topology, far)) + data.tall;
 }

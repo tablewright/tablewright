@@ -230,17 +230,4 @@ describe("a straight line in three dimensions", () => {
     expect(stoppedBy(under)).toBe(0);
     expect(under?.t).toBe(0);
   });
-
-  test("tested against the edges alone, the ground stops nothing and a wall still does", () => {
-    const house = mansion();
-    const floor = spot(4.5, 12.5, 2.5);
-    expect(firstStop(house, floor, spot(4.5, 1.5, 10), "edges")).toBeUndefined();
-    expect(firstStop(house, floor, spot(4.5, 1.5, 10))?.by).toBe("ground");
-    const tall = derive([...mansionStrokes(), wallAt()], bounds);
-    expect(stoppedBy(firstStop(tall, spot(3.5, 6.5, 5), spot(6.5, 6.5, 5), "edges"))).toEqual({
-      col: 4,
-      row: 6,
-      side: "east",
-    });
-  });
 });
