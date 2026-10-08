@@ -88,6 +88,12 @@ const TABLE: readonly Row[] = [
     instead: "`dashedLine()`",
   },
   {
+    what: "a ring about a token drawn by hand",
+    pattern: /tokenReach\([^)]*\)\s*\+/,
+    home: `${BOARD}/shared/token-rings.ts`,
+    instead: "`TokenRings`, holding the tokens under a name of its own",
+  },
+  {
     what: "a typing target tested by hand",
     pattern: /\.matches\(\s*["'`]input,\s*textarea/,
     home: `${BOARD}/tokens/press.ts`,
