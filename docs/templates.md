@@ -167,10 +167,34 @@ the cover only: "70 ft, half cover".
 ## The Select tool
 
 Picking uses a **Select** tool on the rail between Move and the Ruler,
-like Photoshop's. It picks tokens and templates. Dragging draws a box
-that picks everything inside it, and Shift adds more. While Select is
-held, dragging on empty board does not pan; the middle button and two
-fingers still do. It has no key for now.
+like Photoshop's. It picks tokens and templates, and only what this
+seat can see. A click picks the thing under it, and a click on empty
+board picks nothing. Dragging draws a box that picks whatever it
+touches: a token when the box reaches into its cell, a template when
+the box meets any part of its footprint. Shift adds to what is picked,
+and a Shift-click on something already picked takes it out. While
+Shift is held the cursor is a pointing hand, and the token under it
+wears the ring a Shift-click would give it. While Select is held,
+dragging on empty board does not pan; the middle button and two fingers
+still do. It has no key for now.
+
+Move moves what Select picked, as Photoshop's Move does, and so does a
+press with Select on anything picked, unless Shift is held. A drag that
+starts on anything picked carries all of it the same whole cells, as a
+free placement: each token lands on its cell with no way found, no
+movement counted and no wall in the way, and a template's origin moves
+as far. A single token's drag keeps all its rules, and a drag in Move
+on a token that is not picked moves that token alone and picks it. The
+arrow keys step what is picked a cell at a time.
+
+Every picked token wears the dashed ring that turns about a token a
+template catches, and one both caught and picked wears one ring. A
+token picked alone keeps its own lit ring and the corner handles that
+turn it. A picked template's edge turns the brass it wears under the hand,
+and a solid's dotted trace turns brass and solid. The template stays on the
+board for Select and Move; picking up a pen, choosing Line or Path, or
+Escape in the Ruler takes it off. Delete takes off what is picked: the
+template, and each token for a seat that may remove one.
 
 ## How it is worked out
 
