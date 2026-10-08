@@ -135,6 +135,66 @@ test("A DM or a player moves a token", async ({ page }) => {
     await expect(page.locator("tw-dash-ask")).toBeHidden();
   });
 
+  await test.step("A box dragged with Select over two tokens and a template picks all three, and Shift adds a fourth.", async () => {
+    const tools = page.locator("tw-tool-rail");
+    const picked = () => page.evaluate(() => window.__tablewright?.picked());
+    const area = () => page.evaluate(() => window.__tablewright?.area());
+    // A circle laid in the tavern's south-east corner, clear of every token.
+    await tools.getByRole("button", { name: "Ruler" }).click();
+    await tools.getByRole("button", { name: "Circle", exact: true }).click();
+    const centre = await cellOnScreen(page, { col: 15, row: 13 });
+    await page.mouse.move(centre.x, centre.y);
+    await page.mouse.down();
+    await page.mouse.up();
+    await expect.poll(async () => (await area())?.kind).toBe("circle");
+    // Select keeps it on the board. By now B stands on (9, 4) and C on
+    // (11, 9), and a box from (8, 3) to (13, 11) reaches the circle's edge.
+    await tools.getByRole("button", { name: "Select", exact: true }).click();
+    await expect(page.locator("#board")).toHaveAttribute("data-tool", "select");
+    const [a, b, c] = [
+      await tokenOnScreen(page, 0),
+      await tokenOnScreen(page, 1),
+      await tokenOnScreen(page, 2),
+    ];
+    await drag(
+      page,
+      await cellOnScreen(page, { col: 8, row: 3 }),
+      await cellOnScreen(page, { col: 13, row: 11 })
+    );
+    expect(await picked()).toEqual([
+      { kind: "token", id: b.id },
+      { kind: "token", id: c.id },
+      { kind: "area" },
+    ]);
+    await page.keyboard.down("Shift");
+    await page.mouse.click(a.at.x, a.at.y);
+    await page.keyboard.up("Shift");
+    expect(await picked()).toEqual([
+      { kind: "token", id: b.id },
+      { kind: "token", id: c.id },
+      { kind: "area" },
+      { kind: "token", id: a.id },
+    ]);
+  });
+
+  await test.step("Move drags everything picked together, each the same number of cells.", async () => {
+    const tools = page.locator("tw-tool-rail");
+    const area = () => page.evaluate(() => window.__tablewright?.area());
+    const before = await page.evaluate(() =>
+      window.__tablewright?.tokens().map((token) => ({ id: token.id, cell: token.cell }))
+    );
+    const origin = (await area())?.origin;
+    await tools.getByRole("button", { name: "Move", exact: true }).click();
+    // From B, a cell west and a cell south: the three tokens and the circle
+    // all go the same way.
+    const b = await tokenOnScreen(page, 1);
+    await drag(page, b.at, await cellOnScreen(page, { col: b.cell.col - 1, row: b.cell.row + 1 }));
+    for (const token of before ?? []) {
+      await settledAt(page, token.id, { col: token.cell.col - 1, row: token.cell.row + 1 });
+    }
+    expect((await area())?.origin).toEqual({ x: (origin?.x ?? 0) - 1, y: (origin?.y ?? 0) + 1 });
+  });
+
   await test.step("Delete takes the chosen token off the board.", async () => {
     const standing = (await tokenCount(page)) ?? 0;
     const token = await tokenOnScreen(page, 2);

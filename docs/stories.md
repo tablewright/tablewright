@@ -110,6 +110,9 @@ can still hide in:
 - A player moves only the tokens they own *(later)*.
 - A token standing for no sheet has no limit, so a long drag lands it all
   the same.
+- A box dragged with Select over two tokens and a template picks all
+  three, and Shift adds a fourth.
+- Move drags everything picked together, each the same number of cells.
 - Delete takes the chosen token off the board.
 - A seat that may not move one chooses it and moves nothing.
 - A drag past a sheet's movement asks for a dash: Use dash moves the
