@@ -195,6 +195,38 @@ test("A DM or a player moves a token", async ({ page }) => {
     expect((await area())?.origin).toEqual({ x: (origin?.x ?? 0) - 1, y: (origin?.y ?? 0) + 1 });
   });
 
+  await test.step("Two tokens picked one after the other with Select draw a line from the first to the second, with its distance and its cover, and a card beside the second.", async () => {
+    const tools = page.locator("tw-tool-rail");
+    const aim = () => page.evaluate(() => window.__tablewright?.aim());
+    await tools.getByRole("button", { name: "Select", exact: true }).click();
+    // A click on one picked with others picks it alone, and Shift adds the next.
+    const [a, b] = [await tokenOnScreen(page, 0), await tokenOnScreen(page, 1)];
+    await page.mouse.click(a.at.x, a.at.y);
+    await page.keyboard.down("Shift");
+    await page.mouse.click(b.at.x, b.at.y);
+    await page.keyboard.up("Shift");
+    // The tavern's floor is open, so nothing between them gives cover.
+    const distance = await page.evaluate(([from, to]) => window.__tablewright?.distance(from, to), [
+      a.cell,
+      b.cell,
+    ] as const);
+    await expect
+      .poll(aim)
+      .toEqual({ from: a.id, to: b.id, distance, cover: "none", seenBy: "party" });
+    await expect(page.locator("tw-template-cards tw-side-view")).toHaveCount(1);
+  });
+
+  await test.step("A third token picked takes the line and its card away.", async () => {
+    const tools = page.locator("tw-tool-rail");
+    const c = await tokenOnScreen(page, 2);
+    await page.keyboard.down("Shift");
+    await page.mouse.click(c.at.x, c.at.y);
+    await page.keyboard.up("Shift");
+    await expect.poll(() => page.evaluate(() => window.__tablewright?.aim())).toBeUndefined();
+    await expect(page.locator("tw-template-cards tw-side-view")).toHaveCount(0);
+    await tools.getByRole("button", { name: "Move", exact: true }).click();
+  });
+
   await test.step("Delete takes the chosen token off the board.", async () => {
     const standing = (await tokenCount(page)) ?? 0;
     const token = await tokenOnScreen(page, 2);

@@ -113,6 +113,10 @@ can still hide in:
 - A box dragged with Select over two tokens and a template picks all
   three, and Shift adds a fourth.
 - Move drags everything picked together, each the same number of cells.
+- Two tokens picked one after the other with Select draw a line from the
+  first to the second, with its distance and its cover, and a card beside
+  the second.
+- A third token picked takes the line and its card away.
 - Delete takes the chosen token off the board.
 - A seat that may not move one chooses it and moves nothing.
 - A drag past a sheet's movement asks for a dash: Use dash moves the
