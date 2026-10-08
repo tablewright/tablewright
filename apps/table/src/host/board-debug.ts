@@ -26,12 +26,14 @@ import {
   type MapSize,
   type NumbersDrawing,
   type NumbersLayer,
+  type Picked,
   type Point,
   type Route,
   type RouteOptions,
   type RulerTool,
   type ShownMeasure,
   type SquareGrid,
+  type Thing,
   type TokenLayer,
   type TokenView,
   type Topology,
@@ -42,7 +44,10 @@ import type { AreaHost } from "./area-host.js";
 /** What a dev build exposes on `window.__tablewright` for tests: reads only, no mutation. */
 export interface BoardDebug {
   tokens(): readonly TokenView[];
+  /** The token picked when it is the only thing picked. */
   selectedId(): string | undefined;
+  /** What is picked, in the order it was picked. */
+  picked(): readonly Thing[];
   camera(): CameraState;
   bounds(): CellExtent;
   /** The picture on the board by its pixel size, once it has loaded. */
@@ -83,6 +88,7 @@ export interface DebugSources {
   readonly numbersLayer: NumbersLayer;
   readonly area: AreaHost;
   readonly ruler: RulerTool;
+  readonly picked: Picked;
   grid(): SquareGrid;
   rule(): GridRule;
   bounds(): CellExtent;
@@ -99,6 +105,7 @@ export function debugView(board: DebugSources): BoardDebug {
   return {
     tokens: () => board.tokens(),
     selectedId: () => board.tokenLayer.selectedId,
+    picked: () => board.picked.all,
     camera: () => board.camera.current,
     bounds: () => board.bounds(),
     picture: () => board.mapLayer.size(),

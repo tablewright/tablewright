@@ -1,7 +1,7 @@
 import { allows, isTypingTarget } from "@tablewright/board";
 import { raise } from "./desk.js";
 import { attempt } from "../shell/notice.js";
-import { openMap, setPlay, setTopology, showScene, undo } from "./scene.js";
+import { inTurn, openMap, setPlay, setTopology, showScene, undo } from "./scene.js";
 import type { Table } from "../shell/table.js";
 
 /** The keys the page itself answers, wherever the pointer is. */
@@ -63,17 +63,28 @@ export function wireKeys(table: Table): void {
         spotlight.show();
       }
     }
-    // Delete takes the chosen token off the board, for a hand that may.
-    // A field keeps its own keys, so a name being typed is not a token.
-    if (
-      (event.key === "Delete" || event.key === "Backspace") &&
-      !isTyping &&
-      allows(table.seat().role, "token:remove")
-    ) {
-      const chosen = board.selected;
-      if (chosen !== undefined) {
+    // Delete takes off what is picked: the template, and each token for a
+    // hand that may. A field keeps its own keys, so a name being typed is
+    // not a token.
+    if ((event.key === "Delete" || event.key === "Backspace") && !isTyping) {
+      const picks = board.picks;
+      const ids = allows(table.seat().role, "token:remove")
+        ? picks.flatMap((thing) => (thing.kind === "token" ? [thing.id] : []))
+        : [];
+      const hasArea = picks.some((thing) => thing.kind === "area");
+      if (hasArea) {
+        board.clearArea();
+      }
+      if (ids.length > 0) {
+        attempt(ids.length === 1 ? "take the token off" : "take the tokens off", async () => {
+          const scene = await inTurn(ids, (id) => core.removeToken(id));
+          if (scene !== undefined) {
+            showScene(table, scene);
+          }
+        });
+      }
+      if (hasArea || ids.length > 0) {
         event.preventDefault();
-        attempt("take the token off", async () => showScene(table, await core.removeToken(chosen)));
       }
     }
     // Undo is the record's, so only while building; a field keeps its own.

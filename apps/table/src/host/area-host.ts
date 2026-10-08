@@ -3,10 +3,8 @@
  *
  * The area tool and its layer, wired as one: the tool takes the pointer
  * and says where an area lies and which way it aims; the layer draws what
- * it covers and whom it catches, judged against the scene as it stands.
- * The ring about a caught token is the one thing on the board that moves
- * on its own, so while an area shows each frame asks for the next, unless
- * the person asked for less motion: then it stands still and the board rests.
+ * it covers and whom it catches, judged against the scene as it stands,
+ * each token it catches ringed among the board's rings about tokens.
  * An area with a direction that this seat laid has a side view too, worked
  * out from the same scene; one another seat laid deals this one its cards,
  * unless this is the DM's seat.
@@ -35,18 +33,20 @@ import {
   type BoardStage,
   type Cell,
   type GridRule,
+  type Offset,
   type Origin,
   type OriginSnap,
+  type Outline,
   type PlacedArea,
   type Point,
   type Seat,
   type SideView,
   type SquareGrid,
+  type TokenRings,
   type TokenView,
   type Topology,
 } from "@tablewright/board";
 import type { Visibility } from "@tablewright/schema";
-import { REDUCED_MOTION } from "../shell/motion.js";
 
 // The side view a seat is dealt cards from, and the laying it came from.
 type Dealt = { readonly view: SideView; readonly laying: number };
@@ -66,12 +66,12 @@ export class AreaHost {
   private readonly tokens: () => readonly TokenView[];
   private rule: GridRule;
   private seat: Seat = NOBODY;
-  private turnedAt = 0;
 
   /**
    * `topology` and `tokens` are asked at each use, since the host replaces
    * both as the scene changes; `tokens` are the ones this seat sees, each
-   * at the height of the ground under it.
+   * at the height of the ground under it, and where a carry is taking them.
+   * `rings` are the board's rings about tokens.
    */
   constructor(
     stage: BoardStage,
@@ -79,20 +79,18 @@ export class AreaHost {
     rule: GridRule,
     toWorld: (screen: Point) => Point,
     topology: () => Topology,
-    tokens: () => readonly TokenView[]
+    tokens: () => readonly TokenView[],
+    rings: TokenRings
   ) {
     this.stage = stage;
     this.rule = rule;
     this.topology = topology;
     this.tokens = tokens;
-    this.layer = new AreaLayer(stage.layers.overlay, grid, rule);
+    this.layer = new AreaLayer(stage.layers.overlay, grid, rule, rings);
     this.tool = new AreaTool(stage.app.canvas, grid, toWorld, rule, topology, (cell, at) =>
       this.originAt(cell, at)
     );
     this.tool.onChange((placed) => this.show(placed));
-    // The wish for less motion can turn mid-show; the next frame answers it
-    // either way, so it is asked for.
-    REDUCED_MOTION.addEventListener("change", () => this.stage.requestFrame());
   }
 
   setGrid(grid: SquareGrid): void {
@@ -127,9 +125,35 @@ export class AreaHost {
     this.tool.setSeat(seat);
   }
 
-  /** Take the pointer, or let it go. */
-  setActive(on: boolean): void {
-    this.tool.setActive(on);
+  /**
+   * Take the pointer, or let it go. Let go, what is on the board comes
+   * off it unless `keep` says it stays, for the hands that pick it and
+   * carry it.
+   */
+  setActive(on: boolean, keep = false): void {
+    this.tool.setActive(on, keep);
+  }
+
+  /** What the area this seat sees covers on the plan, in cells, with nothing in its way. */
+  footprint(): Outline | undefined {
+    const placed = this.tool.placed;
+    return placed === undefined ? undefined : footprint(placed.area, placed.origin, this.rule);
+  }
+
+  /** Carry the area `offset` cells with the rest of what is picked, or put it back with none. */
+  carry(offset: Offset | undefined): void {
+    this.tool.carry(offset);
+  }
+
+  /** Leave the carried area where it was carried. */
+  land(): void {
+    this.tool.land();
+  }
+
+  /** Whether the area is picked, which its edge says. */
+  setPicked(isPicked: boolean): void {
+    this.layer.setPicked(isPicked);
+    this.stage.requestFrame();
   }
 
   /** The area the palette has made: its kind, its sizes and its form. */
@@ -187,23 +211,6 @@ export class AreaHost {
   /** What the layer last drew, for a dev build to read. */
   drawing(): AreaDrawing {
     return this.layer.drawing();
-  }
-
-  /**
-   * The ring is the one thing that moves on its own, so while an area shows the
-   * board asks for the next frame and turns it by the time that passed. Asked
-   * for less motion, it stands still and asks for none, so the board rests.
-   */
-  turnRing(): void {
-    if (!this.layer.isShowing || REDUCED_MOTION.matches) {
-      this.turnedAt = 0;
-      return;
-    }
-    const now = performance.now();
-    const since = this.turnedAt === 0 ? 0 : (now - this.turnedAt) / 1000;
-    this.turnedAt = now;
-    this.layer.turn(since);
-    this.stage.requestFrame();
   }
 
   // An area leaves from the middle of the cube of the token pressed on, and

@@ -19,9 +19,11 @@ import {
   HeightLayer,
   MapLayer,
   NumbersLayer,
+  Picked,
   RulerTool,
   ThresholdTap,
   TokenLayer,
+  TokenRings,
   TopologyLayer,
   derive,
   extentCovering,
@@ -40,6 +42,8 @@ import {
   drawStyle,
   heightStyle,
   numbersStyle,
+  pickStyle,
+  ringStyle,
   rulerStyle,
   tokenReach,
   tokenStyle,
@@ -66,6 +70,7 @@ import {
   type SideView,
   type SquareGrid,
   type StrokeListener,
+  type Thing,
   type ThresholdListener,
   type DashAsk,
   type DashAskListener,
@@ -82,8 +87,10 @@ import type {
   ThresholdPlay,
   Visibility,
 } from "@tablewright/schema";
+import { REDUCED_MOTION } from "../shell/motion.js";
 import { AreaHost } from "./area-host.js";
 import { debugView, placeholderTokens, type BoardDebug } from "./board-debug.js";
+import { PickHost } from "./pick-host.js";
 import { budgetOf, moverOf, seenTokens, tokenViews, tokensWithHeights } from "./token-views.js";
 
 // Screen pixels kept clear around a map when the camera fits to it.
@@ -127,6 +134,10 @@ export class BoardHost {
   private readonly heightLayer: HeightLayer;
   private readonly numbersLayer: NumbersLayer;
   private readonly area: AreaHost;
+  // What the hand has picked, which Select and Move share.
+  private readonly picked = new Picked();
+  private readonly picking: PickHost;
+  private readonly rings: TokenRings;
   private readonly drawLayer: DrawLayer;
   private readonly ruler: RulerTool;
   private readonly thresholdTap: ThresholdTap;
@@ -182,7 +193,8 @@ export class BoardHost {
       stage.layers.tokens,
       this.grid,
       tokenStyle(theme),
-      this.dragRoute
+      this.dragRoute,
+      this.picked
     );
     this.tokenLayer.onDashAsk((ask) => {
       stage.requestFrame();
@@ -199,25 +211,52 @@ export class BoardHost {
       (from, to, seenBy) => measure(this.topology, from, to, this.rule, DEFAULT_MOVER, seenBy)
     );
     this.ruler.onMeasure(() => stage.requestFrame());
+    // A template carried with tokens is judged against where they are going.
+    // The rings about tokens sit over the template, whose caught tokens and
+    // the hand's picked ones they both ring.
+    this.rings = new TokenRings(this.grid);
     this.area = new AreaHost(
       stage,
       this.grid,
       this.rule,
       toWorld,
       () => this.topology,
-      () => tokensWithHeights(this.tokens, this.topology, this.seat)
+      () => tokensWithHeights(this.picking.standing(this.tokens), this.topology, this.seat),
+      this.rings
     );
+    stage.layers.overlay.addChild(this.rings.view);
     this.ruler.setSeat(seat);
     this.area.setSeat(seat);
     // The right button belongs to the board: it asks a token what may be
     // done with it, so the browser's own menu never opens over it.
     stage.app.canvas.addEventListener("contextmenu", (event) => event.preventDefault());
     const input = new CameraInput(this.camera, target);
-    // A tap on a threshold works it; a tap on empty board clears the
-    // selection, the same as pressing Escape. The pointer over a threshold
-    // brightens it first, so a door reads as something to work.
+    this.picking = new PickHost({
+      stage,
+      board: target,
+      grid: this.grid,
+      toWorld,
+      picked: this.picked,
+      tokenLayer: this.tokenLayer,
+      area: this.area,
+      rings: this.rings,
+      tokens: () => seenTokens(this.tokens, this.seat),
+      isMovable: () => allows(this.seat.role, "token:move"),
+      handOff: (pointerId, at) => input.adopt(pointerId, at),
+    });
+    // The hold-to-turn timer picks the token it turns on no input of its
+    // own, so what is picked asks for the frame that shows it.
+    this.picked.onChange(() => stage.requestFrame());
+    // A tap on a threshold works it; a tap on empty board clears what is
+    // picked, the same as pressing Escape. Select answers its own clicks,
+    // so a tap the camera hears after two fingers is nothing. The pointer
+    // over a threshold brightens it first, so a door reads as something to
+    // work.
     this.thresholdTap = new ThresholdTap(this.grid, toWorld, () => this.topology);
     input.onTap((at) => {
+      if (this.buildTool === undefined && this.playTool === "select") {
+        return;
+      }
       if (!this.thresholdTap.tap(at)) {
         this.tokenLayer.select(undefined);
       }
@@ -226,8 +265,12 @@ export class BoardHost {
       if (!this.isToolHeld) {
         this.thresholdTap.hover(at);
       }
+      this.picking.pointAt(at);
     });
-    target.addEventListener("pointerleave", () => this.thresholdTap.clear());
+    target.addEventListener("pointerleave", () => {
+      this.thresholdTap.clear();
+      this.picking.pointAt(undefined);
+    });
     this.thresholdTap.onHighlight((edge) => {
       this.topologyLayer.setHighlight(edge);
       if (edge === undefined) {
@@ -259,9 +302,6 @@ export class BoardHost {
     this.tokenLayer.onMove((move) => {
       this.moveListeners.emit(move);
     });
-    // The hold-to-turn timer selects the token it turns, on no input of
-    // its own; the selection is what the frame has to show.
-    this.tokenLayer.onSelect(() => stage.requestFrame());
 
     // Camera and resize events can arrive several times per frame; the grid
     // is rebuilt at most once, just before the frame is drawn. A camera
@@ -275,13 +315,20 @@ export class BoardHost {
       this.isGridStale = true;
       this.viewListeners.emit();
     });
+    // The rings about tokens are the one thing that moves on its own: while
+    // any shows, each frame turns them and asks for the next, unless the
+    // person asked for less motion, when they stand still and the board
+    // rests. That wish can turn mid-show, and the next frame answers it.
     stage.onBeforeDraw(() => {
       if (this.isGridStale) {
         this.isGridStale = false;
         this.redrawGrid();
       }
-      this.area.turnRing();
+      if (this.rings.tick(performance.now(), REDUCED_MOTION.matches)) {
+        stage.requestFrame();
+      }
     });
+    REDUCED_MOTION.addEventListener("change", () => stage.requestFrame());
   }
 
   /**
@@ -295,6 +342,8 @@ export class BoardHost {
       this.sceneId = scene.id;
       this.ruler.clear();
       this.area.clear();
+      // Ids are a scene's own, so what was picked in another means nothing here.
+      this.picked.set([]);
     }
     const grid = squareGridOf(scene.grid);
     if (
@@ -361,6 +410,8 @@ export class BoardHost {
     this.ruler.setGrid(grid);
     this.dragRoute.setGrid(grid);
     this.area.setGrid(grid);
+    this.rings.setGrid(grid);
+    this.picking.setGrid(grid);
     this.thresholdTap.setGrid(grid);
     this.isGridStale = true;
     this.viewListeners.emit();
@@ -377,6 +428,8 @@ export class BoardHost {
     this.heightLayer.setStyle(heightStyle(theme));
     this.numbersLayer.setStyle(numbersStyle(theme));
     this.area.setStyle(areaStyle(theme));
+    this.rings.setStyle(ringStyle(theme));
+    this.picking.setStyle(pickStyle(theme));
     this.drawLayer.setStyle(drawStyle(theme));
     this.ruler.setStyle(rulerStyle(theme));
     this.dragRoute.setStyle(rulerStyle(theme));
@@ -400,9 +453,11 @@ export class BoardHost {
     this.viewListeners.emit();
   }
 
-  // Every token wears the height of the ground under it.
+  // Every token wears the height of the ground under it, and every picked
+  // one its ring where it now stands.
   private showTokens(): void {
     this.tokenLayer.set(tokensWithHeights(this.tokens, this.topology, this.seat));
+    this.picking.tokensChanged();
   }
 
   /** Hear the right button ask what may be done with a token. */
@@ -416,6 +471,11 @@ export class BoardHost {
   /** Hear every finished move gesture. Returns the unsubscribe. */
   onTokenMove(listener: TokenMoveListener): () => void {
     return this.moveListeners.add(listener);
+  }
+
+  /** Hear tokens moved together land, as one placement. Returns the unsubscribe. */
+  onPlace(listener: (moves: readonly TokenMove[]) => void): () => void {
+    return this.picking.onPlace(listener);
   }
 
   /** Hear the dash question a drop asks, and its answer. Returns the unsubscribe. */
@@ -435,7 +495,7 @@ export class BoardHost {
     this.applyTools();
   }
 
-  /** In Play, move tokens or measure; a pen held keeps drawing until it is put down. */
+  /** In Play, move tokens, pick, or measure; a pen held keeps drawing until it is put down. */
   setPlayTool(tool: PlayTool): void {
     this.playTool = tool;
     this.applyTools();
@@ -484,9 +544,14 @@ export class BoardHost {
     this.drawLayer.setMarking(marking);
   }
 
-  /** The token the pointer has chosen, when one is chosen. */
-  get selected(): string | undefined {
-    return this.tokenLayer.selectedId;
+  /** What is picked, in the order it was picked. */
+  get picks(): readonly Thing[] {
+    return this.picked.all;
+  }
+
+  /** Take the template off the board. */
+  clearArea(): void {
+    this.area.clear();
   }
 
   /**
@@ -601,24 +666,31 @@ export class BoardHost {
   }
 
   // One hand on the board: a pen held draws, else the ruler measures when
-  // chosen, else the pointer moves tokens.
+  // chosen, else Select picks, else the pointer moves tokens.
   private applyTools(): void {
     const pen = this.buildTool;
-    const inColumn = pen === undefined && this.playTool === "ruler";
+    const hand = pen === undefined ? this.playTool : undefined;
+    const inColumn = hand === "ruler";
     // The column's two halves share the pointer: one measures, the other
     // lays an area down, and only ever one of them hears a press.
     const isArea_ = inColumn && isArea(this.rulerMode);
     const isRuler = inColumn && !isArea_;
-    this.isToolHeld = pen !== undefined || inColumn;
+    this.isToolHeld = hand !== "move";
     this.thresholdTap.clear();
     this.ruler.setActive(isRuler);
-    this.area.setActive(isArea_);
-    this.tokenLayer.setInteractive(!this.isToolHeld);
+    // A template stays on the board for the hands that pick it and carry it,
+    // and the tokens take presses under both, Select's to pick with but the
+    // one picked alone, which drags by its rules.
+    const isPicking = hand === "select" || hand === "move";
+    this.area.setActive(isArea_, isPicking);
+    this.picking.setTool(hand);
+    this.tokenLayer.setInteractive(isPicking);
+    this.tokenLayer.setSelecting(hand === "select");
     this.tokenLayer.setMovable(allows(this.seat.role, "token:move"));
     if (pen !== undefined) {
       this.target.dataset["tool"] = pen.shape;
-    } else if (inColumn) {
-      this.target.dataset["tool"] = "ruler";
+    } else if (hand === "ruler" || hand === "select") {
+      this.target.dataset["tool"] = hand;
     } else {
       delete this.target.dataset["tool"];
     }
@@ -657,6 +729,7 @@ export class BoardHost {
       numbersLayer: this.numbersLayer,
       area: this.area,
       ruler: this.ruler,
+      picked: this.picked,
       grid: () => this.grid,
       rule: () => this.rule,
       bounds: () => this.bounds,

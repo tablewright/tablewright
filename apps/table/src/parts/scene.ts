@@ -45,6 +45,22 @@ export function showScene(table: Table, scene: Scene): void {
   readoutBox.unit = board.gridRule.unit;
 }
 
+/**
+ * Ask the core `ask` of each of `items` in turn, and give back the scene
+ * the last answer holds: shown once, so nothing on the board steps back
+ * while the next is on its way.
+ */
+export async function inTurn<T>(
+  items: readonly T[],
+  ask: (item: T) => Promise<Scene>
+): Promise<Scene | undefined> {
+  let scene: Scene | undefined;
+  for (const item of items) {
+    scene = await ask(item);
+  }
+  return scene;
+}
+
 /** List the campaign's scenes in the scene tab again. */
 export async function refreshScenes(table: Table): Promise<void> {
   table.page.scenesTab.scenes = await table.core.listScenes();
@@ -72,9 +88,9 @@ export async function openMap(table: Table): Promise<void> {
 }
 
 /**
- * Play has two hands, moving and measuring. The rail and the R key swap
- * them, for the DM and for a player, who has no rail. The rail keeps which
- * is in hand, shown or not.
+ * Play has three hands: moving, picking and measuring. The rail swaps
+ * them, and the R key swaps measuring in and out, for the DM and for a
+ * player, who has no rail. The rail keeps which is in hand, shown or not.
  */
 export function setPlay(table: Table, tool: PlayTool): void {
   table.board.setPlayTool(tool);
@@ -151,6 +167,23 @@ export function wireScene(table: Table): void {
         showScene(table, await core.moveToken(id, cell.col, cell.row, facing));
       } catch (error) {
         showNotice(`Could not move ${id}: ${reasonOf(error)}`);
+        showScene(table, await core.scene());
+      }
+    })();
+  });
+  // Tokens moved together land as one placement: each move in turn, and the
+  // scene shown once they all have.
+  board.onPlace((moves) => {
+    void (async () => {
+      try {
+        const scene = await inTurn(moves, ({ id, cell, facing }) =>
+          core.moveToken(id, cell.col, cell.row, facing)
+        );
+        if (scene !== undefined) {
+          showScene(table, scene);
+        }
+      } catch (error) {
+        showNotice(`Could not move them all: ${reasonOf(error)}`);
         showScene(table, await core.scene());
       }
     })();
