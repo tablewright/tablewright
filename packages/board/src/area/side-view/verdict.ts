@@ -7,14 +7,17 @@
  * over its cell passes above or below the middle of its cube, or the
  * area holds it but a wall, a shut door or the ground cuts it off from
  * the origin. So the side view says what the board does, token for token.
- * The token the area leaves from is neither, and is only placed.
+ * The token the area leaves from is neither, and is only placed. A line
+ * between two tokens names its target too, with the cover it has.
  * Design: docs/templates.md "The side view" and "What stops it".
  */
 
+import type { Cover } from "@tablewright/schema";
 import { pointInPolygon } from "../../topology/shapes.js";
 import type { Point } from "../../shared/geometry.js";
 import type { TokenView } from "../../tokens/token-layer.js";
 import type { Topology } from "../../topology/derive.js";
+import type { CoverPart } from "../../topology/rules/cover.js";
 import { cellCentre, firstStop, topOf, type Stop } from "../../topology/rules/effect.js";
 import { spotToCellSpot, type ConeArea, type RectArea, type Spot } from "../area.js";
 import { catchesToken, placeOf, tokenSpot } from "../catches.js";
@@ -26,7 +29,31 @@ import { acrossOf, alongOf, type SidePoint, type SliceFrame } from "./slice.js";
 // straight steps that fall a hair inside the true edge.
 const NEAR = 1.05;
 
-/** What the board makes of a token an area is near, and why. */
+/** What stops a line from the origin, how high it stands, and where in the slice. */
+export interface SliceStop {
+  readonly by: "wall" | "door" | "secret" | "ground";
+  /** The top of the edge that stops the line, or the height of the ground. */
+  readonly height: number;
+  /** Where the line is stopped, in the slice. */
+  readonly at: SidePoint;
+}
+
+/**
+ * One line from the origin to a point of a target: where it ends in the
+ * slice, and whether it is stopped there.
+ */
+export interface SideRay {
+  readonly end: SidePoint;
+  readonly isStopped: boolean;
+}
+
+/** One thing that hides part of a target: the part, and the cover that part alone would give. */
+export interface SideHider extends SliceStop {
+  readonly part: CoverPart;
+  readonly cover: Cover;
+}
+
+/** What the board makes of a token an area is near, or a line is aimed at, and why. */
 export type Verdict =
   | {
       readonly kind: "caught";
@@ -52,14 +79,21 @@ export type Verdict =
        */
       readonly gap: number;
     }
-  | {
+  | ({
       /** The area holds it, but the straight line from the origin is stopped on its way. */
       readonly kind: "hidden";
-      readonly by: "wall" | "door" | "secret" | "ground";
-      /** The top of the edge that stops the line, or the height of the ground. */
-      readonly height: number;
-      /** Where the line is stopped, in the slice. */
-      readonly at: SidePoint;
+    } & SliceStop)
+  | {
+      /** A line between two tokens is aimed at it from the origin: its cover, and what gives it. */
+      readonly kind: "aimed";
+      readonly cover: Cover;
+      /** The ground under the one it is aimed from, and how far that one stands above it. */
+      readonly ground: number;
+      readonly elevation: number;
+      /** Each line from the origin to a point of its face. */
+      readonly rays: readonly SideRay[];
+      /** What hides it, the most first. */
+      readonly hiders: readonly SideHider[];
     };
 
 /** A token where a side view stands it in the slice. */
@@ -142,7 +176,7 @@ function clearOf(
   if (holds(area, origin, spot)) {
     const stop = firstStop(topology, spotToCellSpot(origin, rule), spotToCellSpot(spot, rule));
     if (stop !== undefined) {
-      return hiddenBy(stop, spot, topology, frame);
+      return { kind: "hidden", ...sliceStopOf(stop, spot, topology, frame) };
     }
   }
   const span = heldSpan(area, origin, spot);
@@ -160,19 +194,24 @@ function clearOf(
     : { kind: "under", gap: foot - hi };
 }
 
-// What stopped the line from the origin to the token, and where in the slice.
-function hiddenBy(stop: Stop, spot: Spot, topology: Topology, frame: SliceFrame): Verdict {
+/** What stopped the line from the frame's origin to `spot`, its height, and where in the slice. */
+export function sliceStopOf(
+  stop: Stop,
+  spot: Spot,
+  topology: Topology,
+  frame: SliceFrame
+): SliceStop {
   const { origin, rule } = frame;
   const at = {
     along: alongOf(frame, { x: stop.at.x * rule.cellSize, y: stop.at.y * rule.cellSize }),
     z: origin.z + (spot.z - origin.z) * stop.t,
   };
   if (stop.by === "ground") {
-    return { kind: "hidden", by: "ground", height: stop.height, at };
+    return { by: "ground", height: stop.height, at };
   }
   const data = stop.edge;
   const by = data.kind === "wall" ? "wall" : data.state === "secret" ? "secret" : "door";
-  return { kind: "hidden", by, height: topOf(topology, data), at };
+  return { by, height: topOf(topology, data), at };
 }
 
 // Where a point off the footprint lies from it. Past its end when the

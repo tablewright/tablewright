@@ -46,13 +46,27 @@ describe("distance under the rule", () => {
       name: "Metric",
       grid: { type: "square", cellSize: 1.5, unit: "m", diagonals: "alternate" },
     };
-    // A manifest that says nothing about its area rule still gets a rule to play by.
+    // A manifest that says nothing about its area rule or its cover still gets a rule to play by.
     expect(gridRuleOf(metric)).toEqual({
       cellSize: 1.5,
       unit: "m",
       diagonals: "alternate",
       areaRule: "cube-centre",
+      cover: { half: 0.5, threeQuarters: 0.75, total: 1 },
     });
+    // A cover block is taken as it stands.
+    const strict: SystemManifest = {
+      id: "s",
+      name: "Strict",
+      grid: {
+        type: "square",
+        cellSize: 5,
+        unit: "ft",
+        diagonals: "equal",
+        cover: { half: 0.4, threeQuarters: 0.7, total: 0.9 },
+      },
+    };
+    expect(gridRuleOf(strict).cover).toEqual({ half: 0.4, threeQuarters: 0.7, total: 0.9 });
     const unsized: SystemManifest = {
       id: "u",
       name: "Unsized",

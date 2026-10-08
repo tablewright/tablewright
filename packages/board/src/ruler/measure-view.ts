@@ -6,15 +6,17 @@
  * effect breaks. As a path: the way on foot, coloured by how much of
  * the turn's movement each step has spent, and dashed where it drops.
  * One badge beside the far end carries the number. The ruler and a
- * token's drag both show their answer through this.
+ * token's drag both show their answer through this, and so does the line
+ * between two picked tokens, with its distance and cover on the badge.
  * Design: docs/design.md §5 "Measuring is its own tool".
  */
 
+import type { Visibility } from "@tablewright/schema";
 import { CanvasTextMetrics, Container, Graphics, Text } from "pixi.js";
 import { dashedLine } from "../draw/strokes.js";
 import { along, lengthOf, type Point } from "../shared/geometry.js";
-import { keptAlpha } from "../shared/seen.js";
-import { cellCenter, cellPointToWorld, type SquareGrid } from "../grid/square-grid.js";
+import { keptAlpha, withSeenByNote } from "../shared/seen.js";
+import { cellCenter, cellPointToWorld, type Cell, type SquareGrid } from "../grid/square-grid.js";
 import { FALLBACK } from "../theme/board-theme.js";
 import type { PackedColor } from "../theme/css-color.js";
 import { rulerStyle } from "../theme/styles.js";
@@ -100,18 +102,23 @@ export class MeasureView {
 
   /** Draw `measurement` as `mode` reads it, in place of whatever showed before. */
   show(measurement: Measurement, mode: RulerMode): void {
-    const g = this.graphics;
-    g.clear();
-    this.view.visible = true;
-    // One that is not the whole table's reads fainter throughout; the badge
-    // says which of the two it is.
-    this.view.alpha = keptAlpha(measurement.seenBy);
+    const g = this.begin(measurement.seenBy);
     if (mode === "path") {
       this.drawPath(g, measurement);
     } else {
-      this.drawLine(g, measurement);
+      this.drawLine(g, measurement.from, measurement.to, measurement.blockedAt);
     }
-    this.drawBadge(measurement, mode);
+    this.drawBadge(badgeText(measurement, mode), measurement.to);
+  }
+
+  /**
+   * Draw a straight line from `from` to `to` with `said` on its badge, for
+   * whoever `seenBy` names, in place of whatever showed before.
+   */
+  showLine(from: Cell, to: Cell, said: string, seenBy: Visibility): void {
+    const g = this.begin(seenBy);
+    this.drawLine(g, from, to, undefined);
+    this.drawBadge(withSeenByNote(said, seenBy), to);
   }
 
   /** Take whatever is drawn off the board. */
@@ -127,18 +134,28 @@ export class MeasureView {
     this.view.destroy({ children: true });
   }
 
-  private drawLine(g: Graphics, shown: Measurement): void {
+  // One that is not the whole table's reads fainter throughout; the badge
+  // says which of the two it is.
+  private begin(seenBy: Visibility): Graphics {
+    const g = this.graphics;
+    g.clear();
+    this.view.visible = true;
+    this.view.alpha = keptAlpha(seenBy);
+    return g;
+  }
+
+  private drawLine(g: Graphics, from: Cell, to: Cell, blockedAt: Point | undefined): void {
     const { line } = this.style;
-    const near = cellCenter(this.grid, shown.from);
-    const far = cellCenter(this.grid, shown.to);
+    const near = cellCenter(this.grid, from);
+    const far = cellCenter(this.grid, to);
     this.dot(g, near, line);
     if (near.x === far.x && near.y === far.y) {
       return;
     }
     // The line ends where the head begins, so the head's tip is the true end.
     const base = this.arrowBase(near, far);
-    const isBroken = shown.blockedAt !== undefined;
-    const cut = shown.blockedAt === undefined ? base : cellPointToWorld(this.grid, shown.blockedAt);
+    const isBroken = blockedAt !== undefined;
+    const cut = blockedAt === undefined ? base : cellPointToWorld(this.grid, blockedAt);
     this.strokeLine(g, near, cut, line);
     if (isBroken) {
       this.strokeLine(g, cut, base, line, { isFaint: true });
@@ -197,15 +214,14 @@ export class MeasureView {
   // the figures in theirs, and the rise or fall in the one that has an
   // arrow. Cut at the mark so the mark can be set down onto the figures'
   // middle; with no mark to find, the whole line is figures.
-  private drawBadge(shown: Measurement, mode: RulerMode): void {
-    const said = badgeText(shown, mode);
+  private drawBadge(said: string, end: Cell): void {
     const rise = said.indexOf(RISE_MARK);
     const at = rise < 0 ? said.indexOf(FALL_MARK) : rise;
     this.mark.text = at < 0 ? "" : said.slice(at, at + 1);
     this.tail.text = at < 0 ? "" : said.slice(at + 1);
     const colour = this.style.line.rgb;
     this.badge.show(
-      cellCenter(this.grid, shown.to),
+      cellCenter(this.grid, end),
       this.grid.cellSize,
       at < 0 ? said : said.slice(0, at),
       colour,

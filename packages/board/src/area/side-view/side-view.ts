@@ -32,7 +32,7 @@ import { isNear, sidePlaceOf, sideTokenOf, type SidePlace, type SideToken } from
 
 /** Everything a side view draws, every length in the rule's unit. */
 export interface SideView {
-  /** The area, as its badge names it. */
+  /** What it is a view of, as its badge names it: an area, or a line's distance and cover. */
   readonly label: string;
   readonly unit: string;
   /** How wide and tall a creature's cube is. */
@@ -51,9 +51,15 @@ export interface SideView {
   readonly area: readonly SidePoint[];
   /** The stretches of ground the area catches. */
   readonly lands: readonly (readonly SidePoint[])[];
-  /** The tokens near the area: the caught first, then the clear, each nearest first. */
+  /**
+   * The tokens it names: those near an area, the caught first, then the
+   * clear, each nearest first; or the one a line is aimed at.
+   */
   readonly tokens: readonly SideToken[];
-  /** The token the area leaves from, neither caught nor clear, when it was laid from one. */
+  /**
+   * The token the area leaves from, neither caught nor clear, when it was
+   * laid from one; or the one a line leaves from.
+   */
   readonly source: SidePlace | undefined;
 }
 

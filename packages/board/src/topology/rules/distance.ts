@@ -9,7 +9,10 @@
  * Design: docs/design.md §5 "A measurement gives three answers".
  */
 
-import type { AreaRule, DiagonalRule, SystemManifest } from "@tablewright/schema";
+import type { AreaRule, CoverSpec, DiagonalRule, SystemManifest } from "@tablewright/schema";
+
+/** How much of a target must be hidden for each degree of cover, as shares from nought to one. */
+export type CoverShares = { readonly [Degree in keyof CoverSpec]-?: number };
 
 /** What a cell measures and how a diagonal counts: the campaign's setting. */
 export interface GridRule {
@@ -20,14 +23,17 @@ export interface GridRule {
   readonly diagonals: DiagonalRule;
   /** How an area of effect decides which cells it catches. */
   readonly areaRule: AreaRule;
+  /** How much of a target must be hidden for each degree of cover. */
+  readonly cover: CoverShares;
 }
 
-/** 5e's default: five feet a square, every square the same. */
+/** 5e's default: five feet a square, every square the same, and the SRD's cover. */
 export const DEFAULT_RULE: GridRule = {
   cellSize: 5,
   unit: "ft",
   diagonals: "equal",
   areaRule: "cube-centre",
+  cover: { half: 0.5, threeQuarters: 0.75, total: 1 },
 };
 
 /** A place in the scene's space: a cell and the height the field gives it. */
@@ -48,6 +54,18 @@ export function gridRuleOf(system: SystemManifest | null | undefined): GridRule 
     unit: grid.unit,
     diagonals: grid.diagonals,
     areaRule: grid.areaRule ?? DEFAULT_RULE.areaRule,
+    cover: coverSharesOf(grid.cover),
+  };
+}
+
+// The shares a manifest's cover block states, each the SRD's where it
+// states none.
+function coverSharesOf(spec: CoverSpec | undefined): CoverShares {
+  const srd = DEFAULT_RULE.cover;
+  return {
+    half: spec?.half ?? srd.half,
+    threeQuarters: spec?.threeQuarters ?? srd.threeQuarters,
+    total: spec?.total ?? srd.total,
   };
 }
 

@@ -22,3 +22,4 @@ export {
 } from "./placement.js";
 export { SelectTool, type PickGesture, type PickStyle, type SelectOwner } from "./select-tool.js";
 export { GroupDrag, type CarryOwner } from "./group-drag.js";
+export { aimOf, aimText, pairOf, type Aim, type Pair } from "./aim.js";

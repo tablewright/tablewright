@@ -37,9 +37,19 @@ export {
   distance,
   distanceBetween,
   gridRuleOf,
+  type CoverShares,
   type GridRule,
   type Place,
 } from "./rules/distance.js";
+export {
+  coverFor,
+  coverOf,
+  type CoverAnswer,
+  type CoverPart,
+  type CoverRay,
+  type Hider,
+  type TargetCube,
+} from "./rules/cover.js";
 export { edgeBetween, edgeCells, edgeKey, rectEdges } from "./edges.js";
 export {
   AIR,
