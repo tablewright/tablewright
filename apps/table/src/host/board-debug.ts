@@ -38,7 +38,8 @@ import {
   type TokenView,
   type Topology,
 } from "@tablewright/board";
-import type { Stroke } from "@tablewright/schema";
+import type { Cover, Stroke, Visibility } from "@tablewright/schema";
+import type { AimHost } from "./aim-host.js";
 import type { AreaHost } from "./area-host.js";
 
 /** What a dev build exposes on `window.__tablewright` for tests: reads only, no mutation. */
@@ -76,6 +77,10 @@ export interface BoardDebug {
   ground(): number;
   /** The measure the ruler shows, in the mode it is read in, or nothing. */
   measurement(): ShownMeasure | undefined;
+  /** The line between two picked tokens as this seat is shown it, and who it is for. */
+  aim():
+    | { from: string; to: string; distance: number; cover: Cover; seenBy: Visibility }
+    | undefined;
 }
 
 /** What the view reads: the host's layers, and the scene as it holds it now. */
@@ -88,6 +93,7 @@ export interface DebugSources {
   readonly numbersLayer: NumbersLayer;
   readonly area: AreaHost;
   readonly ruler: RulerTool;
+  readonly aim: AimHost;
   readonly picked: Picked;
   grid(): SquareGrid;
   rule(): GridRule;
@@ -127,6 +133,18 @@ export function debugView(board: DebugSources): BoardDebug {
     framesDrawn: () => board.stage.framesDrawn,
     ground: () => board.ground(),
     measurement: () => board.ruler.measurement,
+    aim: () => {
+      const shown = board.aim.shown;
+      return shown === undefined
+        ? undefined
+        : {
+            from: shown.from,
+            to: shown.to,
+            distance: shown.distance,
+            cover: shown.cover.cover,
+            seenBy: shown.seenBy,
+          };
+    },
   };
 }
 

@@ -88,6 +88,7 @@ import type {
   Visibility,
 } from "@tablewright/schema";
 import { REDUCED_MOTION } from "../shell/motion.js";
+import { AimHost } from "./aim-host.js";
 import { AreaHost } from "./area-host.js";
 import { debugView, placeholderTokens, type BoardDebug } from "./board-debug.js";
 import { PickHost } from "./pick-host.js";
@@ -137,6 +138,8 @@ export class BoardHost {
   // What the hand has picked, which Select and Move share.
   private readonly picked = new Picked();
   private readonly picking: PickHost;
+  // The line between two picked tokens, and the card it deals.
+  private readonly aim: AimHost;
   private readonly rings: TokenRings;
   private readonly drawLayer: DrawLayer;
   private readonly ruler: RulerTool;
@@ -244,6 +247,12 @@ export class BoardHost {
       isMovable: () => allows(this.seat.role, "token:move"),
       handOff: (pointerId, at) => input.adopt(pointerId, at),
     });
+    this.aim = new AimHost(stage, this.grid, this.picked, {
+      topology: () => this.topology,
+      tokens: () => tokensWithHeights(this.tokens, this.topology, this.seat),
+      rule: () => this.rule,
+    });
+    this.aim.setSeat(seat);
     // The hold-to-turn timer picks the token it turns on no input of its
     // own, so what is picked asks for the frame that shows it.
     this.picked.onChange(() => stage.requestFrame());
@@ -412,6 +421,7 @@ export class BoardHost {
     this.area.setGrid(grid);
     this.rings.setGrid(grid);
     this.picking.setGrid(grid);
+    this.aim.setGrid(grid);
     this.thresholdTap.setGrid(grid);
     this.isGridStale = true;
     this.viewListeners.emit();
@@ -433,14 +443,16 @@ export class BoardHost {
     this.drawLayer.setStyle(drawStyle(theme));
     this.ruler.setStyle(rulerStyle(theme));
     this.dragRoute.setStyle(rulerStyle(theme));
+    this.aim.setStyle(rulerStyle(theme));
   }
 
   /** Measure by `rule`: the campaign's setting, the system's default until then. */
   setRule(rule: GridRule): void {
     this.rule = rule;
     // The ruler and the drag read the rule as they measure; the area host
-    // measures again what it has down.
+    // measures again what it has down, and the line is judged again.
     this.area.setRule(rule);
+    this.aim.update();
     this.redrawHeights();
     this.stage.requestFrame();
   }
@@ -454,10 +466,11 @@ export class BoardHost {
   }
 
   // Every token wears the height of the ground under it, and every picked
-  // one its ring where it now stands.
+  // one its ring where it now stands; the line between two is judged again.
   private showTokens(): void {
     this.tokenLayer.set(tokensWithHeights(this.tokens, this.topology, this.seat));
     this.picking.tokensChanged();
+    this.aim.update();
   }
 
   /** Hear the right button ask what may be done with a token. */
@@ -533,6 +546,7 @@ export class BoardHost {
   chooseSeenBy(seenBy: Visibility): void {
     this.ruler.chooseSeenBy(seenBy);
     this.area.chooseSeenBy(seenBy);
+    this.aim.chooseSeenBy(seenBy);
   }
 
   /**
@@ -568,6 +582,7 @@ export class BoardHost {
     this.redrawTopology();
     this.ruler.setSeat(seat);
     this.area.setSeat(seat);
+    this.aim.setSeat(seat);
     this.applyTools();
     this.stage.requestFrame();
   }
@@ -598,6 +613,16 @@ export class BoardHost {
   /** Close this seat's card for the token `id`. */
   closeCard(id: string): void {
     this.area.closeCard(id);
+  }
+
+  /** Hear the card the line between two picked tokens deals this seat, or its going. */
+  onAimCard(listener: (card: SideView | undefined) => void): () => void {
+    return this.aim.onCard(listener);
+  }
+
+  /** Close the line's card until the line is drawn anew. */
+  closeAimCard(): void {
+    this.aim.closeCard();
   }
 
   /**
@@ -729,6 +754,7 @@ export class BoardHost {
       numbersLayer: this.numbersLayer,
       area: this.area,
       ruler: this.ruler,
+      aim: this.aim,
       picked: this.picked,
       grid: () => this.grid,
       rule: () => this.rule,

@@ -275,20 +275,30 @@ export function wireScene(table: Table): void {
     sideView.hidden = view === undefined;
   });
   // Another seat's template deals this one a card for each token it names,
-  // each beside its token, so the cards follow the board as it moves.
+  // and the line between two picked tokens one beside its target, each
+  // beside its token, so the cards follow the board as it moves.
   const placeCards = (): void => {
-    const cards = templateCards.view;
-    if (cards !== undefined && cards.tokens.length > 0) {
-      templateCards.anchors = board.tokensOnScreen(cards.tokens.map((token) => token.id));
+    const ids = [templateCards.view, templateCards.aim].flatMap((cards) =>
+      (cards?.tokens ?? []).map((token) => token.id)
+    );
+    if (ids.length > 0) {
+      templateCards.anchors = board.tokensOnScreen(ids);
     }
   };
   board.onCards((cards) => {
     templateCards.view = cards;
     placeCards();
   });
+  board.onAimCard((card) => {
+    templateCards.aim = card;
+    placeCards();
+  });
   board.onViewMove(placeCards);
   templateCards.addEventListener("tw-card-close", (event) => {
     board.closeCard(event.detail.id);
+  });
+  templateCards.addEventListener("tw-aim-card-close", () => {
+    board.closeAimCard();
   });
   // A measure carries its own choice too, Alt's as much as the palette's,
   // so the row follows whatever is on the board.
