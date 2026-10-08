@@ -22,7 +22,7 @@ export {
   type RectArea,
   type Spot,
 } from "./area.js";
-export { catchesCell, catchesToken, caughtCells, isSource, placeOf } from "./cover.js";
+export { catchesCell, catchesToken, caughtCells, isSource, placeOf } from "./catches.js";
 export { AreaLayer, type AreaDrawing, type AreaStyle, type ShownArea } from "./area-layer.js";
 export {
   AreaTool,

@@ -10,7 +10,7 @@
     "cellSize": 5,
     "unit": "ft",
     "diagonals": "equal",
-    "cover": "cube-centre"
+    "areaRule": "cube-centre"
   },
   "categories": {
     "spells": "Spells",

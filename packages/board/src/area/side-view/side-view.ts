@@ -15,7 +15,7 @@ import type { TokenView } from "../../tokens/token-layer.js";
 import type { Topology } from "../../topology/derive.js";
 import type { GridRule } from "../../topology/rules/distance.js";
 import { describeArea, type Area, type Spot } from "../area.js";
-import { isSource, tokenSpot } from "../cover.js";
+import { isSource, tokenSpot } from "../catches.js";
 import { footprint } from "../outline.js";
 import { isSolid } from "../volume.js";
 import {

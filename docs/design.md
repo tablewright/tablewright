@@ -869,7 +869,7 @@ the rounds are in the local research file.
   spread and an edge and a form, and what 5e means by a cone is one
   place on that slider. 5e is first because two SRDs exist to seed
   real content from, not because its readings are the target; a
-  system that wants a quarter-circle cone or a different cover rule
+  system that wants a quarter-circle cone or a different area rule
   sets them and the engine does not care. Decided 2026-09-12 (user),
   with the round's canvas and `.plan/RESEARCH.templates.md` behind it.
 - **Effects on an area** *(later)*: the animated kind, fire fanning

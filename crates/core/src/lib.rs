@@ -38,7 +38,7 @@ pub use stroke::{
     Shape, Side, Stroke, ThresholdKind, ThresholdPlay, ThresholdState, WallShape,
 };
 pub use system::{
-    Cell, ControlKind, ControlSpec, CoverRule, DiagonalRule, FacetSpec, FacetType, GridKind,
+    AreaRule, Cell, ControlKind, ControlSpec, DiagonalRule, FacetSpec, FacetType, GridKind,
     GridSpec, KindSpec, NoteSpec, PartSpec, Sentinels, Stop, SystemError, SystemManifest,
     VersionSpec,
 };

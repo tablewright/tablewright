@@ -1366,7 +1366,7 @@
       "cellSize": 5.0,
       "unit": "ft",
       "diagonals": "equal",
-      "cover": "cube-centre"
+      "areaRule": "cube-centre"
     }
   },
   "facetValues": {

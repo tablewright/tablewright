@@ -16,7 +16,7 @@ import { forCellsInExtent, intersectExtents, type CellExtent } from "../grid/gri
 import type { Cell } from "../grid/square-grid.js";
 import type { TokenView } from "../tokens/token-layer.js";
 import { heightAt, type Topology } from "../topology/derive.js";
-import type { CoverRule } from "@tablewright/schema";
+import type { AreaRule } from "@tablewright/schema";
 import type { GridRule } from "../topology/rules/distance.js";
 import { firstStop } from "../topology/rules/effect.js";
 import { cubeCentre, spotToCellSpot, type Area, type Spot } from "./area.js";
@@ -24,8 +24,8 @@ import { beamCorners, holds } from "./volume.js";
 
 // The place in a cell the rule asks about. A second rule joins here
 // rather than at every call site.
-function testPoint(cover: CoverRule, cell: Cell, ground: number, rule: GridRule): Spot {
-  switch (cover) {
+function testPoint(areaRule: AreaRule, cell: Cell, ground: number, rule: GridRule): Spot {
+  switch (areaRule) {
     case "cube-centre":
     default:
       return cubeCentre(cell, ground, rule);
@@ -37,7 +37,7 @@ export function placeOf(token: TokenView): number {
   return (token.height ?? 0) + (token.elevation ?? 0);
 }
 
-/** Whether `area` catches `cell`, by the campaign's cover rule. */
+/** Whether `area` catches `cell`, by the campaign's area rule. */
 export function catchesCell(
   area: Area,
   origin: Spot,
@@ -48,7 +48,7 @@ export function catchesCell(
   return catches(
     area,
     origin,
-    testPoint(rule.cover, cell, heightAt(topology, cell), rule),
+    testPoint(rule.areaRule, cell, heightAt(topology, cell), rule),
     topology,
     rule
   );
@@ -86,9 +86,9 @@ export function isSource(area: Area, token: TokenView, source: string | undefine
   return area.kind !== "circle" && source !== undefined && token.id === source;
 }
 
-/** The place in a token's cube the cover rule asks about, where it stands. */
+/** The place in a token's cube the area rule asks about, where it stands. */
 export function tokenSpot(token: TokenView, rule: GridRule): Spot {
-  return testPoint(rule.cover, token.cell, placeOf(token), rule);
+  return testPoint(rule.areaRule, token.cell, placeOf(token), rule);
 }
 
 // The volume must hold the spot; set to line of sight, the straight line

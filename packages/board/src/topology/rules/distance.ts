@@ -9,7 +9,7 @@
  * Design: docs/design.md §5 "A measurement gives three answers".
  */
 
-import type { CoverRule, DiagonalRule, SystemManifest } from "@tablewright/schema";
+import type { AreaRule, DiagonalRule, SystemManifest } from "@tablewright/schema";
 
 /** What a cell measures and how a diagonal counts: the campaign's setting. */
 export interface GridRule {
@@ -19,7 +19,7 @@ export interface GridRule {
   readonly unit: string;
   readonly diagonals: DiagonalRule;
   /** How an area of effect decides which cells it catches. */
-  readonly cover: CoverRule;
+  readonly areaRule: AreaRule;
 }
 
 /** 5e's default: five feet a square, every square the same. */
@@ -27,7 +27,7 @@ export const DEFAULT_RULE: GridRule = {
   cellSize: 5,
   unit: "ft",
   diagonals: "equal",
-  cover: "cube-centre",
+  areaRule: "cube-centre",
 };
 
 /** A place in the scene's space: a cell and the height the field gives it. */
@@ -47,7 +47,7 @@ export function gridRuleOf(system: SystemManifest | null | undefined): GridRule 
     cellSize: grid.cellSize ?? DEFAULT_RULE.cellSize,
     unit: grid.unit,
     diagonals: grid.diagonals,
-    cover: grid.cover ?? DEFAULT_RULE.cover,
+    areaRule: grid.areaRule ?? DEFAULT_RULE.areaRule,
   };
 }
 

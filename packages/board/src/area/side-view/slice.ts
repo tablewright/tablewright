@@ -17,7 +17,7 @@ import type { GridRule } from "../../topology/rules/distance.js";
 import { crossingOf, passes, topOf } from "../../topology/rules/effect.js";
 import { forSamplesAlong } from "../../topology/shapes.js";
 import { aimVector, type ConeArea, type RectArea, type Spot } from "../area.js";
-import { catchesCell } from "../cover.js";
+import { catchesCell } from "../catches.js";
 
 /** A point in the slice: how far along the yaw from the origin, and how high. */
 export interface SidePoint {
@@ -212,7 +212,7 @@ export function areaSlice(area: RectArea | ConeArea, origin: Spot): SidePoint[] 
 
 /**
  * Where along the slice the area lands: the stretches over the cells the
- * board lights, the map's cells caught by the cover rule, line of sight
+ * board lights, the map's cells caught by the area rule, line of sight
  * and all, each the ground's line from its start to its end. Each cell
  * is asked once.
  */

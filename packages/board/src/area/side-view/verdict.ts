@@ -17,7 +17,7 @@ import type { TokenView } from "../../tokens/token-layer.js";
 import type { Topology } from "../../topology/derive.js";
 import { cellCentre, firstStop, topOf, type Stop } from "../../topology/rules/effect.js";
 import { spotToCellSpot, type ConeArea, type RectArea, type Spot } from "../area.js";
-import { catchesToken, placeOf, tokenSpot } from "../cover.js";
+import { catchesToken, placeOf, tokenSpot } from "../catches.js";
 import { heldSpan, holds } from "../volume.js";
 import { acrossOf, alongOf, type SidePoint, type SliceFrame } from "./slice.js";
 

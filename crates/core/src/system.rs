@@ -66,8 +66,8 @@ pub struct GridSpec {
     pub unit: String,
     pub diagonals: DiagonalRule,
     /// How an area of effect decides which cells it catches.
-    #[serde(default)]
-    pub cover: CoverRule,
+    #[serde(default, rename = "areaRule")]
+    pub area_rule: AreaRule,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
@@ -93,7 +93,7 @@ pub enum DiagonalRule {
 /// differently brings its own.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize, Type)]
 #[serde(rename_all = "kebab-case")]
-pub enum CoverRule {
+pub enum AreaRule {
     /// A cell is caught when the volume holds the centre of its cube
     /// (design.md §5).
     #[default]
@@ -873,16 +873,16 @@ mod tests {
     }
 
     #[test]
-    fn the_grid_block_keeps_its_cover_rule_and_falls_back_without_one() {
+    fn the_grid_block_keeps_its_area_rule_and_falls_back_without_one() {
         let named: SystemManifest = serde_json::from_str(
             r#"{"id":"x","name":"X","grid":{"type":"square","cellSize":5,
-                "unit":"ft","diagonals":"equal","cover":"cube-centre"}}"#,
+                "unit":"ft","diagonals":"equal","areaRule":"cube-centre"}}"#,
         )
         .expect("manifest");
         let grid = named.grid.expect("a grid");
-        assert_eq!(grid.cover, CoverRule::CubeCentre);
+        assert_eq!(grid.area_rule, AreaRule::CubeCentre);
         assert_eq!(
-            serde_json::to_value(grid).expect("json")["cover"],
+            serde_json::to_value(grid).expect("json")["areaRule"],
             serde_json::json!("cube-centre")
         );
 
@@ -891,6 +891,6 @@ mod tests {
                 "unit":"ft","diagonals":"equal"}}"#,
         )
         .expect("manifest");
-        assert_eq!(quiet.grid.expect("a grid").cover, CoverRule::default());
+        assert_eq!(quiet.grid.expect("a grid").area_rule, AreaRule::default());
     }
 }

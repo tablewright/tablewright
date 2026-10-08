@@ -142,6 +142,18 @@ export const commands = {
 };
 
 /* Types */
+/**
+ *  How an area of effect decides which cells it catches. One test in three
+ *  dimensions rather than a family of grid rules; a system that counts
+ *  differently brings its own.
+ */
+export type AreaRule = 
+/**
+ *  A cell is caught when the volume holds the centre of its cube
+ *  (design.md §5).
+ */
+"cube-centre";
+
 /**  A campaign as the intro screen lists it. */
 export type CampaignSummary = {
 	name: string,
@@ -241,18 +253,6 @@ export type ControlSpec = {
 	/**  A control shown beside this one (the switches beside a range slider). */
 	beside?: ControlSpec | null,
 };
-
-/**
- *  How an area of effect decides which cells it catches. One test in three
- *  dimensions rather than a family of grid rules; a system that counts
- *  differently brings its own.
- */
-export type CoverRule = 
-/**
- *  A cell is caught when the volume holds the centre of its cube
- *  (design.md §5).
- */
-"cube-centre";
 
 /**
  *  How a diagonal counts against distance: every square the same
@@ -397,7 +397,7 @@ export type GridSpec = {
 	unit: string,
 	diagonals: DiagonalRule,
 	/**  How an area of effect decides which cells it catches. */
-	cover?: CoverRule,
+	areaRule?: AreaRule,
 };
 
 /**  What a cell of ground is for movement. */

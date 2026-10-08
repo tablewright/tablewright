@@ -130,7 +130,7 @@ export function aimVector(yaw: number, pitch = 0): { x: number; y: number; z: nu
 /**
  * The centre of a cell's cube: across at the cell's middle, up at half
  * a cell above the ground the field gives it. This is the place the
- * cover rule asks about.
+ * area rule asks about.
  */
 export function cubeCentre(cell: Cell, ground: number, rule: GridRule): Spot {
   return {
