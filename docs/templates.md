@@ -8,8 +8,10 @@ creature. Of it, the straight-line test at the end is built, a
 template is stopped by it unless it is set to spread, a form that
 stands up is lit from above, a cone turns by yaw and tilts by pitch on
 the palette's dials, a rectangle stands as a wall or as a beam that
-tilts as well, the seat that lays a template has its side view, and
-every other seat but the DM's has its cards; the rest is not.
+tilts as well, the seat that lays a template has its side view,
+every other seat but the DM's has its cards, and a line between two
+picked tokens gives their distance and the cover; only range waits, on
+sheets.
 
 ## Why
 
@@ -150,19 +152,34 @@ for the DM, and it already sees all a card could say.
 Fire Bolt is "a ranged spell attack against the target", not an area,
 so the question is whether the target can be targeted. The caster
 picks the target, and the board tests the range and the cover and
-draws the line for the whole table: "Fire Bolt: 70 ft, in range, half
-cover". It never says hit. That is a roll against armour, which needs
-sheets and dice.
+draws the line: "Fire Bolt: 70 ft, in range, half cover". It never says
+hit. That is a roll against armour, which needs sheets and dice.
 
 Cover is how much of the target a straight line from the attacker
 cannot reach: at least half is half cover, at least three quarters is
 three-quarters cover, and all of it is total cover, when the target
-cannot be targeted at all. The card shows what hides the target, such
-as "From the floor, the edge of the dais hides the lower half of E."
+cannot be targeted at all. Those shares are the system's, in the grid
+block of its manifest, and a system that says nothing takes the SRD's.
+The straight-line test runs from the middle of the attacker's cube to
+fifteen points spread across the target's cube as the attacker sees it,
+five heights by three across, and the share it stops is the share
+hidden.
 
 Without sheets there is no spell and no range. Until then the line
-runs between two things picked on the board and shows the distance and
-the cover only: "70 ft, half cover".
+runs between two tokens picked one after the other, from the first to
+the second, and shows the distance and the cover only: "70 ft, half
+cover". A template among what is picked, or a third thing, draws none.
+The line is marked as a measure is, by the ruler's Seen by as it is
+drawn, everyone by default, so a spectator's stays their own. Every
+seat that sees it is shown it, judged from what that seat sees, and it
+goes when what is picked stops being those two tokens.
+
+Each seat shown the line gets a card beside the target, as a
+template's cards sit: the slice along the line closed in on the
+target, each line to it drawn as far as it reaches, and what hides it,
+such as "From the floor, raised ground at +25 ft hides its lower half".
+It closes with its X or with Escape, and opens again when the line is
+drawn anew.
 
 ## The Select tool
 
