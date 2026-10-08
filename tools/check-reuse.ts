@@ -76,6 +76,12 @@ const TABLE: readonly Row[] = [
     instead: "`edgeEnds()`",
   },
   {
+    what: "what stops a line named by hand",
+    pattern: /\.state === "secret" \? "secret"/,
+    home: `${BOARD}/area/side-view/verdict.ts`,
+    instead: "`sliceStopOf()`",
+  },
+  {
     what: "a set of listeners kept by hand",
     pattern: /\bSet<(?:[^\n>]*Listener|\([^\n)]*\)\s*=>)/,
     home: `${BOARD}/shared/listeners.ts`,
