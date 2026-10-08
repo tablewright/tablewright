@@ -12,9 +12,9 @@ import {
 
 const bounds = { colMin: 0, rowMin: 0, cols: 20, rows: 15 };
 const house = derive(mansionStrokes(), bounds);
-// From the gallery to the hall: straight down is a twenty-foot drop, and the
-// way round the landing is fifty-five feet on foot. Both fit a thirty-foot
-// move with a dash, so the drag is what picks.
+// From the gallery to the hall: straight down costs twenty feet and a
+// twenty-five-foot fall, and the way round the landing is fifty-five feet on
+// foot. Both fit a thirty-foot move with a dash, so the drag is what picks.
 const gallery = measure(house, { col: 6, row: 1 }, { col: 6, row: 5 }, DEFAULT_RULE, DEFAULT_MOVER);
 const ways = gallery.ways;
 
@@ -43,7 +43,7 @@ describe("the way a drag went", () => {
   test("the gallery offers both ways, one of them a drop", () => {
     expect(ways.safe?.cost).toBe(55);
     expect(ways.quick?.cost).toBe(20);
-    expect(ways.quick?.dice).toBe(1);
+    expect(ways.quick?.dice).toBe(2);
   });
 
   test("a drag over the edge takes the drop", () => {

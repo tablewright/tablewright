@@ -247,13 +247,13 @@ describe("what an area catches", () => {
     expect(large.length).toBeLessThan(bounds.cols * bounds.rows);
   });
 
-  test("the dais at ten feet is reached by a cone once it has risen that far", () => {
-    // From the hall, twenty-five feet south of the dais, aimed north and
+  test("the dais at twenty-five feet is reached by a cone once it has risen that far", () => {
+    // From the hall, forty-five feet south of the dais, aimed north and
     // spreading, since this is the volume's question and not the lip's.
-    const from = at(22.5, 32.5, 0);
-    const onDais = { id: "a", label: "A", cell: { col: 4, row: 1 }, facing: 0, height: 10 };
+    const from = at(22.5, 52.5, 0);
+    const onDais = { id: "a", label: "A", cell: { col: 4, row: 1 }, facing: 0, height: 25 };
     const north = (over: Partial<Extract<Area, { kind: "cone" }>>) =>
-      cone({ yaw: 0, length: 40, reaches: "around-corners", ...over });
+      cone({ yaw: 0, length: 60, reaches: "around-corners", ...over });
     expect(catchesToken(north({ spread: 70 }), from, onDais, topology, rule)).toBe(true);
     expect(catchesToken(north({ spread: 20 }), from, onDais, topology, rule)).toBe(false);
     // Flat at five feet tall never reaches it, however wide it opens.

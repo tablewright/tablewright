@@ -467,7 +467,7 @@ describe("the mansion", () => {
       );
       expect([near, far]).toContain("ground");
     }
-    expect(heightAt(topology, { col: 4, row: 1 })).toBe(10);
+    expect(heightAt(topology, { col: 4, row: 1 })).toBe(25);
     expect(heightAt(topology, { col: 14, row: 9 })).toBe(-10);
     expect(isLevelChangeAt(topology, { col: 9, row: 1 })).toBe(true);
     // Outside the house nothing was drawn, so it is plain ground, walled off.

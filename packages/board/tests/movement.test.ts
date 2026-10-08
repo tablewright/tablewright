@@ -17,7 +17,7 @@ import {
 } from "../src/index.js";
 
 // The mansion at twenty by fifteen: the hall west (cols 1-8, rows 3-11),
-// the corridor (cols 9-10), the wings east, the gallery raised 10 ft over
+// the corridor (cols 9-10), the wings east, the gallery raised 25 ft over
 // the hall's north with stairs down into the corridor, a 10 ft pit in the
 // south-east wing at cols 14-15 rows 9-10, and the south row raised 5 ft
 // from col 11 on.

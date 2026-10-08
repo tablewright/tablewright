@@ -427,15 +427,15 @@ describe("a beam that meets the ground", () => {
 });
 
 describe("a bolt from the dais", () => {
-  // A token on the dais's front edge, ten feet up, loosing a beam a hundred
-  // feet by five by five south down the west wing, pitched down 15. The
-  // origin is the middle of its cube, as the table makes it.
+  // A token on the dais's front edge, twenty-five feet up, loosing a beam
+  // a hundred feet by five by five south down the west wing, pitched down
+  // 35. The origin is the middle of its cube, as the table makes it.
   const house = derive(mansionStrokes(), bounds);
   const caster = { col: 4, row: 2 };
   const from = cubeCentre(caster, heightAt(house, caster), rule);
   const bolt = beam({
     yaw: 180,
-    pitch: -15,
+    pitch: -35,
     length: 100,
     width: 5,
     height: 5,
@@ -450,7 +450,7 @@ describe("a bolt from the dais", () => {
   });
 
   test("passes over a token beneath its high end and catches one where it comes down", () => {
-    expect(from.z).toBe(12.5);
+    expect(from.z).toBe(27.5);
     const beneath = onFloor("b", 4);
     const landing = onFloor("c", 9);
     expect(beneath.height).toBe(0);
@@ -460,7 +460,7 @@ describe("a bolt from the dais", () => {
     // above the token's cube, and the level beam passes over both.
     const over = { x: 22.5, y: 22.5 };
     expect(holds(bolt, from, at(over.x, over.y, 2.5))).toBe(false);
-    expect(holds(bolt, from, at(over.x, over.y, from.z - 10 * Math.tan(radians(15))))).toBe(true);
+    expect(holds(bolt, from, at(over.x, over.y, from.z - 10 * Math.tan(radians(35))))).toBe(true);
     expect(catchesToken({ ...bolt, pitch: 0 }, from, landing, house, rule)).toBe(false);
   });
 });

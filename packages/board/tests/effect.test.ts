@@ -122,16 +122,17 @@ describe("a straight line in three dimensions", () => {
   test("from the hall floor to someone on the dais, the lip stops it low down and it clears high up", () => {
     const house = mansion();
     // From half a cell above the hall floor, through the arch, to a token
-    // standing a cell back from the lip: its feet are at the dais's ten.
+    // standing a cell back from the lip: its feet are at the dais's
+    // twenty-five, the top of its cube at thirty.
     const floor = spot(4.5, 12.5, 2.5);
-    const low = firstStop(house, floor, spot(4.5, 1.5, 10));
+    const low = firstStop(house, floor, spot(4.5, 1.5, 25));
     expect(low?.by).toBe("ground");
-    expect(stoppedBy(low)).toBe(10);
+    expect(stoppedBy(low)).toBe(25);
     expect(low?.at.x).toBeCloseTo(4.5, 9);
     expect(low?.at.y).toBeCloseTo(3, 9);
     expect(low?.t).toBeCloseTo(9.5 / 11, 9);
-    expect(firstStop(house, floor, spot(4.5, 1.5, 15))).toBeUndefined();
-    expect(firstStop(house, spot(4.5, 1.5, 15), floor)).toBeUndefined();
+    expect(firstStop(house, floor, spot(4.5, 1.5, 30))).toBeUndefined();
+    expect(firstStop(house, spot(4.5, 1.5, 30), floor)).toBeUndefined();
   });
 
   test("a low wall lets a line over it and a tall one does not", () => {
@@ -182,11 +183,11 @@ describe("a straight line in three dimensions", () => {
   test("a wall on the dais rises from the dais, not from the ground outside", () => {
     const house = mansion();
     // The north wall stands between the outside at nought and the dais at
-    // ten: fifteen feet up is under its top, twenty-five over it.
+    // twenty-five: thirty feet up is under its top, forty over it.
     const north = { col: 4, row: 0, side: "south" } as const;
-    expect(stoppedBy(firstStop(house, spot(4.5, 0.5, 15), spot(4.5, 1.5, 15)))).toEqual(north);
-    expect(stoppedBy(firstStop(house, spot(4.5, 1.5, 15), spot(4.5, 0.5, 15)))).toEqual(north);
-    expect(firstStop(house, spot(4.5, 0.5, 25), spot(4.5, 1.5, 25))).toBeUndefined();
+    expect(stoppedBy(firstStop(house, spot(4.5, 0.5, 30), spot(4.5, 1.5, 30)))).toEqual(north);
+    expect(stoppedBy(firstStop(house, spot(4.5, 1.5, 30), spot(4.5, 0.5, 30)))).toEqual(north);
+    expect(firstStop(house, spot(4.5, 0.5, 40), spot(4.5, 1.5, 40))).toBeUndefined();
   });
 
   test("a secret door is a wall until it is worked, standing on the gallery's floor", () => {
@@ -218,7 +219,7 @@ describe("a straight line in three dimensions", () => {
     const house = mansion();
     expect(firstStop(house, spot(4.5, 5.5, 0), spot(4.5, 5.5, 30))).toBeUndefined();
     const buried = firstStop(house, spot(4.5, 1.5, 0), spot(4.5, 1.5, 30));
-    expect(stoppedBy(buried)).toBe(10);
+    expect(stoppedBy(buried)).toBe(25);
     expect(buried?.t).toBe(0);
     expect(buried?.at).toEqual({ x: 4.5, y: 1.5 });
   });

@@ -88,23 +88,24 @@ describe("a measure through the mansion", () => {
 
   test("from the gallery the drop into the hall is offered over the long way round", () => {
     const found = measure(house, at(6, 1), at(6, 5), DEFAULT_RULE, DEFAULT_MOVER);
-    expect(found.rise).toBe(-10);
+    expect(found.rise).toBe(-25);
     expect(found.choice.phase).toBe("move");
     expect(found.choice.route?.cost).toBe(20);
-    expect(found.choice.route?.dice).toBe(1);
+    expect(found.choice.route?.dice).toBe(2);
     expect(found.choice.route?.kinds).toEqual(new Set(["walk", "drop"]));
-    expect(badgeText(found, "path")).toBe("20 ft, 1d6 fall");
+    expect(badgeText(found, "path")).toBe("20 ft, 2d6 fall");
   });
 
   test("the way up says how much of it was climbed", () => {
-    // Into the gallery from the hall: the same ten feet the drop gives
-    // back, paid for on the way up at two of movement for one of height.
-    const found = measure(house, at(6, 5), at(6, 1), DEFAULT_RULE, DEFAULT_MOVER);
-    expect(found.rise).toBe(10);
+    // Into the gallery from just below its lip: the same twenty-five feet
+    // the drop gives back, paid for on the way up at two of movement for
+    // one of height. From further out the stairs round are cheaper.
+    const found = measure(house, at(6, 3), at(6, 1), DEFAULT_RULE, DEFAULT_MOVER);
+    expect(found.rise).toBe(25);
     expect(found.choice.route?.kinds.has("climb")).toBe(true);
-    expect(badgeText(found, "path")).toContain("10 ft climbed");
+    expect(badgeText(found, "path")).toContain("25 ft climbed");
     // The line answers the other question, so it says the rise as a rise.
-    expect(badgeText(found, "line")).toContain(`${RISE_MARK}10`);
+    expect(badgeText(found, "line")).toContain(`${RISE_MARK}25`);
   });
 
   test("a cell no one can reach has no way on foot", () => {

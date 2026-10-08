@@ -51,20 +51,21 @@ const laid =
     risesTo(area, origin, { x, y }, topology, rule);
 
 describe("a cone laid beside the dais", () => {
-  // From the middle of the cube at cell (4, 7) in the west wing, aimed
-  // north at the dais, whose lip is four and a half cells on.
-  const origin = at(22.5, 37.5, 2.5);
+  // From a flier fifteen feet over cell (4, 7) in the west wing, the
+  // middle of its cube seventeen and a half up, aimed north at the dais,
+  // whose lip is four and a half cells on and twenty-five feet high.
+  const origin = at(22.5, 37.5, 17.5);
   const north = laid(cone(), origin);
 
   test("climbs onto the dais where a creature there is reached over the lip, and is cut where it is not", () => {
     // A foot past the lip, straight up the axis: the line from the origin
-    // to creature height on the dais, twelve and a half up, climbs over
-    // the lip, and the cone has risen nearly twelve feet, so it is drawn
-    // at its own height.
-    expect(north(22.5, 14)).toBeCloseTo(2.5 + 23.5 * tan(26.565), 1);
+    // to creature height on the dais, twenty-seven and a half up, climbs
+    // over the lip, and the cone has risen nearly twelve feet, so it is
+    // drawn at its own height.
+    expect(north(22.5, 14)).toBeCloseTo(17.5 + 23.5 * tan(26.565), 1);
     // Seven feet across the same line climbs over, and the top still
     // stands above the dais.
-    expect(north(29.5, 14)).toBeCloseTo(2.5 + Math.sqrt(11.75 ** 2 - 49), 1);
+    expect(north(29.5, 14)).toBeCloseTo(17.5 + Math.sqrt(11.75 ** 2 - 49), 1);
     // Ten feet across its top is under the dais's own floor.
     expect(north(32.5, 14)).toBeUndefined();
     // Far back on the dais the line to creature height grazes under the
@@ -74,11 +75,11 @@ describe("a cone laid beside the dais", () => {
     expect(north(22.5, 6)).toBeUndefined();
     // Set to spread, the same point is drawn: only the floor cuts it.
     expect(laid(cone({ reaches: "around-corners" }), origin)(22.5, 6)).toBeCloseTo(
-      2.5 + 31.5 * tan(26.565),
+      17.5 + 31.5 * tan(26.565),
       3
     );
     // Short of the lip it floats over the room's floor.
-    expect(north(22.5, 16)).toBeCloseTo(2.5 + 21.5 * tan(26.565), 1);
+    expect(north(22.5, 16)).toBeCloseTo(17.5 + 21.5 * tan(26.565), 1);
   });
 });
 
@@ -146,8 +147,8 @@ describe("the solid edges laid out for the shader", () => {
     expect(tops.cols).toBe(bounds.cols + 1);
     expect(tops.rows).toBe(bounds.rows + 1);
     // The west wing's north wall stands between the outside at nought and
-    // the dais at ten, so its top is twenty.
-    expect(topsAt(tops, 4, 0)[1]).toBe(20);
+    // the dais at twenty-five, so its top is thirty-five.
+    expect(topsAt(tops, 4, 0)[1]).toBe(35);
     // The hall's north wall over the gallery at five tops out at fifteen,
     // and the secret door in it is a wall until it is worked.
     expect(topsAt(tops, 12, 11)[1]).toBe(15);

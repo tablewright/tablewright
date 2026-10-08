@@ -96,20 +96,20 @@ const rounded = (value: number) => Math.round(value * 1000) / 1000;
 describe("the ground along a slice", () => {
   test("steps where the field does, and a wall on the dais stands from the dais to its top", () => {
     // North from the middle of the cube at (4, 7) in the west wing: the
-    // floor, the dais ten feet up from its lip to the north wall, and past
-    // the wall the ground outside, level at nought.
+    // floor, the dais twenty-five feet up from its lip to the north wall,
+    // and past the wall the ground outside, level at nought.
     const view = viewOf(cone(), at(22.5, 37.5, 2.5));
     expect(view.from).toBe(-5);
     expect(view.to).toBeCloseTo(40, 1);
     expect(view.ground.map((point) => [rounded(point.along), point.z])).toEqual([
       [-5, 0],
       [22.5, 0],
-      [22.5, 10],
-      [32.5, 10],
+      [22.5, 25],
+      [32.5, 25],
       [32.5, 0],
       [rounded(view.to), 0],
     ]);
-    expect(view.uprights).toEqual([{ along: 32.5, foot: 10, top: 20, kind: "wall" }]);
+    expect(view.uprights).toEqual([{ along: 32.5, foot: 25, top: 35, kind: "wall" }]);
   });
 
   test("a shut door stands to its top, a window is a hole, and the pit behind is ground too", () => {
@@ -269,7 +269,7 @@ describe("the tokens in a side view", () => {
     // Laid from no token, the dragon is one more token, at the origin.
     expect(placed("D")).toEqual([0, 30]);
     expect(placed("C")).toEqual([30, 0]);
-    expect(placed("E")).toEqual([45, 10]);
+    expect(placed("E")).toEqual([45, 25]);
     expect(placed("F")).toEqual([20, 15]);
   });
 
@@ -286,7 +286,9 @@ describe("the tokens in a side view", () => {
   });
 
   test("caught, a token's verdict says how far out it is and what it stands on", () => {
-    const view = viewOf(breath, breathFrom, [onHouse("C", 4, 4), onHouse("E", 4, 1)]);
+    // From thirty feet up the breath's upper side passes over the dais, so
+    // the same breath from forty-five feet up reaches one standing there.
+    const view = viewOf(breath, at(22.5, 52.5, 47.5), [onHouse("C", 4, 4), onHouse("E", 4, 1)]);
     expect(tokenIn(view, "C").verdict).toEqual({
       kind: "caught",
       out: 30,
@@ -296,7 +298,7 @@ describe("the tokens in a side view", () => {
     expect(tokenIn(view, "E").verdict).toEqual({
       kind: "caught",
       out: 45,
-      ground: 10,
+      ground: 25,
       elevation: 0,
     });
   });
@@ -331,11 +333,11 @@ describe("the tokens in a side view", () => {
 
   test("a beam passes over a token beneath its high end, by the gap from its head to its underside", () => {
     // From the dais's front edge, a bolt a hundred feet by five by five
-    // south down the west wing, pitched down 15: ten feet out its underside
+    // south down the west wing, pitched down 35: ten feet out its underside
     // is above the cube of a token on the floor.
-    const bolt = rect({ form: "beam", yaw: 180, pitch: -15, length: 100, width: 5, height: 5 });
-    const view = viewOf(bolt, at(22.5, 12.5, 12.5), [onHouse("b", 4, 4), onHouse("c", 4, 9)]);
-    const underside = 12.5 - (2.5 + 10 * Math.sin(radians(15))) / Math.cos(radians(15));
+    const bolt = rect({ form: "beam", yaw: 180, pitch: -35, length: 100, width: 5, height: 5 });
+    const view = viewOf(bolt, at(22.5, 12.5, 27.5), [onHouse("b", 4, 4), onHouse("c", 4, 9)]);
+    const underside = 27.5 - (2.5 + 10 * Math.sin(radians(35))) / Math.cos(radians(35));
     const verdict = tokenIn(view, "b").verdict;
     expect(verdict.kind).toBe("over");
     expect(verdict.kind === "over" && verdict.gap).toBeCloseTo(underside - 5, 9);
@@ -394,10 +396,10 @@ describe("the tokens in a side view", () => {
 });
 
 describe("a cone that climbs onto the dais", () => {
-  // From the floor at (4, 6), twenty feet short of the dais's lip, a 60 ft
-  // cone pitched up 20: its side strikes the face and its top spills over
-  // the lip.
-  const origin = at(22.5, 32.5, 2.5);
+  // From the floor at (4, 8), twenty-seven and a half feet short of the
+  // dais's lip, a 60 ft cone pitched up 20: its side strikes the face and
+  // its top spills over the lip.
+  const origin = at(22.5, 42.5, 2.5);
   const area = cone({ pitch: 20, length: 60 });
   const edge = onHouse("A", 4, 2);
   const back = onHouse("B", 4, 1);
@@ -407,20 +409,20 @@ describe("a cone that climbs onto the dais", () => {
     expect(catchesToken(area, origin, edge, house, rule)).toBe(true);
     expect(tokenIn(view, "A").verdict).toEqual({
       kind: "caught",
-      out: 20,
-      ground: 10,
+      out: 30,
+      ground: 25,
       elevation: 0,
     });
     // The cone holds the one further back; the line to the middle of its
     // cube is under the lip where it crosses it.
-    expect(holds(area, origin, at(22.5, 7.5, 12.5))).toBe(true);
+    expect(holds(area, origin, at(22.5, 7.5, 27.5))).toBe(true);
     const hidden = tokenIn(view, "B").verdict;
     expect(hidden.kind).toBe("hidden");
     if (hidden.kind === "hidden") {
       expect(hidden.by).toBe("ground");
-      expect(hidden.height).toBe(10);
-      expect(hidden.at.along).toBeCloseTo(17.5, 9);
-      expect(hidden.at.z).toBeLessThan(10);
+      expect(hidden.height).toBe(25);
+      expect(hidden.at.along).toBeCloseTo(27.5, 9);
+      expect(hidden.at.z).toBeLessThan(25);
     }
   });
 
@@ -430,7 +432,7 @@ describe("a cone that climbs onto the dais", () => {
     const first = stretch![0]!;
     const last = stretch![stretch!.length - 1]!;
     expect(first.z).toBe(0);
-    expect(last.z).toBe(10);
+    expect(last.z).toBe(25);
     expect(last.along).toBeGreaterThan(tokenIn(view, "A").along);
     expect(last.along).toBeLessThan(tokenIn(view, "B").along);
   });
@@ -447,7 +449,7 @@ describe("what the side view says against what the board catches", () => {
   const cases: [string, Area, Spot][] = [
     ["a cone down the hall", cone({ yaw: 90, length: 90, spread: 53 }), at(12.5, 62.5, 2.5)],
     ["the dragon's breath", cone({ pitch: -35, length: 60, spread: 53 }), at(22.5, 52.5, 32.5)],
-    ["a cone climbing the dais", cone({ pitch: 20, length: 60 }), at(22.5, 32.5, 2.5)],
+    ["a cone climbing the dais", cone({ pitch: 20, length: 60 }), at(22.5, 42.5, 2.5)],
     [
       "a flat-edged cone spreading",
       cone({ yaw: 135, edge: "flat", reaches: "around-corners" }),
@@ -457,8 +459,8 @@ describe("what the side view says against what the board catches", () => {
     ["a wall of fire", rect({ yaw: 45, length: 40 }), at(27.5, 27.5, 2.5)],
     [
       "a bolt from the dais",
-      rect({ form: "beam", yaw: 180, pitch: -15, length: 100, width: 5, height: 5 }),
-      at(22.5, 12.5, 12.5),
+      rect({ form: "beam", yaw: 180, pitch: -35, length: 100, width: 5, height: 5 }),
+      at(22.5, 12.5, 27.5),
     ],
     [
       "a bolt into the pit",

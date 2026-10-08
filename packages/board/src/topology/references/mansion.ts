@@ -90,8 +90,8 @@ export function mansionStrokes(): Stroke[] {
     threshold("frosted", "closed", east(18, 3)),
     threshold("window", "closed", east(0, 6)),
     threshold("door", "secret", south(16, 11)),
-    // The dais: ground at +10.
-    ground("ground", rect(1, 1, 8, 2), 10),
+    // The dais: ground at +25.
+    ground("ground", rect(1, 1, 8, 2), 25),
     {
       ink: "level-change",
       look: "both",

@@ -14,8 +14,8 @@ describe("the numbers view", () => {
 
   test("a cell prints the height the rules read there, with its sign", () => {
     const numbers = cellNumbers(derive(mansionStrokes(), bounds), whole);
-    // The dais at +10, the pit at -10, the gallery at +5.
-    expect(textAt(numbers, 4, 1)).toBe("+10");
+    // The dais at +25, the pit at -10, the gallery at +5.
+    expect(textAt(numbers, 4, 1)).toBe("+25");
     expect(textAt(numbers, 14, 9)).toBe("-10");
     expect(textAt(numbers, 12, 12)).toBe("+5");
   });
