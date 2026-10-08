@@ -95,6 +95,26 @@ describe("what a card closes in on", () => {
     expect(holds(window, { along: 60, z: 30 })).toBe(true);
   });
 
+  test("a line's target shows where the lip that hides it stops a line, and the lip's top", () => {
+    const aimed: Verdict = {
+      kind: "aimed",
+      cover: "half",
+      ground: 0,
+      elevation: 0,
+      rays: [
+        { end: { along: 17.5, z: 9.5 }, isStopped: true },
+        { end: { along: 25, z: 14.5 }, isStopped: false },
+      ],
+      hiders: [
+        { by: "ground", height: 10, at: { along: 17.5, z: 9.5 }, part: "lower", cover: "half" },
+      ],
+    };
+    const window = cardWindow(view({ area: [] }), token(25, aimed, 10), room);
+    expect(holds(window, { along: 17.5, z: 9.5 })).toBe(true);
+    expect(holds(window, { along: 17.5, z: 10 })).toBe(true);
+    expect(holds(window, { along: 27.5, z: 15 })).toBe(true);
+  });
+
   test("a template passing over shows its underside above the head", () => {
     const over: Verdict = { kind: "over", gap: 10 };
     const window = cardWindow(view(), token(40, over), room);

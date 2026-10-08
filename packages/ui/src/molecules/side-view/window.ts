@@ -3,8 +3,9 @@
  *
  * The stretch of a slice a plot draws at one scale both ways: the whole
  * slice for the strip, and for a card only what says why its token is
- * caught or clear. That is the token, what decides it, the ground beneath,
- * and the origin while a cube can still be read with it in.
+ * caught or clear, or hidden as much as it is. That is the token, what
+ * decides it, the ground beneath, and the origin while a cube can still be
+ * read with it in.
  * Design: docs/templates.md "The side view".
  */
 
@@ -80,7 +81,9 @@ export function cardWindow(view: SideView, token: SideToken, room: PlotRoom): Pl
 
 // The token's cube and what decides its verdict: where the template passes
 // over its head or under its feet, where the line from the origin is
-// stopped and the top of what stops it, or where the template ends short.
+// stopped and the top of what stops it, or where the template ends short;
+// for a line's target, where each thing that hides it stops a line, and
+// its top.
 function reasonsOf(view: SideView, token: SideToken): SidePoint[] {
   const half = view.cell / 2;
   const cube = [
@@ -97,6 +100,14 @@ function reasonsOf(view: SideView, token: SideToken): SidePoint[] {
       return [...cube, { along: token.along, z: token.z - Math.max(verdict.gap, 0) }];
     case "hidden":
       return [...cube, verdict.at, { along: verdict.at.along, z: verdict.height }];
+    case "aimed":
+      return [
+        ...cube,
+        ...verdict.hiders.flatMap((hider) => [
+          hider.at,
+          { along: hider.at.along, z: hider.height },
+        ]),
+      ];
     case "off": {
       const end = farthest(view.area);
       return verdict.side === "past" && end !== undefined ? [...cube, end] : cube;

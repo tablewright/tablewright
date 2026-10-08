@@ -218,6 +218,15 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `TokenRings`: The rings about held tokens, all turning as one.
 - Types: `RingHolder`, `RingStyle`, `Ring`
 
+## Board: area
+
+**area/area.ts**
+- `spotToCellSpot()`: A spot as a line in three dimensions takes it: across the map in cells, up in the rule's unit.
+
+**area/catches.ts**
+- `placeOf()`: How high a token stands: the ground under it, and what it holds above that floor.
+- `tokenSpot()`: The place in a token's cube the area rule asks about, where it stands.
+
 ## Board: draw
 
 **draw/gestures.ts**
@@ -247,6 +256,9 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `insetCell()`: A cell's square drawn in from its edges by `inset` of a cell, so neighbours stay apart.
 
 ## Board: pick
+
+**pick/aim.ts**
+- `aimText()`: What the line's badge says: the distance and the cover, in words.
 
 **pick/picked.ts**
 - `tokenThing()`: The token `id`, as a thing picked.
@@ -309,8 +321,12 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `speedOf()`: The speed a turn budgets: the fly speed of a flier, else the walk.
 - `stepHeight()`: A step is walked when the rise is within this; more is a climb or a drop.
 
+**topology/rules/cover.ts**
+- `coverOf()`: The cover `target` has from a line leaving `from`, under `rule`.
+
 **topology/rules/distance.ts**
 - `distance()`: The distance between two places under `rule`, in the rule's unit.
+- `distanceBetween()`: The least distance between two sets of places: token to token, whatever their size.
 
 **topology/rules/effect.ts**
 - `passes()`: Whether an edge, or none, lets `passage` through.

@@ -8,7 +8,8 @@
  * doors, the distance marks along the foot, the tilt at the origin, and
  * the tokens as cubes with their labels at their middles, the point the
  * rule asks about. The token the template leaves from stands at the
- * origin with no ring and no line.
+ * origin with no ring and no line. A line's target has each line to its
+ * face drawn, as far as it reaches.
  * Design: docs/templates.md "The side view".
  */
 
@@ -17,6 +18,7 @@ import {
   signed,
   type SidePlace,
   type SidePoint,
+  type SideRay,
   type SideView,
   type Verdict,
 } from "@tablewright/board";
@@ -151,8 +153,8 @@ function tiltOf(view: SideView, scale: Scale): SVGTemplateResult {
 
 // A token as its cube, to scale, with its label on a disc at the cube's
 // middle and a ring about it when it is caught; one cut off from the
-// origin has the line to it drawn as far as it is stopped, and the source,
-// with no verdict, has neither.
+// origin has the line to it drawn as far as it is stopped, a line's target
+// has each of its lines, and the source, with no verdict, has neither.
 function tokenOf(
   token: SidePlace,
   verdict: Verdict | undefined,
@@ -166,9 +168,10 @@ function tokenOf(
   const y = scale.y(token.z + half);
   const sight =
     verdict?.kind === "hidden"
-      ? svg`<line class="sight" x1=${scale.x(0)} y1=${scale.y(view.origin)} x2=${scale.x(verdict.at.along)} y2=${scale.y(verdict.at.z)}></line>
-          <circle class="stop" cx=${scale.x(verdict.at.along)} cy=${scale.y(verdict.at.z)} r="2.6"></circle>`
-      : nothing;
+      ? stoppedAt(verdict.at, view, scale)
+      : verdict?.kind === "aimed"
+        ? raysOf(verdict.rays, view, scale)
+        : nothing;
   const ring =
     verdict?.kind === "caught"
       ? svg`<circle class="ring" cx=${x} cy=${y} r=${RING}></circle>`
@@ -177,4 +180,22 @@ function tokenOf(
     <rect class="cube" x=${left} y=${top} width=${view.cell * scale.k} height=${view.cell * scale.k}></rect>
     ${ring}
     ${discOf(x, y, token.label)}`;
+}
+
+// The line from the origin as far as `at`, where it is stopped.
+function stoppedAt(at: SidePoint, view: SideView, scale: Scale): SVGTemplateResult {
+  return svg`<line class="sight" x1=${scale.x(0)} y1=${scale.y(view.origin)} x2=${scale.x(at.along)} y2=${scale.y(at.z)}></line>
+    <circle class="stop" cx=${scale.x(at.along)} cy=${scale.y(at.z)} r="2.6"></circle>`;
+}
+
+// Each line from the origin to a point of a target's face: the clear ones
+// whole, and the stopped ones over them as far as they are stopped.
+function raysOf(rays: readonly SideRay[], view: SideView, scale: Scale): SVGTemplateResult {
+  const clear = rays.filter((ray) => !ray.isStopped);
+  const stopped = rays.filter((ray) => ray.isStopped);
+  return svg`${clear.map(
+    (ray) =>
+      svg`<line class="ray" x1=${scale.x(0)} y1=${scale.y(view.origin)} x2=${scale.x(ray.end.along)} y2=${scale.y(ray.end.z)}></line>`
+  )}
+    ${stopped.map((ray) => stoppedAt(ray.end, view, scale))}`;
 }

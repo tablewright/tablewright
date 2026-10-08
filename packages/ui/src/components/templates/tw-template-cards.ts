@@ -3,11 +3,13 @@
  *
  * The cards a template laid in another seat deals this one: a small side
  * view for each token it names, beside the token on screen with a thin
- * line to it, stepping aside rather than covering another card. The app
- * hands it the side view, whose tokens are the cards still open, and where
+ * line to it, stepping aside rather than covering another card. The line
+ * between two picked tokens deals one more, beside its target. The app
+ * hands it the side views, whose tokens are the cards still open, and where
  * each token stands as the board moves. A card goes with its X, and Escape
  * closes the newest, which is the last dealt and sits on top.
- * Design: docs/templates.md "The side view".
+ * Design: docs/templates.md "The side view" and "A spell aimed at one
+ * creature".
  */
 
 import { LitElement, css, html, nothing, svg } from "lit";
@@ -22,18 +24,31 @@ const FIRST_SIZE = { width: 280, height: 220 };
 
 type Size = { readonly width: number; readonly height: number };
 
+// A card on show: a template's about one of its tokens, or the line's about
+// its target, keyed by both since one token may have one of each.
+interface Card {
+  readonly key: string;
+  readonly kind: "template" | "aim";
+  readonly view: SideView;
+  readonly token: SideToken;
+  readonly anchor: CardAnchor;
+}
+
 export class TwTemplateCards extends LitElement {
   static override properties = {
     view: { attribute: false },
+    aim: { attribute: false },
     anchors: { attribute: false },
     sizes: { state: true },
   };
 
   /** The side view the cards are dealt from, its tokens the cards still open, or nothing. */
   declare view: SideView | undefined;
+  /** The side view of the line between two picked tokens, its one token the target, or nothing. */
+  declare aim: SideView | undefined;
   /** Where each card's token stands on screen, by its id; a card without one is not shown. */
   declare anchors: ReadonlyMap<string, CardAnchor>;
-  /** How large each card was laid out, by its token's id. */
+  /** How large each card was laid out, by its key. */
   declare sizes: ReadonlyMap<string, Size>;
 
   // A card's size is known once it is laid out, and it is placed by it.
@@ -44,7 +59,7 @@ export class TwTemplateCards extends LitElement {
     let isChanged = false;
     for (const entry of entries) {
       const box = entry.borderBoxSize[0];
-      const id = entry.target instanceof HTMLElement ? entry.target.dataset["token"] : undefined;
+      const id = entry.target instanceof HTMLElement ? entry.target.dataset["card"] : undefined;
       if (box === undefined || id === undefined) {
         continue;
       }
@@ -65,6 +80,7 @@ export class TwTemplateCards extends LitElement {
   constructor() {
     super();
     this.view = undefined;
+    this.aim = undefined;
     this.anchors = new Map();
     this.sizes = new Map();
   }
@@ -97,7 +113,7 @@ export class TwTemplateCards extends LitElement {
   closeNewest(): void {
     const newest = this.#shown().at(-1);
     if (newest !== undefined) {
-      emit(this, "tw-card-close", { id: newest.token.id });
+      this.#close(newest);
     }
   }
 
@@ -117,16 +133,16 @@ export class TwTemplateCards extends LitElement {
   }
 
   override render() {
-    const { view } = this;
-    if (view === undefined) {
+    const cards = new Map(this.#shown().map((card) => [card.key, card]));
+    if (cards.size === 0) {
       return nothing;
     }
     const screen = { width: window.innerWidth, height: window.innerHeight };
     const placed = placeCards(
-      this.#shown().map(({ token, anchor }) => ({
-        id: token.id,
+      [...cards.values()].map(({ key, anchor }) => ({
+        id: key,
         anchor,
-        ...(this.sizes.get(token.id) ?? FIRST_SIZE),
+        ...(this.sizes.get(key) ?? FIRST_SIZE),
       })),
       screen
     );
@@ -139,22 +155,45 @@ export class TwTemplateCards extends LitElement {
       </svg>
       ${repeat(
         placed,
-        (card) => card.id,
-        (card) =>
-          html`<tw-side-view
-            data-token=${card.id}
-            .view=${view}
-            .token=${card.id}
-            style=${`left: ${card.box.left}px; top: ${card.box.top}px`}
-          ></tw-side-view>`
+        (place) => place.id,
+        (place) => {
+          const card = cards.get(place.id);
+          return card === undefined
+            ? nothing
+            : html`<tw-side-view
+                data-card=${place.id}
+                .view=${card.view}
+                .token=${card.token.id}
+                style=${`left: ${place.box.left}px; top: ${place.box.top}px`}
+                @tw-card-close=${(event: Event) => {
+                  event.stopPropagation();
+                  this.#close(card);
+                }}
+              ></tw-side-view>`;
+        }
       )}`;
   }
 
-  // The open cards whose tokens stand on the board, in the order dealt.
-  #shown(): { token: SideToken; anchor: CardAnchor }[] {
-    return (this.view?.tokens ?? []).flatMap((token) => {
-      const anchor = this.anchors.get(token.id);
-      return anchor === undefined ? [] : [{ token, anchor }];
+  // The open cards whose tokens stand on the board, in the order dealt: the
+  // template's, then the line's, which counts as the newest.
+  #shown(): Card[] {
+    const dealt = (kind: Card["kind"], view: SideView | undefined): Card[] =>
+      view === undefined
+        ? []
+        : view.tokens.flatMap((token) => {
+            const anchor = this.anchors.get(token.id);
+            return anchor === undefined
+              ? []
+              : [{ key: `${kind}:${token.id}`, kind, view, token, anchor }];
+          });
+    return [...dealt("template", this.view), ...dealt("aim", this.aim)];
+  }
+
+  // A card's X, or Escape on the newest, said again for the kind of card it
+  // is, since a token may have one of each.
+  #close(card: Card): void {
+    emit(this, card.kind === "aim" ? "tw-aim-card-close" : "tw-card-close", {
+      id: card.token.id,
     });
   }
 }
@@ -164,5 +203,8 @@ customElements.define("tw-template-cards", TwTemplateCards);
 declare global {
   interface HTMLElementTagNameMap {
     "tw-template-cards": TwTemplateCards;
+  }
+  interface HTMLElementEventMap {
+    "tw-aim-card-close": CustomEvent<{ id: string }>;
   }
 }

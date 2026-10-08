@@ -216,6 +216,11 @@ export const SIDE_VIEW_STYLES: CSSResult = css`
     font-weight: 700;
     text-anchor: middle;
   }
+  .ray {
+    stroke: var(--tw-board-ruler);
+    stroke-opacity: 0.5;
+    stroke-width: 1.2;
+  }
   .sight {
     stroke: var(--tw-board-ruler);
     stroke-opacity: 0.5;
