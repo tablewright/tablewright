@@ -66,6 +66,8 @@ export const TOPOLOGY_ICON = symbol(GLYPH.grid_on);
 
 export const RULER_ICON = symbol(GLYPH.straighten);
 
+export const SELECT_ICON = symbol(GLYPH.highlight_alt);
+
 const INK_ICONS: Record<Ink, TemplateResult> = {
   ground: frame(
     svg`<rect x="3" y="3" width="14" height="14" rx="1.5"></rect><path d="M3 10h14M10 3v14"></path>`

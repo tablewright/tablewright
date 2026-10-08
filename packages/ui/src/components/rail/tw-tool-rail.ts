@@ -3,10 +3,11 @@
  *
  * What the pointer does on the board. Move is the rest; picking an ink
  * picks up a pen, and the palette beside the rail holds its shapes and
- * options. Move or Esc puts the pen down. The ruler sits under Move,
- * measuring instead of moving. The history of strokes opens from the
- * rail's foot, since it is the scene's and not any one ink's. There is no
- * Build mode to enter: the rail is on the desk the way pens are.
+ * options. Move or Esc puts the pen down. Select sits under Move, picking
+ * what Move then carries, and the ruler under it measures instead of
+ * moving. The history of strokes opens from the rail's foot, since it is
+ * the scene's and not any one ink's. There is no Build mode to enter: the
+ * rail is on the desk the way pens are.
  */
 
 import { LitElement, css, html, nothing } from "lit";
@@ -35,6 +36,7 @@ import {
   KEPT_ICON,
   TOPOLOGY_ICON,
   MOVE_ICON,
+  SELECT_ICON,
   SHOWN_ICON,
   RULER_ICON,
   UNDO_ICON,
@@ -83,7 +85,7 @@ export class TwToolRail extends LitElement {
   declare tool: DrawTool;
   /** Whether a pen is held: the pointer draws, and the tokens are inert. */
   declare held: boolean;
-  /** What the pointer does once the pen is down: moves tokens, or measures. */
+  /** What the pointer does once the pen is down: moves tokens, picks, or measures. */
   declare play: PlayTool;
   /** What the column does: measures as a line or a path, or lays an area down. */
   declare mode: RulerMode;
@@ -277,6 +279,15 @@ export class TwToolRail extends LitElement {
           <button
             class="icon"
             type="button"
+            aria-label="Select"
+            aria-pressed=${!held && this.play === "select" ? "true" : "false"}
+            @click=${this.#select}
+          >
+            ${SELECT_ICON}<span class="tip">Select</span>
+          </button>
+          <button
+            class="icon"
+            type="button"
             aria-label="Ruler"
             aria-pressed=${!held && this.play === "ruler" ? "true" : "false"}
             @click=${this.#measure}
@@ -439,10 +450,15 @@ export class TwToolRail extends LitElement {
     this.seen = event.detail.seen;
   };
 
-  // Move and the ruler are the two hands of Play; either puts the pen down.
+  // Move, Select and the ruler are the hands of Play; each puts the pen down.
   #move = (): void => {
     this.putDown();
     this.#play("move");
+  };
+
+  #select = (): void => {
+    this.putDown();
+    this.#play("select");
   };
 
   #measure = (): void => {

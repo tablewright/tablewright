@@ -71,6 +71,7 @@ const ICONS = [
   "close",
   "filter_alt",
   "grid_on",
+  "highlight_alt",
   "history",
   "map",
   "open_with",

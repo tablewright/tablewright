@@ -15,7 +15,7 @@ What more than one feature takes. `packages/ui/src`.
 - `rulerIcon()`: The glyph for a way of measuring.
 - `inkIcon()`: The glyph for an ink.
 - `shapeIcon()`: The glyph for a shape an ink is drawn in.
-- Also: `MAP_ICON`, `CLOSE_ICON`, `FILTER_ICON`, `SHARE_ICON`, `MOVE_ICON`, `UNDO_ICON`, `HISTORY_ICON`, `SHOWN_ICON`, `KEPT_ICON`, `TOPOLOGY_ICON`, `RULER_ICON`
+- Also: `MAP_ICON`, `CLOSE_ICON`, `FILTER_ICON`, `SHARE_ICON`, `MOVE_ICON`, `UNDO_ICON`, `HISTORY_ICON`, `SHOWN_ICON`, `KEPT_ICON`, `TOPOLOGY_ICON`, `RULER_ICON`, `SELECT_ICON`
 
 **atoms/styles.ts**
 - `PANEL_CHROME`: A panel's chrome: the outline, the panel's corners and its surface.
@@ -213,6 +213,11 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `Marking`: Who a measure or an area is for, and whose it is: the palette's choice for the next one, the seat this board sits in, and what the one on the board was made as and by.
 - Types: `Seat`
 
+**shared/token-rings.ts**
+- `ringsOf()`: One ring for each cell anything holds, in the order first held, at the strongest any holder asks for: a token held twice wears one ring.
+- `TokenRings`: The rings about held tokens, all turning as one.
+- Types: `RingHolder`, `RingStyle`, `Ring`
+
 ## Board: draw
 
 **draw/gestures.ts**
@@ -241,6 +246,20 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `cellPointToWorld()`: A point in cell coordinates, fractions and all, back in world pixels: the inverse of `worldToCellPoint`.
 - `insetCell()`: A cell's square drawn in from its edges by `inset` of a cell, so neighbours stay apart.
 
+## Board: pick
+
+**pick/picked.ts**
+- `tokenThing()`: The token `id`, as a thing picked.
+- `Picked`: The picked set every hand on the board shares, told to whoever listens as it changes.
+
+**pick/placement.ts**
+- `stepOf()`: The step a key takes what is picked, if it is an arrow or one of WASD.
+- `carriedCell()`: The cell `offset` carries `cell` to.
+- `carriedPoint()`: A place on the plan carried `offset`, where `cell` is how long a cell is in the place's own unit: a template's origin, which sits in the rule's unit rather than in cells.
+
+**pick/press.ts**
+- `selectPress()`: What a press under Select does, with Shift held or not, on something picked or not, for a hand that may move what it has picked or not.
+
 ## Board: ruler
 
 **ruler/badge.ts**
@@ -262,6 +281,7 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `drawStyle()`: The drawing tool's colours: the hover for its preview, the threshold's brass for its ink.
 - `rulerStyle()`: The ruler's colours and faces, which a token's drag draws through too.
 - `numbersStyle()`: The Topology view's colours and face.
+- `pickStyle()`: Select's colour: the box picks in the selection's brass, which what it picks then wears.
 - `areaStyle()`: The area layer's colours and face.
 - `heightStyle()`: The height display's colours and face.
 
@@ -272,6 +292,7 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 - `facingToward()`: Facing that points from `from` to `to` in world space, or undefined when they coincide.
 
 **tokens/press.ts**
+- `DRAG_THRESHOLD_PX`: Pointer travel, in screen pixels, before a press becomes a drag rather than a click.
 - `isTypingTarget()`: Whether a key event was typed into a field, where keys are text rather than commands.
 
 **tokens/token-sprite.ts**
@@ -314,4 +335,4 @@ The `shared/` files, whole. Under each domain after this, only the names that co
 
 ## Board: every domain
 
-Each has an `index.ts` naming what it offers: `area`, `camera`, `draw`, `grid`, `map`, `move`, `ruler`, `shared`, `stage`, `theme`, `tokens`, `topology`.
+Each has an `index.ts` naming what it offers: `area`, `camera`, `draw`, `grid`, `map`, `move`, `pick`, `ruler`, `shared`, `stage`, `theme`, `tokens`, `topology`.

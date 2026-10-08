@@ -11,6 +11,7 @@ export const GLYPH = {
   close: "\uE5CD",
   filter_alt: "\uEF4F",
   grid_on: "\uE3EC",
+  highlight_alt: "\uEF52",
   history: "\uE8B3",
   map: "\uE55B",
   open_with: "\uE89F",
