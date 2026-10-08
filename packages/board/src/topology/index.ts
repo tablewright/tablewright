@@ -72,7 +72,15 @@ export {
   type HeightDrawing,
   type HeightStyle,
 } from "./layers/height-layer.js";
-export { contourGroups, isoLines, thresholdsOf, type Segment } from "./field/iso.js";
+export {
+  contourGroups,
+  contoursOf,
+  isoLines,
+  thresholdsOf,
+  type Contour,
+  type Segment,
+} from "./field/iso.js";
+export { tagPlaces, type TagPlace } from "./field/tags.js";
 export { STAIR, cellNumbers, type CellNumber } from "./field/numbers.js";
 export { worked } from "./play/play.js";
 export { readoutAt, type CellReadout } from "./field/readout.js";

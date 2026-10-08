@@ -19,8 +19,8 @@ import { FALLBACK } from "../../theme/board-theme.js";
 import type { PackedColor } from "../../theme/css-color.js";
 import { heightStyle } from "../../theme/styles.js";
 import type { Topology } from "../derive.js";
-import { contourGroups, isoLines, thresholdsOf, type Segment } from "../field/iso.js";
-import { sampleHeight, sampleWidth } from "../shapes.js";
+import { contoursOf, thresholdsOf, type Contour } from "../field/iso.js";
+import { tagPlaces } from "../field/tags.js";
 import { shadowCanvas, washCanvas } from "./height-raster.js";
 
 export const HEIGHT_MODES: readonly HeightMode[] = ["shaded", "washed", "marked", "data"];
@@ -51,23 +51,11 @@ export interface HeightDrawing {
 
 const DEFAULT_STYLE: HeightStyle = heightStyle(FALLBACK);
 
-// A tag reads the ground this many samples either side of its contour.
-const TAG_REACH = 1.5;
-// A contour shorter than this many cells of line is a speck of a slope,
-// not a rise worth naming.
-const TAG_LEAST_CELLS = 2;
-
 interface Drawn {
   readonly topology: Topology;
   readonly grid: SquareGrid;
   readonly mode: HeightMode;
   readonly band: number;
-}
-
-// Where a tag goes, and the level it names.
-interface TagPlace {
-  readonly level: number;
-  readonly top: Point;
 }
 
 /** The scene's height display; call `draw` whenever the topology, grid or display changes. */
@@ -143,10 +131,7 @@ export class HeightLayer {
     }
     const { topology, grid, band } = drawn;
     const thresholds = thresholdsOf(topology.field, band);
-    const contours = thresholds.map((threshold) => ({
-      threshold,
-      segments: isoLines(topology, threshold),
-    }));
+    const contours = contoursOf(topology, band);
     if (drawn.mode === "shaded") {
       this.paintRaster(topology, grid, shadowCanvas(topology, thresholds, this.style.shade));
     } else if (drawn.mode === "washed") {
@@ -158,10 +143,7 @@ export class HeightLayer {
     }
   }
 
-  private drawContours(
-    contours: readonly { readonly segments: readonly Segment[] }[],
-    grid: SquareGrid
-  ): void {
+  private drawContours(contours: readonly Contour[], grid: SquareGrid): void {
     const g = this.lines;
     let count = 0;
     for (const { segments } of contours) {
@@ -181,7 +163,7 @@ export class HeightLayer {
 
   private drawTags(
     topology: Topology,
-    contours: readonly { readonly threshold: number; readonly segments: readonly Segment[] }[],
+    contours: readonly Contour[],
     grid: SquareGrid,
     band: number
   ): void {
@@ -251,63 +233,4 @@ export class HeightLayer {
       child.destroy({ children: true });
     }
   }
-}
-
-// One tag per contour, at its top, naming the level beyond the line: the
-// ground above a rise, the floor below a drop. Two bands ringing the same
-// rise at the same spot give one tag, the higher level's.
-function tagPlaces(
-  topology: Topology,
-  contours: readonly { readonly threshold: number; readonly segments: readonly Segment[] }[],
-  band: number
-): TagPlace[] {
-  const { samples, field } = topology;
-  const width = sampleWidth(samples);
-  const height = sampleHeight(samples);
-  const at = (x: number, y: number): number => {
-    const i = Math.max(
-      0,
-      Math.min(width - 1, Math.floor((x - samples.bounds.colMin) * samples.per))
-    );
-    const j = Math.max(
-      0,
-      Math.min(height - 1, Math.floor((y - samples.bounds.rowMin) * samples.per))
-    );
-    return field[j * width + i] ?? 0;
-  };
-  const seen = new Set<string>();
-  const places: TagPlace[] = [];
-  const reach = TAG_REACH / samples.per;
-  const least = TAG_LEAST_CELLS * samples.per;
-  for (const { threshold, segments } of contours) {
-    for (const contour of contourGroups(segments)) {
-      if (contour.length < least) {
-        continue;
-      }
-      let top: Point | undefined;
-      for (const { from, to } of contour) {
-        const mid = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
-        if (top === undefined || mid.y < top.y) {
-          top = mid;
-        }
-      }
-      if (top === undefined) {
-        continue;
-      }
-      const above = at(top.x, top.y - reach);
-      const below = at(top.x, top.y + reach);
-      const beyond = threshold > 0 ? Math.max(above, below) : Math.min(above, below);
-      const level = Math.round(beyond / band) * band;
-      if (level === 0) {
-        continue;
-      }
-      const key = `${level}:${Math.round(top.x)}:${Math.round(top.y)}`;
-      if (seen.has(key)) {
-        continue;
-      }
-      seen.add(key);
-      places.push({ level, top });
-    }
-  }
-  return places;
 }

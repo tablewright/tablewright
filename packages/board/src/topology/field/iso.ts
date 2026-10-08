@@ -17,6 +17,12 @@ export interface Segment {
   readonly to: Point;
 }
 
+/** One band's contour: the height it is drawn at, and its segments. */
+export interface Contour {
+  readonly threshold: number;
+  readonly segments: readonly Segment[];
+}
+
 /** The contour of the field at `threshold`, as segments between sample centres. */
 export function isoLines(topology: Topology, threshold: number): Segment[] {
   const { samples, field } = topology;
@@ -124,6 +130,14 @@ export function contourGroups(segments: readonly Segment[]): Segment[][] {
     }
   });
   return [...groups.values()];
+}
+
+/** Every band's contour over the field, bands `band` high, lowest first. */
+export function contoursOf(topology: Topology, band: number): Contour[] {
+  return thresholdsOf(topology.field, band).map((threshold) => ({
+    threshold,
+    segments: isoLines(topology, threshold),
+  }));
 }
 
 /** The band thresholds the field crosses: halfway through each band it reaches. */
