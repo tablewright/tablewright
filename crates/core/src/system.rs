@@ -68,6 +68,9 @@ pub struct GridSpec {
     /// How an area of effect decides which cells it catches.
     #[serde(default, rename = "areaRule")]
     pub area_rule: AreaRule,
+    /// How much of a target must be hidden for each degree of cover.
+    #[serde(default)]
+    pub cover: CoverSpec,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
@@ -98,6 +101,40 @@ pub enum AreaRule {
     /// (design.md §5).
     #[default]
     CubeCentre,
+}
+
+/// How much of a target an attack's line must find hidden for each degree
+/// of cover, each a share from nought to one. Without the block a system
+/// takes the SRD's: half of it for half cover, three quarters for
+/// three-quarters cover, and all of it for total cover
+/// (docs/templates.md "A spell aimed at one creature").
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Type)]
+pub struct CoverSpec {
+    pub half: f64,
+    #[serde(rename = "threeQuarters")]
+    pub three_quarters: f64,
+    pub total: f64,
+}
+
+impl Default for CoverSpec {
+    fn default() -> Self {
+        Self {
+            half: 0.5,
+            three_quarters: 0.75,
+            total: 1.0,
+        }
+    }
+}
+
+/// How much of a target is hidden from an attack, in the SRD's own terms,
+/// from none to total cover, when it cannot be targeted at all.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "kebab-case")]
+pub enum Cover {
+    None,
+    Half,
+    ThreeQuarters,
+    Total,
 }
 
 /// A list inside `data` whose items carry a name and a text: `traits`,
@@ -892,5 +929,61 @@ mod tests {
         )
         .expect("manifest");
         assert_eq!(quiet.grid.expect("a grid").area_rule, AreaRule::default());
+    }
+
+    #[test]
+    fn the_grid_block_keeps_its_cover_shares_and_takes_the_srds_without_them() {
+        let named: SystemManifest = serde_json::from_str(
+            r#"{"id":"x","name":"X","grid":{"type":"square","cellSize":5,
+                "unit":"ft","diagonals":"equal",
+                "cover":{"half":0.4,"threeQuarters":0.7,"total":0.9}}}"#,
+        )
+        .expect("manifest");
+        let grid = named.grid.expect("a grid");
+        assert_eq!(
+            grid.cover,
+            CoverSpec {
+                half: 0.4,
+                three_quarters: 0.7,
+                total: 0.9
+            }
+        );
+        assert_eq!(
+            serde_json::to_value(grid).expect("json")["cover"]["threeQuarters"],
+            serde_json::json!(0.7)
+        );
+
+        let quiet: SystemManifest = serde_json::from_str(
+            r#"{"id":"x","name":"X","grid":{"type":"square","cellSize":5,
+                "unit":"ft","diagonals":"equal"}}"#,
+        )
+        .expect("manifest");
+        assert_eq!(
+            quiet.grid.expect("a grid").cover,
+            CoverSpec {
+                half: 0.5,
+                three_quarters: 0.75,
+                total: 1.0
+            }
+        );
+    }
+
+    #[test]
+    fn a_cover_block_missing_a_share_is_refused() {
+        let partial = serde_json::from_str::<SystemManifest>(
+            r#"{"id":"x","name":"X","grid":{"type":"square","cellSize":5,
+                "unit":"ft","diagonals":"equal","cover":{"half":0.5}}}"#,
+        );
+        assert!(partial.is_err());
+    }
+
+    #[test]
+    fn the_degrees_of_cover_read_as_the_srd_names_them() {
+        let degrees: Vec<Cover> =
+            serde_json::from_str(r#"["none","half","three-quarters","total"]"#).expect("degrees");
+        assert_eq!(
+            degrees,
+            vec![Cover::None, Cover::Half, Cover::ThreeQuarters, Cover::Total]
+        );
     }
 }

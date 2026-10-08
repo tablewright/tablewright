@@ -68,6 +68,9 @@ fn specta_builder() -> Builder<tauri::Wry> {
         // The cast of the stand-in crosses to the page as a file the seed
         // writes, not as a command, so its type is named here by hand.
         .typ::<tablewright_core::Cast>()
+        // An attack's cover is worked out on the page from the manifest's
+        // shares and crosses no command, so its degrees are named here too.
+        .typ::<tablewright_core::Cover>()
         .commands(collect_commands![
             commands::search,
             commands::get_entry,

@@ -1366,7 +1366,12 @@
       "cellSize": 5.0,
       "unit": "ft",
       "diagonals": "equal",
-      "areaRule": "cube-centre"
+      "areaRule": "cube-centre",
+      "cover": {
+        "half": 0.5,
+        "threeQuarters": 0.75,
+        "total": 1.0
+      }
     }
   },
   "facetValues": {

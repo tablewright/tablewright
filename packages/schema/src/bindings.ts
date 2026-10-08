@@ -255,6 +255,25 @@ export type ControlSpec = {
 };
 
 /**
+ *  How much of a target is hidden from an attack, in the SRD's own terms,
+ *  from none to total cover, when it cannot be targeted at all.
+ */
+export type Cover = "none" | "half" | "three-quarters" | "total";
+
+/**
+ *  How much of a target an attack's line must find hidden for each degree
+ *  of cover, each a share from nought to one. Without the block a system
+ *  takes the SRD's: half of it for half cover, three quarters for
+ *  three-quarters cover, and all of it for total cover
+ *  (docs/templates.md "A spell aimed at one creature").
+ */
+export type CoverSpec = {
+	half: number | null,
+	threeQuarters: number | null,
+	total: number | null,
+};
+
+/**
  *  How a diagonal counts against distance: every square the same
  *  (5e's default), every second one double (the 5/10/5 variant), or the
  *  exact length.
@@ -398,6 +417,8 @@ export type GridSpec = {
 	diagonals: DiagonalRule,
 	/**  How an area of effect decides which cells it catches. */
 	areaRule?: AreaRule,
+	/**  How much of a target must be hidden for each degree of cover. */
+	cover?: CoverSpec,
 };
 
 /**  What a cell of ground is for movement. */
