@@ -2,8 +2,8 @@
  * ─ Token press ─
  *
  * One press on a token, from the button going down to its release: held
- * still it turns the token, moved it drags it, let go at once it selects
- * it. The layer owns the sprites, the selection and what a drop does; the
+ * still it turns the token, moved it drags it, let go at once it picks
+ * it. The layer owns the sprites, what is picked and what a drop does; the
  * press tells it which, and keeps the ghost that shows where a drag would
  * land.
  * Design: docs/design.md §5 "Moving shows movement only".
@@ -191,7 +191,9 @@ export class TokenPress {
     this.follow(press, sprite, event);
   };
 
+  // A token dragged is what is picked from then on, alone.
   private beginDrag(press: PressState, sprite: TokenSprite): void {
+    this.owner.select(press.id);
     press.mode = "drag";
     sprite.setDragging(true);
     this.container.addChild(sprite.view);

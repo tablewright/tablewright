@@ -5,6 +5,7 @@ export * from "./area/index.js";
 export * from "./draw/index.js";
 export * from "./map/index.js";
 export * from "./move/index.js";
+export * from "./pick/index.js";
 export * from "./ruler/index.js";
 export * from "./stage/index.js";
 export * from "./theme/index.js";

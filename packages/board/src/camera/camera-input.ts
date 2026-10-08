@@ -72,6 +72,22 @@ export class CameraInput {
     return this.moveListeners.add(listener);
   }
 
+  /**
+   * Take a pointer a tool was holding, still down at `at` on the page, as
+   * a second finger lands beside it: the two then pan and pinch as they
+   * would have from empty board.
+   */
+  adopt(pointerId: number, at: { clientX: number; clientY: number }): void {
+    if (this.pointers.size >= 2) {
+      return;
+    }
+    const point = { x: at.clientX, y: at.clientY };
+    this.pointers.set(pointerId, point);
+    this.pressOrigins.set(pointerId, point);
+    this.target.setPointerCapture(pointerId);
+    this.target.setAttribute("data-camera", "panning");
+  }
+
   private readonly onContextMenu = (event: Event): void => {
     event.preventDefault();
   };

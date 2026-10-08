@@ -55,6 +55,7 @@ const token = (id: string, col: number, row: number): TokenView => ({
 const caughtTwo = [token("A", 4, 7), token("B", 4, 8), token("Z", 15, 2), token("D", 4, 10)];
 
 const laid = (over: Partial<PlacedArea> = {}): PlacedArea => ({
+  id: 1,
   area: breath,
   origin,
   seenBy: "party",

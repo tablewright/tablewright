@@ -1,5 +1,6 @@
 export { pointOn, type Point, type WorldRect } from "./geometry.js";
 export { Listeners } from "./listeners.js";
+export { TokenRings, ringsOf, type Ring, type RingHolder, type RingStyle } from "./token-rings.js";
 export {
   Marking,
   NOBODY,

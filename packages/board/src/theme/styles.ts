@@ -9,7 +9,9 @@
 
 import type { AreaStyle } from "../area/area-layer.js";
 import type { DrawStyle } from "../draw/draw-layer.js";
+import type { PickStyle } from "../pick/select-tool.js";
 import type { RulerStyle } from "../ruler/measure-view.js";
+import type { RingStyle } from "../shared/token-rings.js";
 import type { TokenStyle } from "../tokens/token-sprite.js";
 import type { HeightStyle } from "../topology/layers/height-layer.js";
 import type { NumbersStyle } from "../topology/layers/numbers-layer.js";
@@ -69,6 +71,16 @@ export function numbersStyle(theme: BoardTheme): NumbersStyle {
     stair: theme.threshold,
     face: theme.figures,
   };
+}
+
+/** Select's colour: the box picks in the selection's brass, which what it picks then wears. */
+export function pickStyle(theme: BoardTheme): PickStyle {
+  return { box: theme.selection };
+}
+
+/** The rings about held tokens: the selection's brass, whatever holds them. */
+export function ringStyle(theme: BoardTheme): RingStyle {
+  return { ring: theme.selection };
 }
 
 /** The area layer's colours and face. */

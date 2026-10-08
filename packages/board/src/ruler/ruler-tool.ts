@@ -21,8 +21,8 @@ import type { Measurement } from "./measure.js";
 import { MeasureView, type RulerStyle } from "./measure-view.js";
 import type { RulerMode } from "./mode.js";
 
-/** What the pointer does in Play: moves tokens, or measures. */
-export type PlayTool = "move" | "ruler";
+/** What the pointer does in Play: moves tokens, picks them and templates, or measures. */
+export type PlayTool = "move" | "select" | "ruler";
 
 /** Answers a measure between two cells; the host composes it from the scene. */
 export type Measurer = (from: Cell, to: Cell, seenBy: Visibility) => Measurement;

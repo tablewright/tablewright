@@ -24,6 +24,8 @@ export interface PointerSessionOwner {
   onUp(at: Point, event: PointerEvent): void;
   /** The held pointer was taken away; the session has released it. */
   onCancel(): void;
+  /** Another pointer went down while one is held, as a second finger does; the board hears it after. */
+  onOther?(event: PointerEvent): void;
   /** The pointer left the canvas. */
   onLeave?(): void;
   /** The wheel turned while a pointer is held. */
@@ -88,7 +90,13 @@ export class PointerSession {
   }
 
   private readonly onPointerDown = (event: PointerEvent): void => {
-    if (event.button !== 0 || this.isHeld || this.owner.takes?.(event) === false) {
+    if (this.isHeld) {
+      if (event.pointerId !== this.pointerId) {
+        this.owner.onOther?.(event);
+      }
+      return;
+    }
+    if (event.button !== 0 || this.owner.takes?.(event) === false) {
       return;
     }
     // The press is the tool's; the board element must not start a pan.

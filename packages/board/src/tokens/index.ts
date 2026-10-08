@@ -6,7 +6,6 @@ export type {
   TokenAskListener,
   TokenMove,
   TokenMoveListener,
-  TokenSelectListener,
   TokenView,
 } from "./token-layer.js";
 export { isTypingTarget } from "./press.js";

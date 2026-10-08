@@ -7,6 +7,8 @@ export {
   drawStyle,
   heightStyle,
   numbersStyle,
+  pickStyle,
+  ringStyle,
   rulerStyle,
   tokenStyle,
   topologyStyle,

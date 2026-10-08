@@ -1,11 +1,13 @@
 /**
  * ─ Token layer ─
  *
- * Tokens on the board and the gestures on them: hover, select, drag,
- * step with the keys, and turn in place. A press on a token stops the
- * native event, so the camera never pans from it. Movement is reported
- * once per gesture end, never per pointer move. A drag reads the graph
- * as it goes, and the drop lands, asks for a dash, or refuses.
+ * Tokens on the board and the gestures on them: hover, pick, drag, step
+ * with the keys, and turn in place. A press on a token stops the native
+ * event, so the camera never pans from it, unless the press is another
+ * hand's: on a token picked with others it carries the group, and under
+ * Select it picks. Movement is reported once per gesture end, never per
+ * pointer move. A drag reads the graph as it goes, and the drop lands,
+ * asks for a dash, or refuses.
  * Design: docs/design.md §5 "Moving shows movement only".
  */
 
@@ -17,6 +19,9 @@ import type { DragRoute } from "../move/drag-route.js";
 import { Listeners } from "../shared/listeners.js";
 import type { Mover } from "../topology/rules/cost.js";
 import type { Budget } from "../topology/rules/route.js";
+import { Picked, tokenThing } from "../pick/picked.js";
+import { carriedCell, stepOf, type Offset } from "../pick/placement.js";
+import { selectPress } from "../pick/press.js";
 import { facingBetween, normalizeDegrees } from "./facing.js";
 import { isTypingTarget } from "./press.js";
 import { keptAlphaIf } from "../shared/seen.js";
@@ -74,7 +79,6 @@ export interface DashAsk {
 }
 
 export type TokenMoveListener = (move: TokenMove) => void;
-export type TokenSelectListener = (id: string | undefined) => void;
 /** Hears the question while it stands, and nothing once it is answered. */
 export type DashAskListener = (ask: DashAsk | undefined) => void;
 
@@ -87,43 +91,39 @@ interface PendingDash extends DashAsk {
   readonly originFacing: number;
 }
 
-// Arrow keys and WASD both step the selected token one cell.
-const STEP_KEYS: Readonly<Record<string, { dc: number; dr: number }>> = {
-  ArrowUp: { dc: 0, dr: -1 },
-  ArrowDown: { dc: 0, dr: 1 },
-  ArrowLeft: { dc: -1, dr: 0 },
-  ArrowRight: { dc: 1, dr: 0 },
-  w: { dc: 0, dr: -1 },
-  s: { dc: 0, dr: 1 },
-  a: { dc: -1, dr: 0 },
-  d: { dc: 1, dr: 0 },
-  W: { dc: 0, dr: -1 },
-  S: { dc: 0, dr: 1 },
-  A: { dc: -1, dr: 0 },
-  D: { dc: 1, dr: 0 },
-};
-
-/** Renders `TokenView`s into a container and turns gestures into move and select events. */
+/** Renders `TokenView`s into a container and turns gestures into moves and picks. */
 export class TokenLayer {
   private readonly container: Container;
   private readonly sprites = new Map<string, TokenSprite>();
   private readonly moveListeners = new Listeners<TokenMove>();
-  private readonly selectListeners = new Listeners<string | undefined>();
   private readonly askListeners = new Listeners<TokenAsk>();
   private movable = true;
+  private isSelecting = false;
   private readonly dashListeners = new Listeners<DashAsk | undefined>();
   private readonly route: DragRoute;
   private grid: SquareGrid;
   private style: TokenStyle;
-  private selected: string | undefined;
+  private readonly picked: Picked;
   private readonly press: TokenPress;
   private pending: PendingDash | undefined;
+  // The picked tokens being carried together, each by the cell it stood
+  // on, and how far they are carried.
+  private carried: { readonly from: Map<string, Cell>; offset: Offset } | undefined;
 
-  constructor(container: Container, grid: SquareGrid, style: TokenStyle, route: DragRoute) {
+  /** `picked` is the set every hand on the board shares; the layer shows which tokens are in it. */
+  constructor(
+    container: Container,
+    grid: SquareGrid,
+    style: TokenStyle,
+    route: DragRoute,
+    picked: Picked
+  ) {
     this.container = container;
     this.grid = grid;
     this.style = style;
     this.route = route;
+    this.picked = picked;
+    picked.onChange(() => this.showPicked());
     this.press = new TokenPress(container, route, {
       grid: () => this.grid,
       style: () => this.style,
@@ -151,6 +151,15 @@ export class TokenLayer {
     this.movable = movable;
   }
 
+  /**
+   * Whether Select holds the hand. A left press on a token is then
+   * Select's to pick with, unless the press carries what is picked and
+   * the token is the one picked alone, which drags by its rules.
+   */
+  setSelecting(isSelecting: boolean): void {
+    this.isSelecting = isSelecting;
+  }
+
   /** Make the layer show exactly `tokens`, reusing sprites by id. */
   set(tokens: readonly TokenView[]): void {
     const seen = new Set<string>();
@@ -163,7 +172,11 @@ export class TokenLayer {
         existing.setLabel(token.label);
         existing.setBadge(badgeOf(token));
         existing.view.alpha = keptAlphaIf(token.isKept);
-        if (this.press.held?.id !== token.id && this.pending?.id !== token.id) {
+        const isHeld =
+          this.press.held?.id === token.id ||
+          this.pending?.id === token.id ||
+          this.carried?.from.has(token.id) === true;
+        if (!isHeld) {
           existing.setFacing(token.facing);
           existing.setPosition(cellCenter(this.grid, token.cell));
         }
@@ -175,6 +188,10 @@ export class TokenLayer {
         this.sprites.delete(id);
       }
     }
+    // A token no longer on the board is no longer picked.
+    this.picked.set(
+      this.picked.all.filter((thing) => thing.kind !== "token" || this.sprites.has(thing.id))
+    );
   }
 
   setGrid(grid: SquareGrid, tokens: readonly TokenView[]): void {
@@ -192,19 +209,64 @@ export class TokenLayer {
     }
   }
 
-  /** The selected token, if any. */
+  /** The token picked when it is the only thing picked: the one the keys step by its rules. */
   get selectedId(): string | undefined {
-    return this.selected;
+    return this.picked.loneToken;
   }
 
+  /** Pick the token `id` alone, or nothing. */
   select(id: string | undefined): void {
-    if (id === this.selected) {
+    this.picked.set(id === undefined ? [] : [tokenThing(id)]);
+  }
+
+  /**
+   * Show the picked tokens carried `offset` cells from where they stood
+   * when carrying began, or put them back with none. Carried, a scene set
+   * under them leaves them where the hand has them.
+   */
+  carry(offset: Offset | undefined): void {
+    if (offset === undefined) {
+      for (const [id, cell] of this.carried?.from ?? []) {
+        this.sprites.get(id)?.setPosition(cellCenter(this.grid, cell));
+      }
+      this.carried = undefined;
       return;
     }
-    this.sprites.get(this.selected ?? "")?.setSelected(false);
-    this.selected = id;
-    this.sprites.get(id ?? "")?.setSelected(true);
-    this.selectListeners.emit(id);
+    if (this.carried === undefined) {
+      const from = new Map<string, Cell>();
+      for (const id of this.picked.tokenIds) {
+        const sprite = this.sprites.get(id);
+        if (sprite !== undefined) {
+          from.set(id, worldToCell(this.grid, sprite.position));
+        }
+      }
+      this.carried = { from, offset };
+    }
+    this.carried.offset = offset;
+    for (const [id, cell] of this.carried.from) {
+      this.sprites.get(id)?.setPosition(cellCenter(this.grid, carriedCell(cell, offset)));
+    }
+  }
+
+  /**
+   * Stand the carried tokens where they were carried, each facing as it
+   * did, and say where: a placement, so nothing is priced or asked.
+   */
+  land(): TokenMove[] {
+    const carried = this.carried;
+    this.carried = undefined;
+    if (carried === undefined) {
+      return [];
+    }
+    const moves: TokenMove[] = [];
+    for (const [id, from] of carried.from) {
+      const sprite = this.sprites.get(id);
+      if (sprite !== undefined) {
+        const cell = carriedCell(from, carried.offset);
+        moves.push({ id, cell, facing: this.place(sprite, cell, undefined) });
+      }
+    }
+    return moves;
   }
 
   onMove(listener: TokenMoveListener): () => void {
@@ -214,10 +276,6 @@ export class TokenLayer {
   /** Hear the right button ask what may be done with one. */
   onAsk(listener: TokenAskListener): () => void {
     return this.askListeners.add(listener);
-  }
-
-  onSelect(listener: TokenSelectListener): () => void {
-    return this.selectListeners.add(listener);
   }
 
   /** Hear the dash question as it is asked and answered. Returns the unsubscribe. */
@@ -263,6 +321,7 @@ export class TokenLayer {
     sprite.setPosition(cellCenter(this.grid, token.cell));
     sprite.setFacing(token.facing);
     sprite.setBadge(badgeOf(token));
+    sprite.setSelected(this.picked.loneToken === token.id);
     sprite.view.on("pointerover", () => sprite.setHovered(true));
     sprite.view.on("pointerout", () => sprite.setHovered(false));
     sprite.view.on("pointerdown", (event: FederatedPointerEvent) => {
@@ -270,6 +329,11 @@ export class TokenLayer {
       if (event.button === 2) {
         event.stopPropagation();
         this.askListeners.emit({ id: token.id, at: { x: event.global.x, y: event.global.y } });
+        return;
+      }
+      // A press that is not this token's own is let through: to the drag
+      // that carries a group, or to Select.
+      if (event.button === 0 && !this.takesPress(token.id, event.shiftKey)) {
         return;
       }
       // A selected token covers its whole cell: outside the disc is a turn handle.
@@ -291,28 +355,54 @@ export class TokenLayer {
         this.answerDash(false);
       } else if (this.press.held !== undefined) {
         this.press.cancelPress();
-      } else {
+      } else if (!this.picked.isHeld) {
+        // A box being drawn or a set being carried takes Escape itself.
         this.select(undefined);
       }
       return;
     }
-    const step = this.movable ? STEP_KEYS[event.key] : undefined;
+    const step = this.movable ? stepOf(event.key) : undefined;
     if (step !== undefined && this.press.held === undefined) {
       event.preventDefault();
-      this.moveSelectedBy(step.dc, step.dr);
+      this.moveSelectedBy(step);
     }
   };
 
-  // One press moves the selected token one cell: the same scene command as a
-  // drop, so the move listeners fire exactly as they do for a drag.
-  private moveSelectedBy(dc: number, dr: number): void {
-    const id = this.selected;
+  // Whether a left press on the token `id` is this layer's own. Picked with
+  // others, for a hand that may move them, it belongs to the drag that
+  // carries the group. Under Select it is Select's, unless it carries what
+  // is picked and the token is the one picked alone.
+  private takesPress(id: string, isAdding: boolean): boolean {
+    const isPicked = this.picked.has(tokenThing(id));
+    if (this.movable && isPicked && this.picked.loneToken === undefined) {
+      return false;
+    }
+    if (!this.isSelecting) {
+      return true;
+    }
+    return selectPress(isAdding, isPicked, this.movable) === "carry";
+  }
+
+  // The token picked alone wears the selection, its lit ring and its turn
+  // handle; tokens picked together carry rather than turn, so they wear
+  // only the ring the board draws about every token picked.
+  private showPicked(): void {
+    for (const [id, sprite] of this.sprites) {
+      sprite.setSelected(this.picked.loneToken === id);
+    }
+  }
+
+  // One press moves the token picked alone one cell: the same scene command
+  // as a drop, so the move listeners fire exactly as they do for a drag.
+  // More than that is stepped by the hand that carries a group.
+  private moveSelectedBy(step: Offset): void {
+    const id = this.picked.loneToken;
     const sprite = id === undefined ? undefined : this.sprites.get(id);
     if (id === undefined || sprite === undefined) {
       return;
     }
     const from = worldToCell(this.grid, sprite.position);
-    const cell = { col: from.col + dc, row: from.row + dr };
+    const cell = carriedCell(from, step);
     this.commitMove(id, sprite, cell, facingBetween(from, cell));
   }
 

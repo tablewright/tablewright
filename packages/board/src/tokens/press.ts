@@ -7,7 +7,7 @@
  * way, so the move's timestamp, not the timer, has the last word.
  */
 
-// Pointer travel before a press becomes a drag rather than a click.
+/** Pointer travel, in screen pixels, before a press becomes a drag rather than a click. */
 export const DRAG_THRESHOLD_PX = 4;
 // A press held still this long becomes a turn instead of a click.
 export const HOLD_MS = 400;

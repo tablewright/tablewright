@@ -142,6 +142,9 @@ export class TokenSprite {
   }
 
   setSelected(isSelected: boolean): void {
+    if (isSelected === this.isSelected) {
+      return;
+    }
     this.isSelected = isSelected;
     this.brackets.visible = isSelected;
     this.applyHitArea();

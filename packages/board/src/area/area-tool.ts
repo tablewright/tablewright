@@ -23,6 +23,7 @@ import {
 } from "../grid/square-grid.js";
 import { Listeners } from "../shared/listeners.js";
 import { PointerSession } from "../shared/pointer-session.js";
+import { carriedPoint, type Offset } from "../pick/placement.js";
 import { facingToward, normalizeDegrees } from "../tokens/facing.js";
 import type { Topology } from "../topology/derive.js";
 import type { GridRule } from "../topology/rules/distance.js";
@@ -39,6 +40,12 @@ import { footprintCovers } from "./outline.js";
 
 /** An area with a place and an aim, as the board is to draw it. */
 export interface PlacedArea {
+  /**
+   * Which template this is: a number that moves on each time one is laid
+   * in place of the last, so what was picked of the last is not taken
+   * for it.
+   */
+  readonly id: number;
   readonly area: Area;
   readonly origin: Spot;
   /** Who it is for: everyone at the table, the DM, or the one who laid it. */
@@ -98,8 +105,11 @@ export class AreaTool {
   private readonly marking = new Marking();
   /** Where the origin sat under the hand when a move began, in the rule's unit. */
   private grab: { x: number; y: number } | undefined;
+  /** Where the origin stood when a hand that moves what is picked began to carry it. */
+  private carriedFrom: Origin | undefined;
   private phase: Phase = "idle";
   private laying = 0;
+  private made = 0;
 
   /** `topology` is asked at each press, since the scene changes under the tool. */
   constructor(
@@ -131,10 +141,21 @@ export class AreaTool {
     });
   }
 
-  /** Whether the pointer lays areas down. Off, the tool hears nothing. */
-  setActive(on: boolean): void {
-    if (this.session.setActive(on) && !on) {
+  /**
+   * Whether the pointer lays areas down. Off, the tool hears nothing, and
+   * what is on the board comes off it unless `keep` says it stays, for a
+   * hand that picks it or carries it.
+   */
+  setActive(on: boolean, keep = false): void {
+    const isChanged = this.session.setActive(on);
+    if (on) {
+      return;
+    }
+    if (!keep) {
       this.clear();
+    } else if (isChanged && this.phase !== "idle") {
+      // Let go of mid-gesture, it lies where it was.
+      this.settle();
     }
   }
 
@@ -205,6 +226,7 @@ export class AreaTool {
     const turned = turnedTo(area, this.yaw);
     const sized = this.reach === undefined ? turned : reached(turned, this.reach, this.rule);
     return {
+      id: this.made,
       area: sized,
       origin,
       seenBy: this.marking.seenBy,
@@ -228,9 +250,46 @@ export class AreaTool {
     this.source = undefined;
     this.reach = undefined;
     this.grab = undefined;
+    this.carriedFrom = undefined;
     this.phase = "idle";
     this.session.release();
     this.notify();
+  }
+
+  /**
+   * Carry the area `offset` cells from where it lay when carrying began,
+   * its origin asked again at each new place, or put it back with none.
+   * The pointer is not the tool's: the hand that moves what is picked
+   * carries the area along with the rest.
+   */
+  carry(offset: Offset | undefined): void {
+    if (this.origin === undefined) {
+      return;
+    }
+    if (offset === undefined) {
+      const from = this.carriedFrom;
+      if (from === undefined) {
+        return;
+      }
+      this.carriedFrom = undefined;
+      this.origin = from.spot;
+      this.source = from.source;
+      this.phase = "idle";
+      this.notify();
+      return;
+    }
+    this.carriedFrom ??= { spot: this.origin, source: this.source };
+    this.phase = "moving";
+    this.putOriginAt(carriedPoint(this.carriedFrom.spot, offset, this.rule.cellSize));
+  }
+
+  /** Leave the carried area where it was carried, laid down again. */
+  land(): void {
+    if (this.carriedFrom === undefined) {
+      return;
+    }
+    this.carriedFrom = undefined;
+    this.settle();
   }
 
   destroy(): void {
@@ -260,6 +319,7 @@ export class AreaTool {
       return true;
     }
     this.phase = "placing";
+    this.made += 1;
     this.reach = undefined;
     this.grab = undefined;
     this.marking.press(event.altKey);
@@ -310,7 +370,12 @@ export class AreaTool {
     const under = this.inUnit(world);
     const wanted =
       this.grab === undefined ? under : { x: under.x - this.grab.x, y: under.y - this.grab.y };
-    const at = snapOrigin(wanted, this.snap, this.rule);
+    this.putOriginAt(snapOrigin(wanted, this.snap, this.rule));
+  }
+
+  // Stand the origin at `at`, in the rule's unit: in the middle of a token
+  // standing there, else on the floor.
+  private putOriginAt(at: { x: number; y: number }): void {
     const origin = this.originFor(worldToCell(this.grid, this.worldOf({ ...at, z: 0 })), at);
     this.origin = origin.spot;
     this.source = origin.source;
