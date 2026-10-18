@@ -395,13 +395,13 @@ test("A DM or a player measures", async ({ page }) => {
   };
 
   await test.step("The ruler sits in the rail under Move and swaps moving for measuring, its modes in a column beside it.", async () => {
-    await expect(tools.getByRole("button", { name: "Line" })).toHaveCount(0);
+    await expect(tools.getByRole("button", { name: "Line", exact: true })).toHaveCount(0);
     await tools.getByRole("button", { name: "Ruler" }).click();
     await expect(tools.getByRole("button", { name: "Ruler" })).toHaveAttribute(
       "aria-pressed",
       "true"
     );
-    await expect(tools.getByRole("button", { name: "Line" })).toHaveAttribute(
+    await expect(tools.getByRole("button", { name: "Line", exact: true })).toHaveAttribute(
       "aria-pressed",
       "true"
     );
@@ -531,6 +531,12 @@ test("A DM or a player measures", async ({ page }) => {
       .getByRole("button", { name: "Sphere" })
       .click();
     await tools.getByLabel("Radius").fill("60");
+    // This asks what the volume holds, not what a line reaches: set to
+    // line of sight, the pit's rim hides C from the floor.
+    await tools
+      .getByRole("group", { name: "Reaches" })
+      .getByRole("button", { name: "Around corners" })
+      .click();
     // Laid on the flat floor, sixty feet reaches all three.
     const middle = await cellOnScreen(page, { col: 8, row: 7 });
     await page.mouse.move(middle.x, middle.y);
@@ -548,12 +554,13 @@ test("A DM or a player measures", async ({ page }) => {
 
   await test.step("A cone breathed down the hall stops at a wall and a shut door, and reaches past both set to around corners.", async () => {
     const area = () => page.evaluate(() => window.__tablewright?.area());
-    // Back to Halloway House, in the campaign since the line measure: the
-    // hall runs along its south side, two cells wide, with the gallery
+    // Back to Halloway House: the example campaign carries one from the
+    // start and the line measure added another, both the mansion as drawn.
+    // The hall runs along its south side, two cells wide, with the gallery
     // raised over its east half.
     const tab = page.locator("tw-scenes");
     await tab.getByRole("button", { name: "The Rusty Flagon" }).click();
-    await tab.getByRole("menuitem", { name: "Halloway House", exact: true }).click();
+    await tab.getByRole("menuitem", { name: "Halloway House", exact: true }).nth(1).click();
     await expect.poll(() => edgeCount(page)).toBe(110);
     await tools.getByRole("button", { name: "Cone", exact: true }).click();
     // From the hall's west end, aimed east by the drag, then given the
@@ -580,7 +587,7 @@ test("A DM or a player measures", async ({ page }) => {
     const area = () => page.evaluate(() => window.__tablewright?.area());
     const seen = tools.getByRole("group", { name: "Seen by" });
     // The palette's choice rides on the measure the next press makes.
-    await tools.getByRole("button", { name: "Line" }).click();
+    await tools.getByRole("button", { name: "Line", exact: true }).click();
     await seen.getByRole("button", { name: "The DM" }).click();
     const kept = await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
     expect(kept?.seenBy).toBe("dm");
@@ -607,7 +614,7 @@ test("A DM or a player measures", async ({ page }) => {
     await seen.getByRole("button", { name: "Everyone" }).click();
     await expect.poll(async () => (await area())?.badge).not.toContain("DM only");
     // A measure goes the same way, and the row follows what is on the board.
-    await tools.getByRole("button", { name: "Line" }).click();
+    await tools.getByRole("button", { name: "Line", exact: true }).click();
     await page.keyboard.down("Alt");
     await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
     await page.keyboard.up("Alt");
@@ -644,7 +651,7 @@ test("A DM or a player measures", async ({ page }) => {
     await asDm.click();
     await expect.poll(async () => (await area())?.kind).toBe("cone");
     // A measure the DM kept back goes the same way, badge and all.
-    await tools.getByRole("button", { name: "Line" }).click();
+    await tools.getByRole("button", { name: "Line", exact: true }).click();
     const kept = await measure({ col: 8, row: 2 }, { col: 11, row: 6 });
     expect(kept?.seenBy).toBe("dm");
     await asPlayer.click();
@@ -666,7 +673,7 @@ test("A DM or a player measures", async ({ page }) => {
       .getByRole("button", { name: "Spectator" })
       .click();
     await tools.getByRole("button", { name: "Ruler" }).click();
-    await tools.getByRole("button", { name: "Line" }).click();
+    await tools.getByRole("button", { name: "Line", exact: true }).click();
     // The row offers nothing else: what a spectator measures is their own.
     await expect(seen.getByRole("button")).toHaveCount(1);
     await expect(seen.getByRole("button", { name: "Just me" })).toBeVisible();
