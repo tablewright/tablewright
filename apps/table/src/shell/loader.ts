@@ -2,13 +2,22 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { IS_DESKTOP } from "../core/core.js";
 import { REDUCED_MOTION } from "./motion.js";
 
+// Long enough for a first frame at any refresh rate, short enough to go
+// unnoticed.
+const FIRST_PAINT_MS = 100;
+
 /**
  * Show the desktop app's window. Shown after the first paint: sooner shows
  * the webview's blank white, later leaves the loader's wait unfilled.
  */
 export async function showWindow(): Promise<void> {
   if (IS_DESKTOP) {
-    await new Promise<number>((painted) => requestAnimationFrame(painted));
+    // macOS's WebKit fires no animation frame for a hidden window, so a
+    // timer stands in for the first paint there.
+    await new Promise<void>((painted) => {
+      requestAnimationFrame(() => painted());
+      setTimeout(painted, FIRST_PAINT_MS);
+    });
     try {
       await getCurrentWindow().show();
     } catch {

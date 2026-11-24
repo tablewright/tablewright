@@ -123,6 +123,12 @@ fn boot(app: &tauri::App) -> AppState {
             None
         }
     };
+    // Cargo's newer build folder layout makes tauri-build copy resources away
+    // from the dev binary, so a debug build reads the seeded file in place.
+    #[cfg(debug_assertions)]
+    let bundled = bundled
+        .filter(|path| path.exists())
+        .or_else(|| Some(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(compendium::BUNDLED)));
     let state = AppState::new(home, data_dir, bundled);
     eprintln!("home: {}", state.home.display());
     if let Some(library) = state.library() {
